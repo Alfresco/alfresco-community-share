@@ -3,7 +3,7 @@
    <#assign id = args.htmlid?html>
    <#if !isContainer>
       <#assign fileExtIndex = item.fileName?last_index_of(".")>
-      <#assign fileExt = (fileExtIndex > -1)?string(item.fileName?substring(fileExtIndex + 1)?lower_case, "generic")>
+      <#assign fileExt = (fileExtIndex > -1)?string(item.fileName?substring(fileExtIndex + 1)?lower_case, mimetypes.getExtension(node.mimetype))>
    </#if>
    <#assign displayName = (item.displayName!item.fileName)?html>
    <#assign itemType = isContainer?string("folder", "document")>
@@ -12,6 +12,7 @@
       {
          nodeRef: "${nodeRef?js_string}",
          siteId: <#if site??>"${site?js_string}"<#else>null</#if>,
+         actualSiteId: <#if item.location.site??>"${item.location.site.name?js_string}"<#else>null</#if>,
          rootPage: "${rootPage?js_string}",
          rootLabelId: "${rootLabelId?js_string}",
          showFavourite: ${(showFavourite == "true")?string},
@@ -98,15 +99,17 @@
 
          <!-- Title and Version -->
          <h1 class="thin dark">
-            ${displayName}<#if !isContainer><span class="document-version">${item.version}</span></#if>
+            ${displayName}<#if !isContainer && !isWorkingCopy><span class="document-version">${item.version}</span></#if>
          </h1>
 
          <!-- Modified & Social -->
          <div>
+            <span class="item-modifier">
             <#assign modifyUser = node.properties["cm:modifier"]>
             <#assign modifyDate = node.properties["cm:modified"]>
             <#assign modifierLink = userProfileLink(modifyUser.userName, modifyUser.displayName, 'class="theme-color-1"') >
             ${msg("label.modified-by-user-on-date", modifierLink, "<span id='${id}-modifyDate'>${modifyDate.iso8601}</span>")}
+            </span>
             <#if showFavourite == "true">
             <span id="${id}-favourite" class="item item-separator"></span>
             </#if>
