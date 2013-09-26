@@ -262,7 +262,7 @@
                <field id="rma:vitalRecordIndicator" set="rm-vital-record">
                   <control template="/org/alfresco/rm/components/form/controls/vital-record-indicator.ftl" />
                </field>
-               <field id="rma:reviewPeriod" set="rm-vital-record">
+               <field id="rma:reviewPeriod" set="rm-vital-record" mandatory="true">
                   <constraint-handlers>
                      <constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.rmVitalRecordPeriodMandatory" />
                   </constraint-handlers>
