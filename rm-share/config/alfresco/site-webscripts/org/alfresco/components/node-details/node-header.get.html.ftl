@@ -3,7 +3,13 @@
    <#assign id = args.htmlid?html>
    <#if !isContainer>
       <#assign fileExtIndex = item.fileName?last_index_of(".")>
-      <#assign fileExt = (fileExtIndex > -1)?string(item.fileName?substring(fileExtIndex + 1)?lower_case, mimetypes.getExtension(node.mimetype))>
+      <#if fileExtIndex gt -1>
+         <#assign fileExt = item.fileName?substring(fileExtIndex + 1)?lower_case>
+      <#elseif node.mimetype??><#-- Mimetype may be null if it is not known in the repository -->
+         <#assign fileExt = mimetypes.getExtension(node.mimetype)>
+      <#else>
+         <#assign fileExt = "generic">
+      </#if>
    </#if>
    <#assign displayName = (item.displayName!item.fileName)?html>
    <#assign itemType = isContainer?string("folder", "document")>
