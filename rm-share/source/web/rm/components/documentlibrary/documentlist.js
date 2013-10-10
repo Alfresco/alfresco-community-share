@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /**
  * RM DocumentList component.
- * 
+ *
  * @namespace Alfresco
  * @class Alfresco.rm.component.DocumentList
  * @superclass Alfresco.DocumentList
@@ -43,7 +43,7 @@
 
    /**
     * RecordsDocumentList constructor.
-    * 
+    *
     * @param {String} htmlId The HTML id of the parent element
     * @return {Alfresco.rm.component.DocumentList} The new Records DocumentList instance
     * @constructor
@@ -52,7 +52,7 @@
    {
       return Alfresco.rm.component.DocumentList.superclass.constructor.call(this, htmlId);
    };
-   
+
    /**
     * Extend Alfresco.DocumentList
     */
@@ -126,7 +126,7 @@
                   filterData: record.nodeRef,
                   filterDisplay: holdTitle
                };
-            
+
             return '<h3 class="filename"><a class="filter-change" href="#" rel="' + Alfresco.DocumentList.generateFilterMarkup(filterObj) + '">' + $html(holdTitle) + '</a></h3>';
          });
       },
@@ -143,7 +143,7 @@
          {
             var vitalRecord = record.jsNode.properties["rma:vitalRecordIndicator"],
                html = "";
-            
+
             if (vitalRecord !== undefined)
             {
                html = '<span class="item">' + label + this.msg(vitalRecord == "true" ? "label.yes" : "label.no") + '</span>';
@@ -178,7 +178,7 @@
          // Publication Date
          this.registerRenderer("RM_publicationDate", function(record, label)
          {
-            return '<span class="item">' + label + Alfresco.util.formatDate(record.jsNode.properties.rma_publicationDate.iso8601, "ddd d mmm yyyy") + '</span>';
+            return '<span class="item">' + label + Alfresco.util.formatDate(record.jsNode.properties.rma_publicationDate.iso8601, "defaultDateOnly") + '</span>';
          });
 
          // Hold Reason
@@ -204,7 +204,7 @@
       fnRenderCellThumbnail: function RDL_fnRenderCellThumbnail()
       {
          var scope = this;
-         
+
          /**
           * Thumbnail custom datacell formatter
           *
@@ -265,7 +265,7 @@
                      var id = scope.id + '-preview-' + oRecord.getId();
                      docDetailsUrl = Alfresco.constants.URL_PAGECONTEXT + "site/" + scope.options.siteId + "/document-details?nodeRef=" + record.nodeRef;
                      elCell.innerHTML = '<span id="' + id + '" class="icon32">' + (isLink ? '<span class="link"></span>' : '') + '<a href="' + docDetailsUrl + '"><img src="' + Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIcon(name) + '" alt="' + extn + '" title="' + $html(title) + '" /></a></span>';
-                  
+
                      // Preview tooltip
                      scope.previewTooltips.push(id);
                      break;
@@ -367,7 +367,7 @@
                   return true;
                };
                break;
-            
+
             case "selectNone":
                fnCheck = function(assetType, isChecked)
                {
@@ -408,7 +408,7 @@
             record = recordSet.getRecord(i);
             this.selectedFiles[record.getData("nodeRef")] = checks[i].checked = fnCheck(record.getData("type"), checks[i].checked);
          }
-         
+
          YAHOO.Bubbling.fire("selectedFilesChanged");
       }
    }, true);
