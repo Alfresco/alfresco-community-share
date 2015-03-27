@@ -36,7 +36,7 @@
 
    <div id="${el}-flowButtons" class="flow-buttons">
       <hr />
-      <input id="${el}-createaction-button" class="yui-button createaction createaction-button" name="createaction-button" value="${msg("button.createaction")}&nbsp;&#9662;" type="button" >
+      <input id="${el}-createaction-button" class="yui-button createaction createaction-button" name="createaction-button" value="${msg("button.createaction")}" type="button" >
       <select id="${el}-createaction-menu" class="createaction-menu" name="createaction-menu">
       <#-- double html encoding required here due to YUI bug -->
       <#list dispositionActions as action>
@@ -112,7 +112,8 @@
                      ${msg("label.from")}
                      <select name="periodProperty" class="period-action">
                      </select>
-                     <span>${msg("label.or")}</span>
+                     <span class="or-relation">${msg("label.or")}</span>
+                     <span class="and-relation">${msg("label.and")}</span>
                   </div>
                   <div class="section">
                      <input type="checkbox" class="events-enabled" checked="true" />
@@ -128,7 +129,7 @@
                         <li id="${el}-event-template-dummy"></li>
                      </ul>
                      <div class="events-header">
-                        <button class="addevent-button">${msg("button.addevent")}&nbsp;&#9662;</button>
+                        <button class="addevent-button">${msg("button.addevent")}</button>
                         <select class="addevent-menu">
                         <#-- double html encoding required here due to YUI bug -->
                         <#list events as event>

@@ -91,7 +91,7 @@
          this.widgets.newUnfiledRecordsFolder = $createYUIButton(this, "newUnfiledRecordsFolder-button", this.onNewUnfiledRecordsFolder,
          {
             disabled: true,
-            value: "newUnfiledRecordsFolder"
+            value: "newFolder"
          });
 
          // New Hold button: user needs "newHold" access
@@ -165,13 +165,6 @@
 
          // Manage permissions button for holds toolbar: user needs "file" permissions and the capability to modify permissions
          this.widgets.holdPermissionsButton = $createYUIButton(this, "holdPermissions-button", this.onManagePermissions,
-         {
-            disabled: true,
-            value: "managePermissions"
-         });
-
-         // Manage permissions button for transfers toolbar: user needs "file" permissions and the capability to modify permissions
-         this.widgets.transferPermissionsButton = $createYUIButton(this, "transferPermissions-button", this.onManagePermissions,
          {
             disabled: true,
             value: "managePermissions"
@@ -620,7 +613,6 @@
                {
                   var folderName = response.config.dataObj["prop_cm_name"];
                   this._displayMessageByType(folderType, "failure", folderName);
-                  createFolder.widgets.cancelButton.set("disabled", false);
                },
                scope: this
             }
@@ -673,7 +665,7 @@
          var filterParam = Alfresco.rm.getParamValueFromUrl("filter");
          if (filterParam)
          {
-            var filter = filterParam.split("|");
+            var filter = decodeURIComponent(filterParam).split("|");
             if (filter[0] !== 'path' && filter[1])
             {
                destination = decodeURIComponent(filter[1]);

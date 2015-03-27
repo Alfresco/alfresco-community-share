@@ -13,7 +13,6 @@
    <@script src="${url.context}/res/rm/components/rules/rules-header.js" group="rules"/>
    <@script src="${url.context}/res/modules/documentlibrary/global-folder.js" group="rules"/>
    <@script src="${url.context}/res/modules/rules/rules-picker.js" group="rules"/>
-   <@script src="${url.context}/res/rm/components/rules/rules-picker.js" group="rules"/>
 </@>
 
 <@markup id="widgets">

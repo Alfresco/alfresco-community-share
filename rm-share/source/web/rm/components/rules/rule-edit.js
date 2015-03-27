@@ -53,7 +53,7 @@
        */
       _navigateToFoldersPage: function RE__navigateToFoldersPage()
       {
-         var unfiled = Alfresco.util.getQueryStringParameter("unfiled");
+         var unfiled = YAHOO.util.History.getQueryStringParameter("unfiled");
          if(unfiled != "true")
          {
             unfiled = "false";

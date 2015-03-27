@@ -188,7 +188,7 @@
        * @method onActionCopyUnfiledRecordFolderTo
        * @param assets {object} Object literal representing one or more record folder(s) to be actioned
        */
-      onActionCopyUnfiledRecordFolderTo: function RDLA_onActionCopyUnfiledRecordFolderTo(assets)
+      onActionCopyUnfiledRecordFolderTo: function RDLA_onActionCopyTo(assets)
       {
          this.onActionCopyUnfiledTo(assets);
       },
@@ -216,49 +216,6 @@
       },
 
       /**
-       * Unlink record from current record folder
-       *
-       * @method onActionUnlinkFrom
-       * @param assets {object} Object literal representing one or more file(s) or folder(s) to be actioned
-       */
-      onActionUnlinkFrom: function RDLA_onActionUnlinkFrom(assets)
-      {
-        var me = this;
-
-          // Show the first confirmation dialog
-          Alfresco.util.PopupManager.displayPrompt(
-          {
-             title: this.msg("message.confirm.unlink.title"),
-             text: this.msg("message.confirm.unlink.text"),
-             buttons: [
-             {
-                text: this.msg("button.ok"),
-                handler: function RDLA_onActionUnlinkFrom_confirm_ok()
-                {
-                   // Hide the confirmation dialog
-                   this.destroy();
-
-                   me._rmAction("message.unlink", assets, "unlinkFrom",
-                   {
-                      "recordFolder": me.doclistMetadata.parent.nodeRef
-                   });
-
-                },
-                isDefault: true
-             },
-             {
-                text: this.msg("button.cancel"),
-                handler: function RDLA_onActionUnlinkFrom_confirm_cancel()
-                {
-                   // Hide the confirmation dialog
-                   this.destroy();
-                }
-             }]
-          });
-
-      },
-
-      /**
        * Move single document or folder.
        *
        * @method onActionMoveTo
@@ -275,31 +232,9 @@
        * @method onActionMoveToUnfiled
        * @param assets {object} Object literal representing one or more file(s) or folder(s) to be actioned
        */
-      onActionMoveToUnfiled: function RDLA_onActionMoveToUnfiled(assets)
+      onActionMoveToUnfiled: function RDLA_onActionMoveTo(assets)
       {
          this._copyMoveLinkFileToUnfiled("move", assets);
-      },
-
-      /**
-       * Move unfiled document
-       *
-       * @method onActionMoveUnfiledRecordTo
-       * @param assets {object} Object literal representing one or more file(s) or folder(s) to be actioned
-       */
-      onActionMoveUnfiledRecordTo: function RDLA_onActionMoveUnfiledRecordTo(assets)
-      {
-         this.onActionMoveToUnfiled(assets);
-      },
-
-      /**
-       * Move unfiled record folder
-       *
-       * @method onActionMoveUnfiledRecordTo
-       * @param assets {object} Object literal representing one or more file(s) or folder(s) to be actioned
-       */
-      onActionMoveUnfiledRecordFolderTo: function RDLA_onActionMoveUnfiledRecordFolderTo(assets)
-      {
-         this.onActionMoveToUnfiled(assets);
       },
 
       /**
@@ -1776,28 +1711,6 @@
       },
 
       /**
-       * Add a record folder to the hold(s)
-       *
-       * @method onActionAddToHoldRecordFolder
-       * @param assets {object} Object literal representing one or more record(s) to be actioned
-       */
-      onActionAddToHoldRecordFolder: function RDLA_onActionAddToHoldRecordFolder(assets)
-      {
-         this.onActionAddToHold(assets);
-      },
-
-      /**
-       * Add a record to the hold(s)
-       *
-       * @method onActionAddToHoldRecord
-       * @param assets {object} Object literal representing one or more record(s) to be actioned
-       */
-      onActionAddToHoldRecord: function RDLA_onActionAddToHoldRecord(assets)
-      {
-         this.onActionAddToHold(assets);
-      },
-
-      /**
        * Remove a record/folder from the hold(s)
        *
        * @method onActionRemoveFromHold
@@ -1821,7 +1734,7 @@
        * @param assets {object} Object literal representing one or more record(s) to be actioned
        * @param owner {HTMLElement} The action html element
        */
-      onHoldDelete: function RDLA_onHoldDelete(assets, owner)
+      onHoldDelete: function RDLA_onHideRecordAction(assets, owner)
       {
          var me = this;
          Alfresco.util.PopupManager.displayPrompt(
@@ -1831,7 +1744,7 @@
             buttons: [
             {
                text: this.msg("button.ok"),
-               handler: function RDLA_onHoldDelete_confirm_ok()
+               handler: function RDLA_onHideRecordAction_confirm_ok()
                {
                   me._rmAction("message.delete-hold", assets, "deleteHold", null,
                   {
@@ -1839,7 +1752,7 @@
                      {
                         callback:
                         {
-                           fn: function RDLA_onHoldDelete_failure(data)
+                           fn: function RDLA_onHideRecordAction_failure(data)
                            {
                               var text = me.msg("message.delete-hold.failure");
                               if(data.json && data.json.message)
@@ -1861,23 +1774,12 @@
             },
             {
                text: this.msg("button.cancel"),
-               handler: function RDLA_onHoldDelete_confirm_cancel()
+               handler: function RDLA_onHideRecordAction_confirm_cancel()
                {
                   this.destroy();
                },
                isDefault: true
             }]
-         });
-      },
-
-      onAddRelationship: function RDLA_onAddRelationship(assets, owner)
-      {
-         require(["rm/services/AlfRmActionBridge"], function(Bridge) {
-            var bridge = new Bridge();
-            bridge.alfPublish("ALF_RM_ADD_RELATIONSHIP", {
-               "item": assets,
-               "owner": owner
-            });
          });
       }
    };

@@ -137,11 +137,6 @@
       </property>
    </bean>
    <bean id="evaluator.rm.doclib.infoRequested" class="org.alfresco.web.evaluator.doclib.indicator.ActiveWorkflowsEvaluator"/>
-   <bean id="evaluator.rm.doclib.recordedVersionHistoryAllRevisions" class="org.alfresco.module.org_alfresco_module_rm_share.evaluator.RecordedVersionHistoryAllRevisionsEvaluator" />
-   <bean id="evaluator.rm.doclib.recordedVersionHistoryMajorRevisions" class="org.alfresco.module.org_alfresco_module_rm_share.evaluator.RecordedVersionHistoryMajorRevisionsEvaluator" />
-   <bean id="evaluator.rm.doclib.hasUserWritePermissions" class="org.alfresco.module.org_alfresco_module_rm_share.evaluator.HasUserWritePermissionsEvaluator" />
-   <bean id="evaluator.rm.doclib.versionRecord" class="org.alfresco.module.org_alfresco_module_rm_share.evaluator.VersionRecordEvaluator"/>
-   <bean id="evaluator.rm.doclib.isUserRecordContributor" class="org.alfresco.module.org_alfresco_module_rm_share.evaluator.IsUserRecordContributor" />
 
    <!--                             -->
    <!-- File Plan Action Evaluators -->
@@ -186,9 +181,6 @@
    </bean>
    <bean id="evaluator.rm.action.link-to" parent="evaluator.rm.common.actionEvaluator">
       <property name="action" value="linkTo" />
-   </bean>
-   <bean id="evaluator.rm.action.unlink-from" parent="evaluator.rm.common.actionEvaluator">
-      <property name="action" value="unlinkFrom" />
    </bean>
    <bean id="evaluator.rm.action.file-to" parent="evaluator.rm.common.actionEvaluator">
       <property name="action" value="fileTo" />
@@ -293,25 +285,11 @@
    <bean id="evaluator.rm.action.editHold" parent="evaluator.rm.common.actionEvaluator">
       <property name="action" value="editHold" />
    </bean>
-   <bean id="evaluator.rm.action.moveDmRecord" parent="evaluator.rm.common.actionEvaluator">
-      <property name="action" value="moveDmRecord" />
-   </bean>
-   <bean id="evaluator.rm.action.editReferences" parent="evaluator.rm.common.actionEvaluator">
-      <property name="action" value="editReferences" />
-   </bean>
-   <bean id="evaluator.rm.action.unlink-from-checkparents" class="org.alfresco.module.org_alfresco_module_rm_share.evaluator.UnlinkActionEvaluator"/>
 
    <!--                          -->
    <!-- DocLib Common Evaluators -->
    <!--                          -->
-   <bean id="evaluator.rm.doclib.action.rmSiteExists" class="org.alfresco.module.org_alfresco_module_rm_share.evaluator.DocLibRmSiteExistsEvaluator"/>
-   <bean id="evaluator.rm.doclib.action.hasVersionableAspect" class="org.alfresco.web.evaluator.HasAspectEvaluator">
-      <property name="aspects">
-         <list>
-            <value>cm:versionable</value>
-         </list>
-      </property>
-   </bean>
+   <bean id="evaluator.rm.doclib.rmSiteExists" class="org.alfresco.module.org_alfresco_module_rm_share.evaluator.DocLibRmSiteExistsEvaluator"/>
 
    <!-- DOD 5015 context import -->
    <import resource="classpath:alfresco/dod5015/dod5015-context.xml"/>

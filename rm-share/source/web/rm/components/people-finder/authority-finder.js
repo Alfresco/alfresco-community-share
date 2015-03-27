@@ -265,7 +265,7 @@
       _buildSearchParams: function RM_AuthorityFinder__buildSearchParams(searchTerm)
       {
          var searchParams = Alfresco.rm.AuthorityFinder.superclass._buildSearchParams.call(this, searchTerm),
-            filePlanId = Alfresco.util.getQueryStringParameter("filePlanId");
+            filePlanId = YAHOO.util.History.getQueryStringParameter("filePlanId");
          return searchParams + "&showGroups=true&zone=APP.RM&shortName=*" + filePlanId;
       }
    });

@@ -6,7 +6,6 @@
 <@markup id="js">
    <#-- JavaScript Dependencies -->
    <@script src="${url.context}/res/components/rules/rules-none.js" group="rules"/>
-   <@script src="${url.context}/res/rm/components/rules/rules-none.js" group="rules"/>
 </@>
 
 <@markup id="widgets">

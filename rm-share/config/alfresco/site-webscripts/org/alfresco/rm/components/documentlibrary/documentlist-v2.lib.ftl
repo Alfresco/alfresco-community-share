@@ -18,7 +18,7 @@
          <div class="left">
             <div class="hideable toolbar-hidden DocListTree DocListFilePlan_transfers DocListFilePlan_holds DocListFilePlan_unfiledRecords DocListSavedSearch_savedsearch">
                <div class="file-select">
-                  <button id="${id}-fileSelect-button" name="doclist-fileSelect-button">${msg("menu.select")}&nbsp;&#9662;</button>
+                  <button id="${id}-fileSelect-button" name="doclist-fileSelect-button">${msg("menu.select")}</button>
                   <div id="${id}-fileSelect-menu" class="yuimenu">
                      <div class="bd">
                         <ul>
@@ -75,14 +75,11 @@
             <div class="hideable toolbar-hidden DocListFilePlan_holds">
                <div class="manage-permissions"><button id="${id}-holdPermissions-button">${msg("button.manage-permissions")}</button></div>
             </div>
-            <div class="hideable toolbar-hidden DocListFilePlan_transfers">
-               <div class="manage-permissions"><button id="${id}-transferPermissions-button">${msg("button.manage-permissions")}</button></div>
-            </div>
             <div class="hideable toolbar-hidden DocListFilePlan_unfiledRecords">
                 <div class="manage-rules"><button id="${id}-unfiledManageRules-button">${msg("button.manage-rules")}</button></div>
             </div>
             <div class="selected-items">
-               <button id="${id}-selectedItems-button" class="no-access-check">${msg("menu.selected-items")}&nbsp;&#9662;</button>
+               <button id="${id}-selectedItems-button" class="no-access-check">${msg("menu.selected-items")}</button>
                <div id="${id}-selectedItems-menu" class="yuimenu">
                   <div class="bd">
                      <ul>
@@ -98,7 +95,7 @@
          </div>
          <div class="right">
             <div class="options-select">
-               <button id="${id}-options-button" name="doclist-options-button">${msg("button.options")}&nbsp;&#9662;</button>
+               <button id="${id}-options-button" name="doclist-options-button">${msg("button.options")}</button>
                <div id="${id}-options-menu" class="yuimenu">
                   <div class="bd">
                      <ul>

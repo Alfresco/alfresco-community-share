@@ -8,7 +8,6 @@
 
 function disableRecordDetailsComponent(value)
 {
-   var disabled = false;
    var documentDetails = AlfrescoUtil.getNodeDetails(model.nodeRef, model.site);
    if (documentDetails != null)
    {
@@ -16,12 +15,6 @@ function disableRecordDetailsComponent(value)
       if (model.site != (item.location.site != null ? item.location.site.name : null) && item.node.isRmNode)
       {
          model[value] = null;
-         if (value == "allowNewVersionUpload")
-         {
-            model.exist = false;
-         }
-         disabled = true;
       }
    }
-   return disabled;
 }
