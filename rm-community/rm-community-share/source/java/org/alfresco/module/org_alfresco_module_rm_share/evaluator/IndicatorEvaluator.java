@@ -43,9 +43,9 @@ public class IndicatorEvaluator extends BaseRMEvaluator
     private boolean expected = true;
 
     /**
-     * Sets the name of the indicator to check for
+     * The name of the indicator to check for
      *
-     * @param indicator The name of the indicator to check for
+     * @param indicator
      */
     public void setIndicator(String indicator)
     {

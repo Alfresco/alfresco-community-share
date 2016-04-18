@@ -40,9 +40,9 @@ public class UITypeEvaluator extends BaseRMEvaluator
     private String type;
 
     /**
-     * Sets the name of the node type to check for
+     * The name of the node type to check for
      *
-     * @param type The name of the node type to check for
+     * @param type
      */
     public void setType(String type)
     {
