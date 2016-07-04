@@ -3,7 +3,7 @@
    <modelVersion>4.0.0</modelVersion>
    <artifactId>alfresco-rm-community-share</artifactId>
    <name>Alfresco Records Management Community Share</name>
-   <description>Alfresco Record Management Core Share Extension</description>
+   <description>Alfresco Record Management Community Share Extension</description>
    <packaging>amp</packaging>
 
    <parent>
@@ -18,7 +18,7 @@
       <alfresco.repo.url>http://localhost:8080/alfresco</alfresco.repo.url>
       <alfresco.share.artifactId>share</alfresco.share.artifactId>
       <alfresco.rm.artifactId>alfresco-rm-community-share</alfresco.rm.artifactId>
-      <alfresco.aikau.version>1.0.72.1</alfresco.aikau.version>
+      <alfresco.aikau.version>1.0.72.3</alfresco.aikau.version>
    </properties>
 
    <build>
