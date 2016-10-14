@@ -19,6 +19,7 @@
       <resources>
          <resource>
             <directory>config</directory>
+            <filtering>true</filtering>
          </resource>
          <resource>
             <directory>source/web</directory>
@@ -29,6 +30,19 @@
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>build-helper-maven-plugin</artifactId>
             <executions>
+               <execution>
+                  <id>regex-property</id>
+                  <goals>
+                     <goal>regex-property</goal>
+                  </goals>
+                  <configuration>
+                     <name>rm.module.version</name>
+                     <value>${project.version}</value>
+                     <regex>([0-9\.]*[0-9]).*</regex>
+                     <replacement>$1</replacement>
+                     <failIfNoMatch>true</failIfNoMatch>
+                  </configuration>
+               </execution>
                <execution>
                   <id>add-test-source</id>
                   <goals>
