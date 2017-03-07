@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ShareSanitySuite" preserve-order="true" parallel="classes" thread-count="2">
+	<listeners>
+		<listener class-name="org.alfresco.share.TestListener" />
+		<listener class-name="org.uncommons.reportng.HTMLReporter" />
+	</listeners>
+
+	<test name="WIP">
+		<classes>
+			<class name="org.alfresco.share.LoginTests"></class>
+			<class name="org.alfresco.share.LogoTests"></class>
+		</classes>
+
+	</test>
+</suite>
