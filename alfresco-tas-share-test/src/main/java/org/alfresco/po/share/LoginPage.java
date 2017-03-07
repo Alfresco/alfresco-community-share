@@ -1,18 +1,17 @@
 package org.alfresco.po.share;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
 import org.alfresco.po.HtmlPage;
 import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.annotation.RenderWebElement;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
-
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 /**
  * Simple Page Object class
@@ -22,9 +21,6 @@ import java.net.URISyntaxException;
 @PageObject
 public class LoginPage extends HtmlPage
 {
-    @Autowired
-    private UserDashboardPage userDashboardPage;
-
     @FindBy(css = "[id$='default-username']")
     private WebElement usernameInput;
 
@@ -53,6 +49,7 @@ public class LoginPage extends HtmlPage
     public void navigate()
     {
         browser.navigate().to(properties.getShareUrl().toString());
+        renderedPage();
     }
 
     /**
@@ -101,13 +98,11 @@ public class LoginPage extends HtmlPage
      * @throws URISyntaxException
      * @throws MalformedURLException
      */
-    public UserDashboardPage login(String username, String password)
+    public void login(String username, String password)
     {
         typeUserName(username);
         typePassword(password);
-        clickLogin();
-
-        return (UserDashboardPage) userDashboardPage.renderedPage();
+        clickLogin();        
     }
 
     /**

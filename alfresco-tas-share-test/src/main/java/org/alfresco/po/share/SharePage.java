@@ -30,7 +30,8 @@ public abstract class SharePage<T> extends HtmlPage
 
     @Autowired
     AboutPopUpPage pop;
-
+    
+    @RenderWebElement(state=ElementState.PRESENT)
     @FindBy(id = "HEADER_TITLE")
     private TextBlock pageHeader;
 
