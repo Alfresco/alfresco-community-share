@@ -1,0 +1,116 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.alfresco</groupId>
+	<artifactId>alfresco-share-po</artifactId>
+	<version>5.1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>alfresco-share-po</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<testng.version>6.9.6</testng.version>
+		<slf4j.version>1.7.2</slf4j.version>
+		<spring.version>4.1.7.RELEASE</spring.version>
+		<seleniumjava.version>2.46.0</seleniumjava.version>
+		<yandex.qatools.version>1.15</yandex.qatools.version>
+		<suiteXmlFile>src/test/resources/share-sanity-suite.xml</suiteXmlFile>
+	</properties>
+
+	<dependencies>
+		<!-- test framework dependencies -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${testng.version}</version>
+		</dependency>
+
+		<!-- selenium code -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${seleniumjava.version}</version>
+		</dependency>
+
+		<!-- default logger -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+	    <dependency>
+		<groupId>org.uncommons</groupId>
+		<artifactId>reportng</artifactId>
+		<version>1.1.2</version>
+		<scope>test</scope>
+		<exclusions>
+			<exclusion>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+
+		<!-- spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- yandex -->
+		<dependency>
+			<groupId>ru.yandex.qatools.htmlelements</groupId>
+			<artifactId>htmlelements-java</artifactId>
+			<version>${yandex.qatools.version}</version>
+		</dependency>
+
+		<!-- dataprep -->
+		<dependency>
+			<groupId>org.alfresco.test</groupId>
+			<artifactId>dataprep</artifactId>
+			<version>1.10</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.11</version>
+				<configuration>
+					<reportFormat>plain</reportFormat>
+					<trimStackTrace>false</trimStackTrace>
+					<forkMode>never</forkMode>
+					<suiteXmlFiles>
+						<suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

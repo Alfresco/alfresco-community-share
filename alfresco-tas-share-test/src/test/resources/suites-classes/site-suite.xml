@@ -1,0 +1,232 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SiteSmokeSuite">
+
+    <test name="CustomizeSiteDashboardTests">
+        <classes>
+            <class name="org.alfresco.share.site.CustomizeSiteDashboardTests"></class>
+        </classes>
+    </test>
+
+    <test name="CreateSiteTests">
+        <classes>
+            <class name="org.alfresco.share.site.CreateSiteTests"></class>
+        </classes>
+    </test>
+
+    <test name="EditSiteDetailsTests">
+        <classes>
+            <class name="org.alfresco.share.site.EditSiteDetailsTests"></class>
+        </classes>
+    </test>
+
+    <test name="DeleteSiteTests">
+        <classes>
+            <class name="org.alfresco.share.site.DeleteSiteTests"></class>
+        </classes>
+    </test>
+
+    <test name="FavoriteSiteTests">
+        <classes>
+            <class name="org.alfresco.share.site.FavoriteSiteTests"></class>
+        </classes>
+    </test>
+
+    <test name="CustomizeSiteTests">
+        <classes>
+            <class name="org.alfresco.share.site.CustomizeSiteTests"></class>
+        </classes>
+    </test>
+
+    <test name="JoiningSiteTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.accessingExistingSites.JoiningSiteTests"></class>
+        </classes>
+    </test>
+
+    <test name="LeavingSiteTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.accessingExistingSites.LeavingSiteTests"></class>
+        </classes>
+    </test>
+
+    <test name="EnteringSiteTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.accessingExistingSites.EnteringSiteTests"></class>
+        </classes>
+    </test>
+
+    <test name="MovingAroundASiteTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.accessingExistingSites.MovingAroundASiteTests"></class>
+        </classes>
+    </test>
+
+    <test name="AddSiteGroupsTest">
+        <classes>
+            <class name="org.alfresco.share.site.members.AddSiteGroupsTest"></class>
+        </classes>
+    </test>
+
+    <test name="AddSiteMembersTests">
+        <classes>
+            <class name="org.alfresco.share.site.members.AddSiteMembersTests"></class>
+        </classes>
+    </test>
+
+    <test name="ChangingASiteRole">
+        <classes>
+            <class name="org.alfresco.share.site.members.ChangingASiteRoleTests"></class>
+        </classes>
+    </test>
+
+    <test name="SiteGroupsTest">
+        <classes>
+            <class name="org.alfresco.share.site.members.SiteGroupsTest"></class>
+        </classes>
+    </test>
+
+    <test name="ReviewingSiteMembersTest">
+        <classes>
+            <class name="org.alfresco.share.site.members.ReviewingSiteMembersTest"></class>
+        </classes>
+    </test>
+
+    <test name="ApprovingUsersTests">
+        <classes>
+            <class name="org.alfresco.share.site.members.ApprovingUsersTests"></class>
+        </classes>
+    </test>
+
+    <test name="BecomeSiteManagerTest">
+        <classes>
+            <class name="org.alfresco.share.site.members.BecomeSiteManagerTest"></class>
+        </classes>
+    </test>
+
+    <test name="ManagingPendingInvitationsTest">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.members.ManagingPendingInvitationsTest"></class>
+        </classes>
+    </test>
+
+    <test name="RemoveMembersOrGroupsTest">
+        <classes>
+            <class name="org.alfresco.share.site.members.RemoveMembersOrGroupsTest"></class>
+        </classes>
+    </test>
+
+    <test name="SiteSearchDashletTests">
+        <classes>
+            <class name="org.alfresco.share.site.siteDashboard.SiteSearchDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="SavedSearchDashletTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.siteDashboard.SavedSearchDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="MyDiscussionsDashletTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.siteDashboard.MyDiscussionsDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="RssFeedDashletTests">
+        <classes>
+            <class name="org.alfresco.share.site.siteDashboard.RssFeedDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="AlfrescoAddonsRssFeedDashletTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.siteDashboard.AlfrescoAddonsRssFeedDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="SiteProfileDashletTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.siteDashboard.SiteProfileDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="SiteCalendarDashletTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.siteDashboard.SiteCalendarDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="SiteLinksDashletTests">
+        <classes>
+            <class name="org.alfresco.share.site.siteDashboard.SiteLinksDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="SiteMembersTest">
+        <classes>
+            <class name="org.alfresco.share.site.siteDashboard.SiteMembersTest"></class>
+        </classes>
+    </test>
+
+    <test name="ImagePreviewDashletTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.siteDashboard.ImagePreviewDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="SiteFileTypeBreakdownDashletTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.siteDashboard.SiteFileTypeBreakdownDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="WikiDashletTests">
+        <classes>
+            <class name="org.alfresco.share.site.siteDashboard.WikiDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="WebViewDashletTests">
+        <classes>
+            <class name="org.alfresco.share.site.siteDashboard.WebViewDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="SiteActivitiesTest">
+        <classes>
+            <class name="org.alfresco.share.site.siteDashboard.SiteActivitiesTests"></class>
+        </classes>
+    </test>
+
+    <test name="DataListsDashletTests">
+        <classes>
+            <class name="org.alfresco.share.site.siteDashboard.DataListsDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="SiteContentDashletTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.site.siteDashboard.SiteContentDashletTests"></class>
+        </classes>
+    </test>
+
+    <test name="SiteNoticeTests">
+        <classes>
+            <class name="org.alfresco.share.site.siteDashboard.SiteNoticeTests"></class>
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,969 @@
+package org.alfresco.share.userRolesAndPermissions.contributor;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
+import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
+import org.alfresco.po.share.alfrescoContent.document.UploadContent;
+import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
+import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
+import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
+import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
+import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.openqa.selenium.By;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class FilesOnlyTests extends ContextAwareWebTest
+{
+
+    @Autowired
+    UploadContent uploadContent;
+
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
+
+    @Autowired
+    CreateContent createContent;
+
+    @Autowired
+    SocialFeatures socialFeatures;
+
+    @Autowired
+    EditPropertiesDialog editPropertiesDialog;
+
+    @Autowired
+    SelectDialog selectDialog;
+
+    @Autowired
+    CopyMoveUnzipToDialog copyMoveToDialog;
+
+    @Autowired
+    private DeleteDocumentOrFolderDialog deleteDialog;
+
+    @Autowired
+    ManagePermissionsPage managePermissionsPage;
+
+    @Autowired
+    AspectsForm aspectsForm;
+
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+
+    @Autowired
+    ChangeContentTypeDialog changeContentTypeDialog;
+
+    @Autowired
+    EditPropertiesPage editPropertiesPage;
+
+    @Autowired
+    CreateContent create;
+
+    @Autowired
+    EditInAlfrescoPage editInAlfresco;
+
+    @Autowired
+    GoogleDocsCommon docs;
+
+    @Autowired
+    Download download;
+
+    @Autowired
+    StartWorkflowPage startWorkflowPage;
+
+    private String userContributor;
+
+    @BeforeClass
+    public void setupTest()
+    {
+
+        userContributor = "Contributor" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userContributor, password, userContributor + "@tests.com", userContributor, userContributor);
+        setupAuthenticatedSession(userContributor, password);
+
+    }
+
+    @TestRail(id = "C8910")
+    @Test
+    public void createContent()
+
+    {
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+
+        logger.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: On the Document Library Page click on 'Create' button.");
+        documentLibraryPage.clickCreateButton();
+        Assert.assertTrue(documentLibraryPage.isCreateContentMenuDisplayed(), "The Create Options Menu opened");
+
+        logger.info("Step2: From the Create Options menu select Create Plain Text and verify the new file is opened in Document Details page.");
+        create.clickPlainTextButton();
+        logger.info("Step3: Provide input afor name, title, description and click 'Create' button");
+        create.sendInputForName("test");
+        create.sendInputForContent("test");
+        create.sendInputForTitle("test");
+        create.sendInputForDescription("test");
+        create.clickCreateButton();
+        documentDetailsPage.renderedPage();
+        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Page displayed");
+        assertEquals(documentDetailsPage.getContentText(), "test", "File preview displayed");
+
+    }
+
+    @TestRail(id = "C8911")
+    @Test
+    public void uploadContent()
+
+    {
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String testFilePath = testDataFolder + fileName;
+
+        logger.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: On the Document Library Page click on 'Upload' button.");
+        uploadContent.uploadContent(testFilePath);
+
+        logger.info("Step2: Verify the file is successfully uploaded.");
+        documentLibraryPage.renderedPage();
+        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), String.format("The file [%s] is not present", fileName));
+    }
+
+    @TestRail(id = "C8912")
+    @Test
+    public void dowloadContent()
+
+    {
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1, 2: Mouse over the test file  from Document Library and click 'Download'.");
+        documentLibraryPage.mouseOverFileName(fileName);
+        documentLibraryPage.clickDownloadForItem(fileName);
+        download.acceptAlertIfDisplayed();
+        browser.waitInSeconds(2);
+        Assert.assertTrue(download.isFileInDirectory(fileName, null), "The file was not found in the specified location");
+
+    }
+
+    @TestRail(id = "C8913")
+    @Test
+    public void viewInBrowser()
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Mouse over testFile and check 'View in Browser' is available.");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "View In Browser"), "View in browser available");
+
+        logger.info("Step2: Click View in browser and verify the file is opened in a new browser window.");
+
+        documentLibraryPage.clickAction(fileName, "View In Browser");
+        browser.waitInSeconds(2);
+        assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), fileContent, "Correct file content/ file opened in new window");
+    }
+
+    @TestRail(id = "C8914")
+    @Test
+    public void uploadNewVersionForItemCreatedBySelf()
+
+    {
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+        String newVersionFilePath;
+        String newVersionFileName;
+        newVersionFileName = "EditedTestFileC8914.txt";
+        newVersionFilePath = testDataFolder + newVersionFileName;
+
+        logger.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Mouse over test File and check 'Upload new version' action is available.");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Upload New Version", uploadContent);
+
+        logger.info("Steps2,3: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
+        uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
+        browser.refresh();
+        documentLibraryPage.renderedPage();
+
+        logger.info("Steps4: Click on the file and check the content is updated.");
+        documentLibraryPage.clickOnFile(newVersionFileName);
+        documentDetailsPage.renderedPage();
+        assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFileName));
+
+    }
+
+    @TestRail(id = "C8915")
+    @Test
+    public void uploadNewVersionForItemCreatedByOthers()
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Mouse over test File and check 'Upload new version' action is not available.");
+
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Upload New Version"),
+                "Upload New Version available for Contributor user");
+
+    }
+
+    @TestRail(id = "C8916")
+    @Test
+    public void uploadNewVersionForItemLockedByUser()
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info("Preconditions: Create test site, add Contributor user to site. Create a test file in site. Login as admin and navigate to site's doc lib");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(adminUser, adminPassword);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Steps1,2: Mouse over file and click 'Edit offline' action");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
+
+        logger.info("Steps3: Logout and login as Contributor user.");
+
+        cleanupAuthenticatedSession();
+        setupAuthenticatedSession(userContributor, password);
+
+        logger.info("Steps4:  Navigate to test site's doc lib and verify the file is locked by admin");
+        documentLibraryPage.navigate(siteName);
+        Assert.assertEquals(documentLibraryPage.getLockedByUserName(), "Administrator", "Document appears to be locked by admin");
+
+        logger.info("Steps5: Verify 'Upload new Version' option is not available for Contributor user, since the file is locked by admin");
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Upload New Version"),
+                "Upload New Version available for Contributor user");
+
+    }
+
+    @TestRail(id = "C8917")
+    @Test
+    public void editOnlineForContentCreatedBySelf()
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(userContributor, password, siteName, DocumentType.MSWORD, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Steps1: Mouse over file and check 'Edit in Microsoft Office' action is available.");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit in Microsoft Office"),
+                "Edit in Microsoft Office available for Contributor user");
+
+    }
+
+    @TestRail(id = "C8918")
+    @Test
+    public void editOnlineForContentCreatedByOthers()
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.MSWORD, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Steps1: Mouse over file and check 'Edit in Microsoft Office' action is available.");
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit in Microsoft Office"),
+                "Edit in Microsoft Office available for Contributor user");
+
+    }
+
+    @TestRail(id = "C8919")
+    @Test
+    public void editInlineForContentCreatedBySelf()
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Steps1: Mouse over file and check 'Edit in Alfresco' action is available.");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit in Alfresco"), "Edit in Alfresco available for Contributor user");
+
+        logger.info("Steps2: Click 'Edit in Alfresco'.");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit in Alfresco", editInAlfresco);
+
+        logger.info("Steps3: Edit content and save changes.");
+        editInAlfresco.sendDocumentDetailsFields("editedName", "editedContent", "editedTitle", "editedDescription");
+        editInAlfresco.clickButton("Save");
+
+        logger.info("Steps4: Click on test file to open file and check content.");
+        documentLibraryPage.clickOnFile("editedName");
+        documentDetailsPage.renderedPage();
+        Assert.assertEquals(documentDetailsPage.getContentText(), "editedContent");
+
+    }
+
+    @TestRail(id = "C8920")
+    @Test
+    public void editInlineForContentCreatedByOthers()
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Steps1: Mouse over file and check 'Edit in Alfresco' action is available.");
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit in Alfresco"),
+                "Edit in Alfresco available for Contributor user");
+
+    }
+
+    @TestRail(id = "C8921")
+    @Test
+    public void editOfflineForContentCreatedBySelf()
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+        String newVersionFilePath;
+        String newVersionFileName;
+        newVersionFileName = "EditedTestFileC8921.txt";
+        newVersionFilePath = testDataFolder + newVersionFileName;
+
+        logger.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Steps1: Mouse over file and check 'Edit Offline' action is available.");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit Offline"), "Edit Offline available for Contributor user");
+
+        logger.info("Steps2: Click 'Edit Offline' action.");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
+
+        logger.info("Steps3: Check the file is locked for offline editing.");
+        Assert.assertTrue(docs.isLockedDocumentMessageDisplayed(), "Document locked for offline editing");
+
+        logger.info("Steps4,5: Upload a new version for the locked document");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Upload New Version"),
+                "Upload New Version available for Contributor user");
+        documentLibraryPage.renderedPage();
+
+        logger.info("Steps6: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Upload New Version", uploadContent);
+
+        uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
+        browser.waitInSeconds(2);
+
+        logger.info("Steps7: Click test file title link to open details page and check content.");
+        documentLibraryPage.clickOnFile(newVersionFileName);
+        documentDetailsPage.renderedPage();
+        assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFileName));
+
+    }
+
+    @TestRail(id = "C8922")
+    @Test
+    public void editOfflineForContentCreatedByOthers()
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Steps1: Mouse over file and check 'Edit Offline' action is available.");
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit Offline"), "Edit Offline available for Contributor user");
+
+    }
+
+    @TestRail(id = "C8925")
+    @Test
+    public void checkInOutGoogleDocsCreatedBySelf() throws Exception
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String googleDocPath = testDataFolder + "uploadedDoc.docx";
+
+        logger.info(
+                "Preconditions: Create test site and add contributor member to site. As Contributor user, navigate to Document Library page for the test site and create Google Doc file");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        docs.loginToGoogleDocs();
+        setupAuthenticatedSession(userContributor, password);
+        documentLibraryPage.navigate(siteName);
+        // documentLibraryPage.uploadNewFile(googleDocPath);
+        uploadContent.uploadContent(googleDocPath);
+        browser.waitInSeconds(5);
+
+        logger.info("Steps1: Mouse over file and check 'Edit in Google Docs' action is available.");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("uploadedDoc.docx", "Edit in Google Docs"),
+                "Edit in Google Docs available for Contributor user");
+
+        logger.info("Steps2: Click 'Edit in Google Docs' action and add some content");
+        documentLibraryPage.clickDocumentLibraryItemAction("uploadedDoc.docx", "Edit in Google Docs", docs);
+        browser.waitInSeconds(5);
+        docs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        browser.waitInSeconds(15);
+        docs.switchToGoogleDocsWindowandAndEditContent("GDTitle", "Edited");
+
+        logger.info("Steps3: Check the test file's status in Document Library.");
+        // browser.waitUntilElementVisible(By.xpath("//img[contains(@title,'Locked by you')]"));
+        documentLibraryPage.renderedPage();
+        assertTrue(docs.isLockedIconDisplayed(), "Locked icon displayed");
+        assertTrue(docs.isLockedDocumentMessageDisplayed(), "Message about the file being locked displayed");
+        assertTrue(docs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
+
+        logger.info("Steps4: Mouse over testFile name and verify 'Check In Google Doc' action is available");
+
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("uploadedDoc.docx", "Check In Google Doc"),
+                "Check In Google Doc available for Contributor user");
+
+        logger.info("Steps5: Click 'Check In Google Doc' and verify Version Information window is displayed.");
+        documentLibraryPage.clickDocumentLibraryItemAction("uploadedDoc.docx", "Check In Google Doc", documentLibraryPage);
+        browser.waitInSeconds(10);
+        Assert.assertEquals(docs.isVersionInformationPopupDisplayed(), true, "Version information pop-up displayed");
+
+        logger.info("Steps6: Click 'Ok' on the Version Information window and verify it is is closed");
+        docs.clickOkButton();
+        browser.waitInSeconds(10);
+        Assert.assertEquals(docs.isVersionInformationPopupDisplayed(), false, "Version Information pop-up displayed");
+
+        logger.info("Steps7: Check the status for the file");
+        Assert.assertEquals(docs.checkLockedLAbelIsDisplayed(), false, "Document aapers to be unlocked");
+
+        logger.info("Steps8: testFile name.");
+        documentLibraryPage.clickOnFile("GDTitle");
+        documentDetailsPage.renderedPage();
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
+
+        logger.info("Steps9: Verify the file content is correct");
+        Assert.assertTrue(documentDetailsPage.getContentText().replaceAll("\\s+", "").contains("Edited"), "File preview correctly displayed");
+
+    }
+
+    @TestRail(id = "C8926")
+    @Test
+    public void editInGoogleDocForContentCreatedByOthers()
+    {
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
+        String googleDocPath = testDataFolder + googleDocName;
+
+        logger.info(
+                "Preconditions: Create test site, add contributor member to site. As admin, navigate to Document Library page for the test site and create Google Doc file");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        docs.loginToGoogleDocs();
+        setupAuthenticatedSession(adminUser, adminPassword);
+        documentLibraryPage.navigate(siteName);
+        uploadContent.uploadContent(googleDocPath);
+
+        logger.info("Steps1: Login as Contributor user, go to site's doc lib and check whether 'Edit in Google Docs' action is available.");
+        setupAuthenticatedSession(userContributor, password);
+        documentLibraryPage.navigate(siteName);
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(googleDocName, "Edit in Google Docs"),
+                "Edit in Google Docs available for Contributor user");
+
+    }
+
+    @TestRail(id = "C8928")
+    @Test
+    public void checkInGoogleDocForContentCreatedByOthers() throws Exception
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
+        String googleDocPath = testDataFolder + googleDocName;
+
+        logger.info(
+                "Preconditions: Create test site and add contributor member to site. As Admin user, navigate to Document Library page for the test site and create Google Doc file. Check out the file in google Docs.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        docs.loginToGoogleDocs();
+        setupAuthenticatedSession(adminUser, adminPassword);
+        documentLibraryPage.navigate(siteName);
+        uploadContent.uploadContent(googleDocPath);
+        // browser.waitInSeconds(5);
+        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs", docs);
+        browser.waitInSeconds(5);
+        docs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        browser.waitInSeconds(15);
+        docs.switchToGoogleDocsWindowandAndEditContent("GDTitle", "Google Doc test content");
+
+        logger.info("Steps1: Login as Contributor user, go to site's doc lib and check whether 'Edit in Google Docs' action is available.");
+        setupAuthenticatedSession(userContributor, password);
+        documentLibraryPage.navigate(siteName);
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(googleDocName, "Check In Google Doc"),
+                "Check In Google Doc available for Contributor user");
+
+    }
+
+    @TestRail(id = "C8929")
+    @Test
+    public void cancelEditingContentLockedBySelf() throws Exception
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info(
+                "Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Steps1: Mouse over file and click 'Edit Offline' action. Verify the file appears as locked.");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
+        browser.refresh();
+        Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
+
+        logger.info("Steps2: Hover over testFile and check whether 'Cancel editing' action is available");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Cancel Editing"),
+                "Cancel Editing action available for Contributor user");
+
+        logger.info("Steps3: Click 'Cancel Editing' action and check whether the lock is removed for the test file");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Cancel Editing", documentLibraryPage);
+        browser.refresh();
+        Assert.assertFalse(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
+
+    }
+
+    @TestRail(id = "C8930")
+    @Test
+    public void cancelEditingContentLockedByOthers() throws Exception
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info(
+                "Preconditions: Create test site and add Contributor member to site. Create a file in the Document Library for the test site, as admin user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(adminUser, adminUser, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+
+        logger.info("Step1: Login as admin and lock test file - e.g. for offline editing");
+        setupAuthenticatedSession(adminUser, adminPassword);
+        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
+        browser.waitUntilElementVisible(By.xpath("//div[contains(text(), 'This document is locked by you')]"));
+        Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
+
+        logger.info("Step2: Login as Contributor user and check whether the file appears as locked by Admin");
+        setupAuthenticatedSession(userContributor, password);
+        documentLibraryPage.navigate(siteName);
+        Assert.assertEquals(documentLibraryPage.getLockedByUserName(), "Administrator", "The document is not locked");
+
+        logger.info("Step3: Hover over test file and check whether 'Cancel Editing' action is missing");
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Cancel Editing"), "Cancel Editing available for Contributor user");
+
+    }
+
+    @TestRail(id = "C8931")
+    @Test
+    public void viewOriginalVersion() throws Exception
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info(
+                "Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as admin user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(adminUser, adminPassword);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Steps1: Mouse over file and click 'Edit Offline' action. Verify the file appears as locked.");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
+        browser.waitUntilElementVisible(By.xpath("//div[contains(text(), 'This document is locked by you')]"));
+        Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
+
+        logger.info("Steps2: Logout and login as Contributor user; hover over testFile and check whether 'View Original Document' action is available");
+        setupAuthenticatedSession(userContributor, password);
+        documentLibraryPage.navigate(siteName);
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "View Original Document"),
+                "View Original Document' action available for Contributor user");
+
+        logger.info("Steps3: Click 'View Original Document' action.");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "View Original Document", documentDetailsPage);
+        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Page displayed");
+        assertEquals(documentDetailsPage.getContentText(), fileContent, "File preview successfully displayed");
+
+        Assert.assertEquals(documentDetailsPage.getLockedMessage(), "This document is locked by Administrator.", "Document appears to be locked by admin user");
+
+    }
+
+    @TestRail(id = "C8932")
+    @Test
+    public void viewWorkingCopy() throws Exception
+
+    {
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info(
+                "Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as admin user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(adminUser, adminPassword);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Steps1: Mouse over file and click 'Edit Offline' action. Verify the file appears as locked.");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
+        browser.refresh();
+        Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
+
+        logger.info("Steps2: Logout and login as Contributor user; hover over testFile and click 'View Original Document' option");
+        setupAuthenticatedSession(userContributor, password);
+        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "View Original Document", documentDetailsPage);
+        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Page displayed");
+        assertEquals(documentDetailsPage.getContentText(), fileContent, "File preview successfully displayed");
+        Assert.assertTrue(documentDetailsPage.isActionAvailable("View Working Copy"));
+
+        logger.info("Steps3: Click 'View Working Copy' action");
+        documentDetailsPage.clickDocumentActionsOption("View Working Copy");
+        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Page displayed");
+        assertEquals(documentDetailsPage.getContentText(), fileContent, "File preview successfully displayed");
+        Assert.assertTrue(documentDetailsPage.isActionAvailable("View Original Document"));
+
+    }
+
+    @TestRail(id = "C8933")
+    @Test
+    public void editInGoogleDocs() throws Exception
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
+        String googleDocPath = testDataFolder + googleDocName;
+        // String googleDocsPageName = googleDocName + " - Google Docs";
+        String docsUrl = "https://docs.google.com/document";
+
+        logger.info(
+                "Preconditions: Create test site, add Contributor member to site.  As Contributor user, navigate to Document Library page for the test site and upload a .docx file.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        docs.loginToGoogleDocs();
+        documentLibraryPage.navigate(siteName);
+        uploadContent.uploadContent(googleDocPath);
+
+        logger.info("Step1: Hover over test File and check 'Edit In Google Docs action' is available");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(googleDocName, "Edit in Google Docs"), "Edit in Google Docs action available");
+
+        logger.info("Step2: Click 'Edit In Google Docs action' and verify the file is opened in Google Docs");
+
+        // Store the current window handle
+        String currentWindow = browser.getWindowHandle();
+
+        documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs", docs);
+        docs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        browser.waitInSeconds(15);
+
+        // Switch to new window opened
+
+        for (String winHandle : browser.getWindowHandles())
+        {
+            browser.switchTo().window(winHandle);
+            if (browser.getCurrentUrl().contains(docsUrl))
+            {
+                break;
+            }
+            else
+            {
+                browser.switchTo().window(currentWindow);
+
+            }
+        }
+
+        assertTrue(browser.getCurrentUrl().contains("https://docs.google.com"), "After clicking on Google Docs link, the title is: " + browser.getCurrentUrl());
+        // assertEquals(documentLibraryPage.getPageTitle(), googleDocsPageName, "Displayed page=");
+
+        browser.close();
+        browser.switchTo().window(currentWindow);
+
+    }
+
+    @TestRail(id = "C8934")
+    @Test
+    public void startWorkflow()
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info(
+                "Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Mouse over file and click 'Start Workflowe' action. Verify the file appears as locked.");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Start Workflow"),
+                "Start Workflow action available for Contributor user");
+
+        logger.info("Steps2: Click 'Start Workflows' action.");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Start Workflow", startWorkflowPage);
+
+        logger.info("Steps3: From the Select Workflow drop-down select New Task Workflow.");
+        startWorkflowPage.selectAWorkflow();
+        startWorkflowPage.selectWorkflowToStartFromDropdownList("New Task");
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Start Workflow", "Displayed page=");
+
+    }
+
+    @TestRail(id = "C8935")
+    @Test
+    public void locateFile()
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
+
+        logger.info(
+                "Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: In Documents Library, go to Documents sections and select Recently Added.");
+        documentLibraryPage.clickDocumentsFilterOption(DocumentLibraryPage.DocumentsFilters.RecentlyAdded.title);
+        assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentLibraryPage.DocumentsFilters.RecentlyAdded.header,
+                "Recently added documents are displayed.");
+
+        logger.info("Step2: Hover over test file and click 'Locate File'.");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Locate File", documentLibraryPage);
+        ArrayList<String> breadcrumbExpected = new ArrayList<>(Arrays.asList("Documents"));
+        assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb is 'Documents'.");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), "User is redirected to location of the created document.");
+       // On 5.2, the file it's checked
+       // assertTrue(documentLibraryPage.isContentSelected(fileName), "Document is checked.");
+
+    }
+
+    @TestRail(id = "C8936")
+    @Test
+    public void downloadPreviousVersion()
+
+    {
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "";
+        String newVersionFilePath;
+        String newVersionFileName;
+        newVersionFileName = "NewVersionC8936.txt";
+        newVersionFilePath = testDataFolder + newVersionFileName;
+
+        logger.info(
+                "Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Hover over the test file and click More -> Upload New Version");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Upload New Version", uploadContent);
+
+        logger.info("Steps2,3: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
+        uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Minor);
+        browser.waitInSeconds(2);
+        // browser.refresh();
+        // documentLibraryPage.renderedPage();
+
+        logger.info("Steps4: Click on name of testFile and verify content is updated");
+        documentLibraryPage.clickOnFile(newVersionFileName);
+        documentDetailsPage.renderedPage();
+        Assert.assertEquals(documentDetailsPage.getContentText(), "updated by upload new version");
+
+        logger.info("Step5: Verify Version History section.");
+        Assert.assertTrue(documentDetailsPage.isRevertButtonAvailable(), "'Download previous version' button available");
+        Assert.assertTrue(documentDetailsPage.isVersionAvailable("1.0"), "Initial version available");
+        Assert.assertTrue(documentDetailsPage.isNewVersionAvailable("1.1"), "New minor version available");
+
+        logger.info(
+                "Steps6, 7: Click 'Download' button for previous version. Choose Save file option, location for file to be downloaded and click 'OK' button.");
+        documentDetailsPage.clickDownloadPreviousVersion();
+        download.acceptAlertIfDisplayed();
+        browser.waitInSeconds(2);
+        Assert.assertTrue(download.isFileInDirectory(fileName, null), "The file was not found in the specified location");
+    }
+
+    @TestRail(id = "C8937")
+    @Test
+    public void revertToPreviousVersion()
+
+    {
+
+        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
+        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileContent = "original content";
+        String newVersionFilePath;
+        String newVersionFileName;
+        newVersionFileName = "NewVersionC8936.txt";
+        newVersionFilePath = testDataFolder + newVersionFileName;
+
+        logger.info(
+                "Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
+        contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(adminUser, adminPassword);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Hover over the test file and click More -> Upload New Version");
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Upload New Version", uploadContent);
+
+        logger.info("Steps2,3: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
+        uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Minor);
+        documentLibraryPage.renderedPage();
+        setupAuthenticatedSession(userContributor, password);
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Steps4: Click on name of testFile and verify content is updated");
+        documentLibraryPage.clickOnFile(newVersionFileName);
+        documentDetailsPage.renderedPage();
+        Assert.assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", "New version's content");
+
+        logger.info("Step5: Verify Version History section.");
+        Assert.assertTrue(documentDetailsPage.isVersionAvailable("1.0"), "Initial version available");
+        Assert.assertTrue(documentDetailsPage.isNewVersionAvailable("1.1"), "New minor version available");
+        Assert.assertTrue(documentDetailsPage.isRevertButtonAvailable(), "Revert button available");
+
+        logger.info("Step6: Click on 'Revert' action. Click 'Ok' button on the displayed pop-up for confirmation.");
+        documentDetailsPage.clickRevertButton();
+        documentDetailsPage.clickOkOnRevertPopup();
+        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//*[contains(text(), 'original content')]"));
+        Assert.assertEquals(documentDetailsPage.getContentText(), "original content", "New version's content");
+        Assert.assertTrue(documentDetailsPage.isNewVersionAvailable("1.2"), "New minor version created");
+
+    }
+}

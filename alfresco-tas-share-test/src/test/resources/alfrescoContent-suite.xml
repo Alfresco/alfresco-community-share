@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="AlfrescoContentSmokeSuite" preserve-order="true">
+	<listeners>
+		<listener class-name="org.alfresco.share.TestListener" />
+		<listener class-name="org.uncommons.reportng.HTMLReporter"/>
+	</listeners>
+
+    <test name="AlfrescoContent">
+        <packages>
+            <package name="org.alfresco.share.alfrescoContent.*"></package>
+        </packages>
+    </test>
+</suite>

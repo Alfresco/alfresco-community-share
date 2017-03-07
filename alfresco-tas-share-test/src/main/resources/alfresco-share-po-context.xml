@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<context:annotation-config />
+	<import resource="classpath:dataprep-context.xml" />
+
+	<!-- scans for annotated classes -->
+	<context:component-scan base-package="org.alfresco" />
+
+	<bean id="webBrowserInstance" factory-bean="&amp;webBrowserFactory"
+		factory-method="getObject" destroy-method="quit" />
+
+	<bean id="language" class="org.alfresco.common.Language">
+		<description>
+			This bean is used to handle internationalization strings
+		</description>
+		<constructor-arg type="java.lang.String" value="language/page_objects" />		
+		<constructor-arg type="java.lang.String" value="${locale.language}" />
+		<constructor-arg type="java.lang.String" value="${locale.country}" />
+	</bean>
+</beans>

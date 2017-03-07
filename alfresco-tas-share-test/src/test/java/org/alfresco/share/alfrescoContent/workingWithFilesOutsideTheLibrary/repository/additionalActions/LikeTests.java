@@ -1,0 +1,145 @@
+package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions;
+
+import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
+import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class LikeTests extends ContextAwareWebTest
+{
+    @Autowired
+    RepositoryPage repositoryPage;
+
+    @Autowired
+    CreateContent createContent;
+    
+    @Autowired
+    SocialFeatures socialFeatures;
+
+
+    private String user = "C8301TestUser" + DataUtil.getUniqueIdentifier();
+    private String fileNameC8301 = "C8301 file";
+    private String fileNameC8303 = "C8303 file";
+    private String fileContent = "test file content";
+    private String path = "User Homes/" + user;
+    private String folderNameC8302 = "C8302 Folder";
+    private String folderNameC8304 = "C8304 Folder";
+   
+   
+    @BeforeClass
+    public void setupTest()
+    {
+        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8301, fileContent);
+        contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8303, fileContent);
+        contentService.createFolderInRepository(adminUser, adminPassword, folderNameC8302, path);
+        contentService.createFolderInRepository(adminUser, adminPassword, folderNameC8304, path);
+        
+        setupAuthenticatedSession(user, password);
+    }
+    
+    @TestRail(id ="C8301")
+    @Test
+    
+    public void likeFile()
+    {
+        repositoryPage.navigate();
+        repositoryPage.renderedPage();
+        repositoryPage.clickOnContent("User Homes");
+        repositoryPage.clickOnContent(user);
+        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8301), fileNameC8301 + " is not available in Repository");
+        
+        LOG.info("Step 1: Hover over the file Like link.");
+        
+        Assert.assertTrue(repositoryPage.isLikeButtonDisplayed(fileNameC8301), "Documents link is not present");
+        Assert.assertEquals(socialFeatures.getLikeButtonMessage(fileNameC8301), "Like this document", "Like Button message is not correct");
+        Assert.assertEquals(socialFeatures.getNumberOfLikes(fileNameC8301), 0, "The number of likes is not correct");
+        
+        LOG.info("Step 2: Click on the Like button");
+        socialFeatures.clickLikeButton(fileNameC8301);
+        Assert.assertEquals(socialFeatures.getNumberOfLikes(fileNameC8301), 1, "The number of likes is not correct"); 
+        Assert.assertTrue(socialFeatures.isLikeButtonEnabled(fileNameC8301), "Like button is not enabled");
+                
+    }
+    
+    @TestRail(id ="C8302")
+    @Test
+    
+    public void likeFolder()
+    {
+        repositoryPage.navigate();
+        repositoryPage.renderedPage();
+        repositoryPage.clickOnContent("User Homes");
+        repositoryPage.clickOnContent(user);
+        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8302), folderNameC8302 + " is not available in Repository");
+        
+        LOG.info("Step 1: Hover over a document and check the Like button");
+        
+        LOG.info("Step 1: Hover over the file Like link.");
+        browser.waitUntilElementClickable(socialFeatures.likeButton, 6L);
+        Assert.assertTrue(repositoryPage.isLikeButtonDisplayed(folderNameC8302), "Documents link is not present");
+        Assert.assertEquals(socialFeatures.getLikeButtonMessage(folderNameC8302), "Like this folder", "Like Button message is not correct");
+        Assert.assertEquals(socialFeatures.getNumberOfLikes(folderNameC8302), 0, "The number of likes is not correct");
+        
+        LOG.info("Step 2: Click on the Like button");
+        browser.waitUntilElementClickable(socialFeatures.likeButton, 6L);
+        socialFeatures.clickLikeButton(folderNameC8302);
+        Assert.assertEquals(socialFeatures.getNumberOfLikes(folderNameC8302), 1, "The number of likes is not correct");   
+        Assert.assertTrue(socialFeatures.isLikeButtonEnabled(folderNameC8302), "Like button is not enabled");
+    }
+    
+    @TestRail(id ="C8303")
+    @Test
+    
+    public void unlikeFile()
+    {
+        repositoryPage.navigate();
+        repositoryPage.renderedPage();
+        repositoryPage.clickOnContent("User Homes");
+        repositoryPage.clickOnContent(user);
+        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8303), fileNameC8303 + " is not available in Repository");
+        
+        socialFeatures.clickLikeButton(fileNameC8303);
+        
+        LOG.info("Step 1: Hover over the file Like link.");
+        Assert.assertEquals(socialFeatures.getLikeButtonEnabledText(fileNameC8303), "Unlike", "Unlike is not displayed");
+        Assert.assertEquals(socialFeatures.getNumberOfLikes(fileNameC8303), 1, "The number of likes is not correct");
+        
+        LOG.info("Step 2: Click on Unlike");
+        socialFeatures.clickUnlike(fileNameC8303);
+        Assert.assertEquals(socialFeatures.getNumberOfLikes(fileNameC8303), 0, "The number of likes is not correct");       
+    }
+    
+    @TestRail(id ="C8304")
+    @Test
+    
+    public void unlikeFolder()
+    {
+        repositoryPage.navigate();
+        repositoryPage.renderedPage();
+        repositoryPage.clickOnContent("User Homes");
+        repositoryPage.clickOnContent(user);
+        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8304), folderNameC8304 + " is not available in Repository");
+        
+        socialFeatures.clickLikeButton(folderNameC8304);
+        
+        LOG.info("Step 1: Hover over the folder Like link.");
+        Assert.assertEquals(socialFeatures.getLikeButtonEnabledText(folderNameC8304), "Unlike", "Unlike is not displayed");
+        Assert.assertEquals(socialFeatures.getNumberOfLikes(folderNameC8304), 1, "The number of likes is not correct");
+        
+        LOG.info("Step 2: Click on Unlike");
+        socialFeatures.clickUnlike(folderNameC8304);
+        Assert.assertEquals(socialFeatures.getNumberOfLikes(folderNameC8304), 0, "The number of likes is not correct");       
+    }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="FailuresSuite">
+
+	<listeners>
+		<listener class-name="org.alfresco.share.TestListener" />
+		<listener class-name="org.uncommons.reportng.HTMLReporter"/>
+	</listeners>
+
+	<test name="Failures">
+		<classes>
+			<class name="org.alfresco.share.ToolbarTests"></class>
+			<class name="org.alfresco.share.sitesFeatures.blog.BrowsingBlogPostsTests"></class>
+			<class name="org.alfresco.share.tasksAndWorkflows.StartingAWorkflow.CreateNewTaskTests"></class>
+			<class name="org.alfresco.share.adminTools.users.UserToolTests"></class>
+			<class name="org.alfresco.share.smartFolders.UsingSmartFoldersTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesCreateContentTests"></class>
+			<class name="org.alfresco.share.sitesFeatures.calendar.ViewEventTests"></class>
+			<class name="org.alfresco.share.sitesFeatures.calendar.TagsTests"></class>
+			<class name="org.alfresco.share.site.siteDashboard.SiteActivitiesTests"></class>
+			<class name="org.alfresco.share.site.siteDashboard.ImagePreviewDashletTests"></class>
+			<class name="org.alfresco.share.searching.SearchManagerTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.viewingContent.PreviewFileTest"></class>
+			<class name="org.alfresco.share.userDashboard.dashlets.MyTasksTest"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsDeleteTests"></class>
+			<class name="org.alfresco.share.LoginTests"></class>
+			<class name="org.alfresco.share.site.members.RemoveMembersOrGroupsTest"></class>
+			<class name="org.alfresco.share.adminTools.TagManagerTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.documentLibrary.LibraryViewOptionsLibraryViewsTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.additionalActions.TagTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsUploadTests"></class>
+			<class name="org.alfresco.share.alfrescoPowerUsers.SearchManagerTests"></class>
+			<class name="org.alfresco.share.sitesFeatures.dataLists.CreateDataListsTests"></class>
+			<class name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.CreatingAListItemTests"></class>
+			<class name="org.alfresco.share.userRolesAndPermissions.contributor.FilesOnlyTests"></class>
+			<class name="org.alfresco.share.userRolesAndPermissions.contributor.FoldersOnlyTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.UploadTests"></class>
+			<class name="org.alfresco.share.sitesFeatures.wiki.BrowsingWikiPagesTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions.CommentTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.documentLibrary.DocumentLibraryTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.organizingContent.FavoritingContentTests"></class>
+			<class name="org.alfresco.share.adminTools.modelManager.ModelManagerTests"></class>
+			<class name="org.alfresco.share.searching.BasicSearchTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesEditTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.buildingContent.CreateFileFromTemplateTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.organizingContent.LocateItemsAndFoldersTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.buildingContent.CreatingFilesTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.SharingFilesTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.EditingFilesInGoogleDocsTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsEditTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesPageTests"></class>
+			<class name="org.alfresco.share.tasksAndWorkflows.StartingAWorkflow.CreateNewWebQuickStartTests"></class>
+			<class name="org.alfresco.share.tasksAndWorkflows.StartingAWorkflow.CreateNewReviewAndApproveTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsCreateTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.RepositoryTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesUploadContentTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.UpdateFileWithContentFromComputerTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.EditingFilesInAlfrescoTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.EditTests"></class>
+			<class name="org.alfresco.share.userRolesAndPermissions.collaborator.CollaboratorFilesOnly"></class>
+			<class name="org.alfresco.share.userRolesAndPermissions.contributor.FilesAndFoldersTests"></class>
+			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.CreateTests"></class>
+			<class name="org.alfresco.share.userRolesAndPermissions.consumer.FilesOnlyTests"></class>
+		</classes>
+	</test>
+
+</suite>

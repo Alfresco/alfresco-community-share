@@ -1,0 +1,70 @@
+package org.alfresco.share.site.siteDashboard;
+
+import org.alfresco.common.DataUtil;
+import org.alfresco.po.share.dashlet.Dashlet;
+import org.alfresco.po.share.dashlet.SiteMembersDashlet;
+import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.alfresco.api.entities.Site;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
+
+/**
+ * @author Laura.Capsa
+ */
+public class SiteMembersTest extends ContextAwareWebTest
+{
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
+
+    @Autowired
+    SiteMembersDashlet siteMembersDashlet;
+
+    private String userName = "profileUser" + DataUtil.getUniqueIdentifier();
+    private String siteName = "SiteName-C2799-" + DataUtil.getUniqueIdentifier();
+    private String description = "Description" + DataUtil.getUniqueIdentifier();
+
+    @BeforeClass
+    public void setupTest()
+    {
+        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, "firstName", "lastName");
+        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+
+        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        siteDashboardPage.navigate(siteName);
+        assertEquals(siteMembersDashlet.getDashletTitle(), "Site Members", "Dashlet title-");
+    }
+
+    @TestRail(id = "C2799")
+    @Test
+    public void oneUserAdded()
+    {
+        LOG.info("STEP1: Verify \"Site Members\" dashlet");
+        assertEquals(siteMembersDashlet.isHelpIconDisplayed(Dashlet.DashletHelpIcon.SITE_MEMBERS), true, "'Help' icon is displayed.");
+
+        assertEquals(siteMembersDashlet.isAddUsersLinkDisplayed(), true, "'Add users' link is displayed.");
+        assertEquals(siteMembersDashlet.getAddUsersLinkText(), language.translate("siteMembers.addUsers"), "'Add Users' link text-");
+
+        assertEquals(siteMembersDashlet.isAllMembersLinkDisplayed(), true, "'All members' link is displayed.");
+        assertEquals(siteMembersDashlet.getAllMembersLinkText(), language.translate("siteMembers.allMembers"), "'All Members' link text-");
+
+        assertEquals(siteMembersDashlet.isPaginationDisplayed(), true, "Section containing pagination is displayed.");
+        assertEquals(siteMembersDashlet.getPaginationText(), language.translate("dashlet.defaultPagination"), "Pagination text by default-");
+
+        assertEquals(siteMembersDashlet.getEmptyMembersListMessage(), language.translate("siteMembers.emptyMembers"), "Site members list message- ");
+        assertEquals(siteMembersDashlet.isUserInfoDisplayed("username"), true, "User's name info is displayed.");
+        assertEquals(siteMembersDashlet.isUserInfoDisplayed("role"), true, "User's role info is displayed.");
+
+        LOG.info("STEP2: Click \"?\" icon");
+        siteMembersDashlet.clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_MEMBERS);
+        assertEquals(siteMembersDashlet.getHelpBalloonMessage(), language.translate("siteMembers.help"), "Help balloon message.");
+
+        LOG.info("STEP3: Click \"X\" icon");
+        siteMembersDashlet.closeHelpBalloon();
+        assertEquals(siteMembersDashlet.isBalloonDisplayed(), false, "Help balloon is closed.");
+    }
+}

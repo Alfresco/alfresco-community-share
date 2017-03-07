@@ -1,0 +1,415 @@
+package org.alfresco.share;
+
+import org.alfresco.common.DataUtil;
+import org.alfresco.po.share.LoginPage;
+import org.alfresco.po.share.MyFilesPage;
+import org.alfresco.po.share.PeopleFinderPage;
+import org.alfresco.po.share.SiteFinderPage;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
+import org.alfresco.po.share.searching.AdvancedSearchPage;
+import org.alfresco.po.share.site.CreateSiteDialog;
+import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
+import org.alfresco.po.share.tasksAndWorkflows.WorkflowsIveStartedPage;
+import org.alfresco.po.share.toolbar.Toolbar;
+import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
+import org.alfresco.po.share.toolbar.ToolbarTasksMenu;
+import org.alfresco.po.share.toolbar.ToolbarUserMenu;
+import org.alfresco.po.share.user.UserDashboardPage;
+import org.alfresco.po.share.user.admin.SitesManagerPage;
+import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
+import org.alfresco.po.share.user.profile.ChangePasswordPage;
+import org.alfresco.po.share.user.profile.UserProfilePage;
+import org.alfresco.po.share.user.profile.UserSitesListPage;
+import org.alfresco.testrail.TestRail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.alfresco.api.entities.Site;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class ToolbarTests extends ContextAwareWebTest
+{
+    @Autowired
+    MyFilesPage myFilesPage;
+
+    @Autowired
+    UserDashboardPage userDashboardPage;
+
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
+
+    @Autowired
+    Toolbar toolbar;
+
+    @Autowired
+    ToolbarSitesMenu toolbarSitesMenu;
+
+    @Autowired
+    ToolbarTasksMenu toolbarTasksMenu;
+
+    @Autowired
+    ToolbarUserMenu toolbarUserMenu;
+
+    @Autowired
+    SitesManagerPage sitesManagerPage;
+
+    @Autowired
+    LoginPage loginPage;
+
+    @Autowired
+    UserProfilePage userProfilePage;
+
+    @Autowired
+    ChangePasswordPage changePasswordPage;
+
+    @Autowired
+    MyTasksPage myTasksPage;
+
+    @Autowired
+    WorkflowsIveStartedPage workflowsIveStartedPage;
+
+    @Autowired
+    UserSitesListPage userSitesListPage;
+
+    @Autowired
+    SiteFinderPage siteFinderPage;
+
+    @Autowired
+    CreateSiteDialog createSiteDialog;
+
+    @Autowired
+    PeopleFinderPage peopleFinderPage;
+
+    @Autowired
+    RepositoryPage repositoryPage;
+
+    @Autowired
+    AdminToolsPage adminToolsPage;
+
+    @Autowired
+    AdvancedSearchPage advancedSearchPage;
+
+    @Autowired
+    SharedFilesPage sharedFilesPage;
+
+    @TestRail(id = "C2091")
+    @Test
+    public void verifyAlfrescoToolbarItems()
+    {
+        String userName = "User1" + DataUtil.getUniqueIdentifier();
+        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
+        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+
+        LOG.info("STEP 1 - Verify Alfresco toolbar");
+        Assert.assertTrue(toolbar.isHomeDisplayed(), "\"Home\" is displayed");
+        Assert.assertTrue(toolbar.isMyFilesDisplayed(), "\"My\" Files is displayed");
+        Assert.assertTrue(toolbar.isSharedFilesDisplayed(), "\"Shared Files\" is displayed");
+        Assert.assertTrue(toolbar.isSitesDisplayed(), "\"Sites\" is displayed");
+        Assert.assertTrue(toolbar.isTasksDisplayed(), "\"Tasks\" is displayed");
+        Assert.assertTrue(toolbar.isPeopleDisplayed(), "\"People\" is displayed");
+        Assert.assertTrue(toolbar.isRepositoryDisplayed(), "\"Repository\" is displayed");
+        Assert.assertTrue(toolbar.isUserMenuDisplayed(), "\"User menu\" is displayed");
+        Assert.assertTrue(toolbar.isSearchBoxDisplayed(), "\"Search\" is displayed");
+
+        LOG.info("STEP 2 - Verify \"Sites\" menu from Alfresco toolbar");
+        Assert.assertTrue(toolbarSitesMenu.isRecentSitesSectionDisplayed(), "\"Recent\" Sites");
+        Assert.assertTrue(toolbarSitesMenu.isUsefulSectionDisplayed(), "\"Useful\" is displayed");
+        Assert.assertTrue(toolbarSitesMenu.isMySitesDisplayed(), "\"My Sites\" is displayed");
+        Assert.assertTrue(toolbarSitesMenu.isSiteFinderDisplayed(), "\"Site Finder\" is displayed");
+        Assert.assertTrue(toolbarSitesMenu.isCreateSiteDisplayed(), "\"Create site\" is displayed");
+        Assert.assertTrue(toolbarSitesMenu.isFavoritesDisplayed(), "\"Favorites\" is displayed");
+
+        LOG.info("STEP 3 - Verify \"Tasks\"menu");
+        Assert.assertTrue(toolbarTasksMenu.isMyTasksDisplayed(), "\"My Tasks\" is displayed");
+        Assert.assertTrue(toolbarTasksMenu.isWorkflowsIveStartedDisplayed(), "\"Workflows I've Started\" is displayed");
+
+        LOG.info("STEP 4 - Verify \"User\" menu");
+        Assert.assertTrue(toolbarUserMenu.isUserDashboardDisplayed(), "\"User Dashboard \"is displayed");
+        Assert.assertTrue(toolbarUserMenu.isMyProfileDisplayed(), "\"My Profile\" is displayed");
+        Assert.assertTrue(toolbarUserMenu.isHelpDisplayed(), "\"Help\" is displayed");
+        Assert.assertTrue(toolbarUserMenu.isSetCurrentPageAsHomeDisplayed(), "\"Use Current Page\" is displayed");
+        Assert.assertTrue(toolbarUserMenu.isDashBoardAsHomeDisplayed(), "\"Use My Dashboard\" is displayed");
+        Assert.assertTrue(toolbarUserMenu.isChangePasswordDisplayed(), "\"Change password\" is displayed");
+        Assert.assertTrue(toolbarUserMenu.isLogoutDisplayed(), "\"Logout\" is displayed");
+    }
+
+    @TestRail(id = "C2862")
+    @Test
+    public void theToolbarIsAlwaysAvailableAtTheTopOfThePage()
+    {
+        String userName = "User1" + DataUtil.getUniqueIdentifier();
+        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
+        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+
+        LOG.info("STEP 1 - Verify Alfresco toolbar");
+        Assert.assertTrue(toolbar.isHomeDisplayed(), "\"Home\" is displayed");
+        Assert.assertTrue(toolbar.isMyFilesDisplayed(), "\"My\" Files is displayed");
+        Assert.assertTrue(toolbar.isSharedFilesDisplayed(), "\"Shared Files\" is displayed");
+        Assert.assertTrue(toolbar.isSitesDisplayed(), "\"Sites\" is displayed");
+        Assert.assertTrue(toolbar.isTasksDisplayed(), "\"Tasks\" is displayed");
+        Assert.assertTrue(toolbar.isPeopleDisplayed(), "\"People\" is displayed");
+        Assert.assertTrue(toolbar.isRepositoryDisplayed(), "\"Repository\" is displayed");
+        Assert.assertTrue(toolbar.isUserMenuDisplayed(), "\"User menu\" is displayed");
+        Assert.assertTrue(toolbar.isSearchBoxDisplayed(), "\"Search\" is displayed");
+
+        LOG.info("STEP 2 - Navigate to any other page from Share");
+        siteDashboardPage.navigate(siteName);
+        Assert.assertTrue(toolbar.isToolbarDisplayed(), "\"Alfresco toolbar\" is displayed");
+    }
+
+    @TestRail(id = "C2863")
+    @Test
+    public void adminToolsAreAvailableOnlyForSystemAdministrators()
+    {
+        String userName1 = "User1" + DataUtil.getUniqueIdentifier();
+        String userName2 = "User2" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName1, DataUtil.PASSWORD, userName1 + domain, userName1, userName1);
+        userService.create(adminUser, adminPassword, userName2, DataUtil.PASSWORD, userName2 + domain, userName2, userName2);
+        groupService.addUserToGroup(adminUser, adminPassword, "ALFRESCO_ADMINISTRATORS", userName1);
+        setupAuthenticatedSession(userName2, DataUtil.PASSWORD);
+
+        LOG.info("STEP 1 - Verify the links present on Alfresco Toolbar");
+        Assert.assertTrue(toolbar.isHomeDisplayed(), "\"Home\" is displayed");
+        Assert.assertTrue(toolbar.isMyFilesDisplayed(), "\"My\" Files is displayed");
+        Assert.assertTrue(toolbar.isSharedFilesDisplayed(), "\"Shared Files\" is displayed");
+        Assert.assertTrue(toolbar.isSitesDisplayed(), "\"Sites\" is displayed");
+        Assert.assertTrue(toolbar.isTasksDisplayed(), "\"Tasks\" is displayed");
+        Assert.assertTrue(toolbar.isPeopleDisplayed(), "\"People\" is displayed");
+        Assert.assertTrue(toolbar.isRepositoryDisplayed(), "\"Repository\" is displayed");
+        Assert.assertFalse(toolbar.isAdminToolsDisplayed(), "\"Admin Tools\" isn't displayed");
+        Assert.assertTrue(toolbar.isUserMenuDisplayed(), "\"User menu\" is displayed");
+        Assert.assertTrue(toolbar.isSearchBoxDisplayed(), "\"Search\" is displayed");
+
+        LOG.info("STEP 2 - Logout and login as user1");
+        cleanupAuthenticatedSession();
+        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        userDashboardPage.navigate(userName1);
+
+        LOG.info("STEP 3 - Verify the links present on Alfresco Toolbar");
+        myFilesPage.navigate();
+        Assert.assertTrue(toolbar.isHomeDisplayed(), "\"Home\" is displayed");
+        Assert.assertTrue(toolbar.isMyFilesDisplayed(), "\"My\" Files is displayed");
+        Assert.assertTrue(toolbar.isSharedFilesDisplayed(), "\"Shared Files\" is displayed");
+        Assert.assertTrue(toolbar.isSitesDisplayed(), "\"Sites\" is displayed");
+        Assert.assertTrue(toolbar.isTasksDisplayed(), "\"Tasks\" is displayed");
+        Assert.assertTrue(toolbar.isPeopleDisplayed(), "\"People\" is displayed");
+        Assert.assertTrue(toolbar.isRepositoryDisplayed(), "\"Repository\" is displayed");
+        Assert.assertTrue(toolbar.isAdminToolsDisplayed(), "\"Admin Tools\" is displayed");
+        Assert.assertTrue(toolbar.isUserMenuDisplayed(), "\"User menu\" is displayed");
+        Assert.assertTrue(toolbar.isSearchBoxDisplayed(), "\"Search\" is displayed");
+    }
+
+    @TestRail(id = "C2864")
+    @Test
+    public void verifyTheLinksFromTheUserMenu()
+    {
+        String userName = "User1" + DataUtil.getUniqueIdentifier();
+        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
+        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+
+        LOG.info("STEP 1 - Go to Alfresco Toolbar. Click on the \"User menu\" -> \"User Dashboard\" link");
+        toolbarUserMenu.clickUserDashboard();
+        Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
+
+        LOG.info("STEP 2 - Click on the \"User menu\" -> \"My Profile\" link");
+        userProfilePage.navigateByMenuBar();
+        Assert.assertTrue(userProfilePage.isAboutHeaderDisplayed(), "\"About\" header is displayed");
+
+        LOG.info("STEP 3 - Click on the \"User menu\" -> \"Help\" link");
+        toolbarUserMenu.clickHelp();
+
+        browser.waitInSeconds(5);
+        browser.switchWindow();
+        
+        Assert.assertEquals(browser.getTitle(), language.translate("alfrescoDocumentation.pageTitle"), "Page title");
+        browser.closeWindowAndSwitchBack();
+
+        LOG.info("STEP 4 - Go to any other page from Share. Click on the \"User menu\" -> \"Use Current Page\" option");
+        userProfilePage.navigate(userName);
+        toolbarUserMenu.clickSetCurrentPageAsHome();
+        toolbarUserMenu.clickHome();
+        Assert.assertTrue(userProfilePage.isAboutHeaderDisplayed(), "\"About\" header is displayed");
+
+        LOG.info("STEP 5 - Click on the \"User menu\" -> \"Use My Dashboard\" option");
+        toolbarUserMenu.clickSetDashBoardAsHome();
+        toolbarUserMenu.clickHome();
+        Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
+
+        LOG.info("STEP 6 - Click on the \"User menu\" -> \"Change Password\" option");
+        changePasswordPage.navigateByMenuBar();
+        Assert.assertTrue(changePasswordPage.isOldPasswordInputDisplayed(), "Old password input is displayed");
+
+        LOG.info("STEP 7 - Click on the \"User menu\" -> \"Logout\" option");
+        toolbarUserMenu.clickLogout();
+        Assert.assertTrue(loginPage.isCopyrightDisplayed(), "\"Copyright\" is displayed");
+    }
+
+    @TestRail(id = "C2865")
+    @Test
+    public void verifyTheLinksFromTasksMenu()
+    {
+        String userName = "User1" + DataUtil.getUniqueIdentifier();
+        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
+        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+
+        LOG.info("STEP 1 - Go to Alfresco Toolbar. Click on the \"Tasks\" menu -> \"My Tasks\" link");
+        myTasksPage.navigateByMenuBar();
+        Assert.assertTrue(myTasksPage.isStartWorkflowDisplayed(), "\"Start Workflow\" is displayed");
+
+        LOG.info("STEP 2 - Click on the \"Tasks\" menu -> \"Workflows I've started\" link");
+        workflowsIveStartedPage.navigateByMenuBar();
+        Assert.assertTrue(workflowsIveStartedPage.isStartWorkflowDisplayed(), "\"Start Workflow\" is displayed");
+    }
+
+    @TestRail(id = "C2866")
+    @Test
+    public void verifyTheLinksFromSitesMenu()
+    {
+        String userName = "User1" + DataUtil.getUniqueIdentifier();
+        String siteName1 = "Site1" + DataUtil.getUniqueIdentifier();
+        String siteName2 = "Site2" + DataUtil.getUniqueIdentifier();
+        String siteName3 = "Site3" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
+        siteService.create(userName, DataUtil.PASSWORD, domain, siteName1, "description", Site.Visibility.PUBLIC);
+        siteService.setFavorite(userName, DataUtil.PASSWORD, siteName1);
+        siteService.create(userName, DataUtil.PASSWORD, domain, siteName2, "description", Site.Visibility.PUBLIC);
+        siteService.setFavorite(userName, DataUtil.PASSWORD, siteName2);
+        siteService.create(userName, DataUtil.PASSWORD, domain, siteName3, "description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        siteDashboardPage.navigate(siteName1);
+        siteDashboardPage.navigate(siteName2);
+        siteDashboardPage.navigate(siteName3);
+
+        LOG.info("STEP 1 - Click on \"Sites\" menu from Alfresco Toolbar. Verify \"Recent Sites\" section");
+        Assert.assertTrue(toolbarSitesMenu.isSiteInRecentSites(siteName1), siteName1 + " is displayed in Recent Sites");
+        Assert.assertTrue(toolbarSitesMenu.isSiteInRecentSites(siteName2), siteName2 + " is displayed in Recent Sites");
+        Assert.assertTrue(toolbarSitesMenu.isSiteInRecentSites(siteName3), siteName3 + " is displayed in Recent Sites");
+
+        LOG.info("STEP 2 - Click on \"site1\"");
+        toolbarSitesMenu.clickRecentSite(siteName1);
+        Assert.assertEquals(siteDashboardPage.getPageHeader(), siteName1);
+
+        LOG.info("STEP 3 - Click again on \"Sites\" menu. Click on \"My Sites\" link");
+        toolbarSitesMenu.clickMySites();
+        Assert.assertTrue(userSitesListPage.isSitePresent(siteName1), siteName1 + " is present");
+
+        LOG.info("STEP 4 - Click again on \"Sites\" menu. Click on \"Site Finder\" link");
+        toolbarSitesMenu.clickSiteFinder();
+        Assert.assertTrue(siteFinderPage.isSearchFieldDisplayed(), "Search field is displayed");
+
+        LOG.info("STEP 5 - Click again on \"Sites\" menu. Click on \"Create Site\" link");
+        createSiteDialog.navigateByMenuBar();
+        Assert.assertTrue(createSiteDialog.isDescriptionInputDisplayed(), "Description input is displayed");
+        createSiteDialog.clickClose();
+
+        LOG.info("STEP 6 - Close \"Create Site\" form. Click again on \"Sites\" menu. Click on \"Favorites\" link");
+        Assert.assertTrue(toolbarSitesMenu.isSiteFavorite(siteName1), siteName1 + " is favorite");
+        Assert.assertTrue(toolbarSitesMenu.isSiteFavorite(siteName2), siteName2 + " is favorite");
+
+        LOG.info("STEP 7 - Click on \"site1\" link");
+        toolbarSitesMenu.clickFavoriteSite(siteName1);
+        Assert.assertEquals(siteDashboardPage.getPageHeader(), siteName1);
+
+        LOG.info("STEP 8 - Verify again the \"Sites\" menu");
+        Assert.assertTrue(toolbarSitesMenu.isRemoveCurrentSiteFromFavoritesDisplayed());
+
+        LOG.info("STEP 9 - Click on \"Remove current site from Favorites\" option");
+        toolbarSitesMenu.clickRemoveCurrentSiteFromFavorites();
+        Assert.assertFalse(toolbarSitesMenu.isRemoveCurrentSiteFromFavoritesDisplayed(), "\"Remove current site from Favorites\" isn't displayed");
+        Assert.assertTrue(toolbarSitesMenu.isAddCurrentSiteToFavoritesDisplayed(), "\"Add current site to Favorites\" is displayed");
+    }
+
+    @TestRail(id = "C2867")
+    @Test
+    public void verifyTheLinksFromAlfrescoToolbar()
+    {
+        String userName = "User1" + DataUtil.getUniqueIdentifier();
+        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
+        groupService.addUserToGroup(adminUser, adminPassword, "ALFRESCO_ADMINISTRATORS", userName);
+        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+
+        LOG.info("STEP 1 - Click on \"Home\" link from Alfresco Toolbar");
+        toolbar.clickHome();
+        Assert.assertTrue(userDashboardPage.getPageHeader().contains(userName), "Page header");
+
+        LOG.info("STEP 2 - Click on \"My Files\" link from Alfresco Toolbar");
+        myFilesPage.navigateByMenuBarToMyFiles();
+        Assert.assertTrue(myFilesPage.isUploadButtonDisplayed(), "Upload button is displayed");
+
+        LOG.info("STEP 3 - Click on \"Shared Files\" link from Alfresco Toolbar");
+        sharedFilesPage.navigateByMenuBar();
+        Assert.assertTrue(sharedFilesPage.isUploadButtonDisplayed(), "Upload button is displayed");
+
+        LOG.info("STEP 4 - Click on \"People\" link from Alfresco Toolbar");
+        peopleFinderPage.navigateByMenuBar();
+        Assert.assertTrue(peopleFinderPage.isSearchButtonDisplayed(), "Search button is displayed");
+
+        LOG.info("STEP 5 - Click on \"Repository\" link from Alfresco Toolbar");
+        repositoryPage.navigateByMenuBar();
+        Assert.assertTrue(repositoryPage.isUploadButtonDisplayed(), "Upload button is displayed");
+
+        LOG.info("STEP 6 - Click on \"Admin Tools\" link from Alfresco Toolbar");
+        adminToolsPage.navigateByMenuBar();
+        Assert.assertTrue(adminToolsPage.isAdminToolsDivDisplayed(), "Admin Tools is displayed");
+
+        LOG.info("STEP 7 - Click on \"Search\" icon -> \"Advanced Search...\" link");
+        advancedSearchPage.navigateByMenuBar();
+        Assert.assertTrue(advancedSearchPage.isKeywordsSearchFieldDisplayed(), "Keywords search field is displayed");
+    }
+
+    @TestRail(id = "C2868")
+    @Test
+    public void siteManagerIsAvailableOnlyForSiteAdministrators()
+    {
+        String userName1 = "User1" + DataUtil.getUniqueIdentifier();
+        String userName2 = "User2" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName1, DataUtil.PASSWORD, userName1 + domain, userName1, userName1);
+        userService.create(adminUser, adminPassword, userName2, DataUtil.PASSWORD, userName2 + domain, userName2, userName2);
+        groupService.addUserToGroup(adminUser, adminPassword, "SITE_ADMINISTRATORS", userName1);
+        setupAuthenticatedSession(userName2, DataUtil.PASSWORD);
+
+        LOG.info("STEP 1 - Verify the links present on Alfresco Toolbar");
+        Assert.assertTrue(toolbar.isHomeDisplayed(), "\"Home\" is displayed");
+        Assert.assertTrue(toolbar.isMyFilesDisplayed(), "\"My\" Files is displayed");
+        Assert.assertTrue(toolbar.isSharedFilesDisplayed(), "\"Shared Files\" is displayed");
+        Assert.assertTrue(toolbar.isSitesDisplayed(), "\"Sites\" is displayed");
+        Assert.assertTrue(toolbar.isTasksDisplayed(), "\"Tasks\" is displayed");
+        Assert.assertTrue(toolbar.isPeopleDisplayed(), "\"People\" is displayed");
+        Assert.assertTrue(toolbar.isRepositoryDisplayed(), "\"Repository\" is displayed");
+        Assert.assertFalse(toolbar.isSitesManagerDisplayed(), "\"Sites manager\" isn't displayed");
+        Assert.assertTrue(toolbar.isUserMenuDisplayed(), "\"User menu\" is displayed");
+        Assert.assertTrue(toolbar.isSearchBoxDisplayed(), "\"Search\" is displayed");
+
+        LOG.info("STEP 2 - Logout and login as user1");
+        cleanupAuthenticatedSession();
+        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        userDashboardPage.navigate(userName1);
+
+        LOG.info("STEP 3 - Verify the links present on Alfresco Toolbar");
+        Assert.assertTrue(toolbar.isHomeDisplayed(), "\"Home\" is displayed");
+        Assert.assertTrue(toolbar.isMyFilesDisplayed(), "\"My\" Files is displayed");
+        Assert.assertTrue(toolbar.isSharedFilesDisplayed(), "\"Shared Files\" is displayed");
+        Assert.assertTrue(toolbar.isSitesDisplayed(), "\"Sites\" is displayed");
+        Assert.assertTrue(toolbar.isTasksDisplayed(), "\"Tasks\" is displayed");
+        Assert.assertTrue(toolbar.isPeopleDisplayed(), "\"People\" is displayed");
+        Assert.assertTrue(toolbar.isRepositoryDisplayed(), "\"Repository\" is displayed");
+        Assert.assertTrue(toolbar.isSitesManagerDisplayed(), "\"Sites manager\" isn't displayed");
+        Assert.assertTrue(toolbar.isUserMenuDisplayed(), "\"User menu\" is displayed");
+        Assert.assertTrue(toolbar.isSearchBoxDisplayed(), "\"Search\" is displayed");
+
+        LOG.info("STEP 4 - Click on \"Sites Manager\" link");
+        sitesManagerPage.navigateByMenuBar();
+        Assert.assertTrue(sitesManagerPage.isSitesTableDisplayed(), "Sites table is displayed");
+    }
+}

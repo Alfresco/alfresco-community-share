@@ -1,0 +1,45 @@
+package org.alfresco.po.share.site;
+
+import org.alfresco.common.Parameter;
+import org.alfresco.po.annotation.PageObject;
+import org.alfresco.po.annotation.RenderWebElement;
+import org.alfresco.po.share.ShareDialog;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import ru.yandex.qatools.htmlelements.element.Button;
+
+/**
+ * @author bogdan.bocancea
+ */
+
+@PageObject
+public class RenameSitePageDialog extends ShareDialog
+{
+    @RenderWebElement
+    @FindBy(css = ".bd>label")
+    private WebElement pageNameLabel;
+
+    @FindBy(css = ".bd > input")
+    private WebElement displayNameInput;
+    
+    @FindBy(css = ".button-group > span[class$='push-button default']")
+    private Button okButton;
+
+    public boolean isPageNameLabelDisplayed()
+    {
+        return browser.isElementDisplayed(pageNameLabel);
+    }
+
+    public void typeDisplayName(String newName)
+    {
+        Parameter.checkIsMandotary("New Display Name", newName);
+        displayNameInput.clear();
+        displayNameInput.sendKeys(newName);
+    }
+    
+    public void clickOk()
+    {
+        okButton.click();
+    }
+}

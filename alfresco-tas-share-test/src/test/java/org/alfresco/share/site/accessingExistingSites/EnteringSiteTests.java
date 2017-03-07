@@ -1,0 +1,161 @@
+package org.alfresco.share.site.accessingExistingSites;
+
+import org.alfresco.common.DataUtil;
+import org.alfresco.po.share.SiteFinderPage;
+import org.alfresco.po.share.dashlet.MySitesDashlet;
+import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.po.share.toolbar.Toolbar;
+import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
+import org.alfresco.po.share.user.UserDashboardPage;
+import org.alfresco.po.share.user.profile.UserSitesListPage;
+import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.alfresco.api.entities.Site;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertTrue;
+
+/**
+ * Created by Claudia Agache on 7/6/2016.
+ */
+public class EnteringSiteTests extends ContextAwareWebTest
+{
+    @Autowired
+    SiteFinderPage siteFinderPage;
+
+    @Autowired
+    MySitesDashlet mySitesDashlet;
+
+    @Autowired
+    UserSitesListPage userSitesListPage;
+
+    @Autowired
+    ToolbarSitesMenu toolbarSitesMenu;
+
+    @Autowired
+    Toolbar toolbar;
+
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
+
+    @Autowired
+    UserDashboardPage userDashboardPage;
+
+    private String user1 = "testUser1" + DataUtil.getUniqueIdentifier();
+    private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private String description = "Description" + DataUtil.getUniqueIdentifier();
+
+    @BeforeClass
+    public void setupTest()
+    {
+        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
+        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.setFavorite(user1, DataUtil.PASSWORD, siteName);
+
+        setupAuthenticatedSession(user1, DataUtil.PASSWORD);
+
+    }
+
+    @TestRail(id = "C2977")
+    @Test
+    public void accessSiteUsingMySitesDashlet()
+    {
+        userDashboardPage.navigate(user1);
+        LOG.info("STEP 1: Verify 'My Sites' dashlet.");
+        assertTrue(mySitesDashlet.isSitePresent(siteName), siteName + " should be displayed in 'My Sites' dashlet.");
+
+        LOG.info("STEP 2: Click on '"+siteName+"' link.");
+        mySitesDashlet.accessSite(siteName);
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+    }
+
+    @TestRail(id = "C2978")
+    @Test
+    public void accessSiteUsingSiteFinderPage()
+    {
+        userDashboardPage.navigate(user1);
+        siteFinderPage.navigate();
+
+        LOG.info("STEP 1: Search for '"+siteName+"'.");
+        siteFinderPage.searchSite(siteName);
+        assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " should be found.");
+
+        LOG.info("STEP 2: Click on '"+siteName+"' link.");
+        siteFinderPage.accessSite(siteName);
+        assertTrue(siteFinderPage.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+    }
+
+    @TestRail(id = "C2979")
+    @Test
+    public void accessSiteUsingSitesMenuFavorites()
+    {
+        userDashboardPage.navigate(user1);
+        LOG.info("Click on 'Sites' menu -> 'Favorites' link.");
+        assertTrue(toolbarSitesMenu.isSiteFavorite(siteName), siteName + " is expected to be displayed in the list of sites from 'Favorites'.");
+
+        LOG.info("STEP 2: Click on '"+siteName+"' link.");
+        toolbarSitesMenu.clickFavoriteSite(siteName);
+        assertTrue(siteFinderPage.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+    }
+
+    @TestRail(id = "C2980")
+    @Test
+    public void accessSiteUsingSitesMenuRecentSites()
+    {
+        //precondition: site is recently accessed by current user
+        siteDashboardPage.navigate(siteName);
+        toolbarSitesMenu.clickHome();
+
+        LOG.info("Click on 'Sites' and verify 'Recent Sites' section.");
+        assertTrue(toolbarSitesMenu.isSiteInRecentSites(siteName), siteName + " is expected to be displayed in the list of sites from 'Recent Sites'.");
+
+        LOG.info("STEP 2: Click on '"+siteName+"' link.");
+        toolbarSitesMenu.clickRecentSite(siteName);
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+    }
+
+    @TestRail(id = "C2981")
+    @Test
+    public void accessSiteUsingMyProfileSites()
+    {
+        userSitesListPage.navigate(user1);
+
+        LOG.info("STEP 1: Verify 'User Sites List' from 'My Profile' - 'Sites' page.");
+        assertTrue(userSitesListPage.isSitePresent(siteName), siteName + " should be found.");
+
+        LOG.info("STEP 2: Click on '"+siteName+"' link.");
+        userSitesListPage.clickSite(siteName);
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+    }
+
+    @TestRail(id = "C2982")
+    @Test
+    public void accessSiteUsingSitesMenuMySites()
+    {
+        userDashboardPage.navigate(user1);
+        toolbarSitesMenu.clickMySites();
+        LOG.info("STEP 1: Verify the sites from 'User Sites List' list.");
+        assertTrue(userSitesListPage.isSitePresent(siteName), siteName + " should be found.");
+
+        LOG.info("STEP 2: Click on '" + siteName + "' link.");
+        userSitesListPage.clickSite(siteName);
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+    }
+
+    @TestRail(id = "C3006")
+    @Test
+    public void accessSiteUsingSearchBoxOnTheToolbar()
+    {
+        userDashboardPage.navigate(user1);
+        browser.refresh();
+        LOG.info("STEP 1: Go to search box on the toolbar and type '" + siteName + "'.");
+        toolbar.searchInToolbar(siteName);
+        assertTrue(toolbar.isResultDisplayedInLiveSearch(siteName), siteName + " should be found.");
+
+        LOG.info("STEP 2: Click on '" + siteName + "' link.");
+        toolbar.clickResult(siteName, siteDashboardPage);
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+    }
+}

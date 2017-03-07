@@ -1,0 +1,638 @@
+package org.alfresco.share.smartFolders;
+
+import static org.testng.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.alfresco.common.DataUtil;
+import org.alfresco.po.share.SmartFolders;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
+import org.alfresco.po.share.alfrescoContent.document.UploadContent;
+import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
+import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.alfresco.api.entities.Site;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class UsingSmartFoldersTests extends ContextAwareWebTest
+{
+
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
+
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
+
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+
+    @Autowired
+    AspectsForm aspectsForm;
+
+    @Autowired
+    EditPropertiesDialog editPropertiesDialog;
+
+    @Autowired
+    EditPropertiesPage editPropertiesPage;
+
+    @Autowired
+    NewContentDialog newContentDialog;
+
+    @Autowired
+    SmartFolders smartFolders;
+
+    @Autowired
+    UploadContent uploadContent;
+
+    @Autowired
+    RepositoryPage repositoryPage;
+
+    @Autowired
+    SelectDialog selectDialog;
+
+    @Autowired
+    GoogleDocsCommon googleDocs;
+
+    @Autowired
+    CreateContent createContent;
+
+    private String userName;
+    private String siteName;
+    private String folderName;
+    private String mainSmartFolder;
+    private String testFileName;
+    private String testFilePath;
+    private String newVersionFilePath;
+    private String newVersionFileName;
+    String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+
+    @BeforeMethod
+    public void setupTest()
+    {
+        userName = "User" + DataUtil.getUniqueIdentifier();
+        siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        testFileName = "test.pdf";
+        testFilePath = testDataFolder + testFileName;
+        mainSmartFolder = "My content";
+        folderName = "testFolder";
+        newVersionFileName = "EditedTestFile8650.docx";
+        newVersionFilePath = testDataFolder + newVersionFileName;
+        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
+        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        contentService.createFolder(userName, password, folderName, siteName);
+        setupAuthenticatedSession(userName, password);
+    }
+
+    @TestRail(id = "C8646")
+    @Test
+    public void smartFolderIcon()
+
+    {
+
+        logger.info("Preconditions: Navigate to Document Library for the page for the test site");
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Verify that the new created folder has no magnifying glass next to it.");
+        Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(0), "SF icon missing");
+
+        logger.info("Step2: Hover over folder and click More -> Manage Aspects.");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
+        Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
+        Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove buttons displayed for all the selected aspects");
+        Assert.assertTrue(aspectsForm.isSaveButtonDisplayed(), "'Apply Changes' button displayed");
+        Assert.assertTrue(aspectsForm.isCancelButtonDisplayed(), "'Cancel' button displayed");
+        Assert.assertTrue(aspectsForm.isCloseButtonDisplayed(), "'Close' button displayed");
+
+        logger.info("Step3: Click Add button next to System Smart Folder template.");
+        aspectsForm.addElement(17);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
+
+        logger.info("Step4: Click 'Apply Changes'.");
+        aspectsForm.clickApplyChangesButton();
+        browser.waitInSeconds(1);
+
+        logger.info("Step5: Hover over folder and click 'Edit Properties'.");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
+        Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
+
+        logger.info("Step6: Click 'All Properties' link.");
+        editPropertiesDialog.clickAllPropertiesLink();
+        ArrayList<String> properties = new ArrayList<>(Arrays.asList("Name", "Title", "Description", "Owner", "Tags", "Smart Folder Template"));
+        Assert.assertEquals(editPropertiesPage.checkDisplayedProperties(properties), properties.toString());
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Save"), "Save button displayed");
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Cancel"), "Cancel button displayed");
+
+        logger.info("Step7: Select 'smartFoldersExample.json template' and save.");
+        editPropertiesPage.selectSFTemplate(0);
+        editPropertiesPage.clickButtonForFolder("Save");
+
+        logger.info("Step8: Click on the folder and verify it has 'Smart Folder' structure under it");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName(folderName);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
+        Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
+
+    }
+
+    @TestRail(id = "C8648")
+    @Test
+    public void addFileToSmartFolder()
+
+    {
+        logger.info("Preconditions: Navigate to Document Library for the page for the test site");
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Hover over folder and click More -> Manage Aspects.");
+        browser.waitInSeconds(2);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
+        Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
+        Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove buttons displayed for all the selected aspects");
+        Assert.assertTrue(aspectsForm.isSaveButtonDisplayed(), "'Apply Changes' button displayed");
+        Assert.assertTrue(aspectsForm.isCancelButtonDisplayed(), "'Cancel' button displayed");
+        Assert.assertTrue(aspectsForm.isCloseButtonDisplayed(), "'Close' button displayed");
+
+        logger.info("Step2: Click Add button next to System Smart Folder template.");
+        aspectsForm.addElement(17);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
+
+        logger.info("Step3: Click 'Apply Changes'.");
+        aspectsForm.clickApplyChangesButton();
+        browser.waitInSeconds(1);
+        // browser.refresh();
+
+        logger.info("Step4: Hover over folder and click 'Edit Properties'.");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
+        Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
+
+        logger.info("Step5: Click 'All Properties' link.");
+        editPropertiesDialog.clickAllPropertiesLink();
+        ArrayList<String> properties = new ArrayList<>(Arrays.asList("Name", "Title", "Description", "Owner", "Tags", "Smart Folder Template"));
+        Assert.assertEquals(editPropertiesPage.checkDisplayedProperties(properties), properties.toString());
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Save"), "Save button displayed");
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Cancel"), "Cancel button displayed");
+
+        logger.info("Step6: Select 'smartFoldersExample.json template' and save.");
+        editPropertiesPage.selectSFTemplate(0);
+        editPropertiesPage.clickButtonForFolder("Save");
+
+        logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName(folderName);
+        browser.waitInSeconds(3);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
+        Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
+
+        logger.info("Steps8, 9: Click Upload button and select a pdf file.");
+        uploadContent.uploadContent(testFilePath);
+
+        logger.info("Step10: Go to My Content -> All site content -> Documents -> PDF Documents and verify that the uploaded file is displayed");
+        documentLibraryPage.clickOnFolderName("My content");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("All site content");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("Documents");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("PDF Documents");
+        browser.waitInSeconds(1);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("test.pdf"), "The uploaded file displayed in PDF Documents list");
+    }
+
+    @TestRail(id = "C8649")
+    @Test
+    public void createFileInSmartFolder() throws Exception
+
+    {
+
+        logger.info("Preconditions: Navigate to Document Library for the page for the test site");
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Hover over folder and click More -> Manage Aspects.");
+        browser.waitInSeconds(2);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
+        Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
+        Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove buttons displayed for all the selected aspects");
+        Assert.assertTrue(aspectsForm.isSaveButtonDisplayed(), "'Apply Changes' button displayed");
+        Assert.assertTrue(aspectsForm.isCancelButtonDisplayed(), "'Cancel' button displayed");
+        Assert.assertTrue(aspectsForm.isCloseButtonDisplayed(), "'Close' button displayed");
+
+        logger.info("Step2: Click Add button next to System Smart Folder template.");
+        aspectsForm.addElement(17);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
+
+        logger.info("Step3: Click 'Apply Changes'.");
+        aspectsForm.clickApplyChangesButton();
+        browser.waitInSeconds(2);
+
+        logger.info("Step4: Hover over folder and click 'Edit Properties'.");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
+        Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
+
+        logger.info("Step5: Click 'All Properties' link.");
+        editPropertiesDialog.clickAllPropertiesLink();
+        ArrayList<String> properties = new ArrayList<>(Arrays.asList("Name", "Title", "Description", "Owner", "Tags", "Smart Folder Template"));
+        Assert.assertEquals(editPropertiesPage.checkDisplayedProperties(properties), properties.toString());
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Save"), "Save button displayed");
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Cancel"), "Cancel button displayed");
+
+        logger.info("Step6: Select 'smartFoldersExample.json template' and save.");
+        editPropertiesPage.selectSFTemplate(0);
+        editPropertiesPage.clickButtonForFolder("Save");
+
+        logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName(folderName);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
+        Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
+
+        logger.info("Step8: Press Create button -> Google Docs Document");
+        googleDocs.loginToGoogleDocs();
+        documentLibraryPage.clickCreateButton();
+        createContent.clickGoogleDocsDoc();
+        browser.waitInSeconds(1);
+        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        browser.waitInSeconds(5);
+
+        logger.info("Step9: Input some texts in this Google Doc file and exit.");
+        googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
+
+        logger.info("Step10: Hover over document and press Check in Google Doc.");
+        googleDocs.checkInGoogleDoc("Untitled Document");
+        browser.waitInSeconds(10);
+
+        logger.info("Step11: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
+        documentLibraryPage.clickOnFolderName("My content");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("All site content");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("Documents");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("Office Documents");
+        browser.waitInSeconds(2);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
+
+    }
+
+    @TestRail(id = "C8650")
+    @Test
+    public void updateFileInSmartFolder() throws Exception
+
+    {
+
+        logger.info("Preconditions: Navigate to Document Library for the page for the test site");
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Hover over folder and click More -> Manage Aspects.");
+        browser.waitInSeconds(2);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
+        Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
+        Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove buttons displayed for all the selected aspects");
+        Assert.assertTrue(aspectsForm.isSaveButtonDisplayed(), "'Apply Changes' button displayed");
+        Assert.assertTrue(aspectsForm.isCancelButtonDisplayed(), "'Cancel' button displayed");
+        Assert.assertTrue(aspectsForm.isCloseButtonDisplayed(), "'Close' button displayed");
+
+        logger.info("Step2: Click Add button next to System Smart Folder template.");
+        aspectsForm.addElement(17);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
+
+        logger.info("Step3: Click 'Apply Changes'.");
+        aspectsForm.clickApplyChangesButton();
+        browser.waitInSeconds(2);
+
+        logger.info("Step4: Hover over folder and click 'Edit Properties'.");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
+        Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
+
+        logger.info("Step5: Click 'All Properties' link.");
+        editPropertiesDialog.clickAllPropertiesLink();
+        ArrayList<String> properties = new ArrayList<>(Arrays.asList("Name", "Title", "Description", "Owner", "Tags", "Smart Folder Template"));
+        Assert.assertEquals(editPropertiesPage.checkDisplayedProperties(properties), properties.toString());
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Save"), "Save button displayed");
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Cancel"), "Cancel button displayed");
+
+        logger.info("Step6: Select 'smartFoldersExample.json template' and save.");
+        editPropertiesPage.selectSFTemplate(0);
+        editPropertiesPage.clickButtonForFolder("Save");
+        browser.waitInSeconds(1);
+
+        logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
+        documentLibraryPage.clickOnFolderName(folderName);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
+        Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
+
+        logger.info("Step8: Press Create button -> Google Docs Document");
+        googleDocs.loginToGoogleDocs();
+        documentLibraryPage.clickCreateButton();
+        createContent.clickGoogleDocsDoc();
+        browser.waitInSeconds(1);
+        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        browser.waitInSeconds(5);
+
+        logger.info("Step9: Input some texts in this Google Doc file and exit.");
+        googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
+
+        logger.info("Step10: Hover over document and press Check in Google Doc.");
+        browser.waitInSeconds(2);
+        googleDocs.checkInGoogleDoc("Untitled Document");
+        browser.waitInSeconds(10);
+
+        logger.info("Step11: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
+        documentLibraryPage.clickOnFolderName("My content");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("All site content");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("Documents");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("Office Documents");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
+
+        logger.info("Step12: Hover over the created file and click 'Upload new version'");
+        documentLibraryPage.clickDocumentLibraryItemAction("Test.docx", "Upload New Version", uploadContent);
+        browser.waitInSeconds(1);
+        uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Minor);
+
+        logger.info("Step13: Verify the document is updated and the version is increased");
+        documentLibraryPage.clickOnFile(newVersionFileName);
+        documentDetailsPage.renderedPage();
+        assertEquals(documentDetailsPage.getContentText(), "Edited content C8650", String.format("Contents of %s are wrong.", newVersionFileName));
+        assertEquals(documentDetailsPage.getFileVersion(), "1.1", String.format("Version of %s is wrong.", newVersionFileName));
+
+    }
+
+    @TestRail(id = "C8663")
+    @Test
+    public void checkSmartFolderStructure()
+
+    {
+
+        logger.info("Preconditions: Navigate to Document Library for the page for the test site");
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
+        Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
+        Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove buttons displayed for all the selected aspects");
+        Assert.assertTrue(aspectsForm.isSaveButtonDisplayed(), "'Apply Changes' button displayed");
+        Assert.assertTrue(aspectsForm.isCancelButtonDisplayed(), "'Cancel' button displayed");
+        Assert.assertTrue(aspectsForm.isCloseButtonDisplayed(), "'Close' button displayed");
+
+        logger.info("Step2: Click 'Add' button next to 'System Smart Folder' template and verify it moves to moves to 'Currently Selected'");
+        aspectsForm.addElement(17);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
+
+        logger.info("Step3: Click 'Apply Changes'.");
+        aspectsForm.clickApplyChangesButton();
+        browser.waitInSeconds(2);
+
+        logger.info("Step4: Hover over folder and click 'Edit Properties'.");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
+        Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
+
+        logger.info("Step5: Click 'All Properties' link.");
+        editPropertiesDialog.clickAllPropertiesLink();
+        ArrayList<String> properties = new ArrayList<>(Arrays.asList("Name", "Title", "Description", "Owner", "Tags", "Smart Folder Template"));
+        Assert.assertEquals(editPropertiesPage.checkDisplayedProperties(properties), properties.toString());
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Save"), "Save button displayed");
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Cancel"), "Cancel button displayed");
+
+        logger.info("Step6: Select 'smartFoldersExample.json template' and save.");
+        editPropertiesPage.selectSFTemplate(0);
+        editPropertiesPage.clickButtonForFolder("Save");
+
+        logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
+        documentLibraryPage.clickOnFolderName(folderName);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
+        Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
+
+        logger.info("Step8: Click on 'My content' the folder and verify it has 'Smart Folder' structure under it");
+        documentLibraryPage.clickOnFolderName(mainSmartFolder);
+        browser.waitInSeconds(3);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("All site content"), "'All site content' folder displayed");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Contributions"), "'Contributions' folder displayed");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("My content modified by other users"),
+                "'My content modified by other users' folder displayed");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("User home"), "'User home' folder displayed");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Tagged 'Confidential'"), "'Tagged 'Confidential'' folder displayed");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("My Categorized Files"), "'My Categorized Files' folder displayed");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Recent updates"), "'Recent updates' folder displayed");
+        Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(8), "SF icon displayed for all folders");
+    }
+
+    @TestRail(id = "C8664")
+    @Test
+    public void checkFilesAreCorrectlyFilled() throws Exception
+    {
+
+        logger.info("Preconditions: Navigate to Document Library for the page for the test site");
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
+        Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
+        Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove buttons displayed for all the selected aspects");
+        Assert.assertTrue(aspectsForm.isSaveButtonDisplayed(), "'Apply Changes' button displayed");
+        Assert.assertTrue(aspectsForm.isCancelButtonDisplayed(), "'Cancel' button displayed");
+        Assert.assertTrue(aspectsForm.isCloseButtonDisplayed(), "'Close' button displayed");
+
+        logger.info("Step2: Click 'Add' button next to 'System Smart Folder' template and verify it moves to moves to 'Currently Selected'");
+        aspectsForm.addElement(17);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
+
+        logger.info("Step3: Click 'Apply Changes'.");
+        aspectsForm.clickApplyChangesButton();
+        browser.waitInSeconds(2);
+
+        logger.info("Step4: Hover over folder and click 'Edit Properties'.");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
+        Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
+
+        logger.info("Step5: Click 'All Properties' link.");
+        editPropertiesDialog.clickAllPropertiesLink();
+        ArrayList<String> properties = new ArrayList<>(Arrays.asList("Name", "Title", "Description", "Owner", "Tags", "Smart Folder Template"));
+        Assert.assertEquals(editPropertiesPage.checkDisplayedProperties(properties), properties.toString());
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Save"), "Save button displayed");
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Cancel"), "Cancel button displayed");
+
+        logger.info("Step6: Select 'smartFoldersExample.json template' and save.");
+        editPropertiesPage.selectSFTemplate(0);
+        editPropertiesPage.clickButtonForFolder("Save");
+
+        logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
+        documentLibraryPage.clickOnFolderName(folderName);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
+        Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
+
+        logger.info("Step8: Press Create button -> Google Docs Document");
+        googleDocs.loginToGoogleDocs();
+        documentLibraryPage.clickCreateButton();
+        createContent.clickGoogleDocsSpreadsheet();
+        browser.waitInSeconds(1);
+        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        browser.waitInSeconds(5);
+
+        logger.info("Step9: Input some texts in this Google Doc file and exit.");
+        googleDocs.switchToGoogleSheetsWindowandAndEditContent("Test", "Test Content");
+
+        logger.info("Step10: Hover over document and press Check in Google Doc.");
+        documentLibraryPage.renderedPage();
+        googleDocs.checkInGoogleDoc("Untitled Spreadsheet.xlsx");
+        browser.waitInSeconds(10);
+
+        logger.info("Step11: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
+        documentLibraryPage.clickOnFolderName("My content");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("All site content");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("Documents");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("Office Documents");
+        browser.waitInSeconds(2);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.xlsx"), "The uploaded file displayed in Office Documents list");
+
+    }
+
+    @TestRail(id = "C8647")
+    @Test
+    public void checkAvailableActions() throws Exception
+
+    {
+
+        logger.info("Preconditions: Navigate to Document Library for the page for the test site");
+        documentLibraryPage.navigate(siteName);
+
+        logger.info("Step1: Hover over folder and click More -> Manage Aspects.");
+        browser.waitInSeconds(2);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
+        Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
+        Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove buttons displayed for all the selected aspects");
+        Assert.assertTrue(aspectsForm.isSaveButtonDisplayed(), "'Apply Changes' button displayed");
+        Assert.assertTrue(aspectsForm.isCancelButtonDisplayed(), "'Cancel' button displayed");
+        Assert.assertTrue(aspectsForm.isCloseButtonDisplayed(), "'Close' button displayed");
+
+        logger.info("Step2: Click Add button next to System Smart Folder template.");
+        aspectsForm.addElement(17);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
+        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
+
+        logger.info("Step3: Click 'Apply Changes'.");
+        aspectsForm.clickApplyChangesButton();
+        browser.waitInSeconds(2);
+
+        logger.info("Step4: Hover over folder and click 'Edit Properties'.");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
+        Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
+        logger.info("Step5: Click 'All Properties' link.");
+        editPropertiesDialog.clickAllPropertiesLink();
+        ArrayList<String> properties = new ArrayList<>(Arrays.asList("Name", "Title", "Description", "Owner", "Tags", "Smart Folder Template"));
+        Assert.assertEquals(editPropertiesPage.checkDisplayedProperties(properties), properties.toString());
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Save"), "Save button displayed");
+        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Cancel"), "Cancel button displayed");
+
+        logger.info("Step6: Select 'smartFoldersExample.json template' and save.");
+        editPropertiesPage.selectSFTemplate(0);
+        editPropertiesPage.clickButtonForFolder("Save");
+
+        logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
+        documentLibraryPage.clickOnFolderName(folderName);
+        browser.waitInSeconds(2);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
+        Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
+
+        logger.info("Step8: Verify that 'Create' button is available");
+        Assert.assertTrue(documentLibraryPage.isCreateButtonDisplayed(), "Create button displayed");
+        Assert.assertTrue(documentLibraryPage.isCreateButtonDisplayed(), "Create button enabled");
+
+        logger.info("Step9: Press Create button -> Google Docs Document");
+        googleDocs.loginToGoogleDocs();
+        documentLibraryPage.clickCreateButton();
+        createContent.clickGoogleDocsDoc();
+        browser.waitInSeconds(1);
+        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        browser.waitInSeconds(5);
+
+        logger.info("Step10: Input some texts in this Google Doc file and exit.");
+        googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
+
+        logger.info("Step11: Hover over document and press Check in Google Doc.");
+        browser.waitInSeconds(2);
+        googleDocs.checkInGoogleDoc("Untitled Document");
+        browser.waitInSeconds(10);
+
+        logger.info("Step12: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
+        documentLibraryPage.clickOnFolderName("My content");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("All site content");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("Documents");
+        browser.waitInSeconds(1);
+        documentLibraryPage.clickOnFolderName("Office Documents");
+        browser.waitInSeconds(3);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
+
+        logger.info("Step13: Hover over the created document and check available actions");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Download"), "Download action available");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "View In Browser"), "View In Browser action available");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Edit Properties"), "Edit Properties action available");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Upload New Version"), "Upload New Version action available");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Edit in Microsoft Office™"),
+                "Edit in Microsoft Office™ action available");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Edit Offline"), "Edit Offline action available");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Start Workflow"), "Start Workflow action available");
+
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Delete Document"), "Delete action available");
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Unzip to..."), "Unzip To action available");
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Sync to Cloud"), "Sync action available");
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Locate File"), "Locate To action available");
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Move to..."), "Move action available");
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Copy to..."), "Copy action available");
+        Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", "Manage permissions"), "Copy action available");
+
+    }
+}

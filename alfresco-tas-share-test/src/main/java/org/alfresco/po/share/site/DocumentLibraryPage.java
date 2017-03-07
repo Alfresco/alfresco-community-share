@@ -1,0 +1,1208 @@
+package org.alfresco.po.share.site;
+
+import org.alfresco.po.HtmlPage;
+import org.alfresco.po.annotation.PageObject;
+import org.alfresco.po.annotation.RenderWebElement;
+import org.alfresco.po.share.UploadFileDialog;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@PageObject
+public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
+{
+    @Autowired
+    private UploadFileDialog uploadDialog;
+
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+
+    @FindAll(@FindBy(css = "a.filter-link"))
+    private List<WebElement> documentsFilterOptions;
+
+    @RenderWebElement
+    @FindBy(css = "div[id$='default-navBar']")
+    private WebElement navigationBar;
+
+    @RenderWebElement
+    @FindBy(css = "div[id$='_default-dl-body']")
+    private WebElement docListContainer;
+
+    @FindBy(css = ".documents[id$='_default-documents']")
+    private WebElement documentList;
+
+    @FindBy(css = "button[id*='createContent']")
+    private WebElement createButton;
+
+    @FindBy(css = "[id$='default-fileUpload-button-button']")
+    private WebElement uploadButton;
+
+    @FindBy(css = ".folder-file")
+    private WebElement folderLink;
+
+    @FindBy(css = "div[id$='default-options-menu'] span")
+    private List<WebElement> optionsList;
+    
+    private By optionsMenuDropDown = By.xpath("//div[contains(@id, default-options-menu) and contains(@class, 'visible')]");
+    
+    private By displayedOptionsListBy = By.xpath("//div[contains(@id, 'default-options-menu')]//li[not(contains(@class, 'hidden'))]");
+
+    @RenderWebElement
+    @FindBy(css = "button[id$='default-options-button-button']")
+    protected WebElement optionsMenu;
+
+    @FindBy(xpath = "//span[contains(text(), 'More...')]")
+    protected WebElement moreLink;
+    
+    @FindBy(css = ".hideFolders")
+    protected WebElement hideFoldersMenuOption;
+
+    @FindAll(@FindBy(css = ".filter-change:nth-child(1)"))
+    private List<WebElement> foldersList;
+
+    private By filesList = By.cssSelector(".filename a[href*='document-details']");
+    private By documentLibraryItemsList = By.cssSelector("[class*='data'] tr");
+    private By documentLibraryItemsListItemText = By.cssSelector("[class*='data'] tr h3");
+
+    @FindAll(@FindBy(css = ".crumb .folder"))
+    private List<WebElement> breadcrumbList;
+
+    @FindBy(css = ".crumb .label a")
+    private WebElement breadcumbCurrentFolder;
+
+    @FindBy(css = "div[id*='new-folder-link-template-instance'] .docListOtherOptionsText a")
+    private WebElement createFolderLink;
+
+    @FindBy(css = "button[id*='folderUp']")
+    private WebElement folderUpButton;
+
+    @FindBy(css = "input[id*='form-field']")
+    private WebElement contentNameInputField;
+
+    @FindBy(css = ".insitu-edit a")
+    private List<WebElement> buttonsFromRenameContent;
+
+    @FindBy(css = ".inlineTagEditAutoCompleteWrapper input")
+    private WebElement editTagInputField;
+
+    @FindBy(css = "form[class='insitu-edit'] a")
+    private List<WebElement> editTagButtons;
+
+    @FindBy(css = ".inlineTagEditAutoCompleteWrapper input")
+    private WebElement tagToBeEdited;
+
+    @FindBy(css = "div[class ='google-map']")
+    private WebElement googleMap;
+
+    @FindBy(css = "div[id*='_default-info'] div[class='thumbnail'] a[href*='document-details']")
+    private WebElement googleMapPopUp;
+
+    @FindBy(css = "div[class ='status'] img[title ='Geolocation metadata available']")
+    private WebElement geolocationMetadataIcon;
+
+    @FindBy(css = "div[class='info-banner'] a")
+    private WebElement lockedByUser;
+
+    @FindBy(css = "span[class ='setDefaultView']")
+    private WebElement setDefaultView;
+
+    @FindBy(css = "span[class ='removeDefaultView']")
+    private WebElement removeDefaultView;
+
+    @FindBy(css = "div[class ='alf-gallery-item']")
+    private WebElement galleryViewItem;
+
+    @FindBy(css = "div[id*='_default-filmstrip-nav-handle']")
+    private WebElement downArrowPointer;
+
+    @FindBy(css = "div[class ='alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-next']")
+    private WebElement rightArrowPointer;
+
+    @FindBy(css = "div[class ='alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-prev']")
+    private WebElement leftArrowPointer;
+
+    @FindBy(css = "button[id*='_default-sortAscending-button-button']")
+    private WebElement sortButton;
+
+    @FindBy(css = "button[id*='_default-sortField-button-button']")
+    private WebElement sortByFieldButton;
+
+    @FindBy(css = "span.yui-pg-current")
+    private WebElement currentPage;
+
+    @FindAll(@FindBy(css = ".documentDroppable .ygtvlabel"))
+    private List<WebElement> explorerPanelDocumentsList;
+
+    @FindBy(css = ".filename a")
+    private List<WebElement> contentItemsList;
+
+    @FindBy(css = ".filename span[class='insitu-edit']")
+    private WebElement renameIcon;
+
+    private WebElement selectViewInOptions(String viewName)
+    {
+        return browser.findElement(By.xpath("//div[contains(@id, '_default-options-menu')]//ul[@class= 'first-of-type']//span[text()='" + viewName + "']"));
+    }
+
+    private WebElement findItemInCarrouselFilmstripView(String contentName)
+    {
+        return browser.findElement(By.xpath("//div[contains(@class, 'alf-filmstrip-nav-item-thumbnail')]//div[text()='" + contentName + "']"));
+    }
+
+    private By uploadNewVersion = By.cssSelector("a[title='Upload New Version']");
+    private By moreMenuSelector = By.cssSelector("div[id*='onActionShowMore'] a span");
+    public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
+    private By noTagsSelector = By.cssSelector("td[class*='fileName'] .detail .item .faded");
+    private By contentTagsSelector = By.cssSelector(".item .tag-link");
+    private By inlineEditTagsSelector = By.cssSelector(".inlineTagEditTag span");
+    private By removeTagIconSelector = By.cssSelector(".inlineTagEditTag img[src*='delete-item-off']");
+    private By editPropertiesSelector = By.cssSelector("a[title='Edit Properties']");
+
+    private By folderNameSelector = By.cssSelector(".filter-change:nth-child(1)");
+    private By fileNameSelector = By.cssSelector(".filename [href*='document-details']");
+    private By checkBoxSelector = By.cssSelector("tbody[class='yui-dt-data'] input[id*='checkbox']");
+    private By favoriteLink = By.className("favourite-action");
+    private By actionsSet = By.cssSelector(".action-set a span");
+
+    private By categoriesDetails = By.cssSelector("div.detail span.category");
+    private By infoBanner = By.cssSelector("div[class='info-banner']");
+    private By titleSelector = By.cssSelector("td .title");
+    private By descriptionSelector = By.cssSelector("td .detail:nth-child(3) span");
+    private By downloadButtonSelector = By.cssSelector("a[title='Download']");
+    private By downloadAsZipSelector = By.cssSelector("a[title='Download as Zip']");
+    public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu']");
+    public By descriptionTagFilter = By.cssSelector("div.message span.more");
+    private By commentButton = By.cssSelector("a.comment");
+
+    public enum DocumentsFilters
+    {
+        All("All Documents", "All Documents in the Document Library"),
+        EditingMe("I'm Editing", "Documents I'm Editing(working copies)"),
+        EditingOthers("Others are Editing", "Documents Others are Editing(working copies)"),
+        RecentlyModified("Recently Modified", "Documents Recently Modified"),
+        RecentlyAdded("Recently Added", "Documents Added Recently"),
+        Favorites("My Favorites", "My Favorite Documents and Folders");
+
+        public final String title;
+        public final String header;
+
+        DocumentsFilters(String title, String header)
+        {
+            this.title = title;
+            this.header = header;
+        }
+    }
+
+    @Override
+    public String getRelativePath()
+    {
+        return String.format("share/page/site/%s/documentlibrary", getCurrentSiteName());
+    }
+
+    public boolean isUploadButtonDisplayed()
+    {
+        return browser.isElementDisplayed(uploadButton);
+    }
+
+    public boolean isContentNameDisplayed(String contentName)
+    {
+        WebElement webElement = selectDocumentLibraryItemRow(contentName);
+        return browser.isElementDisplayed(webElement);
+    }
+
+    public UploadFileDialog clickUpload()
+    {
+        uploadButton.click();
+        return (UploadFileDialog) uploadDialog.renderedPage();
+
+    }
+
+    public DocumentLibraryPage uploadNewImage(String pathToPhoto)
+    {
+        clickUpload().uploadFile(pathToPhoto);
+        browser.waitInSeconds(2);
+        browser.refresh();
+        return (DocumentLibraryPage) this.renderedPage();
+
+    }
+
+    public boolean isDocumentListDisplayed()
+    {
+        return browser.isElementDisplayed(documentList);
+    }
+
+    /**
+     * Verify presence of "Options" menu
+     *
+     * @return true if displayed
+     */
+    public boolean isOptionsMenuDisplayed()
+    {
+        return browser.isElementDisplayed(optionsMenu);
+    }
+
+    public boolean isHideFoldersMenuOptionDisplayed()
+    {
+        boolean elementDisplayed;
+        optionsMenu.click();
+        elementDisplayed = browser.isElementDisplayed(hideFoldersMenuOption);
+        optionsMenu.click();
+        return elementDisplayed;
+    }
+
+    public DocumentLibraryPage selectViewFromOptionsMenu(String view)
+    {
+        optionsMenu.click();
+        browser.selectOptionFromFilterOptionsList(view, optionsList);
+        return (DocumentLibraryPage) this.renderedPage();
+    }
+    
+    public List<String> getAllOptionsText()
+    {
+    	List<String> optionsText = new ArrayList<String>();
+    	List<WebElement> options = browser.findElements(displayedOptionsListBy);
+    	for(WebElement option : options)
+    	{
+    		optionsText.add(option.getText());
+    	}
+    	return optionsText;
+    }
+
+    /**
+     * This method is used to get the list of folders name
+     *
+     * @return foldersName
+     */
+    public List<String> getFoldersList()
+    {
+        browser.waitInSeconds(1);
+        List<String> foldersName = new ArrayList<>();
+        for (WebElement folder : foldersList)
+        {
+            foldersName.add(folder.getText());
+        }
+        return foldersName;
+    }
+
+    public WebElement selectDocumentLibraryItemRow(String documentItem)
+    {
+        browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 6);
+        LOG.info("DocumentLibraryItemsList was found");
+        browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsListItemText, 6);
+        LOG.info("DocumentLibraryItemsListItemText was found");
+        List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
+        LOG.info("Number of itemsList: "+ itemsList.size());
+        return browser.findFirstElementWithValue(itemsList, documentItem);
+    }
+
+    /**
+     * Open any folder from Document Library
+     *
+     * @param folderName to be clicked on
+     */
+    public DocumentLibraryPage clickOnFolderName(String folderName)
+    {
+        selectDocumentLibraryItemRow(folderName).findElement(folderNameSelector).click();
+        return (DocumentLibraryPage) this.renderedPage();
+    }
+
+    /**
+     * Mouse over a content name link
+     *
+     * @param contentItemName content item's name link to be hovered
+     */
+    public void mouseOverContentItem(String contentItemName)
+    {
+        for (int i = 0; i < contentItemsList.size(); i++)
+        {
+            WebElement contentItem = contentItemsList.get(i);
+            if (contentItem.getText().equals(contentItemName))
+            {
+                browser.mouseOver(contentItem);
+                break;
+            }
+        }
+    }
+
+    /**
+     * This method is used to get the list of files name
+     *
+     * @return filesName
+     */
+    public List<String> getFilesList()
+    {
+        browser.waitUntilElementIsDisplayedWithRetry(filesList, 6);
+        List<String> filesName = new ArrayList<>();
+        for (WebElement file : browser.findElements(filesList))
+        {
+            filesName.add(file.getText());
+        }
+        return filesName;
+    }
+
+    public DocumentDetailsPage clickOnFile(String file)
+    {
+        selectDocumentLibraryItemRow(file).findElement(fileNameSelector).click();
+        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
+    }
+
+    /**
+     * Mouse over any file from Document Library
+     *
+     * @param fileName file name link to be hovered
+     */
+    public void mouseOverFileName(String fileName)
+    {
+        // try
+        // {
+        browser.mouseOver(selectDocumentLibraryItemRow(fileName).findElement(fileNameSelector));
+        // }
+        // catch (TimeoutException | NoSuchElementException | NullPointerException e)
+        // {
+        // LOG.error("Action not found:" + e);
+        // while (counter8 < 3)
+        // {
+        // counter8++;
+        // mouseOverFileName(fileName);
+        // }
+        // }
+    }
+
+    public void clickEditProperties(String contentName)
+    {
+        selectDocumentLibraryItemRow(contentName).findElement(editPropertiesSelector).click();
+    }
+
+    /**
+     * Click on 'Upload New Version' action for a file
+     */
+    public UploadFileDialog clickUploadNewVersion(String fileName)
+    {
+        int counter = 0;
+        while (counter < 2)
+        {
+            try
+            {
+                mouseOverFileName(fileName);
+                clickMoreMenu(fileName);
+                selectDocumentLibraryItemRow(fileName).findElement(uploadNewVersion).click();
+            }
+            catch (NoSuchElementException | TimeoutException e)
+            {
+                LOG.error("Action not found:" + e);
+            }
+            counter++;
+            browser.refresh();
+            this.renderedPage();
+        }
+        return (UploadFileDialog) uploadDialog.renderedPage();
+    }
+
+    public void clickCreateButton()
+    {
+        browser.waitUntilElementClickable(createButton, 60).click();
+    }
+
+    public void clickAction(String libraryItem, String action)
+    {
+        List<WebElement> availableActions = selectDocumentLibraryItemRow(libraryItem).findElements(actionsSet);
+        browser.findFirstElementWithValue(availableActions, action).click();
+    }
+
+    public void clickFolderLink()
+    {
+        browser.waitUntilElementClickable(folderLink, 60).click();
+    }
+
+    /**
+     * Get the list of documents name from Exploratory Panel: Library -> Documents section
+     *
+     * @return documents string list
+     */
+    public String getExplorerPanelDocuments()
+    {
+        browser.waitInSeconds(2);
+        ArrayList<String> foldersTextList = new ArrayList<>();
+        for (int i = 0; i < explorerPanelDocumentsList.size(); i++)
+        {
+            foldersTextList.add(explorerPanelDocumentsList.get(i).getText());
+        }
+        return foldersTextList.toString();
+    }
+
+    /**
+     * @return string list containing elements from Document Library breadcrumb
+     */
+    public String getBreadcrumbList()
+    {
+        browser.waitInSeconds(1);
+        ArrayList<String> breadcrumbTextList = new ArrayList<>();
+        for (int i = 0; i < breadcrumbList.size(); i++)
+        {
+            breadcrumbTextList.add(breadcrumbList.get(i).getText());
+        }
+        breadcrumbTextList.add(breadcumbCurrentFolder.getText());
+
+        return breadcrumbTextList.toString();
+    }
+
+    /**
+     * Click on filter from explorer panel --> Documents
+     *
+     * @param filter to be clicked
+     */
+    public DocumentLibraryPage clickDocumentsFilterOption(String filter)
+    {
+        browser.findFirstElementWithValue(documentsFilterOptions, filter).click();
+        for (DocumentsFilters docFilter : DocumentsFilters.values())
+            if (docFilter.title.equals(filter))
+            {
+                browser.waitUntilElementContainsText(navigationBar, docFilter.header);
+                break;
+            }
+        return (DocumentLibraryPage) this.renderedPage();
+    }
+
+    /**
+     * Click on folder from Document Library --> explorer panel --> Library --> Documents
+     *
+     * @param folderName folder to be clicked
+     */
+    public DocumentLibraryPage clickFolderFromExplorerPanel(String folderName)
+    {
+        WebElement folder = browser.waitUntilElementVisible(browser.findFirstElementWithExactValue(explorerPanelDocumentsList, folderName));
+        folder.click();
+        browser.waitUntilElementContainsText(breadcumbCurrentFolder, folderName);
+        return (DocumentLibraryPage) this.renderedPage();
+    }
+
+    /**
+     * Click on any folder from Document library breadcrumb, except the last one
+     *
+     * @param folderName folder to be clicked
+     */
+    public DocumentLibraryPage clickFolderFromBreadcrumb(String folderName)
+    {
+        browser.findFirstElementWithExactValue(breadcrumbList, folderName).click();
+        return (DocumentLibraryPage) this.renderedPage();
+    }
+
+    /**
+     * Click on folderUp icon
+     */
+    public DocumentLibraryPage clickFolderUpButton()
+    {
+        folderUpButton.click();
+        return (DocumentLibraryPage) this.renderedPage();
+    }
+
+    public void clickMoreMenu(String libraryItem)
+    {
+        if (isMoreMenuDisplayed(libraryItem))
+        {
+            WebElement moreMenu = selectDocumentLibraryItemRow(libraryItem).findElement(moreMenuSelector);
+            // WebElement moreMenu = browser.findElement(moreMenuSelector);
+            browser.waitUntilElementClickable(moreMenu, 30).click();
+            browser.waitUntilElementVisible(browser.findElement(actionsSet));
+        }
+    }
+
+    public void clickMore()
+    {
+        browser.findDisplayedElementsFromLocator(By.cssSelector("#onActionShowMore a span")).get(0).click();
+    }
+
+    public boolean isMoreMenuDisplayed(String contentName)
+    {
+        try
+        {
+            WebElement element = selectDocumentLibraryItemRow(contentName).findElement(moreMenuSelector);
+            return browser.isElementDisplayed(element);
+        }
+        catch (TimeoutException | NoSuchElementException e)
+        {
+            return false;
+        }
+    }
+
+    public boolean isActionAvailableForLibraryItem(String libraryItem, String action)
+    {
+        mouseOverContentItem(libraryItem);
+        if (isMoreMenuDisplayed(libraryItem))
+            clickMore();
+        List<WebElement> availableActions = selectDocumentLibraryItemRow(libraryItem).findElements(actionsSet);
+        return browser.findFirstElementWithValue(availableActions, action) != null;
+    }
+
+    /**
+     * Click on the given action for an item.
+     * This method is used for actions that redirect to a page!
+     *
+     * @param contentItem content item to apply action
+     * @param action to be clicked on
+     * @param page to be rendered after click
+     * @return render redirected page
+     */
+    public HtmlPage clickDocumentLibraryItemAction(String contentItem, String action, HtmlPage page)
+    {
+        int counter = 0;
+        while (counter < 2)
+        {
+            try
+            {
+                mouseOverContentItem(contentItem);
+                browser.waitInSeconds(2);
+                if (isMoreMenuDisplayed(contentItem))
+                    clickMore();
+                List<WebElement> availableActions = selectDocumentLibraryItemRow(contentItem).findElements(actionsSet);
+                browser.findFirstElementWithValue(availableActions, action).click();
+                break;
+            }
+            catch (NullPointerException | TimeoutException e)
+            {
+                LOG.error("Action not found:" + e);
+                counter++;
+                browser.refresh();
+                // this.renderedPage();
+            }
+        }
+        return page.renderedPage();
+    }
+
+    /**
+     * Click on action selected.
+     * To be used for actions that do not redirect to a page
+     * 
+     * @param libraryItem content item to apply action
+     * @param action to be clicked on
+     */
+    public void clickOnAction(String libraryItem, String action)
+    {
+        if (isMoreMenuDisplayed(libraryItem))
+            clickMoreMenu(libraryItem);
+
+        List<WebElement> availableActions = selectDocumentLibraryItemRow(libraryItem).findElements(actionsSet);
+        WebElement actionLink = browser.findFirstElementWithValue(availableActions, action);
+        actionLink.click();
+    }
+
+    public String getDocumentListHeader()
+    {
+        return navigationBar.getText();
+    }
+
+    public String getDocumentListMessage()
+    {
+        return documentList.getText();
+    }
+
+    public String getFavoriteTooltip(String fileName)
+    {
+        return selectDocumentLibraryItemRow(fileName).findElement(favoriteLink).getAttribute("title");
+    }
+
+    public DocumentLibraryPage clickFavoriteLink(String fileName)
+    {
+        selectDocumentLibraryItemRow(fileName).findElement(favoriteLink).click();
+        return (DocumentLibraryPage) this.renderedPage();
+    }
+
+    public boolean isFileFavorite(String fileName)
+    {
+        return selectDocumentLibraryItemRow(fileName).findElement(favoriteLink).getAttribute("class").contains("enabled");
+    }
+
+    public boolean isRenameIconDisplayed()
+    {
+        browser.waitInSeconds(4);
+        return browser.isElementDisplayed(renameIcon);
+    }
+
+    /**
+     * Click on 'Rename' icon from the right of content name
+     */
+    public void clickRenameIcon()
+    {
+        browser.waitUntilElementClickable(renameIcon, 40).click();
+    }
+
+    /**
+     * Verify content name is text input field
+     */
+    public boolean isContentNameInputField()
+    {
+        return browser.isElementDisplayed(contentNameInputField);
+    }
+
+    /**
+     * Type new name in content name text input field
+     *
+     * @param newContentName
+     */
+    public void typeContentName(String newContentName)
+    {
+        contentNameInputField.clear();
+        contentNameInputField.sendKeys(newContentName);
+        browser.waitInSeconds(1);
+    }
+
+    /**
+     * Click on button from 'Rename'
+     *
+     * @param buttonName to be clicked (Save/Cancel)
+     */
+    public void clickButtonFromRenameContent(String buttonName)
+    {
+        for (int i = 0; i < buttonsFromRenameContent.size(); i++)
+        {
+            WebElement button = buttonsFromRenameContent.get(i);
+            if (button.getText().equals(buttonName))
+                button.click();
+        }
+        browser.waitInSeconds(4);
+    }
+
+    /**
+     * @param expectedButtons list of expected to be displayed buttons from renaming content by icon
+     * @return displayed buttons
+     */
+    public String verifyButtonsFromRenameContent(ArrayList<String> expectedButtons)
+    {
+        if (buttonsFromRenameContent.size() == expectedButtons.size())
+            for (int i = 0; i < buttonsFromRenameContent.size(); i++)
+            {
+                String buttonName = buttonsFromRenameContent.get(i).getText();
+                if (!buttonName.equals(expectedButtons.get(i)))
+                    return expectedButtons.get(i) + " button isn't displayed.";
+            }
+        return expectedButtons.toString();
+    }
+
+    /**
+     * Select a content item from Documents list, by click on its corresponding checkbox
+     *
+     * @param contentName to be selected
+     */
+    public void clickCheckBox(String contentName)
+    {
+        selectDocumentLibraryItemRow(contentName).findElement(checkBoxSelector).click();
+        browser.waitInSeconds(1);
+    }
+
+    public boolean isContentSelected(String contentName)
+    {
+        browser.waitInSeconds(1);
+        return selectDocumentLibraryItemRow(contentName).findElement(checkBoxSelector).isSelected();
+    }
+
+    /**
+     * Check the selected content list is the one expected
+     *
+     * @param expectedSelectedContentList content to be selected
+     * @return
+     */
+    public String verifyContentItemsSelected(ArrayList<String> expectedSelectedContentList)
+    {
+        for (int i = 0; i < expectedSelectedContentList.size(); i++)
+        {
+            String contentName = expectedSelectedContentList.get(i);
+            if (!isContentSelected(contentName))
+                return contentName + " isn't selected!";
+        }
+        return expectedSelectedContentList.toString();
+    }
+
+    /**
+     * Check the notSelected content list is the one expected
+     *
+     * @param expectedNotSelectedContentList content not to be selected
+     * @return
+     */
+    public String verifyContentItemsNotSelected(ArrayList<String> expectedNotSelectedContentList)
+    {
+        for (int i = 0; i < expectedNotSelectedContentList.size(); i++)
+        {
+            String contentName = expectedNotSelectedContentList.get(i);
+            if (isContentSelected(contentName))
+                return contentName + " is selected!";
+        }
+        return expectedNotSelectedContentList.toString();
+    }
+
+    public boolean isActiveWorkflowsIconDisplayed(String documentLibraryItem)
+    {
+        browser.waitInSeconds(1);
+        return browser.isElementDisplayed(selectDocumentLibraryItemRow(documentLibraryItem).findElement(By.cssSelector("[class=status] img")));
+    }
+
+    /**
+     * Gets selected categories listed below the given documentLibraryItem name
+     *
+     * @param documentLibraryItem
+     * @return
+     */
+    public List<String> getItemCategories(String documentLibraryItem)
+    {
+        List<String> categoriesTexts = new ArrayList<>();
+        List<WebElement> categories = selectDocumentLibraryItemRow(documentLibraryItem).findElements(categoriesDetails);
+        for (WebElement category : categories)
+        {
+            categoriesTexts.add(category.getText());
+        }
+        return categoriesTexts;
+    }
+
+    public String getItemTitle(String itemName)
+    {
+        return selectDocumentLibraryItemRow(itemName).findElement(titleSelector).getText();
+    }
+
+    public String getItemDescription(String itemName)
+    {
+        return selectDocumentLibraryItemRow(itemName).findElement(descriptionSelector).getText();
+    }
+
+    public void clickDownloadForItem(String itemName)
+    {
+        WebElement downloadButton = browser.waitUntilElementVisible(selectDocumentLibraryItemRow(itemName).findElement(downloadButtonSelector));
+        downloadButton.click();
+    }
+
+    public void clickDownloadAsZipForItem(String itemName)
+    {
+        WebElement downloadAsZip = browser.waitUntilElementVisible(selectDocumentLibraryItemRow(itemName).findElement(downloadAsZipSelector));
+        downloadAsZip.click();
+    }
+
+    public String getTags(String contentName)
+    {
+        browser.waitUntilWebElementIsDisplayedWithRetry(browser.findElement(contentTagsSelector), 5);
+        List<WebElement> tagsList = selectDocumentLibraryItemRow(contentName).findElements(contentTagsSelector);
+        List<String> tagsTextList = new ArrayList<>();
+        for (int i = 0; i < tagsList.size(); i++)
+        {
+            tagsTextList.add(tagsList.get(i).getText());
+        }
+        return tagsTextList.toString();
+    }
+
+    public List<String> getAllTagNames()
+    {
+        List<String> allTagsNames = new ArrayList<>();
+        int counter = 0;
+        int retryCount = 5;
+        while (counter < retryCount)
+        {
+            try
+            {
+                By tagRows = By.cssSelector("ul.filterLink li span.tag a");
+                for (WebElement tagsElem : browser.findElements(tagRows))
+                {
+                    allTagsNames.add(tagsElem.getText());
+                }
+                break;
+            }
+            catch (TimeoutException | NoSuchElementException e)
+            {
+                browser.refresh();
+                counter++;
+            }
+        }
+        return allTagsNames;
+    }
+
+    /**
+     * For a content, click on any tag and type a valid tag name
+     *
+     * @param contentName
+     * @param tagName tag to be edited
+     * @param newTagName new value for tag
+     */
+    public void editTag(String contentName, String tagName, String newTagName)
+    {
+        List<WebElement> tagsList = browser.findElements(inlineEditTagsSelector);
+
+        for (int i = 0; i < tagsList.size(); i++)
+        {
+            if (tagsList.get(i).getText().equals(tagName))
+            {
+                tagsList.get(i).click();
+            }
+        }
+        browser.waitUntilElementVisible(tagToBeEdited);
+        tagToBeEdited.clear();
+        browser.waitInSeconds(1);
+        tagToBeEdited.sendKeys(newTagName);
+    }
+
+    public boolean isNoTagsTextDisplayed(String contentName)
+    {
+        int counter = 0;
+        while (counter < 2)
+        {
+            try
+            {
+                WebElement noTags = selectDocumentLibraryItemRow(contentName).findElement(noTagsSelector);
+                return browser.isElementDisplayed(noTags);
+            }
+            catch (TimeoutException | NoSuchElementException e)
+            {
+                LOG.error("Action not found:" + e);
+            }
+            counter++;
+            browser.refresh();
+            this.renderedPage();
+        }
+        return false;
+    }
+
+    public void mouseOverTags(String contentName)
+    {
+        WebElement contentTags = browser.waitUntilElementVisible(selectDocumentLibraryItemRow(contentName).findElement(contentTagsSelector));
+        browser.mouseOver(contentTags);
+        // browser.waitUntilElementVisible(editTagSelector);
+    }
+
+    /**
+     * Hover "No Tags" text for a content item
+     *
+     * @param contentName
+     */
+    public void mouseOverNoTags(String contentName)
+    {
+        int counter = 0;
+        while (counter < 3)
+        {
+            try
+            {
+                browser.mouseOver(selectDocumentLibraryItemRow(contentName).findElement(noTagsSelector));
+                browser.waitInSeconds(4);
+                break;
+                // if (!isEditTagIconDisplayed(contentName))
+                // break;
+                //
+            }
+            catch (TimeoutException | NoSuchElementException e)
+            {
+                LOG.error("Action not found:" + e);
+                counter++;
+                browser.refresh();
+                this.renderedPage();
+            }
+        }
+    }
+
+    public boolean isEditTagInputFieldDisplayed()
+    {
+        browser.waitUntilElementVisible(editTagInputField);
+        return browser.isElementDisplayed(editTagInputField);
+    }
+
+    public void typeTagName(String tagName)
+    {
+        browser.waitInSeconds(5);
+        browser.waitUntilElementVisible(editTagInputField);
+        editTagInputField.clear();
+        editTagInputField.sendKeys(tagName);
+        editTagInputField.sendKeys(Keys.RETURN);
+    }
+
+    public DocumentLibraryPage clickEditTagLink(String linkName)
+    {
+        browser.waitInSeconds(1);
+        WebElement link = browser.findFirstElementWithValue(editTagButtons, linkName);
+        browser.waitUntilElementClickable(link, 50).click();
+        browser.waitInSeconds(2);
+        return (DocumentLibraryPage) this.renderedPage();
+    }
+
+    public void clickOnTag(String tagName)
+    {
+        browser.waitUntilElementVisible(
+                By.xpath("//ul[contains(@class,'filterLink')]/li/span[contains(@class,'tag')]/a[contains(text(),'" + tagName.toLowerCase() + "')]")).click();
+    }
+
+    /**
+     * Check "Edit Tag" icon presence for a content item
+     *
+     * @param contentName
+     * @return true if icon is displayed, false otherwise
+     */
+    public boolean isEditTagIconDisplayed(String contentName)
+    {
+        // selectDocumentLibraryItemRow(contentName);
+        return browser.isElementDisplayed(selectDocumentLibraryItemRow(contentName), editTagSelector);
+        // mouseOverContentItem(contentName);
+        // browser.waitInSeconds(3);
+        // return browser.findDisplayedElementsFromLocator(editTagSelector).get(0).isDisplayed();
+        // return selectDocumentLibraryItemRow(contentName).findElement(editTagSelector).isDisplayed();
+        // return browser.isElementDisplayed(selectDocumentLibraryItemRow(contentName).findElement(editTagSelector));
+        // WebElement element = browser.findElement(editTagSelector);
+        // String js = "arguments[0].style.visibility='visible';";
+        // ((JavascriptExecutor) browser).executeScript(js, element);
+        //
+        // return browser.isElementDisplayed(editTagSelector);
+    }
+
+    /**
+     * Click on 'Edit Tag' icon for a content item
+     *
+     * @param contentName
+     */
+    public void clickEditTagIcon(String contentName)
+    {
+        WebElement editTagIcon = selectDocumentLibraryItemRow(contentName).findElement(editTagSelector);
+        browser.waitUntilElementClickable(editTagIcon, 30).click();
+    }
+
+    /**
+     * Switch to new window and get page content
+     */
+    public String switchToNewWindowAngGetContent()
+    {
+        for (String winHandle : browser.getWindowHandles())
+        {
+            browser.switchTo().window(winHandle);
+        }
+        return browser.findElement(By.xpath("//body")).getText();
+    }
+
+    /**
+     * For a content item's tag, click 'Remove tag' icon
+     *
+     * @param tagName to be removed
+     * @return name of removed tag
+     */
+    public String removeTag(String tagName)
+    {
+        List<WebElement> tagsList = browser.waitUntilElementsVisible(inlineEditTagsSelector);
+        List<WebElement> removeIconList = browser.waitUntilElementsVisible(removeTagIconSelector);
+
+        for (int i = 0; i < tagsList.size(); i++)
+        {
+            if (tagsList.get(i).getText().equals(tagName))
+            {
+                removeIconList.get(i).click();
+                return tagName;
+            }
+        }
+
+        return tagName + " not found!";
+    }
+
+    /**
+     * Method to check if the file is opened in Google Maps
+     */
+    public boolean isFileOpenedInGoogleMaps()
+    {
+        return googleMap.isDisplayed();
+    }
+
+    /**
+     * Method to check that the document thumbnail is displayed on Google Maps
+     *
+     * @return
+     */
+    public boolean isDocumentThumbnailDisplayedOnGoogleMaps()
+    {
+        return googleMapPopUp.isDisplayed();
+    }
+
+    /**
+     * Method to click on the document thumbnail to open the document in preview
+     */
+    public void clickOnFileInGoogleMaps()
+    {
+        googleMapPopUp.click();
+    }
+
+    /**
+     * Method to check that the geolocation metadata icon is displayed next to the document
+     */
+    public boolean isGeolocationMetadataIconDisplayed()
+    {
+        return geolocationMetadataIcon.isDisplayed();
+    }
+
+    /**
+     * Method to get the info banner text
+     */
+
+    public String getInfoBannerText()
+    {
+        browser.waitInSeconds(2);
+        return browser.findElement(infoBanner).getText();
+    }
+
+    /**
+     * Method to get the locked by user name
+     */
+    public String getLockedByUserName()
+    {
+        return lockedByUser.getText();
+    }
+
+    /**
+     * Method to check if a view option is present
+     */
+
+    public boolean isviewOptionDisplayed(String view)
+    {
+        return browser.isElementDisplayed(selectViewInOptions(view));
+    }
+
+    /**
+     * Method to click on the Options menu button
+     */
+
+    public void clickOptionsButton()
+    {
+        optionsMenu.click();
+    }
+
+    /**
+     * Method to check if Favorite link is present for test file
+     */
+    public boolean isFavoriteLinkPresent(String fileName)
+    {
+        return selectDocumentLibraryItemRow(fileName).findElement(favoriteLink).isDisplayed();
+    }
+
+    public boolean isLikeButtonDisplayed(String fileName)
+    {
+        return selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a[class='like-action']")).isDisplayed();
+    }
+
+    public boolean isCommentButtonDisplayed(String fileName)
+    {
+        try
+        {
+            return selectDocumentLibraryItemRow(fileName).findElement(commentButton).isDisplayed();
+        }
+        catch (NoSuchElementException e)
+        {
+            // continue
+        }
+        return false;
+    }
+
+    public boolean isShareButtonDisplayed(String fileName)
+    {
+        return selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a[class='quickshare-action']")).isDisplayed();
+    }
+
+    public String getOptionsSetDefaultViewText(String text)
+    {
+    	browser.waitUntilElementIsDisplayedWithRetry(optionsMenuDropDown);
+        browser.waitUntilElementContainsText(setDefaultView, text);
+        return setDefaultView.getText();
+    }
+
+    public boolean isItemDisplayedInGalleryView()
+    {
+        return galleryViewItem.isDisplayed();
+    }
+
+    public String getLabelDisplayedInFilmstripView(String contentName)
+    {
+        return findItemInCarrouselFilmstripView(contentName).getText();
+    }
+
+    public boolean isDownArrowPointerDisplayed()
+    {
+        return downArrowPointer.isDisplayed();
+    }
+
+    public boolean isRightArrowPointerDisplayed()
+    {
+        return rightArrowPointer.isDisplayed();
+    }
+
+    public void clickTheRightArrowPointer()
+    {
+        rightArrowPointer.click();
+    }
+
+    public boolean isLeftArrowPointerDisplayed()
+    {
+        return leftArrowPointer.isDisplayed();
+    }
+
+    public void clickSetDefaultView()
+    {
+        setDefaultView.click();
+    }
+
+    public String getRemoveDefaultViewText()
+    {
+        return removeDefaultView.getText();
+    }
+
+    public boolean isSortButtonDisplayed()
+    {
+        return sortButton.isDisplayed();
+    }
+
+    public boolean isCreateButtonDisplayed()
+    {
+        return createButton.isDisplayed();
+    }
+
+    public boolean isSortByFieldButtonDisplayed()
+    {
+        return sortByFieldButton.isDisplayed();
+    }
+
+    public boolean isPaginationDisplayed()
+    {
+        return currentPage.isDisplayed();
+    }
+
+    public String getCreateButtonStatusDisabled()
+    {
+        return createButton.getAttribute("disabled");
+    }
+
+    public String getUploadButtonStatusDisabled()
+    {
+        return uploadButton.getAttribute("disabled");
+    }
+
+    public boolean isCreateContentMenuDisplayed()
+    {
+        return browser.isElementDisplayed(createContentMenu);
+    }
+
+    public void mouseOverFolder(String folderName)
+    {
+        browser.mouseOver(selectDocumentLibraryItemRow(folderName).findElement(folderNameSelector));
+    }
+
+    public WebElement subfolderDocListTree(String docListSubFolder)
+    {
+        browser.waitUntilElementClickable(
+                (By.xpath("//div[@class ='breadcrumb hideable DocListTree DocListCategories']//a[text() ='" + docListSubFolder + "']")), 5L);
+        return browser.findElement(By.xpath("//div[@class ='breadcrumb hideable DocListTree DocListCategories']//a[text() ='" + docListSubFolder + "']"));
+    }
+
+    public void clickCreateButtonWithoutWait()
+    {
+        browser.waitUntilElementVisible(createButton);
+        createButton.click();
+    }
+
+    public boolean checkEditTagIsNotDisplayed()
+    {
+        return browser.isElementDisplayed(By.cssSelector("td .detail span[class='insitu-edit']:first-child"));
+    }
+
+    public WebElement getUploadButton()
+    {
+        return uploadButton;
+    }
+}

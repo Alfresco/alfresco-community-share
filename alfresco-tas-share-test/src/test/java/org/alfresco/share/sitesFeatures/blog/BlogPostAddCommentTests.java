@@ -1,0 +1,119 @@
+package org.alfresco.share.sitesFeatures.blog;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.SitePagesService;
+import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.po.share.site.CustomizeSitePage;
+import org.alfresco.po.share.site.blog.BlogPostListPage;
+import org.alfresco.po.share.site.blog.BlogPostViewPage;
+import org.alfresco.po.share.site.blog.BlogPromptWindow;
+import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.openqa.selenium.By;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class BlogPostAddCommentTests extends ContextAwareWebTest
+{
+    @Autowired
+    CustomizeSitePage customizeSite;
+    
+    @Autowired
+    SitePagesService sitePagesService;
+
+    @Autowired
+    BlogPostListPage blogPage;
+
+    @Autowired
+    BlogPostViewPage blogPostView;
+    
+    @Autowired
+    BlogPromptWindow commentWindow;
+
+    private String user = "C6011User" + DataUtil.getUniqueIdentifier();
+    private String siteName = "C6011SiteName" + DataUtil.getUniqueIdentifier();
+    private String description = "C6011SiteDescription" + DataUtil.getUniqueIdentifier();
+    private String blogPostContentText = "C6011 post content text";
+    private List<String> tags = Arrays.asList("tagc6011");
+    private String blogPostTitleC6011 = "C6011 blog post title";
+    private String comment = "C6011 comment text";
+    private String commentUser = user+" "+user;
+    @BeforeClass
+    public void setupTest()
+    {
+        List<Page> pagesToAdd = new ArrayList<Page>();
+        pagesToAdd.add(Page.BLOG);
+        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
+        siteService.addPagesToSite(user, password, siteName, pagesToAdd);
+        setupAuthenticatedSession(user, password);
+    }
+    
+    @TestRail(id = "C6011")
+    @Test
+    
+    public void addingACommentToABlogPost()
+    {
+        LOG.info("Preconditions: ");
+        sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC6011, blogPostContentText, false, tags);
+        blogPage.navigate(siteName);
+        browser.waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC6011));
+        blogPage.clickReadBlogPost(blogPostTitleC6011);
+        blogPostView.renderedPage();
+        
+        LOG.info("Step 1: Click Add comment button");
+        blogPostView.clickAddCommentButton();
+        Assert.assertEquals(commentWindow.getAddCommentLable(), "Add Your Comment...");
+        
+        LOG.info("Step 2: Type your comment in the Add Your Comment box.");
+        commentWindow.writeComment(comment);
+        
+        LOG.info("Step 3: Click the Add Comment button");
+        commentWindow.clickAddCommentButton();
+        browser.waitUntilElementVisible(blogPostView.commentText);
+        
+        LOG.info("Step 4: Click Blog Post List button");
+        
+        blogPostView.clickBlogPostListButton();
+        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//div[@class='nodeContent']//a[text()='" + blogPostTitleC6011 + "']"), 6);
+        //browser.waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC6011));
+        Assert.assertEquals(blogPage.getBlogPostNumberOfReplies(blogPostTitleC6011), "(1)", "Blog Post" + blogPostTitleC6011 + "is not displayed");
+    }
+    
+    @TestRail(id = "C6035")
+    @Test
+    
+    public void addCommentToDraftBlogPost()
+    {
+        String blogPostTitleC6035 = "C6035 blog post title";
+        sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC6035, blogPostContentText, true, tags);
+        
+        blogPage.navigate(siteName);
+        blogPage.clickMyDraftsFilter();
+        blogPage.clickReadBlogPost(blogPostTitleC6035);
+        
+        LOG.info("Step 1: Click Add Comment");
+        blogPostView.clickAddCommentButton();
+        Assert.assertEquals(commentWindow.getAddCommentLable(), "Add Your Comment...");
+        
+        LOG.info("Step 2: Type your comment in the Add Your Comment box.");
+        commentWindow.writeComment(comment);
+        
+        LOG.info("Step 3: Click the Add Comment button");
+        commentWindow.clickAddCommentButton();
+        browser.waitUntilElementVisible(blogPostView.commentText);
+        
+        LOG.info("Step 4: Click Blog Post List button and My Drafts");
+        blogPostView.clickBlogPostListButton();
+        blogPage.clickMyDraftsFilter();
+        Assert.assertEquals(blogPage.getBlogPostNumberOfReplies(blogPostTitleC6035), "(1)");
+        blogPage.clickAllFilter();
+        Assert.assertEquals(blogPage.getBlogPostNumberOfReplies(blogPostTitleC6035), "(1)");
+    }
+}

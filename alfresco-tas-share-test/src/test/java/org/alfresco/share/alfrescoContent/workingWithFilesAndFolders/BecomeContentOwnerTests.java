@@ -1,0 +1,188 @@
+package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
+
+import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.BecomeContentOwnerDialog;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.alfresco.api.entities.Site;
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+/**
+ * @author Laura.Capsa
+ */
+public class BecomeContentOwnerTests extends ContextAwareWebTest
+{
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
+
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+
+    @Autowired
+    BecomeContentOwnerDialog becomeContentOwnerDialog;
+
+    String firstName = "FirstName";
+    String lastName = "LastName";
+    String description = "Description-" + DataUtil.getUniqueIdentifier();
+    String docContent = "content of the file.";
+
+    @TestRail(id = "C7152")
+    @Test()
+    public void becomeFileOwner()
+    {
+        String random = DataUtil.getUniqueIdentifier();
+        String userSiteManager = "user-SiteManager-C7152-" + random;
+        String userManager = "userManager-C7152-" + random;
+        String userContributor = "userContributor-C7152-" + random;
+        String docName = "Doc-C7152-" + random;
+        String siteName = "Site-C7152-" + random;
+
+        userService.create(adminUser, adminPassword, userSiteManager, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userManager, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userContributor, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
+        siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.inviteUserToSiteAndAccept(userSiteManager, password, userManager, siteName, "SiteManager");
+        userService.inviteUserToSiteAndAccept(userSiteManager, password, userContributor, siteName, "SiteContributor");
+        content.createDocument(userContributor, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+
+        setupAuthenticatedSession(userManager, password);
+        documentLibraryPage.navigate(siteName);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
+        documentLibraryPage.clickOnFile(docName);
+        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
+
+        LOG.info("STEP1: From 'Document Actions' section, click 'Become Owner' option");
+        documentDetailsPage.clickDocumentActionsOption("Become Owner");
+        assertTrue(becomeContentOwnerDialog.isDialogDisplayed(), "'Become Owner' dialog is displayed.");
+        assertEquals(becomeContentOwnerDialog.getHeader(), language.translate("becomeContentOwner.header"), "'Become Owner' dialog header=");
+        assertEquals(becomeContentOwnerDialog.getMessage(), String.format(language.translate("becomeContentOwner.message"), docName),
+                "'Become Owner' dialog message:");
+
+        LOG.info("STEP2: Click 'OK' button");
+        becomeContentOwnerDialog.clickButton("OK");
+        assertTrue(documentDetailsPage.isPropertyDisplayed("Owner:"), "'Owner' property is displayed.");
+        assertEquals(documentDetailsPage.getPropertyValue("Owner:"), userManager, "'Owner' property value=");
+
+        LOG.info("STEP3: Logout and login as userContributor. Navigate to site's Document Library page");
+        cleanupAuthenticatedSession();
+        setupAuthenticatedSession(userContributor, password);
+        documentLibraryPage.navigate(siteName);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
+
+        LOG.info("STEP4: Mouse over file's name link");
+        documentLibraryPage.mouseOverFileName(docName);
+        assertFalse(documentLibraryPage.isMoreMenuDisplayed(docName), docName + " - 'More' menu is displayed.");
+
+        cleanupAuthenticatedSession();
+    }
+
+    @TestRail(id = "C7153")
+    @Test()
+    public void becomeFolderOwner()
+    {
+        String random = DataUtil.getUniqueIdentifier();
+        String userSiteManager = "user-SiteManager-C7153-" + random;
+        String userManager = "userManager-C7153-" + random;
+        String userContributor = "userContributor-C7153-" + random;
+        String folderName = "Folder-C7153-" + random;
+        String siteName = "Site-C7153-" + random;
+        userService.create(adminUser, adminPassword, userSiteManager, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userManager, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userContributor, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
+        siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.inviteUserToSiteAndAccept(userSiteManager, password, userManager, siteName, "SiteManager");
+        userService.inviteUserToSiteAndAccept(userSiteManager, password, userContributor, siteName, "SiteContributor");
+        content.createFolder(userContributor, password, folderName, siteName);
+
+        setupAuthenticatedSession(userManager, password);
+        documentLibraryPage.navigate(siteName);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
+
+        LOG.info("STEP1: Hover over 'Folder1' folder from 'Documents' list, then select 'View Details' option");
+        documentLibraryPage.mouseOverContentItem(folderName);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
+        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page=");
+        assertEquals(documentDetailsPage.getPropertyValue("Modifier:"), userContributor, "'Modifier' property value=");
+
+        LOG.info("STEP2: From 'Document Actions' section, click 'Become Owner' option");
+        documentDetailsPage.clickDocumentActionsOption("Become Owner");
+        assertTrue(becomeContentOwnerDialog.isDialogDisplayed(), "'Become Owner' dialog is displayed.");
+        assertEquals(becomeContentOwnerDialog.getHeader(), language.translate("becomeContentOwner.header"), "'Become Owner' dialog header:");
+        assertEquals(becomeContentOwnerDialog.getMessage(), String.format(language.translate("becomeContentOwner.message"), folderName),
+                "'Become Owner' dialog message:");
+
+        LOG.info("STEP3: Click 'OK' button");
+        becomeContentOwnerDialog.clickButton("OK");
+        assertEquals(documentDetailsPage.getPropertyValue("Modifier:"), userManager, "'Modifier' property value is updated to=");
+
+        LOG.info("STEP4: Logout and login as userContributor. Navigate to site's Document Library page");
+        cleanupAuthenticatedSession();
+        setupAuthenticatedSession(userContributor, password);
+        documentLibraryPage.navigate(siteName);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
+
+        LOG.info("STEP5: Mouse over folder name");
+        documentLibraryPage.mouseOverContentItem(folderName);
+        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Edit properties"), "'Edit properties' option is displayed for " + folderName);
+        assertFalse(documentLibraryPage.isMoreMenuDisplayed(folderName), folderName + " - 'More' menu is displayed.");
+
+        cleanupAuthenticatedSession();
+    }
+
+    @TestRail(id = "C7154")
+    @Test
+    public void cancelBecomeOwner()
+    {
+        String random = DataUtil.getUniqueIdentifier();
+        String userSiteManager = "user-SiteManager-C7154-" + random;
+        String userManager = "userManager-C7154-" + random;
+        String userContributor = "userContributor-C7154-" + random;
+        String siteName = "Site-C7154-" + random;
+        String docName = "Doc-C7154-" + random;
+        userService.create(adminUser, adminPassword, userSiteManager, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userManager, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userContributor, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
+        siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.inviteUserToSiteAndAccept(userSiteManager, password, userManager, siteName, "SiteManager");
+        userService.inviteUserToSiteAndAccept(userSiteManager, password, userContributor, siteName, "SiteContributor");
+        content.createDocument(userContributor, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+
+        setupAuthenticatedSession(userManager, password);
+        documentLibraryPage.navigate(siteName);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
+        documentLibraryPage.clickOnFile(docName);
+        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
+
+        LOG.info("STEP1: From 'Document Actions' section, click 'Become Owner' option");
+        documentDetailsPage.clickDocumentActionsOption("Become Owner");
+        assertTrue(becomeContentOwnerDialog.isDialogDisplayed(), "'Become Owner' dialog is displayed.");
+        assertEquals(becomeContentOwnerDialog.getHeader(), language.translate("becomeContentOwner.header"), "'Become Owner' dialog header=");
+        assertEquals(becomeContentOwnerDialog.getMessage(), String.format(language.translate("becomeContentOwner.message"), docName),
+                "'Become Owner' dialog message:");
+
+        LOG.info("STEP2: Click 'Cancel' button");
+        becomeContentOwnerDialog.clickButton("Cancel");
+        assertFalse(becomeContentOwnerDialog.isDialogDisplayed(), "'Become Owner' dialog is displayed.");
+        assertFalse(documentDetailsPage.isPropertyDisplayed("Owner:"), "'Owner' property is displayed.");
+
+        LOG.info("STEP3: Logout and login as userContributor. Navigate to site's Document Library page");
+        cleanupAuthenticatedSession();
+        setupAuthenticatedSession(userContributor, password);
+        documentLibraryPage.navigate(siteName);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
+
+        LOG.info("STEP4: Mouse over file's name link");
+        documentLibraryPage.mouseOverFileName(docName);
+        assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), docName + " - 'More' menu is displayed. ");
+
+        cleanupAuthenticatedSession();
+    }
+}

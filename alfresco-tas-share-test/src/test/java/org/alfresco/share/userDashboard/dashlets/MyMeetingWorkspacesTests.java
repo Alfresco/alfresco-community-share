@@ -1,0 +1,57 @@
+package org.alfresco.share.userDashboard.dashlets;
+
+import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
+import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.share.dashlet.MyMeetingWorkspacesDashlet;
+import org.alfresco.po.share.user.UserDashboardPage;
+import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class MyMeetingWorkspacesTests extends ContextAwareWebTest
+{
+    
+    @Autowired
+    UserDashboardPage userDashboardPage;
+    
+    @Autowired
+    MyMeetingWorkspacesDashlet myMeetingWorkspacesDashlet;
+    
+    private String userName;
+
+    @BeforeClass
+    public void setup()
+    {
+        super.setup();
+        userName = "User1" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + "@tests.com", userName, userName);
+        userService.addDashlet(userName, DataUtil.PASSWORD, DashboardCustomization.UserDashlet.MY_MEETING_WORKSPACES, DashletLayout.THREE_COLUMNS, 3, 1);
+        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+    }
+    
+    @TestRail(id = "C2772")
+    @Test
+    public void meetingWorkspacesDashlet()
+    {  
+        userDashboardPage.navigate(userName);
+        
+        logger.info("Step 1: Verify 'My Meeting Workspaces' dahslet");
+        Assert.assertEquals(myMeetingWorkspacesDashlet.getDashletTitle(), "My Meeting Workspaces");
+        Assert.assertEquals(myMeetingWorkspacesDashlet.getDefaultMessage(), "No meeting workspaces to display");
+        
+        logger.info("Step 2: Click Help icon");
+        myMeetingWorkspacesDashlet.clickOnHelpIcon(DashletHelpIcon.MY_MEETING_WORKSPACES);
+        Assert.assertTrue(myMeetingWorkspacesDashlet.isBalloonDisplayed());
+        Assert.assertEquals(myMeetingWorkspacesDashlet.getHelpBalloonMessage(), "A Meeting Workspace is a type of site that is created outside of Alfresco. This dashlet lists all of your Meeting Workspace sites."
+               +"\nFrom here you can navigate to a Meeting Workspace site. You can also delete a site, if you have the correct permissions.");
+        
+        logger.info("Step 3: Close ballon popup");
+        myMeetingWorkspacesDashlet.closeHelpBalloon();
+        Assert.assertFalse(myMeetingWorkspacesDashlet.isBalloonDisplayed());
+    }
+}

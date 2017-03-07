@@ -1,0 +1,104 @@
+package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions;
+
+import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
+import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class CommentTests extends ContextAwareWebTest
+{
+    @Autowired
+    RepositoryPage repositoryPage;
+
+    @Autowired
+    CreateContent createContent;
+
+    @Autowired
+    SocialFeatures socialFeatures;
+    
+    @Autowired
+    DocumentDetailsPage documentDetails;
+
+    private String user = "C8305TestUser" + DataUtil.getUniqueIdentifier();
+    private String fileNameC8305 = "C8305 file";
+    private String path = "User Homes/" + user;
+    private String fileContent = "test file content";
+    private String folderNameC8306 = "C8306 Folder";
+
+    @BeforeClass
+    public void setupTest()
+    {
+        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8305, fileContent);
+        contentService.createFolderInRepository(adminUser, adminPassword, folderNameC8306, path);
+        setupAuthenticatedSession(user, password);
+    }
+    
+    @TestRail(id ="C8305")
+    @Test
+    
+    public void addCommentToFile()
+    {
+        String comment = "test comment c8305";
+        repositoryPage.navigate();
+        repositoryPage.renderedPage();
+        repositoryPage.clickOnContent("User Homes");
+        repositoryPage.clickOnContent(user);
+        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8305), fileNameC8305 + " is not available in Repository");
+        
+        LOG.info("Step 1: Add comment");
+        socialFeatures.clickCommentLink(fileNameC8305);
+        documentDetails.renderedPage();
+        documentDetails.addComment(comment);      
+        Assert.assertEquals(documentDetails.getCommentContent(), comment , "Comment text is not correct");
+        
+        LOG.info("Step 2: Return to Repository, User Homes , User page and check that the comment counter has increased");
+        repositoryPage.navigate();
+        repositoryPage.renderedPage();
+        repositoryPage.clickOnContent("User Homes");
+        repositoryPage.clickOnContent(user);
+        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8305), fileNameC8305 + " is not available in Repository");
+        
+        Assert.assertEquals(socialFeatures.getNumberOfComments(fileNameC8305), 1, "The number of comments is not increased");
+    }
+    
+    @TestRail(id ="C8306")
+    @Test
+    
+    public void addCommentToFolder()
+    {
+        String comment = "test comment c8306";
+        repositoryPage.navigate();
+        repositoryPage.renderedPage();
+        repositoryPage.clickOnContent("User Homes");
+        repositoryPage.clickOnContent(user);
+        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8306), folderNameC8306 + " is not available in Repository");
+        
+        LOG.info("Step 1: Add comment");
+        socialFeatures.clickCommentLink(folderNameC8306);
+        documentDetails.renderedPage();
+        documentDetails.addComment(comment);
+        Assert.assertEquals(documentDetails.getCommentContent(), comment , "Comment text is not correct");
+        
+        LOG.info("Step 2: Return to Repository, User Homes , User page and check that the comment counter has increased");
+        repositoryPage.navigate();
+        repositoryPage.renderedPage();
+        repositoryPage.clickOnContent("User Homes");
+        repositoryPage.clickOnContent(user);
+        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8306), folderNameC8306 + " is not available in Repository");
+        
+        Assert.assertEquals(socialFeatures.getNumberOfComments(folderNameC8306), 1, "The number of comments is not increased");
+    }
+}

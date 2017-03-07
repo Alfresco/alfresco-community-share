@@ -1,0 +1,190 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="shareUserProfileUserDashboardSearchingSmokeSuite">
+    <test name="LoginTests">
+        <classes>
+            <class name="org.alfresco.share.LoginTests"></class>
+        </classes>
+    </test>
+
+    <test name="LogoTests">
+        <classes>
+            <class name="org.alfresco.share.LogoTests"></class>
+        </classes>
+    </test>
+
+    <test name="ToolbarTests">
+        <classes>
+            <class name="org.alfresco.share.ToolbarTests"></class>
+        </classes>
+    </test>
+
+    <test name="ChangePasswordTest">
+        <classes>
+            <class name="org.alfresco.share.userProfile.ChangePasswordTest"></class>
+        </classes>
+    </test>
+
+    <test name="UpdateAndViewProfileTests">
+        <classes>
+            <class name="org.alfresco.share.userProfile.UpdateAndViewProfileTests"></class>
+        </classes>
+    </test>
+
+    <test name="UserProfileSitesTests">
+        <classes>
+            <class name="org.alfresco.share.userProfile.UserProfileSitesTests"></class>
+        </classes>
+    </test>
+
+    <test name="UserProfileContentTests">
+        <classes>
+            <class name="org.alfresco.share.userProfile.UserProfileContentTests"></class>
+        </classes>
+    </test>
+
+    <test name="CustomizeUserDashboardTests">
+        <classes>
+            <class name="org.alfresco.share.userDashboard.CustomizeUserDashboardTests"></class>
+        </classes>
+    </test>
+
+    <test name="SettingHomePageTest">
+        <classes>
+            <class name="org.alfresco.share.userDashboard.SettingHomePageTest"></class>
+        </classes>
+    </test>
+
+    <test name="MyDiscussionsTests">
+        <classes>
+            <class name="org.alfresco.share.userDashboard.dashlets.MyDiscussionsTests"></class>
+        </classes>
+    </test>
+
+    <test name="MyDocuments">
+        <classes>
+            <class name="org.alfresco.share.userDashboard.dashlets.MyDocumentsTests"></class>
+        </classes>
+    </test>
+
+    <test name="MyDocumentsWorkspaces">
+        <classes>
+            <class
+                    name="org.alfresco.share.userDashboard.dashlets.MyDocumentsWorkspacesTests"></class>
+        </classes>
+    </test>
+
+    <test name="MySitesTests">
+        <classes>
+            <class name="org.alfresco.share.userDashboard.dashlets.MySitesTests"></class>
+        </classes>
+    </test>
+
+    <test name="MyActivitiesTests">
+        <classes>
+            <class name="org.alfresco.share.userDashboard.dashlets.MyActivitiesTests"></class>
+        </classes>
+    </test>
+
+    <test name="MyMeetingWorkspacesTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.userDashboard.dashlets.MyMeetingWorkspacesTests"></class>
+        </classes>
+    </test>
+
+    <test name="MyProfileTests">
+        <classes>
+            <class name="org.alfresco.share.userDashboard.dashlets.MyProfileTests"></class>
+        </classes>
+    </test>
+
+    <test name="MyTasksTest">
+        <classes>
+            <class name="org.alfresco.share.userDashboard.dashlets.MyTasksTest"></class>
+        </classes>
+    </test>
+
+    <test name="SavedSearchTests">
+        <classes>
+            <class name="org.alfresco.share.userDashboard.dashlets.SavedSearchTests"></class>
+        </classes>
+    </test>
+
+    <test name="WebViewTests">
+        <classes>
+            <class name="org.alfresco.share.userDashboard.dashlets.WebViewTests"></class>
+        </classes>
+    </test>
+
+    <test name="RssFeedTest">
+        <classes>
+            <class name="org.alfresco.share.userDashboard.dashlets.RssFeedTest"></class>
+        </classes>
+    </test>
+
+    <test name="SiteSearchTest">
+        <classes>
+            <class name="org.alfresco.share.userDashboard.dashlets.SiteSearchTest"></class>
+        </classes>
+    </test>
+
+    <test name="AlfrescoAddonsRssFeedDashletTest">
+        <classes>
+            <class
+                    name="org.alfresco.share.userDashboard.dashlets.AlfrescoAddonsRssFeedDashletTest"></class>
+        </classes>
+    </test>
+	
+	<test name="PeopleFinderPageTest">
+        <classes>
+            <class
+                    name="org.alfresco.share.searching.peopleFinder.PeopleFinderPageTest"></class>
+        </classes>
+    </test>
+
+    <test name="SearchByProfilePropertiesTest">
+        <classes>
+            <class
+                    name="org.alfresco.share.searching.peopleFinder.SearchByProfilePropertiesTest"></class>
+        </classes>
+    </test>
+
+    <test name="SearchManagerTests">
+        <classes>
+            <class name="org.alfresco.share.searching.SearchManagerTests"></class>
+        </classes>
+    </test>
+
+    <test name="SiteFinderTests">
+        <classes>
+            <class name="org.alfresco.share.searching.SiteFinderTests"></class>
+        </classes>
+    </test>
+
+    <test name="BasicSearchTests">
+        <classes>
+            <class name="org.alfresco.share.searching.BasicSearchTests"></class>
+        </classes>
+    </test>
+
+    <test name="AdvancedSearchOperatorsTests">
+        <classes>
+            <class
+                    name="org.alfresco.share.searching.advancedSearch.AdvancedSearchOperatorsTests"></class>
+        </classes>
+    </test>
+
+    <test name="AdvancedSearchPageTest">
+        <classes>
+            <class
+                    name="org.alfresco.share.searching.advancedSearch.AdvancedSearchPageTest"></class>
+        </classes>
+    </test>
+
+    <test name="ContentSearchStructureTest">
+        <classes>
+            <class
+                    name="org.alfresco.share.searching.advancedSearch.ContentSearchStructureTest"></class>
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,24 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ShareUsersSearchTasksSuite" preserve-order="true">
+	<listeners>
+		<listener class-name="org.alfresco.share.TestListener" />
+		<listener class-name="org.uncommons.reportng.HTMLReporter"/>
+	</listeners>
+
+    <test name="ShareUsersSearchTasks">
+        <packages>
+            <package name="org.alfresco.share.alfrescoPowerUsers.*"></package>
+            <package name="org.alfresco.share.searching.*"></package>
+            <package name="org.alfresco.share.smartFolders.*"></package>
+            <package name="org.alfresco.share.tasksAndWorkflows.*"></package>
+            <package name="org.alfresco.share.userDashboard.*"></package>
+            <package name="org.alfresco.share.userProfile.*"></package>
+            <package name="org.alfresco.share.userRolesAndPermissions.*"></package>
+        </packages>
+        <classes>
+            <class name="org.alfresco.share.LoginTests"></class>
+            <class name="org.alfresco.share.LogoTests"></class>
+            <class name="org.alfresco.share.ToolbarTests"></class>
+        </classes>
+    </test>
+</suite>

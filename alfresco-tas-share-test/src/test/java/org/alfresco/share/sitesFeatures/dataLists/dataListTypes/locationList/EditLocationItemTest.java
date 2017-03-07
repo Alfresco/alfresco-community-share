@@ -1,0 +1,105 @@
+package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.locationList;
+
+import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.DataListsService;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.LocationFields;
+import org.alfresco.po.share.site.dataLists.DataListsPage;
+import org.alfresco.po.share.site.dataLists.EditItemPopUp;
+import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.alfresco.api.entities.Site;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.testng.Assert.assertTrue;
+
+/**
+ * @author Laura.Capsa
+ */
+public class EditLocationItemTest extends ContextAwareWebTest
+{
+    @Autowired
+    DataListsService dataLists;
+
+    @Autowired
+    DataListsPage dataListsPage;
+
+    @Autowired
+    EditItemPopUp editItemPopUp;
+
+    private List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
+    String random = DataUtil.getUniqueIdentifier();
+    String userName = "User-" + random;
+    String siteName = "SiteName-" + random;
+    String listName = "List name" + random;
+    String itemTitle = "Item title";
+    String itemFile = "testFile1";
+
+    String newItemTitle = " edited ItemTitle";
+    String itemAddress1 = "itemAddress1";
+    String itemAddress2 = "itemAddress2";
+    String itemAddress3 = "itemAddress3";
+    String itemZipCode = "itemZipCode";
+    String itemState = "itemState";
+    String itemCountry = "itemCountry";
+    String itemDescription = "itemDescription";
+    String attachedFile = "testDoc.txt";
+
+    @BeforeClass
+    public void setupTest()
+    {
+        pagesToAdd.add(DashboardCustomization.Page.DATALISTS);
+        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
+        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
+        dataLists.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.LOCATION_LIST, listName, "Location List description");
+
+        String path = srcRoot + "testdata" + File.separator;
+        contentService.uploadFileInSite(userName, password, siteName, path + itemFile);
+        contentService.uploadFileInSite(userName, password, siteName, path + attachedFile);
+        dataLists.addLocationItem(adminUser, adminPassword, siteName, listName, itemTitle, "", "", "", "", "", "", "", Arrays.asList(itemFile));
+
+        setupAuthenticatedSession(userName, password);
+        dataListsPage.navigate(siteName);
+        dataListsPage.clickLocationListItem(listName);
+    }
+
+    @TestRail(id = "C6795")
+    @Test
+    public void saveEditItem()
+    {
+        LOG.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");
+        //List<String> item = Arrays.asList(itemTitle, "", "", "", "", "", "", "", itemFile);
+        // dataListsPage.currentContent.editItem(item);
+        dataListsPage.clickEditButtonForListItem();
+
+        LOG.info("STEP2: Fill in 'Edit Data' form fields with valid data");
+        editItemPopUp.editContent(LocationFields.Title.toString(), newItemTitle);
+        editItemPopUp.editContent(LocationFields.AddressLine1.toString(), itemAddress1);
+        editItemPopUp.editContent(LocationFields.AddressLine2.toString(), itemAddress2);
+        editItemPopUp.editContent(LocationFields.AddressLine3.toString(), itemAddress3);
+        editItemPopUp.editContent(LocationFields.ZipCode.toString(), itemZipCode);
+        editItemPopUp.editContent(LocationFields.State.toString(), itemState);
+        editItemPopUp.editContent(LocationFields.Country.toString(), itemCountry);
+        editItemPopUp.editContent(LocationFields.Description.toString(), itemDescription);
+
+        LOG.info("STEP3: Click Attachments/ Select button. Navigate to Document Library/ test.docx and click the + button for test.docx then OK to confirm.");
+        editItemPopUp.addAttachmentFromDocumentLibrary(attachedFile);
+
+        LOG.info("STEP4: Click Save button");
+        editItemPopUp.clickSave();
+        List<String> attachmentsList = Arrays.asList(attachedFile, itemFile);
+        List<String> expectedItem = Arrays.asList(newItemTitle, itemAddress1, itemAddress2, itemAddress3, itemZipCode, itemState, itemCountry, itemDescription,
+                attachedFile);
+        assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedItem), newItemTitle + " issue list item is displayed.");
+
+        cleanupAuthenticatedSession();
+    }
+}
