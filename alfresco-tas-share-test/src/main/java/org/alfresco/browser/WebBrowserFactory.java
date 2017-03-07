@@ -40,8 +40,8 @@ public class WebBrowserFactory implements FactoryBean<WebBrowser>
             webbrowser = new WebBrowser(Browser.fromProperties(properties));
         }
 
-        EventWebBrowserListener listener = new EventWebBrowserListener();
-        webbrowser.register(listener);
+        //EventWebBrowserListener listener = new EventWebBrowserListener();
+        //webbrowser.register(listener);
 
         /*long default_wait = Long.valueOf(properties.getImplicitWait());
         webbrowser.manage().timeouts().implicitlyWait(default_wait, TimeUnit.SECONDS);*/
