@@ -1,0 +1,38 @@
+node('tse') {
+ properties([
+
+    	buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')),
+    	parameters([
+    	choice(choices: 'Firefox\nChrome', description: 'Browser', name: 'Browser'),
+    		string(defaultValue: '172.29.100.215', description: '', name: 'AlfrescoHost'),
+    		string(defaultValue: '7070', description: '', name: 'AlfrescoPort'),
+    		booleanParam(defaultValue: true, description: '', name: 'UseJolokiaAgent'),
+    		string(defaultValue: 'src/test/resources/share-sanity-suite.xml' , description: '', name: 'SuiteXmlFile'),
+    		booleanParam(defaultValue: false, description: '', name: 'RunTestsMarkedAsBugs'),
+    		string(defaultValue: 'sanity,core,full', description: '', name: 'IncludeGroups'),
+    		string(defaultValue: 'demo,unit,networks', description: '', name: 'ExcludeGroups'),
+    		booleanParam(defaultValue: false, description: 'Enable or Disable the ability of adding tests and TestRail', name: 'EnableTestRailIntegration'),
+    		string(defaultValue: '5.1.N-%AlfrescoHost%', description: 'The name of the Test Run In TestRail (requires *EnableTestRailIntegration*)', name: 'TestRailTestRunName')
+    		])
+    ])
+
+
+
+	stage('Checkout') {
+		checkout scm
+	}
+
+	stage('Compile') {
+		bat 'mvn -U clean install -DskipTests'
+	}
+
+	stage('Test') {
+    		try {
+               bat 'mvn test -DtestManagement.testRun=%TestRailTestRunName% -DtestManagement.enabled=%EnableTestRailIntegration% -DsuiteXmlFile=%SuiteXmlFile% -DincludeGroups=%IncludeGroups% -DexcludeGroups=%ExcludeGroups% -DrunBugs=%RunTestsMarkedAsBugs% -Dserver.url=%AlfrescoHost% -Dserver.port=%AlfrescoPort% -Djmx.useJolokiaAgent=%UseJolokiaAgent% -Dbrowser.name=%Browser% -Dserver.scheme=http -Dadmin.user=admin -Dadmin.password=admin'
+            }
+            finally {
+                step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/junitreports/*.xml'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'target/surefire-reports', reportFiles: 'index.html', reportName: 'TSE Results'])
+            }
+    	}
+}
