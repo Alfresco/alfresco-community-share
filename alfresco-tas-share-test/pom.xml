@@ -15,20 +15,18 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<testng.version>6.9.6</testng.version>
-		<slf4j.version>1.7.2</slf4j.version>
-		<spring.version>4.1.7.RELEASE</spring.version>
 		<seleniumjava.version>2.46.0</seleniumjava.version>
 		<yandex.qatools.version>1.15</yandex.qatools.version>
 		<suiteXmlFile>src/test/resources/share-sanity-suite.xml</suiteXmlFile>
+		<tas.utility.version>1.0.14-SNAPSHOT</tas.utility.version>
+		<maven-remote-resources.version>1.5</maven-remote-resources.version>
 	</properties>
 
 	<dependencies>
-		<!-- test framework dependencies -->
 		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>${testng.version}</version>
+			<groupId>org.alfresco.tas</groupId>
+			<artifactId>utility</artifactId>
+			<version>${tas.utility.version}</version>
 		</dependency>
 
 		<!-- selenium code -->
@@ -36,13 +34,6 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>${seleniumjava.version}</version>
-		</dependency>
-
-		<!-- default logger -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
 		</dependency>
 
 	    <dependency>
@@ -58,20 +49,6 @@
 		</exclusions>
 	</dependency>
 
-		<!-- spring -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
 		<!-- yandex -->
 		<dependency>
 			<groupId>ru.yandex.qatools.htmlelements</groupId>
@@ -79,12 +56,6 @@
 			<version>${yandex.qatools.version}</version>
 		</dependency>
 
-		<!-- dataprep -->
-		<dependency>
-			<groupId>org.alfresco.test</groupId>
-			<artifactId>dataprep</artifactId>
-			<version>1.10</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -111,6 +82,24 @@
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-remote-resources-plugin</artifactId>
+				<configuration>
+					<resourceBundles>
+						<resourceBundle>org.alfresco.tas:utility:${tas.utility.version}</resourceBundle>
+					</resourceBundles>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>process</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>

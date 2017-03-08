@@ -24,7 +24,7 @@ import java.nio.file.Paths;
  * @author Paul.Brodner
  */
 @Configuration
-@PropertySource("classpath:alfresco-share-po-default.properties")
+@PropertySource("classpath:default.properties")
 @PropertySource(value = "classpath:alfresco-share-po-${environment}.properties", ignoreResourceNotFound = true)
 public class EnvProperties
 {
