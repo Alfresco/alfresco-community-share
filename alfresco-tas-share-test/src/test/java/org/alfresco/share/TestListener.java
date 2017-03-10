@@ -3,7 +3,7 @@ package org.alfresco.share;
 import java.io.File;
 import java.io.IOException;
 
-import org.alfresco.browser.WebBrowser;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
