@@ -1,13 +1,13 @@
 package org.alfresco.po.share.site;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PageObject
 public class SelectDocumentPopupPage extends SelectPopUpPage

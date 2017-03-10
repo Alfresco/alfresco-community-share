@@ -1,8 +1,8 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -66,7 +66,7 @@ public class EditModelDialogPage extends ShareDialog
 
     public String getNameFieldStatus()
     {
-        return nameField.getAttribute("aria-disabled").toString();
+        return nameField.getAttribute("aria-disabled");
     }
 
     public boolean isEditModelDialogDisplayed()

@@ -1,18 +1,17 @@
 package org.alfresco.po.share.site;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
 import org.alfresco.po.share.Theme;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import ru.yandex.qatools.htmlelements.element.Button;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author bogdan.bocancea

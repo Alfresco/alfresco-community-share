@@ -1,21 +1,20 @@
 package org.alfresco.po.share.site;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
-import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.DashboardCustomization;
 import org.alfresco.po.share.DashboardCustomizationImpl;
 import org.alfresco.po.share.DashboardCustomizationImpl.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
+import org.alfresco.utility.exception.PageOperationException;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import ru.yandex.qatools.htmlelements.element.TextBlock;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * @author bogdan.bocancea

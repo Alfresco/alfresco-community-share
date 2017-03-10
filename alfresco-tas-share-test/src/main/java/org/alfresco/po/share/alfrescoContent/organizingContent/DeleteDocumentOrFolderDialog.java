@@ -1,8 +1,8 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent;
 
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

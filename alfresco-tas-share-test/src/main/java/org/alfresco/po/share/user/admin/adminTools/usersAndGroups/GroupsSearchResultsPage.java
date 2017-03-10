@@ -1,9 +1,9 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.HtmlPage;
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,7 +14,6 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class GroupsSearchResultsPage extends SharePage<GroupsSearchResultsPage>
 {
-
     @RenderWebElement
     @FindBy(css="button[id$='_default-search-button-button']")
     private WebElement searchButton;

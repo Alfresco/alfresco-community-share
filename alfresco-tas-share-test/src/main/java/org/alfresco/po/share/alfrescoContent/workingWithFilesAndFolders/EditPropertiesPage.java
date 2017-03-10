@@ -1,17 +1,17 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Laura.Capsa

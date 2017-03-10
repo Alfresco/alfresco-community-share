@@ -1,11 +1,9 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
-
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -13,8 +11,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import ru.yandex.qatools.htmlelements.element.Link;
+
+import java.util.List;
 
 @PageObject
 public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
@@ -377,7 +376,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public int getNumberOfLikes(String fileName)
     {
-        int nrOfLikes = Integer.parseInt(selectItem(fileName).findElement(numberOfLikes).getText().toString());
+        int nrOfLikes = Integer.parseInt(selectItem(fileName).findElement(numberOfLikes).getText());
         return nrOfLikes;
     }
 

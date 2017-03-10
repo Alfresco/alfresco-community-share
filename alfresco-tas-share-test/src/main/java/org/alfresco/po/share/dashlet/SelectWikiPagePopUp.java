@@ -1,6 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.annotation.PageObject;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

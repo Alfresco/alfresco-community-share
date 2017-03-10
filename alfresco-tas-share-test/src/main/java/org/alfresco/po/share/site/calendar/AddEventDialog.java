@@ -1,9 +1,9 @@
 package org.alfresco.po.share.site.calendar;
 
-import org.alfresco.common.Parameter;
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.common.Parameter;
 import org.joda.time.DateTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

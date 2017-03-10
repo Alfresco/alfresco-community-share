@@ -1,14 +1,13 @@
 package org.alfresco.po;
 
-import org.alfresco.browser.WebBrowser;
-import org.alfresco.po.annotation.PageObject;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
-
 import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
 import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 

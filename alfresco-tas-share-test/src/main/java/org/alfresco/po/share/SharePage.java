@@ -1,21 +1,20 @@
 package org.alfresco.po.share;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-
-import org.alfresco.po.HtmlPage;
-import org.alfresco.po.annotation.RenderWebElement;
-import org.alfresco.po.renderer.ElementState;
+import org.alfresco.utility.web.HtmlPage;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.renderer.ElementState;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * handle common cases related to a share page

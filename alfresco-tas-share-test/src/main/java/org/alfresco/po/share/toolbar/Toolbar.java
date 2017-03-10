@@ -1,11 +1,11 @@
 package org.alfresco.po.share.toolbar;
 
-import org.alfresco.po.HtmlPage;
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;

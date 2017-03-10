@@ -1,6 +1,6 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.alfresco.po.annotation.PageObject;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 
 @PageObject

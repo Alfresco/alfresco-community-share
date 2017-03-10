@@ -1,15 +1,16 @@
 package org.alfresco.po.share.alfrescoContent;
 
-import java.util.List;
-import org.alfresco.browser.WebBrowser;
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
+import java.util.List;
 
 /**
  * @author Bogdan.Simion

@@ -46,7 +46,7 @@ public class EnvProperties
     @Value("${grid.enabled}")
     private boolean gridEnabled;
 
-    @Value("${screenshots.path}")
+    @Value("${screenshots.dir}")
     private File screenshotsPath;
 
     @Value("${env.platform}")

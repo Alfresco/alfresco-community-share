@@ -3,6 +3,7 @@ package org.alfresco.common;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.*;
+import org.alfresco.utility.web.common.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

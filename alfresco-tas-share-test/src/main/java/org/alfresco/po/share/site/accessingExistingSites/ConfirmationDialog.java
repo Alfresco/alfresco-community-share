@@ -1,7 +1,6 @@
 package org.alfresco.po.share.site.accessingExistingSites;
 
-import org.alfresco.po.HtmlPage;
-import org.alfresco.po.annotation.RenderWebElement;
+import org.alfresco.utility.web.HtmlPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

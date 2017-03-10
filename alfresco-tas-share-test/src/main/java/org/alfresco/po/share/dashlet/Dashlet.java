@@ -1,9 +1,9 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
-import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.utility.exception.PageOperationException;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;

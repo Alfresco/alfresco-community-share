@@ -1,7 +1,7 @@
 package org.alfresco.po.share.user.profile;
 
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.utility.web.annotation.PageObject;
 
 /**
  * @author bogdan.bocancea

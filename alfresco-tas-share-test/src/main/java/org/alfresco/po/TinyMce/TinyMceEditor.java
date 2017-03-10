@@ -1,12 +1,11 @@
 package org.alfresco.po.TinyMce;
 
-import org.alfresco.po.HtmlPage;
-import org.alfresco.po.annotation.PageObject;
+import org.alfresco.utility.web.HtmlPage;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 
 /**
  * Created by Alex Argint
@@ -16,7 +15,6 @@ public class TinyMceEditor extends HtmlPage {
 
     @FindBy(css = "iframe[id$='-configDialog-text_ifr']")
     private WebElement iFrame;
-
 
     private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
 

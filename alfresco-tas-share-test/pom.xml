@@ -15,7 +15,6 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<seleniumjava.version>2.46.0</seleniumjava.version>
 		<yandex.qatools.version>1.15</yandex.qatools.version>
 		<suiteXmlFile>src/test/resources/share-sanity-suite.xml</suiteXmlFile>
 		<tas.utility.version>1.0.14-SNAPSHOT</tas.utility.version>
@@ -27,13 +26,6 @@
 			<groupId>org.alfresco.tas</groupId>
 			<artifactId>utility</artifactId>
 			<version>${tas.utility.version}</version>
-		</dependency>
-
-		<!-- selenium code -->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>${seleniumjava.version}</version>
 		</dependency>
 
 	    <dependency>

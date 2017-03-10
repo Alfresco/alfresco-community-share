@@ -1,9 +1,9 @@
 package org.alfresco.po.share;
 
-import java.util.List;
-
 import org.alfresco.po.share.DashboardCustomizationImpl.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
+
+import java.util.List;
 
 /**
  * 

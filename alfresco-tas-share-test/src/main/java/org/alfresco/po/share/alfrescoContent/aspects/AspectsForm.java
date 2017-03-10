@@ -1,20 +1,18 @@
 package org.alfresco.po.share.alfrescoContent.aspects;
 
-import java.util.List;
-
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
 import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
+
+import java.util.List;
 
 @PageObject
 public class AspectsForm extends SiteCommon<AspectsForm>
 {
-
     @RenderWebElement
     @FindBy(css = "[id$='default-aspects-title']")
     protected WebElement aspectsFormTitle;

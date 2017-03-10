@@ -1,13 +1,12 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.po.share.user.UserDashboardPage;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -97,7 +96,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
      */
     public DocumentLibraryPage clickButton(String buttonName)
     {
-        if(buttonName == "Save")
+        if(buttonName.equals("Save"))
             saveButton.click();
         else
             cancelButton.click();

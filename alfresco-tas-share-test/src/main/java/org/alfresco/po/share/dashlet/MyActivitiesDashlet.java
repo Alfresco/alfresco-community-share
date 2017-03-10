@@ -1,12 +1,5 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.alfresco.common.Parameter;
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
-import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
@@ -14,14 +7,22 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.discussion.TopicViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
-import org.openqa.selenium.*;
+import org.alfresco.utility.exception.PageOperationException;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.common.Parameter;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * My activities dashlet page object, holds all elements of the HTML page relating to

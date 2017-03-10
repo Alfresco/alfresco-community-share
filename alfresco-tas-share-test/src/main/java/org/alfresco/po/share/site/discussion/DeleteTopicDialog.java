@@ -1,7 +1,7 @@
 package org.alfresco.po.share.site.discussion;
 
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.DeleteDialog;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

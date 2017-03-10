@@ -1,8 +1,8 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,9 +12,7 @@ import java.io.File;
  * Created by Mirela Tifui on 11/25/2016.
  */
 @PageObject
-
 public class Download extends SiteCommon<Download>
-
 {
     @Autowired
     DocumentCommon documentCommon;

@@ -1,9 +1,9 @@
 package org.alfresco.po.share.alfrescoContent.buildingContent;
 
 import org.alfresco.po.TinyMce.TinyMceEditor;
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

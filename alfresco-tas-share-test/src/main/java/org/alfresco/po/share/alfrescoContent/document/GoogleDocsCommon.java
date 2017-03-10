@@ -1,22 +1,15 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
 public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
-
 {
-
     @Autowired
     DocumentLibraryPage documentLibraryPage;
 

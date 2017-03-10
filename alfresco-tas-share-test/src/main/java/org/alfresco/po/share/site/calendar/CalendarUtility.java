@@ -1,10 +1,13 @@
 package org.alfresco.po.share.site.calendar;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import org.alfresco.po.annotation.PageObject;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.joda.time.DateTime;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Random;
 
 @PageObject
 public class CalendarUtility

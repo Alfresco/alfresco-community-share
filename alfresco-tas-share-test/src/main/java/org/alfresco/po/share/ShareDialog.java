@@ -1,6 +1,6 @@
 package org.alfresco.po.share;
 
-import org.alfresco.po.HtmlPage;
+import org.alfresco.utility.web.HtmlPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 

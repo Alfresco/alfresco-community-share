@@ -1,6 +1,6 @@
 package org.alfresco.po.share;
 
-import org.alfresco.po.annotation.PageObject;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -9,9 +9,7 @@ import org.openqa.selenium.support.FindBy;
  */
 @PageObject
 public class UploadFileDialog extends ShareDialog
-
 {
-
     @FindBy(css = "div[id*='default-dialog_h']")
     private WebElement updateFileDialogTitle;
 

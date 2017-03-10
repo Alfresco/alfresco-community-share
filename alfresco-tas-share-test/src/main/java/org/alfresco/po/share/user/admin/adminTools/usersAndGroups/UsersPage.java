@@ -1,23 +1,22 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
+import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.user.profile.UserProfilePage;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.yandex.qatools.htmlelements.element.FileInput;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.List;
-
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.user.profile.UserProfilePage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import ru.yandex.qatools.htmlelements.element.FileInput;
 
 @PageObject
 public class UsersPage extends SharePage<UsersPage>

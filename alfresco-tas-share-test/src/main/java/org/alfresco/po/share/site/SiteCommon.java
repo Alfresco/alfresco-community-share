@@ -1,13 +1,12 @@
 package org.alfresco.po.share.site;
 
 import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 

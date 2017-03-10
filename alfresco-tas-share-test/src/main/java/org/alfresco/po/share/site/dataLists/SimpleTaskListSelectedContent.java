@@ -1,10 +1,10 @@
 package org.alfresco.po.share.site.dataLists;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleTaskListSelectedContent extends ListItemSelectedContent
 {

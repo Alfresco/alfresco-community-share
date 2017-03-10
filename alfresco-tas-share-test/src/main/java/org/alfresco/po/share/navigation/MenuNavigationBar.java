@@ -1,7 +1,7 @@
 package org.alfresco.po.share.navigation;
 
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.exception.PageNotAccesibleByMenuBarException;
+import org.alfresco.utility.exception.PageNotAccesibleByMenuBarException;
+import org.alfresco.utility.web.annotation.PageObject;
 
 /**
  * @author Paul.Brodner

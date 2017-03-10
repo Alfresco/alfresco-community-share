@@ -1,9 +1,9 @@
 package org.alfresco.po.share.user;
 
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

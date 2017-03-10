@@ -1,8 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import org.alfresco.browser.Browser;
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -37,7 +36,7 @@ public class UploadContent extends SiteCommon<UploadContent> {
 
 	@Override
 	public String getRelativePath() {
-		return String.format("share/page/site/%s/documentlibrary");
+		return "share/page/site/%s/documentlibrary";
 	}
 
 	private static File newFile(String fileName, String contents) {

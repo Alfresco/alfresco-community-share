@@ -1,6 +1,6 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.alfresco.po.annotation.PageObject;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +11,7 @@ import java.util.List;
 @PageObject
 public class EditToDoListItemPopUp extends EditItemPopUp
 {
-        @FindBy(css = ".hd")
+    @FindBy(css = ".hd")
     protected List<WebElement> editDataItemPopup;
 
     @FindBy(css = "input[id*='todoTitle']")

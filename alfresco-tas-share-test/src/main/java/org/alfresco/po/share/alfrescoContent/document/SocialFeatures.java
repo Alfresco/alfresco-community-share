@@ -1,13 +1,13 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import java.util.List;
-
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 @PageObject
 public class SocialFeatures extends SiteCommon<SocialFeatures>
@@ -104,7 +104,7 @@ public class SocialFeatures extends SiteCommon<SocialFeatures>
 
     public String getLikeButtonMessage(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a.like-action")).getAttribute("title").toString();
+        return selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a.like-action")).getAttribute("title");
     }
 
     /**
@@ -115,7 +115,7 @@ public class SocialFeatures extends SiteCommon<SocialFeatures>
      */
     public int getNumberOfLikes(String fileName)
     {
-        String likesNo = selectDocumentLibraryItemRow(fileName).findElement(likesCount).getText().toString();
+        String likesNo = selectDocumentLibraryItemRow(fileName).findElement(likesCount).getText();
         int numberOfLikes = Integer.parseInt(likesNo);
         return numberOfLikes;
     }
@@ -149,7 +149,7 @@ public class SocialFeatures extends SiteCommon<SocialFeatures>
      */
     public String getLikeButtonEnabledText(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a[class ='like-action enabled']")).getAttribute("title").toString();
+        return selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a[class ='like-action enabled']")).getAttribute("title");
     }
 
     /**
@@ -177,7 +177,7 @@ public class SocialFeatures extends SiteCommon<SocialFeatures>
      */
     public String getShareButtonTooltip(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(shareButton).getAttribute("title").toString();
+        return selectDocumentLibraryItemRow(fileName).findElement(shareButton).getAttribute("title");
     }
 
     /**
@@ -297,7 +297,7 @@ public class SocialFeatures extends SiteCommon<SocialFeatures>
      */
     public String getLinkSharedWithGooglePlus()
     {
-        String sharedLink = shareGooglePlusLink.getAttribute("href").toString();
+        String sharedLink = shareGooglePlusLink.getAttribute("href");
         sharedLink = sharedLink.substring(0, sharedLink.lastIndexOf('/'));
         return sharedLink;
     }

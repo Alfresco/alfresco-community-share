@@ -1,9 +1,9 @@
 package org.alfresco.po.share.site;
 
-import org.alfresco.po.HtmlPage;
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.dashlet.Dashlets;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;

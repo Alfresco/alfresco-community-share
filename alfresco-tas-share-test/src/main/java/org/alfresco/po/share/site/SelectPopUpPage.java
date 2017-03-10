@@ -1,7 +1,7 @@
 package org.alfresco.po.share.site;
 
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;

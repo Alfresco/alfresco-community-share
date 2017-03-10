@@ -1,10 +1,10 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.po.share.user.UserDashboardPage;
+import org.alfresco.utility.exception.PageOperationException;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;

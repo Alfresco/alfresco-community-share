@@ -1,15 +1,15 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.po.HtmlPage;
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+
 import java.util.List;
 
 /**

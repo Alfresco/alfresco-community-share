@@ -1,8 +1,8 @@
 package org.alfresco.po.share.user.profile;
 
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
 import org.alfresco.po.share.SharePage;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -12,7 +12,6 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class UserContentPage extends SharePage<UserContentPage>
 {
-
     @RenderWebElement
     @FindBy(css = ".viewcolumn>div:nth-child(1)")
     private WebElement recentlyAddedLabel;

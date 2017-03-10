@@ -1,14 +1,14 @@
 package org.alfresco.po.share.dashlet;
 
-import java.util.List;
-
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * @author bogdan.simion
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 {
-    
     @Autowired
     DataListsPage dataListsPage;
     
@@ -131,7 +130,7 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
      */ 
     public boolean isNewListWindowOpened()
     {
-        return (newListWindow.getText() == "New List");
+        return (newListWindow.getText().equals("New List"));
     }
 
     /**

@@ -1,7 +1,6 @@
 package org.alfresco.po.share.dashlet;
 
 import org.openqa.selenium.WebElement;
-
 import ru.yandex.qatools.htmlelements.element.Link;
 
 public class ActivityLink

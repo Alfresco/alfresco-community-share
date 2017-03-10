@@ -1,7 +1,7 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -10,7 +10,6 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class ManageContactListItems extends ShareDialog
 {
-
     @FindBy(css = "button[id*='newRowButton-button']")
     protected WebElement newItemButton;
 

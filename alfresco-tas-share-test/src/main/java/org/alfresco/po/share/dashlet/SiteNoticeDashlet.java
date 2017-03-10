@@ -2,8 +2,8 @@ package org.alfresco.po.share.dashlet;
 
 import org.alfresco.po.TinyMce.TinyMceColourCode;
 import org.alfresco.po.TinyMce.TinyMceEditor;
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;

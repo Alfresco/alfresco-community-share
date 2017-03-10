@@ -1,11 +1,8 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.ShareDialog;
-import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
-import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 

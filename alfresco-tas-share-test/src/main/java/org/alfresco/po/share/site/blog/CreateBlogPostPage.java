@@ -1,17 +1,14 @@
 package org.alfresco.po.share.site.blog;
 
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageObject
-
 public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
 {
-
     private By pageTitle = By.xpath("//div[@id ='bd']//div[@class = 'page-form-header']//h1");
 
     @FindBy(css = "input[id*='_default-title']")

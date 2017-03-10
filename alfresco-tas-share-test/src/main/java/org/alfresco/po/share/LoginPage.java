@@ -1,17 +1,16 @@
 package org.alfresco.po.share;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-
-import org.alfresco.po.HtmlPage;
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
+import org.alfresco.utility.web.HtmlPage;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
+
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 /**
  * Simple Page Object class

@@ -5,10 +5,10 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-import org.alfresco.browser.WebBrowser;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
-import org.alfresco.common.LogFactory;
+import org.alfresco.utility.LogFactory;
 import org.alfresco.dataprep.ContentActions;
 import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.DataListsService;

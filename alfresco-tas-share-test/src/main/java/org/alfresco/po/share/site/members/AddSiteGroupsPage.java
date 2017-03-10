@@ -1,12 +1,9 @@
 package org.alfresco.po.share.site.members;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
-import org.alfresco.po.exception.PageOperationException;
 import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.exception.PageOperationException;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.apache.commons.lang3.EnumUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -14,6 +11,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PageObject
 public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>

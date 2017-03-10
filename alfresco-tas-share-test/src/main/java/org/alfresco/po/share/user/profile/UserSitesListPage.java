@@ -1,19 +1,18 @@
 package org.alfresco.po.share.user.profile;
 
-import java.util.List;
-
-import org.alfresco.po.annotation.PageObject;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteDashboardPage;
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.Table;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
+
+import java.util.List;
 
 /**
  * @author bogdan.bocancea

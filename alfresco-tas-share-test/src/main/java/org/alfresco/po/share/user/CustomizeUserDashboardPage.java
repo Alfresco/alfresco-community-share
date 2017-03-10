@@ -1,19 +1,18 @@
 package org.alfresco.po.share.user;
 
-import java.util.List;
-
-import org.alfresco.po.annotation.PageObject;
-import org.alfresco.po.annotation.RenderWebElement;
 import org.alfresco.po.share.DashboardCustomization;
 import org.alfresco.po.share.DashboardCustomizationImpl;
 import org.alfresco.po.share.DashboardCustomizationImpl.Layout;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.dashlet.Dashlets;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import ru.yandex.qatools.htmlelements.element.Radio;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
+
+import java.util.List;
 /**
  * @author bogdan.bocancea
  */
