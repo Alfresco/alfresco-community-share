@@ -15,7 +15,6 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<yandex.qatools.version>1.15</yandex.qatools.version>
 		<suiteXmlFile>src/test/resources/share-sanity-suite.xml</suiteXmlFile>
 		<tas.utility.version>1.0.14-SNAPSHOT</tas.utility.version>
 		<maven-remote-resources.version>1.5</maven-remote-resources.version>
@@ -40,13 +39,6 @@
 			</exclusion>
 		</exclusions>
 	</dependency>
-
-		<!-- yandex -->
-		<dependency>
-			<groupId>ru.yandex.qatools.htmlelements</groupId>
-			<artifactId>htmlelements-java</artifactId>
-			<version>${yandex.qatools.version}</version>
-		</dependency>
 
 	</dependencies>
 	<build>
