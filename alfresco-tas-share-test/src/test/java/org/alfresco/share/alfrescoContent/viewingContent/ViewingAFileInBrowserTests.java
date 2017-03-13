@@ -54,7 +54,7 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click on a folder (e.g. testFolder) and then hover over a file in the document library (e.g. testFile) .");
         documentLibraryPage.clickOnFolderName(folderName);
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.mouseOverFileName(docName);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Edit in Google Docs™"),
                 "Edit in Google Docs™ is not available for file");
@@ -63,7 +63,7 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
                 "View In Browser is not available for test document");
         Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");
 
-        LOG.info("Step 3: Click View in browser.");
+        LOG.info("Step 3: Click View in getBrowser().");
         documentLibraryPage.clickOnAction(docName, "View In Browser");
         Assert.assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), "Document content",
                 "File content is not correct or file has not be opened in new window");

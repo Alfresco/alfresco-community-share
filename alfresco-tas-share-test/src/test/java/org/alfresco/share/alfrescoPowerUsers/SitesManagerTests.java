@@ -302,7 +302,7 @@ public class SitesManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Navigate by link to " + site5 + " 's dashboard");
         String url = envProperties.getShareUrl() + "/page/site/" + site5 + "/dashboard";
-        browser.navigate().to(url);
+        getBrowser().navigate().to(url);
         assertEquals(systemErrorPage.getPageTitle(), "Alfresco Share » System Error", "Displayed page=");
     }
 }

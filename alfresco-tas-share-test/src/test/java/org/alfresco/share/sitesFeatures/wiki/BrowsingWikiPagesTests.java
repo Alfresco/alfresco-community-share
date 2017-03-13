@@ -169,11 +169,11 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         LOG.info("Logging in as user 1 and navigate to wiki list page for site");
         setupAuthenticatedSession(userName1, password);
         wikiListPage.navigate(siteName);
-        browser.waitInSeconds(7);
+        getBrowser().waitInSeconds(7);
 
         LOG.info("STEP1: Click \"My Pages\" from Pages section");
         wikiListPage.clickMyPagesFilter();
-        browser.waitInSeconds(8);
+        getBrowser().waitInSeconds(8);
         try
         {
             assertTrue(wikiListPage.isWikiPageDisplayed("U1-"+siteTitle1), "Wiki 'U1Page1' is displayed");
@@ -181,7 +181,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         }
         catch (NoSuchElementException e)
         {
-            browser.refresh();
+            getBrowser().refresh();
             wikiListPage.renderedPage();
             assertTrue(wikiListPage.isWikiPageDisplayed("U1-"+siteTitle1), "Wiki 'U1Page1' is displayed");
             assertTrue(wikiListPage.isWikiPageDisplayed("U1-"+siteTitle2), "Wiki 'U1Page2' is displayed");

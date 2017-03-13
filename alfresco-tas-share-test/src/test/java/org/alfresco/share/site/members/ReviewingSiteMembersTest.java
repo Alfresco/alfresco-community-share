@@ -62,7 +62,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
 
         LOG.info("STEP3: Click on any user from the list (e.g.: 'testUser2')");
         siteUsersPage.clickUser(user2 + " " + user2);
-        assertTrue(browser.getCurrentUrl().endsWith("/user/" + user2 + "/profile"));
+        assertTrue(getBrowser().getCurrentUrl().endsWith("/user/" + user2 + "/profile"));
     }
 
     @TestRail(id = "C2817")
@@ -92,7 +92,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Click on any user from the list (e.g.: 'testUser2')");
         siteUsersPage.clickUser(user2 + " " + user2);
-        assertTrue(browser.getCurrentUrl().endsWith("/user/" + user2 + "/profile"));
+        assertTrue(getBrowser().getCurrentUrl().endsWith("/user/" + user2 + "/profile"));
     }
 
     @TestRail(id = "C2818")
@@ -113,6 +113,6 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Click on  'testUser2'.");
         siteUsersPage.clickUser(user2 + " " + user2);
-        assertTrue(browser.getCurrentUrl().endsWith("/user/" + user2 + "/profile"));
+        assertTrue(getBrowser().getCurrentUrl().endsWith("/user/" + user2 + "/profile"));
     }
 }

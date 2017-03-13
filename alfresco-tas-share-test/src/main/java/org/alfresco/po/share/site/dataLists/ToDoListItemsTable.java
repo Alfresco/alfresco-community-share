@@ -1,12 +1,10 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public class ToDoListItemsTable extends ListItemTable
 {
-
     protected By titleColumn = By.cssSelector("td[class*='todoTitle'] div");
     protected By dueDateColumn = By.cssSelector("td[class*='todoDueDate'] div");
     protected By priorityColumn = By.cssSelector("td[class*='todoPriority'] div");
@@ -18,9 +16,9 @@ public class ToDoListItemsTable extends ListItemTable
     protected By duplicate = By.cssSelector("a[title='Duplicate']");
     protected By delete = By.cssSelector("a[title='Delete']");
     
-    public ToDoListItemsTable(WebElement webElement, WebBrowser browser)
+    public ToDoListItemsTable(WebElement webElement)
     {
-        super(webElement, browser);
+        super(webElement);
     }
     
     public WebElement getTitleColumn()

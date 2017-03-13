@@ -50,7 +50,7 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
         logger.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
         setupAuthenticatedSession(userName, password);
         sharedFilesPage.navigate();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects Form");
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
@@ -78,14 +78,14 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
 
         logger.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
         aspectsForm.addElement(0);
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 
         logger.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm.clickApplyChangesButton();
-        browser.waitInSeconds(1);
-        browser.refresh();
+        getBrowser().waitInSeconds(1);
+        getBrowser().refresh();
         sharedFilesPage.renderedPage();
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
@@ -100,11 +100,11 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
         logger.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
         setupAuthenticatedSession(userName1, password);
         sharedFilesPage.navigate();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step1: Hover over the folder created by other user and verify 'Manage Aspects' action is missing");
         sharedFilesPage.mouseOverContentItem(folderName);
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertFalse(sharedFilesPage.isMoreMenuDisplayed(folderName), "'More' menu not displayed for " + folderName);
         Assert.assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(folderName, "Manage Aspects"));
 

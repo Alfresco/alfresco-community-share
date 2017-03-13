@@ -72,7 +72,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
         renameWikiMainPage.clearWikiTitle();
         renameWikiMainPage.typeNewMainPageName(newWikiMainPageTitle);
         renameWikiMainPage.clickOnSaveButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertEquals(wikiMainPage.getWikiMainPageTitle(), newWikiMainPageTitle, "Wrong wiki page title!");
 
         LOG.info("STEP 3: Click on 'Main Page' link");

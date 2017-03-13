@@ -53,7 +53,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(nonAdminUser);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         
 
         logger.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects form");
@@ -80,7 +80,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(nonAdminUser);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         
 
         logger.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
@@ -94,7 +94,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
 
         logger.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm.clickApplyChangesButton();
-        browser.refresh();
+        getBrowser().refresh();
         repositoryPage.mouseOverContentItem(folderInRepoUserHomes);
         repositoryPage.clickOnAction(folderInRepoUserHomes, "Manage Aspects");
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");

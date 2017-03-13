@@ -54,7 +54,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Choose a view option from left side explorer pane -> 'Documents' section");
         documentLibraryPage.clickDocumentsFilterOption(DocumentLibraryPage.DocumentsFilters.RecentlyAdded.title);
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//div[contains(@class, 'message') and text()='Documents Added Recently']"));
+        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//div[contains(@class, 'message') and text()='Documents Added Recently']"));
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentLibraryPage.DocumentsFilters.RecentlyAdded.header, "Header=");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " is displayed in Recently added documents list.");
 

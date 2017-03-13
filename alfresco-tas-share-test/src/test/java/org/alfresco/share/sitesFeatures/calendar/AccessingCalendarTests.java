@@ -69,7 +69,7 @@ public class AccessingCalendarTests extends ContextAwareWebTest
 
         LOG.info("Step 4 - Click on 'newCalendar' link.");
         siteDashboardPage.clickLinkFromHeaderNavigationMenu(SitePageType.CALENDER);
-        assertEquals(browser.getTitle(), "Alfresco » newCalendar", "Calendar page is opened.");
+        assertEquals(getBrowser().getTitle(), "Alfresco » newCalendar", "Calendar page is opened.");
     }
 
 }

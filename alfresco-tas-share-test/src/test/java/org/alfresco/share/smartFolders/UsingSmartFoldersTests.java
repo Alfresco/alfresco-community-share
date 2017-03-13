@@ -110,7 +110,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step2: Hover over folder and click More -> Manage Aspects.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
         Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
@@ -121,13 +121,13 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step3: Click Add button next to System Smart Folder template.");
         aspectsForm.addElement(17);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
 
         logger.info("Step4: Click 'Apply Changes'.");
         aspectsForm.clickApplyChangesButton();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
 
         logger.info("Step5: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
@@ -145,9 +145,9 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         editPropertiesPage.clickButtonForFolder("Save");
 
         logger.info("Step8: Click on the folder and verify it has 'Smart Folder' structure under it");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName(folderName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
@@ -162,7 +162,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         logger.info("Step1: Hover over folder and click More -> Manage Aspects.");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
@@ -174,14 +174,14 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step2: Click Add button next to System Smart Folder template.");
         aspectsForm.addElement(17);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
 
         logger.info("Step3: Click 'Apply Changes'.");
         aspectsForm.clickApplyChangesButton();
-        browser.waitInSeconds(1);
-        // browser.refresh();
+        getBrowser().waitInSeconds(1);
+        // getBrowser().refresh();
 
         logger.info("Step4: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
@@ -199,9 +199,9 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         editPropertiesPage.clickButtonForFolder("Save");
 
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
@@ -210,13 +210,13 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step10: Go to My Content -> All site content -> Documents -> PDF Documents and verify that the uploaded file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("All site content");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Documents");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("PDF Documents");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("test.pdf"), "The uploaded file displayed in PDF Documents list");
     }
 
@@ -230,7 +230,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         logger.info("Step1: Hover over folder and click More -> Manage Aspects.");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
@@ -242,13 +242,13 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step2: Click Add button next to System Smart Folder template.");
         aspectsForm.addElement(17);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
 
         logger.info("Step3: Click 'Apply Changes'.");
         aspectsForm.clickApplyChangesButton();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step4: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
@@ -266,9 +266,9 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         editPropertiesPage.clickButtonForFolder("Save");
 
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName(folderName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
@@ -276,26 +276,26 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         logger.info("Step9: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
 
         logger.info("Step10: Hover over document and press Check in Google Doc.");
         googleDocs.checkInGoogleDoc("Untitled Document");
-        browser.waitInSeconds(10);
+        getBrowser().waitInSeconds(10);
 
         logger.info("Step11: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("All site content");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Documents");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Office Documents");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
 
     }
@@ -310,7 +310,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         logger.info("Step1: Hover over folder and click More -> Manage Aspects.");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
@@ -322,13 +322,13 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step2: Click Add button next to System Smart Folder template.");
         aspectsForm.addElement(17);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
 
         logger.info("Step3: Click 'Apply Changes'.");
         aspectsForm.clickApplyChangesButton();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step4: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
@@ -344,11 +344,11 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         logger.info("Step6: Select 'smartFoldersExample.json template' and save.");
         editPropertiesPage.selectSFTemplate(0);
         editPropertiesPage.clickButtonForFolder("Save");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
 
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(folderName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
@@ -356,31 +356,31 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         logger.info("Step9: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
 
         logger.info("Step10: Hover over document and press Check in Google Doc.");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         googleDocs.checkInGoogleDoc("Untitled Document");
-        browser.waitInSeconds(10);
+        getBrowser().waitInSeconds(10);
 
         logger.info("Step11: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("All site content");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Documents");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Office Documents");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
 
         logger.info("Step12: Hover over the created file and click 'Upload new version'");
         documentLibraryPage.clickDocumentLibraryItemAction("Test.docx", "Upload New Version", uploadContent);
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Minor);
 
         logger.info("Step13: Verify the document is updated and the version is increased");
@@ -402,7 +402,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
         Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
@@ -413,13 +413,13 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step2: Click 'Add' button next to 'System Smart Folder' template and verify it moves to moves to 'Currently Selected'");
         aspectsForm.addElement(17);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
 
         logger.info("Step3: Click 'Apply Changes'.");
         aspectsForm.clickApplyChangesButton();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step4: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
@@ -438,13 +438,13 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(folderName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
         logger.info("Step8: Click on 'My content' the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(mainSmartFolder);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("All site content"), "'All site content' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Contributions"), "'Contributions' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("My content modified by other users"),
@@ -466,7 +466,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
         Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
@@ -477,13 +477,13 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step2: Click 'Add' button next to 'System Smart Folder' template and verify it moves to moves to 'Currently Selected'");
         aspectsForm.addElement(17);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
 
         logger.info("Step3: Click 'Apply Changes'.");
         aspectsForm.clickApplyChangesButton();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step4: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
@@ -502,7 +502,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(folderName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
@@ -510,9 +510,9 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsSpreadsheet();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         logger.info("Step9: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleSheetsWindowandAndEditContent("Test", "Test Content");
@@ -520,17 +520,17 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         logger.info("Step10: Hover over document and press Check in Google Doc.");
         documentLibraryPage.renderedPage();
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet.xlsx");
-        browser.waitInSeconds(10);
+        getBrowser().waitInSeconds(10);
 
         logger.info("Step11: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("All site content");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Documents");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Office Documents");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.xlsx"), "The uploaded file displayed in Office Documents list");
 
     }
@@ -545,7 +545,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         logger.info("Step1: Hover over folder and click More -> Manage Aspects.");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
@@ -557,13 +557,13 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step2: Click Add button next to System Smart Folder template.");
         aspectsForm.addElement(17);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
 
         logger.info("Step3: Click 'Apply Changes'.");
         aspectsForm.clickApplyChangesButton();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step4: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
@@ -581,7 +581,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(folderName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
@@ -593,27 +593,27 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         logger.info("Step10: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
 
         logger.info("Step11: Hover over document and press Check in Google Doc.");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         googleDocs.checkInGoogleDoc("Untitled Document");
-        browser.waitInSeconds(10);
+        getBrowser().waitInSeconds(10);
 
         logger.info("Step12: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("All site content");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Documents");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Office Documents");
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
 
         logger.info("Step13: Hover over the created document and check available actions");

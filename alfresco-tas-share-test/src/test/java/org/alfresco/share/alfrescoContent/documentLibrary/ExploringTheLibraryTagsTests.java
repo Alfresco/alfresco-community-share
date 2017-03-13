@@ -88,13 +88,13 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
         
         LOG.info("Step 2: Click tagName1 and verify that only the content tagged with tag1 is displayed");
         filters.clickSelectedTag(tagName1);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document tagged with tag1 is not displayed in Document Library");
         Assert.assertFalse(documentLibraryPage.isContentNameDisplayed(folderName), "Folder tagged with tag2 is displayed in Document Library");
         
         LOG.info("Step 3: Click tagName2 and verify that only the content tagged with tag2 is displayed");
         filters.clickSelectedTag(tagName2);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Folder tagged with tag2 is not displayed in Document Library");
         Assert.assertFalse(documentLibraryPage.isContentNameDisplayed(docName), "Document tagged with tag1 is displayed in Document Library");
     }

@@ -193,15 +193,15 @@ public class UserProfileTests extends ContextAwareWebTest
         editUserPage.renderedPage();
 
         LOG.info("Step 1: Edit first name, last name and email for test user");
-        //browser.waitInSeconds(2);
+        //getBrowser().waitInSeconds(2);
         editUserPage.editFirstName(firstName);
         editUserPage.editLastNameField(lastName);
         editUserPage.editEmailField(email);
         editUserPage.clickSaveChangesButton(userProfileAdminToolsPage);
 
-        //browser.waitInSeconds(1);
+        //getBrowser().waitInSeconds(1);
         userProfileAdminToolsPage.renderedPage();
-        browser.waitUntilElementContainsText(userProfileAdminToolsPage.userName, expectedUserName);
+        getBrowser().waitUntilElementContainsText(userProfileAdminToolsPage.userName, expectedUserName);
         Assert.assertEquals(userProfileAdminToolsPage.getUserName(), expectedUserName, "User name is not correct");
         Assert.assertEquals(userProfileAdminToolsPage.getEmail(), email, "Email is not correct");
         cleanupAuthenticatedSession();
@@ -276,16 +276,16 @@ public class UserProfileTests extends ContextAwareWebTest
         usersPage.clickUserLink(fullName);
         userProfileAdminToolsPage.renderedPage();
         userProfileAdminToolsPage.clickEditUserButton(editUserPage);
-        browser.waitInSeconds(3);
-        editUserPage.clickDisabledAccount(); browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(3);
+        editUserPage.clickDisabledAccount(); getBrowser().waitInSeconds(1);
         editUserPage.clickSaveChangesButton(userProfileAdminToolsPage);
-        browser.waitUntilElementContainsText(userProfileAdminToolsPage.accountStatus, "Disabled");
+        getBrowser().waitUntilElementContainsText(userProfileAdminToolsPage.accountStatus, "Disabled");
         Assert.assertEquals(userProfileAdminToolsPage.getAccountStatus(), "Disabled", "Account is not disabled");
 
         LOG.info("Step 1&2: Switch off \"Disable account\" check-box");
         userProfileAdminToolsPage.clickEditUserButton(editUserPage);
-        editUserPage.clickDisabledAccount(); browser.waitInSeconds(3);
-        editUserPage.clickSaveChangesButton(userProfileAdminToolsPage); browser.waitInSeconds(1);
+        editUserPage.clickDisabledAccount(); getBrowser().waitInSeconds(3);
+        editUserPage.clickSaveChangesButton(userProfileAdminToolsPage); getBrowser().waitInSeconds(1);
         Assert.assertEquals(userProfileAdminToolsPage.getAccountStatus(), "Enabled", "Account is not enabled");
 
         LOG.info("Step 3: Try to log in as a user");

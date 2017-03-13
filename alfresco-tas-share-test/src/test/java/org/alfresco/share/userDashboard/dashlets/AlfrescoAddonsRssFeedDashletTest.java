@@ -58,27 +58,27 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
         Assert.assertTrue(rssFeedDashlet.getDashletTitle().contains("Reuters: Business News"), " Feed information is updated: ");
 
         //Store the current window handle
-        String currentWindow = browser.getWindowHandle();
+        String currentWindow = getBrowser().getWindowHandle();
 
         LOG.info("Step 6: Click on any RSS news");
         rssFeedDashlet.clickOnRssLink(1);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         //Switch to new window opened
-        for(String winHandle : browser.getWindowHandles())
+        for(String winHandle : getBrowser().getWindowHandles())
         {
-            browser.switchTo().window(winHandle);
-            if (browser.getCurrentUrl().contains("http://www.reuters.com"))
+            getBrowser().switchTo().window(winHandle);
+            if (getBrowser().getCurrentUrl().contains("http://www.reuters.com"))
             {
                 break;
             }
             else
             {
-                browser.switchTo().window(currentWindow);
+                getBrowser().switchTo().window(currentWindow);
             }
         }
 
-        Assert.assertTrue(browser.getCurrentUrl().contains("http://www.reuters.com"), "After clicking on RSS link, the title is: " + browser.getCurrentUrl());
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("http://www.reuters.com"), "After clicking on RSS link, the title is: " + getBrowser().getCurrentUrl());
         closeWindowAndSwitchBack();
     }
 }

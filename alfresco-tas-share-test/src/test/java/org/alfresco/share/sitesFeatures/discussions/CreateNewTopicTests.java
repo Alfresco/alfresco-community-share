@@ -90,8 +90,8 @@ public class CreateNewTopicTests extends ContextAwareWebTest
         createNewTopicPage.typeTopicContent(topicContent);
         createNewTopicPage.addTag(topicTag);
         createNewTopicPage.clickCancelButton();
-        browser.waitInSeconds(3);
-        browser.refresh();
+        getBrowser().waitInSeconds(3);
+        getBrowser().refresh();
         assertEquals(topicListPage.getMessageDisplayed(), language.translate("discussions.noTopicsFound"), "'No topics found' message=");
     }
 }

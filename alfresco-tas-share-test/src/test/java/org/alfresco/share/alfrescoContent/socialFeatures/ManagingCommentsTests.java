@@ -75,7 +75,7 @@ public class ManagingCommentsTests extends ContextAwareWebTest
         
         LOG.info("Step 3: Click Delete button on the Delete Comment prompt");
         documentPreviewPage.clickDeleteOnDeleteComment();
-        browser.waitUntilElementVisible(documentPreviewPage.noComments);
+        getBrowser().waitUntilElementVisible(documentPreviewPage.noComments);
         Assert.assertEquals(documentPreviewPage.getNoCommentsText(), "No comments", "No comments notification is not displayed");     
     }   
     
@@ -103,7 +103,7 @@ public class ManagingCommentsTests extends ContextAwareWebTest
         LOG.info("Step 3: Edit comment text and click on Save");
         documentPreviewPage.editComment(editedComment);
         documentPreviewPage.clickOnSaveButtonEditComment();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentPreviewPage.getCommentContent(editedComment), editedComment, "Edited comment text is not correct");
     }
 }

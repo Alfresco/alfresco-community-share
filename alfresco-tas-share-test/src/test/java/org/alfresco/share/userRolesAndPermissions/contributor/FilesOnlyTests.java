@@ -177,7 +177,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.mouseOverFileName(fileName);
         documentLibraryPage.clickDownloadForItem(fileName);
         download.acceptAlertIfDisplayed();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(download.isFileInDirectory(fileName, null), "The file was not found in the specified location");
 
     }
@@ -204,7 +204,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         logger.info("Step2: Click View in browser and verify the file is opened in a new browser window.");
 
         documentLibraryPage.clickAction(fileName, "View In Browser");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), fileContent, "Correct file content/ file opened in new window");
     }
 
@@ -233,7 +233,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         logger.info("Steps2,3: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
-        browser.refresh();
+        getBrowser().refresh();
         documentLibraryPage.renderedPage();
 
         logger.info("Steps4: Click on the file and check the content is updated.");
@@ -443,7 +443,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Upload New Version", uploadContent);
 
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Steps7: Click test file title link to open details page and check content.");
         documentLibraryPage.clickOnFile(newVersionFileName);
@@ -492,7 +492,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         // documentLibraryPage.uploadNewFile(googleDocPath);
         uploadContent.uploadContent(googleDocPath);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         logger.info("Steps1: Mouse over file and check 'Edit in Google Docs' action is available.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("uploadedDoc.docx", "Edit in Google Docs"),
@@ -500,13 +500,13 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         logger.info("Steps2: Click 'Edit in Google Docs' action and add some content");
         documentLibraryPage.clickDocumentLibraryItemAction("uploadedDoc.docx", "Edit in Google Docs", docs);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         docs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
-        browser.waitInSeconds(15);
+        getBrowser().waitInSeconds(15);
         docs.switchToGoogleDocsWindowandAndEditContent("GDTitle", "Edited");
 
         logger.info("Steps3: Check the test file's status in Document Library.");
-        // browser.waitUntilElementVisible(By.xpath("//img[contains(@title,'Locked by you')]"));
+        // getBrowser().waitUntilElementVisible(By.xpath("//img[contains(@title,'Locked by you')]"));
         documentLibraryPage.renderedPage();
         assertTrue(docs.isLockedIconDisplayed(), "Locked icon displayed");
         assertTrue(docs.isLockedDocumentMessageDisplayed(), "Message about the file being locked displayed");
@@ -519,12 +519,12 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         logger.info("Steps5: Click 'Check In Google Doc' and verify Version Information window is displayed.");
         documentLibraryPage.clickDocumentLibraryItemAction("uploadedDoc.docx", "Check In Google Doc", documentLibraryPage);
-        browser.waitInSeconds(10);
+        getBrowser().waitInSeconds(10);
         Assert.assertEquals(docs.isVersionInformationPopupDisplayed(), true, "Version information pop-up displayed");
 
         logger.info("Steps6: Click 'Ok' on the Version Information window and verify it is is closed");
         docs.clickOkButton();
-        browser.waitInSeconds(10);
+        getBrowser().waitInSeconds(10);
         Assert.assertEquals(docs.isVersionInformationPopupDisplayed(), false, "Version Information pop-up displayed");
 
         logger.info("Steps7: Check the status for the file");
@@ -585,12 +585,12 @@ public class FilesOnlyTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         documentLibraryPage.navigate(siteName);
         uploadContent.uploadContent(googleDocPath);
-        // browser.waitInSeconds(5);
+        // getBrowser().waitInSeconds(5);
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs", docs);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         docs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
-        browser.waitInSeconds(15);
+        getBrowser().waitInSeconds(15);
         docs.switchToGoogleDocsWindowandAndEditContent("GDTitle", "Google Doc test content");
 
         logger.info("Steps1: Login as Contributor user, go to site's doc lib and check whether 'Edit in Google Docs' action is available.");
@@ -621,7 +621,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         logger.info("Steps1: Mouse over file and click 'Edit Offline' action. Verify the file appears as locked.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
-        browser.refresh();
+        getBrowser().refresh();
         Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
 
         logger.info("Steps2: Hover over testFile and check whether 'Cancel editing' action is available");
@@ -630,7 +630,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         logger.info("Steps3: Click 'Cancel Editing' action and check whether the lock is removed for the test file");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Cancel Editing", documentLibraryPage);
-        browser.refresh();
+        getBrowser().refresh();
         Assert.assertFalse(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
 
     }
@@ -655,7 +655,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
-        browser.waitUntilElementVisible(By.xpath("//div[contains(text(), 'This document is locked by you')]"));
+        getBrowser().waitUntilElementVisible(By.xpath("//div[contains(text(), 'This document is locked by you')]"));
         Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
 
         logger.info("Step2: Login as Contributor user and check whether the file appears as locked by Admin");
@@ -689,7 +689,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         logger.info("Steps1: Mouse over file and click 'Edit Offline' action. Verify the file appears as locked.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
-        browser.waitUntilElementVisible(By.xpath("//div[contains(text(), 'This document is locked by you')]"));
+        getBrowser().waitUntilElementVisible(By.xpath("//div[contains(text(), 'This document is locked by you')]"));
         Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
 
         logger.info("Steps2: Logout and login as Contributor user; hover over testFile and check whether 'View Original Document' action is available");
@@ -727,7 +727,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         logger.info("Steps1: Mouse over file and click 'Edit Offline' action. Verify the file appears as locked.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
-        browser.refresh();
+        getBrowser().refresh();
         Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
 
         logger.info("Steps2: Logout and login as Contributor user; hover over testFile and click 'View Original Document' option");
@@ -773,33 +773,33 @@ public class FilesOnlyTests extends ContextAwareWebTest
         logger.info("Step2: Click 'Edit In Google Docs action' and verify the file is opened in Google Docs");
 
         // Store the current window handle
-        String currentWindow = browser.getWindowHandle();
+        String currentWindow = getBrowser().getWindowHandle();
 
         documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs", docs);
         docs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
-        browser.waitInSeconds(15);
+        getBrowser().waitInSeconds(15);
 
         // Switch to new window opened
 
-        for (String winHandle : browser.getWindowHandles())
+        for (String winHandle : getBrowser().getWindowHandles())
         {
-            browser.switchTo().window(winHandle);
-            if (browser.getCurrentUrl().contains(docsUrl))
+            getBrowser().switchTo().window(winHandle);
+            if (getBrowser().getCurrentUrl().contains(docsUrl))
             {
                 break;
             }
             else
             {
-                browser.switchTo().window(currentWindow);
+                getBrowser().switchTo().window(currentWindow);
 
             }
         }
 
-        assertTrue(browser.getCurrentUrl().contains("https://docs.google.com"), "After clicking on Google Docs link, the title is: " + browser.getCurrentUrl());
+        assertTrue(getBrowser().getCurrentUrl().contains("https://docs.google.com"), "After clicking on Google Docs link, the title is: " + getBrowser().getCurrentUrl());
         // assertEquals(documentLibraryPage.getPageTitle(), googleDocsPageName, "Displayed page=");
 
-        browser.close();
-        browser.switchTo().window(currentWindow);
+        getBrowser().close();
+        getBrowser().switchTo().window(currentWindow);
 
     }
 
@@ -894,8 +894,8 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         logger.info("Steps2,3: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Minor);
-        browser.waitInSeconds(2);
-        // browser.refresh();
+        getBrowser().waitInSeconds(2);
+        // getBrowser().refresh();
         // documentLibraryPage.renderedPage();
 
         logger.info("Steps4: Click on name of testFile and verify content is updated");
@@ -912,7 +912,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
                 "Steps6, 7: Click 'Download' button for previous version. Choose Save file option, location for file to be downloaded and click 'OK' button.");
         documentDetailsPage.clickDownloadPreviousVersion();
         download.acceptAlertIfDisplayed();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(download.isFileInDirectory(fileName, null), "The file was not found in the specified location");
     }
 
@@ -961,7 +961,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         logger.info("Step6: Click on 'Revert' action. Click 'Ok' button on the displayed pop-up for confirmation.");
         documentDetailsPage.clickRevertButton();
         documentDetailsPage.clickOkOnRevertPopup();
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//*[contains(text(), 'original content')]"));
+        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//*[contains(text(), 'original content')]"));
         Assert.assertEquals(documentDetailsPage.getContentText(), "original content", "New version's content");
         Assert.assertTrue(documentDetailsPage.isNewVersionAvailable("1.2"), "New minor version created");
 

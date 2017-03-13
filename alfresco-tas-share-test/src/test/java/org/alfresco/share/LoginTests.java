@@ -54,7 +54,7 @@ public class LoginTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Fill in username and password fields with valid credentials and click 'Login' button");
         loginPage.login(validUser, password);
-        browser.waitUntilWebElementIsDisplayedWithRetry(userDashboard.customizeUserDashboard);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(userDashboard.customizeUserDashboard);
         assertEquals(userDashboard.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
 
         cleanupAuthenticatedSession();

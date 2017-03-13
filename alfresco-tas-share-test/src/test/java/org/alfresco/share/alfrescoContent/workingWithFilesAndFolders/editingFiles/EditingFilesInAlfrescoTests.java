@@ -75,7 +75,7 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
         documentLibraryPage.clickCheckBox(fileName);
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentActions.editInAlfresco"),
                 editInAlfrescoPage);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.sendDocumentDetailsFields(editedName, editedContent, editedTitle, editedDescription);
@@ -83,7 +83,7 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
         logger.info("Step3: Click Save button");
         editInAlfrescoPage.clickButton("Save");
         
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         logger.info("Step4: Verify the new title for the document");
         Assert.assertTrue(docsCommon.isDocumentNameUpdated(editedName), "Document name is not updated");
 

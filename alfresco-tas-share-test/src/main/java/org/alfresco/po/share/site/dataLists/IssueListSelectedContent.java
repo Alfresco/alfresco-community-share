@@ -47,7 +47,7 @@ public class IssueListSelectedContent extends ListItemSelectedContent
         for (WebElement row : rows)
         {
             int i = 0;
-            tableRow = new IssueListItemsTable(row, browser);
+            tableRow = new IssueListItemsTable(row);
             if (tableRow.getIssueIDColumn().getText().equals(listDetails.get(i)))
             {
                 if (tableRow.getTitleColumn().getText().equals(listDetails.get(i)))
@@ -83,19 +83,19 @@ public class IssueListSelectedContent extends ListItemSelectedContent
 
     public void editItem(List<String> listDetails)
     {
-        tableRow = new IssueListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new IssueListItemsTable(findRow(listDetails).get(0));
         tableRow.getEditButton().click();
     }
 
     public void duplicateItem(List<String> listDetails)
     {
-        tableRow = new IssueListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new IssueListItemsTable(findRow(listDetails).get(0));
         tableRow.getDuplicateButton().click();
     }
 
     public void deleteItem(List<String> listDetails)
     {
-        tableRow = new IssueListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new IssueListItemsTable(findRow(listDetails).get(0));
         tableRow.getDeleteButton().click();
     }
 }

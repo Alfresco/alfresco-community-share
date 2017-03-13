@@ -10,7 +10,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 
+@Primary
 @PageObject
 public class CreateNewItemPopUp extends ShareDialog
 {

@@ -49,7 +49,7 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click Categories Root");
         filters.clickCategoriesRoot();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertTrue(filters.isCategoryDisplayed("Languages"), "Languages category is not displayed");
         Assert.assertTrue(filters.isCategoryDisplayed("Regions"), "Regions category is not displayed");
         Assert.assertTrue(filters.isCategoryDisplayed("Software Document Classification"), "Software Document Classification category is not displayed");
@@ -66,7 +66,7 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
         
         LOG.info("Step 1: Click on Category Root");
         filters.clickCategoryRootIcon();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertTrue(filters.isCategoryDisplayed("Languages"), "Languages category is not displayed");
         Assert.assertTrue(filters.isCategoryDisplayed("Regions"), "Regions category is not displayed");
         Assert.assertTrue(filters.isCategoryDisplayed("Software Document Classification"), "Software Document Classification category is not displayed");
@@ -74,7 +74,7 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
         
         LOG.info("Step 2: Click on Category Root again to collapse folders");
         filters.clickCategoryRootIcon();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertFalse(filters.isCategoryDisplayed("Languages"), "Languages category is displayed");
         Assert.assertFalse(filters.isCategoryDisplayed("Regions"), "Regions category is displayed");
         Assert.assertFalse(filters.isCategoryDisplayed("Software Document Classification"), "Software Document Classification category is displayed");

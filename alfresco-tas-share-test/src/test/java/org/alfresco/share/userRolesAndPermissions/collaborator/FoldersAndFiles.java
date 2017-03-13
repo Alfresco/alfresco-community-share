@@ -418,7 +418,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
 
     LOG.info("Step 1: Hover over the content name.");
     documentLibraryPage.mouseOverContentItem(testContentC8817);
-    browser.waitInSeconds(1);
+    getBrowser().waitInSeconds(1);
     assertTrue(documentLibraryPage.isRenameIconDisplayed(), "'Rename' icon is not displayed.");
 
     LOG.info("Step 2: Click on 'Rename' icon.");
@@ -836,7 +836,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
 
     LOG.info("Step 3: Click 'Delete' button.");
     documentPreviewPage.clickDeleteOnDeleteComment();
-    browser.waitUntilElementVisible(documentPreviewPage.noComments);
+    getBrowser().waitUntilElementVisible(documentPreviewPage.noComments);
     Assert.assertEquals(documentPreviewPage.getNoCommentsText(), "No comments",
         "No comments notification is not displayed");
 
@@ -867,7 +867,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
 
     LOG.info("Step 3: Click 'Delete' button.");
     documentPreviewPage.clickDeleteOnDeleteComment();
-    browser.waitUntilElementVisible(documentPreviewPage.noComments);
+    getBrowser().waitUntilElementVisible(documentPreviewPage.noComments);
     Assert.assertEquals(documentPreviewPage.getNoCommentsText(), "No comments",
         "No comments notification is not displayed");
 

@@ -84,11 +84,11 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         startWorkflowPage.selectAWorkflow();
 
         LOG.info("STEP 3: Select the workflow 'Review And Approve (single reviewer)' from the drop-down list.");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         startWorkflowPage.selectWorkflowToStartFromDropdownList("Review And Approve (single reviewer)");
 
         LOG.info("STEP 4: Add message, select a Due date, priority, assign it to you and click Start Workflow");
@@ -103,7 +103,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         startWorkflowPage.clickStartWorkflow();
         if(startWorkflowPage.isAlertPresent())
         {
-            browser.handleModalDialogAcceptingAlert();
+            getBrowser().handleModalDialogAcceptingAlert();
         }
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
@@ -128,11 +128,11 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         startWorkflowPage.selectAWorkflow();
 
         LOG.info("STEP 3: Select the workflow 'Review and Approve (one or more reviewers)' from the drop-down list.");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         startWorkflowPage.selectWorkflowToStartFromDropdownList("Review and Approve (one or more reviewers)");
 
         LOG.info("STEP 4: Add message, select a Due date, priority, assign it to a user different then you and click Start Workflow");
@@ -150,7 +150,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         startWorkflowPage.clickStartWorkflow();
         if(startWorkflowPage.isAlertPresent())
         {
-            browser.handleModalDialogAcceptingAlert();
+            getBrowser().handleModalDialogAcceptingAlert();
         }
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
@@ -183,11 +183,11 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         startWorkflowPage.selectAWorkflow();
 
         LOG.info("STEP 3: Select the workflow 'Review and Approve (group review)' from the drop-down list.");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         startWorkflowPage.selectWorkflowToStartFromDropdownList("Review and Approve (group review)");
 
         LOG.info("STEP 4: Add message, select a Due date, priority, assign to a group and click Start Workflow");
@@ -202,7 +202,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         startWorkflowPage.clickStartWorkflow();
         if (startWorkflowPage.isAlertPresent())
         {
-            browser.handleModalDialogAcceptingAlert();
+            getBrowser().handleModalDialogAcceptingAlert();
         }
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
@@ -225,11 +225,11 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         startWorkflowPage.selectAWorkflow();
 
         LOG.info("STEP 3: Select the workflow 'Review and Approve (pooled review)' from the drop-down list.");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         startWorkflowPage.selectWorkflowToStartFromDropdownList("Review and Approve (pooled review)");
 
         LOG.info("STEP 4: Add message, select a Due date, priority, assign to a group and click Start Workflow");
@@ -242,10 +242,10 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         selectPopUpPage.clickAddIcon(group);
         selectGroupAssigneeToWorkflowPopUp.clickOkButton();
         startWorkflowPage.clickStartWorkflow();
-        browser.waitInSeconds(6);
+        getBrowser().waitInSeconds(6);
         if (startWorkflowPage.isAlertPresent())
         {
-            browser.handleModalDialogAcceptingAlert();
+            getBrowser().handleModalDialogAcceptingAlert();
         }
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);

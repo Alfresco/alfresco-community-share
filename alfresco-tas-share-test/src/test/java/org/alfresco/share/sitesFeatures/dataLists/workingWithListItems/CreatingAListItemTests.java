@@ -62,11 +62,11 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(listName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 2: Provide all required informations.");
         dataUtil.fillCreateNewContactItem(Arrays.asList("test", "user", "test.user@test.com", "test Company", "test", "123456", "+41256422", "testNotes"));
@@ -87,11 +87,11 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(listName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 2: Provide all required informations.");
         dataUtil.fillCreateNewContactItem(Arrays.asList("test", "user", "test.user@test.com", "test Company", "test", "123456", "+41256422", "testNotes"));
@@ -112,11 +112,11 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(listName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 2: Provide all required informations.");
         dataUtil.fillCreateNewContactItem(Arrays.asList("test", "user", "test.user@test.com", "test Company", "test", "123456", "+41256422", "testNotes"));
@@ -137,11 +137,11 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickEventAgendaListItem(agendaName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 2: Provide all required informations.");
         dataUtil.fillCreateNewEventAgendaItem(Arrays.asList("test", "12", "13", "test", "test", "test", "testNotes"));
@@ -166,11 +166,11 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickEventListItem(eventName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 2: Provide all required informations.");
         dataUtil.fillCreateNewEventItem(Arrays.asList("test", "description", "location", "1/1/2017", "12:00", "2/2/2017", "12:00",  "test", "testNotes"), folderName, "MultiPageDocument.pptx");
@@ -197,11 +197,11 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickIssueListItem(issueName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 2: Provide all required informations.");
         dataUtil.fillCreateNewIssueItem(Arrays.asList("0001", "Issue list title", "Test description", "1/1/2017", "comment for test item"), folderName, "MultiPageDocument.pptx", userTest, "Complete", "High");
@@ -226,11 +226,11 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickLocationListItem(taskName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 2: Provide all required informations.");
         dataUtil.fillCreateNewLocationItem(Arrays.asList("test title", "Test Street, No. 1, Test, Test", "Test Street, No. 2, Test, Test", "Test Street, No. 3, Test, Test", "123456", "Test", "Test", "Test description"), folderName, "test.xlsx");
@@ -255,11 +255,11 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickMeetingAgendaListItem(meetingName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 2: Provide all required informations.");
         dataUtil.fillCreateNewMeetingAgendaItem(Arrays.asList("Meeting agenda reference", " test meeting agenda item", "Meeting agenda description test", "125", "test user"), folderName, "test.xlsx");
@@ -286,11 +286,11 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickAdvancedTaskListItem(advancedTaskName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 2: Provide all required informations.");
         dataUtil.fillCreateNewAdvancedTaskItem(Arrays.asList("Task List Advanced test", "Task List Advanced test description", "1/1/2017", "2/2/2017", "10", " test comment"), folderName, "test.xlsx", userTest, "Complete", "High");
@@ -317,11 +317,11 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickSimpleTaskListItem(simpleTaskName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 2: Provide all required informations.");
         dataUtil.fillCreateNewSimpleTaskItem(Arrays.asList("Test Title", "test description", "1/1/2017", "Test comments"), "Complete", "High");
@@ -348,11 +348,11 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickToDoListItem(toDoName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 2: Provide all required informations.");
         dataUtil.fillCreateNewToDoItem(Arrays.asList("Test title", "1/1/2017", "12:00", "1", "test notes"), folderName, "test.xlsx", userTest, "Complete");
@@ -381,11 +381,11 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickVisitorFeedbackListItem(visitorName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         
         logger.info("Step 2: Provide all required informations.");
         dataUtil.fillCreateNewVisitorItem(Arrays.asList("test@test.com", "Test feedback", "test", "test comment", "2", "Test User", "www.test.com"));

@@ -97,7 +97,7 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Agenda' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
         assertTrue(calendarPage.isEventPresentInAgenda(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEventInAgenda(currentEventName);
@@ -125,7 +125,7 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Agenda' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
         assertTrue(calendarPage.isEventPresentInAgenda(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEventInAgenda(currentEventName);
@@ -154,7 +154,7 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Agenda' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
         assertTrue(calendarPage.isEventPresentInAgenda(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEventInAgenda(currentEventName);
@@ -183,7 +183,7 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Agenda' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
         assertTrue(calendarPage.isEventPresentInAgenda(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEventInAgenda(currentEventName);
@@ -213,7 +213,7 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Agenda' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
         assertTrue(calendarPage.isEventPresentInAgenda(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEventInAgenda(currentEventName);
@@ -243,7 +243,7 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Agenda' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
         assertTrue(calendarPage.isEventPresentInAgenda(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEventInAgenda(currentEventName);
@@ -273,7 +273,7 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Agenda' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
         assertTrue(calendarPage.isEventPresentInAgenda(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEventInAgenda(currentEventName);
@@ -303,7 +303,7 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Agenda' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
         assertTrue(calendarPage.isEventPresentInAgenda(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEventInAgenda(currentEventName);

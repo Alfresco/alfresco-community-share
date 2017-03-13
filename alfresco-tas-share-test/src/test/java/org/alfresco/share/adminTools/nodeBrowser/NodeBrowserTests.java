@@ -56,7 +56,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(content);
         nodeBrowserPage.clickSearchButton();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify if the file created in precondition is displayed and its parent is correct.");
         List<String> values = nodeBrowserPage.getResults().get(fileName);
@@ -74,7 +74,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput("workspace://SpacesStore/" + nodeRef);
         nodeBrowserPage.clickSearchButton();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify if the file created in precondition is displayed and its parent is correct.");
         List<String> values = nodeBrowserPage.getResults().get(fileName);
@@ -90,7 +90,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(xpathSearchTerm);
         nodeBrowserPage.clickSearchButton();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify if the file created in precondition is displayed and its parent is correct.");
         List<String> values = nodeBrowserPage.getResults().get(fileName);
@@ -106,7 +106,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput("cm:name:" + fileName);
         nodeBrowserPage.clickSearchButton();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify if the file created in precondition is displayed and its parent is correct.");
         List<String> values = nodeBrowserPage.getResults().get(fileName);
@@ -122,7 +122,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(cmisSearchTerm);
         nodeBrowserPage.clickSearchButton();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify if the file created in precondition is displayed and its parent is correct.");
         List<String> values = nodeBrowserPage.getResults().get(fileName);
@@ -138,7 +138,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(cmisSearchTerm);
         nodeBrowserPage.clickSearchButton();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify if the file created in precondition is displayed and its parent is correct.");
         List<String> values = nodeBrowserPage.getResults().get(fileName);

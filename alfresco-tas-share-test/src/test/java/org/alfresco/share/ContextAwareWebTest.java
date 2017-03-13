@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
+import org.alfresco.utility.web.AbstractWebTest;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
@@ -20,6 +21,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.ITestResult;
@@ -33,16 +35,11 @@ import org.testng.annotations.BeforeMethod;
  *
  */
 @ContextConfiguration("classpath:alfresco-share-po-context.xml")
-public abstract class ContextAwareWebTest extends AbstractTestNGSpringContextTests
+@Scope(value = "prototype")
+public abstract class ContextAwareWebTest extends AbstractWebTest
 {
-    protected Logger LOG = LogFactory.getLogger();
-    
     @Autowired
     protected EnvProperties properties;
-
-    @Autowired
-    @Qualifier("webBrowserInstance")
-    protected WebBrowser browser;
 
     @Autowired
     protected UserService userService;
@@ -85,24 +82,6 @@ public abstract class ContextAwareWebTest extends AbstractTestNGSpringContextTes
         cleanupAuthenticatedSession();
     }
 
-    @BeforeMethod(alwaysRun = true)
-    public void startTest(final Method method) throws Exception {
-        LOG.info("***************************************************************************************************");
-        DateTime now = new DateTime();
-        LOG.info("*** {} ***  Starting test {}:{} ", now.toString("HH:mm:ss"), method.getDeclaringClass().getSimpleName(), method.getName());
-        LOG.info("***************************************************************************************************");
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void endTest(final Method method, final ITestResult result) throws Exception {
-        LOG.info("***************************************************************************************************");
-        DateTime now = new DateTime();
-        LOG.info("*** {} ***   Ending test {}:{} {} ({} s.)", now.toString("HH:mm:ss"), method.getDeclaringClass().getSimpleName(), method.getName(),
-                result.isSuccess() ? "SUCCESS" : "!!! FAILURE !!!",
-                (result.getEndMillis() - result.getStartMillis()) / 1000);
-        LOG.info("***************************************************************************************************");
-    }
-
     /**
      * Just authenticate using <username> and <password> provided as parameters
      * And inject the cookies in current browser
@@ -113,7 +92,7 @@ public abstract class ContextAwareWebTest extends AbstractTestNGSpringContextTes
      */
     protected void setupAuthenticatedSession(String userName, String password)
     {
-        browser.authenticatedSession(userService.login(userName, password));
+        getBrowser().authenticatedSession(userService.login(userName, password));
     }
 
     /**
@@ -122,7 +101,7 @@ public abstract class ContextAwareWebTest extends AbstractTestNGSpringContextTes
     protected void cleanupAuthenticatedSession()
     {
         userService.logout();
-        browser.cleanUpAuthenticatedSession();
+        getBrowser().cleanUpAuthenticatedSession();
     }
     
     /**
@@ -133,7 +112,7 @@ public abstract class ContextAwareWebTest extends AbstractTestNGSpringContextTes
     {
         try
         {
-            browser.navigate().to(properties.getShareUrl().toURI().resolve(pageUrl).toURL());
+            getBrowser().navigate().to(properties.getShareUrl().toURI().resolve(pageUrl).toURL());
         }
         catch (URISyntaxException | MalformedURLException me)
         {
@@ -146,7 +125,7 @@ public abstract class ContextAwareWebTest extends AbstractTestNGSpringContextTes
      */
     protected void switchWindow()
     {
-        browser.switchWindow();
+        getBrowser().switchWindow();
     }
     
     /**
@@ -154,10 +133,11 @@ public abstract class ContextAwareWebTest extends AbstractTestNGSpringContextTes
      */
     protected void closeWindowAndSwitchBack()
     {
-        browser.closeWindowAndSwitchBack();
+        getBrowser().closeWindowAndSwitchBack();
     }
-    
-    public WebBrowser getBrowser() {
-        return browser;
+
+    @Override public String getPageObjectRootPackage()
+    {
+        return "org/alfresco/po/share";
     }
 }

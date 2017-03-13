@@ -50,7 +50,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
         LOG.info("Precondition: Login as admin and navigate to My Files page.");
         setupAuthenticatedSession(adminUser, adminPassword);
         sitePage.clickMyFilesLink();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("Precondition: Admin uploads a file and adds a tag to it.");
         uploadContent.uploadContent(adminFilePath);
@@ -63,7 +63,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
         LOG.info("Precondition: Login as user and navigate to My Files page.");
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("Precondition: User uploads a file and adds a tag to it.");
         uploadContent.uploadContent(nonAdminFilePath);
@@ -107,7 +107,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
         LOG.info("Step1: Login as admin and navigate to My Files page.");
         setupAuthenticatedSession(adminUser, adminPassword);
         sitePage.clickMyFilesLink();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("Step2: Verify the list of tags in the tags section.");
         List<String> tags = myFilesPage.getAllTagNames();
@@ -115,14 +115,14 @@ public class MyFilesPageTests extends ContextAwareWebTest
 
         LOG.info("Step3: Click on the tag and verify the files are displayed.");
         myFilesPage.clickOnTag(tag);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(adminFile));
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(nonAdminFile));
 
         LOG.info("Step4: Login as user and navigate to My Files page.");
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("Step5: Verify the list of tags in the tags section.");
         tags = myFilesPage.getAllTagNames();
@@ -130,7 +130,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
 
         LOG.info("Step6: Click on the tag and verify the files are displayed.");
         myFilesPage.clickOnTag(tag);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertFalse(myFilesPage.isContentNameDisplayed(adminFile));
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(nonAdminFile));
     }

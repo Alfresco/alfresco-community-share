@@ -1,14 +1,12 @@
 package org.alfresco.po.share.site.dataLists;
 
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
 @PageObject
 public class NoListItemSelectedContent extends Content {
-    protected WebBrowser browser;
 
     protected By selectItemsButtonSelector = By.cssSelector("button[id*='selectedItems']");
     protected By newItemButtonSelector = By.cssSelector("button[id*='newRowButton']");
@@ -18,10 +16,6 @@ public class NoListItemSelectedContent extends Content {
     protected By deselectAllItemsSelector = By.cssSelector("span[class='onActionDeselectAll']");
     protected By confirmDeleteButtonSelector = By.cssSelector("span[class*='alf-primary-button'] button");
     protected By cancelDeleteButtonSelector = By.cssSelector("span[class*='yui-push-button default'] button");
-
-    public void setBrowser(WebBrowser browser) {
-        this.browser = browser;
-    }
 
     public NoListItemSelectedContent() {
     }

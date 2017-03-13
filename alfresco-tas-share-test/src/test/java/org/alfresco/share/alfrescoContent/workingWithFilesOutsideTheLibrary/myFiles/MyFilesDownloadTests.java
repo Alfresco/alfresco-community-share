@@ -84,7 +84,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
 
         if (documentCommon.isAlertPresent())
         {
-            alert = browser.switchTo().alert();
+            alert = getBrowser().switchTo().alert();
             LOG.info(alert.getText());
             alert.accept();
         }
@@ -106,7 +106,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
         myFilesPage.clickFolderLink();
         newContentDialog.fillInNameField(folderNameC7802);
         newContentDialog.clickSaveButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isContentNameDisplayed(folderNameC7802), folderNameC7802 + " displayed in My Files documents list.");
 
         LOG.info("Step 1: Mouse over folder, click Download");
@@ -115,7 +115,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
 
         if (documentCommon.isAlertPresent())
         {
-            alert = browser.switchTo().alert();
+            alert = getBrowser().switchTo().alert();
             LOG.info(alert.getText());
             alert.accept();
         }

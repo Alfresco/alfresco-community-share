@@ -55,7 +55,7 @@ public class ModuleBrowserTests extends ContextAwareWebTest
         LOG.info("Step 3: Click on Module Browser option from Tools");
         adminToolsPage.navigateToNodeFromToolsPanel("Module Browser");
         moduleBrowserPage.renderedPage();
-        Assert.assertTrue(browser.getCurrentUrl().contains("module-package"), "User User is not on Module Browser Page");
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("module-package"), "User User is not on Module Browser Page");
 
         LOG.info("Step 4: Logout Admin user and Login with userName into Share");
         cleanupAuthenticatedSession();

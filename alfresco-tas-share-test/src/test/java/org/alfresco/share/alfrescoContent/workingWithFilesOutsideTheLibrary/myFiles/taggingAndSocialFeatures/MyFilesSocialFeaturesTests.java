@@ -83,17 +83,17 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         myFilesPage.clickFolderLink();
         newContentDialog.fillInNameField(folderName);
         newContentDialog.clickSaveButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("Step 1: Hover over the file Like link.");
-        browser.waitUntilElementClickable(social.likeButton, 6L);
+        getBrowser().waitUntilElementClickable(social.likeButton, 6L);
         Assert.assertTrue(myFilesPage.isLikeButtonDisplayed(folderName), "Documents link is not present");
         Assert.assertEquals(social.getLikeButtonMessage(folderName), "Like this folder", "Like Button message is not correct");
         Assert.assertEquals(social.getNumberOfLikes(folderName), 0, "The number of likes is not correct");
 
         LOG.info("Step 2: Click on the Like button");
-        browser.waitUntilElementClickable(social.likeButton, 6L);
+        getBrowser().waitUntilElementClickable(social.likeButton, 6L);
         social.clickLikeButton(folderName);
         Assert.assertEquals(social.getNumberOfLikes(folderName), 1, "The number of likes is not correct");
         Assert.assertTrue(social.isLikeButtonEnabled(folderName), "Like button is not enabled");
@@ -115,7 +115,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Like the file.");
         social.clickLikeButton(testFile);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 1: Hover over the file Like link.");
         Assert.assertEquals(social.getLikeButtonEnabledText(testFile), "Unlike", "Unlike is not displayed");
@@ -141,13 +141,13 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         myFilesPage.clickFolderLink();
         newContentDialog.fillInNameField(folderName);
         newContentDialog.clickSaveButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("Precondition: Like the folder.");
-        browser.waitUntilElementClickable(social.likeButton, 6L);
+        getBrowser().waitUntilElementClickable(social.likeButton, 6L);
         social.clickLikeButton(folderName);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 1: Hover over the folder Like link.");
         Assert.assertEquals(social.getLikeButtonEnabledText(folderName), "Unlike", "Unlike is not displayed");
@@ -175,12 +175,12 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over a document and press \"Comment\"");
         social.clickCommentLink(testFile);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
 
         LOG.info("STEP2: In the \"Comments\" area of Document Details page write a comment and press \"Add Comment\" button");
         documentDetailsPage.addComment(comment);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertEquals(documentDetailsPage.getCommentContent(), comment, "Comment=");
 
         LOG.info("STEP3: Navigate to My Files page.");
@@ -204,17 +204,17 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         myFilesPage.clickFolderLink();
         newContentDialog.fillInNameField(folderName);
         newContentDialog.clickSaveButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("STEP1: Hover over a document and press \"Comment\"");
         social.clickCommentLink(folderName);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page=");
 
         LOG.info("STEP2: In the \"Comments\" area of Document Details page write a comment and press \"Add Comment\" button");
         documentDetailsPage.addComment(comment);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertEquals(documentDetailsPage.getCommentContent(), comment, "Comment=");
 
         LOG.info("STEP3: Navigate to My Files page");

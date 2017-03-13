@@ -74,7 +74,7 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on Table view action.");
         documentLibraryPage.clickOptionsButton();
         documentLibraryPage.selectViewFromOptionsMenu("Table View");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(tableView.isTableViewDisplayed());
         Assert.assertEquals(tableView.getContentNameTableView(docName), docName, "testFile1 is not displayed in table view");
         Assert.assertEquals(tableView.getContentNameTableView(folderName), folderName, "C2266 test folder is not displayed in table view");    

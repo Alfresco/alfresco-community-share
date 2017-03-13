@@ -9,10 +9,12 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Primary
 @PageObject
 public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 {

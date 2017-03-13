@@ -52,7 +52,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
         dataListsPage.navigate(siteName);
         createDataListPopUp.clickCancelFormButton();
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
-        browser.refresh();
+        getBrowser().refresh();
     }
     
     @TestRail(id = "C5911")

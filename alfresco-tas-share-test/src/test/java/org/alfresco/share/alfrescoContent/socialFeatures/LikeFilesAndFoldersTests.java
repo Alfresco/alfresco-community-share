@@ -65,7 +65,7 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
         
         LOG.info("Step 2: Click on the Like button");
         social.clickLikeButton(fileNameC7906);
-        browser.waitUntilElementVisible(social.enabledLikeButton);
+        getBrowser().waitUntilElementVisible(social.enabledLikeButton);
         Assert.assertEquals(social.getNumberOfLikes(fileNameC7906), 1, "The number of likes is not correct"); 
         Assert.assertTrue(social.isLikeButtonEnabled(fileNameC7906), "Like button is not enabled");
         
@@ -78,13 +78,13 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);        
         LOG.info("Step 1: Hover over the file Like link.");
-        browser.waitUntilElementClickable(social.likeButton, 6L);
+        getBrowser().waitUntilElementClickable(social.likeButton, 6L);
         Assert.assertTrue(documentLibraryPage.isLikeButtonDisplayed(folderNameC7907), "Documents link is not present");
         Assert.assertEquals(social.getLikeButtonMessage(folderNameC7907), "Like this folder", "Like Button message is not correct");
         Assert.assertEquals(social.getNumberOfLikes(folderNameC7907), 0, "The number of likes is not correct");
         
         LOG.info("Step 2: Click on the Like button");
-        browser.waitUntilElementClickable(social.likeButton, 6L);
+        getBrowser().waitUntilElementClickable(social.likeButton, 6L);
         social.clickLikeButton(folderNameC7907);
         Assert.assertEquals(social.getNumberOfLikes(folderNameC7907), 1, "The number of likes is not correct");   
         Assert.assertTrue(social.isLikeButtonEnabled(folderNameC7907), "Like button is not enabled");

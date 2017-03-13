@@ -58,7 +58,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.renderedPage();
         filters.clickAllDocumentsFilter();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         assertEquals(filters.getNoContentText(), "No content items");
 
         LOG.info("Step 2: Upload several files into document libarary");
@@ -75,11 +75,11 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.renderedPage();
         filters.clickAllDocumentsFilter();
-        browser.waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "File-6320-0 is not displayed");
-        browser.waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName1), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName1), 6);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName1), "File-6320-1 is not displayed");
-        browser.waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName2), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName2), 6);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName2), "File-6320-2 is not displayed");
     }
    
@@ -101,7 +101,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click I'm editing filter");
         filters.clickIMEditingFilter();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         assertEquals(filters.getNoContentText(), "No content items");
         
         LOG.info("Step 2: Checkout testFile1 for offline editing");
@@ -114,7 +114,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteNameC6321);
         documentLibraryPage.renderedPage();       
         filters.clickIMEditingFilter();
-        browser.waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName1), "testFile2 is displayed and it should not be displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName2), "testFile3 is displayed and it should not be displayed");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "testFile1 is not displayed in the list of files currently beeing edited");
@@ -139,7 +139,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         
         LOG.info("Step 1: Click Others are editing filter");
         filters.clickOthersAreEditing();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertEquals(filters.getNoContentText(), "No content items");
         
         LOG.info("Step 2: Check out file1.txt for offline editing.");
@@ -151,7 +151,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.renderedPage();
         filters.clickOthersAreEditing();
-        browser.waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "testFile1 is not displayed in the list of files beeing edited by other users");
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName1), "testFile2 is displayed and it should not be displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName2), "testFile3 is displayed and it should not be displayed");
@@ -185,7 +185,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         LOG.info("Step 3: Open again site1's document library and and click on My Favorites link from Documents section.");
         documentLibraryPage.navigate(siteName);
         filters.clickMyFavouritesFilter();
-        browser.waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "C6325-1 is not displayed in My favorites section");
         
         LOG.info("Step 4: Logout from Share and login as user2. Go to Documents section and click My Favorites link.");
@@ -218,11 +218,11 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         LOG.info("Step 3: Open again site's document library and and click on Recently Added link from Documents section.");
         documentLibraryPage.navigate(siteNameC10598);
         filters.clickRecentlyAddedFilter();
-        browser.waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "File is not displayed in Recently added section");
-        browser.waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName1), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName1), 6);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName1), "File is not displayed in Recently added section");
-        browser.waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName2), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName2), 6);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName2), "File is not displayed in Recently added section");
     }
 }

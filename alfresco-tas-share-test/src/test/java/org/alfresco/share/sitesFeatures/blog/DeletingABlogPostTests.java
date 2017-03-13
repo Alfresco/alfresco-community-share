@@ -73,7 +73,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
         promptWindows.clickDeleteButtonOnDeleteBlogPost();
         // TODO get popup text for Post Deleted
-        browser.waitUntilElementContainsText(browser.findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");
+        getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
     }
 
@@ -92,7 +92,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Test steps");
         LOG.info("Step 1: Click Delete for draft blog post");
-        browser.waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC5957));
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC5957));
         blogPage.clickDeleteButton(blogPostTitleC5957);
         Assert.assertEquals(promptWindows.getTextDisplayedOnThePromptWindow(), "Do you really want to delete blog post 'C5957 blog post title'?");
 
@@ -100,7 +100,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         promptWindows.clickDeleteButtonOnDeleteBlogPost();
         // TODO get popup text for Post Deleted
         blogPage.clickMyDraftsFilter();
-        browser.waitUntilElementContainsText(browser.findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");
+        getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
     }
 
@@ -115,7 +115,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         
         blogPage.navigate(siteName);
         blogPage.clickOnThePostTitle(blogPostTitleC5959);
-        browser.waitUntilElementVisible(blogPostView.blogPostTitle(blogPostTitleC5959));
+        getBrowser().waitUntilElementVisible(blogPostView.blogPostTitle(blogPostTitleC5959));
         LOG.info("Test Steps");
         LOG.info("Step 1: Click Delete for blog post");
         blogPostView.clickDeleteButton(blogPostTitleC5959);
@@ -123,11 +123,11 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
         promptWindows.clickDeleteButtonOnDeleteBlogPost();
-        browser.waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
+        getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
         // TODO get popup text for Post Deleted
         blogPage.clickAllFilter();
-        browser.waitUntilElementContainsText(blogPage.pageTitle, "All Posts");
+        getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "All Posts");
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
     }
     
@@ -151,11 +151,11 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
         promptWindows.clickDeleteButtonOnDeleteBlogPost();
         // TODO get popup text for Post Deleted
-        browser.waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
+        getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
         Assert.assertEquals(blogPage.getPageTitle(), "New Posts");
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
         blogPage.clickMyDraftsFilter();
-        browser.waitUntilElementContainsText(browser.findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");
+        getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
     }
 }

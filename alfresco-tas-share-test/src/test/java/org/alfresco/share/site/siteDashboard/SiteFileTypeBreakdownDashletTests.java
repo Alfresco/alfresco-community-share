@@ -68,7 +68,7 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
 
         siteDashboard.navigate(siteName);
-        browser.refresh();
+        getBrowser().refresh();
 
         LOG.info("STEP 1: Check the content displayed by the Site File Type Breakdown dashlet.");
         assertEquals(siteFileTypeBreakdownDashlet.getNumberOfPieChartSlices(), 4, "In Site's library there are only 4 file types.");

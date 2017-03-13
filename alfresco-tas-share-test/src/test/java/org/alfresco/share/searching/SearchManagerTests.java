@@ -135,7 +135,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         LOG.info("Step 3: Verify the default filters available on 'Search Manager' page.");
         for (String filter : defaultFilters)
         {
-            browser.waitInSeconds(3);
+            getBrowser().waitInSeconds(3);
             assertTrue(searchManagerPage.isFilterAvailable(filter), "The following default filter is available: " + filter);
         }
     }
@@ -184,13 +184,13 @@ public class SearchManagerTests extends ContextAwareWebTest
                 "Only site1 files are displayed on the search results.");
 
         LOG.info("STEP 8: Click on " + site2 + " option.");
-        browser.navigate().back();
+        getBrowser().navigate().back();
         searchPage.clickFilterOption(site2, filterId);
         assertTrue(searchPage.isSearchResultsAsExpected(Arrays.asList(documentName + "3", documentName + "4")),
                 "Only site2 files are displayed on the search results.");
 
         LOG.info("STEP 9: Click on " + site3 + " option.");
-        browser.navigate().back();
+        getBrowser().navigate().back();
         searchPage.clickFilterOption(site3, filterId);
         assertTrue(searchPage.isSearchResultsAsExpected(Arrays.asList(documentName + "5", documentName + "6")),
                 "Only site 3 files are displayed on the search results.");

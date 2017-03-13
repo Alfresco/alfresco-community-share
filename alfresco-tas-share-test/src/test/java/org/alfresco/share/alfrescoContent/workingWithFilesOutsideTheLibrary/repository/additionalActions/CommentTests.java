@@ -52,7 +52,7 @@ public class CommentTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8305), fileNameC8305 + " is not available in Repository");
         
         LOG.info("Step 1: Add comment");
@@ -66,7 +66,7 @@ public class CommentTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8305), fileNameC8305 + " is not available in Repository");
         
         Assert.assertEquals(socialFeatures.getNumberOfComments(fileNameC8305), 1, "The number of comments is not increased");
@@ -82,7 +82,7 @@ public class CommentTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8306), folderNameC8306 + " is not available in Repository");
         
         LOG.info("Step 1: Add comment");
@@ -96,7 +96,7 @@ public class CommentTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8306), folderNameC8306 + " is not available in Repository");
         
         Assert.assertEquals(socialFeatures.getNumberOfComments(folderNameC8306), 1, "The number of comments is not increased");

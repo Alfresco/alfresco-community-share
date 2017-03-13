@@ -104,7 +104,7 @@ public class LinkingToDifferentRuleSet extends ContextAwareWebTest
         LOG.info("STEP1: Click on 'Link to Rule Set' link\n" + "Set path to 'Folder1'.\n" + "Click 'Link' button");
         manageRulesPage.clickLinkToRuleSet();
         selectDestinationDialog.clickPathFolder(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         selectDestinationDialog.clickOkButton();
         linkedToRuleSetPage.renderedPage();
         linkedToRuleSetPage.setCurrentSiteName(siteName);

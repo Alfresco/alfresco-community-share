@@ -78,7 +78,7 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
 
         logger.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm.clickApplyChangesButton();
-        browser.refresh();
+        getBrowser().refresh();
         myFiles.mouseOverContentItem(folderName);
         myFiles.clickOnAction(folderName, "Manage Aspects");
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");

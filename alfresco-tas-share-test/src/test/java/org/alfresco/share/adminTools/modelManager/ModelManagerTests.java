@@ -178,7 +178,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         String prefix = "C9516"+DataUtil.getUniqueIdentifier();
 
         modelManagerPage.navigate();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         modelManagerPage.clickCreateModelButton(createModelDialogPage);
         createModelDialogPage.sendNamespaceText(nameSpace);
         createModelDialogPage.sendPrefixText(prefix);
@@ -188,8 +188,8 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         LOG.info("Step 1: On the Model Manager Page click Actions for C9516testModel and check available actions");
 
-        browser.waitInSeconds(5);
-        //browser.waitUntilWebElementIsDisplayedWithRetry(modelManagerPage.selectModelByName(name));
+        getBrowser().waitInSeconds(5);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(modelManagerPage.selectModelByName(name));
         modelManagerPage.clickActionsButtonForModel(name);
         Assert.assertTrue(modelManagerPage.isActionAvailable("Activate"), "Activate is not available for C9516testModel");
         Assert.assertTrue(modelManagerPage.isActionAvailable("Edit"), "Edit is not available for C9516testModel");
@@ -199,7 +199,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on Activate button");
         modelManagerPage.clickOnActionToChangeStatus("Activate");
         modelManagerPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertEquals(modelManagerPage.getModelStatus(name),"Active", "C9516testModel status is not Active");
     }
 
@@ -226,7 +226,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         //modelManagerPage.navigate();
 
         LOG.info("Step 1: On the Model Manager Page click Actions for C9516testModel and check available actions");
-        browser.waitUntilElementVisible(modelManagerPage.actionsButton);
+        getBrowser().waitUntilElementVisible(modelManagerPage.actionsButton);
         modelManagerPage.clickActionsButtonForModel(name);
         Assert.assertTrue(modelManagerPage.isActionAvailable("Edit"), "Edit is not available for C9516testModel");
 
@@ -267,7 +267,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         modelManagerPage.renderedPage();
 
         LOG.info("Step 1: On the Model Manager click on Actions for C9518testModel");
-        browser.waitUntilWebElementIsDisplayedWithRetry(modelManagerPage.selectModelByName(name), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(modelManagerPage.selectModelByName(name), 6);
         modelManagerPage.clickActionsButtonForModel(name);
         Assert.assertTrue(modelManagerPage.isActionAvailable("Delete"), "Delete is not available for C9518testModel");
 
@@ -377,7 +377,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on Export action");
         modelManagerPage.clickOnAction("Export");
         export.checkIfAlertIsPresentAndIfTrueAcceptAlert();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(export.isFileInDirectory(name, ".zip"), "The file was not found in the specified location");
     }
 
@@ -390,7 +390,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         String filePath = testDataFolder + "C9509TestModelName.zip";
         String modelName = "C9509TestModelName";
         modelManagerPage.navigate();
-        browser.waitUntilElementClickable(modelManagerPage.importModelButton, 5L);
+        getBrowser().waitUntilElementClickable(modelManagerPage.importModelButton, 5L);
         Assert.assertTrue(modelManagerPage.isImportModelButtonDisplayed(), "Import model button is not available on the Model Manager Page");
 
         LOG.info("Step 1: Click import model button");
@@ -402,7 +402,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         importModelDialogPage.clickImportButton();
         modelManagerPage.renderedPage();
 
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//tr[contains(@id, 'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']"), 6);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//tr[contains(@id, 'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']"), 6);
         Assert.assertTrue(modelManagerPage.isModelDisplayed(modelName), "Imported model is not present on the Model Manager Page");
 
         LOG.info("Step 4: Check the Model details displayed on the Model Manager page");
@@ -434,7 +434,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         modelManagerPage.renderedPage();
 
         LOG.info("Step 1: On the Model Manager page click C42566testModel name link.");
-        browser.waitUntilElementVisible(modelManagerPage.selectRow(name));
+        getBrowser().waitUntilElementVisible(modelManagerPage.selectRow(name));
         modelManagerPage.clickModelName(name, modelDetailsPage);
         Assert.assertTrue(modelDetailsPage.isCreateAspectButtonDisplayed(), "Create Aspect button is not displayed");
         Assert.assertTrue(modelDetailsPage.isCreateCustomTypeButtonDisplayed(),"Create Custom Type button is not displayed");
@@ -476,7 +476,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         //modelManagerPage.navigate();
 
         LOG.info("Step 1: On the Model Manager page click C42567testModel name link.");
-        browser.waitUntilElementVisible(modelManagerPage.selectRow(name));
+        getBrowser().waitUntilElementVisible(modelManagerPage.selectRow(name));
         modelManagerPage.clickModelName(name, modelDetailsPage);
         Assert.assertTrue(modelDetailsPage.isCreateAspectButtonDisplayed(), "Create Aspect button is not displayed");
         Assert.assertTrue(modelDetailsPage.isCreateCustomTypeButtonDisplayed(),"Create Custom Type button is not displayed");
@@ -510,7 +510,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         importModelDialogPage.importFile(filePath);
         importModelDialogPage.clickImportButton();
         modelManagerPage.renderedPage();
-        browser.waitUntilWebElementIsDisplayedWithRetry(modelManagerPage.selectModelByName(modelName));
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(modelManagerPage.selectModelByName(modelName));
         modelManagerPage.clickActionsButtonForModel(modelName);
         modelManagerPage.clickOnActionToChangeStatus("Activate");
         modelManagerPage.renderedPage();

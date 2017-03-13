@@ -145,7 +145,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isFileFavorite(fileName), "The gray star and text 'Favorite' replaced by a golden star");
 
         logger.info("Step3: Navigate to 'My Favorites' and check favorite items list.");
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         documentLibraryPage.clickDocumentsFilterOption(DocumentsFilters.Favorites.title);
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentsFilters.Favorites.header, "My Favorites documents displayed.");
         assertTrue(documentLibraryPage.getFilesList().contains(fileName), "File displayed in My favorites list!");
@@ -186,7 +186,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         logger.info("Step3: Fill in the input field with a new name and click 'Save' button");
         documentLibraryPage.typeContentName("newFileName");
         documentLibraryPage.clickButtonFromRenameContent("Save");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(documentLibraryPage.isContentNameDisplayed("newFileName"), fileName + " name updated to: " + "newFileName");
         assertFalse(documentLibraryPage.isContentNameInputField(), "File is input field.");
 
@@ -527,7 +527,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
 
         logger.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm.clickApplyChangesButton();
-        browser.refresh();
+        getBrowser().refresh();
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
@@ -588,7 +588,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         expectedProperties = new ArrayList<>(Arrays.asList("Name:", "Title:", "Description:", "Author:", "Creator:", "Created Date:", "Modifier:",
                 "Modified Date:", "Template Name:", "Mimetype:", "Size:", "Primary Image:", "Secondary Image:", "Related Articles:"));
         assertEquals(documentDetailsPage.checkDisplayedProperties(expectedProperties), expectedProperties.toString(), "Displayed properties:");
-        browser.refresh();
+        getBrowser().refresh();
 
         logger.info("Step6: Click 'Edit Properties' option from 'Document Actions' section");
         documentDetailsPage.clickDocumentActionsOption("Edit Properties");
@@ -641,7 +641,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         socialFeatures.clickCommentLink(fileName);
         documentDetailsPage.renderedPage();
         documentDetailsPage.addCommentToItem("commentAddedByContributor");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertEquals(documentDetailsPage.getCommentContent(), "commentAddedByContributor", "Comment added successfully by contributor");
 
         logger.info("Step 2: Return to Document Library page and check that the comment counter for the file has increased");
@@ -674,11 +674,11 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getCommentContent(), "commentAddedByContributor", "Comment added successfully by contributor");
 
         logger.info("Step2: Edit the comment for the file");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         documentDetailsPage.clickEditComment("commentAddedByContributor");
         documentDetailsPage.editComment("commentEditedByContributor");
         documentDetailsPage.clickOnSaveButtonEditComment();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertEquals(documentDetailsPage.getCommentContent(), "commentEditedByContributor", "Comment edited successfully by contributor");
     }
 

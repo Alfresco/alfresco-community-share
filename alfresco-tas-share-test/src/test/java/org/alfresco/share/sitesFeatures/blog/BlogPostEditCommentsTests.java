@@ -68,7 +68,7 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Edit to the right of the comment.");
         blogPostView.clickEditComment(commentUser);
-        browser.waitUntilElementVisible(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
+        getBrowser().waitUntilElementVisible(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
         Assert.assertEquals(commentWindow.getEditCommentBoxLabel(), "Edit Comment...");
 
         LOG.info("Step 2: Type your comment in the Add Your Comment box.");
@@ -76,7 +76,7 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
         
         LOG.info("Step 3: Click the Save button");
         commentWindow.clickSaveButtonOnEditComment();
-        browser.waitUntilElementVisible(blogPostView.commentText);
+        getBrowser().waitUntilElementVisible(blogPostView.commentText);
         Assert.assertEquals(blogPostView.getCommentText(commentUser), editedComment); 
     }
     
@@ -97,7 +97,7 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
         blogPage.clickMyDraftsFilter();
         blogPage.clickReadBlogPost(blogPostTitleC6062);
         blogPostView.clickEditComment(commentUser);
-        browser.waitUntilElementVisible(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
+        getBrowser().waitUntilElementVisible(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
         Assert.assertEquals(commentWindow.getEditCommentBoxLabel(), "Edit Comment...");
         
         LOG.info("Step 2: Type your comment in the Add Your Comment box.");
@@ -105,8 +105,8 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
       
         LOG.info("Step 3: Click the Save button");
         commentWindow.clickSaveButtonOnEditComment();
-        browser.waitUntilElementVisible(blogPostView.commentText);
-        browser.waitUntilElementContainsText(browser.findElement(blogPostView.commentText), C6062editedComment);
+        getBrowser().waitUntilElementVisible(blogPostView.commentText);
+        getBrowser().waitUntilElementContainsText(getBrowser().findElement(blogPostView.commentText), C6062editedComment);
         Assert.assertEquals(blogPostView.getCommentText(commentUser), C6062editedComment); 
     }
         

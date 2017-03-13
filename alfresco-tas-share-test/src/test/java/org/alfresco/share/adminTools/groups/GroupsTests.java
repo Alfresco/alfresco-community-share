@@ -61,7 +61,7 @@ public class GroupsTests extends ContextAwareWebTest
         groupsPage.navigate();
         assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
         groupsPage.clickBrowseButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
     }
 
     @AfterClass
@@ -79,14 +79,14 @@ public class GroupsTests extends ContextAwareWebTest
     {
         groupsPage.navigate();
         groupsPage.clickBrowseButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         List<String> groupList = groupsPage.getFirstColumnGroupsList();
         Assert.assertTrue(groupList.contains(C9462group));
 
         LOG.info("Step 1: Delete the group created in Precondition.");
         groupsPage.deleteGroup(C9462group, true);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify the group is no longer present in the groups list.");
         groupList = groupsPage.getFirstColumnGroupsList();
@@ -102,7 +102,7 @@ public class GroupsTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Edit the group created in Precondition.");
         groupsPage.editGroup(C9465group, C9465groupEdited, true);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify the edited group is present in the groups list.");
         groupList = groupsPage.getFirstColumnGroupsList();
@@ -115,8 +115,8 @@ public class GroupsTests extends ContextAwareWebTest
     {
         LOG.info("Step1: Create a group from Admin Tools page.");
         groupsPage.createNewGroup(C9469group, true);
-        browser.waitInSeconds(2);
-        browser.refresh();
+        getBrowser().waitInSeconds(2);
+        getBrowser().refresh();
 
         LOG.info("Step 2: Verify the group is present in the groups list.");
         List<String> groupList = groupsPage.getFirstColumnGroupsList();
@@ -133,7 +133,7 @@ public class GroupsTests extends ContextAwareWebTest
         LOG.info("Step 2: Search for the group created in Precondition.");
         groupsPage.writeInSearchInput(C9471group);
         groupsPage.clickSearchButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("Step 3: Verify the group is present in the search result list.");
         Assert.assertTrue(groupsPage.isGroupPresentInSearchResult(C9471group));

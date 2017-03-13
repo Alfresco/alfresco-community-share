@@ -158,7 +158,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
 
         LOG.info("STEP 5 - Click on the site link.");
         topicViewPage.clickLinkInReply(linkText, linkTitle);
-        assertEquals(browser.getCurrentUrl(), linkUrl, "User is redirected to: https://www.alfresco.com");
+        assertEquals(getBrowser().getCurrentUrl(), linkUrl, "User is redirected to: https://www.alfresco.com");
     }
 
     @TestRail(id = "6217")
@@ -211,7 +211,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         LOG.info("STEP 2 - Add some content in the reply box and click 'Create'.");
         topicViewPage.typeReply(reply1);
         topicViewPage.submitReply();
-        browser.refresh(); //necessary to appear Hide replies/Show replies link
+        getBrowser().refresh(); //necessary to appear Hide replies/Show replies link
         assertEquals(topicViewPage.getTopicReplies(), "(2)", "Topic has 2 replies.");
         assertEquals(topicViewPage.getReplyNoReplies(topicReply), "(1)", "Topic reply has now 1 reply.");
         assertTrue(topicViewPage.isReplyIndentedFromItsParent(reply1, topicReply), "The reply appears indented from its reply.");

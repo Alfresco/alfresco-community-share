@@ -42,19 +42,19 @@ public class CancelWorkflowsTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'Workflows I've Started' option.");
         workflowsIveStartedPage.navigateByMenuBar();
-        //browser.waitInSeconds(5);
+        //getBrowser().waitInSeconds(5);
         workflowsIveStartedPage.renderedPage();
 
         LOG.info("STEP 2: Click on 'Cancel Workflow' option for the workflow created in Precondition.");
         workflowsIveStartedPage.clickCancelWorkflow(workflowName, true);
-        browser.waitInSeconds(2);
-        browser.refresh();
+        getBrowser().waitInSeconds(2);
+        getBrowser().refresh();
         List<String> workflows = workflowsIveStartedPage.getActiveWorkflows();
         Assert.assertFalse(workflows.contains(workflowName), String.format("Workflow: %s is cancelled.", workflowName));
 
         LOG.info("STEP 3: Verify the workflow is not present in 'My Tasks' page.");
         myTasksPage.navigateByMenuBar();
-        //browser.waitInSeconds(5);
+        //getBrowser().waitInSeconds(5);
         myTasksPage.renderedPage();
         Assert.assertFalse(myTasksPage.checkTaskWasFound(workflowName), String.format("Workflow: %s is present in 'My Tasks' page.", workflowName));
     }

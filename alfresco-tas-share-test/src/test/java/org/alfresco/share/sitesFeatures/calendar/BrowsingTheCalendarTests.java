@@ -78,7 +78,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         LOG.info("Step 1: Navigate to the Calendar page for Site.");
         calendarPage.navigate(siteName);
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertEquals(calendarPage.getSelectedViewName(), "Month");
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.currentMonthReference());
         Assert.assertTrue(calendarPage.isTodayHighlightedInCalendar());
@@ -135,7 +135,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         LOG.info("Step 1: Open Calendar page - Day view.");
         calendarPage.navigate(siteName);
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         calendarPage.clickDayButton();
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
         String dayRefferenceToday = new SimpleDateFormat("EE, dd, MMMM yyyy", Locale.ENGLISH).format(Calendar.getInstance().getTime());
@@ -243,7 +243,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         LOG.info("Step 1: Open Calendar page - Day view.");
         calendarPage.navigate(siteName);
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         calendarPage.clickDayButton();
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1), "Only testEvent1 is displayed on the Calendar.");
         String dayRefferenceToday = new SimpleDateFormat("EE, dd, MMMM yyyy", Locale.ENGLISH).format(Calendar.getInstance().getTime());
@@ -310,7 +310,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         LOG.info("Navigate to Calendar page for Site - Agenda view.");
         calendarPage.navigate(siteName);
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         calendarPage.clickAgendaButton();
         Assert.assertTrue(calendarPage.isEventPresentInAgenda(eventTitle1));
         Assert.assertTrue(calendarPage.isEventPresentInAgenda(eventTitle2));
@@ -327,7 +327,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         String eventTitle1 = "testEvent1";
         String eventTitle2 = "testEvent2";
         String eventTitle3 = "testEvent3";
-        WebDriverWait wait = new WebDriverWait(browser, 1);
+        WebDriverWait wait = new WebDriverWait(getBrowser(), 1);
 
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, calendarUtility.tomorrow(),
                 calendarUtility.tomorrow(), "", "", false, "tag1");
@@ -338,7 +338,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
         calendarPage.navigate(siteName);
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         /**
          * Test Steps
@@ -364,7 +364,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         LOG.info("Step 4: Click on Show All Items link");
         Assert.assertTrue(calendarPage.isShowAllItemsLinkDisplayed());
         calendarPage.clickShowAllItems();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         wait.until(ExpectedConditions.presenceOfElementLocated(By
                 .xpath("//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']")));
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
@@ -384,7 +384,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, startDate, startDate, "", "", false, "tag1");
         calendarPage.navigate(siteName);
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         calendarPage.clickMonthButton();
 
         /**
@@ -483,7 +483,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
         calendarPage.navigate(siteName);
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(calendarPage.isMiniCalendarPresent(), "Mini Calendar is present.");
         Integer dayFromCalendar = Integer.valueOf(miniCalendar.getCurrentDayMiniCalendar().trim());
         Assert.assertEquals(dayFromCalendar, dayOfMonth, "Current date is highlighted.");
@@ -538,7 +538,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
         calendarPage.navigate(siteName);
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         calendarPage.clickDayButton();
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.currentDay());
     }

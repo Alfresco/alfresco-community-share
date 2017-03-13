@@ -126,7 +126,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
         logger.info("Step3: Click 'Apply Changes'.");
         aspectsForm.clickApplyChangesButton();
-        browser.refresh();
+        getBrowser().refresh();
 
         logger.info("Step4: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.mouseOverContentItem(folderName);
@@ -147,7 +147,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(folderName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName1), "File1 displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName2), "File2 displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName3), "File3 displayed");
@@ -197,7 +197,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
         logger.info("Step5: Click 'Apply Changes'.");
         aspectsForm.clickApplyChangesButton();
-        browser.refresh();
+        getBrowser().refresh();
 
         logger.info("Step6: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.mouseOverContentItem(folderName);
@@ -217,15 +217,15 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         editPropertiesPage.clickButtonForFolder("Save");
 
         logger.info("Step9: Click on the folder and verify it has 'Smart Folder' structure under it");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
         logger.info("Step10: Click on 'My content' the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(mainSmartFolder);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("All site content"), "'All site content' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("This folder's content"), "'This folder's content' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Contributions"), "'Contributions' folder displayed");
@@ -271,7 +271,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
         logger.info("Step3: Click 'Apply Changes'.");
         aspectsForm.clickApplyChangesButton();
-        browser.refresh();
+        getBrowser().refresh();
 
         logger.info("Step4: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.mouseOverContentItem(folderName);
@@ -288,15 +288,15 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
         logger.info("Step6: Select '.json' file for the custom folder template and save.");
         editPropertiesPage.clickSelectButtonForCustomSmartFolder();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         selectDialog.clickAdd();
         selectDialog.clickOk();
         editPropertiesPage.clickButtonForFolder("Save");
 
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         documentLibraryPage.clickOnFolderName(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("01 Administrative"), "'01 Administrative' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("02 Legal"), "'02 Legal' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("03 Personal"), "'03 Personal' folder displayed");

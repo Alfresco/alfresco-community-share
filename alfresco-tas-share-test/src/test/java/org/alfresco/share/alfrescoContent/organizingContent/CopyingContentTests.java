@@ -84,7 +84,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         if (!documentLibraryPage.isContentNameDisplayed(docName))
-            browser.refresh();
+            getBrowser().refresh();
         assertTrue(documentLibraryPage.getFilesList().toString().contains(docName),
                 docName + " displayed in 'Shared Files'. List of 'Shared Files' documents=" + documentLibraryPage.getFilesList().toString());
 

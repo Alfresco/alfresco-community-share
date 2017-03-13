@@ -67,7 +67,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
         
         LOG.info("Step 2: Click Delete button");
         deleteCommentWindow.clickDeleteButton();
-        browser.waitUntilElementContainsText(blogPostView.noCommentsText, "No comments");
+        getBrowser().waitUntilElementContainsText(blogPostView.noCommentsText, "No comments");
         Assert.assertEquals(blogPostView.getNoCommentsText(), "No comments");
     }
     
@@ -90,7 +90,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
         
         LOG.info("Step 2: Click Delete button");
         deleteCommentWindow.clickDeleteButton();
-        browser.waitUntilElementContainsText(blogPostView.noCommentsText, "No comments");
+        getBrowser().waitUntilElementContainsText(blogPostView.noCommentsText, "No comments");
         Assert.assertEquals(blogPostView.getNoCommentsText(), "No comments");
     }
 }

@@ -99,27 +99,27 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click on link's URL");
         // Store the current window handle
-        String currentWindow = browser.getWindowHandle();
+        String currentWindow = getBrowser().getWindowHandle();
         linkDetailsViewPage.clickOnLinkURL(linkURL);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         // Switch to new window opened
-        for (String winHandle : browser.getWindowHandles())
+        for (String winHandle : getBrowser().getWindowHandles())
         {
-            browser.switchTo().window(winHandle);
-            if (browser.getCurrentUrl().contains("google"))
+            getBrowser().switchTo().window(winHandle);
+            if (getBrowser().getCurrentUrl().contains("google"))
             {
                 break;
             }
             else
             {
-                browser.switchTo().window(currentWindow);
+                getBrowser().switchTo().window(currentWindow);
             }
         }
-        Assert.assertTrue(browser.getCurrentUrl().contains("google"), "After clicking on the link, the title is: " + browser.getCurrentUrl());
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("google"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
 
-        browser.close();
-        browser.switchTo().window(currentWindow);
+        getBrowser().close();
+        getBrowser().switchTo().window(currentWindow);
     }
 
     @Test
@@ -171,28 +171,28 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click on link's URL");
         // Store the current window handle
-        String currentWindow = browser.getWindowHandle();
+        String currentWindow = getBrowser().getWindowHandle();
 
         linkDetailsViewPage.clickOnLinkURL(linkURL);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
 
         // Switch to new window opened
-        for (String winHandle : browser.getWindowHandles())
+        for (String winHandle : getBrowser().getWindowHandles())
         {
-            browser.switchTo().window(winHandle);
-            if (browser.getCurrentUrl().contains("google"))
+            getBrowser().switchTo().window(winHandle);
+            if (getBrowser().getCurrentUrl().contains("google"))
             {
                 break;
             }
             else
             {
-                browser.switchTo().window(currentWindow);
+                getBrowser().switchTo().window(currentWindow);
             }
         }
-        Assert.assertTrue(browser.getCurrentUrl().contains("google"), "After clicking on the link, the title is: " + browser.getCurrentUrl());
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("google"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
 
         LOG.info("STEP 6: Click Back in browser and then click 'Links List' link.");
-        browser.navigate().back();
+        getBrowser().navigate().back();
         linkPage.renderedPage();
         Assert.assertEquals(linkPage.getLinkTitle(), linkTitle, "Link not displayed in Liks list");
     }

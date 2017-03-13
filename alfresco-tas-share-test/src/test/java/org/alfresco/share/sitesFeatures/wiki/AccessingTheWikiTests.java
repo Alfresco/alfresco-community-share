@@ -82,7 +82,7 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
 
         LOG.info("Step 3 : Click 'Ok' button and verify that the wiki page has been renamed on site dashboard");
         customizeSitePage.clickOk();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertEquals(siteDashboardPage.getPageDisplayName(SitePageType.WIKI), "newWiki", "'Wiki' page not correctly renamed on site dashboard");
 
         LOG.info("Step 4 : Click on 'newWiki' link and verify that 'Main Page' is opeend");

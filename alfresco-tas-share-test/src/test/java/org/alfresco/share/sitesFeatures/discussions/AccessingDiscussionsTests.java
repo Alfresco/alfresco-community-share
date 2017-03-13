@@ -59,7 +59,7 @@ public class AccessingDiscussionsTests extends ContextAwareWebTest
         LOG.info("STEP 1 - Open Site1's dashboard and click on 'Discussions' link.");
         siteDashboardPage.navigate(siteName);
         siteDashboardPage.clickLinkFromHeaderNavigationMenu(SitePageType.DISCUSSIONS);
-        assertTrue(browser.getCurrentUrl().endsWith("/discussions-topiclist"), "'Discussions' page, which defaults to New Topics view, is opened.");
+        assertTrue(getBrowser().getCurrentUrl().endsWith("/discussions-topiclist"), "'Discussions' page, which defaults to New Topics view, is opened.");
         assertTrue(topicListPage.isTopicDisplayed(topicTitle), "The list of topics contains 'Topic1'.");
         assertTrue(topicListPage.getTopicPublishedDetails(topicTitle).startsWith("Created on: " + today),
                 "The topic was created today. Actual: [" +topicListPage.getTopicPublishedDetails(topicTitle)

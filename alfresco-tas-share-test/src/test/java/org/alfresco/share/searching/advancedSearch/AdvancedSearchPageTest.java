@@ -114,7 +114,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         LOG.info("STEP 5 - Choose \"Folders\" from \"Look for\" drop-down");
         advancedSearchPage.clickOnLookForDropdown();
         advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertTrue(advancedSearchPage.isKeywordsInputDisplayed(), "Keywords input is displayed");
         Assert.assertTrue(advancedSearchPage.isNameInputDisplayed(), "Name input is displayed");
         Assert.assertTrue(advancedSearchPage.isTitleTextareaDisplayed(), "Title textarea is displayed");
@@ -169,7 +169,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         advancedSearchPage.navigate();
         advancedSearchPage.clickOnLookForDropdown();
         advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 4 - Fill in \"Keyword\" field with \"test\" and click \"Search\" button");
         advancedSearchPage.typeKeywords("test" + identifier);
@@ -210,7 +210,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         advancedSearchPage.navigate();
         advancedSearchPage.clickOnLookForDropdown();
         advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 4 - Fill in \"Name\" field with \"test*\"and click \"Search\" button");
         advancedSearchPage.typeName("test" + identifier + "*");
@@ -251,7 +251,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         advancedSearchPage.navigate();
         advancedSearchPage.clickOnLookForDropdown();
         advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 4 - Fill in \"Title\" field with \"test*\"and click \"Search\" button");
         advancedSearchPage.typeTitle("test" + identifier);
@@ -286,7 +286,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         advancedSearchPage.navigate();
         advancedSearchPage.clickOnLookForDropdown();
         advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.folders.label"));
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 4 - Fill in \"Description\" field with \"test*\"and click \"Search\" button");
         advancedSearchPage.typeDescription("test" + identifier);

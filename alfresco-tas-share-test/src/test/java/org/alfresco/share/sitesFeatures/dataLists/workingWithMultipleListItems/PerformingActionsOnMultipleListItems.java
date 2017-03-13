@@ -59,8 +59,8 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(contactList);
-        browser.waitInSeconds(2);
-        contactListSelectedContent.setBrowser(browser);
+        getBrowser().waitInSeconds(2);
+        contactListSelectedContent.setBrowser(getBrowser());
         contactListSelectedContent.clickSelectAllOption();
     }
 
@@ -82,7 +82,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
 
         LOG.info("Step 2: Click 'Duplicate' option and verify that ");
         contactListSelectedContent.clickDuplicateItemsOption();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         for (int i = 0; i <= 3; i++) {
             contacts.add("FirstName" + i);
@@ -119,7 +119,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
 
         LOG.info("Step 2: Click 'Duplicate' option and verify that ");
         contactListSelectedContent.clickDeleteItemsOption(true);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         for (int i = 0; i <= 3; i++) {
             contacts.add("FirstName" + i);
@@ -153,7 +153,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
 
         LOG.info("Step 2: Click 'Duplicate' option and verify that ");
         contactListSelectedContent.clickDeselectAllItemsOption();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         for (int i = 0; i <= 3; i++) {
             contacts.add("FirstName" + i);

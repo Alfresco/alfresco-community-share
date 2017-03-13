@@ -63,7 +63,7 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
         LOG.info("Preconditions: ");
         sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC6011, blogPostContentText, false, tags);
         blogPage.navigate(siteName);
-        browser.waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC6011));
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC6011));
         blogPage.clickReadBlogPost(blogPostTitleC6011);
         blogPostView.renderedPage();
         
@@ -76,13 +76,13 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
         
         LOG.info("Step 3: Click the Add Comment button");
         commentWindow.clickAddCommentButton();
-        browser.waitUntilElementVisible(blogPostView.commentText);
+        getBrowser().waitUntilElementVisible(blogPostView.commentText);
         
         LOG.info("Step 4: Click Blog Post List button");
         
         blogPostView.clickBlogPostListButton();
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//div[@class='nodeContent']//a[text()='" + blogPostTitleC6011 + "']"), 6);
-        //browser.waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC6011));
+        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//div[@class='nodeContent']//a[text()='" + blogPostTitleC6011 + "']"), 6);
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC6011));
         Assert.assertEquals(blogPage.getBlogPostNumberOfReplies(blogPostTitleC6011), "(1)", "Blog Post" + blogPostTitleC6011 + "is not displayed");
     }
     
@@ -107,7 +107,7 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
         
         LOG.info("Step 3: Click the Add Comment button");
         commentWindow.clickAddCommentButton();
-        browser.waitUntilElementVisible(blogPostView.commentText);
+        getBrowser().waitUntilElementVisible(blogPostView.commentText);
         
         LOG.info("Step 4: Click Blog Post List button and My Drafts");
         blogPostView.clickBlogPostListButton();

@@ -191,7 +191,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
 
         createObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
         setupAuthenticatedSession(userName, password);
-        browser.waitInSeconds(15);
+        getBrowser().waitInSeconds(15);
         userDashboardPage.navigate(userName);
 
         LOG.info("STEP 1-Verify type icon for every activity");
@@ -219,48 +219,48 @@ public class MyActivitiesTests extends ContextAwareWebTest
 //         LOG.info("STEP 2-Click blog post's name link");
 //         myActivitiesDashlet.clickOnItemNameFromActivityList(blogTitle);
 //        blogPostPage.renderedPage();
-//         assertTrue(browser.getCurrentUrl().endsWith("blog-postlist"), "'Blog' page is opened.");
+//         assertTrue(getBrowser().getCurrentUrl().endsWith("blog-postlist"), "'Blog' page is opened.");
 
          LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
 //         menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(eventName);
          calendarPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
 
 //         LOG.info("STEP 4-Go back to User Dashboard. Click data list's name link");
 //         menuNavigationBar.goTo(userDashboardPage);
 //         myActivitiesDashlet.clickOnItemNameFromActivityList(datalistName);
-//        assertTrue(browser.getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
+//        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
 
          LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
          userDashboardPage.navigateByMenuBar();
          myActivitiesDashlet.clickOnItemNameFromActivityList(discussionTitle);
          topicViewPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/discussions-topicview"), "'Discussions' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topicview"), "'Discussions' page is opened.");
 
          LOG.info("STEP6-Go back to User Dashboard. Click content's name link");
          userDashboardPage.navigateByMenuBar();
          myActivitiesDashlet.clickOnItemNameFromActivityList(fileName);
          docDetailsPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
 
          LOG.info("STEP7-Go back to User Dashboard. Click document's name link");
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(documentName);
         docDetailsPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
 
          LOG.info("STEP8-Go back to User Dashboard. Click link's name link");
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(linkTitle);
          linkPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
 
          LOG.info("STEP9-Go back to User Dashboard. Click wiki page's name link");
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle);
          wikiPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().endsWith(siteName + "/wiki-page?title=" + wikiTitle), "'Wiki' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/wiki-page?title=" + wikiTitle), "'Wiki' page is opened.");
     }
 
 
@@ -293,7 +293,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
         createObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
         updateObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
         setupAuthenticatedSession(userName, password);
-        browser.waitInSeconds(15);
+        getBrowser().waitInSeconds(15);
         userDashboardPage.navigate(userName);
 
         LOG.info("STEP 1-Verify type icon for every activity");
@@ -309,48 +309,48 @@ public class MyActivitiesTests extends ContextAwareWebTest
 //         LOG.info("STEP 2-Click blog post's name link");
 //         myActivitiesDashlet.clickOnItemNameFromActivityList(blogTitle);
 //        blogPostPage.renderedPage();
-//         assertTrue(browser.getCurrentUrl().endsWith("blog-postlist"), "'Blog' page is opened.");
+//         assertTrue(getBrowser().getCurrentUrl().endsWith("blog-postlist"), "'Blog' page is opened.");
 
          LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
 //         menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(eventName);
          calendarPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
 
 //         LOG.info("STEP 4-Go back to User Dashboard. Click data list's name link");
 //         menuNavigationBar.goTo(userDashboardPage);
 //         myActivitiesDashlet.clickOnItemNameFromActivityList(datalistName);
-//        assertTrue(browser.getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
+//        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
 
          LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
          userDashboardPage.navigateByMenuBar();
          myActivitiesDashlet.clickOnItemNameFromActivityList("New" + discussionTitle);
          topicViewPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/discussions-topicview"), "'Discussions' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topicview"), "'Discussions' page is opened.");
 
          LOG.info("STEP6-Go back to User Dashboard. Click content's name link");
          userDashboardPage.navigateByMenuBar();
          myActivitiesDashlet.clickOnItemNameFromActivityList(fileName);
          docDetailsPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
 
          LOG.info("STEP7-Go back to User Dashboard. Click document's name link");
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(documentName);
          docDetailsPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
 
          LOG.info("STEP8-Go back to User Dashboard. Click link's name link");
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList("New" + linkTitle);
          linkPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
 
          LOG.info("STEP9-Go back to User Dashboard. Click wiki page's name link");
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle);
          wikiPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().endsWith(siteName + "/wiki-page?title=" + wikiTitle), "'Wiki' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/wiki-page?title=" + wikiTitle), "'Wiki' page is opened.");
     }
 
 
@@ -383,7 +383,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
         createObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
         deleteObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
         setupAuthenticatedSession(userName, password);
-        browser.waitInSeconds(15);
+        getBrowser().waitInSeconds(15);
         userDashboardPage.navigate(userName);
 
         LOG.info("STEP 1-Verify type icon for every activity");
@@ -399,50 +399,50 @@ public class MyActivitiesTests extends ContextAwareWebTest
          LOG.info("STEP 2-Click blog post's name link");
          myActivitiesDashlet.clickOnItemNameFromActivityList(blogTitle);
          blogPostPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains("blog-postlist"), "'Blog' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains("blog-postlist"), "'Blog' page is opened.");
 
          LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(eventName);
          calendarPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
 
 //         LOG.info("STEP 4-Go back to User Dashboard. Click data list's name link");
 //         menuNavigationBar.goTo(userDashboardPage);
 //         myActivitiesDashlet.clickOnItemNameFromActivityList(datalistName);
-//        assertTrue(browser.getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
+//        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
 
          LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
          userDashboardPage.navigateByMenuBar();
          myActivitiesDashlet.clickOnItemNameFromActivityList(discussionTitle);
          topicListPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/discussions-topiclist"), "'Discussions' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topiclist"), "'Discussions' page is opened.");
 
          LOG.info("STEP6-Go back to User Dashboard. Click content's name link");
          userDashboardPage.navigateByMenuBar();
          myActivitiesDashlet.clickOnItemNameFromActivityList(fileName);
-         browser.waitInSeconds(5);
+         getBrowser().waitInSeconds(5);
          documentLibraryPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/documentlibrary"), "'Document Library' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/documentlibrary"), "'Document Library' page is opened.");
 
          LOG.info("STEP7-Go back to User Dashboard. Click document's name link");
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(documentName);
-         browser.waitInSeconds(5);
+         getBrowser().waitInSeconds(5);
          documentLibraryPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/documentlibrary"), "'Document Library' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/documentlibrary"), "'Document Library' page is opened.");
 
          LOG.info("STEP8-Go back to User Dashboard. Click link's name link");
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(linkTitle);
          linkPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
 
          LOG.info("STEP9-Go back to User Dashboard. Click wiki page's name link");
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle);
          wikiListPage.renderedPage();
-         assertTrue(browser.getCurrentUrl().contains(siteName + "/wiki"), "'Wiki' page is opened.");
+         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/wiki"), "'Wiki' page is opened.");
     }
 
     @TestRail(id = "C2117")

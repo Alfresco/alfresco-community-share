@@ -67,7 +67,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         LOG.info("Step 2: Add user1 to the ALFRESCO_ADMINISTRATORS group, logout and log back in.");
         groupService.addUserToGroup(adminUser, adminPassword, alfrescoAdminsGroupName, UserC8703);
         userService.logout();
-        browser.refresh();
+        getBrowser().refresh();
         setupAuthenticatedSession(UserC8703, password);
         Assert.assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "User is not directed to User Dashboard Page");
 
@@ -95,7 +95,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         LOG.info("Step 2: Add user1 to the ALFRESCO_ADMINISTRATORS group, logout and log back in.");
         groupService.addUserToGroup(adminUser, adminPassword, alfrescoSearchAdministrators, userC8704);
         userService.logout();
-        browser.refresh();
+        getBrowser().refresh();
         setupAuthenticatedSession(userC8704, password);
         Assert.assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "User is not directed to User Dashboard Page");
 
@@ -120,7 +120,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         searchManagerPage.editFilterProperty("cm:created (Created Date)", "audio:album (Album)");
         
         LOG.info("Step 2: Check new filter property is present");
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertEquals(searchManagerPage.getFilterProperty("filter_created"), "audio:album (Album)");
     }
     

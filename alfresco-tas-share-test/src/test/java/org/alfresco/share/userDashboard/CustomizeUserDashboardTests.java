@@ -111,7 +111,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
 
         LOG.info("Step 6 - Click 'OK' to save changes");
         customizeUserDashboard.clickOk();
-        Assert.assertTrue(userDashboard.isCustomizeUserDashboardDisplayed(), "User Dashboard page is not opened " + browser.getCurrentUrl());
+        Assert.assertTrue(userDashboard.isCustomizeUserDashboardDisplayed(), "User Dashboard page is not opened " + getBrowser().getCurrentUrl());
         Assert.assertTrue(userDashboard.getNumerOfColumns() == 3, "User Dashboard page doesn't have 3 columns");
     }
 

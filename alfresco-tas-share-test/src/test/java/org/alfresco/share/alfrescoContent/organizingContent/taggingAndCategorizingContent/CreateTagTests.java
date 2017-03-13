@@ -109,7 +109,7 @@ public class CreateTagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from the folder");
         documentLibraryPage.mouseOverNoTags(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(documentLibraryPage.isEditTagIconDisplayed(folderName), folderName + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");

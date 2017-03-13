@@ -46,11 +46,11 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'Workflows I've Started' option.");
         workflowsIveStartedPage.navigateByMenuBar();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 2: Click on 'View History' option for the workflow created in Precondition.");
         workflowsIveStartedPage.clickViewHistory(workflowName);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 3: Verify the details are correct.");
         Assert.assertTrue(workflowDetailsPage.getWorkflowDetailsHeader().contains(workflowName));
@@ -74,11 +74,11 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'My Tasks' option.");
         myTasksPage.navigateByMenuBar();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 2: From 'My Tasks' page click 'Workflow Details' button.");
         myTasksPage.clickViewWorkflow(workflowName);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 3: Verify the details are correct.");
         Assert.assertTrue(workflowDetailsPage.getWorkflowDetailsHeader().contains(workflowName));
@@ -100,7 +100,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'Workflows I've Started' option.");
         workflowsIveStartedPage.navigateByMenuBar();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 2: Verify 'View History' and 'Cancel Workflow' options are displayed for the workflow.");
         Assert.assertTrue(workflowsIveStartedPage.isCancelWorkflowOptionDisplayed(workflowName));
@@ -121,7 +121,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'My Tasks' option.");
         myTasksPage.navigateByMenuBar();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 2: Verify 'Edit Task', 'View Task' and 'View Workflow' options are displayed for the workflow.");
         Assert.assertTrue(myTasksPage.isEditTaskOptionDisplayed(workflowName));
@@ -140,7 +140,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'Workflows I've Started' option.");
         workflowsIveStartedPage.navigateByMenuBar();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 2: Verify filters are displayed on the left side of the page.");
         Assert.assertTrue(workflowsIveStartedPage.isDueFilterDisplayed());
@@ -167,7 +167,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'My Tasks' option.");
         myTasksPage.navigateByMenuBar();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 2: Verify filters are displayed on the left side of the page.");
         Assert.assertTrue(myTasksPage.isDueFilterDisplayed());
@@ -194,7 +194,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'My Tasks' option.");
         myTasksPage.navigateByMenuBar();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 2: Verify 'Edit Task', 'View Task' and 'View Workflow' options are displayed for the workflow.");
         Assert.assertTrue(myTasksPage.isEditTaskOptionDisplayed(workflowName));
@@ -214,11 +214,11 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'Workflows I've Started' option.");
         workflowsIveStartedPage.navigateByMenuBar();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 2: From 'Workflows I've Started' page click on the title of the workflow and verify details.");
         workflowsIveStartedPage.clickOnWorkflowTitle(workflowName);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertTrue(workflowDetailsPage.getWorkflowDetailsHeader().contains(workflowName));
         Assert.assertTrue(workflowDetailsPage.getPriority().contains("Medium"));
         Assert.assertTrue(workflowDetailsPage.getStartedByUser().contains(testUser));
@@ -227,7 +227,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: From 'Tasks' dropdown click 'My Tasks' option.");
         myTasksPage.navigateByMenuBar();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 4: From 'My Tasks' page click on the title of the task and verify details.");
         myTasksPage.clickOnTaskTitle(workflowName);

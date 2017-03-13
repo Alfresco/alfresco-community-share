@@ -9,7 +9,7 @@ import ru.yandex.qatools.htmlelements.element.Select;
 import java.util.List;
 
 @PageObject
-public class EditToDoListItemPopUp extends EditItemPopUp
+public class EditToDoListItemPopUp extends CreateNewItemPopUp
 {
     @FindBy(css = ".hd")
     protected List<WebElement> editDataItemPopup;
@@ -153,7 +153,7 @@ public class EditToDoListItemPopUp extends EditItemPopUp
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         WebElement row = browser.findElement(listItems);
            
-        tableRow = new ToDoListItemsTable(row, browser);
+        tableRow = new ToDoListItemsTable(row);
         return tableRow.getTitleColumn().getText();
     }
     
@@ -162,7 +162,7 @@ public class EditToDoListItemPopUp extends EditItemPopUp
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         WebElement row = browser.findElement(listItems);
            
-        tableRow = new ToDoListItemsTable(row, browser);
+        tableRow = new ToDoListItemsTable(row);
         return tableRow.getDueDateColumn().getText().contains(toDoListRowValue);
     }
     
@@ -171,7 +171,7 @@ public class EditToDoListItemPopUp extends EditItemPopUp
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         WebElement row = browser.findElement(listItems);
            
-        tableRow = new ToDoListItemsTable(row, browser);
+        tableRow = new ToDoListItemsTable(row);
         return tableRow.getPriorityColumn().getText();
     }
     
@@ -180,7 +180,7 @@ public class EditToDoListItemPopUp extends EditItemPopUp
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         WebElement row = browser.findElement(listItems);
            
-        tableRow = new ToDoListItemsTable(row, browser);
+        tableRow = new ToDoListItemsTable(row);
         return tableRow.getStatusColumn().getText();
     }
     
@@ -189,7 +189,7 @@ public class EditToDoListItemPopUp extends EditItemPopUp
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         WebElement row = browser.findElement(listItems);
            
-        tableRow = new ToDoListItemsTable(row, browser);
+        tableRow = new ToDoListItemsTable(row);
         return tableRow.getAssigneeColumn().getText().contains(assigneeName);
     }
     
@@ -198,7 +198,7 @@ public class EditToDoListItemPopUp extends EditItemPopUp
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         WebElement row = browser.findElement(listItems);
            
-        tableRow = new ToDoListItemsTable(row, browser);
+        tableRow = new ToDoListItemsTable(row);
         return tableRow.getAttachmentsColumn().getText().contains(attachment);
     }
 }

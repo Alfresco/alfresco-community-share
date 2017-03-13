@@ -125,7 +125,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         expectedProperties = new ArrayList<>(Arrays.asList("Name:", "Title:", "Description:", "Host Name:", "Host Port:", "Web App Context :",
                 "Site Configuration:", "Site Languages:", "Feedback Configuration:", "Publish Target:"));
         assertEquals(editPropertiesPage.checkDisplayedProperties(expectedProperties), expectedProperties.toString(), "Displayed properties:");
-        browser.refresh();
+        getBrowser().refresh();
 
         LOG.info("STEP6: Click 'Edit Properties' option from 'Folder Actions' section");
         documentDetailsPage.clickDocumentActionsOption("Edit Properties");
@@ -178,7 +178,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         expectedProperties = new ArrayList<>(Arrays.asList("Name:", "Title:", "Description:", "Author:", "Creator:", "Created Date:", "Modifier:",
                 "Modified Date:", "Template Name:", "Mimetype:", "Size:", "Primary Image:", "Secondary Image:", "Related Articles:"));
         assertEquals(documentDetailsPage.checkDisplayedProperties(expectedProperties), expectedProperties.toString(), "Displayed properties:");
-        browser.refresh();
+        getBrowser().refresh();
 
         LOG.info("STEP6: Click 'Edit Properties' option from 'Document Actions' section");
         documentDetailsPage.clickDocumentActionsOption("Edit Properties");

@@ -53,7 +53,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         dataListsPage.navigate(siteName);
         createDataListPopUp.clickCancelFormButton();
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
-        browser.refresh();
+        getBrowser().refresh();
     }
     
     @TestRail(id = "C5894")
@@ -204,7 +204,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         String ownDataList = "ownDataList";
         dataLists.createDataList(contributor, password, siteName, DataList.CONTACT_LIST, ownDataList, "contact link description");
-        browser.refresh();
+        getBrowser().refresh();
         
         logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
         dataListsPage.clickEditButtonForList(ownDataList);

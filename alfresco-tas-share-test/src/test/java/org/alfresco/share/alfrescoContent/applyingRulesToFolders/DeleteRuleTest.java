@@ -66,10 +66,10 @@ public class DeleteRuleTest extends ContextAwareWebTest
 
         LOG.info("Navigate to Manage Rule page for folder");
         documentLibraryPage.mouseOverContentItem(folderName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         documentLibraryPage.clickMoreMenu(folderName);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 

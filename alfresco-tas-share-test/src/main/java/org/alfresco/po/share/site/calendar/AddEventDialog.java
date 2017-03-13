@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import ru.yandex.qatools.htmlelements.element.TextInput;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Created by Claudia Agache on 7/11/2016.
  */
+@Primary
 @PageObject
 public class AddEventDialog extends ShareDialog
 {

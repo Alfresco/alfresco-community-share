@@ -84,13 +84,13 @@ public class LikeCommentTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Hover over the folder's Like link.");
         sharedFilesPage.navigate();
-        browser.waitUntilElementClickable(social.likeButton, 6L);
+        getBrowser().waitUntilElementClickable(social.likeButton, 6L);
         assertTrue(sharedFilesPage.isLikeButtonDisplayed(folderName), "Documents link is displayed");
         assertEquals(social.getLikeButtonMessage(folderName), "Like this folder", "Like Button message=");
         assertEquals(social.getNumberOfLikes(folderName), 0, "The number of likes=");
 
         LOG.info("Step 2: Click on the Like button");
-        browser.waitUntilElementClickable(social.likeButton, 6L);
+        getBrowser().waitUntilElementClickable(social.likeButton, 6L);
         social.clickLikeButton(folderName);
         assertEquals(social.getNumberOfLikes(folderName), 1, "The number of likes=");
         assertTrue(social.isLikeButtonEnabled(folderName), "Like button is enabled");

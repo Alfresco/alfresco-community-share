@@ -72,12 +72,12 @@ public class RepositoryTagTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8266), fileNameC8266 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over one tag from the content name");
         repositoryPage.mouseOverNoTags(fileNameC8266);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         LOG.info("STEP2: Click \"Tag\" icon");
         repositoryPage.clickEditTagIcon(fileNameC8266);
@@ -101,12 +101,12 @@ public class RepositoryTagTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderName), folderName + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from the folder");
         repositoryPage.mouseOverNoTags(folderName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(repositoryPage.isEditTagIconDisplayed(folderName), folderName + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -132,12 +132,12 @@ public class RepositoryTagTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8278), fileNameC8278 + " is not available in Repository");
         LOG.info("STEP1: Hover over the content created in the preconditions");
 
         repositoryPage.mouseOverFileName(fileNameC8278);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         repositoryPage.clickMore();
         LOG.info("STEP2: Click \"Edit Properties\" option");
         repositoryPage.clickDocumentLibraryItemAction(fileNameC8278, "Edit Properties", repositoryPage);
@@ -151,7 +151,7 @@ public class RepositoryTagTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Pick tag from the available tags list and click \"Add\" then click OK");
         selectDialog.typeTag(tagC8278.toLowerCase());
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         selectDialog.clickCreateNewIcon();
         selectDialog.clickOk();
         assertTrue(editPropertiesDialog.isTagSelected(tagC8278.toLowerCase()), "'Tags:' section=");            
@@ -177,17 +177,17 @@ public class RepositoryTagTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8290), fileNameC8278 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the tag(s) from the content");
         repositoryPage.mouseOverTags(fileNameC8290);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(repositoryPage.isEditTagIconDisplayed(fileNameC8290), fileNameC8290 + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
         repositoryPage.mouseOverTags(fileNameC8290);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         repositoryPage.clickEditTagIcon(fileNameC8290);
         assertTrue(repositoryPage.isEditTagInputFieldDisplayed(), fileNameC8290 + " -> 'Edit Tag' text input field is displayed.");
 
@@ -214,12 +214,12 @@ public class RepositoryTagTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8291), fileNameC8291 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the tag from " + fileNameC8291);
         repositoryPage.mouseOverTags(fileNameC8291);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(repositoryPage.isEditTagIconDisplayed(fileNameC8291), fileNameC8291 + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tags\" icon");
@@ -247,12 +247,12 @@ public class RepositoryTagTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8300), fileNameC8300 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from " + fileNameC8300);
         repositoryPage.mouseOverNoTags(fileNameC8300);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(repositoryPage.isEditTagIconDisplayed(fileNameC8300), fileNameC8300 + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -267,7 +267,7 @@ public class RepositoryTagTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Click 'Save' link");
         repositoryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(repositoryPage.isNoTagsTextDisplayed(fileNameC8300), fileNameC8300 + " -> " + tagC8300 + " is removed.");
         contentService.deleteContentByPath(adminUser, adminPassword, deletePath);
     }

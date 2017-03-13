@@ -76,7 +76,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8240), fileNameC8240 + " is not available in Repository");
 
         LOG.info("Step 1: Mouse over file, click Download");
@@ -86,7 +86,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
 
         if (documentCommon.isAlertPresent())
         {
-            alert = browser.switchTo().alert();
+            alert = getBrowser().switchTo().alert();
             LOG.info(alert.getText());
             alert.accept();
         }
@@ -104,7 +104,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8243), folderNameC8243 + " is not available in Repository");
 
         LOG.info("Step 1: Mouse over folder, click Download");
@@ -113,7 +113,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
 
         if (documentCommon.isAlertPresent())
         {
-            alert = browser.switchTo().alert();
+            alert = getBrowser().switchTo().alert();
             LOG.info(alert.getText());
             alert.accept();
         }

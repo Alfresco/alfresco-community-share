@@ -83,7 +83,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
         myFilesPage.mouseOverFileName(docName);
         myFilesPage.clickMoreMenu(docName);
         myFilesPage.clickEditProperties(docName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -178,14 +178,14 @@ public class MyFilesEditTests extends ContextAwareWebTest
         myFilesPage.clickCheckBox(docName);
         myFilesPage.clickDocumentLibraryItemAction(docName, language.translate("documentLibrary.contentActions.editInAlfresco"),
                 editInAlfrescoPage);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.sendDocumentDetailsFields(editedDocName, editedContent, editedTitle, editedDescription);
 
         logger.info("Step3: Click Save button");
         editInAlfrescoPage.clickButton("Save");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         logger.info("Step4: Verify the new title for the document");
         Assert.assertTrue(docsCommon.isDocumentNameUpdated(editedDocName), "Document name is not updated");
@@ -225,7 +225,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
 
         logger.info("Step3,4: Provide edited input to Google Docs file and close Google Docs tab");
         docsCommon.confirmFormatUpgrade();
-        browser.waitInSeconds(7);
+        getBrowser().waitInSeconds(7);
         docsCommon.switchToGoogleDocsWindowandAndEditContent(editedTitle, editedContent);
 
         logger.info("Step5: Verify the file is locked and Google Drive icon is displayed");
@@ -235,12 +235,12 @@ public class MyFilesEditTests extends ContextAwareWebTest
 
         logger.info("Step6: Click Check In Google Doc™ and verify Version Information pop-up is displayed");
         docsCommon.checkInGoogleDoc(googleDocName);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), true);
 
         logger.info("Step7: Click OK button on Version Information and verify the pop-up is closed");
         docsCommon.clickOkButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), false);
 
         logger.info("Step8: Verify the title for the document is changed");

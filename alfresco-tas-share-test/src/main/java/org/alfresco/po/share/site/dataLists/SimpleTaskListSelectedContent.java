@@ -38,7 +38,7 @@ public class SimpleTaskListSelectedContent extends ListItemSelectedContent
         for(WebElement row : rows)
         {
             int i=0;
-            tableRow = new SimpleTaskListItemsTable(row, browser);
+            tableRow = new SimpleTaskListItemsTable(row);
             if(!tableRow.getTitleColumn().getText().equals(listDetails.get(i)))
                 break;
             i++;
@@ -64,19 +64,19 @@ public class SimpleTaskListSelectedContent extends ListItemSelectedContent
     
     public void editItem(List<String> listDetails)
     {
-        tableRow = new SimpleTaskListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new SimpleTaskListItemsTable(findRow(listDetails).get(0));
         tableRow.getEditButton().click();
     }
     
     public void duplicateItem(List<String> listDetails)
     {
-        tableRow = new SimpleTaskListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new SimpleTaskListItemsTable(findRow(listDetails).get(0));
         tableRow.getDuplicateButton().click();
     }
     
     public void deleteItem(List<String> listDetails)
     {
-        tableRow = new SimpleTaskListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new SimpleTaskListItemsTable(findRow(listDetails).get(0));
         tableRow.getDeleteButton().click();
     }
 }

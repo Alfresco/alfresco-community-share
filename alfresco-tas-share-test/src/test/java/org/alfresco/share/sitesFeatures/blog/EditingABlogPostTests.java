@@ -83,7 +83,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         editBlogPost.clickAddTagButton();
         editBlogPost.clickUpdateButton();
         // TODO Check Pop-up is displayed: "Blog post saved".
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         String actualTitle = blogPostView.getBlogPostTitle(newTitleC5560) + " " + blogPostView.getBlogPostNote(newTitleC5560);
         String expectedTitle = newTitleC5560 + " " + "(Updated)";
         Assert.assertEquals(actualTitle, expectedTitle);
@@ -104,9 +104,9 @@ public class EditingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click 'Edit' button.");
 
-        browser.waitUntilElementClickable(blogPostView.editButton, 30L);
+        getBrowser().waitUntilElementClickable(blogPostView.editButton, 30L);
         blogPostView.clickEditButton();
-        browser.waitUntilElementsVisible(editBlogPost.editBlogPageTitle);
+        getBrowser().waitUntilElementsVisible(editBlogPost.editBlogPageTitle);
         Assert.assertEquals(editBlogPost.getEditBlogPostPageTitle(), expectedPageTitle);
 
         LOG.info("Step 2: Update title, content, tag then click Update button.");
@@ -117,7 +117,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         editBlogPost.clickAddTagButton();
         editBlogPost.clickUpdateButton();
         // TODO Check Pop-up is displayed: "Blog post saved".
-        browser.waitUntilElementIsDisplayedWithRetry(blogPostView.blogPostTitle(C5561EditedTitle), 20);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(blogPostView.blogPostTitle(C5561EditedTitle), 20);
         String actualTitle = blogPostView.getBlogPostTitle(C5561EditedTitle) + " " + blogPostView.getBlogPostNote(C5561EditedTitle);
         String expectedTitle = C5561EditedTitle + " " + "(Updated)";
         Assert.assertEquals(actualTitle, expectedTitle);
@@ -155,7 +155,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         editBlogPost.clickUpdateButton();
         // TODO Check Pop-up is displayed: "Blog post saved".
         blogPostView.renderedPage();
-        browser.waitUntilElementVisible(blogPostView.blogPostTitle(newTitle));
+        getBrowser().waitUntilElementVisible(blogPostView.blogPostTitle(newTitle));
         String actualTitle = blogPostView.getBlogPostTitle(newTitle) + " " + blogPostView.getBlogPostNote(newTitle);
         String expectedTitle = newTitle + " " + "(Draft)";
         Assert.assertEquals(actualTitle, expectedTitle);
@@ -182,7 +182,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         LOG.info("Test Steps");
         
         LOG.info("Step 1: Navigate to Post View Page, click the Edit button for Draft blog post");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         blogPostView.clickEditButton();
         Assert.assertEquals(editBlogPost.getEditBlogPostPageTitle(), expectedPageTitle);
 
@@ -193,7 +193,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         editBlogPost.clickAddTagButton();
         editBlogPost.clickUpdateButton();
         // TODO Check Pop-up is displayed: "Blog post saved".
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         String actualTitle = blogPostView.getBlogPostTitle(newTitle) + " " + blogPostView.getBlogPostNote(newTitle);
         String expectedTitle = newTitle + " " + "(Draft)";
         Assert.assertEquals(actualTitle, expectedTitle);
@@ -230,7 +230,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         editBlogPost.clickAddTagButton();
         editBlogPost.clickPublishInternally();
         // TODO Check Pop-up is displayed: "Blog post saved".
-        browser.waitUntilElementVisible(blogPostView.blogPostTitle(newTitle));
+        getBrowser().waitUntilElementVisible(blogPostView.blogPostTitle(newTitle));
         System.out.println(blogPostView.getBlogPostTitle(newTitle));
         Assert.assertEquals(blogPostView.getBlogPostTitle(newTitle), newTitle);
         Assert.assertEquals(blogPostView.getBlogPostContent(newTitle).trim(), newContent);
@@ -239,12 +239,12 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 3: Go to Blog post list");
         blogPostView.clickBlogPostListButton();
         blogPage.clickLatestFilter();
-        browser.waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
-        browser.waitUntilWebElementIsDisplayedWithRetry(blogPage.blogPostTitle(newTitle), 10);
+        getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.blogPostTitle(newTitle), 10);
         Assert.assertTrue(blogPage.isBlogPostDisplayed(newTitle), "The blog post is not visible in the Latest view");
         blogPage.clickMyDraftsFilter();
-        browser.waitUntilElementContainsText(blogPage.pageTitle, "My Draft Posts");
-        browser.waitUntilElementsVisible(By.xpath("//td[@class = 'yui-dt-empty']//div[text() = 'No blog posts found']"));
+        getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "My Draft Posts");
+        getBrowser().waitUntilElementsVisible(By.xpath("//td[@class = 'yui-dt-empty']//div[text() = 'No blog posts found']"));
         Assert.assertFalse(blogPage.isBlogPostDisplayed(newTitle), "The blog post is still displayed in My Drafts view");
         Assert.assertFalse(blogPage.isBlogPostDisplayed(blogTitle), "The original draft blog post is still displayed in My Drafts view");
     }

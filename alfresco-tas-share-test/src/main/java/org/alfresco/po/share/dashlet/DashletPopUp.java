@@ -2,13 +2,10 @@ package org.alfresco.po.share.dashlet;
 
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
@@ -33,10 +30,6 @@ public abstract class DashletPopUp extends HtmlPage
     @RenderWebElement
     @FindBy(css = "div[id$='configDialog_h']")
     protected HtmlElement popUpTitleField;
-    
-    @Autowired
-    @Qualifier("webBrowserInstance")
-    protected WebBrowser browser;
 
     protected By dialogContainer = By.cssSelector("div[id$='configDialog_c']");
     

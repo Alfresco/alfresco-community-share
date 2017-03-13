@@ -72,7 +72,7 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest 
 
 		logger.info("Step3 - Check the new title of the file displayed in Document Library.");
 		documentLibraryPage.navigate(siteName);
-		browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//h3[@class='filename']//span[contains(@id, 'alf-')]//a[text()= '" + newVersionFileName + "']"), 6);
+		getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//h3[@class='filename']//span[contains(@id, 'alf-')]//a[text()= '" + newVersionFileName + "']"), 6);
 		assertTrue(documentLibraryPage.isContentNameDisplayed(newVersionFileName),
 				String.format("The file [%s] is not present", newVersionFileName));
 		logger.info("Steps4,5: Click on the file and check the version and content are updated.");

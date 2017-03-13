@@ -94,7 +94,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         Assert.assertTrue(myDocumentsDashlet.isLargeThumbnailDisplayed(file), "Large thumbnail is not displayed");
 
         mySitesDashlet.accessSite(siteName1);
-        browser.navigate().back();
+        getBrowser().navigate().back();
         userDashboardPage.navigate(userName1);
 
         logger.info("STEP 6 - Check favorite icon on document details page");

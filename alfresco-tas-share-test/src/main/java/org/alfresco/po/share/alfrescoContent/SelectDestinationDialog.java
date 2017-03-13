@@ -5,6 +5,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.context.annotation.Primary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @author Laura.Capsa
  */
 @PageObject
+@Primary
 public class SelectDestinationDialog extends ShareDialog
 {
     @FindBy(css = "div[id*='title']")

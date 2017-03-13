@@ -121,7 +121,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectAssigneeToWorkflowPopUp.clickOkButton();
         startWorkflowPage.clickStartWorkflow();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as user2.");

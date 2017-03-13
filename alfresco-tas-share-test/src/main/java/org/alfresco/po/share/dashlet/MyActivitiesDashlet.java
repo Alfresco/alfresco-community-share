@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
@@ -29,6 +30,7 @@ import java.util.List;
  * share's my activities dashlet on user dashboard page.
  */
 @PageObject
+@Primary
 public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
 {
     @Autowired

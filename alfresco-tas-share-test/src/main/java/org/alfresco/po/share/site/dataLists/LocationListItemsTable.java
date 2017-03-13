@@ -1,6 +1,5 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -17,9 +16,9 @@ public class LocationListItemsTable extends ListItemTable
     protected By descriptionColumn = By.cssSelector("td[class*='cm_description'] div");
     protected By attachmentsColumn = By.cssSelector("td[class*='cm_attachments'] div");
     
-    public LocationListItemsTable(WebElement webElement, WebBrowser browser)
+    public LocationListItemsTable(WebElement webElement)
     {
-        super(webElement, browser);
+        super(webElement);
     }
     
     public WebElement getTitleColumn()

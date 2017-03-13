@@ -225,11 +225,11 @@ public class ToolbarTests extends ContextAwareWebTest
         LOG.info("STEP 3 - Click on the \"User menu\" -> \"Help\" link");
         toolbarUserMenu.clickHelp();
 
-        browser.waitInSeconds(5);
-        browser.switchWindow();
+        getBrowser().waitInSeconds(5);
+        getBrowser().switchWindow();
         
-        Assert.assertEquals(browser.getTitle(), language.translate("alfrescoDocumentation.pageTitle"), "Page title");
-        browser.closeWindowAndSwitchBack();
+        Assert.assertEquals(getBrowser().getTitle(), language.translate("alfrescoDocumentation.pageTitle"), "Page title");
+        getBrowser().closeWindowAndSwitchBack();
 
         LOG.info("STEP 4 - Go to any other page from Share. Click on the \"User menu\" -> \"Use Current Page\" option");
         userProfilePage.navigate(userName);

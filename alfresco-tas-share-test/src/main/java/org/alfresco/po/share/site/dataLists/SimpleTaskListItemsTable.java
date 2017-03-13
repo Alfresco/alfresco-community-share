@@ -1,6 +1,5 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -15,9 +14,9 @@ public class SimpleTaskListItemsTable extends ListItemTable
     protected By statusColumn = By.cssSelector("td[class*='simpletaskStatus'] div");
     protected By commentsColumn = By.cssSelector("td[class*='simpletaskComments'] div");
     
-    public SimpleTaskListItemsTable(WebElement webElement, WebBrowser browser)
+    public SimpleTaskListItemsTable(WebElement webElement)
     {
-        super(webElement, browser);
+        super(webElement);
     }
     
     public WebElement getTitleColumn()

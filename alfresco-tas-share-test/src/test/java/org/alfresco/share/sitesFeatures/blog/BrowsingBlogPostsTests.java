@@ -144,14 +144,14 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click tag1 tag in Tags area.");
         blogPage.clickTag("tag1");
-        browser.waitUntilElementVisible(blogPage.blogPostTitle(blogTitleUser1Published));
+        getBrowser().waitUntilElementVisible(blogPage.blogPostTitle(blogTitleUser1Published));
         assertEquals(blogPage.getPageTitle(), "Blog Post List");
 
         LOG.info("Step 2: Check that only posts with tag1 are displayed");
-        browser.waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitleUser1Published), 6);
-        browser.waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitleUser2Published), 6);
-        browser.waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitleUser1Draft), 6);
-        browser.waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitleUser1Published + "C6008"), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitleUser1Published), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitleUser2Published), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitleUser1Draft), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitleUser1Published + "C6008"), 6);
         assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published), blogTitleUser1Published);
         assertEquals(blogPage.getBlogPostTitle(blogTitleUser2Published), blogTitleUser2Published);
         assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Draft), blogTitleUser1Draft + " " + "(Draft)");
@@ -160,7 +160,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Click tag2 tag in Tags area.");
         blogPage.clickTag("tag2");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         LOG.info("Step 4: Check that only posts with tag2 are displayed");
         assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published + "C6008SecondTag"), blogTitleUser1Published + "C6008SecondTag");
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser1Published), "Blog post published by user 1 with tag1 is displayed");

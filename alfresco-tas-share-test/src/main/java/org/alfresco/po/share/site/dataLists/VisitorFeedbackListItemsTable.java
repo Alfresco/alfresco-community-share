@@ -1,6 +1,5 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -16,9 +15,9 @@ public class VisitorFeedbackListItemsTable extends ListItemTable
     protected By attachmentsColumn = By.cssSelector("td[class*='cm_attachments'] div");
     protected By checkColumn = By.cssSelector("input[id*='checkbox']");
     
-    public VisitorFeedbackListItemsTable(WebElement webElement, WebBrowser browser)
+    public VisitorFeedbackListItemsTable(WebElement webElement)
     {
-        super(webElement, browser);
+        super(webElement);
     }
     
     public WebElement getTitleColumn()

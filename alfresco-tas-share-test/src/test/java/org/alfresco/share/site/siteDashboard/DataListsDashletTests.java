@@ -135,7 +135,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
 
         LOG.info("Step 5 - Click Create Data List icon on the Site Content Dashlet.");
         siteDataListsDashlet.clickOnCreateDataListLink();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertEquals(siteDataListsDashlet.getNewListWindowText(), "New List", "New List window is not opened");
 
         LOG.info("Step 6 - Select one of the types of lists available And fill in the Info for Title and Description fields.");
@@ -147,7 +147,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
 
         LOG.info("Step 7 - Click on Save button.");
         siteDataListsDashlet.clickOnNewListSaveButton();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(siteDataListsDashlet.isDataListLinkDisplayed(listDescription), "Data list link is not displayed");
     }
 

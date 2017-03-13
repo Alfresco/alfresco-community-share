@@ -62,7 +62,7 @@ public class EditTagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the tag(s) from the content");
         documentLibraryPage.mouseOverTags(fileName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(documentLibraryPage.isEditTagIconDisplayed(fileName), fileName + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -81,7 +81,7 @@ public class EditTagTests extends ContextAwareWebTest
         }
         catch (AssertionError e)
         {
-            browser.refresh();
+            getBrowser().refresh();
             documentLibraryPage.renderedPage();
         }
         assertEquals(documentLibraryPage.getTags(fileName), Arrays.asList(newTagName.toLowerCase()).toString(),
@@ -100,7 +100,7 @@ public class EditTagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the tag(s) from the content");
         documentLibraryPage.mouseOverTags(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(documentLibraryPage.isEditTagIconDisplayed(folderName), folderName + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -119,7 +119,7 @@ public class EditTagTests extends ContextAwareWebTest
         }
         catch (AssertionError e)
         {
-            browser.refresh();
+            getBrowser().refresh();
             documentLibraryPage.renderedPage();
         }
         assertEquals(documentLibraryPage.getTags(folderName), Arrays.asList(newTagName.toLowerCase()).toString(),

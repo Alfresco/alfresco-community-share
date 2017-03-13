@@ -69,7 +69,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         siteService.create(user, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
         content.createDocument(user, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "fileC2280");
         setupAuthenticatedSession(user, DataUtil.PASSWORD);
-        browser.refresh();
+        getBrowser().refresh();
 
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         toolbarSitesMenu.clickSiteFinder();
@@ -102,12 +102,12 @@ public class DeleteSiteTests extends ContextAwareWebTest
         LOG.info("STEP7: Search for the file created within the site");
         toolbar.search(fileName);
         searchFromToolbarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertEquals(searchFromToolbarPage.getNumberOfResultsText(), "0 - results found", "Search page: number of results");
 
         LOG.info("STEP8: Open created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteName + "/dashboard";
-        browser.navigate().to(url);
+        getBrowser().navigate().to(url);
         assertEquals(systemErrorPage.getErrorHeader(), language.translate("systemError.header"), "Error message is displayed.");
 
         cleanupAuthenticatedSession();
@@ -264,7 +264,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         siteService.create(user, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
         content.createDocument(user, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "fileC2286");
         setupAuthenticatedSession(user, DataUtil.PASSWORD);
-        browser.refresh();
+        getBrowser().refresh();
 
         LOG.info("STEP1&2: Hover over the created site from \"My sites\" dashlet. Click on \"Delete\" button");
         mySitesDashlet.clickDeleteSiteIconForSite(siteName);
@@ -279,7 +279,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Click \"Yes\" button");
         deleteSiteDialog.clickYes();
-        browser.refresh();
+        getBrowser().refresh();
         assertEquals(mySitesDashlet.isSitePresent(siteName), false, "Site isn't displayed in 'MySites' dashlet.");
 
         LOG.info("STEP5: Search for the file created within the site");
@@ -288,7 +288,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP6: Open created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteName + "/dashboard";
-        browser.navigate().to(url);
+        getBrowser().navigate().to(url);
         assertEquals(systemErrorPage.getErrorHeader(), language.translate("systemError.header"), "Error message is displayed.");
 
         cleanupAuthenticatedSession();
@@ -387,7 +387,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Open the created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteName + "/dashboard";
-        browser.navigate().to(url);
+        getBrowser().navigate().to(url);
         assertEquals(systemErrorPage.getErrorHeader(), language.translate("systemError.header"), "Error message is displayed.");
 
         cleanupAuthenticatedSession();
@@ -419,7 +419,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Open the created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteName + "/dashboard";
-        browser.navigate().to(url);
+        getBrowser().navigate().to(url);
         assertEquals(siteDashboardPage.getCurrentUrl(), url, "User is successfully redirected to the site dashboard.");
 
         cleanupAuthenticatedSession();

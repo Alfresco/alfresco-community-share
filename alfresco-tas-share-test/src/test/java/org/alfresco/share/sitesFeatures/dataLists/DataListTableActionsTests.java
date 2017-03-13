@@ -81,8 +81,8 @@ public class DataListTableActionsTests extends ContextAwareWebTest
 
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(contactList);
-        browser.waitInSeconds(2);
-        contactListSelectedContent.setBrowser(browser);
+        getBrowser().waitInSeconds(2);
+        contactListSelectedContent.setBrowser(getBrowser());
 
     }
 
@@ -100,16 +100,16 @@ public class DataListTableActionsTests extends ContextAwareWebTest
         logger.info("Step 2: Click Duplicate action and verify the new item is displayed in the table");
         manageContactListItems.clickDuplicateAction();
 
-        contactListSelectedContent.setBrowser(browser);
+        contactListSelectedContent.setBrowser(getBrowser());
 
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertEquals(contactListSelectedContent.duplicatedRows(Arrays.asList("FirstName", "LastName", "E-mail", "Company", "JobTitle", "PhoneOffice",
                 "PhoneMobile", "Notes")), true);
 
         logger.info("Step 3: Click Edit action and verify it has identical data with source row");
 
         manageContactListItems.clickEditAction();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(manageContactListItems.areCorrectValuesDisplayedOnEditPopup("FirstName", "LastName", "E-mail", "Company", "JobTitle", "PhoneOffice",
                 "PhoneMobile"), "The values from Edit Data Item form are not correcly displayed");
 
@@ -156,7 +156,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
         logger.info("Step 2: Click Edit action and verify Edit Data Item window is opened");
 
         manageContactListItems.clickEditAction();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(manageContactListItems.isEditItemWindowDisplayed(), "Edit Item window is not displayed");
 
         logger.info("Steps 3,4: Edit data, save the changes and verify the changes are saved");
@@ -164,7 +164,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
         manageContactListItems.editContactItem("editedFirstName", "editedLastName", "editedEmail", "editedCompany", "editedJob", "editedPhoneOffice",
                 "editedPhoneMobile", "editedNotes");
 
-        contactListSelectedContent.setBrowser(browser);
+        contactListSelectedContent.setBrowser(getBrowser());
         Assert.assertEquals(contactListSelectedContent.isListItemDisplayed(Arrays.asList("editedFirstName", "editedLastName", "editedEmail", "editedCompany",
                 "editedJob", "editedPhoneOffice", "editedPhoneMobile", "editedNotes")), true);
 

@@ -78,7 +78,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         LOG.info("STEP 2: Click on 'Site configuration options' icon -> Leave Site.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         int counter = 1;
         int retryRefreshCount = 5;
@@ -96,10 +96,10 @@ public class LeavingSiteTests extends ContextAwareWebTest
             catch (TimeoutException | NoSuchElementException e)
             {
                 counter++;
-                browser.refresh();
+                getBrowser().refresh();
                 siteDashboard.clickSiteConfiguration();
                 siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
-                browser.waitInSeconds(3);
+                getBrowser().waitInSeconds(3);
             }
         }
     }
@@ -121,7 +121,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave Site.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         int counter = 1;
         int retryRefreshCount = 5;
@@ -146,10 +146,10 @@ public class LeavingSiteTests extends ContextAwareWebTest
             catch (TimeoutException | NoSuchElementException e)
             {
                 counter++;
-                browser.refresh();
+                getBrowser().refresh();
                 siteDashboard.clickSiteConfiguration();
                 siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
-                browser.waitInSeconds(3);
+                getBrowser().waitInSeconds(3);
             }
         }
     }
@@ -168,7 +168,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open 'Site Finder' page and search for '"+siteName+"'.");
         siteFinderPage.navigate();
         siteFinderPage.searchSite(siteName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
 
         assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Leave"), "'Leave' button is available for the site.");
@@ -181,7 +181,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
             {
                 LOG.info("STEP 2: Click on 'Leave' button.");
                 siteFinderPage.clickSiteButton(siteName, "Leave");
-                browser.waitInSeconds(1);
+                getBrowser().waitInSeconds(1);
                 assertEquals(notification.getDisplayedNotification(), "Successfully removed user " + user1 + " from site " + siteName, "Popup should be displayed");
                 assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Join"), "'Join' button is available for the site.");
 
@@ -193,9 +193,9 @@ public class LeavingSiteTests extends ContextAwareWebTest
             catch (TimeoutException | NoSuchElementException e)
             {
                 counter++;
-                browser.refresh();
+                getBrowser().refresh();
                 siteFinderPage.searchSite(siteName);
-                browser.waitInSeconds(3);
+                getBrowser().waitInSeconds(3);
                 assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " is expected to be found.");
                 assertFalse(siteFinderPage.isButtonDisplayedForSite(siteName, "Leave"), "'Leave' button is available for the site.");
                 assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Join"), "'Leave' button is available for the site.");
@@ -220,7 +220,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave Site.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         int counter = 1;
         int retryRefreshCount = 5;
@@ -233,7 +233,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
 
                 LOG.info("STEP 2: Click 'OK' button.");
                 leaveSiteDialog.clickOKButton();
-                browser.waitInSeconds(5);
+                getBrowser().waitInSeconds(5);
                 assertTrue(siteDashboard.getCurrentUrl().endsWith(user1+"/dashboard"), "User should be redirected to " + user1 + "'s dashboard page.");
 
                 LOG.info("STEP 3: Verify sites listed on 'My Sites' dashlet.");
@@ -243,10 +243,10 @@ public class LeavingSiteTests extends ContextAwareWebTest
             catch (TimeoutException | NoSuchElementException e)
             {
                 counter++;
-                browser.refresh();
+                getBrowser().refresh();
                 siteDashboard.clickSiteConfiguration();
                 siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
-                browser.waitInSeconds(3);
+                getBrowser().waitInSeconds(3);
             }
         }
     }
@@ -267,7 +267,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave Site.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         int counter = 1;
         int retryRefreshCount = 5;
@@ -291,10 +291,10 @@ public class LeavingSiteTests extends ContextAwareWebTest
             catch (TimeoutException | NoSuchElementException e)
             {
                 counter++;
-                browser.refresh();
+                getBrowser().refresh();
                 siteDashboard.clickSiteConfiguration();
                 siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
-                browser.waitInSeconds(3);
+                getBrowser().waitInSeconds(3);
             }
         }
     }

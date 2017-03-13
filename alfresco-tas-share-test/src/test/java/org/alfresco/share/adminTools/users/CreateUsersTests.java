@@ -55,7 +55,7 @@ public class CreateUsersTests extends ContextAwareWebTest
         logger.info("Step1: Click 'New User' button and verify 'New User' page is displayed");
         usersPage.clickNewUser();
         createUsers.renderedPage();
-        Assert.assertTrue(browser.getCurrentUrl().contains("share/page/console/admin-console/users#state=panel%3Dcreate"), "Create users page displayed");
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("share/page/console/admin-console/users#state=panel%3Dcreate"), "Create users page displayed");
     }
 
     @TestRail(id = "C9397")
@@ -119,7 +119,7 @@ public class CreateUsersTests extends ContextAwareWebTest
         logger.info("Step3: Click 'Create and Start Another' button");
         createUsers.clickCreateUserAndStartAnotherButton();
         createUsers.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(createUsers.areAllFieldsClear(), "All fields from 'Create Users' page cleared");
 
         logger.info("Step4: Click 'Cancel' button and check 'Admin Tools - Users Page' is opened");
@@ -161,13 +161,13 @@ public class CreateUsersTests extends ContextAwareWebTest
         createUsers.clickCreateButton();
         assertEquals(createUsers.getPasswordsDontMatchNotificationText(), message, "Displayed message:");
         createUsers.renderedPage();
-        Assert.assertTrue(browser.getCurrentUrl().contains("share/page/console/admin-console/users#state=panel%3Dcreate"), "Create users page displayed");
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("share/page/console/admin-console/users#state=panel%3Dcreate"), "Create users page displayed");
 
         logger.info("Step6: Click 'Create and Start Another' button");
         createUsers.clickCreateUserAndStartAnotherButton();
         assertEquals(createUsers.getPasswordsDontMatchNotificationText(), message, "Displayed message:");
         createUsers.renderedPage();
-        Assert.assertTrue(browser.getCurrentUrl().contains("share/page/console/admin-console/users#state=panel%3Dcreate"), "Create users page displayed");
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("share/page/console/admin-console/users#state=panel%3Dcreate"), "Create users page displayed");
 
     }
 

@@ -72,7 +72,7 @@ public class MyTasksTest extends ContextAwareWebTest
         myTasksDashlet.isActiveTasksLinkDisplayed();
         myTasksDashlet.isCompletedTasksLinkDisplayed();
         myTasksDashlet.isFilterTaskButtonDisplayed();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertEquals(myTasksDashlet.getTaskNavigation(), "1 - " + myTasksDashlet.getNoOfTasks() + " of " + myTasksDashlet.getNoOfTasks());
         myTasksDashlet.checkEditAndViewIconsForEachTask();
         myTasksDashlet.isHelpIconDisplayed(DashletHelpIcon.MY_TASKS);

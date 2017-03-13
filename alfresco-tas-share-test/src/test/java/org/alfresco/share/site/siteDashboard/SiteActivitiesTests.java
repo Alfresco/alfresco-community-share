@@ -91,7 +91,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(user, DataUtil.PASSWORD);
         siteDashboardPage.navigate(siteName);
-        browser.refresh();
+        getBrowser().refresh();
         assertEquals(siteActivitiesDashlet.getDashletTitle(), "Site Activities", "Dashlet title is: " + siteActivitiesDashlet.getDashletTitle());
 
         LOG.info("STEP1: Select 'today' value from drop-down menu");
@@ -141,14 +141,14 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         siteGroupsPage.clickTheAddButton();
         siteGroupsPage.clickSelectRoleButton();
         siteGroupsPage.selectRole(managerRole);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         siteGroupsPage.clickTheAddGroupsButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("Step 1: Navigate to site dashboard and check Activities dashlet");
 
         siteDashboardPage.navigate(siteName);
-        browser.waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
         Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity is not present on dashlet");
         cleanupAuthenticatedSession();
     }
@@ -176,12 +176,12 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         siteGroupsPage.clickTheAddButton();
         siteGroupsPage.clickSelectRoleButton();
         siteGroupsPage.selectRole(managerRole);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         siteGroupsPage.clickTheAddGroupsButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         siteDashboardPage.navigate(siteName);
-        browser.waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
         Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity is not present on dashlet");
 
         cleanupAuthenticatedSession();
@@ -215,9 +215,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         siteGroupsPage.clickTheAddButton();
         siteGroupsPage.clickSelectRoleButton();
         siteGroupsPage.selectRole(managerRole);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         siteGroupsPage.clickTheAddGroupsButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("Step 1: Navigate to site members page, groups tab ");
 
@@ -285,9 +285,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         siteGroupsPage.clickTheAddButton();
         siteGroupsPage.clickSelectRoleButton();
         siteGroupsPage.selectRole(managerRole);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         siteGroupsPage.clickTheAddGroupsButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("Step 1: Navigate to site members page, groups tab ");
 
@@ -297,13 +297,13 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         LOG.info("Step 2: Change the role of the group");
         Assert.assertEquals(siteGroupsPage.getRole(groupName), "Manager ▾", "Manager ▾" + "is not the role of the group");
         siteGroupsPage.changeRoleForMember("Collaborator", groupName);
-        browser.waitUntilElementDisappears(siteGroupsPage.waitMessage, 30L);
+        getBrowser().waitUntilElementDisappears(siteGroupsPage.waitMessage, 30L);
         Assert.assertEquals(siteGroupsPage.getRole(groupName), "Collaborator ▾", "Collaborator ▾" + "is not the role of the group");
 
         LOG.info("Step 3: Go to Site Dashboard and observe the Site Activities dashlet");
         siteDashboardPage.navigate(siteName);
 
-        browser.waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
         Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity is not present on dashlet");
     }
     @TestRail(id="C12838")
@@ -334,9 +334,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         siteGroupsPage.clickTheAddButton();
         siteGroupsPage.clickSelectRoleButton();
         siteGroupsPage.selectRole(managerRole);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         siteGroupsPage.clickTheAddGroupsButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("Step 1: Navigate to site members page, groups tab and remove group from site");
 
@@ -347,7 +347,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         LOG.info("Step 2: Go to Site Dashboard and observe the Site Activities dashlet");
         siteDashboardPage.navigate(siteName);
 
-        browser.waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
         Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity is not present on dashlet");
     }
 }

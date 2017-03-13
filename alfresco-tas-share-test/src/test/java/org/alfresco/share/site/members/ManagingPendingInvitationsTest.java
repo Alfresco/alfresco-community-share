@@ -112,7 +112,7 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         LOG.info("STEP 5 - Delete text and enter \"fname4\" in the search box. Click \"Search\" button");
         pendingInvitesPage.typeIntoSearchInput("fname4");
         pendingInvitesPage.clickSearchButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertFalse(pendingInvitesPage.isPendingInvitesListDisplayed(), "Pending invites list is not displayed");
 
         LOG.info("STEP 6 - Delete text and enter \"fname\" in the search box. Click \"Search\" button");

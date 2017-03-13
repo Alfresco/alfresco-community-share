@@ -173,7 +173,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
         }
 
         Assert.assertTrue(editWikiPage.islibraryImagesTitlebarDisplayed(), "Missing library images title bar!");
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(editWikiPage.isImageDisplayed(image), "Missing image thumbnail.");
 
         LOG.info("STEP 3: Click the image thumbnail");

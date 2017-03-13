@@ -38,7 +38,7 @@ public class LocationListSelectedContent extends ListItemSelectedContent
         for(WebElement row : rows)
         {
             int i=0;
-            tableRow = new LocationListItemsTable(row, browser);
+            tableRow = new LocationListItemsTable(row);
             if(!tableRow.getTitleColumn().getText().equals(listDetails.get(i)))
                 break;
             i++;
@@ -72,19 +72,19 @@ public class LocationListSelectedContent extends ListItemSelectedContent
     
     public void editItem(List<String> listDetails)
     {
-        tableRow = new LocationListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new LocationListItemsTable(findRow(listDetails).get(0));
         tableRow.getEditButton().click();
     }
     
     public void duplicateItem(List<String> listDetails)
     {
-        tableRow = new LocationListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new LocationListItemsTable(findRow(listDetails).get(0));
         tableRow.getDuplicateButton().click();
     }
     
     public void deleteItem(List<String> listDetails)
     {
-        tableRow = new LocationListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new LocationListItemsTable(findRow(listDetails).get(0));
         tableRow.getDeleteButton().click();
     }
 }

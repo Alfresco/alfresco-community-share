@@ -69,7 +69,7 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
 
         logger.info("Step3,4: Provide edited input to Google Docs file and close Google Docs tab");
         googleDocsCommon.confirmFormatUpgrade();
-        browser.waitInSeconds(10);
+        getBrowser().waitInSeconds(10);
         googleDocsCommon.switchToGoogleDocsWindowandAndEditContent(editedInGoogleDocsTitle, editedInGoogleDocsContent);
 
         logger.info("Step5: Verify the file is locked and Google Drive icon is displayed");
@@ -79,12 +79,12 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
 
         logger.info("Step6: Click Check In Google Doc™ and verify Version Information pop-up is displayed");
         googleDocsCommon.checkInGoogleDoc(fileName);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), true);
 
         logger.info("Step7: Click OK button on Version Information and verify the pop-up is closed");
         googleDocsCommon.clickOkButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), false);
 
         logger.info("Step8: Verify the title for the document is changed");
@@ -95,7 +95,7 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
         Assert.assertTrue(documentDetailsPage.getContentText().replaceAll("\\s+", "").contains("editedTestContent"),
                 String.format("Document: %s has incorrect contents.", editedInGoogleDocsTitle));
 
-        browser.cleanUpAuthenticatedSession();
+        getBrowser().cleanUpAuthenticatedSession();
 
     }
 

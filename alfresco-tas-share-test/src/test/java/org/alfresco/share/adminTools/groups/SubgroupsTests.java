@@ -74,7 +74,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     {
         String identifier = "C9476id" + uniqueIdentifier;
 
-        browser.refresh();
+        getBrowser().refresh();
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group0);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group0));
@@ -110,7 +110,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     @Test()
     public void addGroup()
     {
-        browser.refresh();
+        getBrowser().refresh();
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group1);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group1));
@@ -149,7 +149,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     {
         String user = name + " " + userToAdd + " (" + userToAdd + ")";
 
-        browser.refresh();
+        getBrowser().refresh();
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group2);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group2));
@@ -183,7 +183,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     @Test()
     public void removeUser()
     {
-        browser.refresh();
+        getBrowser().refresh();
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group3);
         String user = name + " " + userModelAdmin + " (" + userModelAdmin + ")";
@@ -211,7 +211,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     @Test()
     public void deleteSubgroup()
     {
-        browser.refresh();
+        getBrowser().refresh();
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group3);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group3));

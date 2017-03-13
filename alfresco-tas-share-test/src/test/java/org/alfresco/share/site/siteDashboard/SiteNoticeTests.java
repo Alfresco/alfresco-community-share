@@ -100,7 +100,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
         siteNoticeDashlet.setSiteNoticeText(text);
         siteNoticeDashlet.clickOkButton();
 
-        browser.waitUntilElementContainsText(browser.findElement(By.cssSelector("div.dashlet.notice-dashlet div.title")), text);
+        getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("div.dashlet.notice-dashlet div.title")), text);
         Assert.assertEquals(siteNoticeDashlet.getDashletTitle(), text, "Site Notice title is not the same as the title that was set");
         Assert.assertEquals(siteNoticeDashlet.getSiteNoticeText(), text, "Site Notice text is not the same as the text that was set");
     }

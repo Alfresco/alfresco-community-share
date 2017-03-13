@@ -50,11 +50,11 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'Workflows I've Started' option.");
         workflowsIveStartedPage.navigateByMenuBar();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 2: From 'Workflows I've Started' page click on the title of the workflow and verify details.");
         workflowsIveStartedPage.clickOnWorkflowTitle(workflowName);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertTrue(workflowDetailsPage.getWorkflowDetailsHeader().contains(workflowName));
         Assert.assertTrue(workflowDetailsPage.getPriority().contains("Medium"));
         Assert.assertTrue(workflowDetailsPage.getStartedByUser().contains(testUser));
@@ -63,20 +63,20 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: From 'Workflows Details' page click on 'Task Details' button.");
         workflowDetailsPage.clickTaskDetailsButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertTrue(taskDetailsPage.getTaskDetailsHeader().contains(workflowName));
 
         LOG.info("STEP 4: From 'Task Details' page click on 'Edit' button.");
         taskDetailsPage.clickEditButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         editTaskPage.selectStatus(EditTaskPage.TaskStatus.IN_PROGRESS);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         editTaskPage.writeComment(comment);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         LOG.info("STEP 5: Click on 'Save and Close' button and verify changes are saved.");
         editTaskPage.clickOnSaveButton(taskDetailsPage);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(taskDetailsPage.getStatus().contains("In Progress"));
         Assert.assertTrue(taskDetailsPage.getComment().contains(comment));
     }
@@ -94,22 +94,22 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'My Tasks' option.");
         myTasksPage.navigateByMenuBar();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertTrue(myTasksPage.checkTaskWasFound(workflowName));
 
         LOG.info("STEP 2: Hover over the name of the workflow and click on 'Edit Task' button.");
         myTasksPage.clickEditTask(workflowName);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertTrue(editTaskPage.getMessage().contains(workflowName));
         Assert.assertTrue(editTaskPage.getOwner().contains(testUser));
 
         LOG.info("STEP 3: Modify the details and click on 'Save and Close' button.");
         editTaskPage.selectStatus(EditTaskPage.TaskStatus.ON_HOLD);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         editTaskPage.writeComment(comment);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         editTaskPage.clickOnSaveButton(myTasksPage);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(myTasksPage.getStatus(workflowName).contains("On Hold"));
     }
 
@@ -125,12 +125,12 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'My Tasks' option.");
         myTasksPage.navigateByMenuBar();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertTrue(myTasksPage.checkTaskWasFound(workflowName));
 
         LOG.info("STEP 2: Hover over the name of the workflow and click on 'Edit Task' button.");
         myTasksPage.clickEditTask(workflowName);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP 3: Verify items are displayed on 'Edit Task' page.");
         Assert.assertTrue(editTaskPage.getMessage().contains(workflowName));

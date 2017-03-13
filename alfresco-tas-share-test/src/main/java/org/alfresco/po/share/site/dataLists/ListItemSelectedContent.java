@@ -5,10 +5,12 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.context.annotation.Primary;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Primary
 @PageObject
 public class ListItemSelectedContent extends NoListItemSelectedContent
 {

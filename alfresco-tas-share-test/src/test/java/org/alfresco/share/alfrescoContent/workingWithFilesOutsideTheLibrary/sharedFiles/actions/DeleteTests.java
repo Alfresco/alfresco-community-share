@@ -54,7 +54,7 @@ public class DeleteTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("STEP1: Hover over the file you want to delete");
         sharedFilesPage.mouseOverContentItem(docName);
@@ -79,11 +79,11 @@ public class DeleteTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("STEP1: Hover over the file you want to delete and press \"More\"");
         sharedFilesPage.mouseOverContentItem(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(sharedFilesPage.isMoreMenuDisplayed(folderName), "'More' menu displayed for " + folderName);
 
         LOG.info("STEP2: Press \"Delete Folder\"");
@@ -108,17 +108,17 @@ public class DeleteTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("STEP1: Hover over " + docName2);
         sharedFilesPage.mouseOverFileName(docName2);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName2, language.translate("documentLibrary.contentActions.deleteDocument")),
                 language.translate("documentLibrary.contentActions.deleteDocument") + " option is displayed for " + docName2);
 
         LOG.info("STEP1: Hover over " + folderName2);
         sharedFilesPage.mouseOverFolder(folderName2);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(folderName2, language.translate("documentLibrary.contentActions.deleteDocument")),
                 language.translate("documentLibrary.contentActions.deleteDocument") + " option is displayed for " + folderName2);
     }

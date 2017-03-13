@@ -65,7 +65,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Add a new category in the 'Category Manager' page.");
         categoryManagerPage.addCategory(category9295);
-        browser.waitInSeconds(5); browser.refresh();
+        getBrowser().waitInSeconds(5); getBrowser().refresh();
 
         LOG.info("Step 2: Verify the category is added in the 'Category Manager' page.");
         Assert.assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category displayed" );

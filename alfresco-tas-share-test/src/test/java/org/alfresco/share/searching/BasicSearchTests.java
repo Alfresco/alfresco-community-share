@@ -119,12 +119,12 @@ public class BasicSearchTests extends ContextAwareWebTest
 
         LOG.info("STEP9: Fill in toolbar search field with a blog post");
         toolbar.searchInToolbar(blogPost);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(toolbar.isResultDisplayedInLiveSearch(blogPost), "Live search result list contains the searched blog post");
 
         LOG.info("STEP10: Fill in toolbar search field with a calendar event");
         toolbar.searchInToolbar(calendarEvent);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertFalse(toolbar.isLiveSearchResultsListDisplayed(), "No live search results are displayed");
 
         LOG.info("STEP11: Fill in toolbar search field with a discussion topic");
@@ -177,7 +177,7 @@ public class BasicSearchTests extends ContextAwareWebTest
         searchPage.clickViewsDropdown();
         ArrayList<String> expectedViewsDropdown = new ArrayList<>(Arrays.asList("Detailed View", "Gallery View"));
         assertEquals(searchPage.getViewsDropdownOptions().toString(), expectedViewsDropdown.toString(), "Views dropdown option=");
-        browser.refresh();
+        getBrowser().refresh();
 
         LOG.info("STEP8: Hover over a result");
         searchPage.mouseOverResult(docName1);
@@ -238,13 +238,13 @@ public class BasicSearchTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Change the view to \"Gallery View\" from 'Views' dropdown");
         searchPage.clickGalleryView();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(searchPage.isSearchResultsListInGalleryView(), "Results are displayed in Gallery View");
-        browser.refresh();
+        getBrowser().refresh();
 
         LOG.info("STEP4: Change the view to \"Detailed View\"");
         searchPage.clickDetailedView();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(searchPage.isSearchResultsListInDetailedView(), "Results are displayed in Detailed View.");
 
         cleanupAuthenticatedSession();

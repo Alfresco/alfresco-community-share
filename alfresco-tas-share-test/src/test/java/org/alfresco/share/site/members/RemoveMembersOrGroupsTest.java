@@ -343,7 +343,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         setupAuthenticatedSession(user2, DataUtil.PASSWORD);
 
         LOG.info("Step 4 opening site dashboard page");
-        browser.navigate().to(properties.getShareUrl() + "/page/site/" + siteName + "/dashboard");
+        getBrowser().navigate().to(properties.getShareUrl() + "/page/site/" + siteName + "/dashboard");
         Assert.assertTrue(siteDashboardPage.somethingWentWrongMessage(), "The error page is not displayed correctly");
 
     }

@@ -253,7 +253,7 @@ public class AddEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Select any 'Start Date'.");
         addEventDialog.selectStartDateFromCalendarPicker(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear());
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(addEventDialog.hasStartDateValue(startDate), "Start date is selected.");
 
         LOG.info("STEP 3: Select any 'End Date', but which will be two days later than the 'Start Date'");
@@ -328,7 +328,7 @@ public class AddEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 7: Click 'Save' button.");
         addEventDialog.clickSaveButton();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertEquals(notification.getDisplayedNotification(), "Event created", "'Event created' pop-up appears.");
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is created and displayed on the 'Calendar' page.");
 
@@ -378,7 +378,7 @@ public class AddEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Click 'Cancel' button.");
         addEventDialog.clickCancelButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertFalse(calendarPage.isEventPresentInCalendar(currentEventName), "Event is not created and not displayed on the 'Calendar' page.");
     }
 

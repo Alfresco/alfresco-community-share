@@ -1,6 +1,5 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -16,9 +15,9 @@ public class EventAgendaItemsTable extends ListItemTable
     protected By attachmentsColumn = By.cssSelector("td[class*='cm_attachments'] div");
     protected By notesColumn = By.cssSelector("td[class*='eventAgendaNotes'] div");
 
-    public EventAgendaItemsTable(WebElement webElement, WebBrowser browser)
+    public EventAgendaItemsTable(WebElement webElement)
     {
-        super(webElement, browser);
+        super(webElement);
     }
 
     public WebElement getReferenceColumn()

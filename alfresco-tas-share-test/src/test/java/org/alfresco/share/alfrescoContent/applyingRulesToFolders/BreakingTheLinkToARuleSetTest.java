@@ -98,7 +98,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
         LOG.info("Link rule of folder2 with rule of folder1");
         manageRulesPage.clickLinkToRuleSet();
         selectDestinationDialog.clickPathFolder(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         selectDestinationDialog.clickOkButton();
         linkedToRuleSetPage.renderedPage();
         linkedToRuleSetPage.setCurrentSiteName(siteName);

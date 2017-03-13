@@ -6,10 +6,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.context.annotation.Primary;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Primary
 @PageObject
 public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 {

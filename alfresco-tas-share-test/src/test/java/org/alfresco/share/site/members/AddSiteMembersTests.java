@@ -119,10 +119,10 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Click on 'See more' link.");
         addSiteUsersPage.clickSeeMoreLink();
-        assertEquals(browser.getTitle(), "User roles and permissions | Alfresco Documentation", "Alfresco documentation page for 'User roles and permissions' is opened.");
+        assertEquals(getBrowser().getTitle(), "User roles and permissions | Alfresco Documentation", "Alfresco documentation page for 'User roles and permissions' is opened.");
 
         LOG.info("STEP 4: Go back to 'Add Users' page and click 'x' button for 'Info' pop-up.");
-        browser.navigate().back();
+        getBrowser().navigate().back();
         addSiteUsersPage.clickInfoIcon();
         addSiteUsersPage.closeInfoBalloon();
         assertFalse(addSiteUsersPage.isInfoBalloonDisplayed(), "'Info' pop-up is closed.");
@@ -343,7 +343,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         addSiteUsersPage.setUserRole(differentRoleUserB, "Collaborator");
         assertTrue(addSiteUsersPage.getUserRole(differentRoleUserB).contains("Collaborator"), differentRoleUserB + " has Collaborator role selected.");
         addSiteUsersPage.clickAddUsers();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 2");
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserA), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(differentRoleUserA), "Manager");
@@ -357,7 +357,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         addSiteUsersPage.setUserRole(differentRoleUserC, "Contributor");
         assertTrue(addSiteUsersPage.getUserRole(differentRoleUserC).contains("Contributor"), differentRoleUserC + " has Contributor role selected.");
         addSiteUsersPage.clickAddUsers();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 3");
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserA), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(differentRoleUserA), "Manager");
@@ -373,7 +373,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         addSiteUsersPage.setUserRole(differentRoleUserD, "Consumer");
         assertTrue(addSiteUsersPage.getUserRole(differentRoleUserD).contains("Consumer"), differentRoleUserD + " has Consumer role selected.");
         addSiteUsersPage.clickAddUsers();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 4");
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserA), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(differentRoleUserA), "Manager");
@@ -435,7 +435,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Enter into 'search box' some random wildcards (e.g. !~@#$%^&*()_{}:'). Click 'Search' button.");
         addSiteUsersPage.searchForUser("!~@#$%^&*()_{}:'");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         assertEquals(addSiteUsersPage.getSearchForUsersPanelMessage(), language.translate("addUsersPage.noUsersFound"), "'No users found' message is displayed in 'Search for users' panel.");
 
         LOG.info("STEP 4: Enter 'sameRole' string in the search box and click 'Search' button.");
@@ -452,7 +452,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 6: Enter more than 255 random characters in the 'search box' and click 'Search button'.");
         addSiteUsersPage.searchForUser(RandomStringUtils.randomAlphanumeric(256));
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         assertEquals(addSiteUsersPage.getSearchForUsersPanelMessage(), language.translate("addUsersPage.noUsersFound"), "'No users found' message is displayed in 'Search for users' panel.");
 
     }

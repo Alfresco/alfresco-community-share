@@ -92,14 +92,14 @@ public class TagTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8266), fileNameC8266 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over one tag from the content name");
         repositoryPage.mouseOverNoTags(fileNameC8266);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP2: Click \"Tag\" icon");
         repositoryPage.clickEditTagIcon(fileNameC8266);
@@ -108,7 +108,7 @@ public class TagTests extends ContextAwareWebTest
         LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
         repositoryPage.typeTagName(tagC8266);
         repositoryPage.clickEditTagLink("Save");
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagC8266.toLowerCase()));
         assertEquals(repositoryPage.getTags(fileNameC8266), tagsList.toString(), tagC8266 + " -> tags=");
     }
@@ -121,14 +121,14 @@ public class TagTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderName), folderName + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from the folder");
         repositoryPage.mouseOverNoTags(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(repositoryPage.isEditTagIconDisplayed(folderName), folderName + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -138,7 +138,7 @@ public class TagTests extends ContextAwareWebTest
         LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
         repositoryPage.typeTagName(tagC8267);
         repositoryPage.clickEditTagLink("Save");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagC8267.toLowerCase()));
         assertEquals(repositoryPage.getTags(folderName), tagsList.toString(), folderName + " -> tags=");
     }
@@ -151,9 +151,9 @@ public class TagTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8278), fileNameC8278 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the content created in the preconditions");
@@ -172,14 +172,14 @@ public class TagTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Pick tag from the available tags list and click \"Add\" then click OK");
         selectDialog.typeTag(tagC8278.toLowerCase());
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         selectDialog.clickCreateNewIcon();
         selectDialog.clickOk();
         assertTrue(editPropertiesDialog.isTagSelected(tagC8278.toLowerCase()), "'Tags:' section=");            
 
         LOG.info("STEP5: Click \"Save\" button");
         editPropertiesDialog.clickSave();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagC8278.toLowerCase()));
         assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "Displayed page=");
         assertEquals(repositoryPage.getTags(fileNameC8278), tagsList.toString(), fileNameC8278 + " -> tags=");
@@ -196,9 +196,9 @@ public class TagTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8290), fileNameC8278 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the tag(s) from the content");
@@ -207,7 +207,7 @@ public class TagTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
         repositoryPage.mouseOverTags(fileNameC8290);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         repositoryPage.clickEditTagIcon(fileNameC8290);
         assertTrue(repositoryPage.isEditTagInputFieldDisplayed(), fileNameC8290 + " -> 'Edit Tag' text input field is displayed.");
 
@@ -216,7 +216,7 @@ public class TagTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Click \"Save\" link and verify the content tags");
         repositoryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         assertTrue(repositoryPage.getTags(fileNameC8290).contains(tagC8290.toLowerCase()));
     }
 
@@ -232,19 +232,19 @@ public class TagTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8291), fileNameC8291 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the tag from " + fileNameC8291);
         repositoryPage.mouseOverTags(fileNameC8291);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         assertTrue(repositoryPage.isEditTagIconDisplayed(fileNameC8291), fileNameC8291 + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tags\" icon");
         repositoryPage.clickEditTagIcon(fileNameC8291);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(repositoryPage.isEditTagInputFieldDisplayed(), fileNameC8291 + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Hover over the tag and click 'Remove' icon");
@@ -252,7 +252,7 @@ public class TagTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Click 'Save' link");
         repositoryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         assertTrue(repositoryPage.isNoTagsTextDisplayed(fileNameC8291), fileNameC8291 + " -> " + tagC8291 + " is removed.");
     }
 
@@ -266,19 +266,19 @@ public class TagTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8300), fileNameC8300 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from " + fileNameC8300);
         repositoryPage.mouseOverNoTags(fileNameC8300);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         assertTrue(repositoryPage.isEditTagIconDisplayed(fileNameC8300), fileNameC8300 + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
         repositoryPage.clickEditTagIcon(fileNameC8300);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(repositoryPage.isEditTagInputFieldDisplayed(), fileNameC8300 + " -> Edit tag text input field is displayed.");
 
         LOG.info("STEP3: Add a tag");
@@ -289,7 +289,7 @@ public class TagTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Click 'Save' link");
         repositoryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         assertFalse(repositoryPage.getTags(fileNameC8300).contains(tagC8300), fileNameC8300 + " -> " + tagC8300 + " is not removed.");
     }
 }

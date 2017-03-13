@@ -65,7 +65,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from the file.");
         myFilesPage.mouseOverNoTags(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isEditTagIconDisplayed(testFile), testFile + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -75,7 +75,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
         myFilesPage.typeTagName(tagName);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName.toLowerCase()));
         assertEquals(myFilesPage.getTags(testFile), tagsList.toString(), testFile + " -> tags=");
     }
@@ -95,12 +95,12 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         myFilesPage.clickFolderLink();
         newContentDialog.fillInNameField(folderName);
         newContentDialog.clickSaveButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from the folder.");
         myFilesPage.mouseOverNoTags(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isEditTagIconDisplayed(folderName), folderName + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -110,7 +110,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
         myFilesPage.typeTagName(tagName);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName.toLowerCase()));
         assertEquals(myFilesPage.getTags(folderName), tagsList.toString(), folderName + " -> tags=");
     }
@@ -132,34 +132,34 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         myFilesPage.clickFolderLink();
         newContentDialog.fillInNameField(folderName);
         newContentDialog.clickSaveButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("Precondition: Add a tag to the file and folder.");
         myFilesPage.mouseOverNoTags(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         myFilesPage.clickEditTagIcon(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         myFilesPage.typeTagName(tagName);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
 
         myFilesPage.mouseOverNoTags(folderName);
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         myFilesPage.clickEditTagIcon(folderName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         myFilesPage.typeTagName(tagName2);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
 
         LOG.info("STEP1: Hover over the content created in the preconditions");
         myFilesPage.mouseOverFileName(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isMoreMenuDisplayed(testFile), "'More' menu is displayed.");
 
         LOG.info("STEP2: Click \"Edit Properties\" option");
         myFilesPage.clickDocumentLibraryItemAction(testFile, "Edit Properties", myFilesPage);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), testFile), "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
 
@@ -169,19 +169,19 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Pick any tag from the available tags list and click \"Add\"");
         selectDialog.typeTag(tagName2.toLowerCase());
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         selectDialog.selectItems(Arrays.asList(tagName2.toLowerCase()));
         assertTrue(selectDialog.isItemSelected(tagName2.toLowerCase()), tagName2.toLowerCase() + " is displayed in selected categories list.");
         assertFalse(selectDialog.isItemSelectable(tagName2.toLowerCase()), tagName2.toLowerCase() + " -> 'Add' icon isn't displayed.");
 
         LOG.info("STEP5: Click \"Ok\" button");
         selectDialog.clickOk();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(editPropertiesDialog.isTagSelected(tagName.toLowerCase()), "'Tags:' section=");
 
         LOG.info("STEP6: Click \"Save\" button");
         editPropertiesDialog.clickSave();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName.toLowerCase(), tagName2.toLowerCase()));
         assertEquals(myFilesPage.getTags(testFile), tagsList.toString(), testFile + " -> tags=");
     }
@@ -202,16 +202,16 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Add a tag to the file.");
         myFilesPage.mouseOverNoTags(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         myFilesPage.clickEditTagIcon(testFile);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         myFilesPage.typeTagName(tagName);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
 
         LOG.info("STEP1: Hover over the tag(s) from the content");
         myFilesPage.mouseOverTags(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isEditTagIconDisplayed(testFile), testFile + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -243,16 +243,16 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Add a tag to the file.");
         myFilesPage.mouseOverNoTags(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         myFilesPage.clickEditTagIcon(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         myFilesPage.typeTagName(tagName);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
 
         LOG.info("STEP1: Hover over the tag from the folder");
         myFilesPage.mouseOverTags(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isEditTagIconDisplayed(testFile), testFile + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tags\" icon");
@@ -261,7 +261,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Hover over the tag and click 'Remove' icon");
         assertEquals(myFilesPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
 
         LOG.info("STEP4: Click 'Save' link");
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
@@ -286,39 +286,39 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Add a tag to the file.");
         myFilesPage.mouseOverNoTags(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         myFilesPage.clickEditTagIcon(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         myFilesPage.typeTagName(tagName);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
 
         LOG.info("STEP1: Hover over the tag from the file.");
         myFilesPage.mouseOverTags(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isEditTagIconDisplayed(testFile), testFile + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tags\" icon");
         myFilesPage.clickEditTagIcon(testFile);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(myFilesPage.isEditTagInputFieldDisplayed(), testFile + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Hover over the tag. Click 'Remove' icon. Click 'Save' link");
         assertEquals(myFilesPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(myFilesPage.isNoTagsTextDisplayed(testFile), testFile + " -> " + tagName + " is removed.");
 
         LOG.info("STEP4: Click \"Edit Tag\" icon");
         myFilesPage.mouseOverNoTags(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         myFilesPage.clickEditTagIcon(testFile);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("STEP5: Type any tag name in the input field. Click \"Save\" link");
         myFilesPage.typeTagName(tagName2);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertEquals(myFilesPage.getTags(testFile), Arrays.asList(tagName2.toLowerCase()).toString(), testFile + " -> tags=");
 
     }

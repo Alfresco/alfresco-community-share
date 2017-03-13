@@ -63,7 +63,7 @@ public class ViewingAFileTests extends ContextAwareWebTest
         LOG.info("Step 1: Click on the thumbnail or name of the file in the document library.");
         documentLibraryPage.clickOnFile(docName);
         String expectedRelativePath = "share/page/site/" + siteName + "/document-details";
-        browser.waitUrlContains(expectedRelativePath, 10);
+        getBrowser().waitUrlContains(expectedRelativePath, 10);
 
         LOG.info("Step 2: Verify the file location and name information available.");
         Assert.assertEquals(documentPreviewPage.getFileName(), docName + ".docx");

@@ -121,7 +121,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Click Edit button");
         blogPage.clickEditButton(blogTitleUser2Draft);
-        browser.waitUntilElementContainsText(browser.findElement(By.xpath("//div[@class = 'page-form-header']//h1[text() = 'Edit Blog Post']")),
+        getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.xpath("//div[@class = 'page-form-header']//h1[text() = 'Edit Blog Post']")),
                 "Edit Blog Post");
         assertEquals(editBlogPost.getEditBlogPostPageTitle(), "Edit Blog Post");
 

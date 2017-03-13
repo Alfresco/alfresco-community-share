@@ -1,6 +1,5 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -16,8 +15,8 @@ public class ContactListItemsTable extends ListItemTable {
     protected By notesColumn = By.cssSelector("td[class*='contactNotes'] div");
     protected By checkColumn = By.cssSelector("input[id*='checkbox']");
 
-    public ContactListItemsTable(WebElement webElement, WebBrowser browser) {
-        super(webElement, browser);
+    public ContactListItemsTable(WebElement webElement) {
+        super(webElement);
     }
 
     public WebElement getCheckBoxColumn() {

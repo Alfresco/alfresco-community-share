@@ -55,7 +55,7 @@ public class RemoveTagsTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the tag from the folder");
         documentLibraryPage.mouseOverTags(folderName);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(documentLibraryPage.isEditTagIconDisplayed(folderName), folderName + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tags\" icon");
@@ -82,7 +82,7 @@ public class RemoveTagsTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the tag from the folder");
         documentLibraryPage.mouseOverTags(fileName);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(documentLibraryPage.isEditTagIconDisplayed(fileName), fileName + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tags\" icon");
@@ -91,7 +91,7 @@ public class RemoveTagsTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Hover over the tag and click 'Remove' icon");
         assertEquals(documentLibraryPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
 
         LOG.info("STEP4: Click 'Save' link");
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));

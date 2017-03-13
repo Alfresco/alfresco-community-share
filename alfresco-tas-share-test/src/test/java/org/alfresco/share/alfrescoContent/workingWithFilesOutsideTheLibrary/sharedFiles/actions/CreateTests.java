@@ -135,7 +135,7 @@ public class CreateTests extends ContextAwareWebTest {
 
     LOG.info("Step 4: Click the Create button");
     create.clickCreateButton();
-    browser.waitInSeconds(1);
+    getBrowser().waitInSeconds(1);
     Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details",
         "File is not previewed in Document Details Page");
 
@@ -202,7 +202,7 @@ public class CreateTests extends ContextAwareWebTest {
 
     LOG.info("Step 4: Click the Create button");
     create.clickCreateButton();
-    browser.waitInSeconds(1);
+    getBrowser().waitInSeconds(1);
     documentDetailsPage.renderedPage();
     Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details",
         "File is not previewed in Document Details Page");
@@ -268,7 +268,7 @@ public class CreateTests extends ContextAwareWebTest {
 
     LOG.info("Step 4: Click the Create button");
     create.clickCreateButton();
-    browser.waitInSeconds(1);
+    getBrowser().waitInSeconds(1);
     Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details",
         "File is not previewed in Document Details Page");
 
@@ -310,7 +310,7 @@ public class CreateTests extends ContextAwareWebTest {
 
     LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
     createFolderFromTemplate.clickOnFolderTemplate(folderTemplateName);
-    browser.waitInSeconds(5);
+    getBrowser().waitInSeconds(5);
     Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
     Assert.assertEquals(createFolderFromTemplate.getTemplateFolderNameFieldValue(),
         folderTemplateName);
@@ -345,9 +345,9 @@ public class CreateTests extends ContextAwareWebTest {
       setupAuthenticatedSession(adminUser, adminPassword);
       sitePage.clickRepositoryLink();
       sharedFilesPage.clickOnFolderName("Data Dictionary");
-      browser.waitInSeconds(2);
+      getBrowser().waitInSeconds(2);
       sharedFilesPage.clickOnFolderName("Node Templates");
-      browser.waitInSeconds(2);
+      getBrowser().waitInSeconds(2);
       uploadContent.uploadContent(fileTemplatePath);
       cleanupAuthenticatedSession();
 
@@ -363,7 +363,7 @@ public class CreateTests extends ContextAwareWebTest {
 
       LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
       createFileFromTemplate.clickOnFileTemplate(fileTemplateName);
-      browser.waitInSeconds(1);
+      getBrowser().waitInSeconds(1);
       Assert.assertTrue(createFileFromTemplate.isDocumentCreatedMessageDisplayed());
       Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(fileTemplateName), String.format("Content: %s is not displayed.", fileTemplateName));
       
@@ -386,7 +386,7 @@ public class CreateTests extends ContextAwareWebTest {
       userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
       setupAuthenticatedSession(user, password);
       googleDocs.loginToGoogleDocs();
-      browser.waitInSeconds(3);
+      getBrowser().waitInSeconds(3);
       sharedFilesPage.navigate();
       Assert.assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
 
@@ -397,7 +397,7 @@ public class CreateTests extends ContextAwareWebTest {
 
       LOG.info("Step 2: Click Ok button on the Authorize ");
       googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
-      browser.waitInSeconds(5);
+      getBrowser().waitInSeconds(5);
 
       LOG.info("Step 3: Edit the document in the Google Docs tab.");
       googleDocs.switchToGoogleDocsWindowandAndEditContent(title, docContent);
@@ -407,7 +407,7 @@ public class CreateTests extends ContextAwareWebTest {
 
       LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
       googleDocs.checkInGoogleDoc("Untitled Document");
-      browser.waitInSeconds(9);
+      getBrowser().waitInSeconds(9);
       Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false);
       Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false);
       Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocName));
@@ -431,7 +431,7 @@ public class CreateTests extends ContextAwareWebTest {
       userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
       setupAuthenticatedSession(user, password);
       googleDocs.loginToGoogleDocs();
-      browser.waitInSeconds(3);
+      getBrowser().waitInSeconds(3);
       sharedFilesPage.navigate();
       Assert.assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
 
@@ -442,7 +442,7 @@ public class CreateTests extends ContextAwareWebTest {
 
       LOG.info("Step 2: Click Ok button on the Authorize ");
       googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
-      browser.waitInSeconds(7);
+      getBrowser().waitInSeconds(7);
 
       LOG.info("Step 3: Edit the document in the Google Docs tab.");
       googleDocs.switchToGoogleSheetsWindowandAndEditContent(title, docContent);
@@ -452,7 +452,7 @@ public class CreateTests extends ContextAwareWebTest {
 
       LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
       googleDocs.checkInGoogleDoc("Untitled Spreadsheet");
-      browser.waitInSeconds(9);
+      getBrowser().waitInSeconds(9);
       Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false);
       Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false);
       Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocSpreadsheet));
@@ -476,7 +476,7 @@ public class CreateTests extends ContextAwareWebTest {
     userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
     setupAuthenticatedSession(user, password);
     googleDocs.loginToGoogleDocs();
-    browser.waitInSeconds(3);
+    getBrowser().waitInSeconds(3);
     sharedFilesPage.navigate();
     Assert.assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
 
@@ -487,7 +487,7 @@ public class CreateTests extends ContextAwareWebTest {
 
     LOG.info("Step 2: Click Ok button on the Authorize ");
     googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
-    browser.waitInSeconds(5);
+    getBrowser().waitInSeconds(5);
 
     LOG.info("Step 3: Edit the document in the Google Docs tab ");
     googleDocs.switchToGooglePresentationsAndEditContent(title);
@@ -497,7 +497,7 @@ public class CreateTests extends ContextAwareWebTest {
 
     LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
     googleDocs.checkInGoogleDoc("Untitled Presentation");
-    browser.waitInSeconds(9);
+    getBrowser().waitInSeconds(9);
     Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false);
     Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false);
     Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocPresentation));

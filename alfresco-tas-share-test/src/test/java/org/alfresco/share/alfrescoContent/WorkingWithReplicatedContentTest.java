@@ -79,7 +79,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         contentService.createFolderInRepository(adminUser, adminPassword, transferTargetFolder, pathForTransferTargetFolder);
 
         LOG.info("ServerB: Any site" + site + " with a folder " + folder + " in it is created on ServerB, " + properties.getShare2Url());
-        browser.navigate().to(properties.getShare2Url());
+        getBrowser().navigate().to(properties.getShare2Url());
         loginPage.login(adminUser, adminPassword);
         createSiteDialog.navigateByMenuBar();
         createSiteDialog.typeDetails(site, "");
@@ -87,7 +87,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         siteDashboardPage.renderedPage();
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
         documentLibraryPage.setCurrentSiteName(site);
-        browser.navigate().to(properties.getShare2Url().toString().replace("share", "") + documentLibraryPage.getRelativePath());
+        getBrowser().navigate().to(properties.getShare2Url().toString().replace("share", "") + documentLibraryPage.getRelativePath());
         documentLibraryPage.clickCreateButton();
         documentLibraryPage.clickFolderLink();
         newContentDialog.fillInNameField(folder);
@@ -159,11 +159,11 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
 
         LOG.info("STEP10: Click 'Run Job' button");
         replicationJobsPage.clickRunJobButton();
-        //browser.waitInSeconds(5);
+        //getBrowser().waitInSeconds(5);
         assertTrue(replicationJobsPage.getJobStatus().contains("This job is currently running"), name + " status contains: This job is currently running");
 
         LOG.info("STEP11: Go to ServerB and verify the content for " + folder);
-        browser.navigate().to(properties.getShare2Url());
+        getBrowser().navigate().to(properties.getShare2Url());
         documentLibraryPage.navigate(site);
         documentLibraryPage.clickFolderFromExplorerPanel(folder);
         assertTrue(documentLibraryPage.isContentNameDisplayed(document), document + " is displayed in " + folder);

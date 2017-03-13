@@ -160,7 +160,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click 'Save as draft' button");
         createBlogPost.clickSaveAsDraftButton();
-        browser.waitUntilElementVisible(blogPostView.blogPostTitle(blogPostTitleC5541));
+        getBrowser().waitUntilElementVisible(blogPostView.blogPostTitle(blogPostTitleC5541));
         String blogPostViewTitle = blogPostView.getBlogPostTitle(blogPostTitleC5541) + " " + blogPostView.getBlogPostNote(blogPostTitleC5541);
         Assert.assertEquals(blogPostViewTitle, "C5541 blog post title (Draft)");
         String expectedAuthorName = user + " " + user;
@@ -202,7 +202,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 3: Click Publish Internally button");
 
         createBlogPost.clickPublishInternally();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertEquals(blogPostView.getBlogPostTitle(blogPostTitleC6119), blogPostTitleC6119);
 
         LOG.info("Step 4 : Navigate to blog post list");
@@ -235,7 +235,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 3: Click Save as draft button");
 
         createBlogPost.clickSaveAsDraftButton();
-        browser.waitUntilElementVisible(blogPostView.blogPostTitle(blogPostTitleC6120));
+        getBrowser().waitUntilElementVisible(blogPostView.blogPostTitle(blogPostTitleC6120));
         Assert.assertEquals(blogPostView.getBlogPostTitle(blogPostTitleC6120), blogPostTitleC6120);
 
         LOG.info("Step 4: Navigate to blog post list");

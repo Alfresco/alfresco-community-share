@@ -74,7 +74,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         newContentDialog.fillInDetails(folderName, folderTitle, folderDescription);
         newContentDialog.clickSaveButton();
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents list.");
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         ArrayList<String> foldersExpected = new ArrayList<>(Arrays.asList("Documents", folderName));
         assertEquals(documentLibraryPage.getExplorerPanelDocuments(), foldersExpected.toString(), "Document Library explorer panel Library --> Documents: ");
 

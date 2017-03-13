@@ -75,14 +75,14 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Navigate back to My Files page and click on upload new version for the file.");
         sitePage.clickMyFilesLink();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         myFilesPage.mouseOverFileName(testFile);
         myFilesPage.clickMoreMenu(testFile);
         myFilesPage.clickDocumentLibraryItemAction(testFile, "Upload New Version", uploadContent);
 
         LOG.info("STEP3: Update the file with major version.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(myFilesPage.isContentNameDisplayed(newVersionFile),String.format("The file [%s] is not present", newVersionFile));
         Assert.assertFalse(myFilesPage.isContentNameDisplayed(testFile),String.format("The file [%s] is not present", testFile));
 

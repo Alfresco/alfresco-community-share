@@ -57,8 +57,8 @@ public class SelectingMultipleListItems extends ContextAwareWebTest {
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(contactList);
-        browser.waitInSeconds(2);
-        contactListSelectedContent.setBrowser(browser);
+        getBrowser().waitInSeconds(2);
+        contactListSelectedContent.setBrowser(getBrowser());
     }
 
     @TestRail(id = "C6403")

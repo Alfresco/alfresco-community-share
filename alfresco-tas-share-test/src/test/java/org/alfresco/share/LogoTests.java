@@ -52,26 +52,26 @@ public class LogoTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'www.alfresco.com'");
         // Store the current window handle
 
-        String currentWindow = browser.getWindowHandle();
+        String currentWindow = getBrowser().getWindowHandle();
 
         aboutPage.clickAlfrescoLink();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         // Switch to new window opened
-        for (String winHandle : browser.getWindowHandles())
+        for (String winHandle : getBrowser().getWindowHandles())
         {
-            browser.switchTo().window(winHandle);
-            if (browser.getCurrentUrl().contains("alfresco.com"))
+            getBrowser().switchTo().window(winHandle);
+            if (getBrowser().getCurrentUrl().contains("alfresco.com"))
             {
                 break;
             }
             else
             {
-                browser.switchTo().window(currentWindow);
+                getBrowser().switchTo().window(currentWindow);
             }
         }
 
-        assertEquals(browser.getCurrentUrl(), "https://www.alfresco.com/", "Displayed URL=");
+        assertEquals(getBrowser().getCurrentUrl(), "https://www.alfresco.com/", "Displayed URL=");
         switchWindow();
 
         closeWindowAndSwitchBack();
@@ -82,24 +82,24 @@ public class LogoTests extends ContextAwareWebTest
         userDashboard.openAboutPage();
 
         // Store the current window handle
-        currentWindow = browser.getWindowHandle();
+        currentWindow = getBrowser().getWindowHandle();
         aboutPage.clickLegalAndLicenceLink();
 
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         // Switch to new window opened
-        for (String winHandle : browser.getWindowHandles())
+        for (String winHandle : getBrowser().getWindowHandles())
         {
-            browser.switchTo().window(winHandle);
-            if (browser.getCurrentUrl().contains("alfresco.com"))
+            getBrowser().switchTo().window(winHandle);
+            if (getBrowser().getCurrentUrl().contains("alfresco.com"))
             {
                 break;
             }
             else
             {
-                browser.switchTo().window(currentWindow);
+                getBrowser().switchTo().window(currentWindow);
             }
         }
-        assertEquals(browser.getCurrentUrl(), "https://www.alfresco.com/alfresco-agreements", "Displayed URL=");
+        assertEquals(getBrowser().getCurrentUrl(), "https://www.alfresco.com/alfresco-agreements", "Displayed URL=");
 
     }
 

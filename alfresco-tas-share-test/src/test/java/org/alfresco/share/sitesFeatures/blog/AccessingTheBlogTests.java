@@ -98,7 +98,7 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
          */
         LOG.info("Step 1: Open Site's dashboard and click on Blog link.");
         blogPage.navigate(siteName);
-        browser.waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitle1), 6);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitle1), 6);
         Assert.assertTrue(blogPage.isBlogPostDisplayed(blogTitle1));
         Assert.assertTrue(blogPage.isBlogPostDisplayed(blogTitle));
        
@@ -128,7 +128,7 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
         
         LOG.info("Step 4: Verify info available for posts in 'Detailed View', selected as default.");
         blogPage.clickSimpleViewButton();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertEquals(blogPage.getBlogPostTitle(blogTitle1), blogTitle1);
         Assert.assertEquals(blogPage.getBlogPostTitle(blogTitle), blogTitle);
         Assert.assertTrue(blogPage.blogDateTimeComparator(blogTitle));

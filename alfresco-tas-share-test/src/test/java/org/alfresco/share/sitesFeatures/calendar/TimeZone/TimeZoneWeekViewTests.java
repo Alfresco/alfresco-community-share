@@ -99,9 +99,9 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(today, "12:30 PM"),
@@ -129,9 +129,9 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), today.toString("EEEE, d MMMM, yyyy"),
@@ -162,9 +162,9 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(today, "12:30 PM"),
@@ -194,9 +194,9 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), today.toString("EEEE, d MMMM, yyyy"),
@@ -228,9 +228,9 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(aWeekAgo, "12:30 PM"),
@@ -255,15 +255,15 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         addEventDialog.selectEndDateFromCalendarPicker(nextWeek.getDayOfMonth(), nextWeek.getMonthOfYear(), nextWeek.getYear());
         addEventDialog.clickSaveButton();
         assertEquals(notification.getDisplayedNotification(), "Event created", "'Event created' pop-up appears.");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is created and displayed on the 'Calendar' page.");
         assertTrue(calendarPage.isAllDayEvent(currentEventName), "Event created is an all day event.");
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), aWeekAgo.toString("EEEE, d MMMM, yyyy"),
@@ -294,9 +294,9 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(aMonthAgo, "12:30 PM"),
@@ -327,9 +327,9 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), aMonthAgo.toString("EEEE, d MMMM, yyyy"),
@@ -360,9 +360,9 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
-        browser.refresh();
+        getBrowser().refresh();
         calendarPage.renderedPage();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(today, "12:30 PM"),

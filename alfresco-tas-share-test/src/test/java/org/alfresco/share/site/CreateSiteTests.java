@@ -120,12 +120,12 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Enter any \"Name\" for the site");
         createSiteDialog.typeName(siteName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertEquals(createSiteDialog.getNameInputText(), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Click \"Create\" button");
         createSiteDialog.clickCreateButton();
-        browser.waitInSeconds(8);
+        getBrowser().waitInSeconds(8);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -160,7 +160,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
 
         LOG.info("STEP5: Check visibility for the site");
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         assertEquals(siteDashboardPage.getSiteVisibility(), "Moderated", "\"Moderated\" visibility is displayed next to the site name.");
     }
 

@@ -1,12 +1,13 @@
 package org.alfresco.po.share.site.dataLists;
 
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.alfresco.utility.web.browser.WebDriverAware;
 
 import java.util.List;
 
 @PageObject
-public abstract class Content {
+public abstract class Content extends WebDriverAware
+{
     public boolean areNavigationLinksDisplayed() {
         return false;
     }
@@ -64,8 +65,6 @@ public abstract class Content {
     public abstract boolean isSelectItemsButtonDisplayed();
 
     public abstract boolean isSelectItemsButtonEnabled();
-
-    public abstract void setBrowser(WebBrowser browser);
 
     public String successfullyCreatedListItemMessage() {
         return null;

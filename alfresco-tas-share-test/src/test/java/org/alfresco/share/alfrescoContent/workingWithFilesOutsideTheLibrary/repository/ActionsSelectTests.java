@@ -56,8 +56,8 @@ public class ActionsSelectTests extends ContextAwareWebTest
         LOG.info("Step 1: Click on the Select button and select Documents option.");
         menuBar.clickSelectMenu();
         menuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.documents"));
-        //browser.waitUntilElementVisible(browser.findElement(By.name("fileChecked")));
-        browser.waitInSeconds(1);
+        //getBrowser().waitUntilElementVisible(getBrowser().findElement(By.name("fileChecked")));
+        getBrowser().waitInSeconds(1);
         Assert.assertTrue(repositoryPage.isContentSelected(fileName), fileName + " is not selected.");  
         
         LOG.info("Step 2: Click on the Select button and select Invert Selection.");
@@ -99,11 +99,11 @@ public class ActionsSelectTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         LOG.info("Step 1: On My Files page click Select and select Folders option.");
         menuBar.clickSelectMenu();
         menuBar.clickSelectOption("Folders");
-        browser.waitUntilElementVisible(browser.findElement(By.name("fileChecked")));
+        getBrowser().waitUntilElementVisible(getBrowser().findElement(By.name("fileChecked")));
         Assert.assertTrue(repositoryPage.isContentSelected(folderName), folderName + " is not selected.");  
         
         LOG.info("Step 2: Click Select and choose Invert Selection option.");

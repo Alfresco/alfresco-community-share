@@ -74,7 +74,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         create.clickCreateButton();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -123,7 +123,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         create.clickCreateButton();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -171,7 +171,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
         
         LOG.info("Step 4: Click the Create button");
         create.clickCreateButton();
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");

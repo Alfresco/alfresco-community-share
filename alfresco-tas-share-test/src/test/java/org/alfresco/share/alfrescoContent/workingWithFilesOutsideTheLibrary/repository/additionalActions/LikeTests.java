@@ -54,7 +54,7 @@ public class LikeTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8301), fileNameC8301 + " is not available in Repository");
         
         LOG.info("Step 1: Hover over the file Like link.");
@@ -79,19 +79,19 @@ public class LikeTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8302), folderNameC8302 + " is not available in Repository");
         
         LOG.info("Step 1: Hover over a document and check the Like button");
         
         LOG.info("Step 1: Hover over the file Like link.");
-        browser.waitUntilElementClickable(socialFeatures.likeButton, 6L);
+        getBrowser().waitUntilElementClickable(socialFeatures.likeButton, 6L);
         Assert.assertTrue(repositoryPage.isLikeButtonDisplayed(folderNameC8302), "Documents link is not present");
         Assert.assertEquals(socialFeatures.getLikeButtonMessage(folderNameC8302), "Like this folder", "Like Button message is not correct");
         Assert.assertEquals(socialFeatures.getNumberOfLikes(folderNameC8302), 0, "The number of likes is not correct");
         
         LOG.info("Step 2: Click on the Like button");
-        browser.waitUntilElementClickable(socialFeatures.likeButton, 6L);
+        getBrowser().waitUntilElementClickable(socialFeatures.likeButton, 6L);
         socialFeatures.clickLikeButton(folderNameC8302);
         Assert.assertEquals(socialFeatures.getNumberOfLikes(folderNameC8302), 1, "The number of likes is not correct");   
         Assert.assertTrue(socialFeatures.isLikeButtonEnabled(folderNameC8302), "Like button is not enabled");
@@ -106,7 +106,7 @@ public class LikeTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8303), fileNameC8303 + " is not available in Repository");
         
         socialFeatures.clickLikeButton(fileNameC8303);
@@ -129,7 +129,7 @@ public class LikeTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8304), folderNameC8304 + " is not available in Repository");
         
         socialFeatures.clickLikeButton(folderNameC8304);

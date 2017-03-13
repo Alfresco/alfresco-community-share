@@ -267,12 +267,12 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
 
         LOG.info("STEP 4 - Search for random strings");
         addSiteGroups.searchForGroup("!~@#$%^&*()_{}:\"");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         assertEquals(addSiteGroups.getSearchText(), "No groups found", "Search results are not correct");
 
         LOG.info("STEP 5 - Search for long char sequence, larger than 255 chars");
         addSiteGroups.searchForGroup(RandomStringUtils.randomAlphanumeric(260));
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         assertEquals(addSiteGroups.getSearchText(), "No groups found", "Search results are not correct");
         assertEquals(addSiteGroups.getSearchBoxContent().length(), 255, "Search box should allow only 255 chars");
 

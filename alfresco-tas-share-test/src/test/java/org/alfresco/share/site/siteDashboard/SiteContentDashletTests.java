@@ -75,12 +75,12 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         siteDashboard.navigate(siteName);
         for (int i = 0; i < 3; i++)
         {
-            browser.refresh();
+            getBrowser().refresh();
         }
         siteContentDashlet.clickSimpleViewButton();
         String smallThumbnailIcon = "//img[contains(@src, '/share/res/components/images/filetypes/generic-file-32.png')][contains(@title,'" + uploadFileName
                 + "')]";
-        browser.waitUntilElementVisible(By.xpath(smallThumbnailIcon));
+        getBrowser().waitUntilElementVisible(By.xpath(smallThumbnailIcon));
         Assert.assertTrue(siteContentDashlet.isSmallThumbnailDisplayed(uploadFileName), "Small thumbnail for testFile1 is expected to be displayed");
         Assert.assertTrue(siteContentDashlet.isFileLinkPresent(uploadFileName), "Link for testFile1 is expected to be displayed");
         Assert.assertTrue(siteContentDashlet.isDocDetailsSectionPresent(uploadFileName), "Document details for testFile1 are expected to be displayed");
@@ -97,10 +97,10 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         siteDashboard.navigate(siteName);
         siteContentDashlet.clickSimpleViewButton();
         siteContentDashlet.mouseHoverSmallThumbail(fileName);
-        browser.waitUntilElementVisible(By.cssSelector(".bd>img"));
+        getBrowser().waitUntilElementVisible(By.cssSelector(".bd>img"));
         Assert.assertTrue(siteContentDashlet.isBigPreviewDisplayed(), "Preview for " + fileName + "is expected to be displayed");
         siteContentDashlet.mouseHoverSmallThumbail(uploadFileName);
-        browser.waitUntilElementVisible(By.cssSelector(".bd>img"));
+        getBrowser().waitUntilElementVisible(By.cssSelector(".bd>img"));
         Assert.assertTrue(siteContentDashlet.isBigPreviewDisplayed(), "Preview for testFile1 displayed");
     }
 
@@ -157,12 +157,12 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         siteContentDashlet.clickDetailedViewButton();
 
         LOG.info("STEPS 1 - For the file available in the Site Content Dashlet click on Favorite icon");
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//a[@title = 'Add document to favorites']"));
+        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//a[@title = 'Add document to favorites']"));
         siteContentDashlet.clickOnFavoriteLink();
         Assert.assertTrue(siteContentDashlet.isDocumentFavorited(), "Document is favorited");
 
         LOG.info("STEPS 2 - Click on the Favorite icon to remove document from Favorites list");
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//a[@title = 'Unlike']"));
+        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//a[@title = 'Unlike']"));
         siteContentDashlet.removeFromFavoritesLink();
         Assert.assertTrue(siteContentDashlet.isDocumentRemovedFromFavorites(), "Document is removed from favorites");
 

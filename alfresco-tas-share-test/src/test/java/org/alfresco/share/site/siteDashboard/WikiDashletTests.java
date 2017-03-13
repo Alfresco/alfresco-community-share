@@ -135,7 +135,7 @@ public class WikiDashletTests extends ContextAwareWebTest
 
         LOG.info(
                 "Step 7: Site Dashboard page is displayed, Site Wiki dashlet has the name of chosen wiki page, wiki page content is displayed on the dashlet.");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboard.getRelativePath(), expectedRelativePath, "User is redirected to site dashboard");
         String expectedWikiDashletName = "Wiki - " + wikiPageTitle;

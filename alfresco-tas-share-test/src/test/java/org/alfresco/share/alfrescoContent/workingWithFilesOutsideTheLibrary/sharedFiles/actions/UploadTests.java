@@ -101,18 +101,18 @@ public class UploadTests extends ContextAwareWebTest
         LOG.info("STEP2: Navigate to Shared Files page and click on upload new version");
         sharedFilesPage.navigate();
         sharedFilesPage.mouseOverFileName(testFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         sharedFilesPage.clickDocumentLibraryItemAction(testFile, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
 
         LOG.info("STEP3: Select file to upload. Update version");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(sharedFilesPage.isContentNameDisplayed(newVersionFile), String.format("File [%s] is displayed", newVersionFile));
         assertFalse(sharedFilesPage.isContentNameDisplayed(testFile), testFile + " is displayed.");
 
         LOG.info("STEP4: Click on the file and check the version and content are updated.");
         sharedFilesPage.clickOnFile(newVersionFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFile));
         assertEquals(documentDetailsPage.getFileVersion(), "2.0", String.format("Version of %s is wrong.", newVersionFile));
 
@@ -122,13 +122,13 @@ public class UploadTests extends ContextAwareWebTest
 
         LOG.info("STEP6: Navigate to Shared Files page");
         sharedFilesPage.navigate();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(sharedFilesPage.isContentNameDisplayed(newVersionFile), String.format("File [%s] is displayed", newVersionFile));
         assertFalse(sharedFilesPage.isContentNameDisplayed(testFile), String.format("File [%s] is displayed", testFile));
 
         LOG.info("STEP7: Navigate to newFile details page");
         sharedFilesPage.clickOnFile(newVersionFile);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFile));
         assertEquals(documentDetailsPage.getFileVersion(), "2.0", String.format("Version of %s is wrong.", newVersionFile));
 
@@ -146,7 +146,7 @@ public class UploadTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the file");
         sharedFilesPage.mouseOverFileName(docName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName, language.translate("documentLibrary.contentAction.uploadNewVersion")),
                 language.translate("documentLibrary.contentAction.uploadNewVersion") + " option is displayed for " + docName);
 
@@ -160,7 +160,7 @@ public class UploadTests extends ContextAwareWebTest
 
         LOG.info("Delete All from 'Shared Files'");
         sharedFilesPage.navigate();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.all"));
         headerMenuBar.clickSelectedItemsMenu();

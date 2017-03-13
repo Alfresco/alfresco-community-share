@@ -53,7 +53,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Go to Shared folder and upload a file.");
         repositoryPage.clickOnContent("Shared");
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree("Shared"), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree("Shared"), 10L);
         assertEquals(repositoryPage.getPageHeader(), "Repository Browser");
 
         uploadContent.uploadContent(testFilePath);
@@ -87,13 +87,13 @@ public class ActionsUploadTests extends ContextAwareWebTest
         LOG.info("STEP2: Navigate to Shared folder from Repository page and click on upload new version");
         repositoryPage.navigate();
         repositoryPage.clickOnContent("Shared");
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree("Shared"), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree("Shared"), 10L);
         repositoryPage.mouseOverFileName(testFile);
         repositoryPage.clickDocumentLibraryItemAction(testFile, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
 
         LOG.info("STEP3: Select file to upload. Update version");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         assertTrue(repositoryPage.isContentNameDisplayed(newVersionFile), String.format("File [%s] is displayed", newVersionFile));
         assertFalse(repositoryPage.isContentNameDisplayed(testFile), testFile + " is displayed.");
 

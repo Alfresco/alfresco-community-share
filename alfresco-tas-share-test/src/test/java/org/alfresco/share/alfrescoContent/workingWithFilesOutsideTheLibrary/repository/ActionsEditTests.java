@@ -124,13 +124,13 @@ public class ActionsEditTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(editFileUsr);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step 1: Hover over the test file and click 'Edit Properties' action");
 
         repositoryPage.mouseOverContentItem(fileName);
         repositoryPage.clickOnAction(fileName, "Edit Properties");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "'Edit Properties' dialog box is not correctly displayed");
 
@@ -172,12 +172,12 @@ public class ActionsEditTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(editFolderUsr);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step 1: Hover over folder and click 'Edit Properties'");
         repositoryPage.mouseOverContentItem(folderName);
         repositoryPage.clickEditProperties(folderName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         logger.info("Step 2: In the 'Name' field enter a valid name");
@@ -205,7 +205,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         assertEquals(repositoryPage.getItemDescription(editedFolderName), editedDescription, editedFolderName + "- document's description=");
         assertEquals(repositoryPage.getTags(editedFolderName), Arrays.asList(tagName.toLowerCase()).toString(), editedFolderName + "- document's tag=");
 
-        browser.cleanUpAuthenticatedSession();
+        getBrowser().cleanUpAuthenticatedSession();
 
     }
 
@@ -221,13 +221,13 @@ public class ActionsEditTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(editInAlfUsr);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step1: Hover over the test file and click Edit in Alfresco option");
         repositoryPage.mouseOverContentItem(fileName);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         repositoryPage.clickOnAction(fileName, "Edit in Alfresco");
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         logger.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.sendDocumentDetailsFields(editedFileName, editedContent, editedTitle, editedDescription);
@@ -235,14 +235,14 @@ public class ActionsEditTests extends ContextAwareWebTest
         logger.info("Step3: Click Save button");
         editInAlfrescoPage.clickButton("Save");
 
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         logger.info("Step4: Verify the new title for the document");
         Assert.assertTrue(docsCommon.isDocumentNameUpdated(editedFileName), "Document name is not updated");
 
         logger.info("Step5: Click on document title to open the document's details page");
         docsCommon.clickOnUpdatedName(editedFileName);
-        browser.waitInSeconds(7);
+        getBrowser().waitInSeconds(7);
 
         logger.info("Step6: Verify the document's content");
         Assert.assertEquals(detailsPage.getContentText(), editedContent);
@@ -251,7 +251,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedTitle), "Updated title is not displayed");
         Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedDescription), "Updated description is not displayed");
 
-        browser.cleanUpAuthenticatedSession();
+        getBrowser().cleanUpAuthenticatedSession();
 
     }
 
@@ -278,7 +278,7 @@ public class ActionsEditTests extends ContextAwareWebTest
 
         logger.info("Step3,4: Provide edited input to Google Docs file and close Google Docs tab");
         docsCommon.confirmFormatUpgrade();
-        browser.waitInSeconds(7);
+        getBrowser().waitInSeconds(7);
         docsCommon.switchToGoogleDocsWindowandAndEditContent(editedTitle, editedContent);
 
         logger.info("Step5: Verify the file is locked and Google Drive icon is displayed");
@@ -288,12 +288,12 @@ public class ActionsEditTests extends ContextAwareWebTest
 
         logger.info("Step6: Click Check In Google Doc™ and verify Version Information pop-up is displayed");
         docsCommon.checkInGoogleDoc(fileName);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), true);
 
         logger.info("Step7: Click OK button on Version Information and verify the pop-up is closed");
         docsCommon.clickOkButton();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), false);
 
         logger.info("Step8: Verify the title for the document is changed");
@@ -303,7 +303,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         docsCommon.clickOnUpdatedName(editedTitle);
         Assert.assertTrue(detailsPage.getContentText().contains(editedContent));
 
-        browser.cleanUpAuthenticatedSession();
+        getBrowser().cleanUpAuthenticatedSession();
 
     }
 

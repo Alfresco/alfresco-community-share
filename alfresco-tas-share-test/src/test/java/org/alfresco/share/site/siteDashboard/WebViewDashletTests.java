@@ -122,7 +122,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboard.getRelativePath(), expectedRelativePath, "User is redirected to site dashboard");
         assertEquals(webViewDashlet.getDashletTitle(), linkTitle, "Web View Dashlet title is updated.");
-        String expectedSource = browser.findElement(By.cssSelector("iframe[class$='iframe-body']")).getAttribute("src");
+        String expectedSource = getBrowser().findElement(By.cssSelector("iframe[class$='iframe-body']")).getAttribute("src");
         assertEquals(expectedSource, url);
     }
 
@@ -160,7 +160,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
         configureWebViewPopUp.clickCancelButton();
 
         LOG.info("Step 3: Verify that user is redirected to Site Dashboard and the information displayed by the Web View Dashlet");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboard.getRelativePath(), expectedRelativePath, "User is redirected to site dashboard");
         assertEquals(webViewDashlet.getDefaultMessage(), "No web page to display.");
@@ -200,7 +200,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboard.getRelativePath(), expectedRelativePath, "User is redirected to site dashboard");
         assertEquals(webViewDashlet.getDashletTitle(), linkTitle);
-        String expectedSource = browser.findElement(By.cssSelector("iframe[class$='iframe-body']")).getAttribute("src");
+        String expectedSource = getBrowser().findElement(By.cssSelector("iframe[class$='iframe-body']")).getAttribute("src");
         assertEquals(expectedSource, url);
     }
     

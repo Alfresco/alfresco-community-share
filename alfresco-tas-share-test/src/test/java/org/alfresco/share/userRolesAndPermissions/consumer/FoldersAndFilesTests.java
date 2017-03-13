@@ -90,13 +90,13 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
         /*
          * setupAuthenticatedSession(adminUser, adminPassword);
          * documentLibraryPage.navigate(siteName);
-         * browser.waitInSeconds(4);
+         * getBrowser().waitInSeconds(4);
          * social.clickCommentLink(fileC8784);
-         * browser.waitInSeconds(4);
+         * getBrowser().waitInSeconds(4);
          * documentDetailsPage.addComment(comment);
-         * browser.waitInSeconds(2);
+         * getBrowser().waitInSeconds(2);
          * documentDetailsPage.clickDocumentsLink();
-         * browser.waitInSeconds(3);
+         * getBrowser().waitInSeconds(3);
          * social.clickCommentLink(folderC8784);
          * documentDetailsPage.addComment(comment);
          * cleanupAuthenticatedSession();
@@ -113,14 +113,14 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: On to Document Library page verify the user has access to View the folder details page");
         documentLibraryPage.clickDocumentLibraryItemAction(folderC8761, "View Details", documentDetailsPage);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
 
         LOG.info("Step 2: Verify the user has access to View the file details page");
         documentDetailsPage.clickDocumentsLink();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         documentLibraryPage.clickOnFile(fileC8761);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "User is not on the Document Details page");
     }
 
@@ -138,7 +138,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click on the Like button");
         social.clickLikeButton(fileC8762);
-        browser.waitUntilElementVisible(social.enabledLikeButton);
+        getBrowser().waitUntilElementVisible(social.enabledLikeButton);
         Assert.assertEquals(social.getNumberOfLikes(fileC8762), 1, "The number of likes is not correct");
         Assert.assertTrue(social.isLikeButtonEnabled(fileC8762), "Like button is not enabled");
 
@@ -171,12 +171,12 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click on the 'Favorite' link");
         documentLibraryPage.clickFavoriteLink(fileC8763);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(documentLibraryPage.isFileFavorite(fileC8763), "The gray star and text 'Favorite' are replaced by a golden star");
 
         LOG.info("STEP 5: Navigate to 'My Favorites' and check favorite items list");
         documentLibraryPage.clickDocumentsFilterOption(DocumentLibraryPage.DocumentsFilters.Favorites.title);
-        browser.refresh();
+        getBrowser().refresh();
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentLibraryPage.DocumentsFilters.Favorites.header,
                 "My Favorites documents are displayed.");
         assertTrue(documentLibraryPage.getFilesList().contains(fileC8763), "Document is displayed in My favorites list!");
@@ -193,11 +193,11 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8761, "Edit Properties"), "Edit Properties is not available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8761, "Edit in Alfresco"), "Edit in Alfresco is not available.");
         documentLibraryPage.mouseOverFileName(fileC8761);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertFalse(documentLibraryPage.isRenameIconDisplayed(), "Rename icon is not displayed.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderC8761, "Edit Properties"), "Edit Properties is not available.");
         documentLibraryPage.mouseOverContentItem(folderC8761);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertFalse(documentLibraryPage.isRenameIconDisplayed(), "Rename icon is not displayed.");
     }
 
@@ -229,7 +229,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         if (!documentLibraryPage.isContentNameDisplayed(fileC8770))
-            browser.refresh();
+            getBrowser().refresh();
         assertTrue(documentLibraryPage.getFilesList().toString().contains(fileC8770), fileC8770
                 + " displayed in 'Shared Files'. List of 'Shared Files' documents=" + documentLibraryPage.getFilesList().toString());
     }
@@ -291,7 +291,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: On to Document Library page click on 'View Details' option for the folder.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderC8761, "View Details", documentDetailsPage);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
 
         LOG.info("Step 2: Verify the user does not have access to change the type.");
@@ -299,9 +299,9 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Verify the user does not have access to change type of file.");
         documentDetailsPage.clickDocumentsLink();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         documentLibraryPage.clickOnFile(fileC8761);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertFalse(documentDetailsPage.isActionAvailable("Change Type"), "Change Type action is not available.");
     }
 
@@ -326,15 +326,15 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
 
         documentLibraryPage.navigate(siteName);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         social.clickCommentLink(fileC8784);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         documentDetailsPage.addComment(comment);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         documentDetailsPage.clickDocumentsLink();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         social.clickCommentLink(folderC8784);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         documentDetailsPage.addComment(comment);
         cleanupAuthenticatedSession();
 
@@ -344,7 +344,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: On to Document Library page click on 'View Details' option for the folder.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderC8784, "View Details", documentDetailsPage);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
 
         LOG.info("Step 2: Verify the user does not have access to edit the comment.");
@@ -353,9 +353,9 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Verify the user does not have access to edit comment of file.");
         documentDetailsPage.clickDocumentsLink();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         documentLibraryPage.clickOnFile(fileC8784);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertFalse(documentDetailsPage.isEditButtonDisplayedForComment(comment), "Edit comment action is not available.");
         Assert.assertFalse(documentDetailsPage.isDeleteButtonDisplayedForComment(comment), "Edit comment action is not available.");
     }
@@ -368,9 +368,9 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user8865, password);
         documentLibraryPage.navigate(site8865);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         uploadContent.uploadContent(filePath8865);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileC8865collaborator), String.format("File %s was not uploaded", fileC8865collaborator));
 
         cleanupAuthenticatedSession();
@@ -378,7 +378,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
         logger.info("Step 1: Change the current role to 'Consumer'");
         siteUsersPage.navigate(site8865);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(siteUsersPage.isASiteMember(user8865 + " " + user8865));
         assertEquals(siteUsersPage.getRole(user8865), "Collaborator ▾", user8865 + " has role=");
         siteUsersPage.changeRoleForMember("Consumer", user8865);
@@ -390,7 +390,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
         logger.info("Step 3: Navigate to Document Library page.");
         documentLibraryPage.navigate(site8865);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8865consumer, "Edit Properties"), "Edit Properties is not available.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileC8865collaborator, "Edit Properties"), "Edit Properties is not available.");
 

@@ -2,13 +2,12 @@ package org.alfresco.po.share.alfrescoContent;
 
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.alfresco.utility.web.browser.WebDriverAware;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -16,12 +15,8 @@ import java.util.List;
  * @author Bogdan.Simion
  */
 @PageObject
-public class CreateFolderFromTemplate
+public class CreateFolderFromTemplate extends WebDriverAware
 {
-    @Autowired
-    @Qualifier("webBrowserInstance")
-    protected WebBrowser browser;
-
     @Autowired
     RepositoryPage repositoryPage;
 

@@ -107,7 +107,7 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
         documentLibraryPage.clickOptionsButton();
         documentLibraryPage.clickSetDefaultView();
         documentLibraryPage.clickOptionsButton();
-        browser.waitUntilElementVisible(tableView.removeDefaultView);
+        getBrowser().waitUntilElementVisible(tableView.removeDefaultView);
         Assert.assertEquals(documentLibraryPage.getRemoveDefaultViewText(), "Remove \"Detailed View\" as default for this folder");
         documentLibraryPage.clickFolderFromExplorerPanel(folderName);
         
@@ -115,16 +115,16 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
         documentLibraryPage.clickOptionsButton();
         documentLibraryPage.clickOptionsButton();
         documentLibraryPage.selectViewFromOptionsMenu("Table View");
-        browser.waitUntilElementVisible(tableView.tableView);
+        getBrowser().waitUntilElementVisible(tableView.tableView);
         Assert.assertTrue(tableView.isTableViewDisplayed(), "Table view is not displayed");
         documentLibraryPage.clickOptionsButton();
-        browser.waitUntilElementVisible(tableView.setDefaultView);
+        getBrowser().waitUntilElementVisible(tableView.setDefaultView);
         
         LOG.info("Step 3: Select Set Table view as default for this folder");
         Assert.assertEquals(documentLibraryPage.getOptionsSetDefaultViewText(expectedText), expectedText, expectedText+" is not displayed");
         documentLibraryPage.clickSetDefaultView();
         documentLibraryPage.clickOptionsButton();
-        browser.waitUntilElementVisible(tableView.removeDefaultView);
+        getBrowser().waitUntilElementVisible(tableView.removeDefaultView);
         Assert.assertEquals(documentLibraryPage.getRemoveDefaultViewText(), "Remove \"Table View\" as default for this folder");
         
         LOG.info("Step 4: Navigate to another folder");

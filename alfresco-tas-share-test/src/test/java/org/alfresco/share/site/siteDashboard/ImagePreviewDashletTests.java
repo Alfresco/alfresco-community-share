@@ -104,7 +104,7 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
 
         LOG.info("STEP 3 - Navigate to site's dashboard");
         siteDashboard.navigate(siteName2);
-        browser.refresh();
+        getBrowser().refresh();
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
         assertTrue(imagePreviewDashlet.isImageDisplayed("newavatar.jpg"), ".jpg image displayed");
         assertTrue(imagePreviewDashlet.isImageDisplayed("newavatar.bmp"), ".bmp image displayed");
@@ -133,7 +133,7 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
         LOG.info("Step3: Click 'Download' icon");
         imagePreviewDashlet.clickDownloadIcon(fileName);
         download.acceptAlertIfDisplayed();
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(download.isFileInDirectory(fileName, null), fileName + " is downloaded to computer.");
     }
 }

@@ -67,12 +67,12 @@ public class FavoritingContentTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click on the 'Favorite' link");
         documentLibraryPage.clickFavoriteLink(docName);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertTrue(documentLibraryPage.isFileFavorite(docName), "The gray star and text 'Favorite' are replaced by a golden star");
 
         LOG.info("STEP 5: Navigate to 'My Favorites' and check favorite items list");
         documentLibraryPage.clickDocumentsFilterOption(DocumentsFilters.Favorites.title);
-        browser.refresh();
+        getBrowser().refresh();
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentsFilters.Favorites.header, "My Favorites documents are displayed.");
         assertTrue(documentLibraryPage.getFilesList().contains(docName), "Document is displayed in My favorites list!");
     }

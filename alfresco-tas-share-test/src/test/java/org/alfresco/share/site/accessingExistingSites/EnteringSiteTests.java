@@ -149,7 +149,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
     public void accessSiteUsingSearchBoxOnTheToolbar()
     {
         userDashboardPage.navigate(user1);
-        browser.refresh();
+        getBrowser().refresh();
         LOG.info("STEP 1: Go to search box on the toolbar and type '" + siteName + "'.");
         toolbar.searchInToolbar(siteName);
         assertTrue(toolbar.isResultDisplayedInLiveSearch(siteName), siteName + " should be found.");

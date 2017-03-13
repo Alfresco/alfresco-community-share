@@ -1,11 +1,9 @@
 package org.alfresco.po.share.alfrescoContent;
 
 import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.alfresco.utility.web.browser.WebDriverAware;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -13,12 +11,8 @@ import java.util.List;
  * @author Razvan.Dorobantu
  */
 @PageObject
-public class CreateFileFromTemplate
+public class CreateFileFromTemplate extends WebDriverAware
 {
-    @Autowired
-    @Qualifier("webBrowserInstance")
-    protected WebBrowser browser;
-
     @FindBy(css = "li[class$='first-of-type'] a.yuimenuitemlabel.yuimenuitemlabel-hassubmenu span")
     protected List<WebElement> createDocumentFromTemplateLink;
 

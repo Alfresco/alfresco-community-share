@@ -90,7 +90,7 @@ public class TagTests extends ContextAwareWebTest
     {
         LOG.info("STEP1: Hover over one tag from the content name");
         sharedFilesPage.mouseOverNoTags(docName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
 
         LOG.info("STEP2: Click \"Tag\" icon");
         sharedFilesPage.clickEditTagIcon(docName);
@@ -111,7 +111,7 @@ public class TagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from the folder");
         sharedFilesPage.mouseOverNoTags(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(sharedFilesPage.isEditTagIconDisplayed(folderName), folderName + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -131,11 +131,11 @@ public class TagTests extends ContextAwareWebTest
     {
         LOG.info("STEP1: Hover over " + docName2);
         sharedFilesPage.mouseOverContentItem(docName2);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
 
         LOG.info("STEP2: Click \"Edit Properties\" option");
         sharedFilesPage.clickDocumentLibraryItemAction(docName2, language.translate("documentLibrary.contentActions.editProperties"), sharedFilesPage);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), docName2), "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
 
@@ -151,7 +151,7 @@ public class TagTests extends ContextAwareWebTest
         LOG.info("STEP5: Click  \"OK\" button from \"Select\" dialog.\n" + "Click  \"Save\" button from \"Edit Properties\" dialog");
         selectDialog.clickOk();
         editPropertiesDialog.clickSave();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName2.toLowerCase()));
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         assertEquals(sharedFilesPage.getTags(docName2), tagsList.toString(), docName2 + " -> tags=");
@@ -163,7 +163,7 @@ public class TagTests extends ContextAwareWebTest
     {
         LOG.info("STEP1: Hover over the tag(s) from the content");
         sharedFilesPage.mouseOverTags(folderName2);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(sharedFilesPage.isEditTagIconDisplayed(folderName2), folderName2 + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -177,7 +177,7 @@ public class TagTests extends ContextAwareWebTest
         sharedFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         // assertEquals(sharedFilesPage.getTags(folderName2), Arrays.asList(editedTag.toLowerCase()).toString(),
         // tagName.toLowerCase() + " is updated with value:");
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         assertTrue(sharedFilesPage.getTags(folderName2).contains(editedTag.toLowerCase()));
         assertFalse(sharedFilesPage.getTags(folderName2).contains(tagName.toLowerCase()));
     }
@@ -188,9 +188,9 @@ public class TagTests extends ContextAwareWebTest
     {
         LOG.info("  Hover over the text \"No Tags\" from " + docName3);
         sharedFilesPage.navigate();
-        browser.waitInSeconds(7);
+        getBrowser().waitInSeconds(7);
         sharedFilesPage.mouseOverNoTags(docName3);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         assertTrue(sharedFilesPage.isEditTagIconDisplayed(docName3), docName3 + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("  Click \"Edit Tag\" icon");
@@ -200,18 +200,18 @@ public class TagTests extends ContextAwareWebTest
         LOG.info("  Type any tag name in the input field and click \"Save\" link");
         sharedFilesPage.typeTagName(tagName2);
         sharedFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName2.toLowerCase()));
         assertEquals(sharedFilesPage.getTags(docName3), tagsList.toString(), docName3 + " -> tags=");
 
         LOG.info("STEP1: Hover over the tag from " + docName3);
         sharedFilesPage.mouseOverTags(docName3);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(sharedFilesPage.isEditTagIconDisplayed(docName3), docName3 + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tags\" icon");
         sharedFilesPage.clickEditTagIcon(docName3);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(sharedFilesPage.isEditTagInputFieldDisplayed(), docName3 + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Hover over the tag and click 'Remove' icon");
@@ -228,9 +228,9 @@ public class TagTests extends ContextAwareWebTest
     {
         LOG.info("STEP1: Hover over the text \"No Tags\" from " + docName4);
         sharedFilesPage.navigate();
-        browser.waitInSeconds(7);
+        getBrowser().waitInSeconds(7);
         sharedFilesPage.mouseOverNoTags(docName4);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         assertTrue(sharedFilesPage.isEditTagIconDisplayed(docName4), docName4 + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -258,7 +258,7 @@ public class TagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over 'No Tags' for file, e.g: 'testFile'");
         sharedFilesPage.clickOnFolderName(folderName3);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         sharedFilesPage.mouseOverNoTags(docName5);
         assertFalse(sharedFilesPage.checkEditTagIsNotDisplayed(), "Edit tag icon is displayed");
 

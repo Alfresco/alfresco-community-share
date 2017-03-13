@@ -47,7 +47,7 @@ public class MyProfileTests extends ContextAwareWebTest
         editUserProfilePage.clickSave();
 
         userDashboardPage.navigate(userName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         myProfileDashlet.renderedPage();
         
         Assert.assertEquals(myProfileDashlet.getDashletTitle(), "My Profile");
@@ -60,7 +60,7 @@ public class MyProfileTests extends ContextAwareWebTest
         Assert.assertTrue(myProfileDashlet.isNameEnabled());
         Assert.assertTrue(myProfileDashlet.isEmailEnabled());
         Assert.assertEquals(myProfileDashlet.getName(), userName + " " + userName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertEquals(myProfileDashlet.getJobTitle(), jobTitle);
         Assert.assertEquals(myProfileDashlet.getEmail(), userName + domain);
         Assert.assertEquals(myProfileDashlet.getTelephone(), telephone);

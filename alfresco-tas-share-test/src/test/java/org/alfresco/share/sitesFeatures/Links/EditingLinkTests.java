@@ -75,39 +75,39 @@ public class EditingLinkTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click on link's URL.");
         // Store the current window handle
-        String currentWindow = browser.getWindowHandle();
+        String currentWindow = getBrowser().getWindowHandle();
         linkPage.clickOnLinkURL(linkURL);
         // switchWindow();
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         // Switch to new window opened
-        for (String winHandle : browser.getWindowHandles())
+        for (String winHandle : getBrowser().getWindowHandles())
         {
-            browser.switchTo().window(winHandle);
-            if (browser.getCurrentUrl().contains("google"))
+            getBrowser().switchTo().window(winHandle);
+            if (getBrowser().getCurrentUrl().contains("google"))
             {
                 break;
             }
             else
             {
-                browser.switchTo().window(currentWindow);
+                getBrowser().switchTo().window(currentWindow);
             }
         }
 
         /*
-         * Assert.assertTrue(browser.getCurrentUrl().contains(linkURL), "Google page is displayed in a new window");
+         * Assert.assertTrue(getBrowser().getCurrentUrl().contains(linkURL), "Google page is displayed in a new window");
          * Assert.assertEquals(linkDetailsViewPage.getWinHandlesNo(), 2,
          * "Wrong no of windows handles, expected 2 but found " + linkDetailsViewPage.getWinHandlesNo());
          */
 
-        Assert.assertTrue(browser.getCurrentUrl().contains("google"), "After clicking on the link, the title is: " + browser.getCurrentUrl());
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("google"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
 
         LOG.info("STEP 3: Close the opened window, go back to Link View page and click 'Edit' button.");
 
-        // browser.navigate().back();
+        // getBrowser().navigate().back();
 
-        browser.close();
-        browser.switchTo().window(currentWindow);
+        getBrowser().close();
+        getBrowser().switchTo().window(currentWindow);
 
         linkPage.clickOnLinkName(linkTitle);
         linkDetailsViewPage.clickOnEditLink();
@@ -135,31 +135,31 @@ public class EditingLinkTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click on link's URL.");
         // Store the current window handle
-        String currentWindow1 = browser.getWindowHandle();
+        String currentWindow1 = getBrowser().getWindowHandle();
         linkDetailsViewPage.clickOnLinkURL(newLinkURL);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         // Switch to new window opened
-        for (String winHandle : browser.getWindowHandles())
+        for (String winHandle : getBrowser().getWindowHandles())
         {
-            browser.switchTo().window(winHandle);
-            if (browser.getCurrentUrl().contains("bing"))
+            getBrowser().switchTo().window(winHandle);
+            if (getBrowser().getCurrentUrl().contains("bing"))
             {
                 break;
             }
             else
             {
-                browser.switchTo().window(currentWindow1);
+                getBrowser().switchTo().window(currentWindow1);
             }
         }
 
         /*
-         * Assert.assertTrue(browser.getCurrentUrl().contains(newLinkURL), "Wrong URL!");
+         * Assert.assertTrue(getBrowser().getCurrentUrl().contains(newLinkURL), "Wrong URL!");
          * Assert.assertEquals(linkDetailsViewPage.getWinHandlesNo(), 1,
          * "Wrong no of windows handles, expected 1 but found " + linkDetailsViewPage.getWinHandlesNo());
          */
 
-        Assert.assertTrue(browser.getCurrentUrl().contains("bing"), "After clicking on the link, the title is: " + browser.getCurrentUrl());
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("bing"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
 
     }
 
@@ -184,9 +184,9 @@ public class EditingLinkTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click on link's URL.");
         // Store the current window handle
-        String currentWindow = browser.getWindowHandle();
+        String currentWindow = getBrowser().getWindowHandle();
         linkDetailsViewPage.clickOnLinkURL(linkURL);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         /*
          * Assert.assertEquals(linkDetailsViewPage.getWinHandlesNo(), 1,
@@ -194,16 +194,16 @@ public class EditingLinkTests extends ContextAwareWebTest
          */
 
         // Switch to new window opened
-        for (String winHandle : browser.getWindowHandles())
+        for (String winHandle : getBrowser().getWindowHandles())
         {
-            browser.switchTo().window(winHandle);
-            if (browser.getCurrentUrl().contains("google"))
+            getBrowser().switchTo().window(winHandle);
+            if (getBrowser().getCurrentUrl().contains("google"))
             {
                 break;
             }
             else
             {
-                browser.switchTo().window(currentWindow);
+                getBrowser().switchTo().window(currentWindow);
             }
         }
 
@@ -212,11 +212,11 @@ public class EditingLinkTests extends ContextAwareWebTest
          * "Wrong no of windows handles, expected 1 but found " + linkDetailsViewPage.getWinHandlesNo());
          */
 
-        Assert.assertTrue(browser.getCurrentUrl().contains("google"), "After clicking on the link, the title is: " + browser.getCurrentUrl());
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("google"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
 
         LOG.info("STEP 3: Go back in browser and click 'Edit' button for 'Google' link.");
 
-        browser.navigate().back();
+        getBrowser().navigate().back();
         linkPage.renderedPage();
         linkPage.clickEditLink(linkTitle);
 
@@ -252,32 +252,32 @@ public class EditingLinkTests extends ContextAwareWebTest
         LOG.info("STEP 5: Click on 'Bing' link's URL.");
 
         // Store the current window handle
-        String currentWindow1 = browser.getWindowHandle();
+        String currentWindow1 = getBrowser().getWindowHandle();
 
         linkPage.clickOnLinkURL(newLinkURL);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         // Switch to new window opened
-        for (String winHandle : browser.getWindowHandles())
+        for (String winHandle : getBrowser().getWindowHandles())
         {
-            browser.switchTo().window(winHandle);
-            if (browser.getCurrentUrl().contains("bing"))
+            getBrowser().switchTo().window(winHandle);
+            if (getBrowser().getCurrentUrl().contains("bing"))
             {
                 break;
             }
             else
             {
-                browser.switchTo().window(currentWindow1);
+                getBrowser().switchTo().window(currentWindow1);
             }
         }
 
         /*
-         * Assert.assertTrue(browser.getCurrentUrl().contains(newLinkURL), "Wrong URL displayed!!");
+         * Assert.assertTrue(getBrowser().getCurrentUrl().contains(newLinkURL), "Wrong URL displayed!!");
          * Assert.assertEquals(linkDetailsViewPage.getWinHandlesNo(), 2,
          * "Wrong no of windows handles, expected 2 but found " + linkDetailsViewPage.getWinHandlesNo());
          * closeWindowAndSwitchBack();
          */
-        Assert.assertTrue(browser.getCurrentUrl().contains("bing"), "After clicking on the link, the title is: " + browser.getCurrentUrl());
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("bing"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
     }
 
     @Test

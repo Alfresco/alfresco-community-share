@@ -75,7 +75,7 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on Filmstrip view action.");
         documentLibraryPage.clickOptionsButton();
         documentLibraryPage.selectViewFromOptionsMenu("Filmstrip View");
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(docName), docName, docName + " is displayed in filmstrip view");
         assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(folderName), folderName, folderName + " is displayed in filmstrip view");
         assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(videoFile + ".wmv"), videoFile + ".wmv",

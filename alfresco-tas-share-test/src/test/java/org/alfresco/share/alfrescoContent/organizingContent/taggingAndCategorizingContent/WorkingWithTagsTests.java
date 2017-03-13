@@ -49,7 +49,7 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the tag from the folder");
         documentLibraryPage.mouseOverTags(fileName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(documentLibraryPage.isEditTagIconDisplayed(fileName), fileName + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tags\" icon");
@@ -59,18 +59,18 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
         LOG.info("STEP3: Hover over the tag. Click 'Remove' icon. Click 'Save' link");
         assertEquals(documentLibraryPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(documentLibraryPage.isNoTagsTextDisplayed(fileName), fileName + " -> " + tagName + " is removed.");
 
         LOG.info("STEP4: Click \"Edit Tag\" icon");
         documentLibraryPage.mouseOverNoTags(fileName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         documentLibraryPage.clickEditTagIcon(fileName);
 
         LOG.info("STEP5: Type any tag name in the input field. Click \"Save\" link");
         documentLibraryPage.typeTagName(addedTagName);
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertEquals(documentLibraryPage.getTags(fileName), Arrays.asList(addedTagName.toLowerCase()).toString(), fileName + " -> tags=");
 
         cleanupAuthenticatedSession();

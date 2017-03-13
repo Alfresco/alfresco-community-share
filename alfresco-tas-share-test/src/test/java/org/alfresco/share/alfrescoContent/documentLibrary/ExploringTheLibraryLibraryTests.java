@@ -60,14 +60,14 @@ public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click on folder from Library section, testFolder1");
         filters.clickFirstFolder();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "testFile1 is not displayed");
         Assert.assertEquals(documentLibraryPage.getBreadcrumbList(), "[Documents, testFolder1]",
                 "The breadcrumb does not display the correct position.The position currently displayed is: ");
 
         LOG.info("Step 3: Click on folder from Library section, testFolder2");
         filters.clickSecondFolder();
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName1), "testFile2 is not displayed");
         Assert.assertEquals(documentLibraryPage.getBreadcrumbList(), "[Documents, testFolder2]",
                 "The breadcrumb does not display the correct position.The position currently displayed is: ");

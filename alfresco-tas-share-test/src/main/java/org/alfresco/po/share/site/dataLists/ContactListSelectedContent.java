@@ -89,7 +89,7 @@ public class ContactListSelectedContent extends ListItemSelectedContent
         for (WebElement row : rows)
         {
             int i = 0;
-            tableRow = new ContactListItemsTable(row, browser);
+            tableRow = new ContactListItemsTable(row);
             if (tableRow.getFirstNameColumn().getText().equals(listDetails.get(i)))
             {
                 i++;
@@ -129,25 +129,25 @@ public class ContactListSelectedContent extends ListItemSelectedContent
 
     public void editItem(List<String> listDetails)
     {
-        tableRow = new ContactListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new ContactListItemsTable(findRow(listDetails).get(0));
         tableRow.getEditButton().click();
     }
 
     public void duplicateItem(List<String> listDetails)
     {
-        tableRow = new ContactListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new ContactListItemsTable(findRow(listDetails).get(0));
         tableRow.getDuplicateButton().click();
     }
 
     public void deleteItem(List<String> listDetails)
     {
-        tableRow = new ContactListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new ContactListItemsTable(findRow(listDetails).get(0));
         tableRow.getDeleteButton().click();
     }
 
     public boolean isItemChecked(List<String> listDetails)
     {
-        tableRow = new ContactListItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new ContactListItemsTable(findRow(listDetails).get(0));
         return tableRow.getCheckBoxColumn().isSelected();
     }
 
@@ -166,7 +166,7 @@ public class ContactListSelectedContent extends ListItemSelectedContent
         List<WebElement> rows = findRow(listDetails);
         for (WebElement row : rows)
         {
-            tableRow = new ContactListItemsTable(row, browser);
+            tableRow = new ContactListItemsTable(row);
             if (tableRow.getCheckBoxColumn().isSelected())
                 checkedItems++;
             else

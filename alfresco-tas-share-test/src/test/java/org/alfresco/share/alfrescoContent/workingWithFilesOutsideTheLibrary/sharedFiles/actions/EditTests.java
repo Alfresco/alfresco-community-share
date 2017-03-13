@@ -91,7 +91,7 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Hover over file and click 'Edit Properties' action");
         sharedFilesPage.clickDocumentLibraryItemAction(docName1, language.translate("documentLibrary.contentActions.editProperties"), editFilePropertiesDialog);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -114,7 +114,7 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Step 7: Click 'Save' And verify that document details have been updated");
         editFilePropertiesDialog.clickSave();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(sharedFilesPage.isContentNameDisplayed(updatedDocName1), updatedDocName1 + " is displayed.");
         assertEquals(sharedFilesPage.getItemTitle(updatedDocName1), "(" + updatedTitle + ")", updatedDocName1 + " - document's title=");
         assertEquals(sharedFilesPage.getItemDescription(updatedDocName1), updatedDescription, updatedDocName1 + "- document's description=");
@@ -128,13 +128,13 @@ public class EditTests extends ContextAwareWebTest
     {
         setupAuthenticatedSession(adminUser, adminPassword);
         sharedFilesPage.navigate();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
 
         LOG.info("Step 1: Hover over file and click 'Edit Properties'");
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.editProperties"),
                 editFilePropertiesDialog);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -157,7 +157,7 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Step 7: Click 'Save' And verify that document details have been updated");
         editFilePropertiesDialog.clickSave();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(sharedFilesPage.isContentNameDisplayed(updatedFolderName), updatedFolderName + " is displayed.");
         assertEquals(sharedFilesPage.getItemTitle(updatedFolderName), "(" + updatedTitle + ")", updatedFolderName + " - document's title=");
         assertEquals(sharedFilesPage.getItemDescription(updatedFolderName), updatedDescription, updatedFolderName + "- document's description=");
@@ -216,15 +216,15 @@ public class EditTests extends ContextAwareWebTest
         sharedFilesPage.renderedPage();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         uploadContent.uploadContent(googleDocPath);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
 
         LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
         sharedFilesPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs™", googleDocsCommon);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         googleDocsCommon.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
 
         LOG.info("Step2,3: Provide edited input to Google Docs file and close Google Docs tab");
-        browser.waitInSeconds(15);
+        getBrowser().waitInSeconds(15);
         googleDocsCommon.switchToGoogleDocsWindowandAndEditContent(editedInGoogleDocsTitle, editedInGoogleDocsContent);
 
         LOG.info("Step4: Verify the file is locked and Google Drive icon is displayed");
@@ -235,14 +235,14 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Step5: Click Check In Google Doc™ and verify Version Information pop-up");
         googleDocsCommon.checkInGoogleDoc(googleDocName);
-        browser.waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), true, "Version information pop-up is displayed.");
 
         LOG.info("Step6: Click OK button on Version Information and verify the pop-up is closed");
         googleDocsCommon.clickOkButton();
-        browser.waitInSeconds(10);
+        getBrowser().waitInSeconds(10);
         assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), false, "Version information pop-up is displayed.");
-        browser.refresh();
+        getBrowser().refresh();
         sharedFilesPage.renderedPage();
 
         LOG.info("Step7: Verify document's title");
@@ -267,7 +267,7 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the file");
         sharedFilesPage.mouseOverFileName(docName3);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         assertFalse(sharedFilesPage.isMoreMenuDisplayed(docName3), "More menu displayed.");
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName3, language.translate("documentLibrary.contentActions.editInGoogleDocs")),
                 language.translate("documentLibrary.contentActions.editInGoogleDocs") + " option is displayed for " + docName3);

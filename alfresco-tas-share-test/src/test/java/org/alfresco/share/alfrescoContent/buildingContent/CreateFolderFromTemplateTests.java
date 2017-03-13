@@ -49,20 +49,20 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
         createFolderFromTemplate.clickOnFolderTemplate(folderTemplateName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getTemplateFolderNameFieldValue(), folderTemplateName);
 
         LOG.info("STEP 3: Click 'Save' button.");
         createFolderFromTemplate.clickButton("Save");
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(createFolderFromTemplate.isFolderCreatedMessageDisplayed());
         Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists(folderTemplateName), "Subfolder not found");
         Assert.assertEquals(createFolderFromTemplate.getFolderNameFromExplorerPanel(), folderTemplateName);
 
         LOG.info("STEP 4: Click on the created folder ('Software Engineering Project') in 'Library' section of the browsing pane.");
         documentLibraryPage.clickOnFolderName(folderTemplateName);
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Discussions"), "Subfolder not found");
         Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Documentation"), "Subfolder not found");
         Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Presentations"), "Subfolder not found");
@@ -71,7 +71,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click on the subfolder 'Documentation' in 'Library' section of the browsing pane.");
         documentLibraryPage.clickOnFolderName("Documentation");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Drafts"), "Subfolder not found");
         Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Pending Approval"), "Subfolder not found");
         Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Published"), "Subfolder not found");
@@ -79,7 +79,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
 
         LOG.info("STEP 6: Click on the subfolder 'Samples' in 'Library' section of the browsing pane.");
         documentLibraryPage.clickOnFolderName("Samples");
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertEquals(createFolderFromTemplate.getBreadCrumbPath(), breadcrumbPath);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), "File not found");
     }
@@ -104,7 +104,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
         createFolderFromTemplate.clickOnFolderTemplate(folderTemplateName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getTemplateFolderNameFieldValue(), folderTemplateName);
 
@@ -136,13 +136,13 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         contentService.createFolderInRepository(adminUser, adminPassword, templateFolderName,folderPathInRepository);        
         setupAuthenticatedSession(adminUser, adminPassword);
         createFolderFromTemplate.clickCreateRules(templateFolderName);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         createFolderFromTemplate.insertRuleName(ruleName);
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         createFolderFromTemplate.insertRuleDescription(ruleDescription);
         createFolderFromTemplate.selectAspectAndSubmit(addAspectActionValue,aspectTaggableValue,mainButtonToClick);
         createFolderFromTemplate.setPermissions(templateFolderName,userName);
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
         createFolderFromTemplate.setAspects(templateFolderName);    
         cleanupAuthenticatedSession();
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -157,7 +157,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         
         LOG.info("STEP 2: Select the template: 'template1'");
         createFolderFromTemplate.clickOnFolderTemplate(templateFolderName);
-        browser.waitInSeconds(1);
+        getBrowser().waitInSeconds(1);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed(),"Create folder from template popup not displayed");
         Assert.assertEquals(createFolderFromTemplate.getTemplateFolderNameFieldValue(), templateFolderName);
         
@@ -184,29 +184,29 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         
         LOG.info("STEP 6: Hover over the created folder (AFolder.Name). Click 'Manage Rules' option from more menu.");
         createFolderFromTemplate.clickManageRulesForAFolder(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(createFolderFromTemplate.isContentRuleDisplayed(),"Content rule not displayed");
 
         LOG.info("STEP 7: Click on 'Documents' link from breadcrumb.");
         createFolderFromTemplate.returnToDocumentsPage();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(),"Documents page not opened");
         
         LOG.info("STEP 8: Hover over the created folder (AFolder.Name). Click 'Manage Permissions' option from more menu.");
         createFolderFromTemplate.clickManagePermissionsDocumentLibrary(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(createFolderFromTemplate.getPermissionsListUserDisplayName().contains(userFirstName),"User not found");
         Assert.assertTrue(createFolderFromTemplate.getPermissionsListUserDisplayName().contains(userLastName),"User not found");
         Assert.assertTrue(createFolderFromTemplate.getPermissionsListUserRole().contains(userRole),"User role not set to Coordinator");
         
         LOG.info("STEP 9: Click on 'Documents' link from breadcrumb.");
         createFolderFromTemplate.returnToDocumentsPage();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(),"Documents page not opened");
         
         LOG.info("STEP 10: Hover over the created folder (AFolder.Name). Click 'Manage Aspects' option from more menu.");
         createFolderFromTemplate.clickManageAspectsDocumentLibrary(folderName);
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(createFolderFromTemplate.getAspectsForFileName().contains(folderName),"Folder not found");
         Assert.assertTrue(createFolderFromTemplate.getCurrentlySelectedAspectsForFileName().contains(aspectType),"Aspect not found");
         

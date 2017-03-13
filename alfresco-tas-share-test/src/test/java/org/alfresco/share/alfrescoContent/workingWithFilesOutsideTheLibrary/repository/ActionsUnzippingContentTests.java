@@ -61,7 +61,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     {
         LOG.info("Upload zip archive");
         repositoryPage.navigate();
-        browser.refresh();
+        getBrowser().refresh();
         repositoryPage.renderedPage();
         assertTrue(repositoryPage.getFilesList().contains(zipFile), "Repository: list of files=");
 
@@ -84,7 +84,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         assertTrue(repositoryPage.isContentNameDisplayed(zipContent), "content is displayed, " + zipContent);
     }
     

@@ -13,9 +13,6 @@
 	<!-- scans for annotated classes -->
 	<context:component-scan base-package="org.alfresco" />
 
-	<bean id="webBrowserInstance" factory-bean="&amp;webBrowserFactory"
-		factory-method="getObject" destroy-method="quit" />
-
 	<bean id="language" class="org.alfresco.common.Language">
 		<description>
 			This bean is used to handle internationalization strings

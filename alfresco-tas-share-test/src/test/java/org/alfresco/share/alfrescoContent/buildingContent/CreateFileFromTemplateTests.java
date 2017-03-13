@@ -25,9 +25,6 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
     @Autowired
     DocumentDetailsPage documentDetailsPage;
     
-    @Autowired
-    ContentService contentService;
-    
     private String user = "C7000User" + DataUtil.getUniqueIdentifier();
     private String description = "C7000SiteDescription" + DataUtil.getUniqueIdentifier();
     private String siteName = "C7000SiteName" + DataUtil.getUniqueIdentifier();
@@ -56,8 +53,8 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
 
         documentLibraryPage.clickCreateButton();
         create.clickCreateDocumentFromTemplate("Create document from template");
-        browser.waitInSeconds(2);
-        browser.waitUntilWebElementIsDisplayedWithRetry(create.selectTemplate(docName), 6);
+        getBrowser().waitInSeconds(2);
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(create.selectTemplate(docName), 6);
         Assert.assertTrue(create.isTemplateDisplayed(docName), "Template is not displayed");
         
         LOG.info("Step 2: Select the template and check that the new file is created with the content from the template used");

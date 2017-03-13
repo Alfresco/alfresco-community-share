@@ -98,11 +98,11 @@ public class DownloadingContentTests extends ContextAwareWebTest
 
         if (documentCommon.isAlertPresent())
         {
-            alert = browser.switchTo().alert();
+            alert = getBrowser().switchTo().alert();
             LOG.info(alert.getText());
             alert.accept();
         }
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
 
         LOG.info("Step 2: Choose 'Save File' option and click 'OK' and verify that the file has been downloaded to the right location");
         Assert.assertTrue(isFileInDirectory(docName, null), "The file was not found in the specified location");
@@ -121,11 +121,11 @@ public class DownloadingContentTests extends ContextAwareWebTest
         documentLibraryPage.clickDownloadAsZipForItem(folderName);
         if (documentCommon.isAlertPresent())
         {
-            alert = browser.switchTo().alert();
+            alert = getBrowser().switchTo().alert();
             LOG.info(alert.getText());
             alert.accept();
         }
-        browser.waitInSeconds(4);
+        getBrowser().waitInSeconds(4);
 
         LOG.info("Choose Save option, location for folder to be downloaded and click OK button and verify folder is displayed in specified location");
         Assert.assertTrue(isFileInDirectory(folderName, ".zip"), "The zip archive was not found inthe specified location");

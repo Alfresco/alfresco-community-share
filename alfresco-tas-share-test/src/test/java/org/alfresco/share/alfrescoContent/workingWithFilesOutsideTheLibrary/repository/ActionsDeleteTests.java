@@ -57,7 +57,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileName), fileName + " is not available in Repository");
         
         LOG.info("Step 1: Hover over the file you want to delete and press More, select Delete Document");
@@ -70,7 +70,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         LOG.info("Step 2: Press \"Delete\"");
         deleteDialog.clickDelete();
         assertFalse(repositoryPage.isContentNameDisplayed(fileName), fileName + " is displayed.");
-        browser.refresh();
+        getBrowser().refresh();
         assertFalse(repositoryPage.isContentNameDisplayed(fileName), fileName + " is displayed.");
         cleanupAuthenticatedSession();
     }
@@ -85,7 +85,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(user);
-        browser.waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderName), folderName + " is not available in Repository");
         
         LOG.info("Step 1: Hover over the folder you want to delete and press More, select Delete Folder");
@@ -98,7 +98,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         LOG.info("Step 2: Press \"Delete\"");
         deleteDialog.clickDelete();
         assertFalse(repositoryPage.isContentNameDisplayed(folderName), folderName + " is displayed.");
-        browser.refresh();
+        getBrowser().refresh();
         assertFalse(repositoryPage.isContentNameDisplayed(folderName), folderName + " is displayed.");
         cleanupAuthenticatedSession();
     }
@@ -114,7 +114,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         
         LOG.info("Step 1: Mouse over file name and check that the More and the Delete Document option is not available");
         repositoryPage.mouseOverContentItem(fileNameC13749);
-        browser.waitInSeconds(2);
+        getBrowser().waitInSeconds(2);
         Assert.assertFalse(repositoryPage.isMoreMenuDisplayed(fileNameC13749), "'More' menu displayed for " + fileNameC13749);
         Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(fileNameC13749, "Delete Document"));
         

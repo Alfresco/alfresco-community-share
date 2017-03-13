@@ -73,7 +73,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
 
         logger.info("Step3: Click 'Apply Changes' and verify the restrictions are placed on the file");
         aspectsForm.clickApplyChangesButton();
-        browser.refresh();
+        getBrowser().refresh();
         Assert.assertTrue(documentDetailsPage.isRestrictableAspectDisplayed(), "Restrictable aspect is not added");
 
     }
@@ -126,7 +126,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
         documentDetailsPage.clickManageAspects();
         aspectsForm.addElement(14);
         aspectsForm.clickApplyChangesButton();
-        browser.refresh();
+        getBrowser().refresh();
 
         logger.info("Step1: Click Actions -> Manage Aspects option");
         documentDetailsPage.clickManageAspects();
@@ -136,7 +136,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
 
         logger.info("Step3: Click 'Apply changes' button and verify the 'Restrictable' property is removed from 'Properties' section");
         aspectsForm.clickApplyChangesButton();
-        browser.refresh();
+        getBrowser().refresh();
         Assert.assertFalse(documentDetailsPage.isRestrictableAspectDisplayed(), "Restrictable aspect is not added");
 
     }

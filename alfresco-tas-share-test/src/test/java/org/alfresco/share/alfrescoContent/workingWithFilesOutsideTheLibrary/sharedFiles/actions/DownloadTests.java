@@ -82,7 +82,7 @@ public class DownloadTests  extends ContextAwareWebTest
 
         if (documentCommon.isAlertPresent())
         {
-            alert = browser.switchTo().alert();
+            alert = getBrowser().switchTo().alert();
             LOG.info(alert.getText());
             alert.accept();
         }
@@ -105,7 +105,7 @@ public class DownloadTests  extends ContextAwareWebTest
 
         if (documentCommon.isAlertPresent())
         {
-            alert = browser.switchTo().alert();
+            alert = getBrowser().switchTo().alert();
             LOG.info(alert.getText());
             alert.accept();
         }

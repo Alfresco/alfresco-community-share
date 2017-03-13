@@ -51,7 +51,7 @@ public class EventAgendaSelectedContent extends ListItemSelectedContent
         for (WebElement row : rows)
         {
             int i = 0;
-            tableRow = new EventAgendaItemsTable(row, browser);
+            tableRow = new EventAgendaItemsTable(row);
             if (tableRow.getReferenceColumn().getText().equals(listDetails.get(i)))
             {
 
@@ -85,19 +85,19 @@ public class EventAgendaSelectedContent extends ListItemSelectedContent
 
     public void editItem(List<String> listDetails)
     {
-        tableRow = new EventAgendaItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new EventAgendaItemsTable(findRow(listDetails).get(0));
         tableRow.getEditButton().click();
     }
 
     public void duplicateItem(List<String> listDetails)
     {
-        tableRow = new EventAgendaItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new EventAgendaItemsTable(findRow(listDetails).get(0));
         tableRow.getDuplicateButton().click();
     }
 
     public void deleteItem(List<String> listDetails)
     {
-        tableRow = new EventAgendaItemsTable(findRow(listDetails).get(0), browser);
+        tableRow = new EventAgendaItemsTable(findRow(listDetails).get(0));
         tableRow.getDeleteButton().click();
     }
 }

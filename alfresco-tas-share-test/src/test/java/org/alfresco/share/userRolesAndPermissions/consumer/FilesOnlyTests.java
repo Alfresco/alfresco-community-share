@@ -137,7 +137,7 @@ import static org.testng.Assert.assertTrue;
             Assert.assertEquals(documentLibraryPage.getUploadButtonStatusDisabled(), "true", "The Upload button is not disabled");
 
             LOG.info("Step 2: Click on the Upload button.");
-            browser.waitUntilElementVisible(documentLibraryPage.getUploadButton());
+            getBrowser().waitUntilElementVisible(documentLibraryPage.getUploadButton());
             documentLibraryPage.clickUpload();
             Assert.assertFalse(uploadContent.isUploadFilesToDialogDisplayed(), "Upload files dialog is displayed");
         }
@@ -159,7 +159,7 @@ import static org.testng.Assert.assertTrue;
             documentLibraryPage.clickDownloadForItem(fileC8884);
 
             download.acceptAlertIfDisplayed();
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
 
             LOG.info("Step 3: Choose 'Save File' option and click 'OK' and verify that the file has been downloaded to the right location");
             Assert.assertTrue(download.isFileInDirectory(fileC8884, null), "The file was not found in the specified location");
@@ -178,7 +178,7 @@ import static org.testng.Assert.assertTrue;
 
             LOG.info("Step 2: Click view in Browser");
             documentLibraryPage.clickAction(fileC8885, "View In Browser");
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
             assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), testContent,
                     "File content is not correct or file has not be opened in new window");
         }
@@ -201,11 +201,11 @@ import static org.testng.Assert.assertTrue;
         public void consumerUploadNewVersionLockedByOtherUser() {
             LOG.info("Preconditions: log in with different user and lock file for editing");
             setupAuthenticatedSession(adminUser, adminPassword);
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
             documentLibraryPage.navigate(siteName);
             documentLibraryPage.mouseOverFileName(fileC8888);
             documentLibraryPage.clickDocumentLibraryItemAction(fileC8888, "Edit Offline", documentLibraryPage);
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
             cleanupAuthenticatedSession();
             setupAuthenticatedSession(user, password);
 
@@ -266,11 +266,11 @@ import static org.testng.Assert.assertTrue;
         public void consumerCancelEditingLockedByOtherUser() {
             LOG.info("Preconditions: log in with different user and lock file for editing");
             setupAuthenticatedSession(adminUser, adminPassword);
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
             documentLibraryPage.navigate(siteName);
             documentLibraryPage.mouseOverFileName(fileC8902);
             documentLibraryPage.clickDocumentLibraryItemAction(fileC8902, "Edit Offline", documentLibraryPage);
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
             cleanupAuthenticatedSession();
             setupAuthenticatedSession(user, password);
 
@@ -287,11 +287,11 @@ import static org.testng.Assert.assertTrue;
         public void consumerViewOriginalDocument() {
             LOG.info("Step 1: Login with admin user and Mouse over testFile and click Edit Offline");
             setupAuthenticatedSession(adminUser, adminPassword);
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
             documentLibraryPage.navigate(siteName);
             documentLibraryPage.mouseOverFileName(fileC8903);
             documentLibraryPage.clickDocumentLibraryItemAction(fileC8903, "Edit Offline", documentLibraryPage);
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
 
             LOG.info("Step 2 & Step 3: Logout and Login with collaborator user, navigate to document library.");
             cleanupAuthenticatedSession();
@@ -311,11 +311,11 @@ import static org.testng.Assert.assertTrue;
         public void consumerViewWorkingCopy() {
             LOG.info("Step 1: Login with admin user and Mouse over testFile and click Edit Offline");
             setupAuthenticatedSession(adminUser, adminPassword);
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
             documentLibraryPage.navigate(siteName);
             documentLibraryPage.mouseOverFileName(fileC8904);
             documentLibraryPage.clickDocumentLibraryItemAction(fileC8904, "Edit Offline", documentLibraryPage);
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
 
             LOG.info("Step 2 & Step 3: Logout and Login with collaborator user, navigate to document library.");
             cleanupAuthenticatedSession();
@@ -361,14 +361,14 @@ import static org.testng.Assert.assertTrue;
             documentLibraryPage.renderedPage();
 
             LOG.info("Step 2: Mouse over testFile and confirm the presence of Locate File.");
-            browser.waitInSeconds(3);
+            getBrowser().waitInSeconds(3);
             documentLibraryPage.mouseOverFileName(fileC8907);
             Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileC8907, "Locate File"));
 
 
             LOG.info("Step 3: Click Locate File");
             documentLibraryPage.clickDocumentLibraryItemAction(fileC8907, "Locate File", documentLibraryPage);
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
             Assert.assertEquals(documentLibraryPage.getBreadcrumbList(), "[Documents]", "Folder was not identified as beeing in Documents folder");
         }
 
@@ -399,7 +399,7 @@ import static org.testng.Assert.assertTrue;
             documentDetailsPage.isDownloadButtonDisplayed();
             documentDetailsPage.clickDownloadPreviousVersion();
             download.acceptAlertIfDisplayed();
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
 
             LOG.info("Step 6: Choose Save file option, location for file to be downloaded and click OK button.");
             Assert.assertTrue(download.isFileInDirectory(fileC8908, null), "The file was not found in the specified location");
@@ -443,29 +443,29 @@ import static org.testng.Assert.assertTrue;
             documentLibraryPage.navigate(siteName); documentLibraryPage.renderedPage();
             documentLibraryPage.clickCreateButton();
             createContent.clickGoogleDocsDoc();
-            browser.waitUntilElementDisappears(createContent.message, 60L);
-            //browser.waitInSeconds(5);
+            getBrowser().waitUntilElementDisappears(createContent.message, 60L);
+            //getBrowser().waitInSeconds(5);
             googleDocsCommon.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
-            browser.waitInSeconds(5);
+            getBrowser().waitInSeconds(5);
 
-            String currentWindow = browser.getWindowHandle();
+            String currentWindow = getBrowser().getWindowHandle();
 
-            for (String winHandle : browser.getWindowHandles())
+            for (String winHandle : getBrowser().getWindowHandles())
             {
-                browser.switchTo().window(winHandle);
+                getBrowser().switchTo().window(winHandle);
             }
 
             googleDocsCommon.editGoogleDocsContent("testC8898");
-            browser.waitInSeconds(5);
+            getBrowser().waitInSeconds(5);
 
-            browser.close();
+            getBrowser().close();
 
-            browser.switchTo().window(currentWindow);
+            getBrowser().switchTo().window(currentWindow);
 
-            /*browser.getWindowHandles();
-            browser.switchWindow();
+            /*getBrowser().getWindowHandles();
+            getBrowser().switchWindow();
             googleDocsCommon.editGoogleDocsContent("testC8898");
-            browser.closeWindowAndSwitchBack();*/
+            getBrowser().closeWindowAndSwitchBack();*/
 
             documentLibraryPage.navigate(siteName);
             assertTrue(documentLibraryPage.isContentNameDisplayed("Untitled Document.docx"));
@@ -482,9 +482,9 @@ import static org.testng.Assert.assertTrue;
             LOG.info("Step 4: Login with admin account and check-in document");
             setupAuthenticatedSession(adminUser, adminPassword);
             documentLibraryPage.navigate(siteName);
-            browser.waitInSeconds(2);
+            getBrowser().waitInSeconds(2);
             googleDocsCommon.checkInGoogleDoc("Untitled Document.docx");
-            browser.waitInSeconds(3);
+            getBrowser().waitInSeconds(3);
             cleanupAuthenticatedSession();
             LOG.info("Step 5: Login with user with consumer role and check available options");
             setupAuthenticatedSession(user, password);

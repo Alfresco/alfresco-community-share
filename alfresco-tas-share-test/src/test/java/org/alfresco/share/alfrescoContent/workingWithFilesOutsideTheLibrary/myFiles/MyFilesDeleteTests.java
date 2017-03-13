@@ -84,7 +84,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         myFilesPage.clickFolderLink();
         newContentDialog.fillInNameField(folderName);
         newContentDialog.clickSaveButton();
-        browser.waitInSeconds(3);
+        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("STEP1: Hover over the folder");

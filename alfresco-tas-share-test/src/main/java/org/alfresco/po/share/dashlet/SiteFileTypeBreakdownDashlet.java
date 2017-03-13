@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.context.annotation.Primary;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.Map;
  * Created by Claudia Agache on 7/25/2016.
  */
 @PageObject
+@Primary
 public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownDashlet>
 {
     @RenderWebElement
