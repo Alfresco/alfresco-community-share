@@ -28,7 +28,7 @@ node('tas-node-win') {
 
 	stage('Test') {
     		try {
-               bat 'mvn test -DtestManagement.testRun=%TestRailTestRunName% -DtestManagement.enabled=%EnableTestRailIntegration% -DsuiteXmlFile=%SuiteXmlFile% -DincludeGroups=%IncludeGroups% -DexcludeGroups=%ExcludeGroups% -DrunBugs=%RunTestsMarkedAsBugs% -Dserver.url=%AlfrescoHost% -Dserver.port=%AlfrescoPort% -Djmx.useJolokiaAgent=%UseJolokiaAgent% -Dbrowser.name=%Browser% -Dserver.scheme=http -Dadmin.user=admin -Dadmin.password=admin'
+               bat 'mvn test -DtestManagement.testRun=%TestRailTestRunName% -DtestManagement.enabled=%EnableTestRailIntegration% -DsuiteXmlFile=%SuiteXmlFile% -DincludeGroups=%IncludeGroups% -DexcludeGroups=%ExcludeGroups% -DrunBugs=%RunTestsMarkedAsBugs% -Dalfresco.server=%AlfrescoHost% -Dalfresco.port=%AlfrescoPort% -Djmx.useJolokiaAgent=%UseJolokiaAgent% -Dbrowser.name=%Browser% -Dalfresco.scheme=http -Dadmin.user=admin -Dadmin.password=admin'
             }
             finally {
                 step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/junitreports/*.xml'])
