@@ -6,11 +6,10 @@
 		<listener class-name="org.alfresco.utility.testng.OSTestMethodSelector"></listener>
 	</listeners>
 
-	<test name="WIP">
-		<classes>
-			<class name="org.alfresco.share.LoginTests"></class>
-			<class name="org.alfresco.share.LogoTests"></class>
-		</classes>
+	<test name="Share">
+		<packages>
+			<package name="org.alfresco.share.*"></package>
+		</packages>
 
 	</test>
 </suite>
