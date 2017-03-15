@@ -32,7 +32,7 @@ node('tas-node-win') {
             }
             finally {
                 step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/junitreports/*.xml'])
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'target/surefire-reports', reportFiles: 'index.html', reportName: 'TSE Results'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'target/reports', reportFiles: 'report.html', reportName: 'TSE Results'])
             }
     	}
 }
