@@ -1,5 +1,6 @@
 package org.alfresco.po.share.site.dataLists;
 
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -16,9 +17,9 @@ public class IssueListItemsTable extends ListItemTable
     protected By commentsColumn = By.cssSelector("td[class*='issueComments'] div");
     protected By attachmentsColumn = By.cssSelector("td[class*='cm_attachments'] div");
     
-    public IssueListItemsTable(WebElement webElement)
+    public IssueListItemsTable(WebElement webElement, WebBrowser browser)
     {
-        super(webElement);
+        super(webElement, browser);
     }
     
     public WebElement getIssueIDColumn()

@@ -48,7 +48,7 @@ public class EventListSelectedContent extends ListItemSelectedContent
         for (WebElement row : rows)
         {
             int i = 0;
-            tableRow = new EventListItemsTable(row);
+            tableRow = new EventListItemsTable(row, browser);
             if (tableRow.getTitleColumn().getText().equals(listDetails.get(i)))
             {
 
@@ -88,19 +88,19 @@ public class EventListSelectedContent extends ListItemSelectedContent
 
     public void editItem(List<String> listDetails)
     {
-        tableRow = new EventListItemsTable(findRow(listDetails).get(0));
+        tableRow = new EventListItemsTable(findRow(listDetails).get(0), browser);
         tableRow.getEditButton().click();
     }
 
     public void duplicateItem(List<String> listDetails)
     {
-        tableRow = new EventListItemsTable(findRow(listDetails).get(0));
+        tableRow = new EventListItemsTable(findRow(listDetails).get(0), browser);
         tableRow.getDuplicateButton().click();
     }
 
     public void deleteItem(List<String> listDetails)
     {
-        tableRow = new EventListItemsTable(findRow(listDetails).get(0));
+        tableRow = new EventListItemsTable(findRow(listDetails).get(0), browser);
         tableRow.getDeleteButton().click();
     }
 }

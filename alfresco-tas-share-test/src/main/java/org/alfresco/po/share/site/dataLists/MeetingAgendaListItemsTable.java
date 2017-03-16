@@ -1,5 +1,6 @@
 package org.alfresco.po.share.site.dataLists;
 
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -15,9 +16,9 @@ public class MeetingAgendaListItemsTable extends ListItemTable
     protected By attachmentsColumn = By.cssSelector("td[class*='cm_attachments'] div");
     protected By checkColumn = By.cssSelector("input[id*='checkbox']");
     
-    public MeetingAgendaListItemsTable(WebElement webElement)
+    public MeetingAgendaListItemsTable(WebElement webElement, WebBrowser browser)
     {
-        super(webElement);
+        super(webElement, browser);
     }
     
     public WebElement getReferenceColumn()

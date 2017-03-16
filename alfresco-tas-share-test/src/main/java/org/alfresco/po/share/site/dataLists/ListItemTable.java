@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site.dataLists;
 
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.utility.web.browser.WebDriverAware;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -13,9 +15,10 @@ public class ListItemTable extends WebDriverAware
     protected By delete = By.cssSelector("a[title='Delete']");
     protected By actionsColumn = By.cssSelector("td[class*='col-actions'] div");
     
-    public ListItemTable(WebElement webElement)
+    public ListItemTable(WebElement webElement, WebBrowser browser)
     {
         this.webElement = webElement;
+        this.browser = browser;
     }
     
     public WebElement getEditButton()

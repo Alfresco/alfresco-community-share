@@ -39,7 +39,7 @@ public class ToDoListSelectedContent extends ListItemSelectedContent
         for(WebElement row : rows)
         {
             int i=0;
-            tableRow = new ToDoListItemsTable(row);
+            tableRow = new ToDoListItemsTable(row, browser);
             if(!tableRow.getTitleColumn().getText().contains(listDetails.get(i)))
                 break;
             i++;
@@ -64,19 +64,19 @@ public class ToDoListSelectedContent extends ListItemSelectedContent
     
     public void editItem(List<String> listDetails)
     {
-        tableRow = new ToDoListItemsTable(findRow(listDetails).get(0));
+        tableRow = new ToDoListItemsTable(findRow(listDetails).get(0), browser);
         tableRow.getEditButton().click();
     }
     
     public void duplicateItem(List<String> listDetails)
     {
-        tableRow = new ToDoListItemsTable(findRow(listDetails).get(0));
+        tableRow = new ToDoListItemsTable(findRow(listDetails).get(0), browser);
         tableRow.getDuplicateButton().click();
     }
     
     public void deleteItem(List<String> listDetails)
     {
-        tableRow = new ToDoListItemsTable(findRow(listDetails).get(0));
+        tableRow = new ToDoListItemsTable(findRow(listDetails).get(0), browser);
         tableRow.getDeleteButton().click();
     }
     

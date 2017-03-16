@@ -1,5 +1,6 @@
 package org.alfresco.po.share.site.dataLists;
 
+import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -16,9 +17,9 @@ public class ToDoListItemsTable extends ListItemTable
     protected By duplicate = By.cssSelector("a[title='Duplicate']");
     protected By delete = By.cssSelector("a[title='Delete']");
     
-    public ToDoListItemsTable(WebElement webElement)
+    public ToDoListItemsTable(WebElement webElement, WebBrowser browser)
     {
-        super(webElement);
+        super(webElement, browser);
     }
     
     public WebElement getTitleColumn()

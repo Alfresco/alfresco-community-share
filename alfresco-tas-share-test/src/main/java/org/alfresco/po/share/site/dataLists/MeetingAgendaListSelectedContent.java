@@ -39,7 +39,7 @@ public class MeetingAgendaListSelectedContent extends ListItemSelectedContent
         for(WebElement row : rows)
         {
             int i=0;
-            tableRow = new MeetingAgendaListItemsTable(row);
+            tableRow = new MeetingAgendaListItemsTable(row, browser);
             if(!tableRow.getReferenceColumn().getText().equals(listDetails.get(i)))
                 break;
             i++;
@@ -64,19 +64,19 @@ public class MeetingAgendaListSelectedContent extends ListItemSelectedContent
     
     public void editItem(List<String> listDetails)
     {
-        tableRow = new MeetingAgendaListItemsTable(findRow(listDetails).get(0));
+        tableRow = new MeetingAgendaListItemsTable(findRow(listDetails).get(0),browser);
         tableRow.getEditButton().click();
     }
     
     public void duplicateItem(List<String> listDetails)
     {
-        tableRow = new MeetingAgendaListItemsTable(findRow(listDetails).get(0));
+        tableRow = new MeetingAgendaListItemsTable(findRow(listDetails).get(0),browser);
         tableRow.getDuplicateButton().click();
     }
     
     public void deleteItem(List<String> listDetails)
     {
-        tableRow = new MeetingAgendaListItemsTable(findRow(listDetails).get(0));
+        tableRow = new MeetingAgendaListItemsTable(findRow(listDetails).get(0), browser);
         tableRow.getDeleteButton().click();
     }
 }
