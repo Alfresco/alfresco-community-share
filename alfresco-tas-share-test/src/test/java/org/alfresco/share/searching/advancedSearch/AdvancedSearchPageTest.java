@@ -10,6 +10,7 @@ import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -78,7 +79,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5888")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyAdvancedSearchPage()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
@@ -126,7 +127,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5891")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByKeyword()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -184,7 +185,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5907")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByName()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -219,7 +220,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5908")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByTitle()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -261,7 +262,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5909")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByDescription()
     {
         String identifier = DataUtil.getUniqueIdentifier();

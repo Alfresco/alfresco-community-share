@@ -6,6 +6,7 @@ import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -48,7 +49,7 @@ public class SiteFinderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5876")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void siteFinderPage()
     {
         siteFinderPage.navigate();
@@ -76,7 +77,7 @@ public class SiteFinderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7574")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void usernameWithSpaceCanAccesSiteFinder()
     {
         LOG.info("STEP1: Click \"Sites\" -> \"Site Finder\" link from the toolbar");
@@ -85,7 +86,7 @@ public class SiteFinderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5814")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void fullOrPartialSitename()
     {
         siteFinderPage.navigate();
@@ -101,7 +102,7 @@ public class SiteFinderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7169")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void moderatedSiteLabel()
     {
         siteFinderPage.navigate();
@@ -114,7 +115,7 @@ public class SiteFinderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7195")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void privateSiteLabel()
     {
         siteFinderPage.navigate();

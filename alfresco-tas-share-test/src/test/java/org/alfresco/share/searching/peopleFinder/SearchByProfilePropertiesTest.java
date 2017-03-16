@@ -4,6 +4,7 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.PeopleFinderPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -14,7 +15,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     PeopleFinderPage peopleFinderPage;
 
     @TestRail(id = "C6655")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByUsernameOrName()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -60,7 +61,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6451")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByFullUsername()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -81,7 +82,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6455")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPartialUsername()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -103,7 +104,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5822")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByFullName()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -134,7 +135,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5832")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPartialName()
     {
         String identifier = DataUtil.getUniqueIdentifier();

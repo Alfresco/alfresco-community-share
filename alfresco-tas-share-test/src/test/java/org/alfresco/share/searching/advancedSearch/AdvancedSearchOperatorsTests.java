@@ -8,6 +8,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -79,7 +80,7 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7210")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void recurringPhrases()
     {
         userDashboardPage.navigate(user1);
@@ -90,7 +91,7 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7288")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void extendedSearch()
     {
         userDashboardPage.navigate(user1);
@@ -103,7 +104,7 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5991")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void wildcards()
     {
         userDashboardPage.navigate(user1);
@@ -136,7 +137,7 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7407")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void explicitSpansPositions()
     {
         userDashboardPage.navigate(user1);

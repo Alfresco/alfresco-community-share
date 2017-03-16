@@ -12,6 +12,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -51,7 +52,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     private DateTime tomorrow = today.plusDays(1);
 
     @TestRail(id = "C5951")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByAWordOrPhraseAnywhereItExists()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -134,7 +135,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5970")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByMultipleWords()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -232,7 +233,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5971")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByAnyWords()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -292,7 +293,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5935")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyTitle()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -326,7 +327,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5936")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyName()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -367,7 +368,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5937")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyDescription()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -407,7 +408,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5938")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyCreated()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -452,7 +453,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5939")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyModified()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -495,7 +496,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5940")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyCreator()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -537,7 +538,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5941")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyModifier()
     {
         String identifier = DataUtil.getUniqueIdentifier();
@@ -579,7 +580,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5950")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyText()
     {
         String identifier = DataUtil.getUniqueIdentifier();

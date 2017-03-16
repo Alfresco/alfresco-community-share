@@ -10,6 +10,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -80,7 +81,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5933")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyLiveSearchableContent()
     {
         setupAuthenticatedSession(userName1, password);
@@ -141,7 +142,7 @@ public class BasicSearchTests extends ContextAwareWebTest
 
     @Bug(id = "TBD")
     @TestRail(id = "C5945")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifySearchPage()
     {
         setupAuthenticatedSession(userName1, password);
@@ -189,7 +190,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7706")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifySearchInDropdownOptions()
     {
         setupAuthenticatedSession(userName1, password);
@@ -215,7 +216,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6168")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void defaultPlaceholderText()
     {
         setupAuthenticatedSession(userName1, password);
@@ -225,7 +226,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8145")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyDetailedView()
     {
         setupAuthenticatedSession(userName1, password);
@@ -253,7 +254,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8146")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyGalleryView()
     {
         setupAuthenticatedSession(userName1, password);

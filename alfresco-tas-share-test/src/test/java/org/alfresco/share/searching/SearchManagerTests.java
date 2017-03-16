@@ -9,6 +9,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -114,7 +115,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6274")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifySearchManagerPage()
     {
         List<String> expectedTableColumns = Arrays.asList("Filter ID", "Filter Name", "Filter Property", "Filter Type", "Show with Search Results",
@@ -143,7 +144,7 @@ public class SearchManagerTests extends ContextAwareWebTest
 
     @Bug(id = "ACE-5698")
     @TestRail(id = "C6275")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void createNewSearchFilter()
     {
         filterId = "filter.site" + DataUtil.getUniqueIdentifier();
@@ -199,7 +200,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6283")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyFilterAvailabilityProperty()
     {
         filterId = "tag-filter" + DataUtil.getUniqueIdentifier();
@@ -267,7 +268,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6307")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyNumberOfFiltersProperty()
     {
         filterId = "filter_modifier";
@@ -306,7 +307,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6308")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyMinimumFilterLengthProperty()
     {
         filterId = "filter_modifier";
@@ -333,7 +334,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6309")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyMinimumRequiredResultsProperty()
     {
         filterId = "filter_modifier";
@@ -360,7 +361,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6288")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void createNewSearchFilterWithoutSaving()
     {
         filterId = "close-filter" + DataUtil.getUniqueIdentifier();
@@ -384,7 +385,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6287")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void cancelCreatingNewSearchFilter()
     {
         filterId = "cancel-filter" + DataUtil.getUniqueIdentifier();
@@ -408,7 +409,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6284")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void modifyExistingSearchFilter()
     {
         filterId = "filterC6284" + DataUtil.getUniqueIdentifier();
@@ -470,7 +471,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6314")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void modifySearchFilterWithoutSaving()
     {
         filterId = "filterC6314" + DataUtil.getUniqueIdentifier();
@@ -530,7 +531,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6299")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void cancelModifyingExistingSearchFilter()
     {
         filterId = "filterC6299" + DataUtil.getUniqueIdentifier();
@@ -590,7 +591,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6286")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void switchOnOffShowWithSearchResults()
     {
         filterId = "filter_creator";
@@ -629,7 +630,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6311")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void modifySearchFilterName()
     {
         filterId = "filterC6311" + DataUtil.getUniqueIdentifier();
@@ -652,7 +653,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6312")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void cancelModifyingSearchFilterName()
     {
         filterId = "filterC6312" + DataUtil.getUniqueIdentifier();
@@ -675,7 +676,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6303")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void deleteSearchFilter()
     {
         filterId = "filterC6303" + DataUtil.getUniqueIdentifier();
@@ -706,7 +707,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6305")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void cancelDeletingSearchFilter()
     {
         filterId = "filterC6305" + DataUtil.getUniqueIdentifier();
@@ -743,7 +744,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6285")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void changeSearchFiltersOrder()
     {
         filterId = "filter_creator";
@@ -806,7 +807,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6313")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifySitesSection()
     {
         searchManagerPage.navigate();

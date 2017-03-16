@@ -6,6 +6,7 @@ import org.alfresco.po.share.PeopleFinderPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -22,7 +23,7 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
     Notification notification;
 
     @TestRail(id = "C5823")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyPeopleFinderPage()
     {
         String userName1 = "User1" + DataUtil.getUniqueIdentifier();
@@ -58,7 +59,7 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5824")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void noResultsFound()
     {
         String userName1 = "User1" + DataUtil.getUniqueIdentifier();
@@ -76,7 +77,7 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5825")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void emptyInputSearchField()
     {
         String userName1 = "User1" + DataUtil.getUniqueIdentifier();
