@@ -74,11 +74,6 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
         repositoryButton.click();
     }
 
-    public boolean isContentDisplayed(String contentName)
-    {
-        return selectContent(contentName).isDisplayed();
-    }
-    
     public WebElement editTag(String fileName)
     {
         return selectContent(fileName).findElement(By.xpath("//span[@title='Tag']"));               

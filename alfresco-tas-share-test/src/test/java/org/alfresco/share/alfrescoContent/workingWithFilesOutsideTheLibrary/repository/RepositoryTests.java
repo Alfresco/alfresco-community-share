@@ -83,28 +83,27 @@ public class RepositoryTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Navigate to the Repository Page and check the default folders availability");
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        Assert.assertTrue(repositoryPage.isContentDisplayed("Data Dictionary"), "Data Dictionary is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentDisplayed("Guest Home"), "Guest Home is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentDisplayed("Imap Attachments"), "Imap Attachments is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentDisplayed("IMAP Home"), "IMAP Home is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentDisplayed("Shared"), "Shared is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentDisplayed("Sites"), "Sites is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentDisplayed("User Homes"), "User Homes is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed("Data Dictionary"), "Data Dictionary is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed("Guest Home"), "Guest Home is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed("Imap Attachments"), "Imap Attachments is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed("IMAP Home"), "IMAP Home is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed("Shared"), "Shared is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed("Sites"), "Sites is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed("User Homes"), "User Homes is not displayed in Repository");
         
         LOG.info("Step 2: Click on the Sites Folder");
         repositoryPage.clickFolderFromExplorerPanel("Sites");
-        Assert.assertTrue(repositoryPage.isContentDisplayed(siteName), "First created site is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentDisplayed(siteName2), "Second created site is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(siteName), "First created site is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(siteName2), "Second created site is not displayed in Repository");
         
         LOG.info("Step 3: Click on your first created site.");
         repositoryPage.clickOnFolderName(siteName);
-        Assert.assertTrue(repositoryPage.isContentDisplayed("documentLibrary"), "documentLibrary for the first created site is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed("documentLibrary"), "documentLibrary for the first created site is not displayed in Repository");
         
         LOG.info("Step 4: Click on documentLibrary folder.");
         repositoryPage.clickOnFolderName("documentLibrary");
-        Assert.assertTrue(repositoryPage.isContentDisplayed(fileName1), "fileName1 is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentDisplayed(folderName), "fileName1 is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileName1), "fileName1 is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderName), "fileName1 is not displayed in Repository");
         
         LOG.info("Step 5: Return to Repository/Sites");
         repositoryPage.navigate();
@@ -112,11 +111,11 @@ public class RepositoryTests extends ContextAwareWebTest
         
         LOG.info("Step 6: Click on the second created site.");
         repositoryPage.clickOnFolderName(siteName2);
-        Assert.assertTrue(repositoryPage.isContentDisplayed("documentLibrary"), "documentLibrary for the second created site is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed("documentLibrary"), "documentLibrary for the second created site is not displayed in Repository");
         
         LOG.info("Step 7: Click on documentLibrary folder.");
         repositoryPage.clickOnFolderName("documentLibrary");
-        Assert.assertTrue(repositoryPage.isContentDisplayed(fileName2), "fileName2 is not displayed in Repository");
-        Assert.assertTrue(repositoryPage.isContentDisplayed(folderName2), "fileName2 is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileName2), "fileName2 is not displayed in Repository");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderName2), "fileName2 is not displayed in Repository");
     }
 }
