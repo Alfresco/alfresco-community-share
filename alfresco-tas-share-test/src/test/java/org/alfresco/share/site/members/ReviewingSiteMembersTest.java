@@ -1,6 +1,7 @@
 package org.alfresco.share.site.members;
 
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -38,7 +39,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2816")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void listAllSiteMembers()
     {
@@ -66,7 +67,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2817")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void searchForMembersUsingPartialName()
     {
         LOG.info("Navigate to 'Site Members' page of site '" + siteName + "'.");
@@ -96,7 +97,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2818")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void searchForMembersUsingFullName()
     {
         LOG.info("STEP 1: Navigate to 'Site Members' page of site '" + siteName + "'.");

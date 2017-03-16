@@ -14,6 +14,7 @@ import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -64,7 +65,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5536")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void viewWikiPageDetailsFromPageView()
     {
         LOG.info("Preconditions: create site");
@@ -89,7 +90,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5537")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void viewWikiPageDetailsFromWikiPageList()
     {
         LOG.info("Preconditions: create site and wiki page");
@@ -107,7 +108,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5540")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void revertWikiPageToAnEarlierVersion()
     {
         LOG.info("Preconditions: create site and wiki page");

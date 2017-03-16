@@ -9,6 +9,7 @@ import org.alfresco.po.share.dashlet.WebViewDashlet;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -39,7 +40,7 @@ public class WebViewTests extends ContextAwareWebTest{
     }
     
     @TestRail(id = "C2143")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void webViewDashlet()
     {  
         userDashboardPage.navigate(userName);

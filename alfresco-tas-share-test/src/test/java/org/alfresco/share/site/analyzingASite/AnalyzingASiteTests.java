@@ -7,6 +7,7 @@ import org.alfresco.po.share.dashlet.SiteFileTypeBreakdownDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -105,7 +106,7 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C2233")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void verifySiteFileTypeBreakdownDashlet()
     {

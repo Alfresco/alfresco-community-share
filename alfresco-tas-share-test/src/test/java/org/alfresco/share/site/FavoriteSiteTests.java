@@ -7,6 +7,7 @@ import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -27,7 +28,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest
     ToolbarSitesMenu toolbarSitesMenu;
 
     @TestRail(id = "C2216")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addCurrentSiteToFavoritesUsingSitesMenu()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
@@ -62,7 +63,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2217")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeCurrentSiteFromFavoritesUsingSitesMenu()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
@@ -92,7 +93,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2220")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addSiteToFavoritesUsingMySitesDashlet()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
@@ -117,7 +118,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2221")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeSiteFromFavoritesUsingMySitesDashlet()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();

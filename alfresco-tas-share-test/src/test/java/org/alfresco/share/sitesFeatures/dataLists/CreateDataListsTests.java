@@ -12,6 +12,7 @@ import org.alfresco.po.share.site.dataLists.CreateDataListPopUp.DataListTypes;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -51,7 +52,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5861")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createNewList()
     {       
         logger.info("Step 1: On the Data Lists page click on the New List button.");
@@ -73,7 +74,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5862")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void newListCantBeCreatedWithoutSelectingListType()
     {       
         logger.info("Step 1: On the Data Lists page click on the New List button.");
@@ -93,7 +94,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5863")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void newListCantBeCreatedWithEmptyTitle()
     {       
         logger.info("Step 1: On the Data Lists page click on the New List button.");
@@ -113,7 +114,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5864")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void newListCreatedWithEmptyDescription()
     {       
         logger.info("Step 1: On the Data Lists page click on the New List button.");
@@ -131,7 +132,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5865")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void newListCreatedWithExistingTitle()
     {    
         logger.info("Preconditions: Create a new List with 'Test list' name.");
@@ -153,7 +154,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5881")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelCreationOfNewDataList()
     {    
         
@@ -176,7 +177,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5882")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void closeCreationWindowOfNewDataList()
     {    
         
@@ -199,7 +200,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5892")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void newListDoesNotContainAnyListItems()
     {    
         

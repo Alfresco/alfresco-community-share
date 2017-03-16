@@ -11,6 +11,7 @@ import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -65,7 +66,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
     @Bug(id = "MNT-17015")
     @TestRail(id = "C8344")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewTaskAndAssignToYourself()
     {
         LOG.info("Precondition");
@@ -97,7 +98,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
     @Bug(id = "MNT-17015")
     @TestRail(id = "C8345")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewTaskAndAssignToAnotherUser()
     {
         LOG.info("Precondition");
@@ -137,7 +138,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
     @Bug(id = "MNT-17015")
     @TestRail(id = "C8376")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void cancelStartingWorkflow()
     {
         LOG.info("Precondition");
@@ -168,7 +169,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
     @Bug(id = "MNT-17015")
     @TestRail(id = "C8388")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void startWorkflowForMultipleFiles()
     {
         LOG.info("Precondition");

@@ -8,6 +8,7 @@ import org.alfresco.po.share.dashlet.SavedSearchDashlet;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -38,7 +39,7 @@ public class SavedSearchTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C2427")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void savedSearchDashlet()
     {
         userDashboardPage.navigate(userName);

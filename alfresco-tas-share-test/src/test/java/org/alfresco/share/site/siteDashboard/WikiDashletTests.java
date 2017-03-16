@@ -11,6 +11,7 @@ import org.alfresco.po.share.dashlet.WikiDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -53,7 +54,7 @@ public class WikiDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5428")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void wikiDashletNoWikiPageCreated()
     {
         //precondition
@@ -90,7 +91,7 @@ public class WikiDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5433")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void configureWikiDashletOneWikiPageAvailable()
     {
@@ -150,7 +151,7 @@ public class WikiDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5553")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void configureWikiDashletMultipleWikiPagesAvailable()
 

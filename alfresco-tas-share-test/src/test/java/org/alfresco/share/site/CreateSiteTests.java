@@ -6,6 +6,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -36,7 +37,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2103")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyItemsPresentOnForm()
     {
         userDashboardPage.navigate(user);
@@ -80,7 +81,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2104")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPublicSiteFromToolbar()
     {
         String siteName = "siteC2104-" + DataUtil.getUniqueIdentifier();
@@ -109,7 +110,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C43380")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createSiteWithoutDescription()
     {
         String siteName = "site-" + DataUtil.getUniqueIdentifier();
@@ -135,7 +136,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2105")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createModeratedSiteFromToolbar()
     {
         String siteName = "siteC2105-" + DataUtil.getUniqueIdentifier();
@@ -165,7 +166,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2106")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPrivateSiteFromToolbar()
     {
         String siteName = "siteC2106-" + DataUtil.getUniqueIdentifier();
@@ -194,7 +195,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2107")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPublicSiteFromDashlet()
     {
         String siteName = "siteC2107-" + DataUtil.getUniqueIdentifier();
@@ -223,7 +224,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2108")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createModeratedSiteFromDashlet()
     {
         String siteName = "siteC2108-" + DataUtil.getUniqueIdentifier();
@@ -252,7 +253,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2109")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPrivateSiteFromDashlet()
     {
         String siteName = "siteC2109-" + DataUtil.getUniqueIdentifier();
@@ -281,7 +282,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2124")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelCreatingSite()
     {
         String siteName = "siteC2124-" + DataUtil.getUniqueIdentifier();
@@ -303,7 +304,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2125")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyCloseButton()
     {
         String siteName = "siteC2125-" + DataUtil.getUniqueIdentifier();
@@ -323,7 +324,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2130")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void urlNameAlreadyExists()
     {
         String siteName = "siteC2130-" + DataUtil.getUniqueIdentifier();

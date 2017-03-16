@@ -13,6 +13,7 @@ import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -59,7 +60,7 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5526")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void renameTheBlogPage()
     {
@@ -83,7 +84,7 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5527")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     
     public void simpleAndDetailedViewOfCreatedPosts ()
     {

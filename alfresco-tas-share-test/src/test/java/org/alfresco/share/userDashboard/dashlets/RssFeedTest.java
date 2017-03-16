@@ -8,6 +8,7 @@ import org.alfresco.po.share.dashlet.RssFeedDashlet;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -36,7 +37,7 @@ public class RssFeedTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2162")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void rssFeedDashlet()
     {
         logger.info("Step 1: Verify \"RSS Feed\" dashlet");

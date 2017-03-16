@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.calendar.EditEventDialog;
 import org.alfresco.po.share.site.calendar.EventInformationDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -61,7 +62,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3168")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editEventMonthView()
     {
         //precondition
@@ -138,7 +139,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5581")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editEventWeekView()
     {
         //precondition
@@ -216,7 +217,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5583")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editEventDayView()
     {
         //precondition
@@ -294,7 +295,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5580")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editEventByClickingOnTheEventAgendaView()
     {
         //precondition
@@ -373,7 +374,7 @@ public class EditEventsTests extends ContextAwareWebTest
 
 
     @TestRail(id = "C6073")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editEventByClickingEditIconAgendaView()
     {
         //precondition
@@ -441,7 +442,7 @@ public class EditEventsTests extends ContextAwareWebTest
 
 
     @TestRail(id = "C3173")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelEventMonthView()
     {
         //precondition
@@ -515,7 +516,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5715")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelEventWeekView()
     {
         //precondition
@@ -590,7 +591,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5716")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelEditEventDayView()
     {
         //precondition
@@ -665,7 +666,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5717")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelEditEventByClickingOnEventAgendaView()
     {
         //precondition
@@ -740,7 +741,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6076")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelEditEventByClickingEditIconAgendaView()
     {
         //precondition
@@ -807,7 +808,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5401")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editEventWithoutSavingMonthView()
     {
         //precondition
@@ -881,7 +882,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5718")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editEventWithoutSavingWeekView()
     {
         //precondition
@@ -956,7 +957,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5719")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editEventWithoutSavingDayView()
     {
         //precondition
@@ -1031,7 +1032,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5720")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editEventWithoutSavingAgendaView()
     {
         //precondition

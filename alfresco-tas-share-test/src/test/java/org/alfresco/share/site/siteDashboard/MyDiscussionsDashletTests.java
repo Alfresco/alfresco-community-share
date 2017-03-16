@@ -12,6 +12,7 @@ import org.alfresco.po.share.dashlet.MyDiscussionsDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -40,7 +41,7 @@ public class MyDiscussionsDashletTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C2791")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void myDiscussionsDashlet()
     {
         siteDashboardPage.navigate(siteName);

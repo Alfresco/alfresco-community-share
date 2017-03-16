@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -81,7 +82,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2824")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultItemsFromAddUsersPage()
     {
         LOG.info("STEP 1: Navigate to 'Add Users' page for " + siteName);
@@ -106,7 +107,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "3114")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyInfoIconFromAddUsersPage()
     {
         LOG.info("STEP 1: Navigate to 'Add Users' page for " + siteName);
@@ -129,7 +130,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "2409")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addManagerMemberToSite()
     {
         LOG.info("STEP 1: Navigate to 'Add Users' page for " + siteName);
@@ -160,7 +161,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "2410")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addCollaboratorMemberToSite()
     {
         LOG.info("STEP 1: Navigate to 'Add Users' page for " + siteName);
@@ -191,7 +192,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "2412")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addContributorMemberToSite()
     {
         LOG.info("STEP 1: Navigate to the created site. Click on 'Add Users' icon.");
@@ -223,7 +224,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "2411")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addConsumerMemberToSite()
     {
         LOG.info("STEP 1: Navigate to the created site. Click on 'Add Users' icon.");
@@ -255,7 +256,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "2413")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addMultipleUsersWithSameRole()
     {
         LOG.info("STEP 1: Navigate to 'Add Users' page for " + siteName);
@@ -312,7 +313,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "2829")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addMultipleUsersWithDifferentRoles()
     {
         LOG.info("STEP 1: Navigate to 'Add Users' page for " + siteName);
@@ -401,7 +402,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "2414")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeUserFromSelectRolesPanel()
     {
         LOG.info("STEP 1: Navigate to 'Add Users' page for " + siteName);
@@ -421,7 +422,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "2822")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void searchUsersFromAddUsersPage()
     {
         LOG.info("STEP 1: Navigate to the created site. Click on 'Add Users' icon.");

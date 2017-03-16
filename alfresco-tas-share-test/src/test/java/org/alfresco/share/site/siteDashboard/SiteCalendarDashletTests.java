@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -55,7 +56,7 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5492")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteCalendarDashletWithNoEvents()
     {
         siteDashboard.navigate(siteName);
@@ -76,7 +77,7 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5499")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteCalendarDashletWithSomeEvents()
     {
         String format = "EEEE, d MMMM, yyyy";

@@ -9,6 +9,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -57,7 +58,7 @@ public class SiteProfileDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2811")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteProfileDashlet()
     {
 

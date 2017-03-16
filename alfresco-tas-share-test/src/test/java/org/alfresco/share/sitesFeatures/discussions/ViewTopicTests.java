@@ -6,6 +6,7 @@ import org.alfresco.po.share.site.discussion.TopicListPage;
 import org.alfresco.po.share.site.discussion.TopicViewPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -59,7 +60,7 @@ public class ViewTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6211")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void viewTopicFromDiscussionsTopicListPage()
     {
         //precondition
@@ -90,7 +91,7 @@ public class ViewTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6212")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void viewTopicUsingReadAction()
     {
         //precondition
@@ -122,7 +123,7 @@ public class ViewTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6213")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void viewTopicByClickingOnItsName()
     {
         //precondition

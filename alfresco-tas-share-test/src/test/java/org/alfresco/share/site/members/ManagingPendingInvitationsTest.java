@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.members.PendingInvitesPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -26,7 +27,7 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     PendingInvitesPage pendingInvitesPage;
 
     @TestRail(id = "C2894")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void pendingInvitesAreAvailableOnlyForSiteManagers()
     {
         String userManager = "User1" + DataUtil.getUniqueIdentifier();
@@ -68,7 +69,7 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2895")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void searchForPendingInvites()
     {
         String userRole = "Contributor";
@@ -141,7 +142,7 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2898")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyPendingInvitesPage()
     {
         String userRole = "Collaborator";
@@ -180,7 +181,7 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2900")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyPendingInvitesForInternalUsers()
     {
         String userRole = "Consumer";

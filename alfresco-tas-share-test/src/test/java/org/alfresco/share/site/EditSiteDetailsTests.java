@@ -6,6 +6,7 @@ import org.alfresco.po.share.dashlet.SiteProfileDashlet;
 import org.alfresco.po.share.site.EditSiteDetailsDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -41,7 +42,7 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2210")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyEditSiteDetailsForm()
     {
         LOG.info("STEP1: Go to the created site. Click 'Settings' icon -> 'Edit Site Details'");
@@ -75,7 +76,7 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2211")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelEditSiteDetails()
     {
         LOG.info("STEP1: Go to the created site. Click 'Settings' icon -> 'Edit Site Details'");

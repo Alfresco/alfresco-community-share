@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.dataLists.ContactListSelectedContent;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -62,7 +63,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6403")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void selectAllItemsTest() {
 
         LOG.info("Starting test C6403");
@@ -106,7 +107,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6404")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void selectAllByUsingInvertSelection() {
 
         LOG.info("Starting test C6404");
@@ -150,7 +151,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6405")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deselectByUsingInvertSelection() {
         LOG.info("Starting test C6405");
         setup("C6405");
@@ -194,7 +195,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6406")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deselectByUsingSelectNone() {
         LOG.info("Starting test C6406");
         setup("C6406");

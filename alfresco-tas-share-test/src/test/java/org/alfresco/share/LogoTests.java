@@ -3,6 +3,7 @@ package org.alfresco.share;
 import org.alfresco.po.share.AboutPopUpPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -35,7 +36,7 @@ public class LogoTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2088")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
     public void checkAboutBox()
     {
         LOG.info("STEP 1: Verify bottom of User Dashboard page");

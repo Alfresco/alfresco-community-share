@@ -5,6 +5,7 @@ import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.discussion.TopicListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -68,7 +69,7 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6199")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browseByTopicsFilter()
     {
         topicListPage.navigate(siteName);
@@ -102,7 +103,7 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6204")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browseTopicsByTags()
     {
         topicListPage.navigate(siteName);

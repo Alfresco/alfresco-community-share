@@ -8,6 +8,7 @@ import org.alfresco.po.share.dashlet.SiteNoticeDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -48,7 +49,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5556")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addSiteNoticeDashlet()
     {
 
@@ -61,7 +62,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5557")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void noticeDashletActions()
     {
         LOG.info("Starting C5557");
@@ -84,7 +85,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5558")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void customizeDashlet()
     {
         LOG.info("Starting C5558");
@@ -106,7 +107,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5559")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void customizeDashletCancel()
     {
 

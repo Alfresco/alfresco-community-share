@@ -15,6 +15,7 @@ import org.alfresco.po.share.user.profile.ChangePasswordPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.Test;
@@ -66,7 +67,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
     ChangePasswordPage changePasswordPage;
 
     @TestRail(id = "C2858")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void useCurrentPage()
     {
         String folderName = "TestFolder";
@@ -240,7 +241,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2859")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void useMyDashboard()
     {
         String folderName = "TestFolder";

@@ -10,6 +10,7 @@ import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -75,7 +76,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2777")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addGroupWithManagerRole()
     {
         //precondition
@@ -111,7 +112,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2778")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addGroupWithCollaboratorRole()
     {
         //precondition
@@ -146,7 +147,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2779")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addGroupWithContributorRole()
     {
         //precondition
@@ -181,7 +182,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2780")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addGroupWithConsumerRole()
     {
         //precondition
@@ -216,7 +217,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2784")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyAddGroupsPage()
     {
         LOG.info("STEP 1 - Create valid user and site");
@@ -236,7 +237,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2812")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void returnToSiteGroupsPage()
     {
         LOG.info("STEP 1 - Create valid user and site");
@@ -251,7 +252,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2785")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void searchForGroups()
     {
         LOG.info("STEP 1 - Create valid user and site");
@@ -288,7 +289,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2786")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlySiteManagerCanAddGroups()
     {
         String userManager = "UserManager" + DataUtil.getUniqueIdentifier();
@@ -349,7 +350,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2846")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void groupMembersAreAddedToUsersList()
     {
         LOG.info("STEP 1 - Create 3 users and one site. Login with user1");

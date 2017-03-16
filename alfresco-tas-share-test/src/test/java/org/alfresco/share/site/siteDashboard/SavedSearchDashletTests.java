@@ -13,6 +13,7 @@ import org.alfresco.po.share.dashlet.SavedSearchDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -43,7 +44,7 @@ public class SavedSearchDashletTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C2787")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void savedSearchDashlet()
     {
         siteDashboardPage.navigate(siteName);

@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.discussion.TopicListPage;
 import org.alfresco.po.share.site.discussion.TopicViewPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -51,7 +52,7 @@ public class CreateNewTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6206")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createNewTopic()
     {
         topicListPage.navigate(siteName);
@@ -76,7 +77,7 @@ public class CreateNewTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6207")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelCreatingNewTopic()
     {
         topicListPage.navigate(siteName);

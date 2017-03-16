@@ -11,6 +11,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -44,7 +45,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6252")
     public void browseLinksByTags()
     {
@@ -84,7 +85,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
         Assert.assertTrue(CollectionUtils.isEqualCollection(linkPage.getLinksTitlesList(), linksList), "Only 'Link3' should be displayed!");
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6253")
     public void browseLinksByLinksMenu()
     {

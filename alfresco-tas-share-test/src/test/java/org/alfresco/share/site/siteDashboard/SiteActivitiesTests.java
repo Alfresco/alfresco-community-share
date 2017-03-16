@@ -10,6 +10,7 @@ import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -38,7 +39,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     SiteMembersPage siteMembersPage;
 
     @TestRail(id = "C2803")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void noActivitiesCreated()
     {
         String uniqueIdentifier = "-C2803-" + DataUtil.getUniqueIdentifier();
@@ -76,7 +77,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2809")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void dateFilter()
     {
         String uniqueIdentifier = "-C2809-" + DataUtil.getUniqueIdentifier();
@@ -118,7 +119,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C12833")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void activitiesDashletDisplaysGroupNameWhenLoggedInAsAdmin()
     {
@@ -154,7 +155,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C12834")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void activitiesDashletDisplaysGroupNameWhenLoginWithOtherUserThanAdmin()
     {
         String user = "C12834User" + DataUtil.getUniqueIdentifier();
@@ -188,7 +189,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C12835")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void groupNameIsDisplayedInGroupsTabSiteMembersGroup()
     {
@@ -227,7 +228,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C12836")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void groupNameIsDisplayedInGroupsTabAddGroup()
     {
@@ -258,7 +259,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C12837")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void activitiesDashletDisplaysGroupNameWhenGroupsRoleIsChanged()
     {
@@ -307,7 +308,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity is not present on dashlet");
     }
     @TestRail(id="C12838")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void activitiesDashletDisplaysGroupNameWhenGroupIsRemovedFromSite()
     {

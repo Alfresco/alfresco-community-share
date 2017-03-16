@@ -15,6 +15,7 @@ import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -58,7 +59,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5844")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlySiteManagerIsAbleToRenameDataListsFeatures()
     {    
         siteDashboardPage.navigate(siteName);
@@ -98,7 +99,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5846")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browsingPaneDisplay()
     {    
         logger.info("Preconditions: Create multiple Lists");
@@ -117,7 +118,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5845")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void viewListsFromDataLists()
     {    
         logger.info("Preconditions: Create a new List");

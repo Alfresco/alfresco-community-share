@@ -13,6 +13,7 @@ import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeMethod;
@@ -54,7 +55,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5504")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createNewWikiPage()
     {
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
@@ -83,7 +84,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5504")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelCreationOfNewWikiPage()
     {
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
@@ -112,7 +113,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5524")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createWikiPageFromWikiPageList()
     {
         siteName = "siteName" + DataUtil.getUniqueIdentifier();

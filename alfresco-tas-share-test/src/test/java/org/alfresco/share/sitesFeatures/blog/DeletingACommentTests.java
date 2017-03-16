@@ -12,6 +12,7 @@ import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.BlogPromptWindow;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -52,7 +53,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6063")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     
     public void deletingACommentOfABlogPost()
     {
@@ -72,7 +73,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6064")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     
     public void deletingACommentOfADraftPost()
     {

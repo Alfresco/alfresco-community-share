@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.blog.BlogPostPage;
 import org.alfresco.po.share.site.blog.EditBlogPostPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -63,7 +64,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5528")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void viewingABlogPostSmallAmountOfContent()
     {
         sitePagesService.createBlogPost(user1, password, siteName, blogTitleUser1Published, blogContent, false, tags);
@@ -98,7 +99,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6116")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void visibilityOfPublishedDraft()
     {
         setupAuthenticatedSession(user1, password);

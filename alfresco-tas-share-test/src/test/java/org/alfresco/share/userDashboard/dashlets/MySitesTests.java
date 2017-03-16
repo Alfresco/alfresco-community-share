@@ -12,6 +12,7 @@ import org.alfresco.po.share.dashlet.MySitesDashlet.SitesFilter;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -45,7 +46,7 @@ public class MySitesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2095")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void noSitesCreated()
     {
         logger.info("STEP 1 - Check that My Sites dashlet is displayed");
@@ -81,7 +82,7 @@ public class MySitesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2098")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void deleteSiteThenCancel()
     {
         logger.info("STEP 1 - Create site, check that is available in user dashboard");
@@ -103,7 +104,7 @@ public class MySitesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2100")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void filterSites()
     {
         logger.info("STEP 1 - Create 3 sites, mark the first one as favourite");

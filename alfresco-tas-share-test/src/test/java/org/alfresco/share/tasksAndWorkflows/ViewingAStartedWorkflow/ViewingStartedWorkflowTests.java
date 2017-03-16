@@ -6,6 +6,7 @@ import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.po.share.tasksAndWorkflows.*;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -35,7 +36,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     private String workflowName = "taskName" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id = "C8425")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void viewWorkflowIveStarted()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -61,7 +62,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8426")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void viewWorkflowAssignedToOtherUser()
     {
         LOG.info("Precondition: Create 2 users and a workflow assigned by user1 to user2.");
@@ -89,7 +90,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8427")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void viewWorkflowIveStartedOptions()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -108,7 +109,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8428")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void viewOptionsAvailableForWorkflowsAssignedToOthers()
     {
         LOG.info("Precondition: Create 2 users and a workflow assigned by user1 to user2.");
@@ -130,7 +131,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8458")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void verifyWorkflowIveStartedPage()
     {
         LOG.info("Precondition: Create a user and login.");
@@ -157,7 +158,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8461")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void verifyMyTasksPage()
     {
         LOG.info("Precondition: Create a user and login.");
@@ -183,7 +184,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8460")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void viewOptionsAvailableForTasksIveStarted()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -203,7 +204,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8500")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void viewMyTaskAndWorkflowDetailsPages()
     {
         LOG.info("Precondition: Create user and a workflow.");

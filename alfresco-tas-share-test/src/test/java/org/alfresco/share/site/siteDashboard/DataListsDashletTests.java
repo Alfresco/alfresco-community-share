@@ -10,6 +10,7 @@ import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.testng.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -27,7 +28,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
     DataListsPage dataListsPage;
 
     @TestRail(id = "C5568")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletNoListCreated()
     {
         String userName = "user5568-" + DataUtil.getUniqueIdentifier();
@@ -57,7 +58,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5569")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletTwooListsCreated()
     {
         String userName = "userC5569-" + DataUtil.getUniqueIdentifier();
@@ -99,7 +100,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5570")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletCreateDataList()
     {
         String userName = "userC5570-" + DataUtil.getUniqueIdentifier();
@@ -152,7 +153,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5571")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletUserWithConsumerRole()
     {
         String userNameSiteManager = "userC5571-" + DataUtil.getUniqueIdentifier();

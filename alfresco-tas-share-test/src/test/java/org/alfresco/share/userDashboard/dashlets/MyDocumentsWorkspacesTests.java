@@ -7,6 +7,7 @@ import org.alfresco.po.share.dashlet.MyDocumentsDashlet.DocumentsFilter;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -22,7 +23,7 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
     UserDashboardPage userDashboardPage;
 
     @TestRail(id = "C2432")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void noDocumentsAdded()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();

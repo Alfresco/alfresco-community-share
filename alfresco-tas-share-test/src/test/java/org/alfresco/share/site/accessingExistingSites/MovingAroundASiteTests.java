@@ -9,6 +9,7 @@ import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -37,7 +38,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3034")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultAreas()
     {
         siteName = "Site-C3034-" + DataUtil.getUniqueIdentifier();
@@ -63,7 +64,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3035")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addAdditionalFeatures()
     {
         siteName = "Site-C3035-" + DataUtil.getUniqueIdentifier();
@@ -121,7 +122,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3036")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteFeaturesAreAvailableOnAnyPageFromTheSite()
     {
         siteName = "Site-C3036-" + DataUtil.getUniqueIdentifier();

@@ -10,6 +10,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -69,7 +70,7 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5414")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void imagePreviewDashletWithNoImage()
     {
         LOG.info("STEP 1 - View \"Image Preview\" dashlet");
@@ -89,7 +90,7 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5421")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void imagePreviewDashletWithSomeImages()
     {
         LOG.info("STEP 1 - Create images in the \"Document Library\" of the site");
@@ -113,7 +114,7 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5422")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void imagePreviewAvailableActions()
     {
         String fileName = "newavatar.jpg";

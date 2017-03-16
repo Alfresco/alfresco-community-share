@@ -7,6 +7,7 @@ import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowsIveStartedPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -31,7 +32,7 @@ public class DeletingWorkflowsTests  extends ContextAwareWebTest
     private String workflowName = "taskName" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id = "C8501")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void deleteWorkflow()
     {
         LOG.info("Precondition: Create user and a workflow.");

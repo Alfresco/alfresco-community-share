@@ -15,6 +15,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.ManageContactListItems;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -87,7 +88,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6864")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void duplicateAction()
 
     {
@@ -116,7 +117,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6865")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteAction()
     {
 
@@ -142,7 +143,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6867")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editAction()
 
     {

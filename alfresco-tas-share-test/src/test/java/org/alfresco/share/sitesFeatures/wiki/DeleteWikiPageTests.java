@@ -12,6 +12,7 @@ import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -50,7 +51,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5515")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteWikiMainPageFromPageView()
     {
         LOG.info("Preconditions: create site and add wiki main page content");
@@ -70,7 +71,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5516")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteWikiMainPageFromWikiPageList()
     {
         LOG.info("Preconditions: create site and wiki main page content");
@@ -90,7 +91,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5517")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteWikiPageFromPageView()
     {
         LOG.info("Preconditions: create site and wiki page");
@@ -113,7 +114,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5518")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteWikiPageFromWikiPageList()
     {
         LOG.info("Preconditions: create site and wiki pages");
@@ -140,7 +141,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5519")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelDeletingWikiPage()
     {
         LOG.info("Preconditions: create site and update wiki main page content");

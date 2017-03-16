@@ -12,6 +12,7 @@ import org.alfresco.po.share.site.dataLists.EditListDetailsPopUp;
 import org.alfresco.po.share.site.dataLists.CreateDataListPopUp;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeMethod;
@@ -57,7 +58,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5894")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void modifyTitleAndDescriptionOfAnExistingList()
     {       
         logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
@@ -81,7 +82,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5895")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelModifyingTitleAndDescriptionOfAnExistingList()
     {       
         logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
@@ -100,7 +101,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5896")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void closeEditFormWithoutSavingChanges()
     {       
         logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
@@ -119,7 +120,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5898")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editingExistingListWithSiteCollaboratorUser()
     {      
         
@@ -151,7 +152,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5899")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void contributorRoleIsNotAbleToEditExistingList()
     {      
         
@@ -171,7 +172,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5900")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void consumerRoleIsNotAbleToEditExistingList()
     {      
         
@@ -191,7 +192,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5901")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void contributorRoleIsAbleToEditListCreatedBySameUser()
     {      
         
@@ -228,7 +229,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5904")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteManagerIsAbleToEditList()
     {      
         

@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -69,7 +70,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2882")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeSiteMemberFromPublicSiteTest()
     {
         LOG.info("Starting test C2882");
@@ -103,7 +104,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2883")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeSiteGroupTest()
     {
 
@@ -146,7 +147,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2884")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlyManagerCanRemoveUsersTest()
     {
         LOG.info("Starting C2884");
@@ -237,7 +238,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2885")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlyManagerCanRemoveGroupsTest()
     {
 
@@ -310,7 +311,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2890")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeSiteMemberFromPrivateSiteTest()
     {
         LOG.info("Starting test C2890");
@@ -349,7 +350,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2892")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeSiteMemberFromModeratedSiteTest()
     {
         LOG.info("Starting test C2892");

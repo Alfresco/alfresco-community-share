@@ -1,38 +1,31 @@
 package org.alfresco.share.smartFolders;
 
-import static org.testng.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.SmartFolders;
-import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
-import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.testng.Assert.assertEquals;
+
 public class UsingSmartFoldersTests extends ContextAwareWebTest
 {
-
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
-
     @Autowired
     DocumentLibraryPage documentLibraryPage;
 
@@ -49,19 +42,10 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     EditPropertiesPage editPropertiesPage;
 
     @Autowired
-    NewContentDialog newContentDialog;
-
-    @Autowired
     SmartFolders smartFolders;
 
     @Autowired
     UploadContent uploadContent;
-
-    @Autowired
-    RepositoryPage repositoryPage;
-
-    @Autowired
-    SelectDialog selectDialog;
 
     @Autowired
     GoogleDocsCommon googleDocs;
@@ -97,7 +81,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8646")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void smartFolderIcon()
 
     {
@@ -154,7 +138,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8648")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addFileToSmartFolder()
 
     {
@@ -216,7 +200,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8649")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createFileInSmartFolder() throws Exception
 
     {
@@ -296,7 +280,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8650")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void updateFileInSmartFolder() throws Exception
 
     {
@@ -386,7 +370,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8663")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void checkSmartFolderStructure()
 
     {
@@ -451,7 +435,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8664")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void checkFilesAreCorrectlyFilled() throws Exception
     {
 
@@ -530,7 +514,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8647")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void checkAvailableActions() throws Exception
 
     {

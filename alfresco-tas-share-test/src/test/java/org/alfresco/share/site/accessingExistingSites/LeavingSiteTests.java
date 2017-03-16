@@ -13,6 +13,7 @@ import org.alfresco.po.share.site.accessingExistingSites.LeaveSiteDialog;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2926")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyLeaveSitePopup()
     {
         //precondition
@@ -105,7 +106,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2927")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelLeavingSiteUsingSiteConfigurationOptions()
     {
         //precondition
@@ -155,7 +156,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2928")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void leaveSiteUsingSiteFinder()
     {
         //precondition
@@ -204,7 +205,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2930")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void leaveSiteUsingSiteConfigurationOptions()
     {
         //precondition
@@ -252,7 +253,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2931")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void leaveSiteWithoutConfirmation()
     {
         //precondition

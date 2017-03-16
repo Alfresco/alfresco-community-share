@@ -11,6 +11,7 @@ import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -46,7 +47,7 @@ public class AccessingLinkTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6250")
     public void accessingTheSiteLinks()
     {
@@ -70,7 +71,7 @@ public class AccessingLinkTests extends ContextAwareWebTest
         Assert.assertTrue(linkPage.getLinksListTitle().equals("All Links"), "All links should be displayed after clicking on 'Links' link!");
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6251")
     public void toggleBetweenSimpleAndDetailedView()
     {

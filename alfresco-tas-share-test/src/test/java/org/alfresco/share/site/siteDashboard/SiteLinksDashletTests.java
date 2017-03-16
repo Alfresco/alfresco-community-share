@@ -9,6 +9,7 @@ import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -52,7 +53,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5525")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletHelpNotification()
     {
         siteName = "SiteName-C5525-" + DataUtil.getUniqueIdentifier();
@@ -78,7 +79,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5534")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletCreateLink()
     {
         siteName = "SiteName-C5534-" + DataUtil.getUniqueIdentifier();
@@ -115,7 +116,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5804")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletDetailsButton()
     {
         siteName = "SiteName-C5804-" + DataUtil.getUniqueIdentifier();

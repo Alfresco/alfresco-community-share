@@ -9,6 +9,7 @@ import org.alfresco.po.share.user.CustomizeUserDashboardPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -31,7 +32,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     SavedSearchDashlet savedSearchDashlet;
 
     @TestRail(id = "C2853")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void changeDefaultDashlets()
     {
         String userName = "user2853-" + DataUtil.getUniqueIdentifier() + domain;
@@ -75,7 +76,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2855")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void changeDashboardLayout()
     {
         String userName = "user2855-" + DataUtil.getUniqueIdentifier() + domain;
@@ -116,7 +117,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2857")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void expandNarrowDashlets()
     {
         String userName = "user2855-" + DataUtil.getUniqueIdentifier() + domain;

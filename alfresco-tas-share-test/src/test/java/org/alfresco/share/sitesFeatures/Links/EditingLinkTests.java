@@ -13,6 +13,7 @@ import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -58,7 +59,7 @@ public class EditingLinkTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6184")
     public void editLinkFromLinkPageView()
     {
@@ -163,7 +164,7 @@ public class EditingLinkTests extends ContextAwareWebTest
 
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6185")
     public void editLinkFromLinksPage()
     {
@@ -280,7 +281,7 @@ public class EditingLinkTests extends ContextAwareWebTest
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("bing"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6186")
     public void cancelEditingLink()
     {

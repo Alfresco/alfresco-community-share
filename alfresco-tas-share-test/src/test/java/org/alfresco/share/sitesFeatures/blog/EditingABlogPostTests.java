@@ -13,6 +13,7 @@ import org.alfresco.po.share.site.blog.CreateBlogPostPage;
 import org.alfresco.po.share.site.blog.EditBlogPostPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -65,7 +66,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5560")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void editABlogPostDirectlyFromBlogPage()
     {
@@ -92,7 +93,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5561")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void editBlogPostFromBlogPostView()
     {
@@ -126,7 +127,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6107")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void editABlogDraftPostDirectlyFromBlogPage()
     {
@@ -164,7 +165,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6108")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     private void editBlogDraftPostFromBlogPostView()
     {
@@ -202,7 +203,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C6110")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     
     public void editABlogDraftPostAndPublishIt()
     {

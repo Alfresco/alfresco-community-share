@@ -12,6 +12,7 @@ import org.alfresco.po.share.dashlet.SiteSearchDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -39,7 +40,7 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2775")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteSearchDashletTest()
     {
         LOG.info("Step 1: Verify Site Search dashlet");

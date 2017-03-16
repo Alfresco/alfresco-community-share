@@ -6,6 +6,7 @@ import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.Test;
@@ -33,7 +34,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     private String siteName;
 
     @TestRail(id = "C2848")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerActionIsMissingForNonAdmins()
     {
         // preconditions
@@ -59,7 +60,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2849")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerActionWhenAdminIsSiteManager()
     {
         // preconditions
@@ -99,7 +100,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2850")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerUsingSiteConfigurationIcon()
     {
         // preconditions
@@ -151,7 +152,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2852")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerActionAvailableForAdmins()
     {
         // preconditions
@@ -181,7 +182,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2854")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerFromSitesManagerAdminIsSiteMember()
     {
         // preconditions
@@ -222,7 +223,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2856")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerActionAvailableForAdminNotSiteMember()
     {
         // preconditions
@@ -253,7 +254,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2861")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerFromSitesManagerAdminIsNotSiteMember()
     {
         // preconditions

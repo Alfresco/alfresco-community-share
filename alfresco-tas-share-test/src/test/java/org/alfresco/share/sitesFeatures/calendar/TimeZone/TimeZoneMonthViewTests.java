@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.EventInformationDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -75,7 +76,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5928")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void singleDayEvent()
     {
         String currentEventName = "testEvent-C5928-" + random;
@@ -105,7 +106,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5929")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void singleDayAllDayEvent()
     {
         String currentEventName = "testEvent-C5929-" + random;
@@ -135,7 +136,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5930")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void multipleDaysEvent()
     {
         String currentEventName = "testEvent-C5930-" + random;
@@ -166,7 +167,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5931")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void multipleDaysAllDayEvent()
     {
         String currentEventName = "testEvent-C5931-" + random;
@@ -196,7 +197,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5932")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void multipleWeeksEvent()
     {
         String currentEventName = "testEvent-C5932-" + random;
@@ -228,7 +229,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5942")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void multipleWeeksAllDayEvent()
     {
         String currentEventName = "testEvent-C5942-" + random;
@@ -260,7 +261,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5943")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void multipleMonthsEvent()
     {
         String currentEventName = "testEvent-C5943-" + random;
@@ -292,7 +293,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5944")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void multipleMonthsAllDayEvent()
     {
         String currentEventName = "testEvent-C5944-" + random;

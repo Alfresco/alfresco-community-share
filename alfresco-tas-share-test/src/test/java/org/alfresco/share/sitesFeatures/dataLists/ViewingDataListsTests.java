@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.dataLists.ContactListSelectedContent.ListColum
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -46,7 +47,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5853")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void filterAreVisibleOnlyIfAListIsSelected()
     {       
         logger.info("Preconditions: Create a new List");
@@ -66,7 +67,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     }
     
     //@TestRail(id = "C5854")
-    //@Test
+    //@Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void selectAListAndApplyAllFilter()
     {       
         // TO_DO
@@ -75,7 +76,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     }
     
     //@TestRail(id = "C5855")
-    //@Test
+    //@Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void selectAListAndApplyRecentlyAddedFilter()
     {       
         // TO_DO
@@ -84,7 +85,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     }
     
     //@TestRail(id = "C5856")
-    //@Test
+    //@Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void selectAListAndApplyRecentlyModifiedFilter()
     {       
         // TO_DO
@@ -93,7 +94,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     }
     
     //@TestRail(id = "C5857")
-    //@Test
+    //@Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void selectAListAndApplyCreatedByMeFilter()
     {       
         // TO_DO
@@ -102,7 +103,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5858")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void multiplePagesViewedInDataListsExplorerPanel()
     {       
         logger.info("Preconditions: Create a new List and add new items to it");
@@ -135,7 +136,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5859")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void dataListItemsSortedByColumn()
     {       
         logger.info("Preconditions: Create a new List and add two items to it, descendent ordered by Company Name");
@@ -157,7 +158,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5860")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void aSinglePageOfListItemsViewed()
     {       
         logger.info("Preconditions: Create a new List and add two items to it, descendent ordered by Company Name");

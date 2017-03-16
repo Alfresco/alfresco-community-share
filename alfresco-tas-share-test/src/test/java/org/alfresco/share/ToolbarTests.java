@@ -23,6 +23,7 @@ import org.alfresco.po.share.user.profile.ChangePasswordPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.po.share.user.profile.UserSitesListPage;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -94,7 +95,7 @@ public class ToolbarTests extends ContextAwareWebTest
     SharedFilesPage sharedFilesPage;
 
     @TestRail(id = "C2091")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyAlfrescoToolbarItems()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
@@ -137,7 +138,7 @@ public class ToolbarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2862")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void theToolbarIsAlwaysAvailableAtTheTopOfThePage()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
@@ -163,7 +164,7 @@ public class ToolbarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2863")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void adminToolsAreAvailableOnlyForSystemAdministrators()
     {
         String userName1 = "User1" + DataUtil.getUniqueIdentifier();
@@ -205,7 +206,7 @@ public class ToolbarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2864")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyTheLinksFromTheUserMenu()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
@@ -252,7 +253,7 @@ public class ToolbarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2865")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyTheLinksFromTasksMenu()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
@@ -271,7 +272,7 @@ public class ToolbarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2866")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyTheLinksFromSitesMenu()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
@@ -329,7 +330,7 @@ public class ToolbarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2867")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyTheLinksFromAlfrescoToolbar()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
@@ -369,7 +370,7 @@ public class ToolbarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2868")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void siteManagerIsAvailableOnlyForSiteAdministrators()
     {
         String userName1 = "User1" + DataUtil.getUniqueIdentifier();

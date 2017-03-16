@@ -9,6 +9,7 @@ import org.alfresco.po.share.site.discussion.TopicListPage;
 import org.alfresco.po.share.site.discussion.TopicViewPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -65,7 +66,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6214")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createReplyToDiscussion()
     {
         topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();
@@ -97,7 +98,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6215")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelCreatingReplyToDiscussion()
     {
         topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();
@@ -125,7 +126,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6216")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void insertLinkInReplyToDiscussion()
     {
         String linkUrl = "https://www.alfresco.com/";
@@ -162,7 +163,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6217")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void insertImageInReplyToDiscussion()
     {
         String imageSource = "https://www.alfresco.com/sites/www.alfresco.com/files/alfresco-logo.png";
@@ -195,7 +196,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6218")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void replyToAReply()
     {
         topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();
@@ -226,7 +227,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6219")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editReplyAddedToTopic()
     {
         topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();

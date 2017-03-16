@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.dataLists.ContactListSelectedContent;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -65,7 +66,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6396")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void duplicateMultipleListItems() {
 
         LOG.info("Starting test C6396");
@@ -102,7 +103,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6398")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteMultipleItems() {
 
         LOG.info("Starting test C6398");
@@ -137,7 +138,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6407")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deselectAllItems() {
         LOG.info("Starting test C6407");
         setup("C6407");

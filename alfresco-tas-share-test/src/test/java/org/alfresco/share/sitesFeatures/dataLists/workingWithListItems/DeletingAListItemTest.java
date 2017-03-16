@@ -7,6 +7,7 @@ import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -56,7 +57,7 @@ public class DeletingAListItemTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6399")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSingleItemList()
     {
         LOG.info("STEP1: Click on Delete icon from Actions section of the data list item");

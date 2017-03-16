@@ -14,6 +14,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -59,7 +60,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5425")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteContentDashletSimpleView()
     {
         String siteName = "Site" + DataUtil.getUniqueIdentifier();
@@ -105,7 +106,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5413")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void noDocumentsAdded()
 
     {
@@ -143,7 +144,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5456")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void favoriteItem() throws Exception
 
     {
@@ -169,7 +170,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5457")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void likeUnlikeItem()
 
     {
@@ -193,7 +194,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5457")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void detailedView()
 
     {
@@ -241,7 +242,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5458")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addCommentOnItem()
     {
 

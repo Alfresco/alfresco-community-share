@@ -8,6 +8,7 @@ import org.alfresco.po.share.dashlet.MyDiscussionsDashlet;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -36,7 +37,7 @@ public class MyDiscussionsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C2774")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void myDiscussionsDashlet()
     { 
         userDashboardPage.navigate(userName);

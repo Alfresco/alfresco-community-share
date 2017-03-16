@@ -11,6 +11,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -53,7 +54,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2134")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void detailedView()
     {
         logger.info("STEP 1 - Create document then update its content");
@@ -125,7 +126,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2138")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void filterDocuments()
     {
         loginPage.navigate();

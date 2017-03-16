@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.calendar.CalendarUtility;
 import org.alfresco.po.share.site.calendar.MiniCalendar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -64,7 +65,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5805")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeTheMainCalendarView()
     {
         LOG.info("Precondition:  Add calendar event");
@@ -104,7 +105,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5806")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void moveForwardThroughTheCalendar()
     {
         /**
@@ -207,7 +208,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5807")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void moveBackwardsThroughTheCalendar()
     {
         /**
@@ -287,7 +288,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5809")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void displayUpcomingEvents()
     {
         /**
@@ -318,7 +319,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5905")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browserEventsByTags()
     {
         /**
@@ -373,7 +374,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5808")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void displayTodayEvents()
     {
         /**
@@ -476,7 +477,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3155")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyTheMiniCalendar()
     {
         LOG.info("Step 1: Verify the presence of the mini-calendar.");
@@ -516,7 +517,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5833")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void showAllHours()
     {
         /**

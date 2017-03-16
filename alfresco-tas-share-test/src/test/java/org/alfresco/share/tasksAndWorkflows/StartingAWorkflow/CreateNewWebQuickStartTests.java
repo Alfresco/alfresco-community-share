@@ -10,6 +10,7 @@ import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -59,7 +60,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
 
     @Bug(id = "MNT-17015")
     @TestRail(id = "C8352")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewWebQuickStartReviewAndPublishSectionStructure()
     {
         LOG.info("Precondition");
@@ -99,7 +100,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
 
     @Bug(id = "MNT-17015")
     @TestRail(id = "C8353")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewWebQuickStartReviewAndPublishWebAssets()
     {
         LOG.info("Precondition");

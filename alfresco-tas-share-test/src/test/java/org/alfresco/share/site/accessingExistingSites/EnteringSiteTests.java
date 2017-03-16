@@ -10,6 +10,7 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.UserSitesListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -59,7 +60,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2977")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingMySitesDashlet()
     {
         userDashboardPage.navigate(user1);
@@ -72,7 +73,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2978")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSiteFinderPage()
     {
         userDashboardPage.navigate(user1);
@@ -88,7 +89,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2979")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSitesMenuFavorites()
     {
         userDashboardPage.navigate(user1);
@@ -101,7 +102,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2980")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSitesMenuRecentSites()
     {
         //precondition: site is recently accessed by current user
@@ -117,7 +118,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2981")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingMyProfileSites()
     {
         userSitesListPage.navigate(user1);
@@ -131,7 +132,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2982")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSitesMenuMySites()
     {
         userDashboardPage.navigate(user1);
@@ -145,7 +146,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3006")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSearchBoxOnTheToolbar()
     {
         userDashboardPage.navigate(user1);

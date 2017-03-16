@@ -6,6 +6,7 @@ import org.alfresco.po.share.dashlet.SiteMembersDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -40,7 +41,7 @@ public class SiteMembersTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2799")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void oneUserAdded()
     {
         LOG.info("STEP1: Verify \"Site Members\" dashlet");

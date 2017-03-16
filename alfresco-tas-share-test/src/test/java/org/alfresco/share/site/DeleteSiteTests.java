@@ -14,6 +14,7 @@ import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.Test;
@@ -57,7 +58,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     SiteDashboardPage siteDashboardPage;
 
     @TestRail(id = "C2280")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsManagerFromSiteFinder()
     {
         String user = "userC2280" + DataUtil.getUniqueIdentifier();
@@ -114,7 +115,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2281")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsContributorFromSiteFinder()
     {
         String user1 = "1UserC2281" + DataUtil.getUniqueIdentifier();
@@ -144,7 +145,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2282")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsCollaboratorFromSiteFinder()
     {
         String user1 = "1UserC2282" + DataUtil.getUniqueIdentifier();
@@ -174,7 +175,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2283")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsConsumerFromSiteFinder()
     {
         String user1 = "1UserC2283" + DataUtil.getUniqueIdentifier();
@@ -204,7 +205,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2284")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelDeleteSiteFromSiteFinder()
     {
         String user = "UserC2284" + DataUtil.getUniqueIdentifier();
@@ -252,7 +253,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2286")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsManagerFromDashlet()
     {
         String user = "UserC2286" + DataUtil.getUniqueIdentifier();
@@ -295,7 +296,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2287")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsContributorFromDashlet()
     {
         String user1 = "1UserC2287" + DataUtil.getUniqueIdentifier();
@@ -317,7 +318,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2288")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsCollaboratorFromDashlet()
     {
         String user1 = "1UserC2288" + DataUtil.getUniqueIdentifier();
@@ -339,7 +340,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2289")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsConsumerFromDashlet()
     {
         String user1 = "1UserC2289" + DataUtil.getUniqueIdentifier();
@@ -361,7 +362,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2291")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsAdminFromSiteManager()
     {
         String user1 = "userC2291" + DataUtil.getUniqueIdentifier();
@@ -394,7 +395,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2292")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelDeleteSiteFromSitesManager()
     {
         String user1 = "UserC2292" + DataUtil.getUniqueIdentifier();

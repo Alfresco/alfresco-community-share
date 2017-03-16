@@ -13,6 +13,7 @@ import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -56,7 +57,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6187")
     public void deleteLinkFromLinkDetailsPage()
     {
@@ -81,7 +82,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
 
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6188")
     public void deleteLinkFromLinksPage()
     {
@@ -109,7 +110,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
         Assert.assertTrue(linkPage.getTagsFromTagsSection().isEmpty(), "No tags should be displayed!");
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6189")
     public void cancelDeletingLink()
     {
@@ -133,7 +134,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
         Assert.assertTrue(linkPage.getLinksTitlesList().contains(linkTitle), "Link is not displayed in the list!");
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6190")
     public void deleteMultipleLinks()
     {

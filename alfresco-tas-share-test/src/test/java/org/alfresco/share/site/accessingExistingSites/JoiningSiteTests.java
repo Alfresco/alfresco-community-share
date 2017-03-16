@@ -12,6 +12,7 @@ import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2823")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void joinPublicSiteFromSiteFinderPage()
     {
         //precondition
@@ -109,7 +110,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3053")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void joinPublicSiteFromSiteDashboardPage()
     {
         //precondition
@@ -142,7 +143,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2831")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void requestToJoinModeratedSiteFromSiteFinderPage()
     {
         //precondition
@@ -203,7 +204,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3059")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void requestToJoinModeratedSiteFromSiteDashboardPage()
     {
         //precondition
@@ -275,7 +276,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2833")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelRequestToJoinModeratedSite()
     {
         //precondition

@@ -10,6 +10,7 @@ import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.annotations.BeforeClass;
@@ -62,7 +63,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8520")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void editTaskFromTasksDashletChangeStatus()
     {
         LOG.info("Precondition");
@@ -79,7 +80,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8521")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void editTaskFromTasksDashletReassign()
     {
         LOG.info("Precondition");

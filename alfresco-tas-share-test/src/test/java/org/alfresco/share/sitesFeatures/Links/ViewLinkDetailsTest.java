@@ -11,6 +11,7 @@ import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -52,7 +53,7 @@ public class ViewLinkDetailsTest extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6179")
     public void viewLinkDetails()
     {

@@ -5,6 +5,7 @@ import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -60,7 +61,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6001")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browseTheBlogPosts()
     {
         // Precondition
@@ -82,7 +83,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6004")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browseTheBlogPostsLatestPosts()
     {
         blogPage.navigate(siteName);
@@ -102,7 +103,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6005")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browseTheBlogPostsMyDrafts()
     {
         blogPage.navigate(siteName);
@@ -119,7 +120,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6006")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browseTheBlogPostsMyPublishedPosts()
     {
         blogPage.navigate(siteName);
@@ -137,7 +138,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6008")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browseTheBlogPostsByTags()
     {
         blogPage.navigate(siteName);
@@ -171,7 +172,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6010")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browseTheBlogPostsArchive()
     {
         // Can not create blog posts in the past, can not check for posts from previous month

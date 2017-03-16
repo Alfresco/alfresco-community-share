@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.CustomizeSiteDashboardPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -28,7 +29,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     SiteContentDashlet siteContentDashlet;
 
     @TestRail(id = "C2198")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeSiteDashboardLayout()
     {
         String userName = "user2198-" + DataUtil.getUniqueIdentifier() + domain;
@@ -114,7 +115,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2200")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addNewDashlet()
     {
         String userName = "user2200-" + DataUtil.getUniqueIdentifier() + domain;
@@ -139,7 +140,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2202")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyCustomizeSiteDashboardPage()
     {
         String userName = "user2202-" + DataUtil.getUniqueIdentifier() + domain;
@@ -187,7 +188,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2203")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void moveOrReorderDashlets()
     {
         String userName = "user2203-" + DataUtil.getUniqueIdentifier() + domain;
@@ -215,7 +216,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2207")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultLayoutAndDashlets()
     {
         String userName = "user2207-" + DataUtil.getUniqueIdentifier() + domain;
@@ -237,7 +238,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2208")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void resizeDashlet()
     {
         String userName = "user2208-" + DataUtil.getUniqueIdentifier() + domain;

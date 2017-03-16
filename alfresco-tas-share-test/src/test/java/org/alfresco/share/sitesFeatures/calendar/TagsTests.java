@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.calendar.AddEventDialog;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -58,7 +59,7 @@ public class TagsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3092")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addTagForEvent()
     {
         String eventName = "event-C3092-" + random;
@@ -91,7 +92,7 @@ public class TagsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3094")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void tagsSectionFromCalendarPage()
     {
         LOG.info("STEP 1: Verify 'Tags' section.");

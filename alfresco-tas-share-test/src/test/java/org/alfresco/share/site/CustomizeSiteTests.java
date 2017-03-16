@@ -12,6 +12,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -31,7 +32,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     SiteContentDashlet siteContentDashlet;
 
     @TestRail(id = "C2135")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeSiteTheme()
     {
         String userName = "user2135-" + DataUtil.getUniqueIdentifier() + domain;
@@ -65,7 +66,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2148")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelChangeSiteTheme()
     {
         String userName = "userC2148-" + DataUtil.getUniqueIdentifier() + domain;
@@ -87,7 +88,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2156")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultCurrentAndAvailablePages()
     {
         String userName = "user2156-" + DataUtil.getUniqueIdentifier() + domain;
@@ -125,7 +126,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2164")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addAvailablePagesToSite()
     {
         String userName = "userC2164-" + DataUtil.getUniqueIdentifier() + domain;
@@ -166,7 +167,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2171")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removePageFromSite()
     {
         String userName = "userC2171-" + DataUtil.getUniqueIdentifier() + domain;
@@ -204,7 +205,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2173")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void renamePage()
     {
         String userName = "userC2173-" + DataUtil.getUniqueIdentifier() + domain;

@@ -12,6 +12,7 @@ import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.BlogPromptWindow;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -55,7 +56,7 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6061")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void editBlogPostComment()
     {
@@ -81,7 +82,7 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
     }
     
     @TestRail(id= "C6062")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     
     public void editDraftBlogPostComment()
     {

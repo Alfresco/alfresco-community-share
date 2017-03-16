@@ -11,6 +11,7 @@ import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -59,7 +60,7 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C5493")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessWikiMainPageTest() {
 
         LOG.info("Starting test C5493");
@@ -91,7 +92,7 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C5494")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accesWikiPageListTest() {
 
         List<String> siteTitles = new ArrayList<>();

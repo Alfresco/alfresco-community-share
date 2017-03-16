@@ -12,6 +12,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.DeleteListPopUp;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeMethod;
@@ -56,7 +57,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5911")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deletingExistingListWithSiteManagerUser()
     {       
         logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the 'Delete' button.");
@@ -72,7 +73,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5912")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deletingOwnExistingList()
     {       
         logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the 'Delete' button.");
@@ -88,7 +89,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5915")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelDeletingDataList()
     {   
         logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel.");

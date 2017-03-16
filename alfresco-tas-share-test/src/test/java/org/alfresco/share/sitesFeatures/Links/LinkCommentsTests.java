@@ -10,6 +10,7 @@ import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -52,7 +53,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6230")
     public void addingACommentToALink()
     {
@@ -78,7 +79,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
 
     }
 
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6231")
     public void cancelAddingACommentToALink()
     {
@@ -102,7 +103,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
         Assert.assertTrue(linkDetailsViewPage.getNoCommentsMessage().equals("No comments"), "'No comments' message should be displayed!");
     }
 
-    @Test(enabled = false)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES }, enabled = false)
     @TestRail(id = "C6232")
     // This test doesn't work with with selenium version 2.46.0. It should be enabled on 2.53.0 version.
     public void editLinkComment()
@@ -131,7 +132,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
         Assert.assertTrue(linkDetailsViewPage.getCommentCreationTime(comment).equals("just now"), "Wrong comment creation time!");
     }
 
-    @Test(enabled = false)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES }, enabled = false)
     @TestRail(id = "C6233")
     // This test doesn't work with with selenium version 2.46.0. It should be enabled on 2.53.0 version.
     public void cancelEditingLinkComment()
@@ -158,7 +159,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
         Assert.assertTrue(linkDetailsViewPage.getCommentsList().contains(comment), "Comment is not displayed!");
     }
 
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6234")
     public void deleteLinkComment()
     {
@@ -184,7 +185,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
         Assert.assertTrue(linkDetailsViewPage.getCommentsList().isEmpty(), "No Comment should be displayed!");
     }
 
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     @TestRail(id = "C6235")
     public void cancelDeletingLinkComment()
     {

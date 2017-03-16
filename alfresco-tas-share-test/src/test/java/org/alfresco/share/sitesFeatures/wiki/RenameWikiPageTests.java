@@ -12,6 +12,7 @@ import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -55,7 +56,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5500")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void renameWikiMainPage()
     {
         LOG.info("Preconditions: create site and update wiki main page content");
@@ -93,7 +94,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5501")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelRenameWikiMainPage()
     {
         LOG.info("Preconditions: create site and update wiki main page content");
@@ -114,7 +115,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5502")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void renameWikiPage()
     {
         LOG.info("Preconditions: create site and two wiki pages");
@@ -154,7 +155,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5503")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelRenameWikiPage()
     {
         LOG.info("Preconditions: create site and a wiki page");

@@ -6,6 +6,7 @@ import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.EventInformationDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -59,7 +60,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3167")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void viewEventMonthView()
     {
         calendarPage.navigate(siteName);
@@ -76,7 +77,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5407")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void viewEventDayView()
     {
         calendarPage.navigate(siteName);
@@ -96,7 +97,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "5408")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void viewEventWeekView()
     {
         calendarPage.navigate(siteName);
@@ -116,7 +117,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5409")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void viewEventByClickingOnTheEventAgendaView()
     {
         calendarPage.navigate(siteName);
@@ -136,7 +137,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6109")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void viewEventByClickingViewIconAgendaView()
     {
         calendarPage.navigate(siteName);
@@ -156,7 +157,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5402")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void closeEventInformationPopup()
     {
         calendarPage.navigate(siteName);

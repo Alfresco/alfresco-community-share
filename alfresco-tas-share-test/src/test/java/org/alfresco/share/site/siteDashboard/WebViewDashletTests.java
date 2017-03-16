@@ -10,6 +10,7 @@ import org.alfresco.po.share.dashlet.WebViewDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -31,7 +32,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
     private String url;
 
     @TestRail(id = "C5449")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void checkWebViewDashlet()
 
     {
@@ -87,7 +88,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5450")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void configureWebViewDashlet()
     {
@@ -127,7 +128,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5453")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void configureWebViewDashletCancel()
     {
@@ -168,7 +169,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5459")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     
     public void configureWebViewDashletDisplayHTTPSPages()
     {

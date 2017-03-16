@@ -5,6 +5,7 @@ import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -58,7 +59,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5548")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browseWikiByTagTest()
     {
         LOG.info("Starting test C5548");
@@ -102,7 +103,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5549")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browseWikiPagesAllPagesTest()
     {
 
@@ -149,7 +150,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5550")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void browseWikiPagesMyPagesTest()
     {
         cleanupAuthenticatedSession();
@@ -189,7 +190,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5554")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyPageSummaryFromWikiListTest()
     {
         LOG.info("Starting C5554");

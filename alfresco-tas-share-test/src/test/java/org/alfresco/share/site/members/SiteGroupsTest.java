@@ -8,6 +8,7 @@ import org.alfresco.dataprep.GroupService;
 import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -49,7 +50,7 @@ public class SiteGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2819")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void listAllSiteGroups(){
         LOG.info("Navigate to 'Site Groups' page of site '" + siteName + "'.");
         siteGroupsPage.navigate(siteName);
@@ -89,7 +90,7 @@ public class SiteGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2820")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void searchForGroupsUsingPartialName(){
         LOG.info("Navigate to 'Site Groups' page of site '" + siteName + "'.");
         siteGroupsPage.navigate(siteName);
@@ -115,7 +116,7 @@ public class SiteGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2821")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void searchForGroupsUsingFullName(){
         LOG.info("Navigate to 'Site Groups' page of site '" + siteName + "'.");
         siteGroupsPage.navigate(siteName);

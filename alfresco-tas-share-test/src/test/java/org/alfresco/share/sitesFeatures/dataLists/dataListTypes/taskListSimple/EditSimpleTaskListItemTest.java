@@ -9,6 +9,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -71,7 +72,7 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6588")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyEditDataItem()
     {
         LOG.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");

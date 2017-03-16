@@ -12,6 +12,7 @@ import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -72,7 +73,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8351")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewReviewAndApproveSingleReviewer()
     {
         LOG.info("Precondition");
@@ -116,7 +117,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8349")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewReviewAndApproveOneOrMoreReviewers()
     {
         LOG.info("Precondition");
@@ -171,7 +172,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8348")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewReviewAndApproveGroupReview()
     {
         LOG.info("Precondition");
@@ -213,7 +214,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8350")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewReviewAndApprovePooledReview()
     {
         LOG.info("Precondition");

@@ -10,6 +10,7 @@ import org.alfresco.po.share.user.profile.EditUserProfilePage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -29,7 +30,7 @@ public class MyProfileTests extends ContextAwareWebTest
     EditUserProfilePage editUserProfilePage;
 
     @TestRail(id = "C2141")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void myLimitedProfileDashlet()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();

@@ -13,6 +13,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -93,7 +94,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8665")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void applySFTemplateToExistingFolder()
     {
 
@@ -145,7 +146,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8666")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void applySFTemplateToCreatedFolder()
     {
         logger.info("Preconditions: Navigate to Document Library for the page for the test site");
@@ -222,7 +223,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8668")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void applyCustomSmartFolder()
     {
         String customSmartFolderTemplate = "employeeSmartSimpleTemplate.json";

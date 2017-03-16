@@ -20,6 +20,7 @@ import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -126,7 +127,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2111")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void noActivitiesCreated()
     {
         // preconditions
@@ -164,7 +165,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2112")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void someActivitiesCreated()
     {
         // preconditions
@@ -265,7 +266,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
 
 
     @TestRail(id = "C2113")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void someActivitiesUpdated()
     {
         // preconditions
@@ -355,7 +356,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
 
 
     @TestRail(id = "C2114")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void someActivitiesDeleted()
     {
         // preconditions
@@ -446,7 +447,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2117")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void checkUsersFilter()
     {
         String uniqueIdentifier = "-C2117" + DataUtil.getUniqueIdentifier();

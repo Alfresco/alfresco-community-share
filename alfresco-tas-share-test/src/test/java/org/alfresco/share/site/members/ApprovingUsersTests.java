@@ -13,6 +13,7 @@ import org.alfresco.po.share.tasksAndWorkflows.ViewTaskPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -75,7 +76,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2461")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void approvingUsersUsingMyTasksPage()
     {
         logger.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
@@ -123,7 +124,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2462")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void approvingUsersUsingMyTasksDashlet()
     {
         logger.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
@@ -168,7 +169,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2463")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void rejectingUsersUsingMyTasksPage()
     {
         logger.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
@@ -220,7 +221,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2464")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void rejectingUsersUsingMyTasksDashlet()
     {
         logger.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
@@ -273,7 +274,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2549")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlySiteManagersApproveRejectRequestToJoinSite()
     {
 

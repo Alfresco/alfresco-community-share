@@ -6,6 +6,7 @@ import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.po.share.tasksAndWorkflows.*;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -38,7 +39,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
     private String workflowName = "taskName" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id = "C8463")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void editWorkflow()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -82,7 +83,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8464")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void editTask()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -114,7 +115,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8465")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void verifyEditTaskForm()
     {
         LOG.info("Precondition: Create user and a workflow.");

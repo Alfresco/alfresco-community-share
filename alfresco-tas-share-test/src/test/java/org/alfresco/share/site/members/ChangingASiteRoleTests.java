@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Role;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -43,7 +44,7 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
     SiteUsersPage siteUsersPage;
 
     @TestRail(id = "C2835")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlySiteManagerIsAbleToChangeRoles()
     {
         userManager = "Manager-C2835-" + DataUtil.getUniqueIdentifier();
@@ -89,7 +90,7 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2836")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeRoleForAGroup()
     {
         userManager = "Manager-C2836-" + DataUtil.getUniqueIdentifier();
@@ -130,7 +131,7 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2837")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeRoleForAnUser()
     {
         userManager = "Manager-C2837-" + DataUtil.getUniqueIdentifier();

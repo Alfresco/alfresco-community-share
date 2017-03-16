@@ -13,6 +13,7 @@ import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -63,7 +64,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5542")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editWikiPageFromPageView()
     {
         wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
@@ -95,7 +96,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5543")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void editWikiPageFromWikiPageList()
     {
         wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
@@ -125,7 +126,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5544")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelEditingWikiPage()
     {
         wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
@@ -146,7 +147,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5545")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyInsertLibraryImageFeature()
     {
         wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
@@ -186,7 +187,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5546")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyInsertDocumentLibraryFeature()
     {
         wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();

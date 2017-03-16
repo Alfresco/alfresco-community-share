@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.discussion.TopicListPage;
 import org.alfresco.po.share.site.discussion.TopicViewPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -63,7 +64,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6244")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteTopicFromDiscussionsTopicListPage()
     {
         //precondition
@@ -81,7 +82,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6246")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteTopicFromTopicViewPage()
     {
         //precondition
@@ -101,7 +102,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6245")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelDeletingTopic()
     {
         //precondition

@@ -3,6 +3,7 @@ package org.alfresco.share;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -45,7 +46,7 @@ public class LoginTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2080")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
     public void loginValidCredentials()
     {
         LOG.info("STEP1: Navigate to Login page");
@@ -61,7 +62,7 @@ public class LoginTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2081")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
     public void loginInvalidCredentials()
     {
         LOG.info("STEP1: Navigate to Login page");
@@ -76,7 +77,7 @@ public class LoginTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2082")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
     public void loginInvalidPassword()
     {
         LOG.info("STEP1: Navigate to Login page");
@@ -91,7 +92,7 @@ public class LoginTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2083")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
     public void invalidUserRedirectedToLoginPage()
     {
         LOG.info("STEP1: In any browser, enter the URL for any page from Share in the address bar");
@@ -111,7 +112,7 @@ public class LoginTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2084")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
     public void loginAutoComplete()
     {
         loginPage.navigate();
@@ -136,7 +137,7 @@ public class LoginTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2085")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
     public void loginUserWithSpecialChar()
     {
         for (String specialUser : specialUsers)
@@ -155,7 +156,7 @@ public class LoginTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2086")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
     public void loginUserWithSpecialPassword()
     {
         LOG.info("STEP1: Navigate to Share Login page.");
