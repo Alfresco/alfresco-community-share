@@ -2,11 +2,10 @@ package org.alfresco.share.sitesFeatures.blog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
-import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.BlogPromptWindow;
@@ -23,12 +22,6 @@ import org.testng.annotations.Test;
 public class BlogPostAddCommentTests extends ContextAwareWebTest
 {
     @Autowired
-    CustomizeSitePage customizeSite;
-    
-    @Autowired
-    SitePagesService sitePagesService;
-
-    @Autowired
     BlogPostListPage blogPage;
 
     @Autowired
@@ -41,7 +34,7 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
     private String siteName = "C6011SiteName" + DataUtil.getUniqueIdentifier();
     private String description = "C6011SiteDescription" + DataUtil.getUniqueIdentifier();
     private String blogPostContentText = "C6011 post content text";
-    private List<String> tags = Arrays.asList("tagc6011");
+    private List<String> tags = Collections.singletonList("tagc6011");
     private String blogPostTitleC6011 = "C6011 blog post title";
     private String comment = "C6011 comment text";
     private String commentUser = user+" "+user;

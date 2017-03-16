@@ -46,7 +46,7 @@ public class NavigationPanelTests extends ContextAwareWebTest
     @BeforeClass
     public void setupTest()
     {
-        content.createFolderInRepository(adminUser, adminPassword, folderName, path);
+        contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
         contentAction.addSingleTag(adminUser, adminPassword, path + folderName, tag);
 
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -80,6 +80,6 @@ public class NavigationPanelTests extends ContextAwareWebTest
     @AfterClass
     public void cleanUp()
     {
-        content.deleteContentByPath(adminUser, adminPassword, path + folderName);
+        contentService.deleteContentByPath(adminUser, adminPassword, path + folderName);
     }
 }

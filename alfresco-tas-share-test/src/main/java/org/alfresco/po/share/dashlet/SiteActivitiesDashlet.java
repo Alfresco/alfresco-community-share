@@ -29,8 +29,7 @@ public class SiteActivitiesDashlet extends MyActivitiesDashlet
 
     public void setDateToCompare(String dateString)
     {
-        LocalDate date = LocalDate.parse(dateString);
-        this.dateToCompare = date;
+        this.dateToCompare = LocalDate.parse(dateString);
     }
 
     /**
@@ -66,9 +65,7 @@ public class SiteActivitiesDashlet extends MyActivitiesDashlet
                         && YEARS.between(activityDate, dateToCompare) == 0)
                     counter++;
         }
-        if (counter == relativeTime.size())
-            return true;
-        return false;
+        return counter == relativeTime.size();
     }
     @Override
     public Boolean isActivityPresentInActivitiesDashlet(String entry)

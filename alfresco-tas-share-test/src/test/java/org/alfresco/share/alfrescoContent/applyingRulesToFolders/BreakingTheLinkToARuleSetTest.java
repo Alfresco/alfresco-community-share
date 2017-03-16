@@ -52,8 +52,8 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
         String firstName = "First Name";
         userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createFolder(userName, password, folderName, siteName);
-        content.createFolder(userName, password, folderName2, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
+        contentService.createFolder(userName, password, folderName2, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

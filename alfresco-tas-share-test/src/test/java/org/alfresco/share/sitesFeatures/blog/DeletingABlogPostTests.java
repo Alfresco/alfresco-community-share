@@ -2,16 +2,15 @@ package org.alfresco.share.sitesFeatures.blog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.BlogPromptWindow;
 import org.alfresco.po.share.site.blog.CreateBlogPostPage;
-import org.alfresco.po.share.site.blog.EditBlogPostPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -25,9 +24,6 @@ import org.testng.annotations.Test;
 public class DeletingABlogPostTests extends ContextAwareWebTest
 {
     @Autowired
-    SitePagesService sitePagesService;
-
-    @Autowired
     BlogPostListPage blogPage;
 
     @Autowired
@@ -37,16 +33,13 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
     BlogPostViewPage blogPostView;
 
     @Autowired
-    EditBlogPostPage editBlogPost;
-
-    @Autowired
     BlogPromptWindow promptWindows;
 
     private String user = "C5955User" + DataUtil.getUniqueIdentifier();
     private String siteName = "C5955SiteName" + DataUtil.getUniqueIdentifier();
     private String description = "C5955SiteDescription" + DataUtil.getUniqueIdentifier();
     private String blogPostContentText = "first post content text";
-    private List<String> tags = Arrays.asList("tag1");
+    private List<String> tags = Collections.singletonList("tag1");
     private String blogPostTitleC5955 = "C5955 blog post title";
 
     @BeforeClass
@@ -86,7 +79,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         LOG.info("Test setup");
         String blogPostContentTextC5957 = "C5957 post content text";
         String blogPostTitleC5957 = "C5957 blog post title";
-        List<String> tags = Arrays.asList("c5957tag");
+        List<String> tags = Collections.singletonList("c5957tag");
         sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC5957, blogPostContentTextC5957, true, tags);
         blogPage.navigate(siteName);
         blogPage.clickMyDraftsFilter();

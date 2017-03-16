@@ -1,8 +1,6 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.ContentActions;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -23,10 +21,6 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
     @Autowired private DocumentsFilters filters;
-    
-    @Autowired private ContentService contentService;
-    
-    @Autowired private ContentActions contentActions;
 
     private final String user = "C6320User" + DataUtil.getUniqueIdentifier();
     private final String user1 = "C6322User"+DataUtil.getUniqueIdentifier();
@@ -140,7 +134,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         assertEquals(filters.getNoContentText(), "No content items");
         
         LOG.info("Step 2: Check out file1.txt for offline editing.");
-        contentActions.checkOut(user, password, siteName, docName+".txt");
+        contentAction.checkOut(user, password, siteName, docName+".txt");
        
         LOG.info("Step 3: Logout and login to Share as user1 and check others are editing filter");
         userService.logout();

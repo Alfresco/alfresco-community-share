@@ -1,7 +1,6 @@
 package org.alfresco.share.adminTools.users;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
@@ -13,14 +12,10 @@ import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import javax.xml.crypto.Data;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;

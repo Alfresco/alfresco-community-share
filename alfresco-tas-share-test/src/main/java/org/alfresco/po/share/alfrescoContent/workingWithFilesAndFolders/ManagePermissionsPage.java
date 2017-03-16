@@ -75,7 +75,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public enum ButtonType
     {
-        Yes, No;
+        Yes, No
     }
 
     @Override
@@ -278,10 +278,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
         boolean headerText = header.getText().equals("Turn off Permission Inheritance?");
         boolean bodyText = body.getText().equals("Are you sure you do not want to inherit permissions?" + '\n' + '\n'
                                                     + "Only local permissions will apply to this document/folder.");
-        if (headerText && footer.isDisplayed() && bodyText)
-            return true;
-        else
-            return false;
+        return headerText && footer.isDisplayed() && bodyText;
     }
 
     /**
@@ -313,8 +310,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     public String getRole(String userName)
     {
         WebElement userRow = browser.waitUntilElementVisible(By.xpath(String.format(userRowLocator, userName)));
-        String role = userRow.findElement(By.xpath("//td[contains(@class, 'role')]//button|//td[contains(@class, 'role')]//span")).getText();
-        return role;
+        return userRow.findElement(By.xpath("//td[contains(@class, 'role')]//button|//td[contains(@class, 'role')]//span")).getText();
     }
 
     /**

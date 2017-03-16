@@ -2,7 +2,6 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -29,8 +28,6 @@ public class RepositoryTests extends ContextAwareWebTest
 
     @Autowired
     GoogleDocsCommon googleDocs;
-    
-    @Autowired private ContentService contentService;
     
     @Autowired private RepositoryPage repositoryPage;
 

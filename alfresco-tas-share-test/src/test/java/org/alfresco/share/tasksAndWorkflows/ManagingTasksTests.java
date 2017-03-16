@@ -57,7 +57,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName2", "lastName2");
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
-        content.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         docs.add(docName);
         workflow.startNewTask(testUser, password, taskName, new Date(), testUser, Priority.High, siteName, docs, false);
     }

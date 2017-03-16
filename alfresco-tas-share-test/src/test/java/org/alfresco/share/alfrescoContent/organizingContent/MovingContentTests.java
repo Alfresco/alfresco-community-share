@@ -48,8 +48,8 @@ public class MovingContentTests extends ContextAwareWebTest
         String docName = "Doc-C7345-" + DataUtil.getUniqueIdentifier();
         String folderName = "Folder-C7345-" + DataUtil.getUniqueIdentifier();
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -88,9 +88,9 @@ public class MovingContentTests extends ContextAwareWebTest
         String folderName1 = "folderName1-" + DataUtil.getUniqueIdentifier();
         String folderName2 = "folderName2-" + DataUtil.getUniqueIdentifier();
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
-        content.createFolder(userName, password, folderName1, siteName);
-        content.createFolder(userName, password, folderName2, siteName);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createFolder(userName, password, folderName1, siteName);
+        contentService.createFolder(userName, password, folderName2, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

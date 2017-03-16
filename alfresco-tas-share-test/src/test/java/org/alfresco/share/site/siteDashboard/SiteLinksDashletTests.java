@@ -19,6 +19,7 @@ import org.testng.annotations.Test;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 
 import static org.testng.Assert.*;
@@ -122,7 +123,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
         siteName = "SiteName-C5804-" + DataUtil.getUniqueIdentifier();
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_LINKS, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
-        sitePagesService.createLink(user, password, siteName, linkTitle, "www.google.com", "Search engine", false, Arrays.asList("tag1"));
+        sitePagesService.createLink(user, password, siteName, linkTitle, "www.google.com", "Search engine", false, Collections.singletonList("tag1"));
         siteDashboard.navigate(siteName);
 
         LOG.info("STEP 1: Check the 'Site Links' dashlet.");

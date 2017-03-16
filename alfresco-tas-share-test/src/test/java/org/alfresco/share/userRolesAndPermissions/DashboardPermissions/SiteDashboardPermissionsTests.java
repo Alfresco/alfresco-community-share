@@ -1,8 +1,6 @@
 package org.alfresco.share.userRolesAndPermissions.DashboardPermissions;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -20,12 +18,6 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
 {
     @Autowired
     SiteDashboardPage siteDashboardPage;
-
-    @Autowired
-    SiteService siteService;
-
-    @Autowired
-    UserService userService;
 
     private String userConsumer = "C8723ConsumerUser" + DataUtil.getUniqueIdentifier();
     private String userContributor = "C8724ContributorUser"+DataUtil.getUniqueIdentifier();

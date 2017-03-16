@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -69,7 +70,7 @@ public class EditMeetingAgendaItemTest extends ContextAwareWebTest
         contentService.uploadFileInSite(userName, password, siteName, path + itemFile);
         contentService.uploadFileInSite(userName, password, siteName, path + fileToAttach);
         dataLists.addMeetingItem(userName, password, siteName, meetingAgendaList, itemReference, itemTitle, itemDescription, null, userName,
-                Arrays.asList(itemFile));
+                Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);

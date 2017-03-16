@@ -2,10 +2,10 @@ package org.alfresco.share.sitesFeatures.blog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
@@ -22,11 +22,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class EditingABlogPostTests extends ContextAwareWebTest
-
 {
-    @Autowired
-    SitePagesService sitePagesService;
-
     @Autowired
     BlogPostListPage blogPage;
 
@@ -43,7 +39,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     private String siteName = "C5560SiteName" + DataUtil.getUniqueIdentifier();
     private String description = "C5560SiteDescription" + DataUtil.getUniqueIdentifier();
     private String blogPostContentText = "first post content text";
-    private List<String> tags = Arrays.asList("tag1");
+    private List<String> tags = Collections.singletonList("tag1");
     private String blogPostTitleC5560 = "C5560 blog post title";
     private String expectedPageTitle = "Edit Blog Post";
     private String newTitleC5560 = "Test";
@@ -134,7 +130,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         LOG.info("Test setup");
         String blogTitle = "C6107Title";
         String blogContent = "C6107Content";
-        List<String> tags = Arrays.asList("c6107tag");
+        List<String> tags = Collections.singletonList("c6107tag");
         String newTitle = "C6107 edited title";
         String newContent = "C6107 edited content";
         String newTag = "c6107editedtag";
@@ -210,7 +206,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         LOG.info("Test setup");
         String blogTitle = " C6110 Title";
         String blogContent = "C6110 Content";
-        List<String> tags = Arrays.asList("c6110tag");
+        List<String> tags = Collections.singletonList("c6110tag");
         String newTitle = "C6110 edited title";
         String newContent = "C6110 edited content";
         String newTag = "c6110editedtag";

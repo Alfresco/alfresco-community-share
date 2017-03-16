@@ -1,8 +1,6 @@
 package org.alfresco.share.alfrescoContent.socialFeatures;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.SitePagesService;
-import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -19,12 +17,6 @@ import java.io.File;
 
 public class ManagingCommentsTests extends ContextAwareWebTest
 {
-    
-    @Autowired
-    SitePagesService sitePagesService;
-
-    @Autowired private UserService userService;
-
     @Autowired private DocumentDetailsPage documentPreviewPage;
 
     @Autowired private DocumentLibraryPage documentLibraryPage;

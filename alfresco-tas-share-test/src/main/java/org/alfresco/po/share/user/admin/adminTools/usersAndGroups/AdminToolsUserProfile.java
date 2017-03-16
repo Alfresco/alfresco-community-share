@@ -24,9 +24,8 @@ public class AdminToolsUserProfile extends SharePage<AdminToolsUserProfile>
     public String getRelativePath()
     {
         String usrName = getUserName();
-        String url = "share/page/console/admin-console/users#state=panel%3Dview%26userid%3D" + usrName + "%26search%3D";
 
-        return url;
+        return "share/page/console/admin-console/users#state=panel%3Dview%26userid%3D" + usrName + "%26search%3D";
     }
 
     public AdminToolsUserProfile navigate(String userName)

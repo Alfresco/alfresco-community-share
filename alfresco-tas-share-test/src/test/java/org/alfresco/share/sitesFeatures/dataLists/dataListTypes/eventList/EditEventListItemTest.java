@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.testng.Assert.assertTrue;
@@ -68,7 +69,7 @@ public class EditEventListItemTest extends ContextAwareWebTest
         String path = srcRoot + "testdata" + File.separator;
         contentService.uploadFileInSite(userName, password, siteName, path + itemFile);
         contentService.uploadFileInSite(userName, password, siteName, path + attachedFile);
-        dataLists.addEventListItem(adminUser, adminPassword, siteName, listName, itemTitle, "", "", null, null, "", "", Arrays.asList(itemFile));
+        dataLists.addEventListItem(adminUser, adminPassword, siteName, listName, itemTitle, "", "", null, null, "", "", Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);

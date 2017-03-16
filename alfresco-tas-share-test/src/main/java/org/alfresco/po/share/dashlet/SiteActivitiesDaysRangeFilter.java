@@ -19,7 +19,7 @@ public enum SiteActivitiesDaysRangeFilter
      * 
      * @param description - The Filter Description on HTML Page.
      */
-    private SiteActivitiesDaysRangeFilter(String description)
+    SiteActivitiesDaysRangeFilter(String description)
     {
         this.description = description;
     }

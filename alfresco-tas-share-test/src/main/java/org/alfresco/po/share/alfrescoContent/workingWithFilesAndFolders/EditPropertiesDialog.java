@@ -148,9 +148,7 @@ public class EditPropertiesDialog extends ShareDialog
             return false;
         if (!saveButton.isDisplayed())
             return false;
-        if (!cancelButton.isDisplayed())
-            return false;
-        return true;
+        return cancelButton.isDisplayed();
     }
 
     public void typeHost(String host)

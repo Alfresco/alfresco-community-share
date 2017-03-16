@@ -20,7 +20,7 @@ public enum SiteUserActivitiesFilter
      * 
      * @param description The filter Description from UI
      */
-    private SiteUserActivitiesFilter(String description)
+    SiteUserActivitiesFilter(String description)
     {
         this.description = description;
     }

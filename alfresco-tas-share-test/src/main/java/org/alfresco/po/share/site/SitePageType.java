@@ -21,7 +21,7 @@ public enum SitePageType
     private String dashboardLocation;
     private String text;
 
-    private SitePageType(String customizeLocator, String dashboardLocation, String text)
+    SitePageType(String customizeLocator, String dashboardLocation, String text)
     {
         this.customizeLocator = customizeLocator;
         this.dashboardLocation = dashboardLocation;

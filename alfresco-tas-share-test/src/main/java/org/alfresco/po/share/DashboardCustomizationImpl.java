@@ -326,15 +326,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
      */
     public boolean isDashletAddedInColumn(Dashlets dashlet, int columnNumber)
     {
-        WebElement dash = getDashletAddedInColumn(dashlet, columnNumber);
-        if(dash != null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return getDashletAddedInColumn(dashlet, columnNumber) != null;
     }
     
     /**

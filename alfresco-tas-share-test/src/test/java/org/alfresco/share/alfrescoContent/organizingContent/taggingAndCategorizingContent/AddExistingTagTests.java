@@ -47,8 +47,8 @@ public class AddExistingTagTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
+        contentService.createFolder(userName, password, folderName, siteName);
         contentAction.addSingleTag(userName, password, siteName, fileName, tagName1);
         contentAction.addSingleTag(userName, password, siteName, folderName, tagName2);
 

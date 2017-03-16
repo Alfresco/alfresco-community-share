@@ -2,6 +2,7 @@ package org.alfresco.share.sitesFeatures.Links;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.alfresco.common.DataUtil;
@@ -81,7 +82,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
 
         LOG.info("Step 3:  - Click l3(1).");
         linkPage.clickSpecificTag("l3");
-        linksList = Arrays.asList("Link3");
+        linksList = Collections.singletonList("Link3");
         Assert.assertTrue(CollectionUtils.isEqualCollection(linkPage.getLinksTitlesList(), linksList), "Only 'Link3' should be displayed!");
     }
 

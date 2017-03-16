@@ -1,15 +1,12 @@
 package org.alfresco.share;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 import org.alfresco.utility.web.AbstractWebTest;
-import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
-import org.alfresco.utility.LogFactory;
 import org.alfresco.dataprep.ContentActions;
 import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.DataListsService;
@@ -17,17 +14,10 @@ import org.alfresco.dataprep.GroupService;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.dataprep.UserService;
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 
 /**
  * 
@@ -51,8 +41,6 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     protected DataListsService datalistService;
     @Autowired
     protected SitePagesService sitePagesService;
-    @Autowired 
-    protected ContentService content;
     @Autowired 
     protected ContentActions contentAction;
     @Autowired

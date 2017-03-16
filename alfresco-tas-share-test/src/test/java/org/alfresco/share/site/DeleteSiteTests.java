@@ -68,7 +68,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
         siteService.create(user, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(user, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "fileC2280");
+        contentService.createDocument(user, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "fileC2280");
         setupAuthenticatedSession(user, DataUtil.PASSWORD);
         getBrowser().refresh();
 
@@ -263,7 +263,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
         siteService.create(user, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(user, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "fileC2286");
+        contentService.createDocument(user, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "fileC2286");
         setupAuthenticatedSession(user, DataUtil.PASSWORD);
         getBrowser().refresh();
 

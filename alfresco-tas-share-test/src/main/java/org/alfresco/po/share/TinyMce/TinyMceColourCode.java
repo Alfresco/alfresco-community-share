@@ -12,7 +12,7 @@ public enum TinyMceColourCode {
     private String foreColourLocator;
     private String bgColourLocator;
 
-    private TinyMceColourCode(String foreColourLocator, String bgColourLocator) {
+    TinyMceColourCode(String foreColourLocator, String bgColourLocator) {
         this.foreColourLocator = foreColourLocator;
         this.bgColourLocator = bgColourLocator;
     }

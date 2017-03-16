@@ -2,7 +2,6 @@ package org.alfresco.share.userRolesAndPermissions.consumer;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
@@ -35,9 +34,6 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
     @Autowired
     SharedFilesPage sharedFilesPage;
-
-    @Autowired
-    ContentService contentService;
 
     @Autowired
     DocumentDetailsPage documentDetailsPage;

@@ -2,7 +2,6 @@ package org.alfresco.share.sitesFeatures.calendar;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
-import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.CalendarUtility;
 import org.alfresco.po.share.site.calendar.MiniCalendar;
@@ -24,9 +23,6 @@ import java.util.*;
 
 public class BrowsingTheCalendarTests extends ContextAwareWebTest
 {
-    @Autowired
-    SitePagesService sitePagesService;
-
     @Autowired
     CalendarPage calendarPage;
 

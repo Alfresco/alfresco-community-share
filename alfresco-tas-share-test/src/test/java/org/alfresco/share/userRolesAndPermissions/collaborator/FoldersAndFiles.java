@@ -265,7 +265,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
 
 
     LOG.info("Preconditions.");
-    content.createFolder(user, password, folderName, siteName);
+    contentService.createFolder(user, password, folderName, siteName);
     documentLibraryPage.navigate(siteName);
 
     LOG.info("Step 1: Hover over the created folder and click 'Edit Properties' action.");
@@ -319,7 +319,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String editedDescription = "editedDescription" + DataUtil.getUniqueIdentifier();
 
     LOG.info("Preconditions.");
-    content.createFolder(adminUser, adminPassword, folderName2, siteName);
+    contentService.createFolder(adminUser, adminPassword, folderName2, siteName);
     documentLibraryPage.navigate(siteName);
 
     LOG.info("Step 1: Hover over the created folder and click 'Edit Properties' action.");
@@ -437,8 +437,8 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String testFolder4 = "Folder4" + DataUtil.getUniqueIdentifier();
 
     LOG.info("Preconditions.");
-    content.createFolder(user, password, testFolder3, siteName4);
-    content.createFolder(user, password, testFolder4, siteName4);
+    contentService.createFolder(user, password, testFolder3, siteName4);
+    contentService.createFolder(user, password, testFolder4, siteName4);
     documentLibraryPage.navigate(siteName4);
 
     LOG.info("Step 1: Hover over 'testFolder3', Click 'More...' link, Click 'Move to...''.");
@@ -482,7 +482,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String testFolder5 = "Folder5" + DataUtil.getUniqueIdentifier();
 
     LOG.info("Preconditions.");
-    content.createFolder(adminUser, adminPassword, testFolder5, siteName5);
+    contentService.createFolder(adminUser, adminPassword, testFolder5, siteName5);
     documentLibraryPage.navigate(siteName5);
 
     LOG.info("Step 1: Hover over 'testFolder1'.");
@@ -502,7 +502,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String testFolder6 = "Folder6" + DataUtil.getUniqueIdentifier();
 
     LOG.info("Preconditions.");
-    content.createFolder(user, password, testFolder6, siteName1);
+    contentService.createFolder(user, password, testFolder6, siteName1);
     documentLibraryPage.navigate(siteName1);
 
     LOG.info("Step 1: Hover over the created folder and click 'Copy to...'.");
@@ -542,7 +542,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String testFolder7 = "Folder7" + DataUtil.getUniqueIdentifier();
 
     LOG.info("Preconditions.");
-    content.createFolder(user, password, testFolder7, siteName);
+    contentService.createFolder(user, password, testFolder7, siteName);
     documentLibraryPage.navigate(siteName);
 
     LOG.info(
@@ -569,7 +569,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String testFolder8 = "Folder8" + DataUtil.getUniqueIdentifier();
 
     LOG.info("Preconditions.");
-    content.createFolder(adminUser, adminPassword, testFolder8, siteName2);
+    contentService.createFolder(adminUser, adminPassword, testFolder8, siteName2);
     documentLibraryPage.navigate(siteName2);
 
     LOG.info("Step 1: Hover 'DelFolder' name from the content item list.");
@@ -589,7 +589,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String testFolder9 = "Folder9" + DataUtil.getUniqueIdentifier();
 
     LOG.info("Preconditions.");
-    content.createFolder(user, password, testFolder9, siteName3);
+    contentService.createFolder(user, password, testFolder9, siteName3);
     documentLibraryPage.navigate(siteName3);
 
     LOG.info(
@@ -628,7 +628,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String testFolder10 = "Folder10" + DataUtil.getUniqueIdentifier();
 
     LOG.info("Preconditions.");
-    content.createFolder(adminUser, adminPassword, testFolder10, siteName);
+    contentService.createFolder(adminUser, adminPassword, testFolder10, siteName);
     documentLibraryPage.navigate(siteName);
 
     LOG.info(
@@ -646,7 +646,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String testFolder11 = "Folder11" + DataUtil.getUniqueIdentifier();
 
     LOG.info("Preconditions.");
-    content.createFolder(user, password, testFolder11, siteName3);
+    contentService.createFolder(user, password, testFolder11, siteName3);
     documentLibraryPage.navigate(siteName3);
 
     LOG.info(
@@ -675,7 +675,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String testFolder12 = "Folder12" + DataUtil.getUniqueIdentifier();
 
     LOG.info("Preconditions.");
-    content.createFolder(adminUser, adminPassword, testFolder12, siteName3);
+    contentService.createFolder(adminUser, adminPassword, testFolder12, siteName3);
     documentLibraryPage.navigate(siteName3);
 
     LOG.info(
@@ -705,7 +705,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String comment = "Test comment for C8834";
 
     LOG.info("Preconditions.");
-    content.createFolder(user, password, testFolder13, siteName);
+    contentService.createFolder(user, password, testFolder13, siteName);
     documentLibraryPage.navigate(siteName);
 
     LOG.info("Step 1: Hover over a document and press \"Comment\"");
@@ -734,7 +734,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String editedComment = "Test comment edited for C8835";
 
     LOG.info("Preconditions.");
-    content.createFolder(user, password, testFolder14, siteName2);
+    contentService.createFolder(user, password, testFolder14, siteName2);
     documentLibraryPage.navigate(siteName2);
     social.clickCommentLink(testFolder14);
     documentDetailsPage.addComment(comment);
@@ -773,7 +773,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String editedComment1 = "Test comment edited for C8836";
 
     LOG.info("Preconditions.");
-    content.createFolder(adminUser, adminPassword, testFolder15, siteName2);
+    contentService.createFolder(adminUser, adminPassword, testFolder15, siteName2);
     documentLibraryPage.navigate(siteName2);
     social.clickCommentLink(testFolder15);
     documentDetailsPage.addComment(comment1);
@@ -810,7 +810,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String comment2 = "Test comment for C8837";
 
     LOG.info("Preconditions.");
-    content.createFolder(user, password, testFolder16, siteName1);
+    contentService.createFolder(user, password, testFolder16, siteName1);
     documentLibraryPage.navigate(siteName1);
     social.clickCommentLink(testFolder16);
     documentDetailsPage.addComment(comment2);
@@ -841,7 +841,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     String comment3 = "Test comment for C8838";
 
     LOG.info("Preconditions.");
-    content.createFolder(adminUser, adminPassword, testFolder17, siteName1);
+    contentService.createFolder(adminUser, adminPassword, testFolder17, siteName1);
     documentLibraryPage.navigate(siteName1);
     social.clickCommentLink(testFolder17);
     documentDetailsPage.addComment(comment3);

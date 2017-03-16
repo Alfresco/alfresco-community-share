@@ -52,7 +52,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     public void cancelChangeType()
     {
         String docName = "Doc-C7163-" + DataUtil.getUniqueIdentifier();
-        content.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -83,7 +83,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     public void changeTypeFolder()
     {
         String folderName = "Folder-C7166-" + DataUtil.getUniqueIdentifier();
-        content.createFolder(userName, DataUtil.PASSWORD, folderName, siteName);
+        contentService.createFolder(userName, DataUtil.PASSWORD, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -140,7 +140,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     public void changeTypeFile()
     {
         String docName = "Doc-C7167-" + DataUtil.getUniqueIdentifier();
-        content.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

@@ -1,7 +1,6 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
@@ -21,8 +20,6 @@ import static org.testng.Assert.assertTrue;
 
 public class ActionsUnzippingContentTests extends ContextAwareWebTest
 {
-    @Autowired private ContentService contentService;
-
     @Autowired private RepositoryPage repositoryPage;
 
     @Autowired private CopyMoveUnzipToDialog unzipToDialog;

@@ -55,8 +55,6 @@ public class LeaveSiteDialog  extends ConfirmationDialog
     public boolean isPopupHidden()
     {
         String elementClass = dialog.getAttribute("class");
-        if(elementClass.contains("dialogHidden"))
-            return true;
-        return false;
+        return elementClass.contains("dialogHidden");
     }
 }

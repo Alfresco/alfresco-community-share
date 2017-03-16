@@ -45,7 +45,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         String docName = "Doc-C7419-" + DataUtil.getUniqueIdentifier();
         String newFileName = "newFileNameC7419";
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -78,7 +78,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         String newFolderName = "new folder name C7420";
         String folderName = "Folder-C7420-" + DataUtil.getUniqueIdentifier();
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -111,7 +111,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         String docName = "Doc-C7431-" + DataUtil.getUniqueIdentifier();
         String newFileName = "new file name C7431";
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

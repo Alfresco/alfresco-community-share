@@ -2,10 +2,10 @@ package org.alfresco.share.sitesFeatures.blog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
@@ -22,9 +22,6 @@ import org.testng.annotations.Test;
 public class DeletingACommentTests extends ContextAwareWebTest
 {
     @Autowired
-    SitePagesService sitePagesService;
-
-    @Autowired
     BlogPostListPage blogPage;
 
     @Autowired
@@ -37,7 +34,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
     private String siteName = "C6063SiteName" + DataUtil.getUniqueIdentifier();
     private String description = "C6063SiteDescription" + DataUtil.getUniqueIdentifier();
     private String blogPostContentText = "C6063 post content text";
-    private List<String> tags = Arrays.asList("tagcC6063");
+    private List<String> tags = Collections.singletonList("tagcC6063");
     private String blogPostTitleC6063 = "C6063 blog post title";
     private String comment = "C6063 comment text";
     private String commentUser = user+" "+user;

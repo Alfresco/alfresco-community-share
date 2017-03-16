@@ -237,8 +237,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
      */
     public String getDocDetails(String document)
     {
-        String details = getFileLink(document).findElement(docDetails).getText();
-        return details;
+        return getFileLink(document).findElement(docDetails).getText();
     }
 
     /**
@@ -253,17 +252,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public boolean isFilterDisplayed(String filter)
     {
-        WebElement contentFilter = browser.findFirstElementWithValue(filters, filter);
-
-        if (contentFilter == null)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-
-        }
+        return browser.findFirstElementWithValue(filters, filter) != null;
     }
 
     public boolean isSimpleViewButtonPresent()
@@ -376,8 +365,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public int getNumberOfLikes(String fileName)
     {
-        int nrOfLikes = Integer.parseInt(selectItem(fileName).findElement(numberOfLikes).getText());
-        return nrOfLikes;
+        return Integer.parseInt(selectItem(fileName).findElement(numberOfLikes).getText());
     }
 
     public boolean isDocumentSizedisplayed(String fileName, String size)

@@ -5,7 +5,6 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -19,8 +18,6 @@ import org.testng.annotations.Test;
 
 public class ActionsDeleteTests extends ContextAwareWebTest
 {
-    @Autowired private ContentService contentService;
-
     @Autowired private RepositoryPage repositoryPage;
 
     @Autowired private DeleteDialog deleteDialog;

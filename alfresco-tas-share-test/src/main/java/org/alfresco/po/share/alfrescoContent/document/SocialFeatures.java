@@ -116,8 +116,7 @@ public class SocialFeatures extends SiteCommon<SocialFeatures>
     public int getNumberOfLikes(String fileName)
     {
         String likesNo = selectDocumentLibraryItemRow(fileName).findElement(likesCount).getText();
-        int numberOfLikes = Integer.parseInt(likesNo);
-        return numberOfLikes;
+        return Integer.parseInt(likesNo);
     }
 
     /**

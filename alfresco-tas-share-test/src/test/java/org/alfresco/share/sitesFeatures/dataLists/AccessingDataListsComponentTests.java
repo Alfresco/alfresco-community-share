@@ -43,7 +43,6 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     private String userName;
     private String siteName;
     private List<Page> pagesToAdd = new ArrayList<Page>();
-    private List<String> createdDataLists;
 
     @BeforeMethod
     public void setup()
@@ -103,7 +102,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     public void browsingPaneDisplay()
     {    
         logger.info("Preconditions: Create multiple Lists");
-        createdDataLists = new ArrayList<String>(2);
+        List<String> createdDataLists = new ArrayList<String>(2);
         for(int i=0; i<2; i++)
         {
             String contactList = "link" + System.currentTimeMillis();

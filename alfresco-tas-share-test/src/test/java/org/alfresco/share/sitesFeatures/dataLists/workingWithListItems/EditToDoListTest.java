@@ -18,10 +18,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.testng.Assert.assertTrue;
 
@@ -63,7 +60,8 @@ public class EditToDoListTest extends ContextAwareWebTest
         contentService.uploadFileInSite(userName, password, siteName, path + attachedFile);
         siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
         datalistService.createDataList(userName, password, siteName, DataList.TODO_LIST, todoListName, dataListDescription);
-        datalistService.addToDoItem(userName, password, siteName, todoListName, itemTitle, dueDateToday, priority, status, notes, null, Arrays.asList(itemFile));
+        datalistService.addToDoItem(userName, password, siteName, todoListName, itemTitle, dueDateToday, priority, status, notes, null,
+                Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
@@ -115,7 +113,7 @@ public class EditToDoListTest extends ContextAwareWebTest
 
         logger.info("Step 10: Click on Save");
         editItemPopUp.clickSave();
-        List<String> expectedItem = Arrays.asList(titleInputToEdit, dueDateTomorrowStringformated + " " + dueTime, priorityEdited, newItemStatus.toString(),
+        List<String> expectedItem = Arrays.asList(titleInputToEdit, dueDateTomorrowStringformated + " " + dueTime, priorityEdited, newItemStatus,
                 notesEdited, asigneeName, attachedFile);
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedItem), titleInputToEdit + " issue list item is displayed.");
     }

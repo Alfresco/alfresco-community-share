@@ -32,7 +32,7 @@ public class ViewEventTests extends ContextAwareWebTest
     EventInformationDialog eventInformationDialog;
 
     private String user1 = "user1-" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();;
+    private String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
     private DateTime startDate =  new DateTime();
     private DateTime endDate = startDate.plusDays(4);
     private String startHour = "2:00 PM";

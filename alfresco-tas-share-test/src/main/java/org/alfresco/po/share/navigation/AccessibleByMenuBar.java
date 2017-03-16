@@ -7,5 +7,5 @@ package org.alfresco.po.share.navigation;
  */
 public interface AccessibleByMenuBar
 {
-    public <T> T  navigateByMenuBar();
+    <T> T  navigateByMenuBar();
 }

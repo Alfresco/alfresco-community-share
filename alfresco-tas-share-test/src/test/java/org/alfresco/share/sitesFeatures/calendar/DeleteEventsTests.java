@@ -46,7 +46,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     SiteCalendarDashlet siteCalendarDashlet;
 
     private String user1 = "user1-" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();;
+    private String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
     private Date startDate = new Date();
     private String startHour = "2:00 PM";
     private String endHour = "4:00 PM";

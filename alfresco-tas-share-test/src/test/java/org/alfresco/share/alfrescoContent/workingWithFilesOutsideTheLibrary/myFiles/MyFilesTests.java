@@ -1,7 +1,6 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -18,9 +17,7 @@ import org.testng.annotations.Test;
 public class MyFilesTests extends ContextAwareWebTest
 {
     @Autowired private MyFilesPage myFilesPage;
-    
-    @Autowired private UserService userService;
-    
+
     @Autowired private CreateContent create;
     
     @Autowired private UserDashboardPage userDashboard;

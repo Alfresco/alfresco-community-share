@@ -39,8 +39,8 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, testUser1, password, testUser1 + "@tests.com", testUser1, "lastName");
         userService.create(adminUser, adminPassword, testUser2, password, testUser2 + "@tests.com", testUser2, "lastName");
         siteService.create(testUser1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        content.createDocument(testUser1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, testFileName, docContent);
-        content.createFolder(testUser1, password, testFolderName, siteName);
+        contentService.createDocument(testUser1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, testFileName, docContent);
+        contentService.createFolder(testUser1, password, testFolderName, siteName);
     }
 
     @TestRail(id = "C6092")

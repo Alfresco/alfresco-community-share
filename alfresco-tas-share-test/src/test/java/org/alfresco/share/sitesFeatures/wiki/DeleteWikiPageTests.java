@@ -2,6 +2,7 @@ package org.alfresco.share.sitesFeatures.wiki;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.alfresco.common.DataUtil;
@@ -121,9 +122,9 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
-        sitePagesService.createWiki(testUser, password, siteName, "Page1", "[[Page2]]", Arrays.asList("tag1"));
-        sitePagesService.createWiki(testUser, password, siteName, "Page2", "[[Page3]]", Arrays.asList("tag2"));
-        sitePagesService.createWiki(testUser, password, siteName, "Page3", "Page3 content", Arrays.asList("tag3"));
+        sitePagesService.createWiki(testUser, password, siteName, "Page1", "[[Page2]]", Collections.singletonList("tag1"));
+        sitePagesService.createWiki(testUser, password, siteName, "Page2", "[[Page3]]", Collections.singletonList("tag2"));
+        sitePagesService.createWiki(testUser, password, siteName, "Page3", "Page3 content", Collections.singletonList("tag3"));
 
         wikiListPage.navigate(siteName);
 

@@ -3,7 +3,6 @@ package org.alfresco.share.userDashboard.dashlets;
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
-import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteSearchDashlet;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -19,9 +18,6 @@ public class SiteSearchTest extends ContextAwareWebTest
 {
     @Autowired
     SiteSearchDashlet siteSearchDashlet;
-
-    @Autowired
-    UserService userService;
 
     @Autowired
     UserDashboardPage userDashboardPage;

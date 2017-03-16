@@ -46,7 +46,7 @@ public class CreateNewItemPopUp extends ShareDialog
 
     public enum ContactListFields
     {
-        FirstName, LastName, Email, Company, JobTitle, PhoneOffice, PhoneMobile, Notes;
+        FirstName, LastName, Email, Company, JobTitle, PhoneOffice, PhoneMobile, Notes
     }
 
     public enum EventAgendaFields
@@ -105,7 +105,7 @@ public class CreateNewItemPopUp extends ShareDialog
             {
                 return "eventAgendaNotes";
             }
-        };
+        }
     }
 
     public enum EventListFields
@@ -180,7 +180,7 @@ public class CreateNewItemPopUp extends ShareDialog
             {
                 return "eventNote";
             }
-        };
+        }
     }
 
     public enum IssueFields
@@ -290,7 +290,7 @@ public class CreateNewItemPopUp extends ShareDialog
             {
                 return "cm_description";
             }
-        };
+        }
     }
 
     public enum MeetingAgendaFields
@@ -333,7 +333,7 @@ public class CreateNewItemPopUp extends ShareDialog
             {
                 return "meetingAgendaOwner";
             }
-        };
+        }
     }
 
     public enum AdvancedTaskAgendaFields
@@ -384,7 +384,7 @@ public class CreateNewItemPopUp extends ShareDialog
             {
                 return "taskComments";
             }
-        };
+        }
     }
 
     public enum SimpleTaskAgendaFields

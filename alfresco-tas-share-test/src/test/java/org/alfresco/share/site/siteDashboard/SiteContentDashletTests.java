@@ -67,8 +67,8 @@ public class SiteContentDashletTests extends ContextAwareWebTest
 
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
-        content.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
-        content.uploadFileInSite(userName1, userName1, siteName, testDataFolder + uploadFileName);
+        contentService.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
+        contentService.uploadFileInSite(userName1, userName1, siteName, testDataFolder + uploadFileName);
         setupAuthenticatedSession(userName1, userName1);
         siteDashboard.navigate(siteName);
 
@@ -152,7 +152,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
 
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard, click on Detailed View for Site Content dashlet");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
-        content.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
+        contentService.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
         setupAuthenticatedSession(userName1, userName1);
         siteDashboard.navigate(siteName);
         siteContentDashlet.clickDetailedViewButton();
@@ -178,7 +178,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
 
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
-        content.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
+        contentService.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
         setupAuthenticatedSession(userName1, userName1);
         siteDashboard.navigate(siteName);
         siteContentDashlet.clickDetailedViewButton();
@@ -202,7 +202,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         String siteName = "Site" + DataUtil.getUniqueIdentifier();
         LOG.info("Preconditions: create site, add another user to site, add document to site, login to Share, navigate to site's dashboard");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
-        content.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
+        contentService.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
         userService.createSiteMember(adminUser, adminPassword, userName2, siteName, "SiteManager");
 
         setupAuthenticatedSession(userName2, userName2);
@@ -249,7 +249,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         String siteName = "Site" + DataUtil.getUniqueIdentifier();
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
-        content.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
+        contentService.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
         setupAuthenticatedSession(userName1, userName1);
         siteDashboard.navigate(siteName);
 

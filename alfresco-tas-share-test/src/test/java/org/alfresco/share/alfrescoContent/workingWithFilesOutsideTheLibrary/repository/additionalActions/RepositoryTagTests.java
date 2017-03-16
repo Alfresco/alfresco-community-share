@@ -2,8 +2,6 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.ContentActions;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
@@ -27,10 +25,6 @@ public class RepositoryTagTests extends ContextAwareWebTest
     @Autowired private EditPropertiesDialog editPropertiesDialog;
 
     @Autowired private SelectDialog selectDialog;
-
-    @Autowired private ContentActions contentActions;
-
-    @Autowired private ContentService contentService;
 
     private final String user = "C8266TestUser" + DataUtil.getUniqueIdentifier();
     private final String fileNameC8266 = "C8266 file";
@@ -158,7 +152,7 @@ public class RepositoryTagTests extends ContextAwareWebTest
         String deletePath = path + "/" + fileNameC8290;
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8290, fileContent);
         String pathToItem = path + "/" + fileNameC8290;
-        contentActions.addSingleTag(adminUser, adminPassword, pathToItem, "testtag");
+        contentAction.addSingleTag(adminUser, adminPassword, pathToItem, "testtag");
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(user);
@@ -193,7 +187,7 @@ public class RepositoryTagTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8291, fileContent);
         String pathToItem = path + "/" + fileNameC8291;
         String tagC8291 = "tagc8291";
-        contentActions.addSingleTag(adminUser, adminPassword, pathToItem, tagC8291);
+        contentAction.addSingleTag(adminUser, adminPassword, pathToItem, tagC8291);
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(user);

@@ -3,6 +3,7 @@ package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.alfresco.common.DataUtil;
@@ -72,7 +73,8 @@ public class EditingAListItemTests extends ContextAwareWebTest
         String toDoListName = "toDo" + System.currentTimeMillis();
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.TODO_LIST, toDoListName, "To Do list description");
         DateTime currentDate = new DateTime();
-        dataLists.addToDoItem(adminUser, adminPassword, siteName, toDoListName, "itemTitle", currentDate.toDate(), 1, Status.IN_PROGRESS, "notes", userTest, Arrays.asList("test.xlsx"));
+        dataLists.addToDoItem(adminUser, adminPassword, siteName, toDoListName, "itemTitle", currentDate.toDate(), 1, Status.IN_PROGRESS, "notes", userTest,
+                Collections.singletonList("test.xlsx"));
 
         dataListsPage.navigate(siteName);
         dataListsPage.clickToDoListItem(toDoListName);

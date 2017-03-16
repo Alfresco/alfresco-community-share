@@ -92,8 +92,7 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet> {
                 break;
         }
 
-        if (counter == membersList.size()) return true;
-        return false;
+        return counter == membersList.size();
     }
 
     public boolean isPaginationDisplayed() {

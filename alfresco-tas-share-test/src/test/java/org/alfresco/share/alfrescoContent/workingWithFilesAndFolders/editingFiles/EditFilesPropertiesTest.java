@@ -45,8 +45,8 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createFolder(userName, DataUtil.PASSWORD, folderName, siteName);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, description);
+        contentService.createFolder(userName, DataUtil.PASSWORD, folderName, siteName);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, description);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
     }

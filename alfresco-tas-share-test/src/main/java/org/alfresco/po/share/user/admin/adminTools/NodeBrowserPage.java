@@ -148,16 +148,12 @@ public class NodeBrowserPage extends SharePage<NodeBrowserPage> implements Acces
 
     public boolean isSearchTypeSelected(SEARCH_TYPE searchType)
     {
-        if (browser.findElement(searchTypeDropdownButton).getText().equals(searchType.getSearchType()))
-            return true;
-        return false;
+        return browser.findElement(searchTypeDropdownButton).getText().equals(searchType.getSearchType());
     }
 
     public boolean isStoreTypeSelected(SELECT_STORE storeType)
     {
-        if (browser.findElement(storeTypeDropdownButton).getText().equals(storeType.getStoreType()))
-            return true;
-        return false;
+        return browser.findElement(storeTypeDropdownButton).getText().equals(storeType.getStoreType());
     }
 
     public void clickSearchButton() { browser.waitUntilElementClickable(searchButton, 5).click(); }

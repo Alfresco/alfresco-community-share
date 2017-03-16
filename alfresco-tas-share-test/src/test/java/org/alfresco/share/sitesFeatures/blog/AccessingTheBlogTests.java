@@ -3,9 +3,9 @@ package org.alfresco.share.sitesFeatures.blog;
 import static org.testng.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -29,12 +29,7 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
     SiteDashboardPage siteDashboard;
 
     @Autowired
-    SitePagesService sitePagesService;
-
-    @Autowired
     BlogPostListPage blogPage;
-    
- 
 
     private String user = "C3155User" + DataUtil.getUniqueIdentifier();
     private String siteName = "C3155SiteName" + DataUtil.getUniqueIdentifier();
@@ -44,7 +39,7 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
     private String blogTitle1 = "C5527" +"blogTitle1 first blog";
     private String blogContent = "C5527" + "Blog content";
     private String blogContent1 = "C5527" + "Second Blog";
-    private List<String> tags = Arrays.asList("tag1");
+    private List<String> tags = Collections.singletonList("tag1");
     private List<String> noTags = new ArrayList<String>();
     private String author = user + " " + user;
     

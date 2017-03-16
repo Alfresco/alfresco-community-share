@@ -70,10 +70,10 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, word + ".txt", phrase);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, phrase + ".txt", word);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "1.txt", word);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "2.txt", word);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, word + ".txt", phrase);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, phrase + ".txt", word);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "1.txt", word);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "2.txt", word);
         sitePagesService.createWiki(userName, password, siteName, word + " wiki", phrase, null);
         sitePagesService.createWiki(userName, password, siteName, phrase + " wiki", word, null);
         sitePagesService.createBlogPost(userName, password, siteName, word + " blog", phrase, false, null);
@@ -157,10 +157,10 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "1.txt", word1 + " " + word2 + " " + word3);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "2.txt", word3 + " " + word2 + " " + word1);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, word1 + " " + word2 + " " + word3 + " 1.txt", identifier + "3");
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, word3 + " " + word2 + " " + word1 + " 2.txt", identifier + "4");
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "1.txt", word1 + " " + word2 + " " + word3);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "2.txt", word3 + " " + word2 + " " + word1);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, word1 + " " + word2 + " " + word3 + " 1.txt", identifier + "3");
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, word3 + " " + word2 + " " + word1 + " 2.txt", identifier + "4");
         sitePagesService.createWiki(userName, password, siteName, word1 + " " + word2 + " " + word3 + " wiki", word3 + " " + word2 + " " + word1, null);
         sitePagesService.createWiki(userName, password, siteName, word3 + " " + word2 + " " + word1 + " wiki", word1 + " " + word2 + " " + word3, null);
         sitePagesService.createBlogPost(userName, password, siteName, word1 + " " + word2 + " " + word3 + " blog", word3 + " " + word2 + " " + word1, false,
@@ -255,8 +255,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "1.txt", word1);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, word2 + " .txt", identifier + "2.txt");
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "1.txt", word1);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, word2 + " .txt", identifier + "2.txt");
         sitePagesService.createWiki(userName, password, siteName, word1 + " wiki", "", null);
         sitePagesService.createWiki(userName, password, siteName, identifier + " wiki", word3, null);
         sitePagesService.createBlogPost(userName, password, siteName, word2 + " blog", "", false, null);
@@ -341,7 +341,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
         contentService.createFolder(userName, password, "file1" + identifier, siteName);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.PDF, "testcontent_10." + identifier + ".pdf", "");
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.PDF, "testcontent_10." + identifier + ".pdf", "");
         sitePagesService.createBlogPost(userName, password, siteName, "file2" + identifier, "file1" + identifier, false, null);
         setupAuthenticatedSession(userName, password);
 
@@ -417,7 +417,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + ".txt", "");
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + ".txt", "");
         setupAuthenticatedSession(userName, password);
         siteDashboardPage.navigate(siteName);
 
@@ -462,7 +462,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + ".txt", "");
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + ".txt", "");
         setupAuthenticatedSession(userName, password);
         siteDashboardPage.navigate(siteName);
 
@@ -513,7 +513,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
         contentService.createFolder(userName, password, "folder" + identifier, siteName);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file" + identifier, "");
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file" + identifier, "");
         sitePagesService.createWiki(userName, password, siteName, "wiki" + identifier, "", null);
         sitePagesService.createBlogPost(userName, password, siteName, "blog" + identifier, "", false, null);
         sitePagesService.addCalendarEvent(userName, password, siteName, "calendar" + identifier, "", "", today.toDate(), tomorrow.toDate(), "", "", false,
@@ -555,7 +555,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
         contentService.createFolder(userName, password, "folder" + identifier, siteName);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file" + identifier, "");
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file" + identifier, "");
         sitePagesService.createWiki(userName, password, siteName, "wiki" + identifier, "", null);
         sitePagesService.createBlogPost(userName, password, siteName, "blog" + identifier, "", false, null);
         sitePagesService.addCalendarEvent(userName, password, siteName, "calendar" + identifier, "", "", today.toDate(), tomorrow.toDate(), "", "", false,
@@ -596,10 +596,10 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file1" + identifier, word);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file2" + identifier, "2" + word);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file3" + identifier, word + "3");
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file4" + identifier, "4" + word + "4");
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file1" + identifier, word);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file2" + identifier, "2" + word);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file3" + identifier, word + "3");
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file4" + identifier, "4" + word + "4");
         sitePagesService.createWiki(userName, password, siteName, "wiki1" + identifier, word, null);
         sitePagesService.createWiki(userName, password, siteName, "wiki2" + identifier, "2" + word, null);
         sitePagesService.createWiki(userName, password, siteName, "wiki3" + identifier, word + "3", null);

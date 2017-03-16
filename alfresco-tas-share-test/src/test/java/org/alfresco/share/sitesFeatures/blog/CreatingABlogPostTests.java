@@ -1,36 +1,24 @@
 package org.alfresco.share.sitesFeatures.blog;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
-import org.alfresco.po.share.site.CustomizeSitePage;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.CreateBlogPostPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
-import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CreatingABlogPostTests extends ContextAwareWebTest
 {
-    @Autowired
-    CustomizeSitePage customizeSite;
-
-    @Autowired
-    SiteDashboardPage siteDashboard;
-
-    @Autowired
-    SitePagesService sitePagesService;
-
     @Autowired
     BlogPostListPage blogPage;
 

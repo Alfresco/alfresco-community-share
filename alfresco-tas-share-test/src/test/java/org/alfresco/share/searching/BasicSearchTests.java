@@ -70,8 +70,8 @@ public class BasicSearchTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName2, DataUtil.PASSWORD, userName2 + domain, firstName, lastName2);
         siteService.create(userName1, DataUtil.PASSWORD, domain, siteName1, description, Site.Visibility.PUBLIC);
         siteService.create(userName2, DataUtil.PASSWORD, domain, siteName2, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName1, DataUtil.PASSWORD, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName1, docContent);
-        content.createDocument(userName1, DataUtil.PASSWORD, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName2, docContent);
+        contentService.createDocument(userName1, DataUtil.PASSWORD, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName1, docContent);
+        contentService.createDocument(userName1, DataUtil.PASSWORD, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName2, docContent);
         sitePagesService.addCalendarEvent(userName1, DataUtil.PASSWORD, siteName1, calendarEvent, "EventLocation", "description of the event",
                 calendarUtility.firstDayOfCW(), calendarUtility.firstDayOfCW(), "", "", false, "tag");
         sitePagesService.createWiki(userName1, DataUtil.PASSWORD, siteName1, wikiPage, "content of the wiki page", null);

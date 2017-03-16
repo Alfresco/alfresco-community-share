@@ -1,11 +1,6 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import static org.testng.Assert.assertEquals;
-
-import java.io.File;
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.SitePagesService;
-import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -19,14 +14,12 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
+import static org.testng.Assert.assertEquals;
+
 public class ViewingAFileTests extends ContextAwareWebTest
-
 {
-    @Autowired
-    SitePagesService sitePagesService;
-
-    @Autowired private UserService userService;
-
     @Autowired private DocumentDetailsPage documentPreviewPage;
 
     @Autowired private DocumentLibraryPage documentLibraryPage;

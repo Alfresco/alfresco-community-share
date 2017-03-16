@@ -1,7 +1,6 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.pageCommon.TableView;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -15,11 +14,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
-
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired private ContentService contentService;
     
     @Autowired private TableView tableView;
 

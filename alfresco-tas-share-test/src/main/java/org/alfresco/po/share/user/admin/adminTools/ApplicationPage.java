@@ -64,6 +64,7 @@ public class ApplicationPage extends SharePage<CategoryManagerPage> implements A
     private By defaultAlfrescoImage = By.xpath("//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]");
     private By themeDropdown = By.cssSelector("select[id$='options-theme-menu']");
 
+    @SuppressWarnings("unchecked")
     @Override
     public ApplicationPage navigateByMenuBar()
     {

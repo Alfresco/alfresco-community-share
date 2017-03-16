@@ -116,10 +116,7 @@ public class CreateUsers extends SharePage<CreateUsers>
             return false;
         if (!searchButton.isDisplayed())
             return false;
-        if (!searchForGroupsMessage.isDisplayed())
-            return false;
-
-        return true;
+        return searchForGroupsMessage.isDisplayed();
 
     }
 
@@ -130,9 +127,7 @@ public class CreateUsers extends SharePage<CreateUsers>
             return false;
         if (!createUserAndStartAnotherButton.isDisplayed())
             return false;
-        if (!cancelButton.isDisplayed())
-            return false;
-        return true;
+        return cancelButton.isDisplayed();
 
     }
 
@@ -253,17 +248,8 @@ public class CreateUsers extends SharePage<CreateUsers>
         String groupFinder = groupFinderInputField.getAttribute("value");
         String quota = quotaInputField.getAttribute("value");
 
-        if (firstName.length() == 0 && lastName.length() == 0 && email.length() == 0 && password.length() == 0 && verifyPassword.length() == 0
-                && groupFinder.length() == 0 && quota.length() == 0)
-
-        {
-            return true;
-        }
-
-        else
-        {
-            return false;
-        }
+        return firstName.length() == 0 && lastName.length() == 0 && email.length() == 0 && password.length() == 0 && verifyPassword.length() == 0
+                && groupFinder.length() == 0 && quota.length() == 0;
 
     }
 

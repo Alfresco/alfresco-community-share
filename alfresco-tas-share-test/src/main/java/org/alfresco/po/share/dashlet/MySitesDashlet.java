@@ -61,7 +61,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
                 return "My Favorites";
             }
         },
-        Recent;
+        Recent
     }
 
     @Override

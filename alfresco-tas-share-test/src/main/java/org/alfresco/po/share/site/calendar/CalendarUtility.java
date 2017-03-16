@@ -58,9 +58,8 @@ public class CalendarUtility
     {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        Date firstDay = calendar.getTime();
 
-        return firstDay;
+        return calendar.getTime();
     }
 
     /**
@@ -73,9 +72,8 @@ public class CalendarUtility
     {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        Date dayInMonth = calendar.getTime();
 
-        return dayInMonth;
+        return calendar.getTime();
     }
 
     /**
@@ -89,9 +87,8 @@ public class CalendarUtility
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, +1);
         calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
-        Date dayInNextMonth = calendar.getTime();
 
-        return dayInNextMonth;
+        return calendar.getTime();
     }
 
     /**
@@ -105,9 +102,7 @@ public class CalendarUtility
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, +1);
 
-        Date tomorrow = calendar.getTime();
-
-        return tomorrow;
+        return calendar.getTime();
     }
 
     /**
@@ -120,9 +115,7 @@ public class CalendarUtility
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, +2);
 
-        Date dayAfterTomorrow = calendar.getTime();
-
-        return dayAfterTomorrow;
+        return calendar.getTime();
     }
 
     /**
@@ -136,9 +129,7 @@ public class CalendarUtility
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.WEEK_OF_MONTH, +1);
 
-        Date dayOfNextWeek = calendar.getTime();
-
-        return dayOfNextWeek;
+        return calendar.getTime();
     }
 
     /**
@@ -151,8 +142,7 @@ public class CalendarUtility
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.WEEK_OF_YEAR, +1);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        Date firstDayOfNextWeek = calendar.getTime();
-        return firstDayOfNextWeek;
+        return calendar.getTime();
     }
 
     /**
@@ -163,8 +153,7 @@ public class CalendarUtility
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.WEEK_OF_YEAR, +1);
         String monthOfNextWeekS = new SimpleDateFormat("M").format(calendar.getTime());
-        int monthOfNextWeek = Integer.parseInt(monthOfNextWeekS);
-        return monthOfNextWeek;
+        return Integer.parseInt(monthOfNextWeekS);
     }
 
     /**
@@ -174,8 +163,7 @@ public class CalendarUtility
     public int currentDayWeek()
     {
         Calendar calendar = Calendar.getInstance();
-        int weekOfMonth = calendar.get(Calendar.WEEK_OF_MONTH);
-        return weekOfMonth;
+        return calendar.get(Calendar.WEEK_OF_MONTH);
     }
 
     /**
@@ -187,8 +175,7 @@ public class CalendarUtility
     public int currentMonth()
     {
         Calendar calendar = Calendar.getInstance();
-        int currentMonth = calendar.get(Calendar.MONTH) + 1;
-        return currentMonth;
+        return calendar.get(Calendar.MONTH) + 1;
     }
 
     /**
@@ -201,8 +188,7 @@ public class CalendarUtility
     {
         Calendar calendar = Calendar.getInstance();
         String currentYearS = new SimpleDateFormat("yyyy").format(calendar.getTime());
-        int currentYear = Integer.parseInt(currentYearS);
-        return currentYear;
+        return Integer.parseInt(currentYearS);
     }
 
     /**
@@ -213,8 +199,7 @@ public class CalendarUtility
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.WEEK_OF_YEAR, +1);
         String nextWeeksYearS = new SimpleDateFormat("yyyy").format(calendar.getTime());
-        int nextWeeksYear = Integer.parseInt(nextWeeksYearS);
-        return nextWeeksYear;
+        return Integer.parseInt(nextWeeksYearS);
     }
 
     /**
@@ -260,8 +245,7 @@ public class CalendarUtility
     public Date yesterday()
     {
         DateTime today = new DateTime();
-        Date yesterday = today.minusDays(1).toDate();
-        return yesterday;
+        return today.minusDays(1).toDate();
     }
 
     /**
@@ -272,8 +256,7 @@ public class CalendarUtility
     public Date randomDayOfLastWeek()
     {
         DateTime today = new DateTime();
-        Date randomDayOfLastWeek = today.minusDays(7).toDate();
-        return randomDayOfLastWeek;
+        return today.minusDays(7).toDate();
     }
 
     /**
@@ -283,8 +266,7 @@ public class CalendarUtility
      */
     public Date firstDayOfCurrentMonth()
     {
-        Date firstDayOfCurrentMonth = new DateTime().dayOfMonth().withMinimumValue().toDate();
-        return firstDayOfCurrentMonth;
+        return new DateTime().dayOfMonth().withMinimumValue().toDate();
     }
 
     /**
@@ -296,8 +278,7 @@ public class CalendarUtility
     public Date dayFromPreviousMonth()
     {
         DateTime today = new DateTime();
-        Date dayFromPreviousMonth = today.minusMonths(1).toDate();
-        return dayFromPreviousMonth;
+        return today.minusMonths(1).toDate();
     }
 
     /**
@@ -307,8 +288,7 @@ public class CalendarUtility
      */
     public String firstDayOfCurrentWeek()
     {
-        String firstDayOfCurrentWeek = new DateTime().dayOfWeek().withMinimumValue().toString("d MMMM yyyy");
-        return firstDayOfCurrentWeek;
+        return new DateTime().dayOfWeek().withMinimumValue().toString("d MMMM yyyy");
     }
 
     /**
@@ -319,8 +299,7 @@ public class CalendarUtility
     public int monthOfYesterday()
     {
         DateTime today = new DateTime();
-        int monthOfYesterday = today.minusDays(1).getMonthOfYear();
-        return monthOfYesterday;
+        return today.minusDays(1).getMonthOfYear();
     }
 
     public String currentMonthReference()
@@ -328,16 +307,14 @@ public class CalendarUtility
     {
         Locale local = Locale.UK;
         Calendar calendar = Calendar.getInstance(local);
-        String currentMonthReference = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(calendar.getTime());
-        return currentMonthReference;
+        return new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(calendar.getTime());
 
     }
 
     public String firstDayOfLastWeek()
     {
         DateTime today = new DateTime();
-        String firstDayOfLastWeek = today.minusWeeks(1).dayOfWeek().withMinimumValue().toString("d MMMM yyyy");
-        return firstDayOfLastWeek;
+        return today.minusWeeks(1).dayOfWeek().withMinimumValue().toString("d MMMM yyyy");
     }
 
     public String currentDay()

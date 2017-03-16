@@ -1,8 +1,8 @@
 package org.alfresco.share.site.analyzingASite;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.*;
-import org.alfresco.po.share.dashlet.SiteContributorBreakdownDashlet;
+import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.dashlet.SiteFileTypeBreakdownDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -25,22 +25,10 @@ import static org.testng.Assert.assertTrue;
 public class AnalyzingASiteTests extends ContextAwareWebTest
 {
     @Autowired
-    UserService userService;
-
-    @Autowired
-    SiteService siteService;
-
-    @Autowired
-    ContentService contentService;
-
-    @Autowired
     SiteDashboardPage siteDashboardPage;
 
     @Autowired
     SiteFileTypeBreakdownDashlet siteFileTypeBreakdownDashlet;
-
-    @Autowired
-    SiteContributorBreakdownDashlet siteContributorBreackdownDashlet;
 
     private String user = "user2233-" + DataUtil.getUniqueIdentifier();
     private String siteName = "C2233" + DataUtil.getUniqueIdentifier();

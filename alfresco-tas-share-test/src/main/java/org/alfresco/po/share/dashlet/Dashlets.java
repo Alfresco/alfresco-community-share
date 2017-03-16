@@ -37,7 +37,7 @@ public enum Dashlets
     
     private String dashletName;
 
-    private Dashlets(String dashlet)
+    Dashlets(String dashlet)
     {
         this.dashletName = dashlet;
     }

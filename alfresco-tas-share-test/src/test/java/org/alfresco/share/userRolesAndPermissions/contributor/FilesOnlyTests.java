@@ -26,6 +26,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -856,7 +857,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         logger.info("Step2: Hover over test file and click 'Locate File'.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Locate File", documentLibraryPage);
-        ArrayList<String> breadcrumbExpected = new ArrayList<>(Arrays.asList("Documents"));
+        ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb is 'Documents'.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), "User is redirected to location of the created document.");
        // On 5.2, the file it's checked

@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -53,7 +54,7 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
         siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
         userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
-        sitePagesService.createDiscussion(user1, password, siteName, topic1Title, topicContent, Arrays.asList(topicTag1));
+        sitePagesService.createDiscussion(user1, password, siteName, topic1Title, topicContent, Collections.singletonList(topicTag1));
         sitePagesService.createDiscussion(user2, password, siteName, topic2Title, topicContent, Arrays.asList(topicTag1, topicTag2));
         changeTopicDate(eightDaysAgo);
         sitePagesService.createDiscussion(user1, password, siteName, topic3Title, topicContent, null);

@@ -4,7 +4,6 @@ import static org.testng.Assert.assertEquals;
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
-import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SelectWikiPagePopUp;
 import org.alfresco.po.share.dashlet.WikiDashlet;
@@ -27,9 +26,6 @@ public class WikiDashletTests extends ContextAwareWebTest
     @Autowired
     WikiDashlet wikiDashlet;
 
-    @Autowired
-    SitePagesService sitePagesService;
-    
     @Autowired
     SelectWikiPagePopUp selectWikiPage;
 

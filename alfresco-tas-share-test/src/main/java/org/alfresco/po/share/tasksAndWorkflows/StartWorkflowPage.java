@@ -91,8 +91,8 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     private List<WebElement> taskStatusList;
 
     @FindBy(css = "[id*=default-reassign-button]")
-    private WebElement reassignButton;;
-    
+    private WebElement reassignButton;
+
     @Override
     public String getRelativePath()
     {

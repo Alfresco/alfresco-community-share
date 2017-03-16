@@ -16,27 +16,17 @@ public class IssueListSelectedContent extends ListItemSelectedContent
     public boolean isAnyListItemDisplayed()
     {
         List<WebElement> listItemsList = browser.findElements(noListItems);
-        if (listItemsList.size() == 1 && listItemsList.get(0).findElement(By.cssSelector("td div")).getText().equals("No list items"))
-            return false;
-        return true;
+        return !(listItemsList.size() == 1 && listItemsList.get(0).findElement(By.cssSelector("td div")).getText().equals("No list items"));
     }
 
     public boolean isListItemDisplayed(List<String> listDetails)
     {
-        if (findRow(listDetails) != null)
-        {
-            return true;
-        }
-        return false;
+        return findRow(listDetails) != null;
     }
 
     public boolean duplicatedRows(List<String> listDetails)
     {
-        if (findRow(listDetails).size() > 1)
-        {
-            return true;
-        }
-        return false;
+        return findRow(listDetails).size() > 1;
     }
 
     public List<WebElement> findRow(List<String> listDetails)

@@ -55,7 +55,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName1", "lastName1");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName2", "lastName2");
         siteService.create(user1, password, domain, siteName, siteName, Visibility.PUBLIC);
-        content.createDocument(user1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(user1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
     }
 
     @Bug(id = "MNT-17015")

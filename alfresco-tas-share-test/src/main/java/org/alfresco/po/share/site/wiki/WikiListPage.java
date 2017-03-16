@@ -119,8 +119,7 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
     }
 
     public WebElement selectWikiDetailsRow(String wikiPage) {
-        WebElement wikiRow = browser.findFirstElementWithValue(wikiPagesList, wikiPage);
-        return wikiRow;
+        return browser.findFirstElementWithValue(wikiPagesList, wikiPage);
     }
 
     public EditWikiPage clickEdit(String wikiPage) {
@@ -249,11 +248,9 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      */
     public boolean areActionsAvailableForPage(String wikiPage) {
 
-        if (selectWikiDetailsRow(wikiPage).findElement(editPage).isDisplayed() &&
+        return selectWikiDetailsRow(wikiPage).findElement(editPage).isDisplayed() &&
                 selectWikiDetailsRow(wikiPage).findElement(deletePage).isDisplayed() &&
-                selectWikiDetailsRow(wikiPage).findElement(pageDetails).isDisplayed())
-            return true;
-        return false;
+                selectWikiDetailsRow(wikiPage).findElement(pageDetails).isDisplayed();
     }
 
     public void clickMainPageButton() {

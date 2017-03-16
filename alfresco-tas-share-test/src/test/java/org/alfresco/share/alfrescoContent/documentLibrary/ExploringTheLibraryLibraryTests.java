@@ -1,7 +1,6 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -19,8 +18,6 @@ public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
     @Autowired private DocumentsFilters filters;
-
-    @Autowired private ContentService contentService;
 
     private final String user = "C6333User" + DataUtil.getUniqueIdentifier();
     private final String description = "C6333SiteDescription" + DataUtil.getUniqueIdentifier();

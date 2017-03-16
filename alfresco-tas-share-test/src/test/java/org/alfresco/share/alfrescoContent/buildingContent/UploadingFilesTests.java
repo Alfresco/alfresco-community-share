@@ -59,7 +59,7 @@ public class UploadingFilesTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        content.createFolder(testUser, password, folderName, siteName);
+        contentService.createFolder(testUser, password, folderName, siteName);
         setupAuthenticatedSession(testUser, password);
         documentLibraryPage.navigate(siteName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents list.");

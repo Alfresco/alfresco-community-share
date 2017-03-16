@@ -27,6 +27,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static java.util.Arrays.asList;
 import static org.testng.Assert.*;
@@ -309,7 +310,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         ArrayList<String> expectedPath_destination = new ArrayList<>(asList("Documents", folderName));
         assertEquals(copyMoveToDialog.getPathList(), expectedPath_destination.toString(), "Path");
         copyMoveToDialog.clickSite(siteName2);
-        ArrayList<String> expectedPath = new ArrayList<>(asList("Documents"));
+        ArrayList<String> expectedPath = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(copyMoveToDialog.getPathList(), expectedPath.toString(), "Path");
 
         logger.info("Step5: Click 'Copy' button");
@@ -320,7 +321,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
 
         documentLibraryPage.navigate(siteName2);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-        ArrayList<String> expectedFolderList = new ArrayList<>(asList(folderName));
+        ArrayList<String> expectedFolderList = new ArrayList<>(Collections.singletonList(folderName));
         assertEquals(documentLibraryPage.getFoldersList().toString(), expectedFolderList.toString(), "Displayed folders=");
     }
 

@@ -2,7 +2,6 @@ package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -20,8 +19,6 @@ import static org.testng.Assert.assertTrue;
 public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired private ContentService contentService;
 
     private final String user = "C2247User" + DataUtil.getUniqueIdentifier();
     private final String description = "C2247SiteDescription" + DataUtil.getUniqueIdentifier();

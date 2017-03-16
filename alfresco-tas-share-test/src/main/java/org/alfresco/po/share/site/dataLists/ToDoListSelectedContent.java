@@ -15,20 +15,12 @@ public class ToDoListSelectedContent extends ListItemSelectedContent
     
     public boolean isListItemDisplayed(List<String> listDetails)
     {
-        if(findRow(listDetails)!=null)
-        {
-            return true;
-        }
-        return false;
+        return findRow(listDetails) != null;
     }
     
     public boolean duplicatedRows(List<String> listDetails)
     {
-        if(findRow(listDetails).size()>1)
-        {
-            return true;
-        }
-        return false;
+        return findRow(listDetails).size() > 1;
     }
     
     public List<WebElement> findRow(List<String> listDetails)

@@ -56,7 +56,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName1, siteName);
         contentService.createFolder(userName, password, folderName2, siteName);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, fileContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -95,9 +95,9 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName1, siteName);
         contentService.createFolder(userName, password, folderName2, siteName);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, textFile, fileContent);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, htmlFile, fileContent);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.XML, xmlFile, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, textFile, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, htmlFile, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.XML, xmlFile, fileContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -190,9 +190,9 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName1, siteName);
         contentService.createFolder(userName, password, folderName2, siteName);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, textFile, fileContent);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, htmlFile, fileContent);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.XML, xmlFile, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, textFile, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, htmlFile, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.XML, xmlFile, fileContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -237,9 +237,9 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
 
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName1, siteName);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, textFile, fileContent);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, htmlFile, fileContent);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, xmlFile, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, textFile, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, htmlFile, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, xmlFile, fileContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

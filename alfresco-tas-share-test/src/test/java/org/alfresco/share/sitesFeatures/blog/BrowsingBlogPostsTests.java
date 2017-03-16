@@ -12,10 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -35,8 +32,8 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     private String blogTitleUser2Draft = "C6001-" + "User2 Blog title draft";
     private String blogContent = "C6001-" + "Blog content";
     private String blogContent1 = "C6001-" + "Second Blog";
-    private List<String> tags = Arrays.asList("tag1");
-    private List<String> tagsSecondPost = Arrays.asList("tag2");
+    private List<String> tags = Collections.singletonList("tag1");
+    private List<String> tagsSecondPost = Collections.singletonList("tag2");
     private String author1 = user1 + " " + user1;
     private String author2 = user2 + " " + user2;
 

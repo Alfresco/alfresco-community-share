@@ -91,7 +91,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
 
     public enum LinkType
     {
-        User, Document, Site;
+        User, Document, Site
     }
 
     private List<ActivityLink> activities;

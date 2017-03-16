@@ -56,9 +56,9 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName1, fileContent);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName2, fileContent);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName3, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName1, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName2, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName3, fileContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -116,9 +116,9 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createFolder(userName, password, folderName1, siteName);
-        content.createFolder(userName, password, folderName2, siteName);
-        content.createFolder(userName, password, folderName3, siteName);
+        contentService.createFolder(userName, password, folderName1, siteName);
+        contentService.createFolder(userName, password, folderName2, siteName);
+        contentService.createFolder(userName, password, folderName3, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

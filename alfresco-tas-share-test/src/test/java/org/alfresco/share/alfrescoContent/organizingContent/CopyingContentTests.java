@@ -55,7 +55,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         String siteName = "Site-C7377-" + DataUtil.getUniqueIdentifier();
         String docName = "Doc-C7377-" + DataUtil.getUniqueIdentifier();
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -96,7 +96,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         String siteName = "Site-C7378-" + DataUtil.getUniqueIdentifier();
         String docName = "Doc-C7378-" + DataUtil.getUniqueIdentifier();
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -136,8 +136,8 @@ public class CopyingContentTests extends ContextAwareWebTest
         String folderName = "Folder-C7388-" + DataUtil.getUniqueIdentifier();
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName1, description, Site.Visibility.PUBLIC);
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName2, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, DataUtil.PASSWORD, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
-        content.createFolder(userName, password, folderName, siteName1);
+        contentService.createDocument(userName, DataUtil.PASSWORD, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createFolder(userName, password, folderName, siteName1);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName1);

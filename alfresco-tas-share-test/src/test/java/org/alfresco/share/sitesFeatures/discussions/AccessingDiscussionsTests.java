@@ -2,7 +2,6 @@ package org.alfresco.share.sitesFeatures.discussions;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
-import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.discussion.TopicListPage;
@@ -16,10 +15,7 @@ import org.testng.annotations.Test;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -48,7 +44,7 @@ public class AccessingDiscussionsTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(user, password, siteName, pagesToAdd);
-        sitePagesService.createDiscussion(user, password, siteName, topicTitle, "Topic content", Arrays.asList("tag1"));
+        sitePagesService.createDiscussion(user, password, siteName, topicTitle, "Topic content", Collections.singletonList("tag1"));
         setupAuthenticatedSession(user, password);
     }
 

@@ -325,23 +325,10 @@ public class ManageContactListItems extends ShareDialog
         String phoneOffice1 = StringUtils.deleteWhitespace(PhoneOffice);
         String phoneMobile1 = StringUtils.deleteWhitespace(PhoneMobile);
 
-        if
-
-        (browser.isElementDisplayed(By.cssSelector(firstName1)) && browser.isElementDisplayed(By.cssSelector(lastName1))
-                && browser.isElementDisplayed(By.cssSelector(email1)) && browser.isElementDisplayed(By.cssSelector(company1))
-                && browser.isElementDisplayed(By.cssSelector(jobTitle1)) && browser.isElementDisplayed(By.cssSelector(phoneOffice1))
-                && browser.isElementDisplayed(By.cssSelector(phoneMobile1))
-
-        )
-
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-
-        }
+        return browser.isElementDisplayed(By.cssSelector(firstName1)) && browser.isElementDisplayed(By.cssSelector(lastName1)) && browser
+                .isElementDisplayed(By.cssSelector(email1)) && browser.isElementDisplayed(By.cssSelector(company1)) && browser
+                .isElementDisplayed(By.cssSelector(jobTitle1)) && browser.isElementDisplayed(By.cssSelector(phoneOffice1)) && browser
+                .isElementDisplayed(By.cssSelector(phoneMobile1));
 
     }
 }

@@ -2,9 +2,7 @@ package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.ContentActions;
 import org.alfresco.dataprep.ContentAspects;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -21,13 +19,9 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
     @Autowired private DocumentsFilters filters;
-
-    @Autowired private ContentService contentService;
     
     @Autowired
     ContentAspects contentAspects;
-    
-    @Autowired private ContentActions contentActions;
 
     private final String user = "C6939User" + DataUtil.getUniqueIdentifier();
     private final String description = "C6939SiteDescription" + DataUtil.getUniqueIdentifier();
@@ -74,8 +68,8 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
         contentService.createFolder(user, password, folderName, siteName);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, docName, docContent);
         setupAuthenticatedSession(user, password);
-        contentActions.addSingleTag(user, password, siteName, docName, tagName1);
-        contentActions.addSingleTag(user, password, siteName, folderName, tagName2);
+        contentAction.addSingleTag(user, password, siteName, docName, tagName1);
+        contentAction.addSingleTag(user, password, siteName, folderName, tagName2);
         documentLibraryPage.navigate(siteName);
         
         LOG.info("Step 1: Click Tags section, from explorer panel on the left side of the library");

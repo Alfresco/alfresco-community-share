@@ -31,7 +31,7 @@ public class UploadContent extends SiteCommon<UploadContent> {
 	private By uploadFilesToDialog = By.id("template_x002e_dnd-upload_x002e_documentlibrary_x0023_default-dialog_h");
 
 	public enum Version {
-		Minor, Major;
+		Minor, Major
 	}
 
 	@Override

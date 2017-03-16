@@ -49,7 +49,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
         userService.inviteUserToSiteAndAccept(userSiteManager, password, userManager, siteName, "SiteManager");
         userService.inviteUserToSiteAndAccept(userSiteManager, password, userContributor, siteName, "SiteContributor");
-        content.createDocument(userContributor, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(userContributor, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userManager, password);
         documentLibraryPage.navigate(siteName);
@@ -98,7 +98,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
         userService.inviteUserToSiteAndAccept(userSiteManager, password, userManager, siteName, "SiteManager");
         userService.inviteUserToSiteAndAccept(userSiteManager, password, userContributor, siteName, "SiteContributor");
-        content.createFolder(userContributor, password, folderName, siteName);
+        contentService.createFolder(userContributor, password, folderName, siteName);
 
         setupAuthenticatedSession(userManager, password);
         documentLibraryPage.navigate(siteName);
@@ -151,7 +151,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
         userService.inviteUserToSiteAndAccept(userSiteManager, password, userManager, siteName, "SiteManager");
         userService.inviteUserToSiteAndAccept(userSiteManager, password, userContributor, siteName, "SiteContributor");
-        content.createDocument(userContributor, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(userContributor, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userManager, password);
         documentLibraryPage.navigate(siteName);

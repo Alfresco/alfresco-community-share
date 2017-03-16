@@ -2,14 +2,8 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.ContentActions;
-import org.alfresco.dataprep.ContentService;
-import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
-import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -28,28 +22,9 @@ public class TagTests extends ContextAwareWebTest
 {
     @Autowired private RepositoryPage repositoryPage;
 
-    @Autowired
-    HeaderMenuBar headerMenuBar;
-
     @Autowired private EditPropertiesDialog editPropertiesDialog;
 
     @Autowired private SelectDialog selectDialog;
-
-    @Autowired
-    CreateContent createContent;
-
-    @Autowired
-    DeleteDialog deleteDialog;
-
-    @Autowired private ContentActions contentActions;
-
-    @Autowired
-
-    SiteService siteService;
-
-    @Autowired private
-
-    ContentService contentService;
 
     private final String user = "C8266TestUser" + DataUtil.getUniqueIdentifier();
     private final String fileNameC8266 = "C8266 file";
@@ -168,7 +143,7 @@ public class TagTests extends ContextAwareWebTest
         // Preconditions
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8290, fileContent);
         String pathToItem = path + "/" + fileNameC8290;
-        contentActions.addSingleTag(adminUser, adminPassword, pathToItem, "testtag");
+        contentAction.addSingleTag(adminUser, adminPassword, pathToItem, "testtag");
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(user);
@@ -201,7 +176,7 @@ public class TagTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8291, fileContent);
         String pathToItem = path + "/" + fileNameC8291;
         String tagC8291 = "tagc8291";
-        contentActions.addSingleTag(adminUser, adminPassword, pathToItem, tagC8291);
+        contentAction.addSingleTag(adminUser, adminPassword, pathToItem, tagC8291);
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(user);

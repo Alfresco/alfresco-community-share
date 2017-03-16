@@ -14,10 +14,7 @@ import org.testng.annotations.Test;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -54,7 +51,7 @@ public class ViewTopicTests extends ContextAwareWebTest
         siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
         siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
-        sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, Arrays.asList(topicTag));
+        sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, Collections.singletonList(topicTag));
         sitePagesService.replyToDiscussion(user2, password, siteName, topicTitle, topicReply);
         setupAuthenticatedSession(user1, password);
     }

@@ -39,9 +39,9 @@ public class RemoveTagsTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteName2, description, Site.Visibility.PUBLIC);
-        content.createFolder(userName, password, folderName, siteName2);
+        contentService.createFolder(userName, password, folderName, siteName2);
         contentAction.addSingleTag(userName, password, siteName2, folderName, tagName);
-        content.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
+        contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentAction.addSingleTag(userName, password, siteName1, fileName, tagName);
     }
 

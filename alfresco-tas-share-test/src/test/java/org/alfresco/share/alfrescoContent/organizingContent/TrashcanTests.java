@@ -57,8 +57,8 @@ public class TrashcanTests extends ContextAwareWebTest
         String fileName = "fileName-C10506-" + random;
         String folderName = "folder-C10506-" + random;
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -102,8 +102,8 @@ public class TrashcanTests extends ContextAwareWebTest
         String folderName = "folder-C7572-" + random;
 
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -146,8 +146,8 @@ public class TrashcanTests extends ContextAwareWebTest
         String folderName = "folder-C7573-" + random;
 
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

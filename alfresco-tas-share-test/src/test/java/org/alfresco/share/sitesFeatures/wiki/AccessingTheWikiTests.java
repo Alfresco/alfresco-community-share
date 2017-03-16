@@ -6,7 +6,6 @@ import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
-import org.alfresco.po.share.site.wiki.CreateWikiPage;
 import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.share.ContextAwareWebTest;

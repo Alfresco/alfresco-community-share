@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.testng.Assert.assertTrue;
@@ -73,8 +74,8 @@ public class EditIssueItemTest extends ContextAwareWebTest
         String path = srcRoot + "testdata" + File.separator;
         contentService.uploadFileInSite(userName, password, siteName, path + itemFile);
         contentService.uploadFileInSite(userName, password, siteName, path + attachedFile);
-        dataLists.addIssueListItem(adminUser, adminPassword, siteName, listName, itemId, itemTitle, Arrays.asList(userName), itemStatus, itemPriority,
-                itemDescription, null, itemComment, Arrays.asList(itemFile));
+        dataLists.addIssueListItem(adminUser, adminPassword, siteName, listName, itemId, itemTitle, Collections.singletonList(userName), itemStatus, itemPriority,
+                itemDescription, null, itemComment, Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);

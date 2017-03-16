@@ -33,17 +33,17 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, DataUtil.PASSWORD);
 
         String file = "TestDoc1";
-        Assert.assertFalse(content.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
+        Assert.assertFalse(contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
                 file + " document creation failed");
-        content.updateDocumentContent(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphabetic(10));
+        contentService.updateDocumentContent(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphabetic(10));
 
         file = "TestDoc2";
-        Assert.assertFalse(content.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
+        Assert.assertFalse(contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
                 file + " document creation failed");
         contentAction.checkOut(userName, DataUtil.PASSWORD, siteName, file);
 
         file = "TestDoc3";
-        Assert.assertFalse(content.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
+        Assert.assertFalse(contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
                 file + " document creation failed");
         contentAction.setFileAsFavorite(userName, DataUtil.PASSWORD, siteName, file);
 

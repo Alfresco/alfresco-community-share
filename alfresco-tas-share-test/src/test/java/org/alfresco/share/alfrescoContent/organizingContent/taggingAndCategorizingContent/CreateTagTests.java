@@ -51,7 +51,7 @@ public class CreateTagTests extends ContextAwareWebTest
         String fileName = "file-C10209-" + random;
         String tagName = "tagName-C10209-" + random;
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -99,7 +99,7 @@ public class CreateTagTests extends ContextAwareWebTest
         String folderName = "folder-C10210-" + random;
         String tagName = "tagName-C10210-" + random;
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

@@ -2,15 +2,12 @@ package org.alfresco.share.adminTools.nodeBrowser;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.ContentService;
-import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -25,12 +22,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
 {
     @Autowired
     NodeBrowserPage nodeBrowserPage;
-
-    @Autowired
-    protected SiteService siteService;
-
-    @Autowired
-    ContentService contentService;
 
     private String description = "nodeBrowserTests" + DataUtil.getUniqueIdentifier();
     private String siteName = "nodeBrowserTests" + DataUtil.getUniqueIdentifier();

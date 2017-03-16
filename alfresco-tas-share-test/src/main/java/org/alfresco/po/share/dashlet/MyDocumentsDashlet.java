@@ -76,7 +76,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
             {
                 return "My Favorites";
             }
-        };
+        }
     }
 
     public enum FavoriteLinks
@@ -96,7 +96,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
                 return "Remove document from favorites";
             }
         }
-    };
+    }
 
     public enum DocumentView
     {
@@ -247,14 +247,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
         for (WebElement typeFav : filterOptions)
         {
-            if (EnumUtils.isValidEnum(DocumentsFilter.class, typeFav.getText()))
-            {
-                isFilterValid = true;
-            }
-            else
-            {
-                isFilterValid = false;
-            }
+            isFilterValid = EnumUtils.isValidEnum(DocumentsFilter.class, typeFav.getText());
         }
 
         return isFilterValid;

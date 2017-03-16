@@ -166,7 +166,6 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     public void clickOnLinkURL(String linkURL)
     {
         browser.findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
-        ;
 
     }
 
@@ -225,8 +224,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
 
     public WebElement selectCommentDetailsRow(String commentTitle)
     {
-        WebElement commentRow = browser.findFirstElementWithValue(commentDetailsList, commentTitle);
-        return commentRow;
+        return browser.findFirstElementWithValue(commentDetailsList, commentTitle);
     }
 
     public String getCommentAuthor(String comment)

@@ -40,7 +40,7 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        content.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentAction.addSingleTag(userName, password, siteName, fileName, tagName);
 
         setupAuthenticatedSession(userName, password);

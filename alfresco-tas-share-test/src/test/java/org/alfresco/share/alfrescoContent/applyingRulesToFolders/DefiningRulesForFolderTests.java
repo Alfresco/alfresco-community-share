@@ -72,7 +72,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
 
         folderName = "Folder-C6367-" + random;
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -101,7 +101,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
 
         folderName = "Folder-C12857-" + random;
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -143,7 +143,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         ruleName1 = "rule-C6372-" + random;
         folderName = "Folder-C6372-" + random;
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -192,7 +192,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         ruleName1 = "rule-C6622-" + random;
         folderName = "Folder-C6622-" + random;
         fileName = "testFile1.txt";
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -246,7 +246,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         ruleName1 = "rule1-C7239-" + random;
         ruleName2 = "rule2-C7239-" + random;
         folderName = "Folder-C7239-" + random;
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -303,7 +303,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         ruleName1 = "rule-C7240-" + random;
         folderName = "Folder-C7240-" + random;
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -341,7 +341,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         ruleName1 = "rule-C7245-" + random;
         folderName = "Folder-C7245-" + random;
         fileName2 = "FileName2-C7245-" + random;
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -414,7 +414,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         ruleName1 = "rule-C6621-" + random;
         folderName = "Folder-C6621-" + random;
         fileName = "FileName-C6621-" + random;
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -483,7 +483,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         ruleName1 = "rule-C6623-" + random;
         folderName = "Folder-C6623-" + random;
         fileName = "FileName-C6623-" + random;
-        content.createFolder(userName, password, folderName, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

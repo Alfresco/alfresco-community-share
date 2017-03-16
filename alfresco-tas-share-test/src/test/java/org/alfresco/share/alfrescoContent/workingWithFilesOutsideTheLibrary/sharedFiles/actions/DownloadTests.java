@@ -3,7 +3,6 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sha
 import java.io.File;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
@@ -18,8 +17,6 @@ import org.testng.annotations.Test;
 
 public class DownloadTests  extends ContextAwareWebTest
 {
-    @Autowired private ContentService contentService;
-
     @Autowired private SharedFilesPage sharePage;
 
     @Autowired private DocumentCommon documentCommon;

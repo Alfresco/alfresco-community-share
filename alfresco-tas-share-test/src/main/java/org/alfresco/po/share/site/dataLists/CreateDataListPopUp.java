@@ -117,7 +117,7 @@ public class CreateDataListPopUp extends ShareDialog
             {
                 return "Visitor Feedback List";
             }
-        };
+        }
     }
     
     public void selectType(String type)

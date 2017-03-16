@@ -119,16 +119,12 @@ public class CreateSiteDialog extends EditSiteDetailsDialog implements Accessibl
 
     public boolean isTitleMandatory()
     {
-        if (nameMandatory.getText().contains("*"))
-            return true;
-        return false;
+        return nameMandatory.getText().contains("*");
     }
 
     public boolean isUrlNameMandatory()
     {
-        if (urlMandatory.getText().contains("*"))
-            return true;
-        return false;
+        return urlMandatory.getText().contains("*");
     }
 
     public void typeName(String urlName)

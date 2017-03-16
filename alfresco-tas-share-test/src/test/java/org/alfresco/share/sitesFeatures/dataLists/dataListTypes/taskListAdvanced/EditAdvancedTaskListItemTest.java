@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -74,8 +75,8 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
         String path = srcRoot + "testdata" + File.separator;
         contentService.uploadFileInSite(userName, password, siteName, path + attachedFile);
         contentService.uploadFileInSite(userName, password, siteName, path + itemFile);
-        dataLists.addTaskAdvancedItem(adminUser, adminPassword, siteName, listName, itemTitle, itemDescription, null, null, Arrays.asList(userName),
-                itemPriority, itemStatus, 0, itemComment, Arrays.asList(itemFile));
+        dataLists.addTaskAdvancedItem(adminUser, adminPassword, siteName, listName, itemTitle, itemDescription, null, null, Collections.singletonList(userName),
+                itemPriority, itemStatus, 0, itemComment, Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);

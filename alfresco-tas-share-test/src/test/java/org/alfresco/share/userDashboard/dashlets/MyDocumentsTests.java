@@ -59,9 +59,9 @@ public class MyDocumentsTests extends ContextAwareWebTest
     {
         logger.info("STEP 1 - Create document then update its content");
         String file = "TestDoc";
-        Assert.assertFalse(content.createDocument(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file, file).getId().isEmpty());
-        content.updateDocumentContent(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(10));
-        content.updateDocumentContent(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(20));
+        Assert.assertFalse(contentService.createDocument(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file, file).getId().isEmpty());
+        contentService.updateDocumentContent(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(10));
+        contentService.updateDocumentContent(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(20));
         contentAction.likeContent(userName2, DataUtil.PASSWORD, siteName1, file);
         loginPage.navigate();
         loginPage.login(userName1, password);
@@ -136,9 +136,9 @@ public class MyDocumentsTests extends ContextAwareWebTest
         String file1 = "File1" + DataUtil.getUniqueIdentifier();
         String file2 = "File2" + DataUtil.getUniqueIdentifier();
         String file3 = "File3" + DataUtil.getUniqueIdentifier();
-        content.createDocument(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file1, file1);
-        content.createDocument(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file2, file2);
-        content.createDocument(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file3, file3);
+        contentService.createDocument(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file1, file1);
+        contentService.createDocument(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file2, file2);
+        contentService.createDocument(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file3, file3);
 
         contentAction.checkOut(userName1, password, siteName1, file2);
         contentAction.setFileAsFavorite(userName1, DataUtil.PASSWORD, siteName1, file3);

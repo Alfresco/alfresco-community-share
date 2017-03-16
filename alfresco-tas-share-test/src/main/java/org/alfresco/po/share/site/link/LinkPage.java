@@ -138,8 +138,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public WebElement selectLinkDetailsRow(String linkTitle)
     {
-        WebElement linkRow = browser.findFirstElementWithValue(linksList, linkTitle);
-        return linkRow;
+        return browser.findFirstElementWithValue(linksList, linkTitle);
     }
 
     public List<String> getLinkTags(String linkTitle)
