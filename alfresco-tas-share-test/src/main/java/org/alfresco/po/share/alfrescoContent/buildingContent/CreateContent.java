@@ -1,6 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.buildingContent;
 
-import org.alfresco.po.TinyMce.TinyMceEditor;
+import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.HtmlPage;
