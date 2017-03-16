@@ -345,7 +345,7 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(userDashboardPage.getPageHeader().contains(userName), "Page header");
 
         LOG.info("STEP 2 - Click on \"My Files\" link from Alfresco Toolbar");
-        myFilesPage.navigateByMenuBarToMyFiles();
+        myFilesPage.navigateByMenuBar();
         Assert.assertTrue(myFilesPage.isUploadButtonDisplayed(), "Upload button is displayed");
 
         LOG.info("STEP 3 - Click on \"Shared Files\" link from Alfresco Toolbar");

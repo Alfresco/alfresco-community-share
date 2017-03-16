@@ -1,18 +1,16 @@
 package org.alfresco.po.share;
 
+import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 @PageObject
-public class MyFilesPage extends DocumentLibraryPage
+public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenuBar
 {
     @Autowired
     Toolbar toolbar;
@@ -20,15 +18,6 @@ public class MyFilesPage extends DocumentLibraryPage
     @RenderWebElement
     @FindBy(css = "[id$='default-fileUpload-button-button']")
     private WebElement uploadButton;
-
-    private By documentLibraryItemsList = By.cssSelector("[class*=data] tr");
-
-    private WebElement selectContent(String contentName)
-    {
-        browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 6);
-        List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
-        return browser.findFirstElementWithValue(itemsList, contentName);
-    }
 
     @Override
     public String getRelativePath()
@@ -40,14 +29,12 @@ public class MyFilesPage extends DocumentLibraryPage
     {
         return browser.isElementDisplayed(uploadButton);
     }
-    
-    
-    public MyFilesPage navigateByMenuBarToMyFiles()
-    
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public MyFilesPage navigateByMenuBar()
     {
         toolbar.clickMyFiles();
         return (MyFilesPage) renderedPage();
     }
-    
-    
 }
