@@ -9,6 +9,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.AfterClass;
@@ -140,6 +141,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         }
     }
 
+    @Bug(id = "ACE-5698")
     @TestRail(id = "C6275")
     @Test
     public void createNewSearchFilter()

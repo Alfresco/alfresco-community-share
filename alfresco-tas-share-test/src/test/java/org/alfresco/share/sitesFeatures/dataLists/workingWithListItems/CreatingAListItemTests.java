@@ -13,6 +13,7 @@ import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -363,6 +364,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
 
     }
     
+    @Bug(id = "ACE-4226")
     @TestRail(id = "C6386")
     @Test
     public void createNewVisitorFeedbackListItem()

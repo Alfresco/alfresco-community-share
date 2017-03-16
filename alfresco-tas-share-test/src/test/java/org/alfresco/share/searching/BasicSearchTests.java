@@ -10,6 +10,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -138,6 +139,7 @@ public class BasicSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
+    @Bug(id = "TBD")
     @TestRail(id = "C5945")
     @Test
     public void verifySearchPage()

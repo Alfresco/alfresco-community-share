@@ -23,6 +23,7 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.share.sitesFeatures.wiki.BrowsingWikiPagesTests;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -461,6 +462,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
     cleanupAuthenticatedSession();
   }
 
+  @Bug(id = "MNT-17015")
   @TestRail(id = "C8962")
   @Test
   public void collaboratorStartWorkflow() {

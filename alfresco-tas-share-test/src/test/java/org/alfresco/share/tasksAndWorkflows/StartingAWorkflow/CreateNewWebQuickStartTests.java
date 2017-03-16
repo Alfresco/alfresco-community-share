@@ -10,6 +10,7 @@ import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.annotations.BeforeClass;
@@ -56,6 +57,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         content.createDocument(user1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
     }
 
+    @Bug(id = "MNT-17015")
     @TestRail(id = "C8352")
     @Test
     public void createNewWebQuickStartReviewAndPublishSectionStructure()
@@ -95,6 +97,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
+    @Bug(id = "MNT-17015")
     @TestRail(id = "C8353")
     @Test
     public void createNewWebQuickStartReviewAndPublishWebAssets()

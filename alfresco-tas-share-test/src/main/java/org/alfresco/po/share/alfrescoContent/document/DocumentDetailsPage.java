@@ -1,6 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import org.alfresco.po.TinyMce.TinyMceEditor;
+import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.SiteDashboardPage;

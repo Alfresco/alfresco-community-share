@@ -13,6 +13,7 @@ import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 
+import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Document;
@@ -495,6 +496,7 @@ public class ModelManagerTests extends ContextAwareWebTest
                 "Actions▾", "Details for the created aspect are not correct");
     }
 
+    @Bug(id="TBD")
     @TestRail(id="C42568")
     @Test
 

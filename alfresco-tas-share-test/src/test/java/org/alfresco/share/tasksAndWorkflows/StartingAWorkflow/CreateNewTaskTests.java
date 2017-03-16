@@ -11,6 +11,7 @@ import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.annotations.BeforeClass;
@@ -62,6 +63,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         content.createDocument(testUser, password, siteName, CMISUtil.DocumentType.HTML, docName1, docContent);
     }
 
+    @Bug(id = "MNT-17015")
     @TestRail(id = "C8344")
     @Test
     public void createNewTaskAndAssignToYourself()
@@ -93,6 +95,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
     }
 
+    @Bug(id = "MNT-17015")
     @TestRail(id = "C8345")
     @Test
     public void createNewTaskAndAssignToAnotherUser()
@@ -132,6 +135,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
+    @Bug(id = "MNT-17015")
     @TestRail(id = "C8376")
     @Test
     public void cancelStartingWorkflow()
@@ -162,6 +166,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         startWorkflowPage.cancelStartWorkflow();
     }
 
+    @Bug(id = "MNT-17015")
     @TestRail(id = "C8388")
     @Test
     public void startWorkflowForMultipleFiles()
