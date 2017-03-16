@@ -8,6 +8,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -54,7 +55,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8703")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void userHasSearchManagerRightsWhenAddedToALFRESCO_ADMINISTRATORS()
     {
         setupAuthenticatedSession(UserC8703, password);
@@ -82,7 +83,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8704")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void userHasSearchManagerRightsWhenAddedToALFRESCO_SEARCH_ADMINISTRATORS()
     {
         setupAuthenticatedSession(userC8704, password);
@@ -109,7 +110,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8713")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editFilterProperty()
     {
         searchManagerPage.navigate();

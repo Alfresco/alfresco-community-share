@@ -15,6 +15,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -111,7 +112,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C14502")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerCreateContent() {
             documentLibraryPage.navigate(siteName);
@@ -127,7 +128,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C14500")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerUploadContent() {
             documentLibraryPage.navigate(siteName);
@@ -143,7 +144,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8884")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerDownloadContent() {
             windowsUser = System.getProperty("user.name");
@@ -166,7 +167,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8885")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerViewInBrowser() {
             documentLibraryPage.navigate(siteName);
@@ -184,7 +185,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8887")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerUploadNewVersionCreatedByOtherUser() {
             documentLibraryPage.navigate(siteName);
@@ -196,7 +197,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8888")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerUploadNewVersionLockedByOtherUser() {
             LOG.info("Preconditions: log in with different user and lock file for editing");
@@ -217,7 +218,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8890")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerEditOnlineCreatedAddedByOtherUser() {
             LOG.info("Step 1: Mouse over fileC8890 and confirm that edit in Microsoft Office is not available");
@@ -228,7 +229,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8892")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerEditInlineCreatedAddedByOtherUser() {
             documentLibraryPage.navigate(siteName);
@@ -239,7 +240,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8894")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerEditOfflineCreatedAddedByOtherUser() {
             documentLibraryPage.navigate(siteName);
@@ -250,7 +251,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8905")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerEditInGoogleDocs() {
             documentLibraryPage.navigate(siteName);
@@ -261,7 +262,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8902")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerCancelEditingLockedByOtherUser() {
             LOG.info("Preconditions: log in with different user and lock file for editing");
@@ -282,7 +283,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8903")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerViewOriginalDocument() {
             LOG.info("Step 1: Login with admin user and Mouse over testFile and click Edit Offline");
@@ -307,7 +308,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8904")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
         public void consumerViewWorkingCopy() {
             LOG.info("Step 1: Login with admin user and Mouse over testFile and click Edit Offline");
             setupAuthenticatedSession(adminUser, adminPassword);
@@ -335,7 +336,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8906")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerStartWorkflow() {
             documentLibraryPage.navigate(siteName);
@@ -351,7 +352,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8907")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerLocateFile() {
             documentLibraryPage.navigate(siteName);
@@ -373,7 +374,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8908")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerDownloadPreviousVersion() {
             setupAuthenticatedSession(adminUser, adminPassword);
@@ -406,7 +407,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8909")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
         public void consumerRevertToPreviousVersion() {
             setupAuthenticatedSession(adminUser, adminPassword);
@@ -435,7 +436,7 @@ import static org.testng.Assert.assertTrue;
         }
 
         @TestRail(id = "C8898")
-        @Test
+        @Test(groups = { TestGroup.SANITY, TestGroup.USER})
         public void consumerCheckoutToGoogleDocsFileCreateByOtherUser() throws Exception {
             googleDocsCommon.loginToGoogleDocs();
             LOG.info("Step 1: Create Google Doc document using admin user");

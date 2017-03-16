@@ -4,6 +4,7 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.user.profile.UserContentPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -36,7 +37,7 @@ public class UserProfileContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2552")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void noAddedOrModifiedContent()
     {
         LOG.info("STEP1: Go to 'My Profile --> 'Content' page and verify the content");

@@ -1,11 +1,5 @@
 package org.alfresco.share.userRolesAndPermissions.contributor;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
@@ -17,22 +11,24 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.*;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class FilesOnlyTests extends ContextAwareWebTest
 {
@@ -104,7 +100,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8910")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void createContent()
 
     {
@@ -135,7 +131,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8911")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void uploadContent()
 
     {
@@ -158,7 +154,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8912")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void dowloadContent()
 
     {
@@ -183,7 +179,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8913")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void viewInBrowser()
     {
 
@@ -209,7 +205,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8914")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void uploadNewVersionForItemCreatedBySelf()
 
     {
@@ -244,7 +240,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8915")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void uploadNewVersionForItemCreatedByOthers()
     {
 
@@ -267,7 +263,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8916")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void uploadNewVersionForItemLockedByUser()
 
     {
@@ -303,7 +299,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8917")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editOnlineForContentCreatedBySelf()
 
     {
@@ -326,7 +322,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8918")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editOnlineForContentCreatedByOthers()
 
     {
@@ -349,7 +345,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8919")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editInlineForContentCreatedBySelf()
 
     {
@@ -383,7 +379,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8920")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editInlineForContentCreatedByOthers()
     {
 
@@ -405,7 +401,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8921")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editOfflineForContentCreatedBySelf()
 
     {
@@ -453,7 +449,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8922")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editOfflineForContentCreatedByOthers()
 
     {
@@ -475,7 +471,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8925")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void checkInOutGoogleDocsCreatedBySelf() throws Exception
     {
 
@@ -541,7 +537,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8926")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editInGoogleDocForContentCreatedByOthers()
     {
         String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
@@ -567,7 +563,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8928")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void checkInGoogleDocForContentCreatedByOthers() throws Exception
 
     {
@@ -602,7 +598,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8929")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void cancelEditingContentLockedBySelf() throws Exception
 
     {
@@ -636,7 +632,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8930")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void cancelEditingContentLockedByOthers() throws Exception
     {
 
@@ -669,7 +665,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8931")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void viewOriginalVersion() throws Exception
 
     {
@@ -708,7 +704,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8932")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void viewWorkingCopy() throws Exception
 
     {
@@ -747,7 +743,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8933")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editInGoogleDocs() throws Exception
 
     {
@@ -804,7 +800,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8934")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void startWorkflow()
 
     {
@@ -836,7 +832,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8935")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void locateFile()
 
     {
@@ -869,7 +865,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8936")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void downloadPreviousVersion()
 
     {
@@ -917,7 +913,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8937")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void revertToPreviousVersion()
 
     {

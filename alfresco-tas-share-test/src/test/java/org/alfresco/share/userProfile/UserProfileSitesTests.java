@@ -5,6 +5,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.profile.UserSitesListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -52,7 +53,7 @@ public class UserProfileSitesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2154")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void viewSitesWhereUserHasMembership()
     {
         LOG.info("STEP1: Go to 'User Profile' --> 'Sites' page for User1");

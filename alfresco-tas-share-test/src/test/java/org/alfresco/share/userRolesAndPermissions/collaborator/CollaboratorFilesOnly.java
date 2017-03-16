@@ -21,15 +21,14 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.toolbar.ToolbarTasksMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
-import org.alfresco.share.sitesFeatures.wiki.BrowsingWikiPagesTests;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -215,7 +214,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8938")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorCreateContent() {
 
     setupAuthenticatedSession(user, password);
@@ -265,7 +264,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8939")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorUploadContent() {
 
     setupAuthenticatedSession(user, password);
@@ -286,7 +285,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8940")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorDownloadContent() {
 
     setupAuthenticatedSession(user, password);
@@ -314,7 +313,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8941")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorViewInBrowser() {
 
     setupAuthenticatedSession(user, password);
@@ -334,7 +333,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8947")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorEditInlineBySelf() {
 
     setupAuthenticatedSession(user, password);
@@ -374,7 +373,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8948")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorEditInlineByOthers() {
 
     contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN,
@@ -417,7 +416,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8957")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorCancelEditingBySelf() {
 
     setupAuthenticatedSession(user, password);
@@ -464,7 +463,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
 
   @Bug(id = "MNT-17015")
   @TestRail(id = "C8962")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorStartWorkflow() {
 
     setupAuthenticatedSession(user, password);
@@ -518,7 +517,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
   
   @TestRail(id = "C8942")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorUploadNewVersionSelfCreated() {
 
     setupAuthenticatedSession(user, password);
@@ -558,7 +557,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8943")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorUploadNewVersionOtherUserCreated() {
 
 
@@ -599,7 +598,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
   
   @TestRail(id = "C8953")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorCheckOutGoogleDocBySelf() throws Exception {
 
     setupAuthenticatedSession(user, password);
@@ -660,7 +659,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8954")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorCheckOutGoogleDocByOthers() throws Exception {
 
     setupAuthenticatedSession(user, password);
@@ -719,7 +718,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
 
   }
   @TestRail(id="C8945")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
   public void editOnlineCreatedBySelf()
   {
@@ -740,7 +739,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
 
   @TestRail(id ="C8946")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
   public void editOnlineCreatedByOtherUser()
   {
@@ -761,7 +760,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
 
   @TestRail(id ="C8949")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
   public void editOfflineCreatedBySelf()
   {
@@ -782,7 +781,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
   }
 
   @TestRail(id ="C8950")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
   public void editOfflineCreatedByOtherUser()
   {

@@ -6,6 +6,7 @@ import org.alfresco.po.share.user.profile.ChangePasswordPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -35,7 +36,7 @@ public class ChangePasswordTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2226")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void changeUserPassword()
     {
         LOG.info("STEP1: Navigate to 'Change Password' page");

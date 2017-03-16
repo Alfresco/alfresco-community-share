@@ -36,7 +36,7 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2110")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void checkUserProfilePage()
     {
         LOG.info("Step 1 - Click on 'My Profile' link on header bar");
@@ -59,7 +59,7 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2190")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void checkEditUserProfilePage()
     {
         editUserPage.navigate(user);
@@ -93,7 +93,7 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2142")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void updateUserProfile()
     {
         String[] userDetails = { "John", "Snow", "Lord", "Winterfell", "Spoiler: I'm alive", "john.show@got.com", "0233", "0749", "john.show", "House Stark",
@@ -147,7 +147,7 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2152")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void uploadNewPhoto()
     {
         editUserPage.navigate(user);

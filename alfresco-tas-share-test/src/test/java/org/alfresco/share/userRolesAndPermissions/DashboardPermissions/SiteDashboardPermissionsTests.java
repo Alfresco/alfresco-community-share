@@ -6,13 +6,12 @@ import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.springframework.social.alfresco.api.entities.Role.SiteConsumer;
 
 /**
  * Created by Mirela Tifui on 11/24/2016.
@@ -50,7 +49,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C8723")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void siteDashboardPermissionsConsumerRole()
     {
         setupAuthenticatedSession(userConsumer, password);
@@ -68,7 +67,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C8724")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
     public void siteDashboardPermissionsContributorRole()
     {
@@ -87,7 +86,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C8725")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
     public void siteDashboardPermissionsCollaboratorRole()
     {
@@ -106,7 +105,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C8726")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
 
     public void siteDashboardPermissionsSiteManagerRole()
     {

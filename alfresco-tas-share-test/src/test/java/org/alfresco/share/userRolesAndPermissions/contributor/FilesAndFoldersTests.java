@@ -1,13 +1,5 @@
 package org.alfresco.share.userRolesAndPermissions.contributor;
 
-import static java.util.Arrays.asList;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
@@ -25,13 +17,19 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage.DocumentsFilters;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.openqa.selenium.By;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static java.util.Arrays.asList;
+import static org.testng.Assert.*;
 
 public class FilesAndFoldersTests extends ContextAwareWebTest
 {
@@ -86,7 +84,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8787")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void likeAndUnlike()
     {
 
@@ -122,7 +120,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8788")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void favoriteAndUnfavorite()
 
     {
@@ -157,7 +155,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8789")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void renameItemAddedBySelf()
 
     {
@@ -193,7 +191,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8790")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void renameItemAddedByOthers()
     {
 
@@ -215,7 +213,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8791")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editBasicDetailsCreatedBySelf()
 
     {
@@ -265,7 +263,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8792")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editBasicDetailsCreatedByOthers()
 
     {
@@ -286,7 +284,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8795")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void contributorCopy()
 
     {
@@ -327,7 +325,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8796")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void moveContentCreatedBySelf()
 
     {
@@ -373,7 +371,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8797")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void moveContentCreatedByOthers()
 
     {
@@ -394,7 +392,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8798")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void deleteContentCreatedBySelf()
     {
 
@@ -422,7 +420,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8799")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void deleteContentCreatedByOthers()
 
     {
@@ -444,7 +442,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8800")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void managePermissionsContentCreatedBySelf()
 
     {
@@ -480,7 +478,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8801")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void managePermissionsForContentCreatedByOthers()
 
     {
@@ -501,7 +499,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8802")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void manageAspectsForContentCreatedBySelf()
 
     {
@@ -535,7 +533,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8803")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void manageAspectsForContentCreatedByOthers()
     {
         String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
@@ -554,7 +552,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8804")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void changeTypeForContentCreatedBySelf()
 
     {
@@ -600,7 +598,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8805")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void changeTypeForContentCreatedByOthers()
 
     {
@@ -622,7 +620,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8807")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void addComment()
 
     {
@@ -651,7 +649,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8808")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editCommentCreatedBySelf()
 
     {
@@ -683,7 +681,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8809")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editCommentCreatedByOthers()
 
     {
@@ -715,7 +713,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8810")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void deleteCommentCreatedBySelf()
 
     {
@@ -746,7 +744,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8811")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void deleteCreatedByOthers()
 
     {
@@ -777,7 +775,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8812")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void viewItemDetailsPage()
 
     {

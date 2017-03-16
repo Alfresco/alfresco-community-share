@@ -10,6 +10,7 @@ import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -85,7 +86,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8701")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyPresenceInToolbarBasicUser()
     {
         setupAuthenticatedSession(user1, password);
@@ -96,7 +97,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8674")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifySiteManagerPage()
     {
         setupAuthenticatedSession(siteAdmin, password);
@@ -114,7 +115,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8675")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void updateSiteVisibilityToPublic()
     {
         String visibility = "Public";
@@ -135,7 +136,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8676")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void updateSiteVisibilityToModerated()
     {
         String visibility = "Moderated";
@@ -156,7 +157,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8680")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void updateSiteVisibilityToPrivate()
     {
         String visibility = "Private";
@@ -177,7 +178,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8681")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyUserIsAddedToAlfrescoAdminGroup()
     {
         setupAuthenticatedSession(user2, password);
@@ -203,7 +204,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8682")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyUserIsAddedToSiteAdminGroup()
     {
         setupAuthenticatedSession(user3, password);
@@ -224,7 +225,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8683")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void removeUserFromSiteAdmin()
     {
         setupAuthenticatedSession(user4, password);
@@ -245,7 +246,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8684")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void removeUserFromAlfrescoAdmin()
     {
         setupAuthenticatedSession(alfrescoAdmin, password);
@@ -271,7 +272,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8689")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void siteAdminBecomeSitesManager()
     {
         setupAuthenticatedSession(siteAdmin, password);
@@ -284,7 +285,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8696")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void deleteSiteAsSiteAdmin()
     {
         setupAuthenticatedSession(siteAdmin, password);

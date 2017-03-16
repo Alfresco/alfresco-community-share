@@ -1,25 +1,13 @@
 package org.alfresco.share.userRolesAndPermissions.collaborator;
 
-import static java.util.Arrays.asList;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
-import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
-import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
-import org.alfresco.po.share.alfrescoContent.document.UploadContent;
+import org.alfresco.po.share.alfrescoContent.document.*;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
@@ -29,24 +17,27 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.DocumentLibraryPage.DocumentsFilters;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.site.DocumentLibraryPage.DocumentsFilters;
-import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
-import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
-import org.alfresco.po.share.tasksAndWorkflows.SelectAssigneeToWorkflowPopUp;
-import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
-import org.alfresco.po.share.tasksAndWorkflows.WorkflowDetailsPage;
+import org.alfresco.po.share.tasksAndWorkflows.*;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.toolbar.ToolbarTasksMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static java.util.Arrays.asList;
+import static org.testng.Assert.*;
 
 /**
  * Created by Rusu Andrei
@@ -178,7 +169,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8814")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorLikeUnlike() {
 
     String testContentC8814 = "C8814 file" + DataUtil.getUniqueIdentifier();
@@ -215,7 +206,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8815")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorFavoriteUnfavorite() {
 
     String testContentC8815 = "C8815 file" + DataUtil.getUniqueIdentifier();
@@ -263,7 +254,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8818")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorEditBasicDetailsBySelf() {
 
     String folderName = "Folder" + DataUtil.getUniqueIdentifier();
@@ -318,7 +309,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8819")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorEditBasicDetailsByOthers() {
 
     String folderName2 = "Folder2" + DataUtil.getUniqueIdentifier();
@@ -368,7 +359,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8816")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorRenameBySelf() {
 
     String testContentC8816 = "C8816 file" + DataUtil.getUniqueIdentifier();
@@ -403,7 +394,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8817")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorRenameByOthers() {
 
     String testContentC8817 = "C8817 file" + DataUtil.getUniqueIdentifier();
@@ -439,7 +430,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8823")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorMoveBySelf() {
 
     String testFolder3 = "Folder3" + DataUtil.getUniqueIdentifier();
@@ -485,7 +476,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8824")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorMoveByOthers() {
 
     String testFolder5 = "Folder5" + DataUtil.getUniqueIdentifier();
@@ -505,7 +496,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8822")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorCopyTo() {
 
     String testFolder6 = "Folder6" + DataUtil.getUniqueIdentifier();
@@ -545,7 +536,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8822")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorDeleteBySelf() {
 
     String testFolder7 = "Folder7" + DataUtil.getUniqueIdentifier();
@@ -572,7 +563,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8822")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorDeleteByOthers() {
 
     String testFolder8 = "Folder8" + DataUtil.getUniqueIdentifier();
@@ -592,7 +583,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8827")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorManagePermissionsBySelf() {
 
     String testFolder9 = "Folder9" + DataUtil.getUniqueIdentifier();
@@ -631,7 +622,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8828")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorManagePermissionsByOthers() {
 
     String testFolder10 = "Folder10" + DataUtil.getUniqueIdentifier();
@@ -649,7 +640,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8829")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorManageAspectsBySelf() {
 
     String testFolder11 = "Folder11" + DataUtil.getUniqueIdentifier();
@@ -678,7 +669,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8830")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorManageAspectsByOthers() {
 
     String testFolder12 = "Folder12" + DataUtil.getUniqueIdentifier();
@@ -707,7 +698,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8834")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorAddComment() {
 
     String testFolder13 = "Folder13" + DataUtil.getUniqueIdentifier();
@@ -735,7 +726,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8835")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorEditCommentBySelf() {
 
     String testFolder14 = "Folder14" + DataUtil.getUniqueIdentifier();
@@ -774,7 +765,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8836")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorEditCommentByOthers() {
 
     String testFolder15 = "Folder15" + DataUtil.getUniqueIdentifier();
@@ -812,7 +803,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8837")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorDeleteCommentBySelf() {
 
     String testFolder16 = "Folder16" + DataUtil.getUniqueIdentifier();
@@ -843,7 +834,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   }
 
   @TestRail(id = "C8838")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.USER})
   public void collaboratorDeleteCommentByOthers() {
 
     String testFolder17 = "Folder17" + DataUtil.getUniqueIdentifier();

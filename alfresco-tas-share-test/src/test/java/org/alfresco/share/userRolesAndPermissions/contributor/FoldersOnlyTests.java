@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -72,7 +73,7 @@ public class FoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8874")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void collaboratorCreateFolder()
     {
         documentLibraryPage.navigate(site);
@@ -95,7 +96,7 @@ public class FoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8875")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void locateFolder()
     {
         documentLibraryPage.navigate(site);
@@ -133,7 +134,7 @@ public class FoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8877")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void manageRulesFolderCreatedByOther()
     {
         LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");

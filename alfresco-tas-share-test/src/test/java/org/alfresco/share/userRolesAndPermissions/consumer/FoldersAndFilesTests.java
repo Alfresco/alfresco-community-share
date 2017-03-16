@@ -12,6 +12,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -105,7 +106,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8761")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerViewFolderItemDetailsPage()
     {
         documentLibraryPage.navigate(siteName);
@@ -125,7 +126,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8762")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerLikeUnlikeFile()
     {
         documentLibraryPage.navigate(siteName);
@@ -153,7 +154,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8763")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerFavoriteUnfavoriteFile()
     {
         documentLibraryPage.navigate(siteName);
@@ -183,7 +184,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8765")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerEditPropertiesForContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -202,7 +203,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8770")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerCopyContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -235,7 +236,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8772")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerMoveContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -247,7 +248,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8774")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerDeleteContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -259,7 +260,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8776")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerManagePermissionsForContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -271,7 +272,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8778")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerManageAspectsForContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -283,7 +284,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8780")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerChangeTypeForContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -306,7 +307,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8782")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerAddCommentForContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -318,7 +319,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8784")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerEditAndDeleteCommentForContent()
     {
         // Precondition
@@ -361,7 +362,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8865")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void consumerPermissionRetention()
     {
         // Precondition
