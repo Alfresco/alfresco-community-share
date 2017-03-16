@@ -2,7 +2,6 @@ package org.alfresco.share.alfrescoContent.buildingContent;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -20,7 +19,7 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
     DocumentLibraryPage documentLibraryPage;
 
     @Autowired
-    CreateContent create;
+    CreateContent createContent;
 
     @Autowired
     DocumentDetailsPage documentDetailsPage;
@@ -50,20 +49,15 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         
         LOG.info("Step 1:Click 'Create' then click 'Create document from template'.");
-
         documentLibraryPage.clickCreateButton();
-        create.clickCreateDocumentFromTemplate("Create document from template");
-        getBrowser().waitInSeconds(2);
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(create.selectTemplate(docName), 6);
-        Assert.assertTrue(create.isTemplateDisplayed(docName), "Template is not displayed");
+        createContent.clickCreateFromTemplateButton("Create document from template");
+        Assert.assertTrue(createContent.isTemplateDisplayed(docName), "Template is not displayed");
         
         LOG.info("Step 2: Select the template and check that the new file is created with the content from the template used");
-        
-        create.clickOnTemplate(docName);
-        documentLibraryPage.navigate(siteName);
+        createContent.clickOnTemplate(docName, documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Newly created document is not displayed in Document Library");
+
         documentLibraryPage.clickOnFile(docName);
-        
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Document is not previewed");
         Assert.assertEquals(documentDetailsPage.getContentText(), docContent);
     }

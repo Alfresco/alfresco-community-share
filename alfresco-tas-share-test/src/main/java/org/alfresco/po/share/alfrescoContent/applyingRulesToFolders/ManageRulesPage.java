@@ -1,6 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -8,12 +9,17 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * @author Laura.Capsa
  */
 @PageObject
 public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 {
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
+
     @Autowired
     EditRulesPage editRulesPage;
 
@@ -42,6 +48,12 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
     @RenderWebElement
     @FindBy(css = "button[id*='inheritButton']")
     private WebElement inheritButton;
+
+    @FindBy(css = "li.rules-list-item.selected.dnd-draggable")
+    public WebElement contentRule;
+
+    @FindBy(css = "span.folder-link a")
+    private List<WebElement> breadcrumbList;
 
     @Override
     public String getRelativePath()
@@ -106,5 +118,16 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
         if (browser.isElementDisplayed(inheritButton))
             return inheritButton.getText();
         return "'Inherit Rules' button isn't displayed.";
+    }
+
+    public boolean isContentRuleDisplayed()
+    {
+        return browser.isElementDisplayed(contentRule);
+    }
+
+    public DocumentLibraryPage returnTo(String location)
+    {
+        browser.findFirstElementWithValue(breadcrumbList, location).click();
+        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 }

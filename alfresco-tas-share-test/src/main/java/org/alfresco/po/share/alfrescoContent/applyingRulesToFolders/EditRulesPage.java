@@ -57,6 +57,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     private By ifConditionCompareSelector = By.cssSelector("div[id*='ruleConfigIfCondition'] span[class*='compare-property'] select");
     private By copySelectButtonSelector = By.cssSelector("div[id*='ruleConfigAction'] .parameters button");
     private ArrayList<String> selectedValues = new ArrayList<>();
+    private By aspectDropdownList = By.cssSelector("select[title='aspect-name']>option");
 
     @Override
     public String getRelativePath()
@@ -191,5 +192,10 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
             assertEquals(optionText, expectedOptionsList.get(i), dropdownId + " option");
         }
         return optionsTextList;
+    }
+
+    public void selectAspect(String aspectName)
+    {
+        browser.selectOptionFromFilterOptionsList(aspectName, browser.findElements(aspectDropdownList));
     }
 }

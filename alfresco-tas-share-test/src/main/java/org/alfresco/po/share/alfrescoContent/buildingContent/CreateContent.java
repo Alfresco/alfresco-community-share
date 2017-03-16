@@ -3,6 +3,7 @@ package org.alfresco.po.share.alfrescoContent.buildingContent;
 import org.alfresco.po.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -66,18 +67,6 @@ public class CreateContent extends SiteCommon<CreateContent>
     @FindBy(css = "div[class ='mce-edit-area mce-container mce-panel mce-stack-layout-item'] iframe")
     private WebElement htmlContentField;
 
-    @FindBy(css = "div[id*='_default-createFolder-dialogTitle']")
-    private WebElement createFolderFromTemplate;
-
-    @FindBy(css = "input[id*='_default-createFolder_prop_cm_title']")
-    private WebElement titleFieldCreateFolderTemplateForm;
-
-    @FindBy(css = "textarea[id*='_default-createFolder_prop_cm_description']")
-    private WebElement descriptionFieldCreateFormTemplate;
-
-    @FindBy(css = "button[id*='_default-createFolder-form-submit-button']")
-    private WebElement saveButtonCreateFormTemplate;
-
     @FindBy(css = "div[id*='_default-createFolder-dialog_c']")
     private WebElement createFolderDialog;
     
@@ -93,7 +82,7 @@ public class CreateContent extends SiteCommon<CreateContent>
 
     public WebElement selectTemplate(String templateName)
     {
-        return browser.findElement(By.xpath("//a[@class = 'yuimenuitemlabel']//span[text()='" + templateName + "']"));
+        return browser.waitUntilElementVisible(By.xpath("//a[@class = 'yuimenuitemlabel']//span[text()='" + templateName + "']"));
     }
 
     @Override
@@ -383,17 +372,19 @@ public class CreateContent extends SiteCommon<CreateContent>
     /**
      * Method to click on create Document from Template
      */
-    public void clickCreateDocumentFromTemplate(String btnName)
+    public void clickCreateFromTemplateButton(String btnName)
     {
-        selectCreateFromTemplateButton("Create document from template").click();
+        selectCreateFromTemplateButton(btnName).click();
+        browser.waitUntilElementVisible(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible"));
     }
 
     /**
      * Method to select template
      */
-    public void clickOnTemplate(String templateName)
+    public HtmlPage clickOnTemplate(String templateName, HtmlPage page )
     {
         selectTemplate(templateName).click();
+        return page.renderedPage();
     }
 
     /**
@@ -402,38 +393,6 @@ public class CreateContent extends SiteCommon<CreateContent>
     public boolean isTemplateDisplayed(String templateName)
     {
         return selectTemplate(templateName).isDisplayed();
-    }
-
-    /**
-     * Method to click on create Folder from Template
-     */
-    public void clickCreateFolderFromTemplate(String btnName)
-    {
-        selectCreateFromTemplateButton("Create folder from template").click();
-    }
-
-    /**
-     * Method to check if Create Folder From Template form is displayed
-     */
-
-    public boolean isCreateFolderFromTemplateFromDisplayed()
-    {
-        return createFolderFromTemplate.isDisplayed();
-    }
-
-    public void provideTitleForCreateFolderFromTemplate(String title)
-    {
-        titleFieldCreateFolderTemplateForm.sendKeys(title);
-    }
-    
-    public void provideDecsriptionForCreateFolderFromTemplate(String description)
-    {
-        descriptionFieldCreateFormTemplate.sendKeys(description);
-    }
-    
-    public void clickSaveButtonOnCreateFormTemplate()
-    {
-        saveButtonCreateFormTemplate.click();
     }
     
     public boolean isCreateFolderDialogDisplayed()

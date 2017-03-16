@@ -64,7 +64,10 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     @FindBy (css = "div[class$='inherited-on']")
     private WebElement inheritButtonStatus;
-    
+
+    @FindBy(css = "span.folder-link a")
+    private List<WebElement> breadcrumbList;
+
     @FindAll(@FindBy(css = "button[id*='yui-gen']"))
     protected List<WebElement> addButtonsList;
 
@@ -310,7 +313,28 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     public String getRole(String userName)
     {
         WebElement userRow = browser.waitUntilElementVisible(By.xpath(String.format(userRowLocator, userName)));
-        String role = userRow.findElement(By.xpath("//td[contains(@class, 'role')]//button")).getText();
+        String role = userRow.findElement(By.xpath("//td[contains(@class, 'role')]//button|//td[contains(@class, 'role')]//span")).getText();
         return role;
+    }
+
+    /**
+     * Method to set the role for a specified user
+     *
+     * @param userName String
+     *
+     */
+    public String setRole(String userName, String role)
+    {
+        WebElement userRow = browser.waitUntilElementVisible(By.xpath(String.format(userRowLocator, userName)));
+        userRow.findElement(By.xpath("//td[contains(@class, 'role')]//button")).click();
+        browser.waitUntilElementVisible(By.cssSelector(".yui-menu-button-menu.visible"));
+        browser.selectOptionFromFilterOptionsList(role, browser.findElements(By.cssSelector(".yui-menu-button-menu.visible li>a")));
+        return role;
+    }
+
+    public DocumentLibraryPage returnTo(String location)
+    {
+        browser.findFirstElementWithValue(breadcrumbList, location).click();
+        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 }

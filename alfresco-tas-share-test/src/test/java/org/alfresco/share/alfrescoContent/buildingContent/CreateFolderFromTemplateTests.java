@@ -1,16 +1,28 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
+import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
+import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
+import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.report.log.Step;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+
+import static org.alfresco.utility.report.log.Step.STEP;
+import static org.testng.Assert.assertEquals;
 
 public class CreateFolderFromTemplateTests extends ContextAwareWebTest
 {
@@ -18,10 +30,19 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     DocumentLibraryPage documentLibraryPage;
 
     @Autowired
-    SiteDashboardPage siteDashboardPage;
+    Notification notification;
     
     @Autowired
     CreateFolderFromTemplate createFolderFromTemplate;
+
+    @Autowired
+    CreateContent createContent;
+
+    @Autowired private EditRulesPage editRulesPage;
+    @Autowired private RepositoryPage repositoryPage;
+    @Autowired private ManageRulesPage manageRulesPage;
+    @Autowired private ManagePermissionsPage managePermissionsPage;
+    @Autowired private AspectsForm aspectsForm;
 
     String folderTemplateName = "Software Engineering Project";
     String userFirstName = "Jim";
@@ -34,53 +55,48 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         String userName = "testUser" + DataUtil.getUniqueIdentifier();
         String siteName = "testSite" + DataUtil.getUniqueIdentifier();
         String fileName = "system-overview.html";
-        String breadcrumbPath = "Documents > Software Engineering Project > Documentation > Samples";
+        String breadcrumbPath = Arrays.asList("Documents", "Software Engineering Project", "Documentation", "Samples").toString();
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C6292", "C6292");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
-        siteDashboardPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibrary();
+        documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Click 'Create' then 'Create folder from template'.");
-        createFolderFromTemplate.clickCreateContentButton();
-        createFolderFromTemplate.hoverOverCreateFolderFromTemplateLink();
-        Assert.assertTrue(createFolderFromTemplate.isListOfAvailableTemplatesDisplayed());
+        documentLibraryPage.clickCreateButton();
+        createContent.clickCreateFromTemplateButton("Create folder from template");
+        Assert.assertTrue(createContent.isTemplateDisplayed(folderTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createFolderFromTemplate.clickOnFolderTemplate(folderTemplateName);
-        getBrowser().waitInSeconds(3);
+        createContent.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
-        Assert.assertEquals(createFolderFromTemplate.getTemplateFolderNameFieldValue(), folderTemplateName);
+        Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
         LOG.info("STEP 3: Click 'Save' button.");
-        createFolderFromTemplate.clickButton("Save");
-        getBrowser().waitInSeconds(2);
-        Assert.assertTrue(createFolderFromTemplate.isFolderCreatedMessageDisplayed());
-        Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists(folderTemplateName), "Subfolder not found");
-        Assert.assertEquals(createFolderFromTemplate.getFolderNameFromExplorerPanel(), folderTemplateName);
+        createFolderFromTemplate.clickSaveButton();
+        Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderTemplateName));
+        notification.waitUntilNotificationDisappears();
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderTemplateName), "Subfolder not found");
+        Assert.assertTrue(documentLibraryPage.getExplorerPanelDocuments().contains(folderTemplateName), "Subfolder not found in Documents explorer panel");
 
         LOG.info("STEP 4: Click on the created folder ('Software Engineering Project') in 'Library' section of the browsing pane.");
         documentLibraryPage.clickOnFolderName(folderTemplateName);
-        getBrowser().waitInSeconds(1);
-        Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Discussions"), "Subfolder not found");
-        Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Documentation"), "Subfolder not found");
-        Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Presentations"), "Subfolder not found");
-        Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Quality Assurance"), "Subfolder not found");
-        Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("UI Design"), "Subfolder not found");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Discussions"), "Subfolder not found");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Documentation"), "Subfolder not found");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Presentations"), "Subfolder not found");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Quality Assurance"), "Subfolder not found");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("UI Design"), "Subfolder not found");
 
         LOG.info("STEP 5: Click on the subfolder 'Documentation' in 'Library' section of the browsing pane.");
         documentLibraryPage.clickOnFolderName("Documentation");
-        getBrowser().waitInSeconds(1);
-        Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Drafts"), "Subfolder not found");
-        Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Pending Approval"), "Subfolder not found");
-        Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Published"), "Subfolder not found");
-        Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Samples"), "Subfolder not found");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Drafts"), "Subfolder not found");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Pending Approval"), "Subfolder not found");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Published"), "Subfolder not found");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Samples"), "Subfolder not found");
 
         LOG.info("STEP 6: Click on the subfolder 'Samples' in 'Library' section of the browsing pane.");
         documentLibraryPage.clickOnFolderName("Samples");
-        getBrowser().waitInSeconds(1);
-        Assert.assertEquals(createFolderFromTemplate.getBreadCrumbPath(), breadcrumbPath);
+        Assert.assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbPath);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), "File not found");
     }
 
@@ -94,22 +110,20 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C6292", "C6292");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
-        siteDashboardPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibrary();
+        documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Click 'Create' then 'Create folder from template'.");
-        createFolderFromTemplate.clickCreateContentButton();
-        createFolderFromTemplate.hoverOverCreateFolderFromTemplateLink();
-        Assert.assertTrue(createFolderFromTemplate.isListOfAvailableTemplatesDisplayed());
+        documentLibraryPage.clickCreateButton();
+        createContent.clickCreateFromTemplateButton("Create folder from template");
+        Assert.assertTrue(createContent.isTemplateDisplayed(folderTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createFolderFromTemplate.clickOnFolderTemplate(folderTemplateName);
-        getBrowser().waitInSeconds(3);
+        createContent.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
-        Assert.assertEquals(createFolderFromTemplate.getTemplateFolderNameFieldValue(), folderTemplateName);
+        Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
         LOG.info("STEP 3: Click 'Cancel' button.");
-        createFolderFromTemplate.clickButton("Cancel");
+        createFolderFromTemplate.clickCancelButton();
         Assert.assertFalse(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertFalse(documentLibraryPage.isContentNameDisplayed(folderTemplateName), "Folder not found");
     }
@@ -127,89 +141,96 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         String folderPathInRepository = "Data Dictionary/Space Templates/";
         String ruleName = "Add aspect taggable rule";
         String ruleDescription = "Add aspect taggable rule test";
-        String addAspectActionValue = "add-features";        
-        String aspectTaggableValue = "cm:taggable";
-        String mainButtonToClick = "Create";
+        String aspectTaggableValue = "Taggable";
         String aspectType = "Classifiable";
         
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userFirstName, userLastName);
         contentService.createFolderInRepository(adminUser, adminPassword, templateFolderName,folderPathInRepository);        
         setupAuthenticatedSession(adminUser, adminPassword);
-        createFolderFromTemplate.clickCreateRules(templateFolderName);
-        getBrowser().waitInSeconds(2);
-        createFolderFromTemplate.insertRuleName(ruleName);
-        getBrowser().waitInSeconds(1);
-        createFolderFromTemplate.insertRuleDescription(ruleDescription);
-        createFolderFromTemplate.selectAspectAndSubmit(addAspectActionValue,aspectTaggableValue,mainButtonToClick);
-        createFolderFromTemplate.setPermissions(templateFolderName,userName);
-        getBrowser().waitInSeconds(4);
-        createFolderFromTemplate.setAspects(templateFolderName);    
+
+        STEP("Precondition: Create any rule for template1 (e.g. rule1 when items are created or enter this folder, add aspect taggable)");
+        repositoryPage.navigate();
+        repositoryPage.clickFolderFromExplorerPanel("Data Dictionary");
+        repositoryPage.clickOnFolderName("Space Templates");
+        documentLibraryPage.clickDocumentLibraryItemAction(templateFolderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        manageRulesPage.clickCreateRules();
+
+        editRulesPage.typeRuleDetails(ruleName, ruleDescription, Arrays.asList(0, 0, 7));
+        editRulesPage.selectAspect(aspectTaggableValue);
+        editRulesPage.clickCreateButton();
+
+        STEP("Precondition: Add any permission for template1 (e.g. user1 has role Coordinator)");
+        repositoryPage.navigate();
+        repositoryPage.clickFolderFromExplorerPanel("Data Dictionary");
+        repositoryPage.clickOnFolderName("Space Templates");
+        documentLibraryPage.clickDocumentLibraryItemAction(templateFolderName, "Manage Permissions", managePermissionsPage);
+        managePermissionsPage.searchAndAddUserOrGroup(userName, 0);
+        managePermissionsPage.setRole(userFirstName + " " + userLastName, userRole);
+        managePermissionsPage.clickButton("Save");
+
+        STEP("Precondition: Add any aspect for template1 (e.g. classifiable)");
+        repositoryPage.navigate();
+        repositoryPage.clickFolderFromExplorerPanel("Data Dictionary");
+        repositoryPage.clickOnFolderName("Space Templates");
+        documentLibraryPage.clickDocumentLibraryItemAction(templateFolderName, "Manage Aspects", aspectsForm);
+        aspectsForm.addElement(0);
+        aspectsForm.clickApplyChangesButton();
+
         cleanupAuthenticatedSession();
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-       
-       
+
         LOG.info("STEP 1: Click 'Create' then 'Create folder from template'.");
-        createFolderFromTemplate.clickCreateContentButton();
-        createFolderFromTemplate.hoverOverCreateFolderFromTemplateLink();
-        Assert.assertTrue(createFolderFromTemplate.isListOfAvailableTemplatesDisplayed(),"List of templates not displayed");
-        
+        documentLibraryPage.clickCreateButton();
+        createContent.clickCreateFromTemplateButton("Create folder from template");
+        Assert.assertTrue(createContent.isTemplateDisplayed(templateFolderName));
+
         LOG.info("STEP 2: Select the template: 'template1'");
-        createFolderFromTemplate.clickOnFolderTemplate(templateFolderName);
-        getBrowser().waitInSeconds(1);
-        Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed(),"Create folder from template popup not displayed");
-        Assert.assertEquals(createFolderFromTemplate.getTemplateFolderNameFieldValue(), templateFolderName);
-        
+        createContent.clickOnTemplate(templateFolderName, createFolderFromTemplate);
+        Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed(), "Create folder from template popup is displayed ");
+        Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), templateFolderName);
+
         LOG.info("STEP 3: Clear the Name field. Add name \'* \" < > \\ / . ? : |' and click 'Save' button.");
-        createFolderFromTemplate.insertNameInput(illegalCharacters);
-        createFolderFromTemplate.clickButton("Save");
-        createFolderFromTemplate.clickButton("Save");
+        createFolderFromTemplate.fillInNameField(illegalCharacters);
+        createFolderFromTemplate.clickSaveButton();
+        createFolderFromTemplate.clickSaveButton();
         Assert.assertTrue(createFolderFromTemplate.isTooltipErrorMessageDisplayed(),"Tooltip error message not displayed");
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         
         LOG.info("STEP 4: Clear Name field and type 'AName.'. Click 'Save' button.");
-        createFolderFromTemplate.insertNameInput("AName.");
-        createFolderFromTemplate.clickButton("Save");
-        createFolderFromTemplate.clickButton("Save");
+        createFolderFromTemplate.fillInNameField("AName.");
+        createFolderFromTemplate.clickSaveButton();
+        createFolderFromTemplate.clickSaveButton();
         Assert.assertTrue(createFolderFromTemplate.isTooltipErrorMessageDisplayed(),"Tooltip error message not displayed");
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed(),"Create folder from template popup not displayed");
-               
+
         LOG.info("STEP 5: Clear Name field and type 'AFolder.Name'. Click 'Save' button.");
-        createFolderFromTemplate.insertNameInput(folderName);
-        createFolderFromTemplate.clickButton("Save");
-        Assert.assertTrue(createFolderFromTemplate.isFolderCreatedMessageDisplayed());
-        Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("AFolder.Name"), "Subfolder not found");
-        Assert.assertEquals(createFolderFromTemplate.getFolderNameFromExplorerPanel(), "AFolder.Name");
-        
+        createFolderFromTemplate.fillInNameField(folderName);
+        createFolderFromTemplate.clickSaveButton();
+        Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName));
+        notification.waitUntilNotificationDisappears();
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Subfolder not found");
+        Assert.assertTrue(documentLibraryPage.getExplorerPanelDocuments().contains(folderName), "Subfolder not found in Documents explorer panel");
+
         LOG.info("STEP 6: Hover over the created folder (AFolder.Name). Click 'Manage Rules' option from more menu.");
-        createFolderFromTemplate.clickManageRulesForAFolder(folderName);
-        getBrowser().waitInSeconds(3);
-        Assert.assertTrue(createFolderFromTemplate.isContentRuleDisplayed(),"Content rule not displayed");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        Assert.assertTrue(manageRulesPage.isContentRuleDisplayed(),"Content rule not displayed");
 
         LOG.info("STEP 7: Click on 'Documents' link from breadcrumb.");
-        createFolderFromTemplate.returnToDocumentsPage();
-        getBrowser().waitInSeconds(3);
+        manageRulesPage.returnTo("Documents");
         Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(),"Documents page not opened");
-        
+
         LOG.info("STEP 8: Hover over the created folder (AFolder.Name). Click 'Manage Permissions' option from more menu.");
-        createFolderFromTemplate.clickManagePermissionsDocumentLibrary(folderName);
-        getBrowser().waitInSeconds(3);
-        Assert.assertTrue(createFolderFromTemplate.getPermissionsListUserDisplayName().contains(userFirstName),"User not found");
-        Assert.assertTrue(createFolderFromTemplate.getPermissionsListUserDisplayName().contains(userLastName),"User not found");
-        Assert.assertTrue(createFolderFromTemplate.getPermissionsListUserRole().contains(userRole),"User role not set to Coordinator");
-        
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
+        Assert.assertEquals(managePermissionsPage.getRole(userFirstName + " " + userLastName), userRole,"User role not set to Coordinator");
+
         LOG.info("STEP 9: Click on 'Documents' link from breadcrumb.");
-        createFolderFromTemplate.returnToDocumentsPage();
-        getBrowser().waitInSeconds(3);
+        managePermissionsPage.returnTo("Documents");
         Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(),"Documents page not opened");
-        
+
         LOG.info("STEP 10: Hover over the created folder (AFolder.Name). Click 'Manage Aspects' option from more menu.");
-        createFolderFromTemplate.clickManageAspectsDocumentLibrary(folderName);
-        getBrowser().waitInSeconds(3);
-        Assert.assertTrue(createFolderFromTemplate.getAspectsForFileName().contains(folderName),"Folder not found");
-        Assert.assertTrue(createFolderFromTemplate.getCurrentlySelectedAspectsForFileName().contains(aspectType),"Aspect not found");
-        
-        //contentService.deleteTreeByPath(adminUser, adminPassword, folderPathInRepository + templateFolderName);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList(aspectType), "Aspect is not added to 'Currently Selected' list");
     }
 }

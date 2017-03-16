@@ -2,8 +2,10 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myF
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.MyFilesPage;
+import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.CreateFileFromTemplate;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
+
 /**
  * @author Razvan.Dorobantu
  */
@@ -25,7 +29,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
     @Autowired
     SiteDashboardPage sitePage;
-    
+
     @Autowired
     DocumentDetailsPage documentDetailsPage;
 
@@ -43,6 +47,13 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
     @Autowired
     GoogleDocsCommon googleDocs;
+
+    @Autowired
+    CreateContent createContent;
+
+    @Autowired Notification notification;
+
+    @Autowired private RepositoryPage repositoryPage;
 
     String folderTemplateName = "Software Engineering Project";
     String fileTemplateName = DataUtil.getUniqueIdentifier() + "fileTemplate.txt";
@@ -96,14 +107,14 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         LOG.info("Step 4: Click the Create button");
         create.clickCreateButton();
         getBrowser().waitInSeconds(1);
-        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
+        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
-        Assert.assertEquals(documentDetailsPage.getPropertyValue("Mimetype:"), "Plain Text", "Mimetype property is not Plain Text");
+        assertEquals(documentDetailsPage.getPropertyValue("Mimetype:"), "Plain Text", "Mimetype property is not Plain Text");
 
         LOG.info("Step 6: Verify the document's preview");
-        Assert.assertEquals(documentDetailsPage.getContentText(), "C7650 test content", "\"C7650 test content \" is not the content displayed in preview");
-        Assert.assertEquals(documentDetailsPage.getFileName(), "C7650 test name", "\"C7650 test name\" is not the file name for the file in preview");
+        assertEquals(documentDetailsPage.getContentText(), "C7650 test content", "\"C7650 test content \" is not the content displayed in preview");
+        assertEquals(documentDetailsPage.getFileName(), "C7650 test name", "\"C7650 test name\" is not the file name for the file in preview");
     }
 
     @TestRail(id = "C7696")
@@ -203,28 +214,25 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         String user = "user" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("STEP 1: Click 'Create' then 'Create folder from template'.");
-        createFolderFromTemplate.clickCreateContentButton();
-        createFolderFromTemplate.hoverOverCreateFolderFromTemplateLink();
-        Assert.assertTrue(createFolderFromTemplate.isListOfAvailableTemplatesDisplayed());
+        myFilesPage.clickCreateButton();
+        createContent.clickCreateFromTemplateButton("Create folder from template");
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createFolderFromTemplate.clickOnFolderTemplate(folderTemplateName);
-        getBrowser().waitInSeconds(1);
+        createContent.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
-        Assert.assertEquals(createFolderFromTemplate.getTemplateFolderNameFieldValue(), folderTemplateName);
+        Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
         LOG.info("STEP 3: Insert data into input fields and save.");
-        createFolderFromTemplate.insertNameInput("Test Folder");
-        createFolderFromTemplate.insertTitleInput("Test Title");
-        createFolderFromTemplate.insertDescriptionInput("Test Description");
-        createFolderFromTemplate.clickButton("Save");
-        Assert.assertTrue(createFolderFromTemplate.isFolderCreatedMessageDisplayed());
-        Assert.assertTrue(createFolderFromTemplate.checkIfSubfolderExists("Test Folder"), "Subfolder not found");
-        Assert.assertEquals(createFolderFromTemplate.getFolderNameFromExplorerPanel(), "Test Folder");
+        createFolderFromTemplate.fillInDetails("Test Folder", "Test Title", "Test Description");
+        createFolderFromTemplate.clickSaveButton();
+        Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", "Test Folder"));
+        notification.waitUntilNotificationDisappears();
+        Assert.assertTrue(myFilesPage.getFoldersList().contains("Test Folder"), "Subfolder not found");
+        Assert.assertTrue(myFilesPage.getExplorerPanelDocuments().contains("Test Folder"), "Subfolder not found in Documents explorer panel");
     }
 
     @TestRail(id = "C12858")
@@ -235,28 +243,25 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         String user = "user" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(adminUser, adminPassword);
-        sitePage.clickRepositoryLink();
-        myFilesPage.clickOnFolderName("Data Dictionary");
-        getBrowser().waitInSeconds(2);
-        myFilesPage.clickOnFolderName("Node Templates");
-        getBrowser().waitInSeconds(2);
+        repositoryPage.navigate();
+        repositoryPage.clickFolderFromExplorerPanel("Data Dictionary");
+        repositoryPage.clickOnFolderName("Node Templates");
         uploadContent.uploadContent(fileTemplatePath);
         cleanupAuthenticatedSession();
 
         LOG.info("Precondition: Login as user and navigate to My Files page.");
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("STEP 1: Click 'Create' then 'Create file from template'.");
-        createFileFromTemplate.clickCreateContentButton();
-        createFileFromTemplate.hoverOverCreateDocumentFromTemplateLink();
-        Assert.assertTrue(createFileFromTemplate.isListOfAvailableTemplatesDisplayed());
+        myFilesPage.clickCreateButton();
+        createContent.clickCreateFromTemplateButton("Create document from template");
+        Assert.assertTrue(createContent.isTemplateDisplayed(fileTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createFileFromTemplate.clickOnFileTemplate(fileTemplateName);
-        getBrowser().waitInSeconds(1);
-        Assert.assertTrue(createFileFromTemplate.isDocumentCreatedMessageDisplayed());
+        createContent.clickOnTemplate(fileTemplateName, myFilesPage);
+        Assert.assertEquals(notification.getDisplayedNotification(), String.format("Created content based on template '%s'", fileTemplateName), "Notification message appears");
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(fileTemplateName), String.format("Content: %s is not displayed.", fileTemplateName));
     }
 

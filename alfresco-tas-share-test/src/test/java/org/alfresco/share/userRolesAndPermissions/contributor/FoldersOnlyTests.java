@@ -1,14 +1,17 @@
 package org.alfresco.share.userRolesAndPermissions.contributor;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,6 +36,12 @@ public class FoldersOnlyTests extends ContextAwareWebTest
 
     @Autowired
     private ManageRulesPage manageRulesPage;
+
+    @Autowired
+    private NewContentDialog newContentDialog;
+
+    @Autowired
+    private Notification notification;
 
     private final String uniqueId = DataUtil.getUniqueIdentifier();
     private final String user = "User-" + uniqueId;
@@ -75,14 +84,13 @@ public class FoldersOnlyTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Select 'Folder' option");
         documentLibraryPage.clickFolderLink();
-        assertTrue(createContent.isCreateFolderDialogDisplayed(), "'Create folder' dialog is displayed.");
+        assertTrue(newContentDialog.isNewFolderPopupDisplayed(), "'Create folder' dialog is displayed.");
 
         LOG.info("STEP3: Set input for name, title, description and click on Save button");
-        createContent.sendInputForName(folderName2);
-        createContent.sendInputForTitle(title);
-        createContent.sendInputForDescription(description);
-        createContent.clickSaveButtonOnCreateFormTemplate();
-        createContent.clickCreateButton();
+        newContentDialog.fillInDetails(folderName2, title, description);
+        newContentDialog.clickSaveButton();
+        Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName2));
+        notification.waitUntilNotificationDisappears();
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName2), String.format("Folder [%s] is displayed in Document Library.", folderName2));
     }
 

@@ -1,23 +1,16 @@
 package org.alfresco.share.smartFolders;
 
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.SmartFolders;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +19,15 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.testng.Assert.assertTrue;
+
 public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 {
-
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
-
     @Autowired
     DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
 
     @Autowired
     AspectsForm aspectsForm;
@@ -129,9 +120,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         getBrowser().refresh();
 
         logger.info("Step4: Hover over folder and click 'Edit Properties'.");
-        documentLibraryPage.mouseOverContentItem(folderName);
-        documentLibraryPage.clickOnAction(folderName, "Edit Properties");
-        editPropertiesDialog.renderedPage();
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
         Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
         logger.info("Step5: Click 'All Properties' link.");
@@ -147,7 +136,6 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName1), "File1 displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName2), "File2 displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName3), "File3 displayed");
@@ -159,9 +147,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     @TestRail(id = "C8666")
     @Test
     public void applySFTemplateToCreatedFolder()
-
     {
-
         logger.info("Preconditions: Navigate to Document Library for the page for the test site");
         documentLibraryPage.navigate(siteNameC8666);
 
@@ -172,7 +158,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         assertTrue(newContentDialog.isMandatoryIndicatorDisplayed(), "'Name' mandatory field.");
         assertTrue(newContentDialog.isTitleFieldDisplayed(), "'Title' field displayed.");
         assertTrue(newContentDialog.isDescriptionFieldDisplayed(), "'Description' field displayed.");
-        assertTrue(newContentDialog.isSaveButttonDisplayed(), "'Save' button displayed.");
+        assertTrue(newContentDialog.isSaveButtonDisplayed(), "'Save' button displayed.");
         assertTrue(newContentDialog.isCancelButtonDisplayed(), "'Cancel' button displayed.");
 
         logger.info("Step2: Input 'Name', 'Title', 'Description' and click 'Save'");
@@ -200,9 +186,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         getBrowser().refresh();
 
         logger.info("Step6: Hover over folder and click 'Edit Properties'.");
-        documentLibraryPage.mouseOverContentItem(folderName);
-        documentLibraryPage.clickOnAction(folderName, "Edit Properties");
-        editPropertiesDialog.renderedPage();
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
         Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
         logger.info("Step7: Click 'All Properties' link.");
@@ -219,13 +203,11 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         logger.info("Step9: Click on the folder and verify it has 'Smart Folder' structure under it");
         getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
         logger.info("Step10: Click on 'My content' the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(mainSmartFolder);
-        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("All site content"), "'All site content' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("This folder's content"), "'This folder's content' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Contributions"), "'Contributions' folder displayed");
@@ -274,9 +256,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         getBrowser().refresh();
 
         logger.info("Step4: Hover over folder and click 'Edit Properties'.");
-        documentLibraryPage.mouseOverContentItem(folderName);
-        documentLibraryPage.clickOnAction(folderName, "Edit Properties");
-        editPropertiesDialog.renderedPage();
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
         Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
         logger.info("Step5: Click 'All Properties' link.");
@@ -296,7 +276,6 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
         getBrowser().waitInSeconds(2);
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("01 Administrative"), "'01 Administrative' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("02 Legal"), "'02 Legal' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("03 Personal"), "'03 Personal' folder displayed");

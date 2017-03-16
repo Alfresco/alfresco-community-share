@@ -5,20 +5,26 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.context.annotation.Primary;
 
 /**
  * @author Laura.Capsa
  */
 @PageObject
+@Primary
 public class NewContentDialog extends ShareDialog
 {
+    @RenderWebElement
+    @FindBy(css = "div[id*='_default-createFolder-dialogTitle']")
+    protected WebElement dialogTitle;
+
+    @RenderWebElement
     @FindBy(css = "button[id*='submit']")
     private WebElement saveButton;
 
     @FindBy(css = "button[id*='form-cancel']")
     private WebElement cancelButton;
 
-    @RenderWebElement
     @FindBy(css = ".form-field input[id*='name']")
     private WebElement nameField;
 
@@ -31,7 +37,10 @@ public class NewContentDialog extends ShareDialog
     @FindBy(css = "label .mandatory-indicator")
     private WebElement mandatoryIndicator;
 
-    public boolean isSaveButttonDisplayed()
+    @FindBy(css = ".text div")
+    private WebElement tooltipErrorMessage;
+
+    public boolean isSaveButtonDisplayed()
     {
         browser.waitUntilElementClickable(saveButton, 40);
         return browser.isElementDisplayed(saveButton);
@@ -75,6 +84,7 @@ public class NewContentDialog extends ShareDialog
 
     public void fillInNameField(String name)
     {
+        nameField.clear();
         nameField.sendKeys(name);
     }
 
@@ -83,5 +93,22 @@ public class NewContentDialog extends ShareDialog
         fillInNameField(name);
         titleField.sendKeys(title);
         descriptionField.sendKeys(description);
+    }
+
+    public String getNameFieldValue()
+    {
+        return nameField.getAttribute("value");
+    }
+
+    public boolean isNewFolderPopupDisplayed()
+    {
+        if(browser.isElementDisplayed(dialogTitle))
+            return dialogTitle.getText().equals("New Folder");
+        else return false;
+    }
+
+    public boolean isTooltipErrorMessageDisplayed()
+    {
+        return browser.isElementDisplayed(tooltipErrorMessage);
     }
 }

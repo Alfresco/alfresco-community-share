@@ -67,7 +67,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         assertTrue(newContentDialog.isMandatoryIndicatorDisplayed(), "'Name' mandatory field.");
         assertTrue(newContentDialog.isTitleFieldDisplayed(), "'Title' field displayed.");
         assertTrue(newContentDialog.isDescriptionFieldDisplayed(), "'Description' field displayed.");
-        assertTrue(newContentDialog.isSaveButttonDisplayed(), "'Save' button displayed.");
+        assertTrue(newContentDialog.isSaveButtonDisplayed(), "'Save' button displayed.");
         assertTrue(newContentDialog.isCancelButtonDisplayed(), "'Cancel' button displayed.");
 
         LOG.info("STEP2: Fill in 'Name', 'Title' and 'Description' fields. Click 'Save' button");
@@ -106,7 +106,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         assertTrue(newContentDialog.isMandatoryIndicatorDisplayed(), "'Name' mandatory field.");
         assertTrue(newContentDialog.isTitleFieldDisplayed(), "'Title' field displayed.");
         assertTrue(newContentDialog.isDescriptionFieldDisplayed(), "'Description' field displayed.");
-        assertTrue(newContentDialog.isSaveButttonDisplayed(), "'Save' button displayed.");
+        assertTrue(newContentDialog.isSaveButtonDisplayed(), "'Save' button displayed.");
         assertTrue(newContentDialog.isCancelButtonDisplayed(), "'Cancel' button displayed.");
 
         LOG.info("STEP2: Fill in Name field and click 'Save'");
@@ -132,7 +132,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         LOG.info("STEP1: Click on the 'Create a folder' link");
         documentLibraryPage.clickCreateButton();
         createContent.clickCreateFolderOption();
-        assertTrue(newContentDialog.isSaveButttonDisplayed(), "'Save' button is displayed.");
+        assertTrue(newContentDialog.isSaveButtonDisplayed(), "'Save' button is displayed.");
 
         LOG.info("STEP2: Fill in 'Name' field and click 'Cancel'");
         newContentDialog.fillInNameField(folderName);
@@ -162,7 +162,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         LOG.info("STEP2: Click on the 'Create a folder' link");
         documentLibraryPage.clickCreateButton();
         createContent.clickCreateFolderOption();
-        assertTrue(newContentDialog.isSaveButttonDisplayed(), "'Save' button is displayed.");
+        assertTrue(newContentDialog.isSaveButtonDisplayed(), "'Save' button is displayed.");
 
         LOG.info("STEP3: Fill in Name field and click 'Save' button");
         newContentDialog.fillInNameField(folderName2);
