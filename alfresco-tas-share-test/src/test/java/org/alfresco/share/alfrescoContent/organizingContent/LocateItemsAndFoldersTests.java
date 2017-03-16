@@ -5,6 +5,7 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -43,6 +44,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
+    @Bug(id = "MNT-17556")
     @TestRail(id = "C7516")
     @Test
     public void locateFileDetailedView()
@@ -68,6 +70,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.isContentSelected(folderName), folderName + " is selected.");
     }
 
+    @Bug(id = "MNT-17556")
     @TestRail(id = "C7517")
     @Test
     public void locateFolderDetailedView()
