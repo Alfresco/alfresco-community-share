@@ -7,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -19,25 +20,21 @@ import static org.testng.Assert.assertTrue;
 
 public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    DocumentsFilters filters;
+    @Autowired private DocumentsFilters filters;
     
-    @Autowired
-    ContentService contentService;
+    @Autowired private ContentService contentService;
     
-    @Autowired
-    ContentActions contentActions;
+    @Autowired private ContentActions contentActions;
 
-    private String user = "C6320User" + DataUtil.getUniqueIdentifier();
-    private String user1 = "C6322User"+DataUtil.getUniqueIdentifier();
-    private String description = "C6320SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String docName = "File-6320-0";
-    private String docName1 = "File-6320-1";
-    private String docName2 = "File-6320-2";
-    private String testDataFolder = srcRoot + "testdata" + File.separator;
+    private final String user = "C6320User" + DataUtil.getUniqueIdentifier();
+    private final String user1 = "C6322User"+DataUtil.getUniqueIdentifier();
+    private final String description = "C6320SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String docName = "File-6320-0";
+    private final String docName1 = "File-6320-1";
+    private final String docName2 = "File-6320-2";
+    private final String testDataFolder = srcRoot + "testdata" + File.separator;
     
     @BeforeClass
     public void setupTest()
@@ -48,7 +45,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C6320")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void viewAllDocumentsInLibrary()
     {
         String siteName = "C6320SiteName" + DataUtil.getUniqueIdentifier();
@@ -84,7 +81,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
    
     @TestRail(id = "C6321")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void viewImEditingFiles()
     {
         String siteNameC6321 = "C6321SiteName" + DataUtil.getUniqueIdentifier();
@@ -123,7 +120,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C10597")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void viewOthersAreEditingFiles()
     {
         String docName = "C10597-1";
@@ -159,7 +156,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C6325")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void viewFilesFromMyFavorites()
     {
         String docName = "C6325-1";
@@ -197,7 +194,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C10598")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void viewRecentlyAddedFiles()
     {
         String siteNameC10598 = "C10598-site" + DataUtil.getUniqueIdentifier();

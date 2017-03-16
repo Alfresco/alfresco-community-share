@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -17,21 +18,18 @@ import org.testng.annotations.Test;
 
 public class ActionsSelectTests extends ContextAwareWebTest
 {
-    @Autowired
-    ContentService contentService;
+    @Autowired private ContentService contentService;
     
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired private RepositoryPage repositoryPage;
     
-    @Autowired
-    HeaderMenuBar menuBar;
+    @Autowired private HeaderMenuBar menuBar;
     
 
-    private String user = "8163TestUser" + DataUtil.getUniqueIdentifier();
-    private String fileName = "C8163 file";
-    private String fileContent ="8163 content";
-    private String path = "User Homes/"+ user;
-    private String folderName ="C8164 Folder";
+    private final String user = "8163TestUser" + DataUtil.getUniqueIdentifier();
+    private final String fileName = "C8163 file";
+    private final String fileContent ="8163 content";
+    private final String path = "User Homes/"+ user;
+    private final String folderName ="C8164 Folder";
     
     @BeforeClass
     public void setupTest()
@@ -43,7 +41,7 @@ public class ActionsSelectTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "8163")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void selectFile()
     {
@@ -89,7 +87,7 @@ public class ActionsSelectTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C8164")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void selectFolder()
     {

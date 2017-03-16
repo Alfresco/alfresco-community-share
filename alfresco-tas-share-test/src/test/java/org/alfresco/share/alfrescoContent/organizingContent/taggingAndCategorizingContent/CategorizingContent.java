@@ -8,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -24,27 +25,23 @@ import static org.testng.Assert.assertTrue;
  */
 public class CategorizingContent extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    EditPropertiesDialog editPropertiesDialog;
+    @Autowired private EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired
-    SelectDialog selectDialog;
+    @Autowired private SelectDialog selectDialog;
 
-    @Autowired
-    ContentAspects contentAspect;
+    @Autowired private ContentAspects contentAspect;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
-    private String siteName = "siteName1" + DataUtil.getUniqueIdentifier();
-    private String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
-    private String docName = "testDoc" + DataUtil.getUniqueIdentifier();
-    private String docWithCategory = "docWithCategory" + DataUtil.getUniqueIdentifier();
-    private String removeCategoryDoc = "removeCategoryDoc" + DataUtil.getUniqueIdentifier();
-    private String editPropAction = "Edit Properties";
-    private String category = "Languages";
-    private String category2 = "Regions";
+    private final String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "siteName1" + DataUtil.getUniqueIdentifier();
+    private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private final String docName = "testDoc" + DataUtil.getUniqueIdentifier();
+    private final String docWithCategory = "docWithCategory" + DataUtil.getUniqueIdentifier();
+    private final String removeCategoryDoc = "removeCategoryDoc" + DataUtil.getUniqueIdentifier();
+    private final String editPropAction = "Edit Properties";
+    private final String category = "Languages";
+    private final String category2 = "Regions";
 
     @BeforeClass
     public void setupTest()
@@ -65,7 +62,7 @@ public class CategorizingContent extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7484")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addCategoryForFile_NoCategoriesAdded()
     {
         documentLibraryPage.navigate(siteName);
@@ -82,7 +79,7 @@ public class CategorizingContent extends ContextAwareWebTest
         editPropertiesDialog.clickSelectCategories();
 
         LOG.info("STEP4: For any item from the left categories picker, click 'Add' icon");
-        selectDialog.selectItems(Arrays.asList(category));
+        selectDialog.selectItems(Collections.singletonList(category));
         assertTrue(selectDialog.isItemSelected(category), "Category is displayed in selected categories list.");
         assertFalse(selectDialog.isItemSelectable(category), "In the left categories picker, 'Add' icon isn't displayed next to the added item");
 
@@ -96,7 +93,7 @@ public class CategorizingContent extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7485")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addCategoryForFolder_NoCategoriesAdded()
     {
         documentLibraryPage.navigate(siteName);
@@ -113,7 +110,7 @@ public class CategorizingContent extends ContextAwareWebTest
         editPropertiesDialog.clickSelectCategories();
 
         LOG.info("STEP4: For any item from the left categories picker, click 'Add' icon");
-        selectDialog.selectItems(Arrays.asList(category));
+        selectDialog.selectItems(Collections.singletonList(category));
         assertTrue(selectDialog.isItemSelected(category), "Category is displayed in selected categories list.");
         assertFalse(selectDialog.isItemSelectable(category), "In the left categories picker, 'Add' icon isn't displayed next to the added item");
 
@@ -127,7 +124,7 @@ public class CategorizingContent extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7487")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addCategory_ContentWithCategory()
     {
         documentLibraryPage.navigate(siteName);
@@ -144,7 +141,7 @@ public class CategorizingContent extends ContextAwareWebTest
         editPropertiesDialog.clickSelectCategories();
 
         LOG.info("STEP4: For any item from the left categories picker, click 'Add' icon");
-        selectDialog.selectItems(Arrays.asList(category2));
+        selectDialog.selectItems(Collections.singletonList(category2));
         assertTrue(selectDialog.isItemSelected(category2), "Category is displayed in selected categories list.");
         assertFalse(selectDialog.isItemSelectable(category2), "In the left categories picker, 'Add' icon isn't displayed next to the added item");
 
@@ -159,7 +156,7 @@ public class CategorizingContent extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7486")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void removeCategory()
     {
         documentLibraryPage.navigate(siteName);
@@ -177,7 +174,7 @@ public class CategorizingContent extends ContextAwareWebTest
         assertTrue(selectDialog.isItemSelected(category), "Precondition category is displayed in selected categories list.");
 
         LOG.info("STEP4: For any item from the selected categories list, click 'Remove' icon");
-        selectDialog.removeItems(Arrays.asList(category));
+        selectDialog.removeItems(Collections.singletonList(category));
         assertFalse(selectDialog.isItemSelected(category), "The removed category isn't displayed in selected categories list.");
         assertTrue(selectDialog.isItemSelectable(category), "In the left categories picker, 'Add' icon is displayed next to the removed item");
 

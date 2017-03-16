@@ -8,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -15,23 +16,20 @@ import org.testng.annotations.Test;
 
 public class CommentTests extends ContextAwareWebTest
 {
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired private RepositoryPage repositoryPage;
 
     @Autowired
     CreateContent createContent;
 
-    @Autowired
-    SocialFeatures socialFeatures;
+    @Autowired private SocialFeatures socialFeatures;
     
-    @Autowired
-    DocumentDetailsPage documentDetails;
+    @Autowired private DocumentDetailsPage documentDetails;
 
-    private String user = "C8305TestUser" + DataUtil.getUniqueIdentifier();
-    private String fileNameC8305 = "C8305 file";
-    private String path = "User Homes/" + user;
-    private String fileContent = "test file content";
-    private String folderNameC8306 = "C8306 Folder";
+    private final String user = "C8305TestUser" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8305 = "C8305 file";
+    private final String path = "User Homes/" + user;
+    private final String fileContent = "test file content";
+    private final String folderNameC8306 = "C8306 Folder";
 
     @BeforeClass
     public void setupTest()
@@ -43,7 +41,7 @@ public class CommentTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C8305")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void addCommentToFile()
     {
@@ -69,7 +67,7 @@ public class CommentTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C8306")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void addCommentToFolder()
     {

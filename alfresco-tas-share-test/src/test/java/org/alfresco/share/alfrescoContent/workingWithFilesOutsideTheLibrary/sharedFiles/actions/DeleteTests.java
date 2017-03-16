@@ -7,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -19,14 +20,12 @@ import static org.testng.Assert.*;
  */
 public class DeleteTests extends ContextAwareWebTest
 {
-    @Autowired
-    SharedFilesPage sharedFilesPage;
+    @Autowired private SharedFilesPage sharedFilesPage;
 
     @Autowired
     HeaderMenuBar headerMenuBar;
 
-    @Autowired
-    DeleteDialog deleteDialog;
+    @Autowired private DeleteDialog deleteDialog;
 
     private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
     private final String user = "User" + uniqueIdentifier;
@@ -48,7 +47,7 @@ public class DeleteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8014")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void deleteDocument()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -73,7 +72,7 @@ public class DeleteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8015")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void deleteFolder()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -102,7 +101,7 @@ public class DeleteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13759")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void optionNotDisplayed()
     {
         setupAuthenticatedSession(user, password);

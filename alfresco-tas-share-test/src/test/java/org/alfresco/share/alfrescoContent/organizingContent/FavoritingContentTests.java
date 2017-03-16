@@ -6,6 +6,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage.DocumentsFilters;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -20,16 +21,15 @@ import static org.testng.Assert.assertTrue;
  */
 public class FavoritingContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
-    private String siteName1 = "siteC7501" + DataUtil.getUniqueIdentifier();
-    private String siteName2 = "siteC7502" + DataUtil.getUniqueIdentifier();
-    private String siteName3 = "siteC7503" + DataUtil.getUniqueIdentifier();
-    private String siteName4 = "siteC7504" + DataUtil.getUniqueIdentifier();
-    private String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
-    private String docName = "testDoc" + DataUtil.getUniqueIdentifier();
+    private final String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private final String siteName1 = "siteC7501" + DataUtil.getUniqueIdentifier();
+    private final String siteName2 = "siteC7502" + DataUtil.getUniqueIdentifier();
+    private final String siteName3 = "siteC7503" + DataUtil.getUniqueIdentifier();
+    private final String siteName4 = "siteC7504" + DataUtil.getUniqueIdentifier();
+    private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private final String docName = "testDoc" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass
     public void setupTest()
@@ -50,7 +50,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7501")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void favoriteFile()
     {
         documentLibraryPage.navigate(siteName1);
@@ -78,7 +78,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7502")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void favoriteFolder()
     {
         documentLibraryPage.navigate(siteName2);
@@ -103,7 +103,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7503")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void removeFavoriteForFile()
     {
         documentLibraryPage.navigate(siteName3);
@@ -128,7 +128,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7504")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void removeFavoriteForFolder()
     {
         documentLibraryPage.navigate(siteName4);

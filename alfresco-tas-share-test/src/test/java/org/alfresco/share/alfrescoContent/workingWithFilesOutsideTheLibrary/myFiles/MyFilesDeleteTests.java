@@ -8,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -21,27 +22,23 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesDeleteTests extends ContextAwareWebTest
 {
-    @Autowired
-    MyFilesPage myFilesPage;
+    @Autowired private MyFilesPage myFilesPage;
 
-    @Autowired
-    SiteDashboardPage sitePage;
+    @Autowired private SiteDashboardPage sitePage;
 
-    @Autowired
-    NewContentDialog newContentDialog;
+    @Autowired private NewContentDialog newContentDialog;
 
-    @Autowired
-    DeleteDocumentOrFolderDialog deleteDialog;
+    @Autowired private DeleteDocumentOrFolderDialog deleteDialog;
 
     @Autowired
     private UploadContent uploadContent;
 
-    private String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
-    private String testFilePath = testDataFolder + testFile;
-    private String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private final String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
+    private final String testFilePath = testDataFolder + testFile;
+    private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id = "C7896")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesDeleteDocument()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -70,7 +67,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7896")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesDeleteFolder()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();

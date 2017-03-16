@@ -10,10 +10,9 @@ import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.report.log.Step;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -22,21 +21,16 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 
 import static org.alfresco.utility.report.log.Step.STEP;
-import static org.testng.Assert.assertEquals;
 
 public class CreateFolderFromTemplateTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    Notification notification;
+    @Autowired private Notification notification;
     
-    @Autowired
-    CreateFolderFromTemplate createFolderFromTemplate;
+    @Autowired private CreateFolderFromTemplate createFolderFromTemplate;
 
-    @Autowired
-    CreateContent createContent;
+    @Autowired private CreateContent createContent;
 
     @Autowired private EditRulesPage editRulesPage;
     @Autowired private RepositoryPage repositoryPage;
@@ -44,12 +38,12 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     @Autowired private ManagePermissionsPage managePermissionsPage;
     @Autowired private AspectsForm aspectsForm;
 
-    String folderTemplateName = "Software Engineering Project";
-    String userFirstName = "Jim";
-    String userLastName = "Jones";
+    private final String folderTemplateName = "Software Engineering Project";
+    private final String userFirstName = "Jim";
+    private final String userLastName = "Jones";
 
     @TestRail(id = "C6292")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createFolderFromTemplate()
     {
         String userName = "testUser" + DataUtil.getUniqueIdentifier();
@@ -101,7 +95,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6293")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void cancelCreatingFolderFromTemplate()
     {
         String userName = "testUser" + DataUtil.getUniqueIdentifier();
@@ -129,7 +123,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C8139")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createFolderFromTemplateUsingWildcards()
     {
         String userName = "testUser" + DataUtil.getUniqueIdentifier();

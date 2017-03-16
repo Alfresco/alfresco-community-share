@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -17,27 +18,23 @@ import org.testng.annotations.Test;
 
 public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    DocumentsFilters filters;
+    @Autowired private DocumentsFilters filters;
 
-    @Autowired
-    ContentService contentService;
+    @Autowired private ContentService contentService;
     
     @Autowired
     ContentAspects contentAspects;
     
-    @Autowired 
-    ContentActions contentActions;
+    @Autowired private ContentActions contentActions;
 
-    private String user = "C6939User" + DataUtil.getUniqueIdentifier();
-    private String description = "C6939SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C6939SiteName" + DataUtil.getUniqueIdentifier();
-    private String folderName = "testFolder";
-    private String docName = "testFile1";
-    private String docContent ="C6940 content";
+    private final String user = "C6939User" + DataUtil.getUniqueIdentifier();
+    private final String description = "C6939SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "C6939SiteName" + DataUtil.getUniqueIdentifier();
+    private final String folderName = "testFolder";
+    private final String docName = "testFile1";
+    private final String docContent ="C6940 content";
     
     @BeforeClass
 
@@ -49,7 +46,7 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C6939")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void noTagsAdded()
     {
@@ -65,7 +62,7 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C6940")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void contentItemsWithDifferentTags()
     {

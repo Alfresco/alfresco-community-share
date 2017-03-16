@@ -6,6 +6,7 @@ import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDi
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -23,11 +24,9 @@ import static org.testng.Assert.assertTrue;
  */
 public class MovingContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    CopyMoveUnzipToDialog copyMoveUnzipToDialog;
+    @Autowired private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
 
     private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
     private final String description = "Description-" + DataUtil.getUniqueIdentifier();
@@ -42,7 +41,7 @@ public class MovingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7345")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void moveFile()
     {
         String siteName = "Site-C7345-" + DataUtil.getUniqueIdentifier();
@@ -81,7 +80,7 @@ public class MovingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7346")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void moveFolder()
     {
         String siteName = "Site-C7346-" + DataUtil.getUniqueIdentifier();

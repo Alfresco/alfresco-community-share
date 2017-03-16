@@ -6,6 +6,7 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -14,18 +15,16 @@ import org.testng.annotations.Test;
 
 public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    DocumentsFilters filters;
+    @Autowired private DocumentsFilters filters;
 
     @Autowired
     ContentService contentService;
 
-    private String user = "C6910User" + DataUtil.getUniqueIdentifier();
-    private String description = "C6910SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C6910SiteName" + DataUtil.getUniqueIdentifier();
+    private final String user = "C6910User" + DataUtil.getUniqueIdentifier();
+    private final String description = "C6910SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "C6910SiteName" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass
 
@@ -37,7 +36,7 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6910")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void verifyCategoryRootTreeNodes()
     {
@@ -57,7 +56,7 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
     }
     
     @TestRail(id="C10595")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void expandColapseNodeInCategoriesTree()
     {

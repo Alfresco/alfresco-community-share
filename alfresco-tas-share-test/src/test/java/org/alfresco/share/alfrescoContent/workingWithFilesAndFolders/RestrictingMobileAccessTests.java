@@ -9,6 +9,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -18,20 +19,15 @@ import org.testng.annotations.Test;
 public class RestrictingMobileAccessTests extends ContextAwareWebTest
 {
 
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    AspectsForm aspectsForm;
+    @Autowired private AspectsForm aspectsForm;
 
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
+    @Autowired private SiteDashboardPage siteDashboardPage;
 
-    @Autowired
-    EditPropertiesPage editPropertiesPage;
+    @Autowired private EditPropertiesPage editPropertiesPage;
 
     private String userName;
     private String siteName;
@@ -54,7 +50,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7111")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addRestrictableAspect() throws Exception
 
     {
@@ -79,7 +75,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7112")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editRestrictableProperty()
 
     {
@@ -115,7 +111,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7113")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void removeRestrictableProperty() throws Exception
     {
 

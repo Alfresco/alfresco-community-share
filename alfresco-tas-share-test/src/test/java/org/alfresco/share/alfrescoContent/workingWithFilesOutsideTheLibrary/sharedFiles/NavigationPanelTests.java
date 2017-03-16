@@ -8,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -24,14 +25,12 @@ import static org.testng.Assert.assertTrue;
  */
 public class NavigationPanelTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentsFilters documentsFilters;
+    @Autowired private DocumentsFilters documentsFilters;
 
     @Autowired
     HeaderMenuBar headerMenuBar;
 
-    @Autowired
-    SharedFilesPage sharedFilesPage;
+    @Autowired private SharedFilesPage sharedFilesPage;
 
     @Autowired
     CreateContent createContent;
@@ -56,7 +55,7 @@ public class NavigationPanelTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7927")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyFilters()
     {
         LOG.info("STEP1: Verify the Sidebar");
@@ -65,7 +64,7 @@ public class NavigationPanelTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7928")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyTags()
     {
         LOG.info("STEP1: Verify the list of tags in the Tags section");

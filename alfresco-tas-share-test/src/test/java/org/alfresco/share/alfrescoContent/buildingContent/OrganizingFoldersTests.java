@@ -6,6 +6,7 @@ import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -24,14 +25,11 @@ import static org.testng.Assert.assertTrue;
  */
 public class OrganizingFoldersTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    NewContentDialog newContentDialog;
+    @Autowired private NewContentDialog newContentDialog;
 
-    @Autowired
-    CreateContent createContent;
+    @Autowired private CreateContent createContent;
 
     private final String uniqueId = DataUtil.getUniqueIdentifier();
     private final String userName = "User-" + uniqueId;
@@ -47,7 +45,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6276")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createNewFolderUsingMenu()
     {
         String siteName1 = "Site-C6276-" + uniqueId;
@@ -88,7 +86,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6277")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createFolderLink()
     {
         String siteName1 = "Site-C6277-" + uniqueId;
@@ -118,7 +116,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6278")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void cancelCreatingFolder()
     {
         String siteName1 = "Site-C6278-" + uniqueId;
@@ -142,7 +140,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6291")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void checkFolderStructure()
     {
         String siteName1 = "Site-C6291-" + uniqueId;

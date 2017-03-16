@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -17,17 +18,13 @@ import org.testng.annotations.Test;
 public class ApplyingAspectsTests extends ContextAwareWebTest
 {
 
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    AspectsForm aspectsForm;
+    @Autowired private AspectsForm aspectsForm;
 
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
+    @Autowired private SiteDashboardPage siteDashboardPage;
 
     private String userName;
     private String siteName;
@@ -51,7 +48,7 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7109")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyAspectsForm()
 
     {
@@ -75,7 +72,7 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7105")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void manageAspectsApplyChanges()
 
     {

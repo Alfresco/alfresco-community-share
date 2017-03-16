@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -23,25 +24,20 @@ import static org.testng.Assert.assertTrue;
  */
 public class UploadTests extends ContextAwareWebTest
 {
-    @Autowired
-    SharedFilesPage sharedFilesPage;
+    @Autowired private SharedFilesPage sharedFilesPage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    HeaderMenuBar headerMenuBar;
+    @Autowired private HeaderMenuBar headerMenuBar;
 
-    @Autowired
-    UploadContent uploadContent;
+    @Autowired private UploadContent uploadContent;
 
-    @Autowired
-    DeleteDialog deleteDialog;
+    @Autowired private DeleteDialog deleteDialog;
 
-    String random = DataUtil.getUniqueIdentifier();
-    String user = "user1-" + random;
-    String user2 = "user2-" + random;
-    String path = "Shared";
+    private final String random = DataUtil.getUniqueIdentifier();
+    private final String user = "user1-" + random;
+    private final String user2 = "user2-" + random;
+    private final String path = "Shared";
 
     @BeforeClass
     public void setupTest()
@@ -51,7 +47,7 @@ public class UploadTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7939")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void uploadDocument()
     {
         setupAuthenticatedSession(user, password);
@@ -79,7 +75,7 @@ public class UploadTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7942")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void updateDocumentNewVersion()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -136,7 +132,7 @@ public class UploadTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13756")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void optionNotDisplayed()
     {
         String docName = "Doc-C13756-" + DataUtil.getUniqueIdentifier();

@@ -5,6 +5,7 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -22,14 +23,13 @@ import static org.testng.Assert.assertTrue;
  */
 public class RenamingContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    String firstName = "FirstName";
-    String lastName = "LastName";
-    String description = "Description-" + DataUtil.getUniqueIdentifier();
-    String docContent = "content of the file.";
+    private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
+    private final String firstName = "FirstName";
+    private final String lastName = "LastName";
+    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
+    private final String docContent = "content of the file.";
 
     @BeforeClass
     public void setupTest()
@@ -38,7 +38,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7419")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void renameFileByEditIcon()
     {
         String siteName = "Site-C7419-" + DataUtil.getUniqueIdentifier();
@@ -71,7 +71,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7420")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void renameFolderByEditIcon()
     {
         String siteName = "Site-C7420-" + DataUtil.getUniqueIdentifier();
@@ -104,7 +104,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7431")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void cancelRenamingContent()
     {
         String siteName = "Site-C7431-" + DataUtil.getUniqueIdentifier();

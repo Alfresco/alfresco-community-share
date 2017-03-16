@@ -13,6 +13,7 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -24,50 +25,41 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesEditTests extends ContextAwareWebTest
 {
-    @Autowired
-    MyFilesPage myFilesPage;
+    @Autowired private MyFilesPage myFilesPage;
 
-    @Autowired
-    SiteDashboardPage sitePage;
+    @Autowired private SiteDashboardPage sitePage;
     
-    @Autowired
-    DocumentDetailsPage detailsPage;
+    @Autowired private DocumentDetailsPage detailsPage;
 
-    @Autowired
-    EditPropertiesDialog editFilePropertiesDialog;
+    @Autowired private EditPropertiesDialog editFilePropertiesDialog;
 
-    @Autowired
-    SelectDialog selectDialog;
+    @Autowired private SelectDialog selectDialog;
 
-    @Autowired
-    NewContentDialog newContentDialog;
+    @Autowired private NewContentDialog newContentDialog;
 
-    @Autowired
-    EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired private EditInAlfrescoPage editInAlfrescoPage;
 
-    @Autowired
-    GoogleDocsCommon docsCommon;
+    @Autowired private GoogleDocsCommon docsCommon;
 
-    @Autowired
-    DocumentCommon documentCommon;
+    @Autowired private DocumentCommon documentCommon;
 
     @Autowired
     private UploadContent uploadContent;
 
-    String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
-    String googleDocPath = testDataFolder + googleDocName;
-    String docName = DataUtil.getUniqueIdentifier() + "testDoc.txt";
-    String docNamePath = testDataFolder + docName;
-    String editedDocName = "editedDocName" + DataUtil.getUniqueIdentifier();
-    String editedFolderName = "editedFolderName" + DataUtil.getUniqueIdentifier();
-    String editedTitle = "editedTitle";
-    String editedContent = "edited content in Alfresco";
-    String editedDescription = "edited description in Alfresco";
-    String tag = "editTag" + DataUtil.getUniqueIdentifier();
-    String folderName = "Folder" + DataUtil.getUniqueIdentifier();
+    private final String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
+    private final String googleDocPath = testDataFolder + googleDocName;
+    private final String docName = DataUtil.getUniqueIdentifier() + "testDoc.txt";
+    private final String docNamePath = testDataFolder + docName;
+    private final String editedDocName = "editedDocName" + DataUtil.getUniqueIdentifier();
+    private final String editedFolderName = "editedFolderName" + DataUtil.getUniqueIdentifier();
+    private final String editedTitle = "editedTitle";
+    private final String editedContent = "edited content in Alfresco";
+    private final String editedDescription = "edited description in Alfresco";
+    private final String tag = "editTag" + DataUtil.getUniqueIdentifier();
+    private final String folderName = "Folder" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id = "C8186")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesEditFileProperties()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
@@ -113,7 +105,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8191")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesEditFolderProperties()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
@@ -162,7 +154,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8212")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesEditFileInAlfresco()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
@@ -202,7 +194,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8227")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesEditFilesInGoogleDocs() throws Exception
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");

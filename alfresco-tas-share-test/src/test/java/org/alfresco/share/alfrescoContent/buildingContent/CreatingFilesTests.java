@@ -6,6 +6,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -14,18 +15,15 @@ import org.testng.annotations.Test;
 
 public class CreatingFilesTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    CreateContent create;
+    @Autowired private CreateContent create;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    private String user = "C6976User" + DataUtil.getUniqueIdentifier();
-    private String description = "C6976SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C6976SiteName" + DataUtil.getUniqueIdentifier();
+    private final String user = "C6976User" + DataUtil.getUniqueIdentifier();
+    private final String description = "C6976SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "C6976SiteName" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass
 
@@ -37,7 +35,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6976")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void createPlainTextFile()
     {
@@ -86,7 +84,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6977")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void createHTMLFile()
     {
@@ -134,7 +132,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6978")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void createXMLFile()
     {
@@ -183,7 +181,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C6986")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void verifyCreateContentPage()
     {

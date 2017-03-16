@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFil
 
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
+import org.alfresco.utility.model.TestGroup;
 import org.testng.Assert;
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
@@ -18,14 +19,11 @@ import org.testng.annotations.Test;
 public class EditFilesPropertiesTest extends ContextAwareWebTest
 {
 
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    EditPropertiesDialog editFilePropertiesDialog;
+    @Autowired private EditPropertiesDialog editFilePropertiesDialog;
 
-    @Autowired
-    SelectDialog selectDialog;
+    @Autowired private SelectDialog selectDialog;
 
     private String uniqueIdentifier;
     private String userName;
@@ -34,7 +32,7 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
     private String docName;
     private String folderName;
 
-    public void setup(String id)
+    private void setup(String id)
     {
         LOG.info("Preconditions for test " + id);
         uniqueIdentifier = "-" + id + "-" + DataUtil.getUniqueIdentifier();
@@ -54,7 +52,7 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7005")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editFileProperties()
     {
         LOG.info("Starting test C7005");
@@ -93,7 +91,7 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7013")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editFolderProperties()
     {
         LOG.info("Starting test C7005");

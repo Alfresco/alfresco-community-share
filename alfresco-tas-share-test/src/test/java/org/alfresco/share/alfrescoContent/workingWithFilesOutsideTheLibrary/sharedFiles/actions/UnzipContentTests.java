@@ -9,15 +9,13 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -30,14 +28,11 @@ public class UnzipContentTests extends ContextAwareWebTest
     @Autowired
     HeaderMenuBar headerMenuBar;
 
-    @Autowired
-    SharedFilesPage sharedFilesPage;
+    @Autowired private SharedFilesPage sharedFilesPage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    CopyMoveUnzipToDialog unzipToDialog;
+    @Autowired private CopyMoveUnzipToDialog unzipToDialog;
 
     @Autowired
     UploadContent uploadContent;
@@ -45,12 +40,12 @@ public class UnzipContentTests extends ContextAwareWebTest
     @Autowired
     DeleteDialog deleteDialog;
 
-    private String user = "C8040TestUser" + DataUtil.getUniqueIdentifier();
-    private String path = "Shared";
-    private String testDataFolder = srcRoot + "testdata" + File.separator;
-    private String zipFile = "archiveC8040.zip";
-    private String zipContent = "fileC8040";
-    private String acpFile = "archiveC8041.acp";
+    private final String user = "C8040TestUser" + DataUtil.getUniqueIdentifier();
+    private final String path = "Shared";
+    private final String testDataFolder = srcRoot + "testdata" + File.separator;
+    private final String zipFile = "archiveC8040.zip";
+    private final String zipContent = "fileC8040";
+    private final String acpFile = "archiveC8041.acp";
 
     @BeforeClass
     public void setupTest()
@@ -62,7 +57,7 @@ public class UnzipContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8040")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void unzipZipArchiveToSharedFile()
     {
         String deletePath = path + "/" + acpFile;
@@ -81,8 +76,8 @@ public class UnzipContentTests extends ContextAwareWebTest
         unzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
         String expectedDestionationPath= "Shared Files";
         //Assert.assertTrue(unzipToDialog.getPathList().contains(expectedDestionationPath.toString()));
-        assertEquals(unzipToDialog.getPathFirstItem(), expectedDestionationPath.toString(), "Destination set to=");
-        Assert.assertTrue(unzipToDialog.getPathList().contains(expectedDestionationPath.toString()), "Destination set to = ");
+        assertEquals(unzipToDialog.getPathFirstItem(), expectedDestionationPath, "Destination set to=");
+        Assert.assertTrue(unzipToDialog.getPathList().contains(expectedDestionationPath), "Destination set to = ");
         LOG.info("STEP4: Click 'Unzip' button and navigate to Shared Files");
         unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
         sharedFilesPage.navigate();
@@ -92,7 +87,7 @@ public class UnzipContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8041")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void unzipAcpArchiveToSharedFiles()
     {
         String deletePath = path + "/" + acpFile;
@@ -110,7 +105,7 @@ public class UnzipContentTests extends ContextAwareWebTest
         unzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
         String expectedDestinationPath ="Shared Files";
         //Assert.assertTrue(unzipToDialog.getPathList().contains(expectedDestinationPath.toString()), "Destination set to = ");
-        assertEquals(unzipToDialog.getPathFirstItem(), expectedDestinationPath.toString(), "Destionation set to=");
+        assertEquals(unzipToDialog.getPathFirstItem(), expectedDestinationPath, "Destionation set to=");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to Shared Files");
         unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));

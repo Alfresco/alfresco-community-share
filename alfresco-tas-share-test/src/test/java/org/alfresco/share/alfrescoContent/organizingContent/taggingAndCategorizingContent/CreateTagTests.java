@@ -7,13 +7,14 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -23,20 +24,17 @@ import static org.testng.Assert.assertTrue;
  */
 public class CreateTagTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    EditPropertiesDialog editPropertiesDialog;
+    @Autowired private EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired
-    SelectDialog selectDialog;
+    @Autowired private SelectDialog selectDialog;
 
-    String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    String firstName = "FirstName";
-    String lastName = "LastName";
-    String description = "Description-" + DataUtil.getUniqueIdentifier();
-    String fileContent = "content of the file.";
+    private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
+    private final String firstName = "FirstName";
+    private final String lastName = "LastName";
+    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
+    private final String fileContent = "content of the file.";
 
     @BeforeClass
     public void setupTest()
@@ -45,7 +43,7 @@ public class CreateTagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C10209")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createTagEditPropertiesDialog()
     {
         String random = DataUtil.getUniqueIdentifier();
@@ -85,7 +83,7 @@ public class CreateTagTests extends ContextAwareWebTest
 
         LOG.info("STEP6: Click \"Save\" button");
         editPropertiesDialog.clickSave();
-        ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName.toLowerCase()));
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         assertEquals(documentLibraryPage.getTags(fileName), tagsList.toString(), fileName + " -> tags=");
 
@@ -93,7 +91,7 @@ public class CreateTagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C10210")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createTagEditTagIcon()
     {
         String random = DataUtil.getUniqueIdentifier();
@@ -119,7 +117,7 @@ public class CreateTagTests extends ContextAwareWebTest
         LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
         documentLibraryPage.typeTagName(tagName);
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName.toLowerCase()));
         assertEquals(documentLibraryPage.getTags(folderName), tagsList.toString(), folderName + " -> tags=");
 
         cleanupAuthenticatedSession();

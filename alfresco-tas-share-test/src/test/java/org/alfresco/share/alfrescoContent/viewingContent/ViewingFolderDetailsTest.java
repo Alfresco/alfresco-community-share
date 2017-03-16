@@ -5,6 +5,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.annotations.BeforeClass;
@@ -18,15 +19,13 @@ import static org.testng.Assert.assertTrue;
  */
 public class ViewingFolderDetailsTest extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    private String userName = "testUser" + DataUtil.getUniqueIdentifier();
-    private String siteName = "testSite" + DataUtil.getUniqueIdentifier();
-    private String folderName = "testFolder";
+    private final String userName = "testUser" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "testSite" + DataUtil.getUniqueIdentifier();
+    private final String folderName = "testFolder";
 
     @BeforeClass
     public void setupTest()
@@ -38,7 +37,7 @@ public class ViewingFolderDetailsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5850")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void viewFolderDetails()
     {
         LOG.info("Step 1 - Navigate to 'Document Library' page for 'testSite'.");

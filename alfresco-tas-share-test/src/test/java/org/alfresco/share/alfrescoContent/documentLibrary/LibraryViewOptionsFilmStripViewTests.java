@@ -6,6 +6,7 @@ import org.alfresco.dataprep.ContentService;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.annotations.BeforeClass;
@@ -18,22 +19,20 @@ import static org.testng.Assert.assertTrue;
 
 public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    ContentService contentService;
+    @Autowired private ContentService contentService;
 
-    private String user = "C2247User" + DataUtil.getUniqueIdentifier();
-    private String description = "C2247SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C2247Site" + DataUtil.getUniqueIdentifier();
-    private String docName = "testFile1";
-    private String docContent = "C2247 content";
-    private String docName1 = "C2247 test file 1";
-    private String folderName = "folderName";
-    private String testDataFolder = srcRoot + "testdata" + File.separator;
-    private String videoFile = "Wildlife";
-    private String picture = "Lighthouse";
+    private final String user = "C2247User" + DataUtil.getUniqueIdentifier();
+    private final String description = "C2247SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "C2247Site" + DataUtil.getUniqueIdentifier();
+    private final String docName = "testFile1";
+    private final String docContent = "C2247 content";
+    private final String docName1 = "C2247 test file 1";
+    private final String folderName = "folderName";
+    private final String testDataFolder = srcRoot + "testdata" + File.separator;
+    private final String videoFile = "Wildlife";
+    private final String picture = "Lighthouse";
 
     @BeforeClass
     public void setupTest()
@@ -49,7 +48,7 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2246")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void filmstripViewPresence()
     {
         documentLibraryPage.navigate(siteName);
@@ -62,7 +61,7 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2247")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void filmstripViewDisplayingItems()
     {
         documentLibraryPage.navigate(siteName);

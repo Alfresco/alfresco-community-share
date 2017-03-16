@@ -8,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -21,20 +22,15 @@ import static org.testng.Assert.assertTrue;
  */
 public class SharedFilesTests extends ContextAwareWebTest
 {
-    @Autowired
-    HeaderMenuBar headerMenuBar;
+    @Autowired private HeaderMenuBar headerMenuBar;
 
-    @Autowired
-    SharedFilesPage sharedFilesPage;
+    @Autowired private SharedFilesPage sharedFilesPage;
 
-    @Autowired
-    SocialFeatures socialFeatures;
+    @Autowired private SocialFeatures socialFeatures;
 
-    @Autowired
-    CreateContent createContent;
+    @Autowired private CreateContent createContent;
 
-    @Autowired
-    DeleteDialog deleteDialog;
+    @Autowired private DeleteDialog deleteDialog;
 
     @BeforeClass
     public void setupTest()
@@ -45,7 +41,7 @@ public class SharedFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7661")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyShareButton()
     {
         String docName = "Doc-C7661-" + DataUtil.getUniqueIdentifier();

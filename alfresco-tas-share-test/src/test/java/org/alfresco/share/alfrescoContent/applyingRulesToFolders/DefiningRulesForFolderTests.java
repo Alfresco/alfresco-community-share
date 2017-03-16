@@ -13,6 +13,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAl
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -29,32 +30,23 @@ import static org.testng.Assert.*;
  */
 public class DefiningRulesForFolderTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired private EditInAlfrescoPage editInAlfrescoPage;
 
-    @Autowired
-    ManageRulesPage manageRulesPage;
+    @Autowired private ManageRulesPage manageRulesPage;
 
-    @Autowired
-    EditRulesPage editRulesPage;
+    @Autowired private EditRulesPage editRulesPage;
 
-    @Autowired
-    RuleDetailsPage ruleDetailsPage;
+    @Autowired private RuleDetailsPage ruleDetailsPage;
 
-    @Autowired
-    SelectDestinationDialog selectDestinationDialog;
+    @Autowired private SelectDestinationDialog selectDestinationDialog;
 
-    @Autowired
-    DeleteDialog deleteDialog;
+    @Autowired private DeleteDialog deleteDialog;
 
-    @Autowired
-    HeaderMenuBar headerMenuBar;
+    @Autowired private HeaderMenuBar headerMenuBar;
 
     private final String random = DataUtil.getUniqueIdentifier();
     private final String userName = "user-" + random;
@@ -73,7 +65,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6367")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyFolderRulesPage()
     {
         siteName = "Site-C6367-" + random;
@@ -102,7 +94,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C12857")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyEditRulePageDropdownElements()
     {
         siteName = "Site-C12857-" + random;
@@ -143,7 +135,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6372")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createRule()
     {
         siteName = "Site-C6372-" + random;
@@ -191,7 +183,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6622")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void itemsAreCreated()
     {
         siteName = "Site-C6622-" + random;
@@ -245,7 +237,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7239")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createAndCreateAnother()
     {
         siteName = "Site-C7239-" + random;
@@ -303,7 +295,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7240")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void cancelCreateRule()
     {
         siteName = "Site-C7240-" + random;
@@ -340,7 +332,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7245")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void disableRule()
     {
         siteName = "Site-C7245-" + random;
@@ -413,7 +405,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6621")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createRuleItemsAreUpdated()
     {
         siteName = "Site-6621-" + random;
@@ -482,7 +474,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6623")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createRuleItemsAreDeleted()
     {
         siteName = "Site-C6623-" + random;

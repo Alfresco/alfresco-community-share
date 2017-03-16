@@ -7,37 +7,34 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class ActionsUnzippingContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    ContentService contentService;
+    @Autowired private ContentService contentService;
 
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired private RepositoryPage repositoryPage;
 
-    @Autowired
-    CopyMoveUnzipToDialog unzipToDialog;
+    @Autowired private CopyMoveUnzipToDialog unzipToDialog;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
   
-    private String user = "C8256TestUser" + DataUtil.getUniqueIdentifier();
-    private String path = "";
-    private String zipFile = "testFileC8256.zip";
-    private String testDataFolder = srcRoot + "testdata" + File.separator;
-    private String zipContent = "testFile1";
-    private String acpFile = "archiveC8257.acp";
+    private final String user = "C8256TestUser" + DataUtil.getUniqueIdentifier();
+    private final String path = "";
+    private final String zipFile = "testFileC8256.zip";
+    private final String testDataFolder = srcRoot + "testdata" + File.separator;
+    private final String zipContent = "testFile1";
+    private final String acpFile = "archiveC8257.acp";
    
     @BeforeClass
     public void setupTest()
@@ -49,7 +46,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8256")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void unzipZipFileToRepository()
     {
@@ -69,7 +66,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Select option My Files from 'Destination' section");
         unzipToDialog.clickDestinationButton("My Files");
-        ArrayList expectedDestionationPath = new ArrayList(Arrays.asList("My Files"));
+        ArrayList expectedDestionationPath = new ArrayList(Collections.singletonList("My Files"));
         assertEquals(unzipToDialog.getPathList(), expectedDestionationPath.toString(), "Destionation set to=");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
@@ -81,7 +78,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C8257")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void unzipAcpFileToRepository()
     {
@@ -99,7 +96,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Select option My Files from 'Destination' section");
         unzipToDialog.clickDestinationButton("My Files");
-        ArrayList expectedDestionationPath = new ArrayList(Arrays.asList("My Files"));
+        ArrayList expectedDestionationPath = new ArrayList(Collections.singletonList("My Files"));
         assertEquals(unzipToDialog.getPathList(), expectedDestionationPath.toString(), "Destionation set to=");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");

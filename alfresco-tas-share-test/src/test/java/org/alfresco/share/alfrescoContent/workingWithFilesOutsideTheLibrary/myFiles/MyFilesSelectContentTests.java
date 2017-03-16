@@ -8,12 +8,13 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -23,27 +24,23 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesSelectContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    MyFilesPage myFilesPage;
+    @Autowired private MyFilesPage myFilesPage;
 
-    @Autowired
-    HeaderMenuBar headerMenuBar;
+    @Autowired private HeaderMenuBar headerMenuBar;
 
-    @Autowired
-    NewContentDialog newContentDialog;
+    @Autowired private NewContentDialog newContentDialog;
 
-    @Autowired
-    SiteDashboardPage sitePage;
+    @Autowired private SiteDashboardPage sitePage;
     
     @Autowired
     private UploadContent uploadContent;
 
-    String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
-    String testFilePath = testDataFolder + testFile;
-    String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private final String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
+    private final String testFilePath = testDataFolder + testFile;
+    private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id = "C7682")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void selectFileByMenu()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
@@ -57,7 +54,7 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
         LOG.info("STEP1: Click 'Select' button and choose 'Documents' option.");
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption("Documents");
-        ArrayList<String> expectedContentList1 = new ArrayList<>(Arrays.asList(testFile));
+        ArrayList<String> expectedContentList1 = new ArrayList<>(Collections.singletonList(testFile));
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is disabled.");
 
@@ -92,7 +89,7 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7683")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void selectFolderByMenu()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
@@ -110,7 +107,7 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
         LOG.info("STEP1: Click 'Select' button and choose 'Folders'");
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption("Folders");
-        ArrayList<String> expectedContentList1 = new ArrayList<>(Arrays.asList(folderName));
+        ArrayList<String> expectedContentList1 = new ArrayList<>(Collections.singletonList(folderName));
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is disabled.");
 

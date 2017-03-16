@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesP
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -98,7 +99,7 @@ public class LinkingToDifferentRuleSet extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7327")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void linkToRuleSet()
     {
         LOG.info("STEP1: Click on 'Link to Rule Set' link\n" + "Set path to 'Folder1'.\n" + "Click 'Link' button");

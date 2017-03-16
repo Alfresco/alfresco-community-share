@@ -5,6 +5,7 @@ import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -13,14 +14,11 @@ import org.testng.annotations.Test;
 public class MyFilesManageAspectsTests extends ContextAwareWebTest
 {
 
-    @Autowired
-    AspectsForm aspectsForm;
+    @Autowired private AspectsForm aspectsForm;
 
-    @Autowired
-    MyFilesPage myFilesPage;
+    @Autowired private MyFilesPage myFilesPage;
 
-    @Autowired
-    MyFilesPage myFiles;
+    @Autowired private MyFilesPage myFiles;
 
     private String userName;
     private String folderName;
@@ -42,7 +40,7 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7814")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyManageAspectsForm()
     {
         logger.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects form");
@@ -59,7 +57,7 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7810")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void manageAspectsApplyChanges()
     {
         logger.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");

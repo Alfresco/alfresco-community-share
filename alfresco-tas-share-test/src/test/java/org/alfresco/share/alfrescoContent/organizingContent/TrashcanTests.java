@@ -9,12 +9,13 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.user.profile.UserTrashcanPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -25,27 +26,22 @@ import static org.testng.Assert.assertTrue;
  */
 public class TrashcanTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    HeaderMenuBar headerMenuBar;
+    @Autowired private HeaderMenuBar headerMenuBar;
 
-    @Autowired
-    DeleteDialog deleteDialog;
+    @Autowired private DeleteDialog deleteDialog;
 
-    @Autowired
-    UserTrashcanPage userTrashcanPage;
+    @Autowired private UserTrashcanPage userTrashcanPage;
 
-    @Autowired
-    EmptyTrashcanDialog emptyTrashcanDialog;
+    @Autowired private EmptyTrashcanDialog emptyTrashcanDialog;
 
-    String random = DataUtil.getUniqueIdentifier();
-    String userName = "profileUser-" + random;
-    String firstName = "FirstName";
-    String lastName = "LastName";
-    String description = "Description-" + random;
-    String fileContent = "file content.";
+    private final String random = DataUtil.getUniqueIdentifier();
+    private final String userName = "profileUser-" + random;
+    private final String firstName = "FirstName";
+    private final String lastName = "LastName";
+    private final String description = "Description-" + random;
+    private final String fileContent = "file content.";
 
     @BeforeClass
     public void setupTest()
@@ -54,7 +50,7 @@ public class TrashcanTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C10506")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void emptyTrashcan()
     {
         String siteName = "site-C10506-" + random;
@@ -98,7 +94,7 @@ public class TrashcanTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7572")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void trashcanDeleteFile()
     {
         String siteName = "site-C7572-" + random;
@@ -123,7 +119,7 @@ public class TrashcanTests extends ContextAwareWebTest
                 "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
-        assertEquals(documentLibraryPage.getFoldersList().toString(), Arrays.asList(folderName).toString(), "Document Library folders=");
+        assertEquals(documentLibraryPage.getFoldersList().toString(), Collections.singletonList(folderName).toString(), "Document Library folders=");
 
         LOG.info("STEP2: Open the user menu on the toolbar and click 'My Profile' then the 'Trashcan' tab");
         userTrashcanPage.navigate(userName);
@@ -142,7 +138,7 @@ public class TrashcanTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7573")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void trashcanDeleteFolder()
     {
         String siteName = "site-C7573-" + random;
@@ -166,7 +162,7 @@ public class TrashcanTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, folderName),
                 "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
-        assertEquals(documentLibraryPage.getFilesList().toString(), Arrays.asList(fileName).toString(), "Document Library files=");
+        assertEquals(documentLibraryPage.getFilesList().toString(), Collections.singletonList(fileName).toString(), "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[]", "Document Library folders=");
 
         LOG.info("STEP2: Open the user menu on the toolbar and click 'My Profile' then the 'Trashcan' tab");

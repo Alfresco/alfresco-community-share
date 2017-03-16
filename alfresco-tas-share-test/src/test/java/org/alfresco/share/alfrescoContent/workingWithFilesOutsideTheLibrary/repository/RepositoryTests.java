@@ -10,6 +10,7 @@ import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -18,8 +19,7 @@ import org.testng.annotations.Test;
 
 public class RepositoryTests extends ContextAwareWebTest
 {
-    @Autowired
-    UserDashboardPage userDashboardPage;
+    @Autowired private UserDashboardPage userDashboardPage;
 
     @Autowired
     CreateContent create;
@@ -30,21 +30,19 @@ public class RepositoryTests extends ContextAwareWebTest
     @Autowired
     GoogleDocsCommon googleDocs;
     
-    @Autowired
-    ContentService contentService;
+    @Autowired private ContentService contentService;
     
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired private RepositoryPage repositoryPage;
 
-    private String user = "C8154TestUser" + DataUtil.getUniqueIdentifier();
-    private String description = "C8154SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "1C8154SiteName" + DataUtil.getUniqueIdentifier();
-    private String fileName1 = "C8154 file1";
-    private String fileName2 = "C8154 file2";
-    private String folderName = "folderNameSite1";
-    private String folderName2 ="folderNameSite2";
-    private String fileContent = "test content";
-    private String siteName2 = "2SecondTestSite"+ DataUtil.getUniqueIdentifier();
+    private final String user = "C8154TestUser" + DataUtil.getUniqueIdentifier();
+    private final String description = "C8154SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "1C8154SiteName" + DataUtil.getUniqueIdentifier();
+    private final String fileName1 = "C8154 file1";
+    private final String fileName2 = "C8154 file2";
+    private final String folderName = "folderNameSite1";
+    private final String folderName2 ="folderNameSite2";
+    private final String fileContent = "test content";
+    private final String siteName2 = "2SecondTestSite"+ DataUtil.getUniqueIdentifier();
     
 
     @BeforeClass
@@ -62,7 +60,7 @@ public class RepositoryTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C8154")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void checkTheRepositoryIsAvailableInTheToolBar()
     {
@@ -77,7 +75,7 @@ public class RepositoryTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C8155")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void checkTheFilesAndFoldersAvailabilityInRepository()
     {

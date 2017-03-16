@@ -8,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -23,14 +24,11 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
     private String editedInGoogleDocsTitle;
     private String editedInGoogleDocsContent;
 
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    GoogleDocsCommon googleDocsCommon;
+    @Autowired private GoogleDocsCommon googleDocsCommon;
 
     @Autowired
     CreateContent createContent;
@@ -51,7 +49,7 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7056")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editFilesInGoogleDocs() throws Exception
 
     {

@@ -6,6 +6,7 @@ import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -13,20 +14,18 @@ import org.testng.annotations.Test;
 
 public class LikeTests extends ContextAwareWebTest
 {
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired private RepositoryPage repositoryPage;
     
-    @Autowired
-    SocialFeatures socialFeatures;
+    @Autowired private SocialFeatures socialFeatures;
 
 
-    private String user = "C8301TestUser" + DataUtil.getUniqueIdentifier();
-    private String fileNameC8301 = "C8301 file";
-    private String fileNameC8303 = "C8303 file";
-    private String fileContent = "test file content";
-    private String path = "User Homes/" + user;
-    private String folderNameC8302 = "C8302 Folder";
-    private String folderNameC8304 = "C8304 Folder";
+    private final String user = "C8301TestUser" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8301 = "C8301 file";
+    private final String fileNameC8303 = "C8303 file";
+    private final String fileContent = "test file content";
+    private final String path = "User Homes/" + user;
+    private final String folderNameC8302 = "C8302 Folder";
+    private final String folderNameC8304 = "C8304 Folder";
    
    
     @BeforeClass
@@ -42,7 +41,7 @@ public class LikeTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C8301")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void likeFile()
     {
@@ -65,7 +64,7 @@ public class LikeTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C8302")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void likeFolder()
     {
@@ -90,7 +89,7 @@ public class LikeTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C8303")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void unlikeFile()
     {
@@ -111,7 +110,7 @@ public class LikeTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C8304")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void unlikeFolder()
     {

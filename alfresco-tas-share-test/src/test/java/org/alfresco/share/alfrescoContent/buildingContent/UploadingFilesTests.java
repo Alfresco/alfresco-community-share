@@ -5,6 +5,7 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.Test;
@@ -16,16 +17,15 @@ import static org.testng.Assert.assertTrue;
 
 public class UploadingFilesTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
     @Autowired
     private UploadContent uploadContent;
 
-    private String random = DataUtil.getUniqueIdentifier();
+    private final String random = DataUtil.getUniqueIdentifier();
 
     @TestRail(id = "C6970")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void UploadASingleFileToSite()
     {
         String user = "user" + random;
@@ -48,7 +48,7 @@ public class UploadingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C11833")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void UploadFileInFolder() throws AWTException
     {
         String testUser = "user" + random;

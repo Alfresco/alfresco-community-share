@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -16,7 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.testng.Assert.*;
 
@@ -85,7 +86,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8062")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createTagForFile()
     {
         LOG.info("STEP1: Hover over one tag from the content name");
@@ -99,12 +100,12 @@ public class TagTests extends ContextAwareWebTest
         LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
         sharedFilesPage.typeTagName(tagNameFile);
         sharedFilesPage.clickEditTagLink("Save");
-        ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagNameFile.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagNameFile.toLowerCase()));
         assertEquals(sharedFilesPage.getTags(docName), tagsList.toString(), docName + " -> tags=");
     }
 
     @TestRail(id = "C8063")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createTagForFolder()
     {
         String tagNameFolder = "tagNameFolder-C8063-" + random;
@@ -121,12 +122,12 @@ public class TagTests extends ContextAwareWebTest
         LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
         sharedFilesPage.typeTagName(tagNameFolder);
         sharedFilesPage.clickEditTagLink("Save");
-        ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagNameFolder.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagNameFolder.toLowerCase()));
         assertEquals(sharedFilesPage.getTags(folderName), tagsList.toString(), folderName + " -> tags=");
     }
 
     @TestRail(id = "C8074")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addExistingTag()
     {
         LOG.info("STEP1: Hover over " + docName2);
@@ -145,20 +146,20 @@ public class TagTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Pick any tag from the available tags list and click \"Add\"");
         selectDialog.typeTag(tagName2.toLowerCase());
-        selectDialog.selectItems(Arrays.asList(tagName2.toLowerCase()));
+        selectDialog.selectItems(Collections.singletonList(tagName2.toLowerCase()));
         assertTrue(selectDialog.isItemSelected(tagName2.toLowerCase()), tagName2.toLowerCase() + " is displayed in selected categories list.");
 
         LOG.info("STEP5: Click  \"OK\" button from \"Select\" dialog.\n" + "Click  \"Save\" button from \"Edit Properties\" dialog");
         selectDialog.clickOk();
         editPropertiesDialog.clickSave();
         getBrowser().waitInSeconds(3);
-        ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName2.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName2.toLowerCase()));
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         assertEquals(sharedFilesPage.getTags(docName2), tagsList.toString(), docName2 + " -> tags=");
     }
 
     @TestRail(id = "C8086")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editTag()
     {
         LOG.info("STEP1: Hover over the tag(s) from the content");
@@ -183,7 +184,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8087")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void removeTag()
     {
         LOG.info("  Hover over the text \"No Tags\" from " + docName3);
@@ -201,7 +202,7 @@ public class TagTests extends ContextAwareWebTest
         sharedFilesPage.typeTagName(tagName2);
         sharedFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         getBrowser().waitInSeconds(3);
-        ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName2.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName2.toLowerCase()));
         assertEquals(sharedFilesPage.getTags(docName3), tagsList.toString(), docName3 + " -> tags=");
 
         LOG.info("STEP1: Hover over the tag from " + docName3);
@@ -223,7 +224,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8096")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void updateTags()
     {
         LOG.info("STEP1: Hover over the text \"No Tags\" from " + docName4);
@@ -249,7 +250,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13766")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void noTagsOptionDisplayed()
     {
         LOG.info("Preconditions: Test user with no admin permissions.");

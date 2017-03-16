@@ -15,6 +15,7 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -30,46 +31,38 @@ import static org.testng.Assert.assertTrue;
 
 public class CreateTests extends ContextAwareWebTest
 {
-    @Autowired
-    SharedFilesPage sharedFilesPage;
+    @Autowired private SharedFilesPage sharedFilesPage;
 
     @Autowired
     SiteDashboardPage sitePage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    CreateContent createContent;
+    @Autowired private CreateContent createContent;
 
-    @Autowired
-    HeaderMenuBar headerMenuBar;
-    @Autowired
-    CreateFolderFromTemplate createFolderFromTemplate;
+    @Autowired private HeaderMenuBar headerMenuBar;
+    @Autowired private CreateFolderFromTemplate createFolderFromTemplate;
     @Autowired
     CreateFileFromTemplate createFileFromTemplate;
-    @Autowired
-    GoogleDocsCommon googleDocs;
-    @Autowired
-    DeleteDialog deleteDialog;
-    @Autowired
-    Notification notification;
+    @Autowired private GoogleDocsCommon googleDocs;
+    @Autowired private DeleteDialog deleteDialog;
+    @Autowired private Notification notification;
     @Autowired
     private RepositoryPage repositoryPage;
     @Autowired
     private UploadContent uploadContent;
 
-    String folderTemplateName = "Software Engineering Project";
-    String fileTemplateName = DataUtil.getUniqueIdentifier() + "fileTemplate.txt";
-    String fileTemplatePath = testDataFolder + fileTemplateName;
-    String random = DataUtil.getUniqueIdentifier();
-    String user2 = "user2-" + random;
+    private final String folderTemplateName = "Software Engineering Project";
+    private final String fileTemplateName = DataUtil.getUniqueIdentifier() + "fileTemplate.txt";
+    private final String fileTemplatePath = testDataFolder + fileTemplateName;
+    private final String random = DataUtil.getUniqueIdentifier();
+    private final String user2 = "user2-" + random;
 
-    private String title = "googleDoc title";
-    private String googleDocName = "googleDoc title.docx";
-    private String googleDocSpreadsheet = "googleDoc title.xlsx";
-    private String googleDocPresentation = "googleDoc title.pptx";
-    private String docContent = "googleDoccontent";
+    private final String title = "googleDoc title";
+    private final String googleDocName = "googleDoc title.docx";
+    private final String googleDocSpreadsheet = "googleDoc title.xlsx";
+    private final String googleDocPresentation = "googleDoc title.pptx";
+    private final String docContent = "googleDoccontent";
 
     @BeforeClass
     public void setupTest()
@@ -78,7 +71,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7929")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void sharedFilesCreatePlainTextFile()
     {
 
@@ -143,7 +136,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7937")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void sharedFilesCreateHTMLFile()
     {
 
@@ -199,7 +192,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7938")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void sharedFilesCreateXMLFile()
     {
 
@@ -255,7 +248,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7931")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void sharedFilesCreateFolderFromTemplate()
     {
 
@@ -294,7 +287,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7932")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void sharedFilesCreateDocumentFromTemplate()
     {
         LOG.info("Precondition: Login as admin user and create a file template.");
@@ -333,7 +326,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7934")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void sharedFilesCreateGoogleDocsDocument() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
@@ -378,7 +371,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7935")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void sharedFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
@@ -423,7 +416,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7936")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void sharedFilesCreateGoogleDocsPresentation() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");

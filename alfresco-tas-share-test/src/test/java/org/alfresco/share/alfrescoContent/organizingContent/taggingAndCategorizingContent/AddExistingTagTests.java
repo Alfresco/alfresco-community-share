@@ -7,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -14,6 +15,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.testng.Assert.*;
 
@@ -22,26 +24,23 @@ import static org.testng.Assert.*;
  */
 public class AddExistingTagTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    EditPropertiesDialog editPropertiesDialog;
+    @Autowired private EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired
-    SelectDialog selectDialog;
+    @Autowired private SelectDialog selectDialog;
 
-    String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    String firstName = "FirstName";
-    String lastName = "LastName";
-    String description = "Description-" + DataUtil.getUniqueIdentifier();
-    String fileContent = "content of the file.";
-    String random = DataUtil.getUniqueIdentifier();
-    String siteName = "site-C7464-" + random;
-    String fileName = "file-C7464-" + random;
-    String folderName = "folder-C7464-" + random;
-    String tagName1 = "tagName1-C7464-" + random;
-    String tagName2 = "tagName2-C7464-" + random;
+    private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
+    private final String firstName = "FirstName";
+    private final String lastName = "LastName";
+    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
+    private final String fileContent = "content of the file.";
+    private final String random = DataUtil.getUniqueIdentifier();
+    private final String siteName = "site-C7464-" + random;
+    private final String fileName = "file-C7464-" + random;
+    private final String folderName = "folder-C7464-" + random;
+    private final String tagName1 = "tagName1-C7464-" + random;
+    private final String tagName2 = "tagName2-C7464-" + random;
 
     @BeforeClass
     public void setupTest()
@@ -59,7 +58,7 @@ public class AddExistingTagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7464")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addExistingTagFromEditPropertiesDialog()
     {
         LOG.info("STEP1: Hover over the content created in the preconditions");
@@ -77,7 +76,7 @@ public class AddExistingTagTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Pick any tag from the available tags list and click \"Add\"");
         selectDialog.typeTag(tagName2.toLowerCase());
-        selectDialog.selectItems(Arrays.asList(tagName2.toLowerCase()));
+        selectDialog.selectItems(Collections.singletonList(tagName2.toLowerCase()));
         assertTrue(selectDialog.isItemSelected(tagName2.toLowerCase()), tagName2.toLowerCase() + " is displayed in selected categories list.");
         assertFalse(selectDialog.isItemSelectable(tagName2.toLowerCase()), tagName2.toLowerCase() + " -> 'Add' icon isn't displayed.");
 

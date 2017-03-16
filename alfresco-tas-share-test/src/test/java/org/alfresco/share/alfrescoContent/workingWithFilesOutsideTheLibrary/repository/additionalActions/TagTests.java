@@ -13,37 +13,27 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.testng.Assert.*;
 
 public class TagTests extends ContextAwareWebTest
 {
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired private RepositoryPage repositoryPage;
 
     @Autowired
     HeaderMenuBar headerMenuBar;
 
-    @Autowired
-    EditPropertiesDialog editPropertiesDialog;
+    @Autowired private EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired
-    SelectDialog selectDialog;
+    @Autowired private SelectDialog selectDialog;
 
     @Autowired
     CreateContent createContent;
@@ -51,30 +41,29 @@ public class TagTests extends ContextAwareWebTest
     @Autowired
     DeleteDialog deleteDialog;
 
-    @Autowired
-    ContentActions contentActions;
+    @Autowired private ContentActions contentActions;
 
     @Autowired
 
     SiteService siteService;
 
-    @Autowired
+    @Autowired private
 
     ContentService contentService;
 
-    private String user = "C8266TestUser" + DataUtil.getUniqueIdentifier();
-    private String fileNameC8266 = "C8266 file";
-    private String fileNameC8290 = "C8290 file";
-    private String fileNameC8278 = "C8278 file";
-    private String fileNameC8291 = "C8291 file";
-    private String fileNameC8300 = "C8300 file";
-    private String fileContent = "test file content";
-    private String path = "User Homes/" + user;
-    private String folderName = "C8167 Folder";
-    private String tagC8266 = "tagNameFile-C8266-" + DataUtil.getUniqueIdentifier();
-    private String tagC8267 = "tag-C8267" + DataUtil.getUniqueIdentifier();
-    private String tagC8278 = "tag-C8278" + DataUtil.getUniqueIdentifier();
-    private String tagC8290 = "tag-C8290" + DataUtil.getUniqueIdentifier();
+    private final String user = "C8266TestUser" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8266 = "C8266 file";
+    private final String fileNameC8290 = "C8290 file";
+    private final String fileNameC8278 = "C8278 file";
+    private final String fileNameC8291 = "C8291 file";
+    private final String fileNameC8300 = "C8300 file";
+    private final String fileContent = "test file content";
+    private final String path = "User Homes/" + user;
+    private final String folderName = "C8167 Folder";
+    private final String tagC8266 = "tagNameFile-C8266-" + DataUtil.getUniqueIdentifier();
+    private final String tagC8267 = "tag-C8267" + DataUtil.getUniqueIdentifier();
+    private final String tagC8278 = "tag-C8278" + DataUtil.getUniqueIdentifier();
+    private final String tagC8290 = "tag-C8290" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass
     public void setupTest()
@@ -84,7 +73,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8266")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createTagForFile()
     {
         // Preconditions
@@ -106,12 +95,12 @@ public class TagTests extends ContextAwareWebTest
         repositoryPage.typeTagName(tagC8266);
         repositoryPage.clickEditTagLink("Save");
         getBrowser().waitInSeconds(5);
-        ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagC8266.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagC8266.toLowerCase()));
         assertEquals(repositoryPage.getTags(fileNameC8266), tagsList.toString(), tagC8266 + " -> tags=");
     }
 
     @TestRail(id = "C8267")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createTagForFolder()
     {
         contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
@@ -133,12 +122,12 @@ public class TagTests extends ContextAwareWebTest
         repositoryPage.typeTagName(tagC8267);
         repositoryPage.clickEditTagLink("Save");
         getBrowser().waitInSeconds(4);
-        ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagC8267.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagC8267.toLowerCase()));
         assertEquals(repositoryPage.getTags(folderName), tagsList.toString(), folderName + " -> tags=");
     }
 
     @TestRail(id = "C8278")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addExistingTag()
     {
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8278, fileContent);
@@ -167,13 +156,13 @@ public class TagTests extends ContextAwareWebTest
         LOG.info("STEP5: Click \"Save\" button");
         editPropertiesDialog.clickSave();
         getBrowser().waitInSeconds(4);
-        ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagC8278.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagC8278.toLowerCase()));
         assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "Displayed page=");
         assertEquals(repositoryPage.getTags(fileNameC8278), tagsList.toString(), fileNameC8278 + " -> tags=");
     }
 
     @TestRail(id = "C8290")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editTag()
     {
         // Preconditions
@@ -205,7 +194,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8291")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void removeTag()
     {
         // Preconditions
@@ -238,7 +227,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8300")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void updateTags()
     {
         // Preconditions

@@ -3,13 +3,14 @@ package org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategoriz
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.Test;
@@ -19,17 +20,16 @@ import org.testng.annotations.Test;
  */
 public class WorkingWithTagsTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    String firstName = "FirstName";
-    String lastName = "LastName";
-    String description = "Description-" + DataUtil.getUniqueIdentifier();
-    String fileContent = "content of the file.";
+    private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
+    private final String firstName = "FirstName";
+    private final String lastName = "LastName";
+    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
+    private final String fileContent = "content of the file.";
 
     @TestRail(id = "C7444")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void updateTags()
     {
         String random = DataUtil.getUniqueIdentifier();
@@ -71,7 +71,7 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
         documentLibraryPage.typeTagName(addedTagName);
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         getBrowser().waitInSeconds(2);
-        assertEquals(documentLibraryPage.getTags(fileName), Arrays.asList(addedTagName.toLowerCase()).toString(), fileName + " -> tags=");
+        assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(addedTagName.toLowerCase()).toString(), fileName + " -> tags=");
 
         cleanupAuthenticatedSession();
     }

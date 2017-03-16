@@ -13,12 +13,13 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -27,54 +28,47 @@ public class ActionsEditTests extends ContextAwareWebTest
 
 {
 
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired private RepositoryPage repositoryPage;
 
     @Autowired
     SiteDashboardPage sitePage;
 
-    @Autowired
-    DocumentDetailsPage detailsPage;
+    @Autowired private DocumentDetailsPage detailsPage;
 
-    @Autowired
-    EditPropertiesDialog editFilePropertiesDialog;
+    @Autowired private EditPropertiesDialog editFilePropertiesDialog;
 
-    @Autowired
-    SelectDialog selectDialog;
+    @Autowired private SelectDialog selectDialog;
 
     @Autowired
     NewContentDialog newContentDialog;
 
-    @Autowired
-    EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired private EditInAlfrescoPage editInAlfrescoPage;
 
-    @Autowired
-    GoogleDocsCommon docsCommon;
+    @Autowired private GoogleDocsCommon docsCommon;
 
     @SuppressWarnings("rawtypes")
-    @Autowired
-    DocumentCommon documentCommon;
+    @Autowired private DocumentCommon documentCommon;
 
-    String uniqueIdentifier;
-    String folderName;
-    String editedFolderName;
-    String editedTitle;
-    String editedDescription;
-    String tagName;
-    String editedFileName;
-    String editFileUsr;
-    String editFolderUsr;
-    String editInAlfUsr;
-    String editFileInGDUsr;
-    String lName;
-    String fName;
-    String fileContent;
-    String fileName;
-    String editedContent;
-    String editFilePath;
-    String editFolderPath;
-    String editInAlfrescoPath;
-    String editFileInGDPath;
+    private String uniqueIdentifier;
+    private String folderName;
+    private String editedFolderName;
+    private String editedTitle;
+    private String editedDescription;
+    private String tagName;
+    private String editedFileName;
+    private String editFileUsr;
+    private String editFolderUsr;
+    private String editInAlfUsr;
+    private String editFileInGDUsr;
+    private String lName;
+    private String fName;
+    private String fileContent;
+    private String fileName;
+    private String editedContent;
+    private String editFilePath;
+    private String editFolderPath;
+    private String editInAlfrescoPath;
+    private String editFileInGDPath;
 
     @BeforeClass
     public void setupTest()
@@ -114,8 +108,8 @@ public class ActionsEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7737")
-    @Test
-    public void repositoryEditFilesProfperties()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    public void repositoryEditFilesProperties()
 
     {
 
@@ -157,12 +151,12 @@ public class ActionsEditTests extends ContextAwareWebTest
         assertTrue(repositoryPage.isContentNameDisplayed(editedFileName), editedFileName + " is displayed.");
         assertEquals(repositoryPage.getItemTitle(editedFileName), "(" + editedTitle + ")", editedFileName + " - document's title=");
         assertEquals(repositoryPage.getItemDescription(editedFileName), editedDescription, editedFileName + "- document's description=");
-        assertEquals(repositoryPage.getTags(editedFileName), Arrays.asList(tagName.toLowerCase()).toString(), editedFileName + "- document's tag=");
+        assertEquals(repositoryPage.getTags(editedFileName), Collections.singletonList(tagName.toLowerCase()).toString(), editedFileName + "- document's tag=");
 
     }
 
     @TestRail(id = "C7745")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void repositoryEditFolderProperties()
 
     {
@@ -203,14 +197,14 @@ public class ActionsEditTests extends ContextAwareWebTest
         assertTrue(repositoryPage.isContentNameDisplayed(editedFolderName), editedFolderName + " is displayed.");
         assertEquals(repositoryPage.getItemTitle(editedFolderName), "(" + editedTitle + ")", editedFolderName + " - document's title=");
         assertEquals(repositoryPage.getItemDescription(editedFolderName), editedDescription, editedFolderName + "- document's description=");
-        assertEquals(repositoryPage.getTags(editedFolderName), Arrays.asList(tagName.toLowerCase()).toString(), editedFolderName + "- document's tag=");
+        assertEquals(repositoryPage.getTags(editedFolderName), Collections.singletonList(tagName.toLowerCase()).toString(), editedFolderName + "- document's tag=");
 
         getBrowser().cleanUpAuthenticatedSession();
 
     }
 
     @TestRail(id = "C7767")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void repositoryEditFileInAlfresco()
 
     {
@@ -252,7 +246,7 @@ public class ActionsEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7782")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void repositoryEditFilesInGoogleDocs() throws Exception
 
     {

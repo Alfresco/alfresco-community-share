@@ -5,6 +5,7 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -24,13 +25,12 @@ import static org.testng.Assert.assertTrue;
  */
 public class LocateItemsAndFoldersTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private String testUser = "user" + DataUtil.getUniqueIdentifier();
-    private String siteName = "siteName" + DataUtil.getUniqueIdentifier();
-    private String folderName = "locateFolder" + DataUtil.getUniqueIdentifier();
-    private String docName = "locateDoc" + DataUtil.getUniqueIdentifier();
+    private final String testUser = "user" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "siteName" + DataUtil.getUniqueIdentifier();
+    private final String folderName = "locateFolder" + DataUtil.getUniqueIdentifier();
+    private final String docName = "locateDoc" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass
     public void setupTest()
@@ -46,7 +46,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
 
     @Bug(id = "MNT-17556")
     @TestRail(id = "C7516")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void locateFileDetailedView()
     {
         documentLibraryPage.navigate(siteName);
@@ -63,7 +63,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
         LOG.info("STEP3: Hover over the file name and click 'Locate file' link from 'More' menu");
         documentLibraryPage.mouseOverFileName(docName);
         documentLibraryPage.clickDocumentLibraryItemAction(docName, "Locate File", documentLibraryPage);
-        ArrayList<String> breadcrumbExpected = new ArrayList<>(Arrays.asList("Documents"));
+        ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb=");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "User is redirected to location of the created document.");
         assertTrue(documentLibraryPage.isContentSelected(docName), docName + " is selected.");
@@ -72,7 +72,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
 
     @Bug(id = "MNT-17556")
     @TestRail(id = "C7517")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void locateFolderDetailedView()
     {
         documentLibraryPage.navigate(siteName);
@@ -88,7 +88,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
         LOG.info("STEP3: Hover over the folder name and click 'Locate folder' link from 'More' menu");
         documentLibraryPage.mouseOverContentItem(folderName);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Locate Folder", documentLibraryPage);
-        ArrayList<String> breadcrumbExpected = new ArrayList<>(Arrays.asList("Documents"));
+        ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb=");
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "User is redirected to location of the created folder.");
         assertTrue(documentLibraryPage.isContentSelected(folderName), folderName + " is selected.");

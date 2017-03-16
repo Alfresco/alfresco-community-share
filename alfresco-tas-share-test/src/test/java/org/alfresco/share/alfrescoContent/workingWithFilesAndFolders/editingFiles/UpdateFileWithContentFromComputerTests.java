@@ -12,6 +12,7 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -20,20 +21,17 @@ import org.testng.annotations.Test;
 
 public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest {
 
-	@Autowired
-	DocumentLibraryPage documentLibraryPage;
+	@Autowired private DocumentLibraryPage documentLibraryPage;
 
 	@Autowired
 	EditPropertiesPage editPropertiesPage;
 
-	@Autowired
-	UploadFileDialog uploadFileDialog;
+	@Autowired private UploadFileDialog uploadFileDialog;
 
 	@Autowired
 	private UploadContent uploadContent;
 
-	@Autowired
-	DocumentDetailsPage documentDetailsPage;
+	@Autowired private DocumentDetailsPage documentDetailsPage;
 
 	private String userName;
 	private String siteName;
@@ -58,7 +56,7 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest 
 	}
 
 	@TestRail(id = "C7074")
-	@Test
+	@Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 	public void uploadFileUsingUploadNewVersion() {
 		logger.info("Preconditions: Navigate to Document Library page for the test site");
 		documentLibraryPage.navigate(siteName);

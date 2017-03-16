@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -17,21 +18,18 @@ import org.testng.annotations.Test;
 
 public class ActionsDownloadTests extends ContextAwareWebTest
 {
-    @Autowired
-    ContentService contentService;
+    @Autowired private ContentService contentService;
 
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired private RepositoryPage repositoryPage;
 
-    @Autowired
-    DocumentCommon documentCommon;
+    @Autowired private DocumentCommon documentCommon;
 
-    private String user = "C8240TestUser" + DataUtil.getUniqueIdentifier();
-    private String fileNameC8240 = "C8240 file";
-    private String folderNameC8243 = "folderNameC8243";
-    private String fileContent = "test content";
-    private String path = "User Homes/" + user;
-    private String downloadPath = srcRoot + "testdata";
+    private final String user = "C8240TestUser" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8240 = "C8240 file";
+    private final String folderNameC8243 = "folderNameC8243";
+    private final String fileContent = "test content";
+    private final String path = "User Homes/" + user;
+    private final String downloadPath = srcRoot + "testdata";
     private File downloadDirectory;
     private Alert alert;
 
@@ -40,16 +38,16 @@ public class ActionsDownloadTests extends ContextAwareWebTest
         downloadDirectory = new File(downloadPath);
         File[] directoryContent = downloadDirectory.listFiles();
 
-        for (int i = 0; i < directoryContent.length; i++)
+        for (File aDirectoryContent : directoryContent)
         {
             if (extension == null)
             {
-                if (directoryContent[i].getName().equals(fileName))
+                if (aDirectoryContent.getName().equals(fileName))
                     return true;
             }
             else
             {
-                if (directoryContent[i].getName().equals(fileName + extension))
+                if (aDirectoryContent.getName().equals(fileName + extension))
                     return true;
             }
         }
@@ -68,7 +66,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8240")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void downloadFileFromAlfresco()
     {
@@ -94,7 +92,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
     }
 
     @TestRail(id = " C8243")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void downloadFolder()
     {

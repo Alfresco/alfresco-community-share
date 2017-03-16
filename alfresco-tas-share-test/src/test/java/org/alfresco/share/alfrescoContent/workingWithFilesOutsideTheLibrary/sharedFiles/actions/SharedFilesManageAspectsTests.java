@@ -8,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -17,11 +18,9 @@ import org.testng.annotations.Test;
 public class SharedFilesManageAspectsTests extends ContextAwareWebTest
 {
 
-    @Autowired
-    AspectsForm aspectsForm;
+    @Autowired private AspectsForm aspectsForm;
 
-    @Autowired
-    SharedFilesPage sharedFilesPage;
+    @Autowired private SharedFilesPage sharedFilesPage;
 
     private String userName;
     private String folderName;
@@ -43,7 +42,7 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8038")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyManageAspectActions()
 
     {
@@ -65,7 +64,7 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8034")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void manageAspectsApplyChanges()
 
     {
@@ -94,7 +93,7 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13761")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void manageAspectsActionMissing()
     {
         logger.info("Preconditions: Login to Share and navigate to 'Shared Files' page");

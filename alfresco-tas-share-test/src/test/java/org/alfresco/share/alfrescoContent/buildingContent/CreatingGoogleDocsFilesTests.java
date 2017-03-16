@@ -7,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -15,17 +16,14 @@ import org.testng.annotations.Test;
 
 public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    CreateContent create;
+    @Autowired private CreateContent create;
 
     @Autowired
     DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    GoogleDocsCommon googleDocs;
+    @Autowired private GoogleDocsCommon googleDocs;
 
     private String user;
     private String siteDescription;
@@ -52,7 +50,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6990")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createGoogleDocsDocument() throws Exception
 
     {
@@ -90,7 +88,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6991")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createGoogleDocsSpreadsheet() throws Exception
 
     {
@@ -128,7 +126,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6992")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createGoogleDocsPresentation() throws Exception
 
     {

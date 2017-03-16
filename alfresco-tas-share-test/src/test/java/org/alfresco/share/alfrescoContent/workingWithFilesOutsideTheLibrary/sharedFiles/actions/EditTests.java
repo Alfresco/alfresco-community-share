@@ -13,6 +13,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAl
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -82,7 +83,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7953")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editFileProperties()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -123,7 +124,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7958")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editFolderProperties()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -166,7 +167,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7979")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editFileInAlfresco()
     {
         String updatedContent = "Content updated C7979";
@@ -203,7 +204,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7994")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editFileInGoogleDocs() throws Exception
     {
         String editedInGoogleDocsTitle = uniqueIdentifier + "editedTestFile.docx";
@@ -258,7 +259,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13760")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void optionNotDisplayed()
     {
         setupAuthenticatedSession(user, password);

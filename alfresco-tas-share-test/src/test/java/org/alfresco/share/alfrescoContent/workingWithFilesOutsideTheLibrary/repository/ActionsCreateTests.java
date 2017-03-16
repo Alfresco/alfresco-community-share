@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -19,28 +20,24 @@ import static org.testng.Assert.assertEquals;
 
 public class ActionsCreateTests extends ContextAwareWebTest
 {
-    @Autowired
-    CreateContent create;
+    @Autowired private CreateContent create;
 
-    @Autowired
-    RepositoryPage repository;
+    @Autowired private RepositoryPage repository;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    CreateFolderFromTemplate createFolderFromTemplate;
+    @Autowired private CreateFolderFromTemplate createFolderFromTemplate;
 
-    @Autowired Notification notification;
+    @Autowired private Notification notification;
 
-    private String user = "C8156User" + DataUtil.getUniqueIdentifier();
-    private String description = "C8156SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C8156SiteName" + DataUtil.getUniqueIdentifier();
-    private String path = "Data Dictionary/Node Templates";
-    private String docName = "C8159template2" + DataUtil.getUniqueIdentifier();
-    private String docContent = "C8159 template content";
-    private String pathFolderTemplate = "Data Dictionary/Space Templates";
-    private String folderName = "C8158" + DataUtil.getUniqueIdentifier();
+    private final String user = "C8156User" + DataUtil.getUniqueIdentifier();
+    private final String description = "C8156SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "C8156SiteName" + DataUtil.getUniqueIdentifier();
+    private final String path = "Data Dictionary/Node Templates";
+    private final String docName = "C8159template2" + DataUtil.getUniqueIdentifier();
+    private final String docContent = "C8159 template content";
+    private final String pathFolderTemplate = "Data Dictionary/Space Templates";
+    private final String folderName = "C8158" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass
 
@@ -55,7 +52,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8156")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void createPlainTextDocumentInRepository()
     {
@@ -108,7 +105,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8161")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void createHTMLDocumentInRepository()
     {
@@ -160,7 +157,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8162")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void createXMLFile()
     {
@@ -214,7 +211,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8159")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void createDocumentFromTemplate()
     {
@@ -239,7 +236,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8158")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void createFolderFromTemplateInRepository()
     {
@@ -271,7 +268,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C13745")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void checkThatUserWithoutAdminPermissionsCannotCreateInMainRepository()
     {
         setupAuthenticatedSession(user, password);
@@ -287,7 +284,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id =" C13746")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void checkThatTheCreateOptionIsAvailableForAdminInMainRepository()
     {

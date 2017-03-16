@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -23,23 +24,19 @@ import static org.testng.Assert.*;
  */
 public class MultiSelectingContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    HeaderMenuBar headerMenuBar;
+    @Autowired private HeaderMenuBar headerMenuBar;
 
-    @Autowired
-    StartWorkflowPage startWorkflowPage;
+    @Autowired private StartWorkflowPage startWorkflowPage;
 
-    @Autowired
-    DeleteDialog deleteDialog;
+    @Autowired private DeleteDialog deleteDialog;
 
-    String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    String firstName = "FirstName";
-    String lastName = "LastName";
-    String description = "Description-" + DataUtil.getUniqueIdentifier();
-    String fileContent = "content of the file.";
+    private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
+    private final String firstName = "FirstName";
+    private final String lastName = "LastName";
+    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
+    private final String fileContent = "content of the file.";
 
     @BeforeClass
     public void setupTest()
@@ -48,7 +45,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7546")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void selectItemsByCheckbox()
     {
         String random = DataUtil.getUniqueIdentifier();
@@ -85,7 +82,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7548")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void selectItemsByMenu()
     {
         String random = DataUtil.getUniqueIdentifier();
@@ -179,7 +176,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8410")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void selectMultipleDocumentsStartWorkflow()
     {
         String random = DataUtil.getUniqueIdentifier();
@@ -228,7 +225,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7554")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void selectedItemsDelete()
     {
         String random = DataUtil.getUniqueIdentifier();

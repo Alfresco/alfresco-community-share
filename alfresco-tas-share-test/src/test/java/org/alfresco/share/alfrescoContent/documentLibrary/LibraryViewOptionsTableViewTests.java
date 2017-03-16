@@ -7,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.TableView;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -16,22 +17,19 @@ import org.testng.annotations.Test;
 public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
 
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    ContentService contentService;
+    @Autowired private ContentService contentService;
 
-    @Autowired
-    TableView tableView;
+    @Autowired private TableView tableView;
 
-    private String user = "C2266User" + DataUtil.getUniqueIdentifier();
-    private String description = "C2266SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C2266SiteName" + DataUtil.getUniqueIdentifier();
-    private String docName = "testFile1";
-    private String docContent = "C2266 content";
-    private String folderName = "C2266 test folder";
-    private String docName1 = "testFile1";
+    private final String user = "C2266User" + DataUtil.getUniqueIdentifier();
+    private final String description = "C2266SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "C2266SiteName" + DataUtil.getUniqueIdentifier();
+    private final String docName = "testFile1";
+    private final String docContent = "C2266 content";
+    private final String folderName = "C2266 test folder";
+    private final String docName1 = "testFile1";
     @BeforeClass
 
     public void setupTest()
@@ -45,7 +43,7 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C2266")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void tableViewOption()
     {
@@ -59,7 +57,7 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C2267")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void tableViewDisplayingItems()
     {

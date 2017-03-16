@@ -5,12 +5,13 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -20,21 +21,20 @@ import static org.testng.Assert.assertTrue;
  */
 public class EditTagTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    String random = DataUtil.getUniqueIdentifier();
-    String siteName1 = "site1-" + random;
-    String siteName2 = "site2-" + random;
-    String folderName = "folder-" + random;
-    String tagName = "tagName-" + random;
-    String newTagName = "newTagName-" + random;
-    String fileName = "file-" + random;
-    String userName = "profileUser-" + random;
-    String firstName = "FirstName";
-    String lastName = "LastName";
-    String description = "Description-" + random;
-    String fileContent = "content of the file.";
+    private final String random = DataUtil.getUniqueIdentifier();
+    private final String siteName1 = "site1-" + random;
+    private final String siteName2 = "site2-" + random;
+    private final String folderName = "folder-" + random;
+    private final String tagName = "tagName-" + random;
+    private final String newTagName = "newTagName-" + random;
+    private final String fileName = "file-" + random;
+    private final String userName = "profileUser-" + random;
+    private final String firstName = "FirstName";
+    private final String lastName = "LastName";
+    private final String description = "Description-" + random;
+    private final String fileContent = "content of the file.";
 
     @BeforeClass
     public void setupTest()
@@ -53,7 +53,7 @@ public class EditTagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7460")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editTagFile()
     {
         setupAuthenticatedSession(userName, password);
@@ -76,7 +76,7 @@ public class EditTagTests extends ContextAwareWebTest
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         try
         {
-            assertEquals(documentLibraryPage.getTags(fileName), Arrays.asList(newTagName.toLowerCase()).toString(),
+            assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(newTagName.toLowerCase()).toString(),
                     tagName.toLowerCase() + " is updated with value:");
         }
         catch (AssertionError e)
@@ -84,14 +84,14 @@ public class EditTagTests extends ContextAwareWebTest
             getBrowser().refresh();
             documentLibraryPage.renderedPage();
         }
-        assertEquals(documentLibraryPage.getTags(fileName), Arrays.asList(newTagName.toLowerCase()).toString(),
+        assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(newTagName.toLowerCase()).toString(),
                 tagName.toLowerCase() + " is updated with value:");
 
         cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C10529")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editTagFolder()
     {
         setupAuthenticatedSession(userName, password);
@@ -114,7 +114,7 @@ public class EditTagTests extends ContextAwareWebTest
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         try
         {
-            assertEquals(documentLibraryPage.getTags(folderName), Arrays.asList(newTagName.toLowerCase()).toString(),
+            assertEquals(documentLibraryPage.getTags(folderName), Collections.singletonList(newTagName.toLowerCase()).toString(),
                     tagName.toLowerCase() + " is updated with value:");
         }
         catch (AssertionError e)
@@ -122,7 +122,7 @@ public class EditTagTests extends ContextAwareWebTest
             getBrowser().refresh();
             documentLibraryPage.renderedPage();
         }
-        assertEquals(documentLibraryPage.getTags(folderName), Arrays.asList(newTagName.toLowerCase()).toString(),
+        assertEquals(documentLibraryPage.getTags(folderName), Collections.singletonList(newTagName.toLowerCase()).toString(),
                 tagName.toLowerCase() + " is updated with value:");
 
         cleanupAuthenticatedSession();

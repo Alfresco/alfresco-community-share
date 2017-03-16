@@ -7,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -18,20 +19,17 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesUploadContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    MyFilesPage myFilesPage;
+    @Autowired private MyFilesPage myFilesPage;
 
-    @Autowired
-    SiteDashboardPage sitePage;
+    @Autowired private SiteDashboardPage sitePage;
     
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
     @Autowired
     private UploadContent uploadContent;
 
     @TestRail(id = "C7651")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesUploadDocument()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -52,7 +50,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7792")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesUpdateDocumentNewVersion()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();

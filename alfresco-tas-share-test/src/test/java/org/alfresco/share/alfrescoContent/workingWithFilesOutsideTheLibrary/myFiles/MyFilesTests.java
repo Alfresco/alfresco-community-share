@@ -8,6 +8,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -16,29 +17,24 @@ import org.testng.annotations.Test;
 
 public class MyFilesTests extends ContextAwareWebTest
 {
-    @Autowired
-    MyFilesPage myFilesPage;
+    @Autowired private MyFilesPage myFilesPage;
     
-    @Autowired
-    UserService userService;
+    @Autowired private UserService userService;
     
-    @Autowired
-    CreateContent create;
+    @Autowired private CreateContent create;
     
-    @Autowired
-    UserDashboardPage userDashboard;
+    @Autowired private UserDashboardPage userDashboard;
     
-    @Autowired
-    Toolbar toolbar;
+    @Autowired private Toolbar toolbar;
     
-    private String user = "C7648TestUser" + DataUtil.getUniqueIdentifier();
-    private String user1 = "C7648TestUser1" + DataUtil.getUniqueIdentifier(); 
-    private String siteName = "C7658SiteName"+DataUtil.getUniqueIdentifier();
-    private String description ="C7658SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String C7648name ="C7648 name";
-    private String C7648title = "C7648 title";
-    private String C7648content = "C7648 content";
-    private String C7648description = "C7648 description";
+    private final String user = "C7648TestUser" + DataUtil.getUniqueIdentifier();
+    private final String user1 = "C7648TestUser1" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "C7658SiteName"+DataUtil.getUniqueIdentifier();
+    private final String description ="C7658SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String C7648name ="C7648 name";
+    private final String C7648title = "C7648 title";
+    private final String C7648content = "C7648 content";
+    private final String C7648description = "C7648 description";
     @BeforeClass
     public void setupTest()
     {
@@ -49,7 +45,7 @@ public class MyFilesTests extends ContextAwareWebTest
     }
     
     @TestRail (id ="C7648")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void myFilesContentAvailability()
     {
@@ -76,7 +72,7 @@ public class MyFilesTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C7658")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void verifyPresenceOfMyFilesInHeaderBar()
     {

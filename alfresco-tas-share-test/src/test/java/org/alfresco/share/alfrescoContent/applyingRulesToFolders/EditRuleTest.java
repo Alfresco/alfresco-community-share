@@ -8,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsP
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -24,30 +25,25 @@ import static org.testng.Assert.assertEquals;
  */
 public class EditRuleTest extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    ManageRulesPage manageRulesPage;
+    @Autowired private ManageRulesPage manageRulesPage;
 
-    @Autowired
-    EditRulesPage editRulesPage;
+    @Autowired private EditRulesPage editRulesPage;
 
-    @Autowired
-    RuleDetailsPage ruleDetailsPage;
+    @Autowired private RuleDetailsPage ruleDetailsPage;
 
-    @Autowired
-    SelectDestinationDialog selectDestinationDialog;
+    @Autowired private SelectDestinationDialog selectDestinationDialog;
 
-    String random = DataUtil.getUniqueIdentifier();
-    String userName = "user-" + random;
-    String firstName = "First Name";
-    String lastName = "Last Name";
-    String siteName = "Site-" + random;
-    String description = "description-" + random;
-    String path = "Documents";
-    String ruleName = "rule-C7254-" + random;
-    String folderName = "Folder-C7254-" + random;
+    private final String random = DataUtil.getUniqueIdentifier();
+    private final String userName = "user-" + random;
+    private final String firstName = "First Name";
+    private final String lastName = "Last Name";
+    private final String siteName = "Site-" + random;
+    private final String description = "description-" + random;
+    private final String path = "Documents";
+    private final String ruleName = "rule-C7254-" + random;
+    private final String folderName = "Folder-C7254-" + random;
 
     @BeforeClass()
     public void setupTest()
@@ -89,7 +85,7 @@ public class EditRuleTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7254")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editRule()
     {
         String updatedRuleName = "updateRule-C7254-" + random;
@@ -111,8 +107,8 @@ public class EditRuleTest extends ContextAwareWebTest
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
 
         ArrayList<String> expectedDescriptionDetails = new ArrayList<>(Arrays.asList("Active", "Run in background", "Rule applied to subfolders"));
-        assertEquals(ruleDetailsPage.getRuleTitle().toString(), updatedRuleName, "Rule title=");
-        assertEquals(ruleDetailsPage.getRuleDescription().toString(), updatedDescription, "Rule description=");
+        assertEquals(ruleDetailsPage.getRuleTitle(), updatedRuleName, "Rule title=");
+        assertEquals(ruleDetailsPage.getRuleDescription(), updatedDescription, "Rule description=");
         assertEquals(ruleDetailsPage.getDetailsList().toString(), expectedDescriptionDetails.toString(), "Description details=");
         assertEquals(ruleDetailsPage.getWhenCondition(), editRulesPage.getSelectedOptionFromDropdown().get(0), "'When' criteria section=");
         assertEquals(ruleDetailsPage.getIfAllCriteriaCondition(), editRulesPage.getSelectedOptionFromDropdown().get(1), "'If all criteria are met' section=");

@@ -6,6 +6,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -18,17 +19,14 @@ import static org.testng.Assert.*;
  */
 public class ActionsUploadTests extends ContextAwareWebTest
 {
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired private RepositoryPage repositoryPage;
 
-    @Autowired
-    UploadContent uploadContent;
+    @Autowired private UploadContent uploadContent;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    String random = DataUtil.getUniqueIdentifier();
-    String user = "user1-" + random;
+    private final String random = DataUtil.getUniqueIdentifier();
+    private final String user = "user1-" + random;
 
     @BeforeClass
     public void setupTest()
@@ -37,7 +35,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8172")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void uploadDocument()
     {
         setupAuthenticatedSession(user, password);
@@ -62,7 +60,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8175")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void updateDocumentNewVersion()
     {
         setupAuthenticatedSession(user, password);

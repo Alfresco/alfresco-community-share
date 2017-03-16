@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -22,30 +23,24 @@ import static org.testng.Assert.assertTrue;
  */
 public class LikeCommentTests extends ContextAwareWebTest
 {
-    @Autowired
-    HeaderMenuBar headerMenuBar;
+    @Autowired private HeaderMenuBar headerMenuBar;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    SharedFilesPage sharedFilesPage;
+    @Autowired private SharedFilesPage sharedFilesPage;
 
-    @Autowired
-    SocialFeatures social;
+    @Autowired private SocialFeatures social;
 
-    @Autowired
-    UploadContent uploadContent;
+    @Autowired private UploadContent uploadContent;
 
-    @Autowired
-    DeleteDialog deleteDialog;
+    @Autowired private DeleteDialog deleteDialog;
 
-    String uniqueId = DataUtil.getUniqueIdentifier();
-    String fileName1 = uniqueId + "testFile1.txt";
-    String fileName2 = uniqueId + "testFile2.txt";
-    String path = "Shared";
-    String testFilePath1 = testDataFolder + fileName1;
-    String testFilePath2 = testDataFolder + fileName2;
+    private final String uniqueId = DataUtil.getUniqueIdentifier();
+    private final String fileName1 = uniqueId + "testFile1.txt";
+    private final String fileName2 = uniqueId + "testFile2.txt";
+    private final String path = "Shared";
+    private final String testFilePath1 = testDataFolder + fileName1;
+    private final String testFilePath2 = testDataFolder + fileName2;
 
     @BeforeClass
     public void setupTest()
@@ -58,7 +53,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8097")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void likeFile()
     {
         LOG.info("Step 1: Hover over the file Like link.");
@@ -74,7 +69,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8098")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void likeFolder()
     {
         String folderName = "testFolder" + "-C8098-" + uniqueId;
@@ -98,7 +93,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8099")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void unlikeFile()
     {
         social.clickLikeButton(fileName2);
@@ -113,7 +108,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8100")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void unlikeFolder()
     {
         String folderName = "testFolder" + "-C8100-" + uniqueId;
@@ -134,7 +129,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8101")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addCommentToFile()
     {
         String fileName = uniqueId + "testFile-C8101.txt";
@@ -157,7 +152,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8102")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addCommentToFolder()
     {
         String folderName = "testFolder" + "-C8102-" + uniqueId;

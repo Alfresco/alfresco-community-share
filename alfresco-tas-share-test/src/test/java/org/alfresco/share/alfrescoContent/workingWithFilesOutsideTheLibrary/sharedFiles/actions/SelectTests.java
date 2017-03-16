@@ -7,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -21,20 +22,18 @@ import static org.testng.Assert.assertTrue;
  */
 public class SelectTests extends ContextAwareWebTest
 {
-    @Autowired
-    SharedFilesPage sharedFilesPage;
+    @Autowired private SharedFilesPage sharedFilesPage;
 
-    @Autowired
-    HeaderMenuBar headerMenuBar;
+    @Autowired private HeaderMenuBar headerMenuBar;
 
     @Autowired
     DeleteDialog deleteDialog;
 
-    String uniqueIdentifier = DataUtil.getUniqueIdentifier();
-    String path = "Shared/";
-    String user = "user" + uniqueIdentifier;
-    String docName = "DocC8004-" + uniqueIdentifier;
-    String folderName = "FolderC8005-" + uniqueIdentifier;
+    private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    private final String path = "Shared/";
+    private final String user = "user" + uniqueIdentifier;
+    private final String docName = "DocC8004-" + uniqueIdentifier;
+    private final String folderName = "FolderC8005-" + uniqueIdentifier;
 
     @BeforeClass
     public void setupTest()
@@ -49,7 +48,7 @@ public class SelectTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8004")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void selectFile()
     {
         LOG.info("STEP1: Click on Select -> Documents option");
@@ -83,7 +82,7 @@ public class SelectTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8005")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void selectFolder()
     {
         LOG.info("STEP1: Click on Select -> Folders option");

@@ -11,6 +11,7 @@ import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -18,24 +19,21 @@ import org.testng.annotations.Test;
 
 public class ActionsDeleteTests extends ContextAwareWebTest
 {
-    @Autowired
-    ContentService contentService;
+    @Autowired private ContentService contentService;
 
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired private RepositoryPage repositoryPage;
 
-    @Autowired
-    DeleteDialog deleteDialog;
+    @Autowired private DeleteDialog deleteDialog;
 
 
-    private String user = "C8308TestUser" + DataUtil.getUniqueIdentifier();
-    private String fileName = "C8308 file";
-    private String fileContent = "C8308 content";
-    private String path = "User Homes/" + user;
-    private String folderName = "C8308 Folder";
-    private String fileNameC13749 = "C13749 file"+DataUtil.getUniqueIdentifier();
-    private String folderNameC13751 = "C13751 Folder"+DataUtil.getUniqueIdentifier();;
-    private String path1 ="";
+    private final String user = "C8308TestUser" + DataUtil.getUniqueIdentifier();
+    private final String fileName = "C8308 file";
+    private final String fileContent = "C8308 content";
+    private final String path = "User Homes/" + user;
+    private final String folderName = "C8308 Folder";
+    private final String fileNameC13749 = "C13749 file"+DataUtil.getUniqueIdentifier();
+    private final String folderNameC13751 = "C13751 Folder"+DataUtil.getUniqueIdentifier();
+    private final String path1 ="";
 
     @BeforeClass
     public void setupTest()
@@ -48,7 +46,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8308")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void deleteDocument()
     {
@@ -75,7 +73,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C8309")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void deleteFolder()
     {
@@ -102,7 +100,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C13749")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void nonAdminUserCanNotDeleteFileOrFolderFromTheMainRepository()
     {
@@ -124,7 +122,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C13751")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void adminUserCanDeleteFileOrFolderInMainRepository()
     {

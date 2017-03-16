@@ -1,7 +1,5 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
@@ -9,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.TableView;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -18,24 +17,21 @@ import org.testng.annotations.Test;
 public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
 
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    ContentService contentService;
+    @Autowired private ContentService contentService;
     
-    @Autowired
-    TableView tableView;
+    @Autowired private TableView tableView;
 
 
-    private String user = "C6909User" + DataUtil.getUniqueIdentifier();
-    private String description = "C6909SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C6909SiteName" + DataUtil.getUniqueIdentifier();
-    private String docName = "testFile1";
-    private String docContent = "C6909 content";
-    private String folderName = "C6909 test folder";
-    private String docName1 = "testFile1";
-    private String docName2 = "testFile2";
+    private final String user = "C6909User" + DataUtil.getUniqueIdentifier();
+    private final String description = "C6909SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "C6909SiteName" + DataUtil.getUniqueIdentifier();
+    private final String docName = "testFile1";
+    private final String docContent = "C6909 content";
+    private final String folderName = "C6909 test folder";
+    private final String docName1 = "testFile1";
+    private final String docName2 = "testFile2";
     @BeforeClass
 
     public void setupTest()
@@ -50,7 +46,7 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6909")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void verifyDocumentLibraryViewOptions()
     {
@@ -70,7 +66,7 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C6955")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void checkThatDefaultViewIsDetailedView()
     {
@@ -91,7 +87,7 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C6953")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     
     public void setCurrentViewAsDefault()
     {

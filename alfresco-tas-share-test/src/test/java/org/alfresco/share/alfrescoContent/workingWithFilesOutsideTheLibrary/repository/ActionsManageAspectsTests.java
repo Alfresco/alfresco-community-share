@@ -5,20 +5,18 @@ import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class ActionsManageAspectsTests extends ContextAwareWebTest
 {
 
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired private RepositoryPage repositoryPage;
 
-    @Autowired
-    AspectsForm aspectsForm;
+    @Autowired private AspectsForm aspectsForm;
 
     private String nonAdminUser;
 
@@ -44,7 +42,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8254")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyAspectsForm()
     {
         setupAuthenticatedSession(nonAdminUser, password);
@@ -65,7 +63,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8250")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void manageAspectsApplyChanges()
     {
         setupAuthenticatedSession(nonAdminUser, password);
@@ -92,7 +90,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13763")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void manageAspectsForNonAdminOnRepositoryMainFolder()
 
     {
@@ -109,7 +107,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13764")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void manageAspectsAdminOnRepositoryMainFolder()
 
     {

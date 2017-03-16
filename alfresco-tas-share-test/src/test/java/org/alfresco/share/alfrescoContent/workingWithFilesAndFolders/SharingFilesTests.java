@@ -8,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -17,30 +18,26 @@ import org.testng.annotations.Test;
 
 public class SharingFilesTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    SocialFeatures social;
+    @Autowired private SocialFeatures social;
 
-    @Autowired
-    LoginPage loginPage;
+    @Autowired private LoginPage loginPage;
 
-    @Autowired
-    DocumentDetailsPage documentDetails;
+    @Autowired private DocumentDetailsPage documentDetails;
 
-    private String user = "C7095User" + DataUtil.getUniqueIdentifier();
-    private String description = "C7095SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C7095SiteName" + DataUtil.getUniqueIdentifier();
-    private String fileNameC7095 = "C7095title";
-    private String fileContent = "content";
-    private String fileNameC7096 = "file C7076";
-    private String fielNameC7097 = "File C7097";
-    private String fileNameC7099 = "File C7099";
-    private String fileNameC7649 = "fileC7649" + DataUtil.getUniqueIdentifier();
-    private String folderName = "C7093 folder";
-    private String siteNameC7093 = "C7093" + DataUtil.getUniqueIdentifier();
-    private String siteNameC7649 = "siteNameC7649" + DataUtil.getUniqueIdentifier();
+    private final String user = "C7095User" + DataUtil.getUniqueIdentifier();
+    private final String description = "C7095SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "C7095SiteName" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC7095 = "C7095title";
+    private final String fileContent = "content";
+    private final String fileNameC7096 = "file C7076";
+    private final String fielNameC7097 = "File C7097";
+    private final String fileNameC7099 = "File C7099";
+    private final String fileNameC7649 = "fileC7649" + DataUtil.getUniqueIdentifier();
+    private final String folderName = "C7093 folder";
+    private final String siteNameC7093 = "C7093" + DataUtil.getUniqueIdentifier();
+    private final String siteNameC7649 = "siteNameC7649" + DataUtil.getUniqueIdentifier();
     private String sharedUrl;
     private String windowToSwitchToAlfresco;
     private String windowToCloseGPlus;
@@ -63,7 +60,7 @@ public class SharingFilesTests extends ContextAwareWebTest
 
 
    @TestRail(id = "C7095")
-   @Test
+   @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void shareWithFacebook()
     {
 
@@ -90,7 +87,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     }
 
  @TestRail(id = "C7096")
- @Test
+ @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void shareWithTwitter()
     {
             setupAuthenticatedSession(user, password);
@@ -134,7 +131,7 @@ public class SharingFilesTests extends ContextAwareWebTest
 
   @Bug(id = "ACE-5768")
   @TestRail(id = "C7097")
-  @Test
+  @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
 
     public void shareWithGooglePlus() {
 
@@ -173,7 +170,7 @@ public class SharingFilesTests extends ContextAwareWebTest
 }
 
    @TestRail(id = "C7099")
-   @Test
+   @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void unshareDocument()
     {
         /**
@@ -201,7 +198,7 @@ public class SharingFilesTests extends ContextAwareWebTest
         }
 
     @TestRail(id = "C7093")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void shareFolder()
 
     {
@@ -213,7 +210,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7649")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void sharedFilesContentAvailability()
 
     {

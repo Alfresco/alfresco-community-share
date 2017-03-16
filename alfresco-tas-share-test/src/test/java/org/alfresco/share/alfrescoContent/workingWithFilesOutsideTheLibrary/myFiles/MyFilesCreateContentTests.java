@@ -13,6 +13,7 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -24,48 +25,41 @@ import static org.testng.Assert.assertEquals;
  */
 public class MyFilesCreateContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    MyFilesPage myFilesPage;
+    @Autowired private MyFilesPage myFilesPage;
 
-    @Autowired
-    SiteDashboardPage sitePage;
+    @Autowired private SiteDashboardPage sitePage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    CreateContent create;
+    @Autowired private CreateContent create;
 
     @Autowired
     private UploadContent uploadContent;
 
-    @Autowired
-    CreateFolderFromTemplate createFolderFromTemplate;
+    @Autowired private CreateFolderFromTemplate createFolderFromTemplate;
 
     @Autowired
     CreateFileFromTemplate createFileFromTemplate;
 
-    @Autowired
-    GoogleDocsCommon googleDocs;
+    @Autowired private GoogleDocsCommon googleDocs;
 
-    @Autowired
-    CreateContent createContent;
+    @Autowired private CreateContent createContent;
 
-    @Autowired Notification notification;
+    @Autowired private Notification notification;
 
     @Autowired private RepositoryPage repositoryPage;
 
-    String folderTemplateName = "Software Engineering Project";
-    String fileTemplateName = DataUtil.getUniqueIdentifier() + "fileTemplate.txt";
-    String fileTemplatePath = testDataFolder + fileTemplateName;
-    private String title = "googleDoc title";
-    private String googleDocName = "googleDoc title.docx";
-    private String googleDocSpreadsheet = "googleDoc title.xlsx";
-    private String googleDocPresentation = "googleDoc title.pptx";
-    private String docContent = "googleDoccontent";
+    private final String folderTemplateName = "Software Engineering Project";
+    private final String fileTemplateName = DataUtil.getUniqueIdentifier() + "fileTemplate.txt";
+    private final String fileTemplatePath = testDataFolder + fileTemplateName;
+    private final String title = "googleDoc title";
+    private final String googleDocName = "googleDoc title.docx";
+    private final String googleDocSpreadsheet = "googleDoc title.xlsx";
+    private final String googleDocPresentation = "googleDoc title.pptx";
+    private final String docContent = "googleDoccontent";
 
     @TestRail(id = "C7650")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesCreatePlainTextFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -118,7 +112,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7696")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesCreateHTMLFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -162,7 +156,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7697")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesCreateXMLFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -207,7 +201,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7653")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesCreateFolderFromTemplate()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -236,7 +230,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C12858")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesCreateFileFromTemplate()
     {
         LOG.info("Precondition: Login as admin user and create a file template.");
@@ -266,7 +260,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7693")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesCreateGoogleDocsDocument() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
@@ -302,7 +296,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7694")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
@@ -338,7 +332,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7695")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesCreateGoogleDocsPresentation() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");

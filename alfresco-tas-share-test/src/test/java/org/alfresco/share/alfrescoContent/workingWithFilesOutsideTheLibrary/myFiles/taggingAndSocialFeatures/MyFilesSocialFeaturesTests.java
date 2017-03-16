@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -21,30 +22,25 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 {
-    @Autowired
-    MyFilesPage myFilesPage;
+    @Autowired private MyFilesPage myFilesPage;
 
-    @Autowired
-    SiteDashboardPage sitePage;
+    @Autowired private SiteDashboardPage sitePage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    NewContentDialog newContentDialog;
+    @Autowired private NewContentDialog newContentDialog;
 
     @Autowired
     private UploadContent uploadContent;
 
-    @Autowired
-    SocialFeatures social;
+    @Autowired private SocialFeatures social;
 
-    private String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
-    private String testFilePath = testDataFolder + testFile;
-    private String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private final String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
+    private final String testFilePath = testDataFolder + testFile;
+    private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id="C12839")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesLikeFile()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -69,7 +65,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C13661")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesLikeFolder()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -100,7 +96,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C13662")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesUnlikeFile()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -127,7 +123,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C13663")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesUnlikeFolder()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -159,7 +155,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C12841")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesAddCommentToFile()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -189,7 +185,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C13664")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesAddCommentToFolder()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();

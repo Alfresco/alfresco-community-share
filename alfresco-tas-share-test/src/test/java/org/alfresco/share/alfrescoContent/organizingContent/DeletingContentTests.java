@@ -7,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrF
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -24,22 +25,20 @@ import static org.testng.Assert.assertTrue;
  */
 public class DeletingContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    DeleteDocumentOrFolderDialog deleteDialog;
+    @Autowired private DeleteDocumentOrFolderDialog deleteDialog;
 
     @Autowired
     Notification notification;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
-    private String siteName = "siteName" + DataUtil.getUniqueIdentifier();
-    private String folderNameD = "delFolder" + DataUtil.getUniqueIdentifier();
-    private String subFolder = "delSubfolder" + DataUtil.getUniqueIdentifier();
-    private String folderNameC = "cancelFolder" + DataUtil.getUniqueIdentifier();
-    private String docName = "testDoc" + DataUtil.getUniqueIdentifier();
-    String folderPathInRepository = "Sites/"+siteName+"/documentLibrary/";
+    private final String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "siteName" + DataUtil.getUniqueIdentifier();
+    private final String folderNameD = "delFolder" + DataUtil.getUniqueIdentifier();
+    private final String subFolder = "delSubfolder" + DataUtil.getUniqueIdentifier();
+    private final String folderNameC = "cancelFolder" + DataUtil.getUniqueIdentifier();
+    private final String docName = "testDoc" + DataUtil.getUniqueIdentifier();
+    private final String folderPathInRepository = "Sites/"+siteName+"/documentLibrary/";
 
     @BeforeClass
     public void setupTest()
@@ -50,7 +49,7 @@ public class DeletingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9544")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void deleteDocument()
     {
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, "Document content");
@@ -73,7 +72,7 @@ public class DeletingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6968")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void deleteFolder()
     {
         contentService.createFolder(testUser, password, folderNameD, siteName);
@@ -97,7 +96,7 @@ public class DeletingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6968")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void cancelDeletingFolder()
     {
         contentService.createFolder(testUser, password, folderNameC, siteName);

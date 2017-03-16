@@ -14,6 +14,7 @@ import org.alfresco.po.share.user.admin.ReplicationJobsPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -31,44 +32,34 @@ import static org.testng.Assert.assertTrue;
  */
 public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
 {
-    @Autowired
-    LoginPage loginPage;
+    @Autowired private LoginPage loginPage;
 
-    @Autowired
-    CreateSiteDialog createSiteDialog;
+    @Autowired private CreateSiteDialog createSiteDialog;
 
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
+    @Autowired private SiteDashboardPage siteDashboardPage;
 
-    @Autowired
-    NewContentDialog newContentDialog;
+    @Autowired private NewContentDialog newContentDialog;
 
-    @Autowired
-    AdminToolsPage adminToolsPage;
+    @Autowired private AdminToolsPage adminToolsPage;
 
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired private RepositoryPage repositoryPage;
 
-    @Autowired
-    EditPropertiesDialog editPropertiesDialog;
+    @Autowired private EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired
-    ReplicationJobsPage replicationJobsPage;
+    @Autowired private ReplicationJobsPage replicationJobsPage;
 
-    @Autowired
-    CreateEditReplicationJobPage createEditReplicationJobPage;
+    @Autowired private CreateEditReplicationJobPage createEditReplicationJobPage;
 
-    private String uniqueIdentifier = DataUtil.getUniqueIdentifier();
-    private String site = "site-C7600-" + uniqueIdentifier;
-    private String folder = "C7600-folder";
-    private String document = "C7600-doc";
-    private List<String> explorerPanelPath = new ArrayList<>(
+    private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    private final String site = "site-C7600-" + uniqueIdentifier;
+    private final String folder = "C7600-folder";
+    private final String document = "C7600-doc";
+    private final List<String> explorerPanelPath = new ArrayList<>(
             Arrays.asList("Repository", "Data Dictionary", "Transfers", "Transfer Target Groups", "Default Group"));
-    private String pathForTransferTargetFolder = "Data Dictionary/Transfers/Transfer Target Groups/Default Group";
-    private String transferTargetFolder = "TransferFolder-" + uniqueIdentifier;
+    private final String pathForTransferTargetFolder = "Data Dictionary/Transfers/Transfer Target Groups/Default Group";
+    private final String transferTargetFolder = "TransferFolder-" + uniqueIdentifier;
 
     @BeforeClass
     public void setupTest()
@@ -97,9 +88,9 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         LOG.info("ServerA: Navigate to " + explorerPanelPath);
         setupAuthenticatedSession(adminUser, adminPassword);
         repositoryPage.navigate();
-        for (int i = 0; i < explorerPanelPath.size(); i++)
+        for (String anExplorerPanelPath : explorerPanelPath)
         {
-            repositoryPage.clickFolderFromExplorerPanel(explorerPanelPath.get(i));
+            repositoryPage.clickFolderFromExplorerPanel(anExplorerPanelPath);
         }
         assertEquals(repositoryPage.getBreadcrumbList(), explorerPanelPath.toString(), "Breadcrumb=");
 
@@ -109,8 +100,8 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         editPropertiesDialog.updateFolderDetailsForReplication(properties.getServer2Url(), properties.getServer2Port(), adminUser, adminPassword);
     }
 
-    //@TestRail(id = "C7600")
-    //@Test
+    @TestRail(id = "C7600")
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT}, enabled = false)
     public void verifyContentAfterReplication()
     {
         String name = "C7600-jobName-" + uniqueIdentifier;

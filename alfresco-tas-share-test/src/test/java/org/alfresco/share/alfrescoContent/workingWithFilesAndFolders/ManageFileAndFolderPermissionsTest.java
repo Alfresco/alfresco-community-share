@@ -6,6 +6,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePe
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -21,18 +22,16 @@ import static org.testng.Assert.assertTrue;
  */
 public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    ManagePermissionsPage managePermissionsPage;
+    @Autowired private ManagePermissionsPage managePermissionsPage;
 
-    String docContent = "content of the file.";
-    String testUser1 = "testUser1" + DataUtil.getUniqueIdentifier();
-    String testUser2 = "testUser2" + DataUtil.getUniqueIdentifier();
-    String siteName = "siteName" + DataUtil.getUniqueIdentifier();
-    String testFileName = "testDoc.txt";
-    String testFolderName = "testFolder";
+    private final String docContent = "content of the file.";
+    private final String testUser1 = "testUser1" + DataUtil.getUniqueIdentifier();
+    private final String testUser2 = "testUser2" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "siteName" + DataUtil.getUniqueIdentifier();
+    private final String testFileName = "testDoc.txt";
+    private final String testFolderName = "testFolder";
 
     @BeforeClass
     public void createPrecondition()
@@ -45,7 +44,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6092")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void cancelManagePermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -64,7 +63,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7121")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void saveManagePermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -101,7 +100,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7124")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void turnOffInheritPermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -153,7 +152,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7125")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void turnOnInheritPermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -201,7 +200,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7143")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void deleteUser()
     {
         LOG.info("Precondition: Login as testUser1 and add local permissions for testUser2 for the file and folder.");
@@ -260,7 +259,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7123")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void cancelChangesFromManagePermissions()
     {
         LOG.info("Precondition: Login as testUser1 and navigate to Manage Permissions for the testFile.");

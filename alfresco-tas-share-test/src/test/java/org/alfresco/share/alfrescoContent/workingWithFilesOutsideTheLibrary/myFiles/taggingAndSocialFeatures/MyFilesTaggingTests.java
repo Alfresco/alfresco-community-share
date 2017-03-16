@@ -9,12 +9,14 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -25,32 +27,27 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesTaggingTests extends ContextAwareWebTest
 {
-    @Autowired
-    MyFilesPage myFilesPage;
+    @Autowired private MyFilesPage myFilesPage;
 
-    @Autowired
-    SiteDashboardPage sitePage;
+    @Autowired private SiteDashboardPage sitePage;
     
-    @Autowired
-    EditPropertiesDialog editPropertiesDialog;
+    @Autowired private EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired
-    NewContentDialog newContentDialog;
+    @Autowired private NewContentDialog newContentDialog;
 
-    @Autowired
-    SelectDialog selectDialog;
+    @Autowired private SelectDialog selectDialog;
 
     @Autowired
     private UploadContent uploadContent;
 
-    private String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
-    private String testFilePath = testDataFolder + testFile;
-    private String tagName = "tag-" + DataUtil.getUniqueIdentifier();
-    private String tagName2 = "tag2-" + DataUtil.getUniqueIdentifier();
-    private String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private final String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
+    private final String testFilePath = testDataFolder + testFile;
+    private final String tagName = "tag-" + DataUtil.getUniqueIdentifier();
+    private final String tagName2 = "tag2-" + DataUtil.getUniqueIdentifier();
+    private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id = "C7861")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesCreateFileTag()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -76,12 +73,12 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         myFilesPage.typeTagName(tagName);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         getBrowser().waitInSeconds(3);
-        ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName.toLowerCase()));
         assertEquals(myFilesPage.getTags(testFile), tagsList.toString(), testFile + " -> tags=");
     }
 
     @TestRail(id = "C7862")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesCreateFolderTag()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -111,12 +108,12 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         myFilesPage.typeTagName(tagName);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         getBrowser().waitInSeconds(3);
-        ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName.toLowerCase()));
         assertEquals(myFilesPage.getTags(folderName), tagsList.toString(), folderName + " -> tags=");
     }
 
     @TestRail(id = "C7873")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesAddExistingTag()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -170,7 +167,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         LOG.info("STEP4: Pick any tag from the available tags list and click \"Add\"");
         selectDialog.typeTag(tagName2.toLowerCase());
         getBrowser().waitInSeconds(4);
-        selectDialog.selectItems(Arrays.asList(tagName2.toLowerCase()));
+        selectDialog.selectItems(Collections.singletonList(tagName2.toLowerCase()));
         assertTrue(selectDialog.isItemSelected(tagName2.toLowerCase()), tagName2.toLowerCase() + " is displayed in selected categories list.");
         assertFalse(selectDialog.isItemSelectable(tagName2.toLowerCase()), tagName2.toLowerCase() + " -> 'Add' icon isn't displayed.");
 
@@ -187,7 +184,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7885")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesEditTagFile()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -223,12 +220,12 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Click \"Save\" link and verify the content tags");
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        assertEquals(myFilesPage.getTags(testFile), Arrays.asList(tagName2.toLowerCase()).toString(),
+        assertEquals(myFilesPage.getTags(testFile), Collections.singletonList(tagName2.toLowerCase()).toString(),
                 tagName.toLowerCase() + " is updated with value:");
     }
 
     @TestRail(id = "C7886")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesRemoveTag()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -271,7 +268,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7895")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesUpdateTag()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -319,7 +316,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         myFilesPage.typeTagName(tagName2);
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         getBrowser().waitInSeconds(4);
-        assertEquals(myFilesPage.getTags(testFile), Arrays.asList(tagName2.toLowerCase()).toString(), testFile + " -> tags=");
+        assertEquals(myFilesPage.getTags(testFile), Collections.singletonList(tagName2.toLowerCase()).toString(), testFile + " -> tags=");
 
     }
 }

@@ -1,13 +1,13 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -22,24 +22,21 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesPageTests extends ContextAwareWebTest
 {
-    @Autowired
-    MyFilesPage myFilesPage;
+    @Autowired private MyFilesPage myFilesPage;
 
-    @Autowired
-    DocumentsFilters filters;
+    @Autowired private DocumentsFilters filters;
 
-    @Autowired
-    SiteDashboardPage sitePage;
+    @Autowired private SiteDashboardPage sitePage;
     
     @Autowired
     private UploadContent uploadContent;
 
-    private String user = "C7659User" + DataUtil.getUniqueIdentifier();
-    String nonAdminFile =  DataUtil.getUniqueIdentifier() + "nonAdminDoc.txt";
-    String adminFile = DataUtil.getUniqueIdentifier() + "adminDoc.txt";
-    String nonAdminFilePath = testDataFolder + nonAdminFile;
-    String adminFilePath = testDataFolder + adminFile;
-    String tag = "testTag" + DataUtil.getUniqueIdentifier();
+    private final String user = "C7659User" + DataUtil.getUniqueIdentifier();
+    private final String nonAdminFile =  DataUtil.getUniqueIdentifier() + "nonAdminDoc.txt";
+    private final String adminFile = DataUtil.getUniqueIdentifier() + "adminDoc.txt";
+    private final String nonAdminFilePath = testDataFolder + nonAdminFile;
+    private final String adminFilePath = testDataFolder + adminFile;
+    private final String tag = "testTag" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass
     public void setupTest()
@@ -77,7 +74,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7659")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyMyFilesMainPage()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -101,7 +98,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7660")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyMyFilesPageTags()
     {
         LOG.info("Step1: Login as admin and navigate to My Files page.");

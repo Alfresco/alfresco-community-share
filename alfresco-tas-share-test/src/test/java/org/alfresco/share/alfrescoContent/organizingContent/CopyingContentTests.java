@@ -8,12 +8,14 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static java.util.Arrays.asList;
 import static org.testng.Assert.assertEquals;
@@ -25,24 +27,20 @@ import static org.testng.Assert.assertTrue;
  */
 public class CopyingContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    Toolbar toolbar;
+    @Autowired private Toolbar toolbar;
 
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    SharedFilesPage sharedFilesPage;
+    @Autowired private SharedFilesPage sharedFilesPage;
 
-    @Autowired
-    CopyMoveUnzipToDialog copyMoveToDialog;
+    @Autowired private CopyMoveUnzipToDialog copyMoveToDialog;
 
-    String userName = "profileUser1-" + DataUtil.getUniqueIdentifier();
-    String firstName = "FirstName";
-    String lastName = "LastName";
-    String description = "Description-" + DataUtil.getUniqueIdentifier();
-    String docContent = "content of the file.";
-    String copyAction = "Copy to...";
+    private final String userName = "profileUser1-" + DataUtil.getUniqueIdentifier();
+    private final String firstName = "FirstName";
+    private final String lastName = "LastName";
+    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
+    private final String docContent = "content of the file.";
+    private final String copyAction = "Copy to...";
 
     @BeforeClass
     public void setupTest()
@@ -51,7 +49,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7377")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void copyFileToSharedFiles()
     {
         String siteName = "Site-C7377-" + DataUtil.getUniqueIdentifier();
@@ -92,7 +90,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7378")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void cancelCopyFileToSharedFiles()
     {
         String siteName = "Site-C7378-" + DataUtil.getUniqueIdentifier();
@@ -129,7 +127,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7388")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void copyFolderToPublicSite()
     {
         String siteName1 = "Site1-C7388-" + DataUtil.getUniqueIdentifier();
@@ -159,7 +157,7 @@ public class CopyingContentTests extends ContextAwareWebTest
 
         LOG.info("STEP5: Select a site");
         copyMoveToDialog.clickSite(siteName2);
-        ArrayList<String> expectedPath = new ArrayList<>(asList("Documents"));
+        ArrayList<String> expectedPath = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(copyMoveToDialog.getPathList(), expectedPath.toString(), "Path");
 
         LOG.info("STEP6: Click 'Copy' button");
@@ -169,7 +167,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         LOG.info("STEP7: Verify that the folder has been copied");
         documentLibraryPage.navigate(siteName2);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-        ArrayList<String> expectedFolderList = new ArrayList<>(asList(folderName));
+        ArrayList<String> expectedFolderList = new ArrayList<>(Collections.singletonList(folderName));
         assertEquals(documentLibraryPage.getFoldersList().toString(), expectedFolderList.toString(), "Displayed folders=");
 
         cleanupAuthenticatedSession();

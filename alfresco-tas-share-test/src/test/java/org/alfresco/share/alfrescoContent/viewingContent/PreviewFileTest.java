@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -20,20 +21,17 @@ import org.testng.annotations.Test;
 
 public class PreviewFileTest extends ContextAwareWebTest
 {
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
+    @Autowired private SiteDashboardPage siteDashboardPage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
-    private String siteName = "siteName" + DataUtil.getUniqueIdentifier();
-    private String folderName = "testFolder";
-    private String docName = "MultiPageDocument.docx";
-    private String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC5884" + File.separator;
+    private final String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "siteName" + DataUtil.getUniqueIdentifier();
+    private final String folderName = "testFolder";
+    private final String docName = "MultiPageDocument.docx";
+    private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC5884" + File.separator;
 
     @BeforeClass
     public void setup()
@@ -47,7 +45,7 @@ public class PreviewFileTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5883")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void previewFile()
     {
 

@@ -8,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -24,24 +25,20 @@ import static org.testng.Assert.assertTrue;
  */
 public class ChangeContentTypeTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    ChangeContentTypeDialog changeContentTypeDialog;
+    @Autowired private ChangeContentTypeDialog changeContentTypeDialog;
 
-    @Autowired
-    EditPropertiesPage editPropertiesPage;
+    @Autowired private EditPropertiesPage editPropertiesPage;
 
-    String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    String firstName = "FirstName";
-    String lastName = "LastName";
-    String description = "Description-" + DataUtil.getUniqueIdentifier();
-    String docContent = "content of the file.";
-    String siteName = "Site-" + DataUtil.getUniqueIdentifier();
+    private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
+    private final String firstName = "FirstName";
+    private final String lastName = "LastName";
+    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
+    private final String docContent = "content of the file.";
+    private final String siteName = "Site-" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass
     public void setupTest()
@@ -51,7 +48,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7163")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void cancelChangeType()
     {
         String docName = "Doc-C7163-" + DataUtil.getUniqueIdentifier();
@@ -82,7 +79,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7166")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void changeTypeFolder()
     {
         String folderName = "Folder-C7166-" + DataUtil.getUniqueIdentifier();
@@ -139,7 +136,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7167")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void changeTypeFile()
     {
         String docName = "Doc-C7167-" + DataUtil.getUniqueIdentifier();

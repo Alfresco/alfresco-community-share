@@ -9,6 +9,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.annotations.BeforeClass;
@@ -19,23 +20,19 @@ import static org.testng.Assert.assertTrue;
 
 public class DocumentLibraryTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    HeaderMenuBar headerMenuBar;
+    @Autowired private HeaderMenuBar headerMenuBar;
 
-    @Autowired
-    DocumentsFilters filters;
+    @Autowired private DocumentsFilters filters;
 
-    @Autowired
-    SiteDashboardPage sitePage;
+    @Autowired private SiteDashboardPage sitePage;
 
-    private String random = DataUtil.getUniqueIdentifier();
-    private String user = "User" + random;
-    private String description = "SiteDescription" + random;
-    private String siteName = "C6907Site-" + DataUtil.getUniqueIdentifier();
-    private String docContent = "C6936 Doc content";
+    private final String random = DataUtil.getUniqueIdentifier();
+    private final String user = "User" + random;
+    private final String description = "SiteDescription" + random;
+    private final String siteName = "C6907Site-" + DataUtil.getUniqueIdentifier();
+    private final String docContent = "C6936 Doc content";
 
     @BeforeClass
     public void setupTest()
@@ -46,7 +43,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6907")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void accessTheDocumentLibrary()
     {
         LOG.info("Step 1: Navigate to testSite's dashboard page.");
@@ -60,7 +57,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6908")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyTheDocumentLibraryMainPage()
     {
         LOG.info("Step 1: Navigate to testSite's dashboard and click on Document Library link.");
@@ -94,7 +91,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6935")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void checkAvailableOptionsForFolder()
     {
         String folderName = "folder-C6935-" + random;
@@ -124,7 +121,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6936")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void checkAvailableOptionsForFile()
     {
         String docName = "docName-C6936-" + random;
@@ -159,7 +156,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6938")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void viewFolderContents()
     {
         String folderNameC6938 = "C6938-folder-" + random;
