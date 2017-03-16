@@ -129,10 +129,7 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 
     public boolean isUserDisplayedInSearchResults(String user)
     {
-        if(browser.findElements(searchResultsRows).size() == 0)
-            return false;
-        else
-            return selectUser(user) != null;
+        return browser.findElements(searchResultsRows).size() != 0 && selectUser(user) != null;
     }
 
     /**

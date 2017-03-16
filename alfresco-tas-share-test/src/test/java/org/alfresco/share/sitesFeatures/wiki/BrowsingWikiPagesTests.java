@@ -73,12 +73,12 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         List<String> siteTags2 = new ArrayList<>();
         siteTags2.add("p3");
 
-        for (int i = 0; i < siteTitles.size(); i++)
+        for (String siteTitle : siteTitles)
         {
-            if (siteTitles.get(i) != "Page3")
-                sitePagesService.createWiki(userName1, DataUtil.PASSWORD, siteName, siteTitles.get(i), siteTitles.get(i), siteTags1);
+            if (siteTitle != "Page3")
+                sitePagesService.createWiki(userName1, DataUtil.PASSWORD, siteName, siteTitle, siteTitle, siteTags1);
             else
-                sitePagesService.createWiki(userName1, DataUtil.PASSWORD, siteName, siteTitles.get(i), siteTitles.get(i), siteTags2);
+                sitePagesService.createWiki(userName1, DataUtil.PASSWORD, siteName, siteTitle, siteTitle, siteTags2);
         }
 
         wikiListPage.navigate(siteName);
@@ -114,10 +114,10 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         siteTags1.add("test_tag");
 
         LOG.info("Creating wiki pages");
-        for (int i = 0; i < siteTitles.size(); i++)
+        for (String siteTitle : siteTitles)
         {
-            sitePagesService.createWiki(userName1, DataUtil.PASSWORD, siteName, "U1" + siteTitles.get(i), "U1" + siteTitles.get(i), siteTags1);
-            sitePagesService.createWiki(userName2, DataUtil.PASSWORD, siteName, "U2" + siteTitles.get(i), "U2" + siteTitles.get(i), siteTags1);
+            sitePagesService.createWiki(userName1, DataUtil.PASSWORD, siteName, "U1" + siteTitle, "U1" + siteTitle, siteTags1);
+            sitePagesService.createWiki(userName2, DataUtil.PASSWORD, siteName, "U2" + siteTitle, "U2" + siteTitle, siteTags1);
         }
 
         LOG.info("Logging in as user 1 and navigating to wiki list page for site");
@@ -127,23 +127,23 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
 
         LOG.info("Verify the correct creators of each page");
         List<String> displayedPages = wikiListPage.getWikiPageTitlesList();
-        for (int i = 0; i < displayedPages.size(); i++)
+        for (String displayedPage : displayedPages)
         {
-            String creator = wikiListPage.getWikiPageCreator(displayedPages.get(i));
+            String creator = wikiListPage.getWikiPageCreator(displayedPage);
 
-            switch (displayedPages.get(i))
+            switch (displayedPage)
             {
                 case "U2Page2":
-                    assertEquals(creator, userName2, "Incorrect creator displayed for page " + displayedPages.get(i));
+                    assertEquals(creator, userName2, "Incorrect creator displayed for page " + displayedPage);
                     break;
                 case "U1Page2":
-                    assertEquals(creator, userName1, "Incorrect creator displayed for page " + displayedPages.get(i));
+                    assertEquals(creator, userName1, "Incorrect creator displayed for page " + displayedPage);
                     break;
                 case "U2Page1":
-                    assertEquals(creator, userName2, "Incorrect creator displayed for page " + displayedPages.get(i));
+                    assertEquals(creator, userName2, "Incorrect creator displayed for page " + displayedPage);
                     break;
                 case "U1Page1":
-                    assertEquals(creator, userName1, "Incorrect creator displayed for page " + displayedPages.get(i));
+                    assertEquals(creator, userName1, "Incorrect creator displayed for page " + displayedPage);
                     break;
             }
         }
@@ -161,10 +161,10 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         siteTags1.add(siteTag);
 
         LOG.info("Creating wiki pages");
-        for (int i = 0; i < siteTitles.size(); i++)
+        for (String siteTitle : siteTitles)
         {
-            sitePagesService.createWiki(userName1, password, siteName, "U1-" + siteTitles.get(i), "U1-" + siteTitles.get(i), siteTags1);
-            sitePagesService.createWiki(userName2, password, siteName, "U2-" + siteTitles.get(i), "U2-" + siteTitles.get(i), siteTags1);
+            sitePagesService.createWiki(userName1, password, siteName, "U1-" + siteTitle, "U1-" + siteTitle, siteTags1);
+            sitePagesService.createWiki(userName2, password, siteName, "U2-" + siteTitle, "U2-" + siteTitle, siteTags1);
         }
 
         LOG.info("Logging in as user 1 and navigate to wiki list page for site");

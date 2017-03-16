@@ -84,9 +84,9 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 
         String text = "";
         String text2;
-        for (int i = 0; i < noticeText.size(); i++)
+        for (WebElement aNoticeText : noticeText)
         {
-            text2 = noticeText.get(i).getText();
+            text2 = aNoticeText.getText();
             text = text + text2;
         }
         return text;

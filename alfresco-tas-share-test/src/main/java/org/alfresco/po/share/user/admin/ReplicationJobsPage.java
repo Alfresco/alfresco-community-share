@@ -56,9 +56,9 @@ public class ReplicationJobsPage extends SharePage<ReplicationJobsPage>
      */
     public boolean isJobDisplayedInList(String jobName)
     {
-        for (int i = 0; i < jobsList.size(); i++)
+        for (WebElement aJobsList : jobsList)
         {
-            if (jobsList.get(i).getText().equals(jobName))
+            if (aJobsList.getText().equals(jobName))
                 return true;
         }
         return false;

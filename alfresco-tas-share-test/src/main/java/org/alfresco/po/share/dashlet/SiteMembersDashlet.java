@@ -75,10 +75,17 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet> {
         String username = "//div[@class='person']//a";
         String role = "//div[@class='person']/div";
 
-        if (info.equals("username")) info = username;
-        else if (info.equals("role")) info = role;
-        else
-            throw new IllegalArgumentException("Parameter can be 'username' or 'role'. " + info + " is incorrect!");
+        switch (info)
+        {
+            case "username":
+                info = username;
+                break;
+            case "role":
+                info = role;
+                break;
+            default:
+                throw new IllegalArgumentException("Parameter can be 'username' or 'role'. " + info + " is incorrect!");
+        }
 
         for (int i = 0; i < membersList.size(); i++) {
             String member = membersPath + "[" + (i + 1) + "]";

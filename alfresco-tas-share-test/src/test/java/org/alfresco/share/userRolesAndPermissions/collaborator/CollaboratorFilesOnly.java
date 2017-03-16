@@ -133,12 +133,16 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
     downloadDirectory = new File(downloadPath);
     File[] directoryContent = downloadDirectory.listFiles();
 
-    for (int i = 0; i < directoryContent.length; i++) {
-      if (extension == null) {
-        if (directoryContent[i].getName().equals(fileName))
+    for (File aDirectoryContent : directoryContent)
+    {
+      if (extension == null)
+      {
+        if (aDirectoryContent.getName().equals(fileName))
           return true;
-      } else {
-        if (directoryContent[i].getName().equals(fileName + extension))
+      }
+      else
+      {
+        if (aDirectoryContent.getName().equals(fileName + extension))
           return true;
       }
     }

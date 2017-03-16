@@ -32,9 +32,9 @@ public class CreateFileFromTemplate extends WebDriverAware
 
     public void hoverOverCreateDocumentFromTemplateLink()
     {
-        for (int i = 0; i < createDocumentFromTemplateLink.size(); i++)
+        for (WebElement aCreateDocumentFromTemplateLink : createDocumentFromTemplateLink)
         {
-            browser.mouseOver(createDocumentFromTemplateLink.get(i));
+            browser.mouseOver(aCreateDocumentFromTemplateLink);
         }
     }
 
@@ -45,10 +45,10 @@ public class CreateFileFromTemplate extends WebDriverAware
 
     public void clickOnFileTemplate(String templateName)
     {
-        for (int i = 0; i < documentTemplates.size(); i++)
+        for (WebElement documentTemplate : documentTemplates)
         {
-            if (documentTemplates.get(i).getText().equalsIgnoreCase(templateName))
-                documentTemplates.get(i).click();
+            if (documentTemplate.getText().equalsIgnoreCase(templateName))
+                documentTemplate.click();
         }
     }
 

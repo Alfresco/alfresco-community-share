@@ -83,9 +83,9 @@ public class DocumentCommon<T> extends SharePage<DocumentCommon<T>>
         browser.waitUntilElementVisible(By.xpath("//span[text() = 'No Categories']"));
 
         ArrayList<String> fadedText = new ArrayList<>();
-        for (int i = 0; i < fadedDetails.size(); i++)
+        for (WebElement fadedDetail : fadedDetails)
         {
-            fadedText.add(fadedDetails.get(i).getText());
+            fadedText.add(fadedDetail.getText());
         }
         return fadedText.toString();
     }

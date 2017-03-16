@@ -55,10 +55,10 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
      */
     public DocumentLibraryPage clickButton(String buttonName)
     {
-        for (int i = 0; i < buttonsList.size(); i++)
+        for (WebElement aButtonsList : buttonsList)
         {
-            if (buttonsList.get(i).getText().equals(buttonName))
-                buttonsList.get(i).click();
+            if (aButtonsList.getText().equals(buttonName))
+                aButtonsList.click();
         }
 
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();

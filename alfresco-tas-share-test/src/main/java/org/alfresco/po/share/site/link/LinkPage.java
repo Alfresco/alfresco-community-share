@@ -145,9 +145,9 @@ public class LinkPage extends SiteCommon<LinkPage>
     {
         List<String> tags = new ArrayList<>();
         List<WebElement> webTags = selectLinkDetailsRow(linkTitle).findElements(linkTags);
-        for (int i = 0; i < webTags.size(); i++)
+        for (WebElement webTag : webTags)
         {
-            tags.add(webTags.get(i).getText());
+            tags.add(webTag.getText());
         }
 
         return tags;

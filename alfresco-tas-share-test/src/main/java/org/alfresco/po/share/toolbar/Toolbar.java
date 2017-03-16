@@ -239,9 +239,8 @@ public class Toolbar extends HtmlPage
      */
     public HtmlPage clickResult(String query, HtmlPage page)
     {
-        for (int i = 0; i < searchResultsInToolbar.size(); i++)
+        for (WebElement result : searchResultsInToolbar)
         {
-            WebElement result = searchResultsInToolbar.get(i);
             if (result.getText().contains(query))
                 result.click();
         }
@@ -270,10 +269,10 @@ public class Toolbar extends HtmlPage
     	}
     	browser.waitUntilElementsVisible(By.xpath("//div[contains(@class, 'alf-live-search')]//div"));
         browser.waitUntilElementsVisible(By.cssSelector("div.alf-livesearch-item>a"));
-        
-        for (int i = 0; i < searchResultsInToolbar.size(); i++)
+
+        for (WebElement aSearchResultsInToolbar : searchResultsInToolbar)
         {
-            if (searchResultsInToolbar.get(i).getText().contains(query))
+            if (aSearchResultsInToolbar.getText().contains(query))
                 return true;
         }
         return false;
@@ -286,9 +285,8 @@ public class Toolbar extends HtmlPage
      */
     public void clickResultFromLiveSearch(String resultToBeClicked)
     {
-        for (int i = 0; i < searchResultsInToolbar.size(); i++)
+        for (WebElement result : searchResultsInToolbar)
         {
-            WebElement result = searchResultsInToolbar.get(i);
             if (result.getText().contains(resultToBeClicked))
                 result.click();
         }

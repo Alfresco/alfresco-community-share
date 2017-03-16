@@ -158,9 +158,9 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
     public List<String> getAboutUserInfo()
     {
         List<String> userInfo = new ArrayList<String>();
-        for (int i = 0; i < aboutUserDetails.size(); i++)
+        for (WebElement aboutUserDetail : aboutUserDetails)
         {
-            userInfo.add(aboutUserDetails.get(i).getText());
+            userInfo.add(aboutUserDetail.getText());
         }
         return userInfo;
     }

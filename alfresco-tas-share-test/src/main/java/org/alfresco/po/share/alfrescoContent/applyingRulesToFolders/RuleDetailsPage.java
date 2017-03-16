@@ -75,9 +75,9 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
         List<WebElement> descriptionDetailsList = browser.waitUntilElementsVisible(detailsSelector);
         ArrayList<String> descriptionDetailsText = new ArrayList<>();
         if (descriptionDetailsList.size() > 0)
-            for (int i = 0; i < descriptionDetailsList.size(); i++)
+            for (WebElement aDescriptionDetailsList : descriptionDetailsList)
             {
-                descriptionDetailsText.add(descriptionDetailsList.get(i).getText());
+                descriptionDetailsText.add(aDescriptionDetailsList.getText());
             }
         else
             descriptionDetailsText.add("'Description' details is empty!");
@@ -109,9 +109,9 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
     {
         ArrayList<String> rulesTextList = new ArrayList<>();
         if (rulesList.size() > 0)
-            for (int i = 0; i < rulesList.size(); i++)
+            for (WebElement aRulesList : rulesList)
             {
-                rulesTextList.add(rulesList.get(i).getText());
+                rulesTextList.add(aRulesList.getText());
             }
         else
             rulesTextList.add("No rules displayed!");

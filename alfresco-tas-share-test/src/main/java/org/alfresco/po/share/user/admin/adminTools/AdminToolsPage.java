@@ -55,9 +55,8 @@ public class AdminToolsPage extends SharePage<AdminToolsPage> implements Accessi
      */
     public void navigateToNodeFromToolsPanel(String treeNode)
     {
-        for (int i = 0; i < toolsLinksList.size(); i++)
+        for (WebElement treeNodeElement : toolsLinksList)
         {
-            WebElement treeNodeElement = toolsLinksList.get(i);
             if (treeNodeElement.getText().equals(treeNode))
                 treeNodeElement.click();
         }

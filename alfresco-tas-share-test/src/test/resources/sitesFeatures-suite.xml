@@ -7,7 +7,7 @@
 
     <test name="SitesFeatures">
         <packages>
-            <package name="org.alfresco.share.sitesFeatures.*"></package>
+            <package name="org.alfresco.share.sitesFeatures.*"/>
         </packages>
     </test>
 </suite>

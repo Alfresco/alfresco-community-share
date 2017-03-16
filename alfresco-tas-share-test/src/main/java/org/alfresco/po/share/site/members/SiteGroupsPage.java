@@ -170,9 +170,9 @@ public class SiteGroupsPage extends SiteMembersPage
     public List<String> getIds()
     {
         List<String> id = new ArrayList<String>();
-        for (int i = 0; i < groupId.size(); i++)
+        for (WebElement aGroupId : groupId)
         {
-            id.add(groupId.get(i).getText());
+            id.add(aGroupId.getText());
         }
 
         return id;
@@ -181,9 +181,9 @@ public class SiteGroupsPage extends SiteMembersPage
     public List<String> getSearchResultsGroupName()
     {
         List<String> groupName = new ArrayList<String>();
-        for (int i = 0; i < groupNameList.size(); i++)
+        for (WebElement aGroupNameList : groupNameList)
         {
-            groupName.add(groupNameList.get(i).getText());
+            groupName.add(aGroupNameList.getText());
         }
         return groupName;
     }
@@ -199,9 +199,9 @@ public class SiteGroupsPage extends SiteMembersPage
     {
         List<String> id = new ArrayList<String>();
 
-        for(int i = 0; i<idInSearchResults.size(); i++)
+        for (WebElement idInSearchResult : idInSearchResults)
         {
-            id.add(idInSearchResults.get(i).getText());
+            id.add(idInSearchResult.getText());
         }
         return id;
     }

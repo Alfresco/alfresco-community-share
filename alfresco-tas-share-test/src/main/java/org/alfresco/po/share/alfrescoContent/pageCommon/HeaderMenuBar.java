@@ -56,9 +56,8 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
      */
     public void clickSelectOption(String optionText)
     {
-        for (int i = 0; i < selectOptionsList.size(); i++)
+        for (WebElement option : selectOptionsList)
         {
-            WebElement option = selectOptionsList.get(i);
             if (option.getText().equals(optionText))
                 option.click();
         }
@@ -98,9 +97,8 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
         else
         {
             List<WebElement> selectedItemsOptionsList = browser.findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
-            for (int i = 0; i < selectedItemsOptionsList.size(); i++)
+            for (WebElement option : selectedItemsOptionsList)
             {
-                WebElement option = selectedItemsOptionsList.get(i);
                 if (option.getText().equals(optionText))
                     option.click();
             }
@@ -116,13 +114,13 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
     public String verifySelectedItemsValues(ArrayList<String> expectedList)
     {
         List<WebElement> selectedItemsOptionsList = browser.findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
-        for (int i = 0; i < expectedList.size(); i++)
+        for (String anExpectedList : expectedList)
         {
             int k = 0;
-            String expectedOption = expectedList.get(i);
-            for (int j = 0; j < selectedItemsOptionsList.size(); j++)
+            String expectedOption = anExpectedList;
+            for (WebElement aSelectedItemsOptionsList : selectedItemsOptionsList)
             {
-                String optionText = selectedItemsOptionsList.get(j).getText();
+                String optionText = aSelectedItemsOptionsList.getText();
                 if (expectedOption.equals(optionText))
                     k++;
             }

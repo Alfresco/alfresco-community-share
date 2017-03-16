@@ -68,9 +68,9 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     public ArrayList<String> getTableHeader()
     {
         ArrayList<String> tableHeaderText = new ArrayList<>();
-        for (int i = 0; i < tableHeadList.size(); i++)
+        for (WebElement aTableHeadList : tableHeadList)
         {
-            tableHeaderText.add(tableHeadList.get(i).getText());
+            tableHeaderText.add(aTableHeadList.getText());
         }
         return tableHeaderText;
     }

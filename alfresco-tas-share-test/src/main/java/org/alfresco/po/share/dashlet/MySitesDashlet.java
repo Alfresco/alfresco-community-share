@@ -161,10 +161,10 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
         Parameter.checkIsMandotary("Delete Option for Delete Site dialog", deleteOption);
         try
         {
-            for (int i = 0; i < confirmationDeleteButtons.size(); i++)
-                if (confirmationDeleteButtons.get(i).getText().equalsIgnoreCase(deleteOption))
+            for (WebElement confirmationDeleteButton : confirmationDeleteButtons)
+                if (confirmationDeleteButton.getText().equalsIgnoreCase(deleteOption))
                 {
-                    confirmationDeleteButtons.get(i).click();
+                    confirmationDeleteButton.click();
                 }
         }
         catch (NoSuchElementException nse)

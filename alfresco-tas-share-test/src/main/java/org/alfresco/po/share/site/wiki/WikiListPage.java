@@ -209,8 +209,9 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
     public List<String> getWikiPageTags(String wikiPage) {
         List<String> stringTags = new ArrayList<>();
         List<WebElement> webTags = selectWikiDetailsRow(wikiPage).findElements(wikiPageTags);
-        for (int i = 0; i < webTags.size(); i++) {
-            stringTags.add(webTags.get(i).getText());
+        for (WebElement webTag : webTags)
+        {
+            stringTags.add(webTag.getText());
         }
 
         return stringTags;

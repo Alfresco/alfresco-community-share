@@ -81,9 +81,9 @@ public class UserTrashcanPage extends SharePage<UserTrashcanPage>
     public String getItemsNamesList()
     {
         ArrayList<String> itemsNameTextList = new ArrayList<>();
-        for (int i = 0; i < itemsNameList.size(); i++)
+        for (WebElement anItemsNameList : itemsNameList)
         {
-            itemsNameTextList.add(itemsNameList.get(i).getText());
+            itemsNameTextList.add(anItemsNameList.getText());
         }
         return itemsNameTextList.toString();
     }
@@ -100,15 +100,15 @@ public class UserTrashcanPage extends SharePage<UserTrashcanPage>
      */
     public String verifyItemButtons()
     {
-        for (int i = 0; i < itemsNameList.size(); i++)
+        for (WebElement anItemsNameList : itemsNameList)
         {
-            WebElement recoverButton = selectItemRow(itemsNameList.get(i).getText()).findElement(recoverButtonSelector);
+            WebElement recoverButton = selectItemRow(anItemsNameList.getText()).findElement(recoverButtonSelector);
             if (!browser.isElementDisplayed(recoverButton))
-                return itemsNameList.get(i).getText() + " -> 'Recover' button isn't displayed!";
+                return anItemsNameList.getText() + " -> 'Recover' button isn't displayed!";
 
-            WebElement deleteButton = selectItemRow(itemsNameList.get(i).getText()).findElement(deleteButtonSelector);
+            WebElement deleteButton = selectItemRow(anItemsNameList.getText()).findElement(deleteButtonSelector);
             if (!browser.isElementDisplayed(deleteButton))
-                return itemsNameList.get(i).getText() + " -> 'Delete' button isn't displayed!";
+                return anItemsNameList.getText() + " -> 'Delete' button isn't displayed!";
         }
         return "ok";
     }
@@ -120,15 +120,15 @@ public class UserTrashcanPage extends SharePage<UserTrashcanPage>
      */
     public String verifyItemDeleteInfo()
     {
-        for (int i = 0; i < itemsNameList.size(); i++)
+        for (WebElement anItemsNameList : itemsNameList)
         {
-            WebElement deletionTimestamp = selectItemRow(itemsNameList.get(i).getText()).findElement(deletionTimestampSelector);
+            WebElement deletionTimestamp = selectItemRow(anItemsNameList.getText()).findElement(deletionTimestampSelector);
             if (!browser.isElementDisplayed(deletionTimestamp))
-                return itemsNameList.get(i).getText() + " -> timestamp of deletion isn't displayed!";
+                return anItemsNameList.getText() + " -> timestamp of deletion isn't displayed!";
 
-            WebElement locationBeforeDeletion = selectItemRow(itemsNameList.get(i).getText()).findElement(locationBeforeDeletionSelector);
+            WebElement locationBeforeDeletion = selectItemRow(anItemsNameList.getText()).findElement(locationBeforeDeletionSelector);
             if (!browser.isElementDisplayed(locationBeforeDeletion))
-                return itemsNameList.get(i).getText() + " -> location before deletion isn't displayed!";
+                return anItemsNameList.getText() + " -> location before deletion isn't displayed!";
         }
         return "ok";
     }

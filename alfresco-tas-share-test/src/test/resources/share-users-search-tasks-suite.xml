@@ -7,18 +7,18 @@
 
     <test name="ShareUsersSearchTasks">
         <packages>
-            <package name="org.alfresco.share.alfrescoPowerUsers.*"></package>
-            <package name="org.alfresco.share.searching.*"></package>
-            <package name="org.alfresco.share.smartFolders.*"></package>
-            <package name="org.alfresco.share.tasksAndWorkflows.*"></package>
-            <package name="org.alfresco.share.userDashboard.*"></package>
-            <package name="org.alfresco.share.userProfile.*"></package>
-            <package name="org.alfresco.share.userRolesAndPermissions.*"></package>
+            <package name="org.alfresco.share.alfrescoPowerUsers.*"/>
+            <package name="org.alfresco.share.searching.*"/>
+            <package name="org.alfresco.share.smartFolders.*"/>
+            <package name="org.alfresco.share.tasksAndWorkflows.*"/>
+            <package name="org.alfresco.share.userDashboard.*"/>
+            <package name="org.alfresco.share.userProfile.*"/>
+            <package name="org.alfresco.share.userRolesAndPermissions.*"/>
         </packages>
         <classes>
-            <class name="org.alfresco.share.LoginTests"></class>
-            <class name="org.alfresco.share.LogoTests"></class>
-            <class name="org.alfresco.share.ToolbarTests"></class>
+            <class name="org.alfresco.share.LoginTests"/>
+            <class name="org.alfresco.share.LogoTests"/>
+            <class name="org.alfresco.share.ToolbarTests"/>
         </classes>
     </test>
 </suite>

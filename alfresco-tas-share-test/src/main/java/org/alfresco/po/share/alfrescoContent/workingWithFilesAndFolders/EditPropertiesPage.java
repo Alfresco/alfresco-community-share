@@ -81,9 +81,9 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
         for (int i = 0; i < propertiesList.size(); i++)
         {
             String property = propertiesList.get(i).getText();
-            for (int j = 0; j < propertiesNotDisplayedList.size(); j++)
+            for (String aPropertiesNotDisplayedList : propertiesNotDisplayedList)
             {
-                if (property.equals(propertiesNotDisplayedList.get(j)))
+                if (property.equals(aPropertiesNotDisplayedList))
                     return propertiesNotDisplayedList.get(i);
             }
         }
@@ -97,10 +97,10 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
      */
     public DocumentDetailsPage clickButton(String buttonName)
     {
-        for (int i = 0; i < buttonsList.size(); i++)
+        for (WebElement aButtonsList : buttonsList)
         {
-            if (buttonsList.get(i).getText().equals(buttonName))
-                buttonsList.get(i).click();
+            if (aButtonsList.getText().equals(buttonName))
+                aButtonsList.click();
         }
 
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
@@ -109,10 +109,10 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     public DocumentLibraryPage clickButtonForFolder(String buttonName)
 
     {
-        for (int i = 0; i < buttonsList.size(); i++)
+        for (WebElement aButtonsList : buttonsList)
         {
-            if (buttonsList.get(i).getText().equals(buttonName))
-                buttonsList.get(i).click();
+            if (aButtonsList.getText().equals(buttonName))
+                aButtonsList.click();
         }
 
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
@@ -147,9 +147,9 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     public boolean isButtonDisplayed(String buttonName)
 
     {
-        for (int i = 0; i < buttonsList.size(); i++)
+        for (WebElement aButtonsList : buttonsList)
         {
-            if (buttonsList.get(i).getText().equals(buttonName))
+            if (aButtonsList.getText().equals(buttonName))
                 return true;
         }
         return false;

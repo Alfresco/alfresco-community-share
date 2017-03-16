@@ -48,10 +48,10 @@ public class ChangeContentTypeDialog extends ShareDialog
      */
     public DocumentDetailsPage clickButton(String buttonName)
     {
-        for (int i = 0; i < buttonsList.size(); i++)
+        for (WebElement aButtonsList : buttonsList)
         {
-            if (buttonsList.get(i).getText().equals(buttonName))
-                buttonsList.get(i).click();
+            if (aButtonsList.getText().equals(buttonName))
+                aButtonsList.click();
         }
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
@@ -85,9 +85,9 @@ public class ChangeContentTypeDialog extends ShareDialog
      */
     public boolean isButtonDisplayed(String buttonName)
     {
-        for (int i = 0; i < buttonsList.size(); i++)
+        for (WebElement aButtonsList : buttonsList)
         {
-            String button = buttonsList.get(i).getText();
+            String button = aButtonsList.getText();
             if (button.equals(buttonName))
                 return true;
         }

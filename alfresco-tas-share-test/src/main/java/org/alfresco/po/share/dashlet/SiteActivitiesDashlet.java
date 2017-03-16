@@ -51,17 +51,16 @@ public class SiteActivitiesDashlet extends MyActivitiesDashlet
             setDateToCompare(dateForCompare);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        for (int i = 0; i < relativeTime.size(); i++)
+        for (WebElement aRelativeTime : relativeTime)
         {
-            String substr = relativeTime.get(i).getAttribute("title");
+            String substr = aRelativeTime.getAttribute("title");
             String date = substr.substring(0, substr.indexOf("T"));
             LocalDate activityDate = LocalDate.parse(date, formatter);
             if (noOfDays <= 28)
                 if (DAYS.between(activityDate, dateToCompare) <= noOfDays && MONTHS.between(activityDate, dateToCompare) == 0
                         && YEARS.between(activityDate, dateToCompare) == 0)
                     counter++;
-                else
-                if (DAYS.between(activityDate, dateToCompare) <= noOfDays && MONTHS.between(activityDate, dateToCompare) == 1
+                else if (DAYS.between(activityDate, dateToCompare) <= noOfDays && MONTHS.between(activityDate, dateToCompare) == 1
                         && YEARS.between(activityDate, dateToCompare) == 0)
                     counter++;
         }

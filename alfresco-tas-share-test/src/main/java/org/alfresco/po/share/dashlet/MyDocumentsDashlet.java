@@ -267,10 +267,10 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     {
         try
         {
-            for (int i = 0; i < viewButtons.size(); i++)
-                if (viewButtons.get(i).getAttribute("title").equalsIgnoreCase(viewOption))
+            for (WebElement viewButton : viewButtons)
+                if (viewButton.getAttribute("title").equalsIgnoreCase(viewOption))
                 {
-                    viewButtons.get(i).click();
+                    viewButton.click();
                 }
 
             browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div.dashlet.my-documents h3.filename > a"));

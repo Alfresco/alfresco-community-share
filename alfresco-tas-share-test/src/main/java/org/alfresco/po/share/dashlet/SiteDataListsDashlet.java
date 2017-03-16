@@ -100,9 +100,9 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     public int getNumberOfSiteDataListsItemsDisplayed()
     {
         int numberOfListItemsDisplayed = 0;
-        for (int i = 0; i < siteDataListsItems.size(); i++)
+        for (WebElement siteDataListsItem : siteDataListsItems)
         {
-            if (siteDataListsItems.get(i).isDisplayed())
+            if (siteDataListsItem.isDisplayed())
             {
                 numberOfListItemsDisplayed = numberOfListItemsDisplayed + 1;
             }

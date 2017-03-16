@@ -15,8 +15,6 @@ public class CreateFolderFromTemplate extends NewContentDialog
 
     public boolean isCreateFolderFromTemplatePopupDisplayed()
     {
-        if(browser.isElementDisplayed(dialogTitle))
-            return dialogTitle.getText().equals("Create Folder From Template");
-        else return false;
+        return browser.isElementDisplayed(dialogTitle) && dialogTitle.getText().equals("Create Folder From Template");
     }
 }

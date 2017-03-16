@@ -102,9 +102,7 @@ public class NewContentDialog extends ShareDialog
 
     public boolean isNewFolderPopupDisplayed()
     {
-        if(browser.isElementDisplayed(dialogTitle))
-            return dialogTitle.getText().equals("New Folder");
-        else return false;
+        return browser.isElementDisplayed(dialogTitle) && dialogTitle.getText().equals("New Folder");
     }
 
     public boolean isTooltipErrorMessageDisplayed()

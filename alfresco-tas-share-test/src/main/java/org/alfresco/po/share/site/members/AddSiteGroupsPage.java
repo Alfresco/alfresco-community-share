@@ -200,9 +200,9 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
     {
         setAllRolesToButton.click();
         List<String> roles = new ArrayList<String>();
-        for (int i = 0; i < allRolesFilterOptions.size(); i++)
+        for (WebElement allRolesFilterOption : allRolesFilterOptions)
         {
-            roles.add(allRolesFilterOptions.get(i).getText());
+            roles.add(allRolesFilterOption.getText());
         }
         setAllRolesToButton.click();
         return roles;
@@ -212,10 +212,10 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
     {
         List<String> roles = getRolesFromFilter();
         boolean isValid = true;
-        for (int i = 0; i < roles.size(); i++)
+        for (String role : roles)
         {
             EnumUtils.getEnumList(GroupRoles.class);
-            if (!EnumUtils.isValidEnum(GroupRoles.class, roles.get(i)))
+            if (!EnumUtils.isValidEnum(GroupRoles.class, role))
             {
                 isValid = false;
                 break;

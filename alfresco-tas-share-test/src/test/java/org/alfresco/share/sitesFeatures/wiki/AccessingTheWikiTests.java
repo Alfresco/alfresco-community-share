@@ -102,8 +102,9 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
         LOG.info("Starting test C5494");
         setup("C5494");
         wikiMainPage.navigate(siteName);
-        for (int i = 0; i < siteTitles.size(); i++) {
-            sitePagesService.createWiki(userName, DataUtil.PASSWORD, siteName, siteTitles.get(i), siteTitles.get(i), null);
+        for (String siteTitle : siteTitles)
+        {
+            sitePagesService.createWiki(userName, DataUtil.PASSWORD, siteName, siteTitle, siteTitle, null);
         }
         wikiMainPage.navigate(siteName);
 
@@ -118,8 +119,10 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
         }
 
         LOG.info("Step 2 : Verify the actions available for wiki pages");
-        for (int i = 0; i < actualPageList.size(); i++) {
-            Assert.assertTrue(wikiListPage.areActionsAvailableForPage(actualPageList.get(i)), "One or more actions are not available for " + actualPageList.get(i) + " wiki page");
+        for (String anActualPageList : actualPageList)
+        {
+            Assert.assertTrue(wikiListPage.areActionsAvailableForPage(anActualPageList),
+                    "One or more actions are not available for " + anActualPageList + " wiki page");
         }
 
         LOG.info("Step 3 : Click on 'Main Page' button");

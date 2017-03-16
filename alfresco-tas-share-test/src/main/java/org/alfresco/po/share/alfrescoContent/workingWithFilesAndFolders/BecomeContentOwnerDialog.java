@@ -49,9 +49,8 @@ public class BecomeContentOwnerDialog extends ShareDialog
      */
     public DocumentDetailsPage clickButton(String buttonName)
     {
-        for (int i = 0; i < buttonList.size(); i++)
+        for (WebElement button : buttonList)
         {
-            WebElement button = buttonList.get(i);
             if (button.getText().equals(buttonName))
                 button.click();
         }

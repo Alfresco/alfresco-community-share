@@ -26,10 +26,10 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     public void clickButtton(String buttonName)
     {
         browser.waitInSeconds(1);
-        for (int i = 0; i < buttonsList.size(); i++)
+        for (WebElement aButtonsList : buttonsList)
         {
-            if (buttonsList.get(i).getText().equals(buttonName))
-                buttonsList.get(i).click();
+            if (aButtonsList.getText().equals(buttonName))
+                aButtonsList.click();
         }
         browser.waitInSeconds(3);
     }

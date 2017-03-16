@@ -52,10 +52,10 @@ public class SelectDestinationDialog extends ShareDialog
      */
     public void clickDestinationButton(String buttonText)
     {
-        for (int i = 0; i < destinationList.size(); i++)
+        for (WebElement aDestinationList : destinationList)
         {
-            if (destinationList.get(i).getText().equals(buttonText))
-                destinationList.get(i).click();
+            if (aDestinationList.getText().equals(buttonText))
+                aDestinationList.click();
             if (buttonText.equals("Shared Files"))
                 browser.waitInSeconds(5);
         }
@@ -69,10 +69,10 @@ public class SelectDestinationDialog extends ShareDialog
      */
     public void clickSite(String siteName)
     {
-        for (int i = 0; i < siteList.size(); i++)
+        for (WebElement aSiteList : siteList)
         {
-            if (siteList.get(i).getText().equals(siteName))
-                siteList.get(i).click();
+            if (aSiteList.getText().equals(siteName))
+                aSiteList.click();
         }
         browser.waitInSeconds(2);
     }
@@ -85,9 +85,9 @@ public class SelectDestinationDialog extends ShareDialog
      */
     public boolean isSiteDisplayedInSiteSection(String siteName)
     {
-        for (int i = 0; i < siteList.size(); i++)
+        for (WebElement aSiteList : siteList)
         {
-            if (siteList.get(i).getText().equals(siteName))
+            if (aSiteList.getText().equals(siteName))
                 return true;
         }
         return false;
@@ -100,9 +100,9 @@ public class SelectDestinationDialog extends ShareDialog
     {
         browser.waitUntilElementsVisible(By.cssSelector(".path .ygtvlabel"));
         ArrayList<String> pathText = new ArrayList<>();
-        for (int i = 0; i < pathList.size(); i++)
+        for (WebElement aPathList : pathList)
         {
-            pathText.add(pathList.get(i).getText());
+            pathText.add(aPathList.getText());
         }
         return pathText.toString();
     }
@@ -125,10 +125,10 @@ public class SelectDestinationDialog extends ShareDialog
     {
         browser.waitUntilElementsVisible(By.cssSelector(".path .ygtvlabel"));
         browser.waitInSeconds(2);
-        for (int i = 0; i < pathList.size(); i++)
+        for (WebElement aPathList : pathList)
         {
-            if (pathList.get(i).getText().equals(folderName))
-                pathList.get(i).click();
+            if (aPathList.getText().equals(folderName))
+                aPathList.click();
         }
     }
 

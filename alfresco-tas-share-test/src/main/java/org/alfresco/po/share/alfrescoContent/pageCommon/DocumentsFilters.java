@@ -80,9 +80,9 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
     public ArrayList<String> getSidebarFilters()
     {
         ArrayList<String> sidebarText = new ArrayList<>();
-        for (int i = 0; i < sidebarFiltersList.size(); i++)
+        for (WebElement aSidebarFiltersList : sidebarFiltersList)
         {
-            sidebarText.add(sidebarFiltersList.get(i).getText());
+            sidebarText.add(aSidebarFiltersList.getText());
         }
         return sidebarText;
     }
@@ -295,9 +295,8 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
         {
             List<WebElement> tags = browser.waitUntilElementsVisible(By.cssSelector(".filter .tag-link"));
 
-            for (int i = 0; i < tags.size(); i++)
+            for (WebElement tag : tags)
             {
-                WebElement tag = tags.get(i);
                 if (tag.getText().equals(tagName))
                 {
                     tag.click();

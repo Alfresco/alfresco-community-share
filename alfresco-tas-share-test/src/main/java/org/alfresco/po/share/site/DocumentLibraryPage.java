@@ -431,9 +431,9 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         browser.waitInSeconds(2);
         ArrayList<String> foldersTextList = new ArrayList<>();
-        for (int i = 0; i < explorerPanelDocumentsList.size(); i++)
+        for (WebElement anExplorerPanelDocumentsList : explorerPanelDocumentsList)
         {
-            foldersTextList.add(explorerPanelDocumentsList.get(i).getText());
+            foldersTextList.add(anExplorerPanelDocumentsList.getText());
         }
         return foldersTextList.toString();
     }
@@ -445,9 +445,9 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         browser.waitInSeconds(1);
         ArrayList<String> breadcrumbTextList = new ArrayList<>();
-        for (int i = 0; i < breadcrumbList.size(); i++)
+        for (WebElement aBreadcrumbList : breadcrumbList)
         {
-            breadcrumbTextList.add(breadcrumbList.get(i).getText());
+            breadcrumbTextList.add(aBreadcrumbList.getText());
         }
         breadcrumbTextList.add(breadcumbCurrentFolder.getText());
 
@@ -651,9 +651,8 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public void clickButtonFromRenameContent(String buttonName)
     {
-        for (int i = 0; i < buttonsFromRenameContent.size(); i++)
+        for (WebElement button : buttonsFromRenameContent)
         {
-            WebElement button = buttonsFromRenameContent.get(i);
             if (button.getText().equals(buttonName))
                 button.click();
         }
@@ -701,9 +700,8 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public String verifyContentItemsSelected(ArrayList<String> expectedSelectedContentList)
     {
-        for (int i = 0; i < expectedSelectedContentList.size(); i++)
+        for (String contentName : expectedSelectedContentList)
         {
-            String contentName = expectedSelectedContentList.get(i);
             if (!isContentSelected(contentName))
                 return contentName + " isn't selected!";
         }
@@ -718,9 +716,8 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public String verifyContentItemsNotSelected(ArrayList<String> expectedNotSelectedContentList)
     {
-        for (int i = 0; i < expectedNotSelectedContentList.size(); i++)
+        for (String contentName : expectedNotSelectedContentList)
         {
-            String contentName = expectedNotSelectedContentList.get(i);
             if (isContentSelected(contentName))
                 return contentName + " is selected!";
         }
@@ -777,9 +774,9 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         browser.waitUntilWebElementIsDisplayedWithRetry(browser.findElement(contentTagsSelector), 5);
         List<WebElement> tagsList = selectDocumentLibraryItemRow(contentName).findElements(contentTagsSelector);
         List<String> tagsTextList = new ArrayList<>();
-        for (int i = 0; i < tagsList.size(); i++)
+        for (WebElement aTagsList : tagsList)
         {
-            tagsTextList.add(tagsList.get(i).getText());
+            tagsTextList.add(aTagsList.getText());
         }
         return tagsTextList.toString();
     }
@@ -820,11 +817,11 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         List<WebElement> tagsList = browser.findElements(inlineEditTagsSelector);
 
-        for (int i = 0; i < tagsList.size(); i++)
+        for (WebElement aTagsList : tagsList)
         {
-            if (tagsList.get(i).getText().equals(tagName))
+            if (aTagsList.getText().equals(tagName))
             {
-                tagsList.get(i).click();
+                aTagsList.click();
             }
         }
         browser.waitUntilElementVisible(tagToBeEdited);

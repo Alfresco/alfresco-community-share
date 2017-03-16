@@ -184,9 +184,9 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     public String getItemsList()
     {
         ArrayList<String> itemsTextList = new ArrayList<>();
-        for (int i = 0; i < itemsList.size(); i++)
+        for (WebElement anItemsList : itemsList)
         {
-            itemsTextList.add(itemsList.get(i).getText());
+            itemsTextList.add(anItemsList.getText());
         }
         return itemsTextList.toString();
     }

@@ -523,9 +523,9 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         for (int i = 0; i < propertiesList.size(); i++)
         {
             String property = propertiesList.get(i).getText();
-            for (int j = 0; j < propertiesNotDisplayedList.size(); j++)
+            for (String aPropertiesNotDisplayedList : propertiesNotDisplayedList)
             {
-                if (property.equals(propertiesNotDisplayedList.get(j)))
+                if (property.equals(aPropertiesNotDisplayedList))
                     return propertiesNotDisplayedList.get(i);
             }
         }
@@ -541,9 +541,9 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      */
     public boolean isPropertyDisplayed(String propertyText)
     {
-        for (int i = 0; i < propertiesList.size(); i++)
+        for (WebElement aPropertiesList : propertiesList)
         {
-            if (propertiesList.get(i).getText().equals(propertyText))
+            if (aPropertiesList.getText().equals(propertyText))
                 return true;
         }
         return false;

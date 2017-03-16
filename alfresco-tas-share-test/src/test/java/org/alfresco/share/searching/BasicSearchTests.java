@@ -166,9 +166,9 @@ public class BasicSearchTests extends ContextAwareWebTest
 
         LOG.info("STEP5: Verify \"Filter by\" section");
         ArrayList<String> expectedList = new ArrayList<>(Arrays.asList("Creator", "File Type", "Modifier", "Created", "Size", "Modified"));
-        for (int i = 0; i < expectedList.size(); i++)
+        for (String anExpectedList : expectedList)
         {
-            assertTrue(searchPage.getFilterTypeList().contains(expectedList.get(i)), "Filter is not present in 'Filter by' section!");
+            assertTrue(searchPage.getFilterTypeList().contains(anExpectedList), "Filter is not present in 'Filter by' section!");
         }
         
         LOG.info("STEP6: Click 'Sort' dropdown");

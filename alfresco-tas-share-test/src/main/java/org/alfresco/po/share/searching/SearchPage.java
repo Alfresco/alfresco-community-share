@@ -124,8 +124,8 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 	}
 
 	public void mouseOverResult(String query) {
-		for (int i = 0; i < resultsDetailedViewList.size(); i++) {
-			WebElement result = resultsDetailedViewList.get(i);
+		for (WebElement result : resultsDetailedViewList)
+		{
 			if (result.getText().contains(query))
 				browser.mouseOver(result);
 		}
@@ -138,8 +138,9 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 	 */
 	public List<String> getFilterTypeList() {
 		List<String> filterList = new ArrayList<>();
-		for (int i = 0; i < filterTypeList.size(); i++) {
-			filterList.add(filterTypeList.get(i).getText());
+		for (WebElement aFilterTypeList : filterTypeList)
+		{
+			filterList.add(aFilterTypeList.getText());
 		}
 		return filterList;
 	}
@@ -226,8 +227,8 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 		List<WebElement> searchInDropdownOptions = browser
 				.findDisplayedElementsFromLocator(searchInDropdownOptionsSelector);
 
-		for (int i = 0; i < searchInDropdownOptions.size(); i++) {
-			WebElement optionSearchIn = searchInDropdownOptions.get(i);
+		for (WebElement optionSearchIn : searchInDropdownOptions)
+		{
 			if (optionSearchIn.getText().equals(option))
 				optionSearchIn.click();
 		}
@@ -259,8 +260,9 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 		browser.waitInSeconds(5);
 		List<WebElement> viewsDropdownOptions = browser.findElements(viewsDropdownOptionsSelector);
 		ArrayList<String> viewsOptionsText = new ArrayList<>();
-		for (int i = 0; i < viewsDropdownOptions.size(); i++) {
-			viewsOptionsText.add(viewsDropdownOptions.get(i).getText());
+		for (WebElement viewsDropdownOption : viewsDropdownOptions)
+		{
+			viewsOptionsText.add(viewsDropdownOption.getText());
 		}
 		return viewsOptionsText;
 	}
@@ -316,9 +318,10 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
 		clickShowMore();
 
-		for (int i = 0; i < filterOptionList.size(); i++) {
-			WebElement filterOption = filterOptionList.get(i);
-			if (filterOption.getText().equals(option)) {
+		for (WebElement filterOption : filterOptionList)
+		{
+			if (filterOption.getText().equals(option))
+			{
 				filterOption.click();
 				browser.waitInSeconds(2);
 				break;
@@ -330,8 +333,9 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 		int counter = 0;
 		if (resultsDetailedViewList.size() == expectedResults.size())
 			for (int i = 0; i < resultsDetailedViewList.size(); i++) {
-				for (int j = 0; j < expectedResults.size(); j++) {
-					if (resultsDetailedViewList.get(i).getText().equals(expectedResults.get(j)))
+				for (String expectedResult : expectedResults)
+				{
+					if (resultsDetailedViewList.get(i).getText().equals(expectedResult))
 						counter++;
 				}
 				if (counter == resultsDetailedViewList.size())
@@ -355,9 +359,10 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 	 */
 	public void clickShowMore() {
 		if (showMore.size() > 0)
-			for (int i = 0; i < showMore.size(); i++) {
-				if (showMore.get(i).isDisplayed())
-					showMore.get(i).click();
+			for (WebElement aShowMore : showMore)
+			{
+				if (aShowMore.isDisplayed())
+					aShowMore.click();
 			}
 	}
 
@@ -366,9 +371,10 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 	 */
 	public void clickShowFewer() {
 		if (showLess.size() > 0)
-			for (int i = 0; i < showLess.size(); i++) {
-				if (showLess.get(i).isDisplayed())
-					showLess.get(i).click();
+			for (WebElement showLes : showLess)
+			{
+				if (showLes.isDisplayed())
+					showLes.click();
 			}
 	}
 
