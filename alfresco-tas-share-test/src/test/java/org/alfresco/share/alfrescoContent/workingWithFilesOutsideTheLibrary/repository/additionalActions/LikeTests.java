@@ -3,7 +3,6 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -16,9 +15,6 @@ public class LikeTests extends ContextAwareWebTest
 {
     @Autowired
     RepositoryPage repositoryPage;
-
-    @Autowired
-    CreateContent createContent;
     
     @Autowired
     SocialFeatures socialFeatures;
@@ -51,10 +47,8 @@ public class LikeTests extends ContextAwareWebTest
     public void likeFile()
     {
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8301), fileNameC8301 + " is not available in Repository");
         
         LOG.info("Step 1: Hover over the file Like link.");
@@ -76,10 +70,8 @@ public class LikeTests extends ContextAwareWebTest
     public void likeFolder()
     {
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8302), folderNameC8302 + " is not available in Repository");
         
         LOG.info("Step 1: Hover over a document and check the Like button");
@@ -103,10 +95,8 @@ public class LikeTests extends ContextAwareWebTest
     public void unlikeFile()
     {
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8303), fileNameC8303 + " is not available in Repository");
         
         socialFeatures.clickLikeButton(fileNameC8303);
@@ -126,10 +116,8 @@ public class LikeTests extends ContextAwareWebTest
     public void unlikeFolder()
     {
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8304), folderNameC8304 + " is not available in Repository");
         
         socialFeatures.clickLikeButton(folderNameC8304);

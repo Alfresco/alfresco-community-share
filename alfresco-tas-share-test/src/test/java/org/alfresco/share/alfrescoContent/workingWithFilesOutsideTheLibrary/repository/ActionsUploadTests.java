@@ -52,8 +52,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
         Assert.assertEquals(repositoryPage.getUploadButtonStatusDisabled(), "true", "The Upload Button is not disabled");
 
         LOG.info("STEP2: Go to Shared folder and upload a file.");
-        repositoryPage.clickOnContent("Shared");
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree("Shared"), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("Shared");
         assertEquals(repositoryPage.getPageHeader(), "Repository Browser");
 
         uploadContent.uploadContent(testFilePath);
@@ -76,7 +75,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
         LOG.info("Precondition: Navigate to Shared folder from Repository page and upload a file");
         repositoryPage.navigate();
         assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser");
-        repositoryPage.clickOnContent("Shared");
+        repositoryPage.clickFolderFromExplorerPanel("Shared");
         assertEquals(repositoryPage.getPageHeader(), "Repository Browser");
         uploadContent.uploadContent(testFilePath);
 
@@ -86,8 +85,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Navigate to Shared folder from Repository page and click on upload new version");
         repositoryPage.navigate();
-        repositoryPage.clickOnContent("Shared");
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree("Shared"), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("Shared");
         repositoryPage.mouseOverFileName(testFile);
         repositoryPage.clickDocumentLibraryItemAction(testFile, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
 

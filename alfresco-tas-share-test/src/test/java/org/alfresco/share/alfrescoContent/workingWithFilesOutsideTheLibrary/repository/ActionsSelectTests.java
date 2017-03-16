@@ -49,9 +49,8 @@ public class ActionsSelectTests extends ContextAwareWebTest
     {
         //Precondition
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         
         LOG.info("Step 1: Click on the Select button and select Documents option.");
         menuBar.clickSelectMenu();
@@ -96,9 +95,8 @@ public class ActionsSelectTests extends ContextAwareWebTest
     {
         //Precondition
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         getBrowser().waitInSeconds(2);
         LOG.info("Step 1: On My Files page click Select and select Folders option.");
         menuBar.clickSelectMenu();

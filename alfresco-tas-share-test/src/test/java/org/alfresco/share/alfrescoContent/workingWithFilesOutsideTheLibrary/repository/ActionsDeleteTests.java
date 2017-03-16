@@ -55,9 +55,8 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         // Precondition
         setupAuthenticatedSession(user, password);
         repositoryPage.navigate();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileName), fileName + " is not available in Repository");
         
         LOG.info("Step 1: Hover over the file you want to delete and press More, select Delete Document");
@@ -83,9 +82,8 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         //Precondition
         setupAuthenticatedSession(user, password);
         repositoryPage.navigate();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderName), folderName + " is not available in Repository");
         
         LOG.info("Step 1: Hover over the folder you want to delete and press More, select Delete Folder");

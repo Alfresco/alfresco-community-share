@@ -69,10 +69,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
         String deletePath = path + "/" + fileNameC8266;
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8266, fileContent);
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitInSeconds(4);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8266), fileNameC8266 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over one tag from the content name");
@@ -98,10 +96,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
         String deletePath = path + "/" + folderName;
         contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitInSeconds(4);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderName), folderName + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from the folder");
@@ -129,10 +125,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
         String deletePath = path + "/" + fileNameC8278;
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8278, fileContent);
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitInSeconds(4);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8278), fileNameC8278 + " is not available in Repository");
         LOG.info("STEP1: Hover over the content created in the preconditions");
 
@@ -174,10 +168,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
         String pathToItem = path + "/" + fileNameC8290;
         contentActions.addSingleTag(adminUser, adminPassword, pathToItem, "testtag");
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitInSeconds(4);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8290), fileNameC8278 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the tag(s) from the content");
@@ -211,10 +203,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
         String tagC8291 = "tagc8291";
         contentActions.addSingleTag(adminUser, adminPassword, pathToItem, tagC8291);
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitInSeconds(4);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8291), fileNameC8291 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the tag from " + fileNameC8291);
@@ -244,10 +234,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8300, fileContent);
         String tagC8300 = "tagc8300";
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitInSeconds(4);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8300), fileNameC8300 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from " + fileNameC8300);

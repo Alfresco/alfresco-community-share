@@ -122,8 +122,8 @@ public class ActionsEditTests extends ContextAwareWebTest
         logger.info("Precondition: Login to share and navigate to Repository->User Homes->Test User page ");
         setupAuthenticatedSession(editFileUsr, password);
         repositoryPage.navigate();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(editFileUsr);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(editFileUsr);
         getBrowser().waitInSeconds(2);
 
         logger.info("Step 1: Hover over the test file and click 'Edit Properties' action");
@@ -170,8 +170,8 @@ public class ActionsEditTests extends ContextAwareWebTest
         logger.info("Precondition: Login to Share and navigate to Repository->User Homes->Test User page");
         setupAuthenticatedSession(editFolderUsr, password);
         repositoryPage.navigate();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(editFolderUsr);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(editFolderUsr);
         getBrowser().waitInSeconds(2);
 
         logger.info("Step 1: Hover over folder and click 'Edit Properties'");
@@ -219,15 +219,11 @@ public class ActionsEditTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(editInAlfUsr, password);
         repositoryPage.navigate();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(editInAlfUsr);
-        getBrowser().waitInSeconds(2);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(editInAlfUsr);
 
         logger.info("Step1: Hover over the test file and click Edit in Alfresco option");
-        repositoryPage.mouseOverContentItem(fileName);
-        getBrowser().waitInSeconds(4);
-        repositoryPage.clickOnAction(fileName, "Edit in Alfresco");
-        getBrowser().waitInSeconds(4);
+        repositoryPage.clickDocumentLibraryItemAction(fileName, "Edit in Alfresco", editInAlfrescoPage);
 
         logger.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.sendDocumentDetailsFields(editedFileName, editedContent, editedTitle, editedDescription);
@@ -264,8 +260,8 @@ public class ActionsEditTests extends ContextAwareWebTest
         logger.info("Precondition: Precondition: Login to Share and navigate to Repository->User Homes->Test User page");
         setupAuthenticatedSession(editFileInGDUsr, password);
         repositoryPage.navigate();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(editFileInGDUsr);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(editFileInGDUsr);
         docsCommon.loginToGoogleDocs();
 
         logger.info("Step1: Hover over the test file and click Edit in Google Docs option");

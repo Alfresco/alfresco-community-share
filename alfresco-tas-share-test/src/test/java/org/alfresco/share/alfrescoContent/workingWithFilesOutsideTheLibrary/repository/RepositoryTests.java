@@ -93,35 +93,29 @@ public class RepositoryTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentDisplayed("User Homes"), "User Homes is not displayed in Repository");
         
         LOG.info("Step 2: Click on the Sites Folder");
-        repositoryPage.clickOnContent("Sites");
-        getBrowser().waitInSeconds(2);
+        repositoryPage.clickFolderFromExplorerPanel("Sites");
         Assert.assertTrue(repositoryPage.isContentDisplayed(siteName), "First created site is not displayed in Repository");
         Assert.assertTrue(repositoryPage.isContentDisplayed(siteName2), "Second created site is not displayed in Repository");
         
         LOG.info("Step 3: Click on your first created site.");
-        repositoryPage.clickOnContent(siteName);
-        getBrowser().waitInSeconds(2);
+        repositoryPage.clickOnFolderName(siteName);
         Assert.assertTrue(repositoryPage.isContentDisplayed("documentLibrary"), "documentLibrary for the first created site is not displayed in Repository");
         
         LOG.info("Step 4: Click on documentLibrary folder.");
-        repositoryPage.clickOnContent("documentLibrary");
-        getBrowser().waitInSeconds(2);
+        repositoryPage.clickOnFolderName("documentLibrary");
         Assert.assertTrue(repositoryPage.isContentDisplayed(fileName1), "fileName1 is not displayed in Repository");
         Assert.assertTrue(repositoryPage.isContentDisplayed(folderName), "fileName1 is not displayed in Repository");
         
         LOG.info("Step 5: Return to Repository/Sites");
         repositoryPage.navigate();
-        repositoryPage.clickOnContent("Sites");
-        getBrowser().waitInSeconds(2);
+        repositoryPage.clickFolderFromExplorerPanel("Sites");
         
         LOG.info("Step 6: Click on the second created site.");
-        repositoryPage.clickOnContent(siteName2);
-        getBrowser().waitInSeconds(2);
+        repositoryPage.clickOnFolderName(siteName2);
         Assert.assertTrue(repositoryPage.isContentDisplayed("documentLibrary"), "documentLibrary for the second created site is not displayed in Repository");
         
         LOG.info("Step 7: Click on documentLibrary folder.");
-        repositoryPage.clickOnContent("documentLibrary");
-        getBrowser().waitInSeconds(2);
+        repositoryPage.clickOnFolderName("documentLibrary");
         Assert.assertTrue(repositoryPage.isContentDisplayed(fileName2), "fileName2 is not displayed in Repository");
         Assert.assertTrue(repositoryPage.isContentDisplayed(folderName2), "fileName2 is not displayed in Repository");
     }

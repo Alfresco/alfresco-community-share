@@ -49,10 +49,8 @@ public class CommentTests extends ContextAwareWebTest
     {
         String comment = "test comment c8305";
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8305), fileNameC8305 + " is not available in Repository");
         
         LOG.info("Step 1: Add comment");
@@ -63,10 +61,8 @@ public class CommentTests extends ContextAwareWebTest
         
         LOG.info("Step 2: Return to Repository, User Homes , User page and check that the comment counter has increased");
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8305), fileNameC8305 + " is not available in Repository");
         
         Assert.assertEquals(socialFeatures.getNumberOfComments(fileNameC8305), 1, "The number of comments is not increased");
@@ -79,10 +75,8 @@ public class CommentTests extends ContextAwareWebTest
     {
         String comment = "test comment c8306";
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8306), folderNameC8306 + " is not available in Repository");
         
         LOG.info("Step 1: Add comment");
@@ -93,10 +87,8 @@ public class CommentTests extends ContextAwareWebTest
         
         LOG.info("Step 2: Return to Repository, User Homes , User page and check that the comment counter has increased");
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8306), folderNameC8306 + " is not available in Repository");
         
         Assert.assertEquals(socialFeatures.getNumberOfComments(folderNameC8306), 1, "The number of comments is not increased");

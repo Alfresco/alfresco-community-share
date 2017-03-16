@@ -33,9 +33,6 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     @FindBy(id = "HEADER_REPOSITORY")
     private WebElement repositoryButton;
 
-    @FindBy(css = "button[id*='_default-createContent-button-button']")
-    private WebElement createButton;
-
     @FindBy(css = ".filename a")
     private List<WebElement> contentItemsList;
 
@@ -46,19 +43,6 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
         browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 6);
         List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
         return browser.findFirstElementWithValue(itemsList, contentName);
-    }
-
-    private WebElement contentName(String contentName)
-    {
-        browser.waitUntilElementClickable((By.xpath("//a[text()='" + contentName + "']")), 5L);
-        return browser.findElement(By.xpath("//a[text()='" + contentName + "']"));
-    }
-
-    public WebElement subfolderDocListTree(String docListSubFolder)
-    {
-        browser.waitUntilElementClickable(
-                (By.xpath("//div[@class ='breadcrumb hideable DocListTree DocListCategories']//a[text() ='" + docListSubFolder + "']")), 5L);
-        return browser.findElement(By.xpath("//div[@class ='breadcrumb hideable DocListTree DocListCategories']//a[text() ='" + docListSubFolder + "']"));
     }
 
     @Override
@@ -93,21 +77,6 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     public boolean isContentDisplayed(String contentName)
     {
         return selectContent(contentName).isDisplayed();
-    }
-
-    public void clickOnContent(String contentName)
-    {
-        contentName(contentName).click();
-    }
-
-    public void clickCreateButton()
-    {
-        browser.waitUntilElementClickable(createButton, 60).click();
-    }
-
-    public void clickCreateButtonWithoutWait()
-    {
-        createButton.click();
     }
     
     public WebElement editTag(String fileName)

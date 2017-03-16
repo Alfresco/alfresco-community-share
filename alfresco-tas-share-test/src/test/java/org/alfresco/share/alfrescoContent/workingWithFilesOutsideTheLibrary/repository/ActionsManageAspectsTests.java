@@ -50,8 +50,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         setupAuthenticatedSession(nonAdminUser, password);
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
-        repositoryPage.clickOnContent(nonAdminUser);
-        getBrowser().waitInSeconds(2);
+        repositoryPage.clickOnFolderName(nonAdminUser);
 
         logger.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects form");
         repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, "Manage Aspects", aspectsForm);
@@ -71,8 +70,8 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     {
         setupAuthenticatedSession(nonAdminUser, password);
         repositoryPage.navigate();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(nonAdminUser);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(nonAdminUser);
         getBrowser().waitInSeconds(2);
 
         logger.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");

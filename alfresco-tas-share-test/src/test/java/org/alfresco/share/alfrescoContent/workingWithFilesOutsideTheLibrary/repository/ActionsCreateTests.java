@@ -62,8 +62,8 @@ public class ActionsCreateTests extends ContextAwareWebTest
         // Preconditions
         setupAuthenticatedSession(user, password);
         repository.navigate();
-        repository.clickOnContent("User Homes");
-        repository.clickOnContent(user);
+        repository.clickFolderFromExplorerPanel("User Homes");
+        repository.clickOnFolderName(user);
 
         LOG.info("Step 1: Click Create... button.");
         repository.clickCreateButton();
@@ -115,8 +115,8 @@ public class ActionsCreateTests extends ContextAwareWebTest
         // Preconditions
         setupAuthenticatedSession(user, password);
         repository.navigate();
-        repository.clickOnContent("User Homes");
-        repository.clickOnContent(user);
+        repository.clickFolderFromExplorerPanel("User Homes");
+        repository.clickOnFolderName(user);
 
         LOG.info("Step 1: Click Create... button");
         repository.clickCreateButton();
@@ -167,8 +167,8 @@ public class ActionsCreateTests extends ContextAwareWebTest
         // Preconditions
         setupAuthenticatedSession(user, password);
         repository.navigate();
-        repository.clickOnContent("User Homes");
-        repository.clickOnContent(user);
+        repository.clickFolderFromExplorerPanel("User Homes");
+        repository.clickOnFolderName(user);
 
         LOG.info("Step 1: Click Create... button");
         repository.clickCreateButton();
@@ -221,8 +221,8 @@ public class ActionsCreateTests extends ContextAwareWebTest
         // Preconditions
         setupAuthenticatedSession(user, password);
         repository.navigate();
-        repository.clickOnContent("User Homes");
-        repository.clickOnContent(user);
+        repository.clickFolderFromExplorerPanel("User Homes");
+        repository.clickOnFolderName(user);
 
         LOG.info("Step 1:Click 'Create' then click 'Create document from template'.");
 
@@ -233,7 +233,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
         LOG.info("Step 2: Select the template and check that the new file is created with the content from the template used");
         create.clickOnTemplate(docName, repository);
         Assert.assertTrue(repository.isContentDisplayed(docName), "Newly created document is not displayed in Repository/UserHomes ");
-        repository.clickOnContent(docName);
+        repository.clickOnFile(docName);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Document is not previewed");
         Assert.assertEquals(documentDetailsPage.getContentText(), docContent);
     }
@@ -246,8 +246,8 @@ public class ActionsCreateTests extends ContextAwareWebTest
         // Preconditions
         setupAuthenticatedSession(user, password);
         repository.navigate();
-        repository.clickOnContent("User Homes");
-        repository.clickOnContent(user);
+        repository.clickFolderFromExplorerPanel("User Homes");
+        repository.clickOnFolderName(user);
 
         LOG.info("Step 1: Select the Create menu > Create folder from templates");
         repository.clickCreateButton();

@@ -1,36 +1,30 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.ContentService;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
+import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.ContentService;
-import org.alfresco.po.share.DeleteDialog;
-import org.alfresco.po.share.alfrescoContent.RepositoryPage;
-import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.share.ContextAwareWebTest;
-import org.alfresco.testrail.TestRail;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class ActionsUnzippingContentTests extends ContextAwareWebTest
 {
-
     @Autowired
     ContentService contentService;
 
     @Autowired
     RepositoryPage repositoryPage;
-
-    @Autowired
-    DeleteDialog deleteDialog;
 
     @Autowired
     CopyMoveUnzipToDialog unzipToDialog;
@@ -81,10 +75,8 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
         unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
-        getBrowser().waitUntilElementClickable(repositoryPage.subfolderDocListTree(user), 10L);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         assertTrue(repositoryPage.isContentNameDisplayed(zipContent), "content is displayed, " + zipContent);
     }
     
@@ -113,9 +105,8 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
         unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
-        repositoryPage.clickOnContent(user);
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
+        repositoryPage.clickOnFolderName(user);
         repositoryPage.getDocumentListHeader();
         repositoryPage.selectDocumentLibraryItemRow("fileC8257");
         assertTrue(repositoryPage.isContentNameDisplayed("fileC8257"), acpFile + " is not displayed " );
