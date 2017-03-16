@@ -7,6 +7,7 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -74,7 +75,7 @@ public class GroupsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9462")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteGroup()
     {
         groupsPage.navigate();
@@ -94,7 +95,7 @@ public class GroupsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9465")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editGroup()
     {
         List<String> groupList = groupsPage.getFirstColumnGroupsList();
@@ -110,7 +111,7 @@ public class GroupsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9469")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createGroup()
     {
         LOG.info("Step1: Create a group from Admin Tools page.");
@@ -124,7 +125,7 @@ public class GroupsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9471")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void searchForAGroup()
     {
         List<String> groupList = groupsPage.getFirstColumnGroupsList();
@@ -140,7 +141,7 @@ public class GroupsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9460")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyAddedToSiteGroupPresence()
     {
         setupAuthenticatedSession(userName, password);

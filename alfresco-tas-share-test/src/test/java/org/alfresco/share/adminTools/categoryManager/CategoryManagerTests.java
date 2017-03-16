@@ -4,6 +4,7 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -48,7 +49,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9294")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyCategoryManagerPage()
     {
         LOG.info("Step 1: Verify if the 'Category Manager' page has the specific links displayed.");
@@ -60,7 +61,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9295")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addNewCategory()
     {
         LOG.info("Step 1: Add a new category in the 'Category Manager' page.");
@@ -72,7 +73,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9301")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteCategory()
     {
         LOG.info("Step 1: Delete the category.");
@@ -83,7 +84,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9298")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editCategory()
     {
         LOG.info("Step 1: Edit the category.");

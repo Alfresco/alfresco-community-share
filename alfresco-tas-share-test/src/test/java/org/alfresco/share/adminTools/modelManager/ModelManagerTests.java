@@ -13,6 +13,7 @@ import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 
+import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +93,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9500")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void checkModelManagerPage()
     {
@@ -116,7 +117,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C42565")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void createModel()
     {
@@ -148,7 +149,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C9511")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void checkImportModelForm()
     {
@@ -169,7 +170,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C9516")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void activateModel()
     {
@@ -205,7 +206,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C9517")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void editModel()
     {
@@ -250,7 +251,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C9518")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void deleteModel()
     {
@@ -290,7 +291,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C9520")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void checkAvailableActionsForActiveModel()
     {
@@ -319,7 +320,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C9521")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void deactivateModel()
     {
@@ -350,7 +351,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C9519")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void exportModel()
     {
@@ -383,7 +384,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C9509")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void importModel()
     {
         String srcRoot = System.getProperty("user.dir") + File.separator;
@@ -412,7 +413,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C42566")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void createCustomType()
     {
@@ -455,7 +456,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C42567")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void createAspect()
     {
@@ -498,7 +499,7 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @Bug(id="TBD")
     @TestRail(id="C42568")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void useCreatedModel()
     {

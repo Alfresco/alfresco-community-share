@@ -12,6 +12,7 @@ import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdm
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -76,7 +77,7 @@ public class UserProfileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9415")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void browsingNewUserPage()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -133,7 +134,7 @@ public class UserProfileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9416")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void browsingEditUserPage()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -174,7 +175,7 @@ public class UserProfileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9417")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editingUser()
     {
         String firstName = "c9417editedFN";
@@ -208,7 +209,7 @@ public class UserProfileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9431")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deletingAUser()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -244,7 +245,7 @@ public class UserProfileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9427")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addingQuotaToUser()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -266,7 +267,7 @@ public class UserProfileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9426")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void enablingAccount()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

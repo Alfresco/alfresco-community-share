@@ -7,6 +7,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.AfterClass;
@@ -48,7 +49,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9309")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void luceneSearch()
     {
         LOG.info("Step 1: Do a 'lucene' search.");
@@ -64,7 +65,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9307")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void nodeRefSearch()
     {
 
@@ -82,7 +83,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9308")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void xpathSearch()
     {
         LOG.info("Step 1: Do a 'xpath' search.");
@@ -98,7 +99,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9310")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void ftsAlfrescoSearch()
     {
         LOG.info("Step 1: Do a 'fts-alfresco' search.");
@@ -114,7 +115,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9311")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void cmisStrictSearch()
     {
         LOG.info("Step 1: Do a 'cmis-strict' search.");
@@ -130,7 +131,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9312")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void cmisAlfrescoSearch()
     {
         LOG.info("Step 1: Do a 'cmis-alfresco' search.");
@@ -146,7 +147,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9306")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyNodeBrowserPage()
     {
         LOG.info("Step 1: Login as administrator and navigate to Admin Tools - Node Browser page.");

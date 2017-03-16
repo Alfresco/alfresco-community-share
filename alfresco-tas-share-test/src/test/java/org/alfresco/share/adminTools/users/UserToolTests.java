@@ -7,6 +7,7 @@ import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
@@ -20,7 +21,7 @@ public class UserToolTests extends ContextAwareWebTest
     UsersPage usersPage;
 
     @TestRail(id = "C9392")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void accessingUsersTool()
     {
         String userName = "testUser" + DataUtil.getUniqueIdentifier();
@@ -56,7 +57,7 @@ public class UserToolTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9393")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void searchingForUser()
 
     {

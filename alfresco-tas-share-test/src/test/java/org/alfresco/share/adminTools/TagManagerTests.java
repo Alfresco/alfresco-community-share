@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -63,7 +64,7 @@ public class TagManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9383")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void renamingTag()
     {
         preconditionsTest("c9383");
@@ -87,7 +88,7 @@ public class TagManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9385")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyTagManagerPage()
     {
         preconditionsTest("c9385");
@@ -111,7 +112,7 @@ public class TagManagerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9388")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteTag()
     {
         preconditionsTest("c9388");

@@ -7,6 +7,7 @@ import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.ModuleBrowserPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -40,7 +41,7 @@ public class ModuleBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C9498")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void accessModuleBrowserPage()
     {
@@ -67,7 +68,7 @@ public class ModuleBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C9499")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void verifyTheAccessModuleBrowserPageInfo()
     {

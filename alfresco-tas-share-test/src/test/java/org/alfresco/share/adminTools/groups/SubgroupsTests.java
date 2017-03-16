@@ -4,6 +4,7 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.*;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -69,7 +70,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9476")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createSubgroup()
     {
         String identifier = "C9476id" + uniqueIdentifier;
@@ -107,7 +108,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9491")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addGroup()
     {
         getBrowser().refresh();
@@ -144,7 +145,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9481")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addUser()
     {
         String user = name + " " + userToAdd + " (" + userToAdd + ")";
@@ -180,7 +181,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9490")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void removeUser()
     {
         getBrowser().refresh();
@@ -208,7 +209,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42773")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteSubgroup()
     {
         getBrowser().refresh();

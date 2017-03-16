@@ -13,6 +13,7 @@ import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -45,7 +46,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     private LoginPage loginPage;
 
     @TestRail(id = "C9396")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void browseCreateUserPage()
     {
         logger.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
@@ -59,7 +60,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9397")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createUser()
 
     {
@@ -93,7 +94,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9401")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createAndStartAnother()
 
     {
@@ -133,7 +134,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9405")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void managePassword()
 
     {
@@ -172,7 +173,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9406")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addingUserToGroup()
 
     {
@@ -218,7 +219,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9407")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void disableAccount()
 
     {
@@ -263,7 +264,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9408")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addQuotaToUser()
     {
 
@@ -304,7 +305,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42597")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyCreateUsersPage()
 
     {

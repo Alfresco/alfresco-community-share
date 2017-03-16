@@ -3,6 +3,7 @@ package org.alfresco.share.adminTools.application;
 import org.alfresco.po.share.user.admin.adminTools.ApplicationPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -35,7 +36,7 @@ public class ApplicationTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9292")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addAndResetNewLogo()
     {
         LOG.info("Step 1: Upload a new logo image in the 'Application' page.");
@@ -55,7 +56,7 @@ public class ApplicationTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9281")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void changeTheme()
     {
         LOG.info("Step 1: Select a new theme in the 'Application' page.");
