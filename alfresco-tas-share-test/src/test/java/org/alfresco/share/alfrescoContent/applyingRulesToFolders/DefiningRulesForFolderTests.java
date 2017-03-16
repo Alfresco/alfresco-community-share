@@ -463,7 +463,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Navigate to folder content. For file click on 'Edit in Alfresco' and update the content");
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(2);
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
         // getBrowser().findElement(By.id("Value")).sendKeys(Keys.ARROW_DOWN);
         // documentLibraryPage.mouseOverFileName(fileName);
@@ -499,9 +498,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Manage Rule page for folder1");
-        // documentLibraryPage.mouseOverContentItem(folderName);
-        // documentLibraryPage.clickMoreMenu(folderName);
-        // getBrowser().waitInSeconds(1);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
         getBrowser().waitInSeconds(2);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");

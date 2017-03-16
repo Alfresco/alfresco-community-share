@@ -66,7 +66,6 @@ public class UploadingFilesTests extends ContextAwareWebTest
 
         LOG.info("STEP1: On the Document Library page click on the folder.");
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(4);
 
         LOG.info("STEP2: Inside the folder click the Upload button.");
         uploadContent.uploadContent(testFilePath);

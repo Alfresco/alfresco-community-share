@@ -258,7 +258,6 @@ public class TagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over 'No Tags' for file, e.g: 'testFile'");
         sharedFilesPage.clickOnFolderName(folderName3);
-        getBrowser().waitInSeconds(5);
         sharedFilesPage.mouseOverNoTags(docName5);
         assertFalse(sharedFilesPage.checkEditTagIsNotDisplayed(), "Edit tag icon is displayed");
 

@@ -201,7 +201,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
         getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
@@ -210,13 +209,9 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step10: Go to My Content -> All site content -> Documents -> PDF Documents and verify that the uploaded file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("All site content");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Documents");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("PDF Documents");
-        getBrowser().waitInSeconds(1);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("test.pdf"), "The uploaded file displayed in PDF Documents list");
     }
 
@@ -348,7 +343,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 

@@ -560,7 +560,9 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         if (isMoreMenuDisplayed(contentItem))
             clickMore();
         List<WebElement> availableActions = selectDocumentLibraryItemRow(contentItem).findElements(actionsSet);
-        browser.findFirstElementWithValue(availableActions, action).click();
+        WebElement actionElement = browser.findFirstElementWithValue(availableActions, action);
+        Parameter.checkIsMandotary("Action", actionElement);
+        actionElement.click();
 
         return page.renderedPage();
     }

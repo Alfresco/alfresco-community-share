@@ -46,19 +46,15 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     @TestRail(id = "C8254")
     @Test
     public void verifyAspectsForm()
-
     {
         setupAuthenticatedSession(nonAdminUser, password);
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
-        repositoryPage.clickOnContent("User Homes");
+        repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnContent(nonAdminUser);
         getBrowser().waitInSeconds(2);
-        
 
         logger.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects form");
-        repositoryPage.mouseOverContentItem(folderInRepoUserHomes);
-        repositoryPage.clickOnAction(folderInRepoUserHomes, "Manage Aspects");
+        repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAspectsFormTitleDisplayed(), "Aspects for the file form is not diplayed");
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel is not diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel is not diaplyed");
@@ -67,25 +63,20 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         Assert.assertTrue(aspectsForm.isSaveButtonDisplayed(), "Apply Chnages button is not displayed");
         Assert.assertTrue(aspectsForm.isCancelButtonDisplayed(), "Cancel button is not displayed");
         Assert.assertTrue(aspectsForm.isCloseButtonDisplayed(), "Close button is not displayed");
-
     }
 
     @TestRail(id = "C8250")
     @Test
     public void manageAspectsApplyChanges()
     {
-
         setupAuthenticatedSession(nonAdminUser, password);
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
         repositoryPage.clickOnContent("User Homes");
         repositoryPage.clickOnContent(nonAdminUser);
         getBrowser().waitInSeconds(2);
-        
 
         logger.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
-        repositoryPage.mouseOverContentItem(folderInRepoUserHomes);
-        repositoryPage.clickOnAction(folderInRepoUserHomes, "Manage Aspects");
+        repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, "Manage Aspects", aspectsForm);
 
         logger.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
         aspectsForm.addElement(0);
@@ -95,8 +86,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         logger.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm.clickApplyChangesButton();
         getBrowser().refresh();
-        repositoryPage.mouseOverContentItem(folderInRepoUserHomes);
-        repositoryPage.clickOnAction(folderInRepoUserHomes, "Manage Aspects");
+        repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 

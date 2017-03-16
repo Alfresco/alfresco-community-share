@@ -104,8 +104,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isSearchManagerDisplayed(), "'Search Manager' link is not displayed on the page.");
 
         LOG.info("Step 4: Click the Search Manager link and confirm that user is directed to the Search Manager Page");
-        searchPage.clickSearchManagerLink();
-        searchManagerPage.renderedPage();
+        searchManagerPage.navigate();
         Assert.assertEquals(searchManagerPage.getPageTitle(), "Alfresco » Search Manager", "Search Manager page is not accessed");
     }
 
@@ -114,7 +113,6 @@ public class SearchManagerTests extends ContextAwareWebTest
     public void editFilterProperty()
     {
         searchManagerPage.navigate();
-        searchManagerPage.renderedPage();
         
         LOG.info("Step 1: Edit filter property and save changes");
         searchManagerPage.editFilterProperty("cm:created (Created Date)", "audio:album (Album)");
