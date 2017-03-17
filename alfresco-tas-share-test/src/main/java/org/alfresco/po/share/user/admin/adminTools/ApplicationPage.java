@@ -1,8 +1,5 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.navigation.AccessibleByMenuBar;
-import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -11,7 +8,6 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.FileInput;
 
 import java.io.File;
@@ -21,14 +17,8 @@ import java.util.List;
  * @author Razvan.Dorobantu
  */
 @PageObject
-public class ApplicationPage extends SharePage<CategoryManagerPage> implements AccessibleByMenuBar
+public class ApplicationPage extends AdminToolsPage
 {
-    @Autowired
-    private Toolbar toolbar;
-
-    @Autowired
-    AdminToolsPage adminToolsPage;
-
     @RenderWebElement
     @FindBy(xpath = "//div[@class='title' and text()='Administration and Management Console']")
     private WebElement applicationDivTitle;
@@ -64,15 +54,6 @@ public class ApplicationPage extends SharePage<CategoryManagerPage> implements A
     private By defaultAlfrescoImage = By.xpath("//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]");
     private By themeDropdown = By.cssSelector("select[id$='options-theme-menu']");
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public ApplicationPage navigateByMenuBar()
-    {
-        toolbar.clickAdminTools();
-        browser.waitInSeconds(5);
-        adminToolsPage.navigateToNodeFromToolsPanel("Application");
-        return (ApplicationPage) renderedPage();
-    }
 
     @Override
     public String getRelativePath() { return "share/page/console/admin-console/application"; }

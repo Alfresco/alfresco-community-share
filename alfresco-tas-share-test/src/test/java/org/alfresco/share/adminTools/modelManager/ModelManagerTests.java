@@ -101,7 +101,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         Assert.assertTrue(adminToolsPage.isToolAvailable("Model Manager"), "Model Manager is not displayed");
 
         LOG.info("Step 2: Click Model Manager on the Admin Tools page;");
-        adminToolsPage.navigateToNodeFromToolsPanel("Model Manager");
+        adminToolsPage.navigateToNodeFromToolsPanel("Model Manager", modelManagerPage);
         Assert.assertEquals(modelManagerPage.getPageTitle(), "Alfresco » Model Manager", "Alfresco » Model Manager page is not displayed");
 
         LOG.info("Step 3: Check available items on the Model Manager Page");

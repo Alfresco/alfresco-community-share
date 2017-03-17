@@ -1,6 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -19,7 +19,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 @PageObject
-public class UsersPage extends SharePage<UsersPage>
+public class UsersPage extends AdminToolsPage
 {
     @Autowired
     private CreateUsers createUsers;

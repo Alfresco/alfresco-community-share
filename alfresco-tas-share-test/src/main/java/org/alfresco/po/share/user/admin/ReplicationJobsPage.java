@@ -1,6 +1,7 @@
 package org.alfresco.po.share.user.admin;
 
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Laura.Capsa
  */
 @PageObject
-public class ReplicationJobsPage extends SharePage<ReplicationJobsPage>
+public class ReplicationJobsPage extends AdminToolsPage
 {
     @Autowired
     CreateEditReplicationJobPage createEditReplicationJobPage;

@@ -111,7 +111,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         adminToolsPage.navigate();
 
         LOG.info("STEP1: Navigate to 'Admin Tools -> Repository -> Replication jobs'");
-        adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.replicationJobs"));
+        adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.replicationJobs"), replicationJobsPage);
         assertEquals(adminToolsPage.getCurrentUrl(), properties.getShareUrl() + replicationJobsPage.getRelativePath(), "User is redirected to=");
 
         LOG.info("STEP2: Click 'Create Job' button");

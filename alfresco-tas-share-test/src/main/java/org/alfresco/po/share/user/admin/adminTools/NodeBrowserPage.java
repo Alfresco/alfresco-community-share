@@ -1,16 +1,10 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.navigation.AccessibleByMenuBar;
-import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,14 +15,8 @@ import java.util.Map;
  * @author Razvan.Dorobantu
  */
 @PageObject
-public class NodeBrowserPage extends SharePage<NodeBrowserPage>
+public class NodeBrowserPage extends AdminToolsPage
 {
-    @Autowired
-    private Toolbar toolbar;
-
-    @Autowired
-    AdminToolsPage adminToolsPage;
-
     public enum SEARCH_TYPE
     {
         STORE_ROOT("storeroot"),

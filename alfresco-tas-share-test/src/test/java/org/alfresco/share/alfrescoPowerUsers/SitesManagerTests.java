@@ -198,8 +198,7 @@ public class SitesManagerTests extends ContextAwareWebTest
         assertEquals(adminToolsPage.getPageTitle(), "Alfresco » Admin Tools", "Displayed page=");
 
         LOG.info("STEP4: Click 'Sites Manager' option from left side panel");
-        adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.sitesManagerNode"));
-        sitesManagerPage.renderedPage();
+        adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.sitesManagerNode"), sitesManagerPage);
         assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
     }
 
@@ -260,8 +259,7 @@ public class SitesManagerTests extends ContextAwareWebTest
         assertEquals(adminToolsPage.getPageTitle(), "Alfresco » Admin Tools", "Displayed page=");
 
         LOG.info("STEP3: Click 'Sites Manager' option from left side panel");
-        adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.sitesManagerNode"));
-        sitesManagerPage.renderedPage();
+        adminToolsPage.navigateToNodeFromToolsPanel(language.translate("adminTools.sitesManagerNode"), sitesManagerPage);
         assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
 
         LOG.info("STEP4: User1 is removed from ALFRESCO_ADMINISTRATORS group. User logs out and logins to share.");

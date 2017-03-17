@@ -79,7 +79,7 @@ public class UserProfileTests extends ContextAwareWebTest
         String fullName = "firstName" + " " + "lastName";
         adminTools.navigate();
         LOG.info("Step 1: On the Admin Console page click Users;");
-        adminTools.navigateToNodeFromToolsPanel("Users");
+        adminTools.navigateToNodeFromToolsPanel("Users", usersPage);
         Assert.assertEquals(usersPage.getRelativePath(), "share/page/console/admin-console/users", "User is not on Users page");
 
         LOG.info("Step 2: On the Users page search for test user");

@@ -1,8 +1,5 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.navigation.AccessibleByMenuBar;
-import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -21,14 +18,8 @@ import java.util.List;
  * @author Razvan.Dorobantu
  */
 @PageObject
-public class GroupsPage extends SharePage<GroupsPage> implements AccessibleByMenuBar
+public class GroupsPage extends AdminToolsPage
 {
-    @Autowired
-    private Toolbar toolbar;
-
-    @Autowired
-    AdminToolsPage adminToolsPage;
-
     @Autowired
     private RemoveUserFromGroupDialog removeUserFromGroupDialog;
 
@@ -105,17 +96,7 @@ public class GroupsPage extends SharePage<GroupsPage> implements AccessibleByMen
     private By deleteGroupCancelButton = By.cssSelector("button[id$='_default-cancel-button-button']");
     private By updateGroupOKButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");
     private By updateGroupCancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public GroupsPage navigateByMenuBar()
-    {
-        toolbar.clickAdminTools();
-        browser.waitInSeconds(5);
-        adminToolsPage.navigateToNodeFromToolsPanel("Groups");
-        return (GroupsPage) renderedPage();
-    }
-
+    
     @Override
     public String getRelativePath()
     {

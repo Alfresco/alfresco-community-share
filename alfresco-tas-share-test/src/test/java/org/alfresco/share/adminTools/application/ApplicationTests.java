@@ -22,7 +22,7 @@ public class ApplicationTests extends ContextAwareWebTest
     public void beforeClass()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
-        applicationPage.navigateByMenuBar();
+        applicationPage.navigate();
     }
 
     @AfterClass

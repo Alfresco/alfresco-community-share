@@ -1,7 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
 import org.alfresco.utility.web.HtmlPage;
-import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -16,7 +15,7 @@ import java.util.List;
  * Created by Mirela Tifui on 11/28/2016.
  */
 @PageObject
-public class ModelManagerPage extends SharePage<ModelManagerPage>
+public class ModelManagerPage extends AdminToolsPage
 {
     @RenderWebElement
     public By createModelButton = By.cssSelector("span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']");

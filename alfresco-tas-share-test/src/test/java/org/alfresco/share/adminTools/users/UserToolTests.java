@@ -36,8 +36,7 @@ public class UserToolTests extends ContextAwareWebTest
         adminTools.navigateByMenuBar();
 
         logger.info("Step2: Click 'Users' link on 'Tools' pane.");
-        adminTools.clickOnAvailableTool("Users");
-        usersPage.renderedPage();
+        adminTools.navigateToNodeFromToolsPanel("Users", usersPage);
 
         logger.info("Step3: Click 'Users' link on 'Tools' pane and verify 'User Search' page contains correct data");
         assertTrue(usersPage.isSearchBoxDisplayed(), "Search box displayed");
@@ -59,7 +58,6 @@ public class UserToolTests extends ContextAwareWebTest
     @TestRail(id = "C9393")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void searchingForUser()
-
     {
 
         String uniqueIdentifier = DataUtil.getUniqueIdentifier();
@@ -75,8 +73,7 @@ public class UserToolTests extends ContextAwareWebTest
 
         logger.info("Step1: Navigate to 'Admin Tools' and click 'Users' link on 'Tools' pane.");
         adminTools.navigate();
-        adminTools.clickOnAvailableTool("Users");
-        usersPage.renderedPage();
+        adminTools.navigateToNodeFromToolsPanel("Users", usersPage);
 
         logger.info("Step2: Type a string contained by both usernames on the search box; click 'Search' button.");
         usersPage.searchUser("C9392User" + uniqueIdentifier);

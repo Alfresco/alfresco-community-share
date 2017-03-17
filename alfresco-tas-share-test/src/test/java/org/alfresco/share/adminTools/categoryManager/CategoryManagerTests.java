@@ -30,12 +30,12 @@ public class CategoryManagerTests extends ContextAwareWebTest
     public void beforeClass()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
-        categoryManagerPage.navigateByMenuBar();
+        categoryManagerPage.navigate();
         categoryManagerPage.addCategory(category9301);
         categoryManagerPage.addCategory(category9298);
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(adminUser, adminPassword);
-        categoryManagerPage.navigateByMenuBar();
+        categoryManagerPage.navigate();
     }
 
     @AfterClass

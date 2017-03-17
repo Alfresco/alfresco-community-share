@@ -1,8 +1,5 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.navigation.AccessibleByMenuBar;
-import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -10,7 +7,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -18,14 +14,8 @@ import java.util.List;
  * @author Razvan.Dorobantu
  */
 @PageObject
-public class CategoryManagerPage extends SharePage<CategoryManagerPage>implements AccessibleByMenuBar
+public class CategoryManagerPage extends AdminToolsPage
 {
-    @Autowired
-    private Toolbar toolbar;
-
-    @Autowired
-    AdminToolsPage adminToolsPage;
-
     @RenderWebElement
     @FindBy(xpath = "//div[@class='title' and text()='Category Manager']")
     private WebElement categoryManagerDiv;
@@ -75,16 +65,6 @@ public class CategoryManagerPage extends SharePage<CategoryManagerPage>implement
 
     @Override
     public String getRelativePath() {return "share/page/console/admin-console/category-manager";}
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public CategoryManagerPage navigateByMenuBar()
-    {
-        toolbar.clickAdminTools();
-        browser.waitInSeconds(5);
-        adminToolsPage.navigateToNodeFromToolsPanel("Category Manager");
-        return (CategoryManagerPage) renderedPage();
-    }
 
     public void addCategory(String categoryName)
     {

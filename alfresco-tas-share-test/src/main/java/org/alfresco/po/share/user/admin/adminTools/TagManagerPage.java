@@ -1,7 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
 import org.alfresco.po.share.DeleteDialog;
-import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -16,7 +15,7 @@ import java.util.List;
  * @author Laura.Capsa
  */
 @PageObject
-public class TagManagerPage extends SharePage<TagManagerPage>
+public class TagManagerPage extends AdminToolsPage
 {
     @Autowired
     private DeleteDialog deleteDialog;

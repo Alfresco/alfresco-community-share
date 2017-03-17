@@ -113,7 +113,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
-        documentLibraryPage.renderedPage();
 
         LOG.info("Step 1: On to Document Library page check that the Create button is grayed out.");
         Assert.assertEquals(documentLibraryPage.getCreateButtonStatusDisabled(), "true", "The create button is not disabled");

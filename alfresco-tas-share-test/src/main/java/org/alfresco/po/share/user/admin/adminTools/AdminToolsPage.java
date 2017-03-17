@@ -3,6 +3,7 @@ package org.alfresco.po.share.user.admin.adminTools;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -10,9 +11,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 
 import java.util.List;
 
+@Primary
 @PageObject
 public class AdminToolsPage extends SharePage<AdminToolsPage> implements AccessibleByMenuBar
 {
@@ -49,34 +52,31 @@ public class AdminToolsPage extends SharePage<AdminToolsPage> implements Accessi
     }
 
     /**
-     * Navigate in Tools panel by click on the specified tree node
+     * Navigate in Tools panel by click on the specified tool name
      * 
-     * @param treeNode to click on
+     * @param toolName to click on
      */
-    public void navigateToNodeFromToolsPanel(String treeNode)
+    public HtmlPage navigateToNodeFromToolsPanel(String toolName, HtmlPage page)
     {
-        for (WebElement treeNodeElement : toolsLinksList)
-        {
-            if (treeNodeElement.getText().equals(treeNode))
-                treeNodeElement.click();
-        }
+        browser.findFirstElementWithValue(toolsLinksList, toolName).click();
+        return page.renderedPage();
     }
 
-    public WebElement selectTool(String toolName)
-    {
-        browser.waitUntilElementIsDisplayedWithRetry(toolsList, 6);
-        List<WebElement> itemsList = browser.findElements(toolsList);
-        return browser.findFirstElementWithValue(itemsList, toolName);
-    }
+//    public WebElement selectTool(String toolName)
+//    {
+//        browser.waitUntilElementIsDisplayedWithRetry(toolsList, 6);
+//        List<WebElement> itemsList = browser.findElements(toolsList);
+//        return browser.findFirstElementWithValue(itemsList, toolName);
+//    }
 
     public boolean isToolAvailable(String toolName)
     {
-        return browser.isElementDisplayed(selectTool(toolName));
+        return browser.isElementDisplayed(browser.findFirstElementWithValue(toolsLinksList, toolName));
     }
 
-    public void clickOnAvailableTool(String toolName)
-    {
-
-        browser.findFirstElementWithValue(toolsList, toolName).click();
-    }
+//    public void clickOnAvailableTool(String toolName)
+//    {
+//
+//        browser.findFirstElementWithValue(toolsList, toolName).click();
+//    }
 }

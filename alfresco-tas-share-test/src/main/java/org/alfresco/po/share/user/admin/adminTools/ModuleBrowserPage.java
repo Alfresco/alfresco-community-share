@@ -1,6 +1,5 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
-import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -13,7 +12,7 @@ import java.util.List;
  * Created by Mirela Tifui on 11/28/2016.
  */
 @PageObject
-public class ModuleBrowserPage extends SharePage<ModuleBrowserPage>
+public class ModuleBrowserPage extends AdminToolsPage
 {
     @RenderWebElement
     @FindBy(id ="LIST_WITH_HEADER_ITEMS")

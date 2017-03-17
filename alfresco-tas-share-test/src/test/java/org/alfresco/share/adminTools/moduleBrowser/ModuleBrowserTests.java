@@ -54,8 +54,7 @@ public class ModuleBrowserTests extends ContextAwareWebTest
         Assert.assertTrue(adminToolsPage.isToolAvailable("Module Browser"), "Module Browser is not displayed");
 
         LOG.info("Step 3: Click on Module Browser option from Tools");
-        adminToolsPage.navigateToNodeFromToolsPanel("Module Browser");
-        moduleBrowserPage.renderedPage();
+        adminToolsPage.navigateToNodeFromToolsPanel("Module Browser", moduleBrowserPage);
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("module-package"), "User User is not on Module Browser Page");
 
         LOG.info("Step 4: Logout Admin user and Login with userName into Share");
@@ -76,7 +75,7 @@ public class ModuleBrowserTests extends ContextAwareWebTest
         adminToolsPage.navigateByMenuBar();
 
         LOG.info("Step 1: Click Module Browser option on the Admin Tools page");
-        adminToolsPage.navigateToNodeFromToolsPanel("Module Browser");
+        adminToolsPage.navigateToNodeFromToolsPanel("Module Browser", moduleBrowserPage);
         Assert.assertTrue(moduleBrowserPage.isTitleHeaderDisplayed(), "Title table header is not available on the Module Browser Page");
         Assert.assertTrue(moduleBrowserPage.isDescriptionHeaderDisplayed(), "Description table header is not available on the Module Browser Page");
         Assert.assertTrue(moduleBrowserPage.isVersionHeaderDisplayed(), "Version table header is not available on the Module Browser Page");
