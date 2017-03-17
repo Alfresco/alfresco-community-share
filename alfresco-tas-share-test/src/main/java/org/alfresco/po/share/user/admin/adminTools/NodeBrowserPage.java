@@ -21,7 +21,7 @@ import java.util.Map;
  * @author Razvan.Dorobantu
  */
 @PageObject
-public class NodeBrowserPage extends SharePage<NodeBrowserPage> implements AccessibleByMenuBar
+public class NodeBrowserPage extends SharePage<NodeBrowserPage>
 {
     @Autowired
     private Toolbar toolbar;
@@ -73,92 +73,68 @@ public class NodeBrowserPage extends SharePage<NodeBrowserPage> implements Acces
         }
     }
 
-    @RenderWebElement
     @FindBy(xpath = "//div[@class='title']/label[text() = 'Node Browser']")
     private WebElement nodeBrowserDiv;
 
     @FindBy(css = "div.search-text textarea")
     private WebElement searchInput;
 
-    private By searchTypeDropdownButton = By.cssSelector("button[id$='_default-lang-menu-button-button']");
-    private By storeTypeDropdownButton = By.cssSelector("button[id$='_default-store-menu-button-button']");
-    private By searchButton = By.cssSelector("button[id$='_default-search-button-button']");
+    @RenderWebElement
+    @FindBy(css = "button[id$='_default-lang-menu-button-button']")
+    private WebElement searchTypeDropdownButton;
+
+    @RenderWebElement
+    @FindBy(css = "button[id$='_default-store-menu-button-button']")
+    private WebElement storeTypeDropdownButton;
+
+    @FindBy(css = "button[id$='_default-search-button-button']")
+    private WebElement searchButton;
+
+    @RenderWebElement
+    @FindBy(css = ".search-main")
+    private WebElement searchResults;
+
     private By nameColumn = By.cssSelector("table thead tr th a[href$='name']");
     private By parentColumn = By.cssSelector("table thead tr th a[href$='qnamePath']");
     private By referenceColumn = By.cssSelector("table thead tr th a[href$='nodeRef']");
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public NodeBrowserPage navigateByMenuBar()
-    {
-        toolbar.clickAdminTools();
-        browser.waitInSeconds(5);
-        adminToolsPage.navigateToNodeFromToolsPanel("Node Browser");
-        return (NodeBrowserPage) renderedPage();
-    }
+    private By options = By.cssSelector(".yuimenu.visible li>a");
+    private By visibleDropdown = By.cssSelector(".yui-button-menu.yui-menu-button-menu.visible");
 
     @Override
     public String getRelativePath() { return "share/page/console/admin-console/node-browser"; }
 
-    public void selectSearchType(SEARCH_TYPE searchType)
+    public NodeBrowserPage selectSearchType(SEARCH_TYPE searchType)
     {
-        By option = By.xpath(String.format("//div[contains(@class, 'yuimenu') and contains(@style, 'visible')]//li[contains(@class, 'yuimenuitem')]/a[text()='%s']", searchType.getSearchType()));
-        int counter = 1;
-        while (counter < 3)
-        {
-            try
-            {
-                browser.findElement(searchTypeDropdownButton).click();
-                browser.waitInSeconds(3);
-                browser.findElement(option).click();
-                browser.waitInSeconds(3);
-                break;
-            }
-            catch (NoSuchElementException | StaleElementReferenceException e)
-            {
-                counter++;
-                browser.refresh();
-                browser.waitInSeconds(5);
-            }
-        }
+        searchTypeDropdownButton.click();
+        browser.waitUntilElementVisible(visibleDropdown);
+        browser.findFirstElementWithValue(options, searchType.getSearchType()).click();
+        return (NodeBrowserPage) this.renderedPage();
     }
 
-    public void selectStoreType(SELECT_STORE storeType)
+    public NodeBrowserPage selectStoreType(SELECT_STORE storeType)
     {
-        By option = By.xpath(String.format("//div[contains(@class, 'yuimenu') and contains(@style, 'visible')]//li[contains(@class, 'yuimenuitem')]/a[text()='%s']", storeType.getStoreType()));
-        int counter = 1;
-        while (counter < 3)
-        {
-            try
-            {
-                browser.findElement(storeTypeDropdownButton).click();
-                browser.waitInSeconds(3);
-                browser.findElement(option).click();
-                browser.waitInSeconds(3);
-                break;
-            }
-            catch (NoSuchElementException | StaleElementReferenceException e)
-            {
-                counter++;
-                browser.refresh();
-                browser.waitInSeconds(5);
-            }
-        }
+        storeTypeDropdownButton.click();
+        browser.waitUntilElementVisible(visibleDropdown);
+        browser.findFirstElementWithValue(options, storeType.getStoreType()).click();
+        return (NodeBrowserPage) this.renderedPage();
     }
 
     public boolean isSearchTypeSelected(SEARCH_TYPE searchType)
     {
-        return browser.findElement(searchTypeDropdownButton).getText().equals(searchType.getSearchType());
+        return searchTypeDropdownButton.getText().equals(searchType.getSearchType());
     }
 
     public boolean isStoreTypeSelected(SELECT_STORE storeType)
     {
-        return browser.findElement(storeTypeDropdownButton).getText().equals(storeType.getStoreType());
+        return storeTypeDropdownButton.getText().equals(storeType.getStoreType());
     }
 
-    public void clickSearchButton() { browser.waitUntilElementClickable(searchButton, 5).click(); }
+    public void clickSearchButton() {
+        browser.waitUntilElementClickable(searchButton, 5).click();
+        browser.waitInSeconds(3);
+    }
 
-    public boolean isSearchButtonPresent() { return browser.findElement(searchButton).isDisplayed(); }
+    public boolean isSearchButtonPresent() { return searchButton.isDisplayed(); }
 
     public boolean isNameColumnPresent() { return browser.findElement(nameColumn).isDisplayed(); }
 
@@ -174,7 +150,7 @@ public class NodeBrowserPage extends SharePage<NodeBrowserPage> implements Acces
         browser.waitInSeconds(2);
     }
 
-    public Map<String, List<String>> getResults()
+    private Map<String, List<String>> getResults()
     {
         Map<String, List<String>> results = new HashMap<>();
         List<WebElement> nameRows = browser.findElements(By.cssSelector("div[id$='-datatable'] td[class*='col-name'] div a"));
@@ -187,5 +163,10 @@ public class NodeBrowserPage extends SharePage<NodeBrowserPage> implements Acces
             results.put(trc.substring(trc.lastIndexOf(":") + 1), Arrays.asList(parentRows.get(i).getText(), referenceRows.get(i).getText()));
         }
         return results;
+    }
+
+    public String getParentFor(String fileName)
+    {
+       return getResults().get(fileName).get(0);
     }
 }

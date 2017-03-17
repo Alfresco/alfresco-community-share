@@ -11,8 +11,6 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -35,8 +33,9 @@ public class NodeBrowserTests extends ContextAwareWebTest
     {
         siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(adminUser, adminPassword, siteName, CMISUtil.DocumentType.XML, fileName, content);
+        LOG.info("Step 1: Login as administrator and navigate to Admin Tools - Node Browser page.");
         setupAuthenticatedSession(adminUser, adminPassword);
-        nodeBrowserPage.navigateByMenuBar();
+        nodeBrowserPage.navigate();
     }
 
     @TestRail(id = "C9309")
@@ -48,29 +47,24 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(content);
         nodeBrowserPage.clickSearchButton();
-        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify if the file created in precondition is displayed and its parent is correct.");
-        List<String> values = nodeBrowserPage.getResults().get(fileName);
-        assertTrue(values.get(0).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
+        assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
     @TestRail(id = "C9307")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void nodeRefSearch()
     {
-
         LOG.info("Step 1: Do a 'nodeRef' search.");
         String nodeRef = contentService.getNodeRef(adminUser, adminPassword, siteName, fileName);
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.NODEREF);
         nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput("workspace://SpacesStore/" + nodeRef);
         nodeBrowserPage.clickSearchButton();
-        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify if the file created in precondition is displayed and its parent is correct.");
-        List<String> values = nodeBrowserPage.getResults().get(fileName);
-        assertTrue(values.get(0).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
+        assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
     @TestRail(id = "C9308")
@@ -82,11 +76,9 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(xpathSearchTerm);
         nodeBrowserPage.clickSearchButton();
-        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify if the file created in precondition is displayed and its parent is correct.");
-        List<String> values = nodeBrowserPage.getResults().get(fileName);
-        assertTrue(values.get(0).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
+        assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
     @TestRail(id = "C9310")
@@ -98,11 +90,9 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput("cm:name:" + fileName);
         nodeBrowserPage.clickSearchButton();
-        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify if the file created in precondition is displayed and its parent is correct.");
-        List<String> values = nodeBrowserPage.getResults().get(fileName);
-        assertTrue(values.get(0).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
+        assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
     @TestRail(id = "C9311")
@@ -114,11 +104,9 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(cmisSearchTerm);
         nodeBrowserPage.clickSearchButton();
-        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify if the file created in precondition is displayed and its parent is correct.");
-        List<String> values = nodeBrowserPage.getResults().get(fileName);
-        assertTrue(values.get(0).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
+        assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
     @TestRail(id = "C9312")
@@ -130,22 +118,15 @@ public class NodeBrowserTests extends ContextAwareWebTest
         nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(cmisSearchTerm);
         nodeBrowserPage.clickSearchButton();
-        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify if the file created in precondition is displayed and its parent is correct.");
-        List<String> values = nodeBrowserPage.getResults().get(fileName);
-        assertTrue(values.get(0).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
+        assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
     @TestRail(id = "C9306")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-    public void verifyNodeBrowserPage()
+    public void checkNodeBrowserPage()
     {
-        LOG.info("Step 1: Login as administrator and navigate to Admin Tools - Node Browser page.");
-        cleanupAuthenticatedSession();
-        setupAuthenticatedSession(adminUser, adminPassword);
-        nodeBrowserPage.navigateByMenuBar();
-
         LOG.info("Step 2: Verify if the items on the page are displayed correctly.");
         assertTrue(nodeBrowserPage.isSearchTypeSelected(NodeBrowserPage.SEARCH_TYPE.FTS_ALFRESCO));
         assertTrue(nodeBrowserPage.isStoreTypeSelected(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE));
