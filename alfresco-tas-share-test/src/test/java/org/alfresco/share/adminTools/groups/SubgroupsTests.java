@@ -65,8 +65,6 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupService.addUserToGroup(adminUser, adminPassword, group3, userModelAdmin);
 
         setupAuthenticatedSession(adminUser, adminPassword);
-        groupsPage.navigate();
-        assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
     }
 
     @TestRail(id = "C9476")
@@ -75,7 +73,8 @@ public class SubgroupsTests extends ContextAwareWebTest
     {
         String identifier = "C9476id" + uniqueIdentifier;
 
-        getBrowser().refresh();
+        groupsPage.navigate();
+        assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group0);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group0));
@@ -95,7 +94,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         assertTrue(groupsPage.isCreateAndCreateAnotherGroupButtonDisplayed(), "New Group: 'Create and Create Another' button is displayed.");
         assertTrue(groupsPage.isCancelCreateNewGroupButtonDisplayed(), "New Group: 'Cancel' button is displayed.");
 
-        LOG.info("STEP2: Fill in 'Identifer' and 'Display Name' input fields. Click 'Create Group' button");
+        LOG.info("STEP2: Fill in 'Identifier' and 'Display Name' input fields. Click 'Create Group' button");
         groupsPage.typeGroupIdentifier(identifier);
         groupsPage.typeGroupDisplayName(displayName);
         groupsPage.clickCreateGroupButton();
@@ -111,7 +110,8 @@ public class SubgroupsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addGroup()
     {
-        getBrowser().refresh();
+        groupsPage.navigate();
+        assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group1);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group1));
@@ -150,7 +150,8 @@ public class SubgroupsTests extends ContextAwareWebTest
     {
         String user = name + " " + userToAdd + " (" + userToAdd + ")";
 
-        getBrowser().refresh();
+        groupsPage.navigate();
+        assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group2);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group2));
@@ -184,7 +185,8 @@ public class SubgroupsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void removeUser()
     {
-        getBrowser().refresh();
+        groupsPage.navigate();
+        assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group3);
         String user = name + " " + userModelAdmin + " (" + userModelAdmin + ")";
@@ -212,7 +214,8 @@ public class SubgroupsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteSubgroup()
     {
-        getBrowser().refresh();
+        groupsPage.navigate();
+        assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group3);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group3));

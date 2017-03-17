@@ -85,9 +85,7 @@ public class GroupsPage extends AdminToolsPage
     @FindBy(css = "input[id*='create-displayname']")
     private WebElement groupDisplayNameInput;
 
-    @FindBy(css = "input[id$='default-update-displayname']")
-    private WebElement groupEditDisplayNameInput;
-
+    private By groupEditDisplayNameInput = By.cssSelector("input[id$='default-update-displayname']");
     private By newGroupButton = By.cssSelector("span[title='New Group']");
     private By createGroupOKButton = By.cssSelector("button[id*='creategroup-ok']");
     private By cancelCreateGroupButton = By.cssSelector("button[id*='creategroup-cancel']");
@@ -121,7 +119,7 @@ public class GroupsPage extends AdminToolsPage
     public void clickBrowseButton()
     {
         browser.waitUntilElementClickable(browseButton, 5).click();
-        this.renderedPage();
+        browser.waitUntilElementVisible(By.cssSelector(".yui-columnbrowser-column-body"));
     }
 
     /**
@@ -397,9 +395,7 @@ public class GroupsPage extends AdminToolsPage
     public void createNewGroup(String groupName, boolean areYouSure)
     {
         clickBrowseButton();
-        browser.waitInSeconds(3);
         clickNewGroupButton();
-        browser.waitInSeconds(3);
         typeGroupIdentifier(groupName);
         typeGroupDisplayName(groupName);
         if (areYouSure)
@@ -435,10 +431,10 @@ public class GroupsPage extends AdminToolsPage
         browser.mouseOver(browser.findFirstElementWithValue(
                 browser.findElements(By.cssSelector("div a[class*='columnbrowser-item groups-item-group'] span[class$='item-label']")), groupName));
         browser.waitUntilElementClickable(editGroupButton, 4).click();
-        browser.waitInSeconds(3);
-        groupEditDisplayNameInput.clear();
-        browser.waitInSeconds(2);
-        groupEditDisplayNameInput.sendKeys(newName);
+        WebElement groupEditDisplayNameInputElement = browser.waitUntilElementVisible(groupEditDisplayNameInput);
+        groupEditDisplayNameInputElement.clear();
+        browser.waitInSeconds(1);
+        groupEditDisplayNameInputElement.sendKeys(newName);
         if (areYouSure)
         {
             browser.waitUntilElementClickable(updateGroupOKButton, 4).click();

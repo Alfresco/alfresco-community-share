@@ -59,10 +59,6 @@ public class GroupsTests extends ContextAwareWebTest
         groupService.createGroup(adminUser, adminPassword, C9460group);
 
         setupAuthenticatedSession(adminUser, adminPassword);
-        groupsPage.navigate();
-        assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
-        groupsPage.clickBrowseButton();
-        getBrowser().waitInSeconds(5);
     }
 
     @AfterClass
@@ -80,7 +76,6 @@ public class GroupsTests extends ContextAwareWebTest
     {
         groupsPage.navigate();
         groupsPage.clickBrowseButton();
-        getBrowser().waitInSeconds(5);
 
         List<String> groupList = groupsPage.getFirstColumnGroupsList();
         Assert.assertTrue(groupList.contains(C9462group));
@@ -98,6 +93,9 @@ public class GroupsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editGroup()
     {
+        groupsPage.navigate();
+        assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
+        groupsPage.clickBrowseButton();
         List<String> groupList = groupsPage.getFirstColumnGroupsList();
         Assert.assertTrue(groupList.contains(C9465group));
 
@@ -114,6 +112,8 @@ public class GroupsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createGroup()
     {
+        groupsPage.navigate();
+
         LOG.info("Step1: Create a group from Admin Tools page.");
         groupsPage.createNewGroup(C9469group, true);
         getBrowser().waitInSeconds(2);
@@ -128,8 +128,7 @@ public class GroupsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void searchForAGroup()
     {
-        List<String> groupList = groupsPage.getFirstColumnGroupsList();
-        Assert.assertTrue(groupList.contains(C9471group));
+        groupsPage.navigate();
 
         LOG.info("Step 2: Search for the group created in Precondition.");
         groupsPage.writeInSearchInput(C9471group);
