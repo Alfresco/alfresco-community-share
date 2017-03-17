@@ -29,7 +29,7 @@ public class LoginTests extends ContextAwareWebTest
     private String dashBoardUrl, authError;
     private String testUserC2084 = "testUserC2084";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         dashBoardUrl = "share/page/user/%s/dashboard";
