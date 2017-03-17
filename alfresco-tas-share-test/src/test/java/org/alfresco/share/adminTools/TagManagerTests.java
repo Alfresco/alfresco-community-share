@@ -4,6 +4,7 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.user.admin.adminTools.EditTagDialog;
 import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -32,6 +33,9 @@ public class TagManagerTests extends ContextAwareWebTest
 
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
+    
+    @Autowired
+    private EditTagDialog editTagDialog;
 
     private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
     private final String user = "user-" + uniqueIdentifier;
@@ -39,7 +43,7 @@ public class TagManagerTests extends ContextAwareWebTest
     private final String site = "site-" + uniqueIdentifier;
     private final String siteDescription = "site Description " + uniqueIdentifier;
     private final String content = "content" + uniqueIdentifier;
-    private final String updatedTag1 = "updated" + uniqueIdentifier;
+    private final String updatedTag = "updated" + uniqueIdentifier;
     private String fileName;
     private String tag;
 
@@ -77,14 +81,14 @@ public class TagManagerTests extends ContextAwareWebTest
         assertTrue(tagManagerPage.isEditTagDialogDisplayed(), "'Edit Tag' dialog is displayed for " + fileName + " -> tag " + tag);
 
         LOG.info("STEP2: Type tag in dialog, and click 'Ok' button");
-        tagManagerPage.renameTag(updatedTag1);
-        assertTrue(tagManagerPage.isTagDisplayed(updatedTag1), tag + " for " + fileName + " updated to= " + updatedTag1);
+        editTagDialog.renameTag(updatedTag);
+        assertTrue(tagManagerPage.isTagDisplayed(updatedTag), tag + " for " + fileName + " updated to= " + updatedTag);
 
         LOG.info("STEP3: Login as user who created content. Navigate to Document Library page");
         setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(site);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
-        assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(updatedTag1).toString(), fileName + " 's tags=");
+        assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(updatedTag).toString(), fileName + " 's tags=");
     }
 
     @TestRail(id = "C9385")
