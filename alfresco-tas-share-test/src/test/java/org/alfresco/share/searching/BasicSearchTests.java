@@ -63,7 +63,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     String blogPost = "BlogPost-" + uniqueIdentifier;
     String link = "Link-" + uniqueIdentifier;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName1, DataUtil.PASSWORD, userName1 + domain, firstName, lastName1);

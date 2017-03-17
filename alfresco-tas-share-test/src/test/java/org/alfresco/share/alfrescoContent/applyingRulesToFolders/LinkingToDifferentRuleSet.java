@@ -49,7 +49,7 @@ public class LinkingToDifferentRuleSet extends ContextAwareWebTest
     private final String folderName2 = "Folder2-C7327-" + random;
     private final String ruleName1 = "rule-C7327-" + random;
 
-    @BeforeClass()
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         String firstName = "First Name";

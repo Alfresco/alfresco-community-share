@@ -27,7 +27,7 @@ public class LogoTests extends ContextAwareWebTest
     private String copyRightText = "© 2005-2016" + " Alfresco Software Inc. All rights reserved. www.alfresco.com Legal and License";
     
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, user1, user1 + domain, user1, user1);

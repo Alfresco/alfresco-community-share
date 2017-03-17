@@ -62,7 +62,7 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
     String date = "29/09/2016";
     String date2 = "Thu 29 Sep 2016";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(DashboardCustomization.Page.DATALISTS);

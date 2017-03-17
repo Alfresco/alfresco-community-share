@@ -55,7 +55,7 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
 
     String newDateString = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
     	pagesToAdd.add(DashboardCustomization.Page.DATALISTS);

@@ -34,7 +34,7 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
     private final double longitude = 47.1585;
     private final double latitude = 27.6014;
     
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
 

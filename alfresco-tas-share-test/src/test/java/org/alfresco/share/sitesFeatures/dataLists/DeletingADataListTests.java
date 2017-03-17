@@ -39,7 +39,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
     private String listName = "first list";
     private List<Page> pagesToAdd = new ArrayList<Page>();
     
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setup()
     {
         super.setup();

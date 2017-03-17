@@ -42,7 +42,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     private String description = "siteC8703 description";
     private String documentName = "Doc" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, UserC8703, password, UserC8703 + domain, modifier1.split(" ")[0], modifier1.split(" ")[1]);

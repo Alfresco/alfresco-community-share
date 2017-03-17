@@ -31,7 +31,7 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     private String newSiteName = "New Site Name " + DataUtil.getUniqueIdentifier();
     private String newDescription = "New description " + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");

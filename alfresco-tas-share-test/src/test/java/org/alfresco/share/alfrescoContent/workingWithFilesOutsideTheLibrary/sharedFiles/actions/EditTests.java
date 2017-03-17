@@ -72,7 +72,7 @@ public class EditTests extends ContextAwareWebTest
     private final String googleDocName = uniqueIdentifier + "googleDoc.docx";
     private final String googleDocPath = testDataFolder + googleDocName;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

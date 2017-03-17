@@ -48,7 +48,7 @@ public class EditToDoListTest extends ContextAwareWebTest
     String itemFile = "testFile1";
     String attachedFile = "testDoc.txt";
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(Page.DATALISTS);

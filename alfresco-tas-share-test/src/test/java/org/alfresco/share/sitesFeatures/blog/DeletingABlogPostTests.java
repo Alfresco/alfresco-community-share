@@ -42,7 +42,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
     private List<String> tags = Collections.singletonList("tag1");
     private String blogPostTitleC5955 = "C5955 blog post title";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

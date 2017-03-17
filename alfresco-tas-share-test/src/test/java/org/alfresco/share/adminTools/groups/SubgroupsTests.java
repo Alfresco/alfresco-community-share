@@ -49,7 +49,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     private final String groupNameToDelete = "_C42773Group" + uniqueIdentifier;
     private final String displayName = "C9476name" + uniqueIdentifier;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userAdmin, password, domain, name, userAdmin);

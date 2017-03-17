@@ -33,7 +33,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     private String presentationTitle;
     private String content;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
 

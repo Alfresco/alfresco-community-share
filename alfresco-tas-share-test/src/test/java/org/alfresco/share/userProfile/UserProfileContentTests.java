@@ -22,7 +22,7 @@ public class UserProfileContentTests extends ContextAwareWebTest
     private String RecentlyModfiedLabelText;
     private String NoModifiedContentMessage;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setup()
     {
         super.setup();

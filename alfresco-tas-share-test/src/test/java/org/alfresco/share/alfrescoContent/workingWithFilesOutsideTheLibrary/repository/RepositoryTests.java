@@ -42,7 +42,7 @@ public class RepositoryTests extends ContextAwareWebTest
     private final String siteName2 = "2SecondTestSite"+ DataUtil.getUniqueIdentifier();
     
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

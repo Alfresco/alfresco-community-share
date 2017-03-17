@@ -46,7 +46,7 @@ public class ManuallyRunningRulesTest extends ContextAwareWebTest
     private final String folderName = "Folder-C7320-" + random;
     private final String fileName = "FileName-C7320-" + random;
 
-    @BeforeClass()
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);

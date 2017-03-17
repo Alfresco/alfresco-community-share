@@ -39,7 +39,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
     private final String acpFile = "archiveC7410.acp";
     private final String fileName1 = "fileC7410";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

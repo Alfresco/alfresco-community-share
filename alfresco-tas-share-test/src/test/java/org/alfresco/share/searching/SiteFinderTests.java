@@ -38,7 +38,7 @@ public class SiteFinderTests extends ContextAwareWebTest
     String siteName2 = "SiteName2-" + DataUtil.getUniqueIdentifier();
     String description = "Description-" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, userFirstName, "lastName1");

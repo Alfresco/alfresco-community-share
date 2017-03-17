@@ -40,7 +40,7 @@ public class EditingLinkTests extends ContextAwareWebTest
     private String linkDescription = "Link description" + DataUtil.getUniqueIdentifier();
     private List<String> linkTags = new ArrayList<>();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

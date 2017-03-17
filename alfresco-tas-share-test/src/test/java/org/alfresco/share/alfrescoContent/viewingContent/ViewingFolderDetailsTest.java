@@ -27,7 +27,7 @@ public class ViewingFolderDetailsTest extends ContextAwareWebTest
     private final String siteName = "testSite" + DataUtil.getUniqueIdentifier();
     private final String folderName = "testFolder";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C5850", "C5850");

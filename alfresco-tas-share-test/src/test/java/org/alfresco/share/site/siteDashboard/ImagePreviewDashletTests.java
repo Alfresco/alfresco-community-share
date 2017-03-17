@@ -46,7 +46,7 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     private String siteName1, siteName2, siteName3;
     private final String uniqueId = DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         String userName = "User" + uniqueId;

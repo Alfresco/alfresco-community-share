@@ -30,7 +30,7 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
     private final String docName = "testFile1";
     private final String docContent ="C6940 content";
     
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
 
     public void setupTest()
     {

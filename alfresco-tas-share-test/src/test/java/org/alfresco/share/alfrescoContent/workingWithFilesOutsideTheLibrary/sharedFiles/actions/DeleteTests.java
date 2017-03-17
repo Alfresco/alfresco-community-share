@@ -36,7 +36,7 @@ public class DeleteTests extends ContextAwareWebTest
     private final String folderName2 = "FolderC13759-" + uniqueIdentifier;
     private final String path = "Shared/";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

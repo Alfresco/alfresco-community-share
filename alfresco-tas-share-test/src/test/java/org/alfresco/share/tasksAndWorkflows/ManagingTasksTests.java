@@ -51,7 +51,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
     private String taskName = "taskName" + DataUtil.getUniqueIdentifier();
     private String taskTypeAndStatus = "Task, In Progress";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void testSetup()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

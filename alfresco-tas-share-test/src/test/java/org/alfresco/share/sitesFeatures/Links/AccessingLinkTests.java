@@ -38,7 +38,7 @@ public class AccessingLinkTests extends ContextAwareWebTest
     private List<String> tags = new ArrayList<String>();
     private DateTime currentDate = new DateTime();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

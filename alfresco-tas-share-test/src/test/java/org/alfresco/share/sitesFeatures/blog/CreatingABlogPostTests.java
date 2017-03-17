@@ -47,7 +47,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
     private String blogPostTagC6120 = "tagc6120";
     private String blogPostContentC6120 = "Blog post content C6120";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

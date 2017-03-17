@@ -22,7 +22,7 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
     private final String description = "C6910SiteDescription" + DataUtil.getUniqueIdentifier();
     private final String siteName = "C6910SiteName" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
 
     public void setupTest()
     {

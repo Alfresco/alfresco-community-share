@@ -30,7 +30,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     private final String docName2 = "File-6320-2";
     private final String testDataFolder = srcRoot + "testdata" + File.separator;
     
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

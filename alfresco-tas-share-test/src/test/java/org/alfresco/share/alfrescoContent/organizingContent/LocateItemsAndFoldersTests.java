@@ -32,7 +32,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
     private final String folderName = "locateFolder" + DataUtil.getUniqueIdentifier();
     private final String docName = "locateDoc" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

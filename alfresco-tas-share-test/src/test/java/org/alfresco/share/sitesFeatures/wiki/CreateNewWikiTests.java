@@ -45,7 +45,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     private String wikiPageTitle;
     private String wikiPageContent;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setup()
     {
         super.setup();

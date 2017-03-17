@@ -43,7 +43,7 @@ public class CategorizingContent extends ContextAwareWebTest
     private final String category = "Languages";
     private final String category2 = "Regions";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

@@ -28,7 +28,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
     private final String random = DataUtil.getUniqueIdentifier();
     private final String user = "user1-" + random;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

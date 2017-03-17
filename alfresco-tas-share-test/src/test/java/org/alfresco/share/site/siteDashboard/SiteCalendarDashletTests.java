@@ -41,7 +41,7 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
     private DateTime today =  new DateTime();
     private DateTime tomorrow = today.plusDays(1);
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();

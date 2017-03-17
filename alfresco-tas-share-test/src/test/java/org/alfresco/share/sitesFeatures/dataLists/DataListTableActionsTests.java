@@ -60,7 +60,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     private String contactList;
     String contactListName = "contact" + System.currentTimeMillis();
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         logger.info("Preconditions for Data List Table Actions test");

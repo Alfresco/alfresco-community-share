@@ -61,7 +61,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
     private final String pathForTransferTargetFolder = "Data Dictionary/Transfers/Transfer Target Groups/Default Group";
     private final String transferTargetFolder = "TransferFolder-" + uniqueIdentifier;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         siteService.create(adminUser, adminPassword, domain, site, site, Site.Visibility.PUBLIC);

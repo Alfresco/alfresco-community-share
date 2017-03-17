@@ -63,7 +63,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     private String newVersionFileName;
     String uniqueIdentifier = DataUtil.getUniqueIdentifier();
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         userName = "User" + DataUtil.getUniqueIdentifier();

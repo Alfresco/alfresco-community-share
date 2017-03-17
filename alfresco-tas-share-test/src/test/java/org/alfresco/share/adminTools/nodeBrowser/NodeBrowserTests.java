@@ -28,7 +28,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     private String xpathSearchTerm = String.format("/app:company_home/st:sites/cm:%s/cm:documentLibrary/cm:%s",siteName,fileName);
     private String cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'",fileName);
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void beforeClass()
     {
         siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);

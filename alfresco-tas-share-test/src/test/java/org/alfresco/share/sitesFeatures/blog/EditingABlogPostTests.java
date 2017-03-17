@@ -49,7 +49,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     private String C5561EditedContent = "C5561 content edited";
     private String tagC5561 = "c5561tag";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

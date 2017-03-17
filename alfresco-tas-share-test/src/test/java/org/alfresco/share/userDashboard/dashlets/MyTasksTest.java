@@ -52,7 +52,7 @@ public class MyTasksTest extends ContextAwareWebTest
     private Date taskDate = new Date();
     private String taskTypeAndStatus = "Task, Not Yet Started";
     
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setup()
     {
         super.setup();

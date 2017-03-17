@@ -26,7 +26,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
     private String user3 = "testUser3" + DataUtil.getUniqueIdentifier();
     private String siteName = "testSite" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);

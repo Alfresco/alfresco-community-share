@@ -48,7 +48,7 @@ public class GroupsTests extends ContextAwareWebTest
     private final String userName = "user" + uniqueIdentifier;
     private final String siteName = "C9460site" + uniqueIdentifier;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void beforeClass()
     {
         userService.create(adminUser, adminPassword, userName, password, domain, "name", uniqueIdentifier);

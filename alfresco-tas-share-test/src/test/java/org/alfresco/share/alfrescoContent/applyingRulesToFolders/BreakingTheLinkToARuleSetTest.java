@@ -45,7 +45,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
     private final String folderName2 = "Folder2-C7332-" + random;
     private final String ruleName = "rule-C7332-" + random;
 
-    @BeforeClass()
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         String lastName = "Last Name";

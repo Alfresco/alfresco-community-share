@@ -38,7 +38,7 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
 
     @Autowired private GoogleDocsCommon docsCommon;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         logger.info("Preconditions for Editing files in Google Docs tests");

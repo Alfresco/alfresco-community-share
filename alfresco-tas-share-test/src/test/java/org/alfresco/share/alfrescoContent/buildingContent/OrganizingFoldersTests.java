@@ -35,7 +35,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     private final String userName = "User-" + uniqueId;
     private final String description = "Description-" + uniqueId;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         String lastName = "LastName";

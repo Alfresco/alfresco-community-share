@@ -35,7 +35,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     private String fileContent;
     private String helpMessage;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         userName = "User" + DataUtil.getUniqueIdentifier();

@@ -71,7 +71,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     private String filterId;
     private String filterName;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, modifier1.split(" ")[0], modifier1.split(" ")[1]);

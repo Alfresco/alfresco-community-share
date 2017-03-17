@@ -58,7 +58,7 @@ public class TagTests extends ContextAwareWebTest
     private final String user = "User" + random;
     private final String path13766 = "Shared/" + folderName3;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName, "");
@@ -77,7 +77,7 @@ public class TagTests extends ContextAwareWebTest
 //        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void beforeMethod()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

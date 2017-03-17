@@ -28,7 +28,7 @@ public class RssFeedTest extends ContextAwareWebTest
     private String userName = "User" + DataUtil.getUniqueIdentifier();
     private int noOfFeeds = 10;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");

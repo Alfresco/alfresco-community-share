@@ -54,7 +54,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     private String eventName;
     private DateFormat df = new SimpleDateFormat("EEEE, d MMMM, yyyy");
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(Page.CALENDAR);

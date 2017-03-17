@@ -32,7 +32,7 @@ public class SharedFilesTests extends ContextAwareWebTest
 
     @Autowired private DeleteDialog deleteDialog;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

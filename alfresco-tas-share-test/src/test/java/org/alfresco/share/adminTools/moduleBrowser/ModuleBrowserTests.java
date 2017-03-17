@@ -33,7 +33,7 @@ public class ModuleBrowserTests extends ContextAwareWebTest
 
     private String userName = "C9498User"+DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
 
     public void setupTest()
     {

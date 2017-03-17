@@ -54,7 +54,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
     String today = df.format(new Date());
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

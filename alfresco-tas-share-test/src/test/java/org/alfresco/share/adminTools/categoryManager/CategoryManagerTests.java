@@ -26,7 +26,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
     String category9298 = "categoryC9298" + DataUtil.getUniqueIdentifier();
     String categoryEdited = "categoryEdited" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void beforeClass()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

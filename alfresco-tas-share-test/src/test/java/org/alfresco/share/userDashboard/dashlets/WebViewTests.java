@@ -28,7 +28,7 @@ public class WebViewTests extends ContextAwareWebTest{
     
     private String userName;
     
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setup()
     {
         super.setup();

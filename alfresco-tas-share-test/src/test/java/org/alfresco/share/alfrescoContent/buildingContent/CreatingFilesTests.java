@@ -25,7 +25,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
     private final String description = "C6976SiteDescription" + DataUtil.getUniqueIdentifier();
     private final String siteName = "C6976SiteName" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
 
     public void setupTest()
     {

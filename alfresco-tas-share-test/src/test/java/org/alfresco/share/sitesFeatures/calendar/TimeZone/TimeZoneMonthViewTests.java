@@ -47,7 +47,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
     private String clientATimeZone = "tzutil /s \"GTB Standard Time\"";
     private String clientBTimeZone = "tzutil /s \"GMT Standard Time\"";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<>();

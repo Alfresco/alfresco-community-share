@@ -46,7 +46,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     private String linkURL = "LinkURL.com";
     private String linkDescription = "Link description" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

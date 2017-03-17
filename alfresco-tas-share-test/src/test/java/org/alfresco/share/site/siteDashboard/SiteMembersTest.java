@@ -29,7 +29,7 @@ public class SiteMembersTest extends ContextAwareWebTest
     private String siteName = "SiteName-C2799-" + DataUtil.getUniqueIdentifier();
     private String description = "Description" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, "firstName", "lastName");

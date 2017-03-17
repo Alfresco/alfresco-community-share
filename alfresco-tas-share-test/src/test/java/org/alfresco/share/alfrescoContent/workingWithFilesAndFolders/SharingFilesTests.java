@@ -42,7 +42,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     private String windowToSwitchToAlfresco;
     private String windowToCloseGPlus;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

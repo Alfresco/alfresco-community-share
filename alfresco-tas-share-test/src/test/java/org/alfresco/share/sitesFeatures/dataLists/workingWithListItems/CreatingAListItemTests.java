@@ -41,7 +41,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     private String siteName;
     private List<Page> pagesToAdd = new ArrayList<Page>();
     
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setup()
     {
         super.setup();

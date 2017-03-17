@@ -54,7 +54,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     private String differentRoleUserD = "differentRoleUserD" + DataUtil.getUniqueIdentifier();
     private String removeUser = "removeUser" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userManager1, password, userManager1 + domain, "Manager1 fName", "lName");

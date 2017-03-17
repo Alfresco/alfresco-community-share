@@ -34,7 +34,7 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     private String srcRoot = System.getProperty("user.dir") + File.separator;
     private String testDataFolder = srcRoot + "testdata" + File.separator;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

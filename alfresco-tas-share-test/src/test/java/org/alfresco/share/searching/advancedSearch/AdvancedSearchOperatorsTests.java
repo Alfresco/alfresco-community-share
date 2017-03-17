@@ -48,7 +48,7 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
     private String docC7288_3 = site1+"Doc3";
     private String docC7288_4 = site1+"Doc4";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);

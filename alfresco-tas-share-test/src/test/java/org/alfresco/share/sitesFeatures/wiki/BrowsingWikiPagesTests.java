@@ -34,7 +34,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     private String siteTitle2;
     private String siteTag;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setup()
     {
         super.setup();

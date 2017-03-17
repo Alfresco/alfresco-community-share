@@ -56,7 +56,7 @@ public class EditMeetingAgendaItemTest extends ContextAwareWebTest
     String newOwner = "Updated Owner";
     String fileToAttach = "testDoc.txt";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(DashboardCustomization.Page.DATALISTS);

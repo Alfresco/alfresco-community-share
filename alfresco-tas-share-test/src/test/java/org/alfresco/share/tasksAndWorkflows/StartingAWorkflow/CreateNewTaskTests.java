@@ -54,7 +54,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
     private String docContent = "docContent" + DataUtil.getUniqueIdentifier();
     private String startWorkflowAction = "Start Workflow";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void testSetup()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

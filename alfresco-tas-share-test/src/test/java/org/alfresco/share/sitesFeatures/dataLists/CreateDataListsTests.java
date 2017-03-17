@@ -36,7 +36,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     private String dataListName;
     private List<Page> pagesToAdd = new ArrayList<Page>();
     
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(Page.DATALISTS);

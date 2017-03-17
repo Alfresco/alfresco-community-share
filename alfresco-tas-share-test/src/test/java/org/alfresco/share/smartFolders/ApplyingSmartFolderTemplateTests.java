@@ -66,7 +66,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     private String filesPath;
     private String mainSmartFolder;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
 
     {

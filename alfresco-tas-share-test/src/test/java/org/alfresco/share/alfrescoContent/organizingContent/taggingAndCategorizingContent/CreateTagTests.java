@@ -36,7 +36,7 @@ public class CreateTagTests extends ContextAwareWebTest
     private final String description = "Description-" + DataUtil.getUniqueIdentifier();
     private final String fileContent = "content of the file.";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);

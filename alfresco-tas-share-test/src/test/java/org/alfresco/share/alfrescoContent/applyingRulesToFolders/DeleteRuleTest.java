@@ -47,7 +47,7 @@ public class DeleteRuleTest extends ContextAwareWebTest
     private final String ruleName = "rule-C7254-" + random;
     private final String folderName = "Folder-C7254-" + random;
 
-    @BeforeClass()
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);

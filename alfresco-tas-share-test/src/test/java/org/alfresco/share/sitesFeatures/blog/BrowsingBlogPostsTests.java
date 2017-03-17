@@ -37,7 +37,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     private String author1 = user1 + " " + user1;
     private String author2 = user2 + " " + user2;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<>();

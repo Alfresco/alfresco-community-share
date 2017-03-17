@@ -26,7 +26,7 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
     private final String docContent = "C2266 content";
     private final String folderName = "C2266 test folder";
     private final String docName1 = "testFile1";
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
 
     public void setupTest()
     {

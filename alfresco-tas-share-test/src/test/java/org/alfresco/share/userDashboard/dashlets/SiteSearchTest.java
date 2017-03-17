@@ -24,7 +24,7 @@ public class SiteSearchTest extends ContextAwareWebTest
 
     private String userName = "User" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setup()
     {
         super.setup();

@@ -33,7 +33,7 @@ public class ViewingAFileTests extends ContextAwareWebTest
     private final String docName = "File-C9917";
     private final DateTime currentDate = new DateTime();
   
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
 

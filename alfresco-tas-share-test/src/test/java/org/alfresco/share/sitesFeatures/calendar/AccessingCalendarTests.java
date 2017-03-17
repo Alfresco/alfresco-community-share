@@ -38,7 +38,7 @@ public class AccessingCalendarTests extends ContextAwareWebTest
     private String user = "User1" + DataUtil.getUniqueIdentifier();
     private String siteName = "Site1" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

@@ -41,7 +41,7 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
     private String commentUser = user + " " + user;
     private String editedComment = "C6061 edited comment text";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

@@ -28,7 +28,7 @@ public class LikeTests extends ContextAwareWebTest
     private final String folderNameC8304 = "C8304 Folder";
    
    
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

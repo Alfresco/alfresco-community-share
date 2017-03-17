@@ -32,7 +32,7 @@ public class SiteGroupsTest extends ContextAwareWebTest
     private String group3 = "testGroup3-" + DataUtil.getUniqueIdentifier();
 
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");

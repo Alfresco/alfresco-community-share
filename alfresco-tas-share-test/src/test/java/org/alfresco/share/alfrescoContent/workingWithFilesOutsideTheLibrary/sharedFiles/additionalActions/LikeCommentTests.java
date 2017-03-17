@@ -42,7 +42,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     private final String testFilePath1 = testDataFolder + fileName1;
     private final String testFilePath2 = testDataFolder + fileName2;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

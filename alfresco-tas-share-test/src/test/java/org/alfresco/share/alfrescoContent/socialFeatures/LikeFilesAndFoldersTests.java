@@ -36,7 +36,7 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     private final String fileName7908 ="7908 fileName";
     private final String folderName7909 = "7909 folderName";
     
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
 
     public void setupTest()
     {

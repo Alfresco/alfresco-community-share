@@ -57,7 +57,7 @@ public class EditEventListItemTest extends ContextAwareWebTest
     String newItemNotes = "notes";
     String attachedFile = "testDoc.txt";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(DashboardCustomization.Page.DATALISTS);

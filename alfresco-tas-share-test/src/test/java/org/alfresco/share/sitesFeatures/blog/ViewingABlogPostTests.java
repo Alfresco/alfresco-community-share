@@ -46,7 +46,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
     String blogContent = "Test content for Blog Post for test C5528. This is a sample text: Alfresco Community Edition is designed to be deployed on a single server. As a result, it is shipped with a single Alfresco Community Edition Installer, which contains both the Alfresco Platform and Alfresco Share components. This is the same approach that is used in previous versions of Alfresco. Depending on your system, you can install Alfresco using one of the following methods: Using a setup wizard, which contains the required software and components you need for evaluating Alfresco; Using a standard WAR file to deploy Alfresco in a production environment";
     String sampleBlogContentDetailedView = "Test content for Blog Post for test C5528. This is a sample text: Alfresco Community Edition is designed to be deployed on a single server. As a result, it is shipped with a single Alfresco Community Edition Installer, which contains both the Alfresco Platform and Alfresco Share components. This is the same approach that is used in previous versions of Alfresco. Depending on your system, you can install Alfresco using one of the following methods: Using a setup wizard, which contains the required software a";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

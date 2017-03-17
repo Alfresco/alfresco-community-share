@@ -40,7 +40,7 @@ public class TagTests extends ContextAwareWebTest
     private final String tagC8278 = "tag-C8278" + DataUtil.getUniqueIdentifier();
     private final String tagC8290 = "tag-C8290" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

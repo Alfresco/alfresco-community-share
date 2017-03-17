@@ -43,7 +43,7 @@ public class ViewEventTests extends ContextAwareWebTest
     private String eventDescription = "Event number 1";
     private String eventTags = "tag1, tag2, tag3";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(Page.CALENDAR);

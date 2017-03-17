@@ -33,7 +33,7 @@ public class PreviewFileTest extends ContextAwareWebTest
     private final String docName = "MultiPageDocument.docx";
     private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC5884" + File.separator;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setup()
     {
         super.setup();

@@ -32,7 +32,7 @@ public class MyFilesTests extends ContextAwareWebTest
     private final String C7648title = "C7648 title";
     private final String C7648content = "C7648 content";
     private final String C7648description = "C7648 description";
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

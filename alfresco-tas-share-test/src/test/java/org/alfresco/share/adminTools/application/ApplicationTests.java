@@ -18,7 +18,7 @@ public class ApplicationTests extends ContextAwareWebTest
     @Autowired
     ApplicationPage applicationPage;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void beforeClass()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

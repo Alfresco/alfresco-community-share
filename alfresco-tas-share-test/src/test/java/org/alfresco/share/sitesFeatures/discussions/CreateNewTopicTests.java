@@ -40,7 +40,7 @@ public class CreateNewTopicTests extends ContextAwareWebTest
     private String topicContent = "Some content";
     private String topicTag = "tag1";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<>();

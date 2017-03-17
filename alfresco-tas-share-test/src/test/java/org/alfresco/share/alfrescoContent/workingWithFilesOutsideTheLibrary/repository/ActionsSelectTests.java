@@ -27,7 +27,7 @@ public class ActionsSelectTests extends ContextAwareWebTest
     private final String path = "User Homes/"+ user;
     private final String folderName ="C8164 Folder";
     
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

@@ -31,7 +31,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
     private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
     private final String docName = "testDoc" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

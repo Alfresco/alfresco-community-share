@@ -32,7 +32,7 @@ public class ManagingCommentsTests extends ContextAwareWebTest
     private final String comment = "Test comment for C9934";
     private final String editedComment = "Test comment edited for C9934";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
 

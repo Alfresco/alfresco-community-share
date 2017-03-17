@@ -38,7 +38,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
     private String blogPostTitleC6063 = "C6063 blog post title";
     private String comment = "C6063 comment text";
     private String commentUser = user+" "+user;
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

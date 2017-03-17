@@ -81,7 +81,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     private String fileName = "C42568TestFile" +DataUtil.getUniqueIdentifier();
     private String fileContent ="C42568 content";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");

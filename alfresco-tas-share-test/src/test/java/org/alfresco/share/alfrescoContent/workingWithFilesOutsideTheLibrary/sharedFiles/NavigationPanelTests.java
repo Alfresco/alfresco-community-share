@@ -43,7 +43,7 @@ public class NavigationPanelTests extends ContextAwareWebTest
     private final String path = "Shared/";
     private final String tag = "tag-" + uniqueId;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);

@@ -29,7 +29,7 @@ public class UserProfileSitesTests extends ContextAwareWebTest
     private String siteName4;
     private String role;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setup()
     {
         super.setup();

@@ -35,7 +35,7 @@ public class SelectTests extends ContextAwareWebTest
     private final String docName = "DocC8004-" + uniqueIdentifier;
     private final String folderName = "FolderC8005-" + uniqueIdentifier;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", "firstName", "lastName");

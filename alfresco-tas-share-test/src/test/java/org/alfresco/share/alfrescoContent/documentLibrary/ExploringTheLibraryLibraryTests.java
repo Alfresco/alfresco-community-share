@@ -27,7 +27,7 @@ public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
     private final String docName1 = "testFile2";
     private final String siteName = "C6333SiteName" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
 
     public void setupTest()
     {

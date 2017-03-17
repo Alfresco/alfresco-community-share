@@ -49,7 +49,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
     private String topicTag2 = "tag2";
     private String topicReply = "Reply content";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

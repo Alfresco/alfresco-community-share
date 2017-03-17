@@ -41,7 +41,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
 
     private String siteName1;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         cleanupAuthenticatedSession();

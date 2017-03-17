@@ -25,7 +25,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     private String folderInRepoMainPath;
     private String repositoryUserHomesPath;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
 

@@ -42,7 +42,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     private final String docContent = "content of the file.";
     private final String copyAction = "Copy to...";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);

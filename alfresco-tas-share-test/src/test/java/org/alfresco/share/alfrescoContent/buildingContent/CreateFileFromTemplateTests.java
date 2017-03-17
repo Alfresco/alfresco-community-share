@@ -29,7 +29,7 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
     private final String docName ="template"+DataUtil.getUniqueIdentifier();
     private final String docContent ="template content";
    
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
 
     public void setupTest()
     {

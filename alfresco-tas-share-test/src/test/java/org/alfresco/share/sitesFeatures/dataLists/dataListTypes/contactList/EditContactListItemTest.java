@@ -50,7 +50,7 @@ public class EditContactListItemTest extends ContextAwareWebTest
     String editedPhoneMobile = "0123456780";
     String editedNotes = "editedNotes";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(DashboardCustomization.Page.DATALISTS);

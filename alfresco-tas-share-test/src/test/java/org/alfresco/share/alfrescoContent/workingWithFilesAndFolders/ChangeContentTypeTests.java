@@ -40,7 +40,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     private final String docContent = "content of the file.";
     private final String siteName = "Site-" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);

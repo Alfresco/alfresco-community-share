@@ -26,7 +26,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     private String description = "C8723SiteDescription" + DataUtil.getUniqueIdentifier();
     private String siteName = "C8723" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userConsumer, password, userConsumer + "@tests.com", userConsumer, userConsumer);

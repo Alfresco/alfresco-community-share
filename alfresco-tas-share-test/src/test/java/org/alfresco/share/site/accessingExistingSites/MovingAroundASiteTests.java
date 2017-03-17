@@ -30,7 +30,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     private String user = "User1" + DataUtil.getUniqueIdentifier();
     private String siteName;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");

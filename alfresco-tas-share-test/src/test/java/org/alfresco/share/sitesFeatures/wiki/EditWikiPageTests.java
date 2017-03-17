@@ -54,7 +54,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     private String tagName = "tag" + DataUtil.getUniqueIdentifier();
     private List<String> tags = new ArrayList<String>();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(Page.WIKI);

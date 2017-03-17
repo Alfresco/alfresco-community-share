@@ -33,7 +33,7 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
     @Autowired
     CreateContent createContent;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
 
     {

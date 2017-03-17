@@ -48,7 +48,7 @@ public class FoldersOnlyTests extends ContextAwareWebTest
     private final String tag = "tag-" + uniqueId;
     private final String title = "Title-" + uniqueId;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, domain, name, user);

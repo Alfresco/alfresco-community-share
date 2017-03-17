@@ -49,7 +49,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     private String eventLocation = "Iasi C5805";
     private String eventDescription = "Event description C5805";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

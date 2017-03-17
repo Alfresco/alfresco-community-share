@@ -81,7 +81,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     private String downloadPath = srcRoot + "testdata";
     private Alert alert;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

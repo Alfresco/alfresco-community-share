@@ -60,7 +60,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     private String siteName;
     protected String taskName;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         userManager = "User1" + DataUtil.getUniqueIdentifier();

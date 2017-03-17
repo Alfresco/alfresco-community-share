@@ -38,7 +38,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     private final String description = "Description-" + DataUtil.getUniqueIdentifier();
     private final String fileContent = "content of the file.";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);

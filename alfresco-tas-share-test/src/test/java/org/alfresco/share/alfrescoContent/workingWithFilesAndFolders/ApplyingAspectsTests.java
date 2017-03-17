@@ -31,7 +31,7 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
     private String fileName;
     private String fileContent;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
 

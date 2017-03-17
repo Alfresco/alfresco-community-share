@@ -29,7 +29,7 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
     private String userName = "User" + DataUtil.getUniqueIdentifier();
     private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setup()
     {
         super.setup();

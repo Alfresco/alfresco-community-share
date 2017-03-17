@@ -31,7 +31,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
     private String userName = "User" + DataUtil.getUniqueIdentifier();
     private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");

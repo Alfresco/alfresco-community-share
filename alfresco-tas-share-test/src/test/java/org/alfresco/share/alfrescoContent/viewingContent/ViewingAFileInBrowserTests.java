@@ -29,7 +29,7 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
     private final String docName = "File-C5920";
     private final String folderName = "testFolder";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
 

@@ -42,7 +42,7 @@ public class AddExistingTagTests extends ContextAwareWebTest
     private final String tagName1 = "tagName1-C7464-" + random;
     private final String tagName2 = "tagName2-C7464-" + random;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);

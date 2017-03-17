@@ -28,7 +28,7 @@ public class ChangePasswordTest extends ContextAwareWebTest
     private final String user = "user" + uniqueIdentifier;
     private final String newPasswordText = "newpassword" + uniqueIdentifier;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");

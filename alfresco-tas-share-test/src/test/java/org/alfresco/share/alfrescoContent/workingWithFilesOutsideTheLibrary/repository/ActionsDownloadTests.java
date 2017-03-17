@@ -52,7 +52,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
         return false;
     }
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

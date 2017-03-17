@@ -33,7 +33,7 @@ public class AddAndEditCommentsToAFileTest extends ContextAwareWebTest
     private final String folderName = "testFolder";
     private final String docName = "testDoc" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

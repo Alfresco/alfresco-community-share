@@ -146,7 +146,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   private String siteName6 = "SiteC6" + DataUtil.getUniqueIdentifier();
   private String description = "SiteC description";
 
-  @BeforeClass
+  @BeforeClass(alwaysRun = true)
   public void setupTest() {
 
     userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

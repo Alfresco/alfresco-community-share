@@ -43,7 +43,7 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
     private List<String> noTags = new ArrayList<String>();
     private String author = user + " " + user;
     
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

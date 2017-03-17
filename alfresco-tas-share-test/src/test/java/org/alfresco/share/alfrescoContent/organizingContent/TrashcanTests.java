@@ -43,7 +43,7 @@ public class TrashcanTests extends ContextAwareWebTest
     private final String description = "Description-" + random;
     private final String fileContent = "file content.";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);

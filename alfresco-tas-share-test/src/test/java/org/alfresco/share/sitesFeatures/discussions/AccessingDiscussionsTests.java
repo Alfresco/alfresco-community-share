@@ -36,7 +36,7 @@ public class AccessingDiscussionsTests extends ContextAwareWebTest
     private String topicTitle = "Topic1";
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

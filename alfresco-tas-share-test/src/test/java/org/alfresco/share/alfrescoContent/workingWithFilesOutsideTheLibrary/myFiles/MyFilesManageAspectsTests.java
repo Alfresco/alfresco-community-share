@@ -24,7 +24,7 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
     private String folderName;
     private String path;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
 

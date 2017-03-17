@@ -31,7 +31,7 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
     private final String videoFile = "Wildlife";
     private final String picture = "Lighthouse";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

@@ -38,7 +38,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
     private final String adminFilePath = testDataFolder + adminFile;
     private final String tag = "testTag" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

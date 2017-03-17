@@ -40,7 +40,7 @@ public class DeletingAListItemTest extends ContextAwareWebTest
     String siteName = "SiteName-" + random;
     String contactListName = "contactList";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(DashboardCustomization.Page.DATALISTS);

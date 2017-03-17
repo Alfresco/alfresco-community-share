@@ -28,7 +28,7 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     private String userName1;
     private String folderPath;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         userName = "User" + DataUtil.getUniqueIdentifier();

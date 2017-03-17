@@ -32,7 +32,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     private final String folderNameC13751 = "C13751 Folder"+DataUtil.getUniqueIdentifier();
     private final String path1 ="";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

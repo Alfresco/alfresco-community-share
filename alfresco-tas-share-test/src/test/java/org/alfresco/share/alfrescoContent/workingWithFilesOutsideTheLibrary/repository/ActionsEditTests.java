@@ -70,7 +70,7 @@ public class ActionsEditTests extends ContextAwareWebTest
     private String editInAlfrescoPath;
     private String editFileInGDPath;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
 
     {

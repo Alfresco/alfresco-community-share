@@ -31,7 +31,7 @@ public class CommentTests extends ContextAwareWebTest
     private final String fileContent = "test file content";
     private final String folderNameC8306 = "C8306 Folder";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

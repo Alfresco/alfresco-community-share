@@ -32,7 +32,7 @@ public class MovingContentTests extends ContextAwareWebTest
     private final String description = "Description-" + DataUtil.getUniqueIdentifier();
     private final String docContent = "content of the file.";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         String lastName = "LastName";

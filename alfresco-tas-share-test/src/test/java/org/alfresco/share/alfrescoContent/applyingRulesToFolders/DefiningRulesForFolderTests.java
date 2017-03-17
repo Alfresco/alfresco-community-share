@@ -58,7 +58,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     private String fileName = "testDoc.txt";
     private String folderName, ruleName1, ruleName2, fileName2;
 
-    @BeforeClass()
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);

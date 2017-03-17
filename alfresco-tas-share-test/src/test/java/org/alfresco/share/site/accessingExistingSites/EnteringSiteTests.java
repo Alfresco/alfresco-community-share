@@ -48,7 +48,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
     private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
     private String description = "Description" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");

@@ -74,7 +74,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     private String userContributor;
     String sitePermissionsName = "SiteName" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
 

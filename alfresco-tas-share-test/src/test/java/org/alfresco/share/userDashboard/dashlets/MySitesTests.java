@@ -35,7 +35,7 @@ public class MySitesTests extends ContextAwareWebTest
     private String siteName2;
     private String siteName3;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setup()
     {
         super.setup();

@@ -64,7 +64,7 @@ public class CreateTests extends ContextAwareWebTest
     private final String googleDocPresentation = "googleDoc title.pptx";
     private final String docContent = "googleDoccontent";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user2, password, user2 + "@tests.com", user2, user2);

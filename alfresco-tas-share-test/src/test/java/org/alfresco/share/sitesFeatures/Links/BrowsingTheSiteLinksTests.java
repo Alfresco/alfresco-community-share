@@ -38,7 +38,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
     private String user2 = "User2" + DataUtil.getUniqueIdentifier();
     private String siteName = "";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lastName1");

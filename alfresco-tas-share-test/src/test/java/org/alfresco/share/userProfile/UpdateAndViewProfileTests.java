@@ -28,7 +28,7 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
 
     private String user = "profileUser" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setup()
     {
         super.setup();

@@ -35,7 +35,7 @@ public class SiteProfileDashletTests extends ContextAwareWebTest
     private String siteDescription;
     private String siteVisibility;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setup()
     {
         super.setup();

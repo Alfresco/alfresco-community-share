@@ -39,7 +39,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     private final String pathFolderTemplate = "Data Dictionary/Space Templates";
     private final String folderName = "C8158" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
 
     public void setupTest()
     {

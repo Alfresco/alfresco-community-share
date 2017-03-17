@@ -90,7 +90,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
     private String userContributor;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
 

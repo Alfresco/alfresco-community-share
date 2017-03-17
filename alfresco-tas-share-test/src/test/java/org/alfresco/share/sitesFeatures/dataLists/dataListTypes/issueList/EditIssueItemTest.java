@@ -61,7 +61,7 @@ public class EditIssueItemTest extends ContextAwareWebTest
     String newItemPriority = CMISUtil.Priority.High.toString();
     String attachedFile = "testDoc.txt";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(DashboardCustomization.Page.DATALISTS);

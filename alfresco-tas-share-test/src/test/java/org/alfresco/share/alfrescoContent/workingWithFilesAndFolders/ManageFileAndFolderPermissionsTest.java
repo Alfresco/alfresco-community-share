@@ -33,7 +33,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     private final String testFileName = "testDoc.txt";
     private final String testFolderName = "testFolder";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void createPrecondition()
     {
         userService.create(adminUser, adminPassword, testUser1, password, testUser1 + "@tests.com", testUser1, "lastName");

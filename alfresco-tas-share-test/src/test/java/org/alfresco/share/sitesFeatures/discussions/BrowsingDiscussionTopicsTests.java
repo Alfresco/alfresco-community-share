@@ -44,7 +44,7 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
     private DateTime today = new DateTime();
     private DateTime eightDaysAgo = today.minusDays(8);
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

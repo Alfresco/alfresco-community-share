@@ -44,7 +44,7 @@ public class EditTopicTests extends ContextAwareWebTest
     private String topicTag1 = "tag1";
     private String topicTag2 = "tag2";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

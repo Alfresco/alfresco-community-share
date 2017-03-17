@@ -50,7 +50,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     private String group;
     private String group2;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         user1 = "User1" + DataUtil.getUniqueIdentifier();

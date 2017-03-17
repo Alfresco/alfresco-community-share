@@ -46,7 +46,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     private String wikiMainPageContent = "Wiki main page content";
     private String wikiMainPagetTitle = "Main Page";
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setup()
     {
         super.setup();

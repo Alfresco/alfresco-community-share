@@ -59,7 +59,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     private String group = "testGroup" + DataUtil.getUniqueIdentifier();
     private String startWorkflowAction = "Start Workflow";
     private Alert alert;
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName1", "lastName1");

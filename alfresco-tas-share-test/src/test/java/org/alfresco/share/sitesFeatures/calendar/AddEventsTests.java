@@ -60,7 +60,7 @@ public class AddEventsTests extends ContextAwareWebTest
     private String defaultStartTime = "12:00 PM";
     private String defaultEndTime = "1:00 PM";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<Page>();

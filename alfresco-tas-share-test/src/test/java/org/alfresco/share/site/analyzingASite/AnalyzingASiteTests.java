@@ -71,7 +71,7 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
     private String fileName1User3 = "File1User3"+ DataUtil.getUniqueIdentifier();
     private String fileContentUser3 = "Content User 3";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         //C2233

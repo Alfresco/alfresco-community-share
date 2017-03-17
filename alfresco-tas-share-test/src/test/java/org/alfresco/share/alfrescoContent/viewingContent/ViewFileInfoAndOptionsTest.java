@@ -32,7 +32,7 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
     private final String docName = "testDoc" + DataUtil.getUniqueIdentifier();
     private final DateTime currentDate = new DateTime();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

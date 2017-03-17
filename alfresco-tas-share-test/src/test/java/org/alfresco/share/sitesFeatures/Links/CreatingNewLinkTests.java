@@ -45,7 +45,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
     private String linkURL = "https://www.google.com";
     private String linkDescription = "Link description" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

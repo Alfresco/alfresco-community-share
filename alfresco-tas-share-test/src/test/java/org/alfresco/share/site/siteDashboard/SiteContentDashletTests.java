@@ -51,7 +51,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     private String userName1 = "User1" + DataUtil.getUniqueIdentifier();
     private String userName2 = "User1" + DataUtil.getUniqueIdentifier();
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
 
     {

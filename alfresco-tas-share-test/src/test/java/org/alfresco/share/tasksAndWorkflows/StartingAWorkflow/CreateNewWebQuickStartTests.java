@@ -49,7 +49,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
     private String docContent = "docContent-" + DataUtil.getUniqueIdentifier();
     private String startWorkflowAction = "Start Workflow";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName1", "lastName1");

@@ -58,7 +58,7 @@ public class UserProfileTests extends ContextAwareWebTest
     private String c9426User = "c9426user" + DataUtil.getUniqueIdentifier();
     private String authenticationError;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         authenticationError = language.translate("login.authError");

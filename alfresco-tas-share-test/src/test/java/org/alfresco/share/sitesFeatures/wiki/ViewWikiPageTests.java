@@ -55,7 +55,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     private String tagName = "tag1";
     private List<String> tags = new ArrayList<String>();
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(Page.WIKI);

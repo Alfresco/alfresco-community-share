@@ -43,7 +43,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     private String siteName;
     private String wikiMainPageContent = "Wiki main page content";
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(Page.WIKI);

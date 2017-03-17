@@ -37,7 +37,7 @@ public class FoldersOnlyTests extends ContextAwareWebTest
     private final String path = "Sites/" + site + "/documentLibrary/" + folderName;
     private final String tag = "tag-" + uniqueId;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, domain, name, user);

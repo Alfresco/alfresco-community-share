@@ -40,7 +40,7 @@ public class DeletingContentTests extends ContextAwareWebTest
     private final String docName = "testDoc" + DataUtil.getUniqueIdentifier();
     private final String folderPathInRepository = "Sites/"+siteName+"/documentLibrary/";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

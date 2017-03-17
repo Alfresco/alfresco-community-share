@@ -54,7 +54,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     private String dialogTitle;
     private String dialogMessage;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, firstName, lastName);

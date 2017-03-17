@@ -33,7 +33,7 @@ public class WikiMainPageTests extends ContextAwareWebTest
     private String siteName;
     private String wikiPageContent = "content";
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setup()
     {
         super.setup();

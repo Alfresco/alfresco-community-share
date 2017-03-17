@@ -58,7 +58,7 @@ public class EditEventAgendaItemTest extends ContextAwareWebTest
     String newItemAudience = "Updated Audience";
     String newItemNotes = "Updated Notes";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         pagesToAdd.add(DashboardCustomization.Page.DATALISTS);

@@ -66,7 +66,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     String comment = "Comment" + DataUtil.getUniqueIdentifier();
     String filePath8865 = testDataFolder + fileC8865collaborator;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

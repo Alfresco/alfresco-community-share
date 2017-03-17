@@ -65,7 +65,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     private final String site6 = "site-C8689-" + random;
     private final String siteDescription = "Site Description";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, domain, name, user1);

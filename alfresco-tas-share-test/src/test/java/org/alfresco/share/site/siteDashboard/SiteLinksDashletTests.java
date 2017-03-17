@@ -46,7 +46,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     private String linkTitle = "google";
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);

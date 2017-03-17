@@ -45,7 +45,7 @@ public class EditEventsTests extends ContextAwareWebTest
     private String eventLocation = "Iasi";
     private String eventDescription = "Event description";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         List<Page> pagesToAdd = new ArrayList<>();

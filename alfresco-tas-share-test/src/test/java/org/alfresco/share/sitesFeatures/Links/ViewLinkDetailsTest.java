@@ -42,7 +42,7 @@ public class ViewLinkDetailsTest extends ContextAwareWebTest
     private DateTime currentDate = new DateTime();
     private String linkTitle = "Link1";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");

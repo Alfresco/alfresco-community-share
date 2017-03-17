@@ -43,7 +43,7 @@ public class TagManagerTests extends ContextAwareWebTest
     private String fileName;
     private String tag;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupClass()
     {
         String name = "name";

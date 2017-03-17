@@ -39,7 +39,7 @@ public class UploadTests extends ContextAwareWebTest
     private final String user2 = "user2-" + random;
     private final String path = "Shared";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
