@@ -1,4 +1,4 @@
-node('tse') {
+node('tas-node-win') {
  properties([
 
     	buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')),
