@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.admin;
 
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,7 +10,7 @@ import ru.yandex.qatools.htmlelements.element.Button;
  * Created by Claudia Agache on 7/4/2016.
  */
 @PageObject
-public class ListPagination
+public class ListPagination extends HtmlPage
 {
     @FindBy(id = "DOCLIB_PAGINATION_MENU")
     private WebElement paginationGroup;

@@ -90,7 +90,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     private String availableDashlet = "//li[@class='availableDashlet dnd-draggable']/span[text()='%s']/..";
     private String dashletsInColumn = "ul[id$='column-ul-%d'] li > span";
     private String targetColumn = "ul[id$='default-column-ul-%d']";
-    private String addedDaslet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']";
+    private String addedDashlet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']/following-sibling::div";
 
     @FindAll(@FindBy(css = "ul.availableList>li.availableDashlet>span"))
     List<WebElement> availableDashlets;
@@ -336,7 +336,8 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
      */
     public void removeDashlet(Dashlets dashlet, int columnNumber)
     {
-        WebElement dash = getDashletAddedInColumn(dashlet, columnNumber);
+        WebElement dash = browser.waitUntilElementVisible(
+				By.xpath(String.format(addedDashlet, columnNumber, dashlet.getDashletName())));
         if(dash != null)
         {
             dash.click();
@@ -428,7 +429,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         WebElement dasletToMove;
         try
         {
-            dasletToMove = browser.waitUntilElementVisible(By.xpath(String.format(addedDaslet, fromColumn, dashlet.getDashletName())));
+            dasletToMove = browser.waitUntilElementVisible(By.xpath(String.format(addedDashlet, fromColumn, dashlet.getDashletName())));
         }
         catch(NoSuchElementException ns)
         {
@@ -453,7 +454,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         WebElement dashToReplace = null;
         try
         {
-            dashToMove = browser.waitUntilElementVisible(By.xpath(String.format(addedDaslet, column, dashletToMove.getDashletName())));
+            dashToMove = browser.waitUntilElementVisible(By.xpath(String.format(addedDashlet, column, dashletToMove.getDashletName())));
         }
         catch(NoSuchElementException ns)
         {
@@ -461,7 +462,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         }
         try
         {
-            dashToReplace = browser.waitUntilElementVisible(By.xpath(String.format(addedDaslet, column, dashletToReplace.getDashletName())));
+            dashToReplace = browser.waitUntilElementVisible(By.xpath(String.format(addedDashlet, column, dashletToReplace.getDashletName())));
         }
         catch(NoSuchElementException ns)
         {
