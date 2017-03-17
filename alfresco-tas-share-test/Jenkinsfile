@@ -7,10 +7,10 @@ node('tas-node-win') {
     		string(defaultValue: '172.29.100.215', description: '', name: 'AlfrescoHost'),
     		string(defaultValue: '7070', description: '', name: 'AlfrescoPort'),
     		booleanParam(defaultValue: true, description: '', name: 'UseJolokiaAgent'),
-    		string(defaultValue: 'src/test/resources/wip-paul.xml' , description: '', name: 'SuiteXmlFile'),
+    		string(defaultValue: 'src/test/resources/share-po-runner-suite.xml' , description: '', name: 'SuiteXmlFile'),
     		booleanParam(defaultValue: false, description: '', name: 'RunTestsMarkedAsBugs'),
-    		string(defaultValue: 'sanity,core,full', description: '', name: 'IncludeGroups'),
-    		string(defaultValue: 'demo,unit,networks', description: '', name: 'ExcludeGroups'),
+    		string(defaultValue: 'sanity', description: '', name: 'IncludeGroups'),
+    		string(defaultValue: '', description: '', name: 'ExcludeGroups'),
     		booleanParam(defaultValue: false, description: 'Enable or Disable the ability of adding tests and TestRail', name: 'EnableTestRailIntegration'),
     		string(defaultValue: '5.1.N-${AlfrescoHost}', description: 'The name of the Test Run In TestRail (requires *EnableTestRailIntegration*)', name: 'TestRailTestRunName')
     		])
