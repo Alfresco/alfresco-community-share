@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
+import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -7,6 +8,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Mirela Tifui on 12/6/2016.
@@ -14,14 +16,17 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class CreateCustomTypeDialog extends ShareDialog
 {
+    @Autowired
+    ModelDetailsPage modelDetailsPage;
     @RenderWebElement
-    private By createCustomTypeWindow = By.id("CMM_CREATE_TYPE_DIALOG");
+    @FindBy(id="CMM_CREATE_TYPE_DIALOG")
+    private WebElement createCustomTypeWindow;
 
-    @RenderWebElement
     private By createButton = By.id("CMM_CREATE_TYPE_DIALOG_OK_label");
 
     @RenderWebElement
-    private By cancelButton = By.id("CMM_CREATE_TYPE_DIALOG_CANCEL_label");
+    @FindBy(id="CMM_CREATE_TYPE_DIALOG_CANCEL_label")
+    private WebElement cancelButton;
 
     @FindBy(xpath ="//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='name']")
     private WebElement nameField;
@@ -32,15 +37,16 @@ public class CreateCustomTypeDialog extends ShareDialog
     @FindBy(xpath = "//div[@id ='CMM_CREATE_TYPE_DIALOG']//div[@class='control']//textarea")
     private WebElement descriptionField;
 
-    public HtmlPage clickCreateButton(HtmlPage page)
+    public ModelDetailsPage clickCreateButton()
     {
         browser.findElement(createButton).click();
-        return page.renderedPage();
+        browser.waitInSeconds(2);
+        return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
 
     public void clickCancelButton()
     {
-        browser.findElement(cancelButton).click();
+        cancelButton.click();
     }
 
     public void sendNameInput(String name)
@@ -63,7 +69,6 @@ public class CreateCustomTypeDialog extends ShareDialog
 
     public boolean isCreateCustomTypeWindowDisplayed()
     {
-        browser.waitUntilElementVisible(createCustomTypeWindow);
         return browser.isElementDisplayed(createCustomTypeWindow);
     }
 

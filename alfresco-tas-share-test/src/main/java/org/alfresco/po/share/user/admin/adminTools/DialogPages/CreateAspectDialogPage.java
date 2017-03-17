@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
+import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -7,6 +8,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Mirela Tifui on 12/6/2016.
@@ -14,14 +16,18 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class CreateAspectDialogPage extends ShareDialog
 {
-    @RenderWebElement
-    private By createAspectWidow = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG");
+    @Autowired
+    ModelDetailsPage modelDetailsPage;
 
     @RenderWebElement
+    @FindBy(id="CMM_CREATE_PROPERTYGROUP_DIALOG")
+    private WebElement createAspectWidow;
+
     private By createButton = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG_OK_label");
 
     @RenderWebElement
-    private By cancelButton = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG_CANCEL_label");
+    @FindBy(id="CMM_CREATE_PROPERTYGROUP_DIALOG_CANCEL_label")
+    private WebElement cancelButton;
 
     @FindBy(xpath ="//div[@id ='CMM_CREATE_PROPERTYGROUP_DIALOG']//input[@name='name']")
     private WebElement nameField;
@@ -34,7 +40,6 @@ public class CreateAspectDialogPage extends ShareDialog
 
     public boolean isCreateAspectWindowDisplayed()
     {
-        browser.waitUntilElementVisible(createAspectWidow);
         return browser.isElementDisplayed(createAspectWidow);
     }
 
@@ -56,9 +61,10 @@ public class CreateAspectDialogPage extends ShareDialog
         descriptionField.sendKeys(description);
     }
 
-    public HtmlPage clickCreateButton(HtmlPage page)
+    public ModelDetailsPage clickCreateButton()
     {
         browser.findElement(createButton).click();
-        return page.renderedPage();
+        browser.waitInSeconds(2);
+        return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
 }

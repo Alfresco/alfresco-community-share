@@ -1,5 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.ImportModelDialogPage;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -8,6 +10,7 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -17,11 +20,16 @@ import java.util.List;
 @PageObject
 public class ModelManagerPage extends AdminToolsPage
 {
-    @RenderWebElement
-    public By createModelButton = By.cssSelector("span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']");
+    @Autowired CreateModelDialogPage createModelDialogPage;
+    @Autowired ImportModelDialogPage importModelDialogPage;
 
     @RenderWebElement
-    public By importModelButton = By.cssSelector("span[class*='importButton'] span[class='dijitReset dijitStretch dijitButtonContents']");
+    @FindBy (css="span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
+    private WebElement createModelButton;
+
+    @RenderWebElement
+    @FindBy (css="span[class*='importButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
+    private WebElement importModelButton;
 
     private By nameColumn = By.cssSelector("th[class*=' nameColumn '] span");
 
@@ -84,11 +92,10 @@ public class ModelManagerPage extends AdminToolsPage
         return noModelsText.getText();
     }
 
-    public HtmlPage clickCreateModelButton(HtmlPage page)
+    public CreateModelDialogPage clickCreateModelButton()
     {
-        browser.waitUntilElementClickable(createModelButton, 20);
-        browser.findElement(createModelButton).click();
-        return page.renderedPage();
+        createModelButton.click();
+        return (CreateModelDialogPage) createModelDialogPage.renderedPage();
     }
 
     public WebElement selectRow (String modelName)
@@ -111,14 +118,14 @@ public class ModelManagerPage extends AdminToolsPage
     public String getModelDetails(String modelName)
     {
         browser.waitUntilElementVisible(selectRow(modelName));
-        //browser.waitUntilWebElementIsDisplayedWithRetry(selectRow(modelName), 6);
+        //browser.waitUntilWebElementIsDisplayedWithRetry(selectAspectRow(modelName), 6);
         return selectRow(modelName).getText();
     }
 
-    public HtmlPage clickImportModel(HtmlPage page)
+    public ImportModelDialogPage clickImportModel()
     {
-        browser.findElement(importModelButton).click();
-        return page.renderedPage();
+        importModelButton.click();
+        return (ImportModelDialogPage) importModelDialogPage.renderedPage();
     }
 
     public HtmlPage clickModelName(String modelName, HtmlPage page)
@@ -159,31 +166,11 @@ public class ModelManagerPage extends AdminToolsPage
         return false;
     }
 
-    public void clickOnAction(String actionName)
+    public HtmlPage clickOnAction(String actionName, HtmlPage page)
     {
         List<WebElement> actionsOptions = browser.findElements(By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']"));
-        for (WebElement actionOption : actionsOptions)
-        {
-            if (actionOption.getText().equals(actionName))
-            {
-                actionOption.click();
-            }
-            //  break;
-        }
-
-    }
-    public void clickOnActionToChangeStatus(String actionName)
-    {
-        List<WebElement> actionsOptions = browser.findElements(By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']"));
-        for (WebElement actionOption : actionsOptions)
-        {
-            if (actionOption.getText().equals(actionName))
-            {
-                actionOption.click();
-            }
-            break;
-        }
-
+        browser.findFirstElementWithValue(actionsOptions, actionName).click();
+        return page.renderedPage();
     }
 
     public String getModelStatus(String modelName)

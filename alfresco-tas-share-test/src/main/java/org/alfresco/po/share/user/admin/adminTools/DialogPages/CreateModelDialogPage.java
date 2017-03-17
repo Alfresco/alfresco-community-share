@@ -24,19 +24,13 @@ public class CreateModelDialogPage extends ShareDialog
     @FindBy(xpath ="//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='name']")
     private WebElement nameField;
 
-    @RenderWebElement
-    @FindBy(id="CMM_CREATE_MODEL_DIALOG")
-    private WebElement createModelDialog;
-
     @FindBy(xpath ="//div[@id='CMM_CREATE_MODEL_DIALOG']//input[@name='author']")
     private WebElement creatorField;
 
     @FindBy(xpath ="//div[@id='CMM_CREATE_MODEL_DIALOG']//textarea[@name='description']")
     private WebElement descriptionField;
 
-    @RenderWebElement
     private By createButton = By.id("CMM_CREATE_MODEL_DIALOG_OK_label");
-
     private By cancelButton = By.id("CMM_CREATE_MODEL_DIALOG_CANCEL_label");
     private By closeWindowButton = By.cssSelector("div[id='CMM_CREATE_MODEL_DIALOG'] .dijitDialogCloseIcon");
 
@@ -77,7 +71,6 @@ public class CreateModelDialogPage extends ShareDialog
 
     public void clickCreateButton()
     {
-        browser.waitUntilElementClickable(createButton, 6);
-        browser.findElement(createButton).click();
+        browser.waitUntilElementClickable(createButton, 6).click();
     }
 }
