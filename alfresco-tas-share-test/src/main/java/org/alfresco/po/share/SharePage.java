@@ -16,6 +16,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import static org.alfresco.utility.report.log.Step.STEP;
+
 /**
  * handle common cases related to a share page
  * 
@@ -95,6 +97,7 @@ public abstract class SharePage<T> extends HtmlPage
     @SuppressWarnings("unchecked")
     public T navigate()
     {
+        STEP(String.format("Navigate to: %s", relativePathToURL().getPath()));
         browser.navigate().to(relativePathToURL());
         return (T) renderedPage();
     }
