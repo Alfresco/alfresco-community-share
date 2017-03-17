@@ -5,6 +5,7 @@ import org.alfresco.po.share.user.admin.adminTools.DialogPages.ImportModelDialog
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
@@ -22,6 +23,7 @@ public class ModelManagerPage extends AdminToolsPage
 {
     @Autowired CreateModelDialogPage createModelDialogPage;
     @Autowired ImportModelDialogPage importModelDialogPage;
+    @Autowired ModelDetailsPage modelDetailsPage;
 
     @RenderWebElement
     @FindBy (css="span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
@@ -107,12 +109,14 @@ public class ModelManagerPage extends AdminToolsPage
 
     public WebElement selectModelByName(String modelName)
     {
-        return browser.findElement(By.xpath("//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']/../../../.."));
+        By modelRow = By.xpath("//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']/../../../..");
+        browser.waitUntilElementIsDisplayedWithRetry(modelRow);
+        return browser.findElement(modelRow);
     }
 
     public boolean isModelDisplayed(String modelName)
     {
-        return browser.isElementDisplayed(selectRow(modelName));
+        return browser.isElementDisplayed(selectModelByName(modelName));
     }
 
     public String getModelDetails(String modelName)
@@ -128,12 +132,11 @@ public class ModelManagerPage extends AdminToolsPage
         return (ImportModelDialogPage) importModelDialogPage.renderedPage();
     }
 
-    public HtmlPage clickModelName(String modelName, HtmlPage page)
+    public ModelDetailsPage clickModelName(String modelName)
     {
-        //browser.waitInSeconds(4);
         browser.waitUntilElementClickable(By.xpath("//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']"), 15);
         browser.findElement(By.xpath("//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']")).click();
-        return page.renderedPage();
+        return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
 
     public Boolean isActionsButtonDisplayed()
@@ -143,14 +146,13 @@ public class ModelManagerPage extends AdminToolsPage
 
     public void clickActionsButtonForModel(String modelName)
     {
-        //browser.waitInSeconds(2);
-        browser.waitUntilElementVisible(selectModelByName(modelName));
-        browser.waitUntilElementClickable(selectModelByName(modelName).findElement(actionsButton), 5);
-        selectModelByName(modelName).findElement(actionsButton).click();
+        Parameter.checkIsMandotary("Model", selectModelByName(modelName));
+        browser.waitUntilElementClickable(selectModelByName(modelName).findElement(actionsButton), 5).click();
     }
 
     public void mouseOverModelItem(String modelName)
     {
+        Parameter.checkIsMandotary("Model", selectModelByName(modelName));
         browser.mouseOver(selectModelByName(modelName));
     }
 
@@ -175,7 +177,7 @@ public class ModelManagerPage extends AdminToolsPage
 
     public String getModelStatus(String modelName)
     {
-        //browser.waitUntilWebElementIsDisplayedWithRetry(selectModelByName(modelName).findElement(status), 5);
+        Parameter.checkIsMandotary("Model", selectModelByName(modelName));
         return selectModelByName(modelName).findElement(status).getText();
     }
 

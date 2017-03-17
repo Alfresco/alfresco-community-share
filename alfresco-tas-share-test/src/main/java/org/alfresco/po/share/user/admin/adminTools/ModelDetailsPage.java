@@ -54,14 +54,12 @@ public class ModelDetailsPage extends SharePage<ModelDetailsPage>
     public String getAspectDetails(String aspectName)
     {
         List<WebElement> itemsList = browser.waitUntilElementsVisible(aspectList);
-        LOG.info("aspects list size:"+itemsList.size());
         return browser.findFirstElementWithValue(itemsList, aspectName).getText();
     }
 
     public String getTypeDetails(String typeName)
     {
         List<WebElement> itemsList = browser.waitUntilElementsVisible(typeList);
-        LOG.info("type list size:"+itemsList.size());
         return browser.findFirstElementWithValue(itemsList, typeName).getText();
     }
 

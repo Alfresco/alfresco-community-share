@@ -181,7 +181,7 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         LOG.info("Step 1: On the Model Manager Page click Actions for C9516testModel and check available actions");
 
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(modelManagerPage.selectModelByName(name));
+        Assert.assertTrue(modelManagerPage.isModelDisplayed(name), "Model should be displayed");
         modelManagerPage.clickActionsButtonForModel(name);
         Assert.assertTrue(modelManagerPage.isActionAvailable("Activate"), "Activate is not available for C9516testModel");
         Assert.assertTrue(modelManagerPage.isActionAvailable("Edit"), "Edit is not available for C9516testModel");
@@ -258,7 +258,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         modelManagerPage.renderedPage();
 
         LOG.info("Step 1: On the Model Manager click on Actions for C9518testModel");
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(modelManagerPage.selectModelByName(name), 2);
+        Assert.assertTrue(modelManagerPage.isModelDisplayed(name), "Model should be displayed");
         modelManagerPage.clickActionsButtonForModel(name);
         Assert.assertTrue(modelManagerPage.isActionAvailable("Delete"), "Delete is not available for C9518testModel");
 
@@ -420,7 +420,7 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         LOG.info("Step 1: On the Model Manager page click C42566testModel name link.");
         getBrowser().waitUntilElementVisible(modelManagerPage.selectRow(name));
-        modelManagerPage.clickModelName(name, modelDetailsPage);
+        modelManagerPage.clickModelName(name);
         Assert.assertTrue(modelDetailsPage.isCreateAspectButtonDisplayed(), "Create Aspect button is not displayed");
         Assert.assertTrue(modelDetailsPage.isCreateCustomTypeButtonDisplayed(), "Create Custom Type button is not displayed");
         Assert.assertTrue(modelDetailsPage.isShowModelsButtonDisplayed(), "Show models button is not displayed");
@@ -462,7 +462,7 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         LOG.info("Step 1: On the Model Manager page click C42567testModel name link.");
         getBrowser().waitUntilElementVisible(modelManagerPage.selectRow(name));
-        modelManagerPage.clickModelName(name, modelDetailsPage);
+        modelManagerPage.clickModelName(name);
         Assert.assertTrue(modelDetailsPage.isCreateAspectButtonDisplayed(), "Create Aspect button is not displayed");
         Assert.assertTrue(modelDetailsPage.isCreateCustomTypeButtonDisplayed(), "Create Custom Type button is not displayed");
         Assert.assertTrue(modelDetailsPage.isShowModelsButtonDisplayed(), "Show models button is not displayed");
@@ -496,7 +496,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         importModelDialogPage.importFile(filePath);
         importModelDialogPage.clickImportButton();
         modelManagerPage.renderedPage();
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(modelManagerPage.selectModelByName(modelName), 5);
+        Assert.assertTrue(modelManagerPage.isModelDisplayed(modelName), "Model should be displayed");
         modelManagerPage.clickActionsButtonForModel(modelName);
         modelManagerPage.clickOnAction("Activate", modelManagerPage);
         cleanupAuthenticatedSession();
