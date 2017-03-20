@@ -77,13 +77,11 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);        
         LOG.info("Step 1: Hover over the file Like link.");
-        getBrowser().waitUntilElementClickable(social.likeButton, 6L);
         Assert.assertTrue(documentLibraryPage.isLikeButtonDisplayed(folderNameC7907), "Documents link is not present");
         Assert.assertEquals(social.getLikeButtonMessage(folderNameC7907), "Like this folder", "Like Button message is not correct");
         Assert.assertEquals(social.getNumberOfLikes(folderNameC7907), 0, "The number of likes is not correct");
         
         LOG.info("Step 2: Click on the Like button");
-        getBrowser().waitUntilElementClickable(social.likeButton, 6L);
         social.clickLikeButton(folderNameC7907);
         Assert.assertEquals(social.getNumberOfLikes(folderNameC7907), 1, "The number of likes is not correct");   
         Assert.assertTrue(social.isLikeButtonEnabled(folderNameC7907), "Like button is not enabled");

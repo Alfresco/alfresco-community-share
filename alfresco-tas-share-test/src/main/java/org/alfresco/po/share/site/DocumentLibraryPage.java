@@ -34,6 +34,10 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private WebElement navigationBar;
 
     @RenderWebElement
+    @FindBy(css = "div[id$='default-paginatorBottom']")
+    private WebElement paginator;
+
+    @RenderWebElement
     @FindBy(css = "div[id$='_default-dl-body']")
     private WebElement docListContainer;
 
@@ -182,6 +186,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private By downloadAsZipSelector = By.cssSelector("a[title='Download as Zip']");
     public By descriptionTagFilter = By.cssSelector("div.message span.more");
     private By commentButton = By.cssSelector("a.comment");
+    protected By likeButton = By.cssSelector("a.like-action");
 
     public enum DocumentsFilters
     {
@@ -295,10 +300,9 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public WebElement selectDocumentLibraryItemRow(String documentItem)
     {
-        browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 3);
-        LOG.info("DocumentLibraryItemsList was found");
+        browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 6);
         List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
-        LOG.info("Number of itemsList: "+ itemsList.size());
+        LOG.info("Number of DocumentLibraryItemsList: "+ itemsList.size());
         return browser.findFirstElementWithValue(itemsList, documentItem);
     }
 
@@ -853,9 +857,19 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public void mouseOverTags(String contentName)
     {
-        WebElement contentTags = browser.waitUntilElementVisible(selectDocumentLibraryItemRow(contentName).findElement(contentTagsSelector));
-        browser.mouseOver(contentTags);
-        // browser.waitUntilElementVisible(editTagSelector);
+        WebElement contentElement = selectDocumentLibraryItemRow(contentName);
+        Parameter.checkIsMandotary("Content selector", contentElement);
+        WebElement tagElement = contentElement.findElement(contentTagsSelector);
+        Parameter.checkIsMandotary("Tag selector", tagElement);
+        browser.mouseOver(tagElement);
+        try
+        {
+            browser.waitUntilElementVisible(contentElement.findElement(editTagSelector));
+        }
+        catch (NoSuchElementException e)
+        {
+            // no log needed due to negative cases.
+        }
     }
 
     /**
@@ -865,26 +879,20 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public void mouseOverNoTags(String contentName)
     {
-        int counter = 0;
-        while (counter < 3)
+        WebElement contentElement = selectDocumentLibraryItemRow(contentName);
+        Parameter.checkIsMandotary("Content selector", contentElement);
+        WebElement tagElement = contentElement.findElement(noTagsSelector);
+        Parameter.checkIsMandotary("Tag selector", tagElement);
+        browser.mouseOver(tagElement);
+        try
         {
-            try
-            {
-                browser.mouseOver(selectDocumentLibraryItemRow(contentName).findElement(noTagsSelector));
-                browser.waitInSeconds(4);
-                break;
-                // if (!isEditTagIconDisplayed(contentName))
-                // break;
-                //
-            }
-            catch (TimeoutException | NoSuchElementException e)
-            {
-                LOG.error("Action not found:" + e);
-                counter++;
-                browser.refresh();
-                this.renderedPage();
-            }
+            browser.waitUntilElementVisible(contentElement.findElement(editTagSelector));
         }
+        catch (NoSuchElementException e)
+        {
+            // no log needed due to negative cases.
+        }
+
     }
 
     public boolean isEditTagInputFieldDisplayed()
@@ -1065,7 +1073,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public boolean isLikeButtonDisplayed(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a[class='like-action']")).isDisplayed();
+        return selectDocumentLibraryItemRow(fileName).findElement(likeButton).isDisplayed();
     }
 
     public boolean isCommentButtonDisplayed(String fileName)

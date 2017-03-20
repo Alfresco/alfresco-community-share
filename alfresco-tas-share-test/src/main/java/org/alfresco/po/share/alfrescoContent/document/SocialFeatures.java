@@ -1,20 +1,15 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 @PageObject
-public class SocialFeatures extends SiteCommon<SocialFeatures>
+public class SocialFeatures extends DocumentLibraryPage
 {
-    @FindBy(css = "a.like-action")
-    public WebElement likeButton;
-
     @FindBy(css = ".section input[id*='input']")
     private WebElement publicLinkInputField;
 
@@ -70,26 +65,14 @@ public class SocialFeatures extends SiteCommon<SocialFeatures>
     private By commentCounterSelector = By.cssSelector(".comment-count");
     private By shareButton = By.cssSelector("a.quickshare-action");
     private By likesCount = By.cssSelector("span.likes-count");
-    private By documentLibraryItemsList = By.cssSelector("[class*=data] tr");
     public By quickShareWindow = By.cssSelector("div.yuimenu.quickshare-action-menu.yui-module.yui-overlay.visible");
     public By enabledLikeButton = By.cssSelector("a[class ='like-action enabled']");
-
-    public WebElement selectDocumentLibraryItemRow(String documentItem)
-    {
-        browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 6);
-        List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
-        return browser.findFirstElementWithValue(itemsList, documentItem);
-    }
 
     protected String user = "alfresco.cloud@gmail.com";
     protected String password = "alfresco123!";
     protected String gEmail = "test.alfresco5@gmail.com";
     protected String gPassword = "Ness2015*";
 
-    private WebElement selectContent(String contentName)
-    {
-        return browser.findElement(By.xpath("//a[text()='" + contentName + "']"));
-    }
 
     @Override
     public String getRelativePath()
@@ -104,7 +87,7 @@ public class SocialFeatures extends SiteCommon<SocialFeatures>
 
     public String getLikeButtonMessage(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a.like-action")).getAttribute("title");
+        return selectDocumentLibraryItemRow(fileName).findElement(likeButton).getAttribute("title");
     }
 
     /**
@@ -126,7 +109,7 @@ public class SocialFeatures extends SiteCommon<SocialFeatures>
      */
     public void clickLikeButton(String fileName)
     {
-        selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a.like-action")).click();
+        selectDocumentLibraryItemRow(fileName).findElement(likeButton).click();
     }
 
     /**
@@ -137,7 +120,7 @@ public class SocialFeatures extends SiteCommon<SocialFeatures>
      */
     public boolean isLikeButtonEnabled(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a[class ='like-action enabled']")).isDisplayed();
+        return selectDocumentLibraryItemRow(fileName).findElement(enabledLikeButton).isDisplayed();
     }
 
     /**
@@ -148,7 +131,7 @@ public class SocialFeatures extends SiteCommon<SocialFeatures>
      */
     public String getLikeButtonEnabledText(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a[class ='like-action enabled']")).getAttribute("title");
+        return selectDocumentLibraryItemRow(fileName).findElement(enabledLikeButton).getAttribute("title");
     }
 
     /**
@@ -158,12 +141,13 @@ public class SocialFeatures extends SiteCommon<SocialFeatures>
      */
     public void clickUnlike(String fileName)
     {
-        selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a[class ='like-action enabled']")).click();
+        selectDocumentLibraryItemRow(fileName).findElement(enabledLikeButton).click();
     }
 
-    public void clickCommentLink(String contentName)
+    public DocumentDetailsPage clickCommentLink(String contentName)
     {
         selectDocumentLibraryItemRow(contentName).findElement(commentLinkSelector).click();
+        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
     public int getNumberOfComments(String contentName)
