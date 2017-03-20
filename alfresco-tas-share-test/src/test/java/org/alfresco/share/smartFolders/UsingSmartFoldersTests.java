@@ -146,7 +146,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         logger.info("Step1: Hover over folder and click More -> Manage Aspects.");
-        getBrowser().waitInSeconds(2);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
@@ -289,7 +288,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         logger.info("Step1: Hover over folder and click More -> Manage Aspects.");
-        getBrowser().waitInSeconds(2);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
@@ -380,7 +378,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
-        getBrowser().waitInSeconds(2);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
         Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
@@ -444,7 +441,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
-        getBrowser().waitInSeconds(2);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
         Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
@@ -523,7 +519,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         logger.info("Step1: Hover over folder and click More -> Manage Aspects.");
-        getBrowser().waitInSeconds(2);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
@@ -585,13 +580,9 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step12: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("All site content");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Documents");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Office Documents");
-        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
 
         logger.info("Step13: Hover over the created document and check available actions");

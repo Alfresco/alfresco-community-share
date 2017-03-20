@@ -60,11 +60,7 @@ public class ManuallyRunningRulesTest extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Manage Rule page for folder");
-        documentLibraryPage.mouseOverContentItem(folderName);
-        getBrowser().waitInSeconds(2);
-        documentLibraryPage.clickMoreMenu(folderName);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
-        getBrowser().waitInSeconds(2);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 

@@ -61,10 +61,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
-        LOG.info("STEP1: Hover over the file");
-        documentLibraryPage.mouseOverContentItem(docName);
-
-        LOG.info("STEP2: Click 'More...' link. Click 'Copy to...' link");
+        LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
         documentLibraryPage.clickDocumentLibraryItemAction(docName, copyAction, copyMoveToDialog);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + docName + " to...", "Displayed pop up");
 
@@ -102,10 +99,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
-        LOG.info("STEP1: Hover over the file");
-        documentLibraryPage.mouseOverContentItem(docName);
-
-        LOG.info("STEP2: Click 'More...' link. Click 'Copy to...' link");
+        LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
         documentLibraryPage.clickDocumentLibraryItemAction(docName, copyAction, copyMoveToDialog);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + docName + " to...", "Displayed pop up");
 
@@ -143,10 +137,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName1);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
-        LOG.info("STEP1: Hover over folder");
-        documentLibraryPage.mouseOverContentItem(folderName);
-
-        LOG.info("STEP2: Click 'More...' link. Click 'Copy to...' link");
+        LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, copyAction, copyMoveToDialog);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + folderName + " to...", "Displayed pop up");
 

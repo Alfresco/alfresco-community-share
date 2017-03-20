@@ -55,10 +55,7 @@ public class DeletingContentTests extends ContextAwareWebTest
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, "Document content");
         documentLibraryPage.navigate(siteName);
 
-        LOG.info("STEP1: Hover over the file");
-        documentLibraryPage.mouseOverFileName(docName);
-
-        LOG.info("STEP2: Click 'More...' link. Click 'Delete Document' link");
+        LOG.info("STEP1: Hover over the file STEP2: Click 'More...' link. Click 'Delete Document' link");
         documentLibraryPage.clickDocumentLibraryItemAction(docName, "Delete Document", deleteDialog);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteDocument"), "'Delete Document' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), docName));
@@ -79,10 +76,7 @@ public class DeletingContentTests extends ContextAwareWebTest
         contentService.createFolderInRepository(adminUser, adminPassword, subFolder, folderPathInRepository+folderNameD+"/");
         documentLibraryPage.navigate(siteName);
 
-        LOG.info("STEP1: Hover over the folder");
-        documentLibraryPage.mouseOverContentItem(folderNameD);
-
-        LOG.info("STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
+        LOG.info("STEP1: Hover over the file. STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderNameD, "Delete Folder", deleteDialog);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteFolder"), "'Delete Folder' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), folderNameD));
@@ -104,10 +98,7 @@ public class DeletingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickFolderFromExplorerPanel(folderNameC);
 
-        LOG.info("STEP1: Hover 'DelSubfolder' name from the content item list.");
-        documentLibraryPage.mouseOverContentItem(subFolder);
-
-        LOG.info("STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
+        LOG.info("STEP1: Hover 'DelSubfolder' name from the content item list. STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
         documentLibraryPage.clickDocumentLibraryItemAction(subFolder, "Delete Folder", deleteDialog);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteFolder"), "'Delete Folder' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), subFolder));

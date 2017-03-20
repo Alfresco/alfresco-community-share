@@ -49,7 +49,6 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
         logger.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
         setupAuthenticatedSession(userName, password);
         sharedFilesPage.navigate();
-        getBrowser().waitInSeconds(2);
 
         logger.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects Form");
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
@@ -99,7 +98,6 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
         logger.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
         setupAuthenticatedSession(userName1, password);
         sharedFilesPage.navigate();
-        getBrowser().waitInSeconds(2);
 
         logger.info("Step1: Hover over the folder created by other user and verify 'Manage Aspects' action is missing");
         sharedFilesPage.mouseOverContentItem(folderName);

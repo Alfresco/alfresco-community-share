@@ -70,7 +70,6 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(nonAdminUser);
-        getBrowser().waitInSeconds(2);
 
         logger.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
         repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, "Manage Aspects", aspectsForm);
@@ -92,12 +91,9 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     @TestRail(id = "C13763")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void manageAspectsForNonAdminOnRepositoryMainFolder()
-
     {
-
         setupAuthenticatedSession(nonAdminUser, password);
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
 
         logger.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
         repositoryPage.mouseOverContentItem(folderInRepoMainPath);
@@ -109,12 +105,9 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     @TestRail(id = "C13764")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void manageAspectsAdminOnRepositoryMainFolder()
-
     {
-
         setupAuthenticatedSession(adminUser, adminPassword);
         repositoryPage.navigate();
-        repositoryPage.renderedPage();
 
         logger.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
         repositoryPage.mouseOverContentItem(folderInRepoMainPath);

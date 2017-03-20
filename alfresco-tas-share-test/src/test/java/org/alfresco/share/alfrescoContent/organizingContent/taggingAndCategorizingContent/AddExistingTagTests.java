@@ -61,12 +61,7 @@ public class AddExistingTagTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addExistingTagFromEditPropertiesDialog()
     {
-        LOG.info("STEP1: Hover over the content created in the preconditions");
-        documentLibraryPage.mouseOverContentItem(fileName);
-        assertTrue(documentLibraryPage.isMoreMenuDisplayed(fileName), "'More' menu is displayed.");
-        documentLibraryPage.clickMore();
-
-        LOG.info("STEP2: Click \"Edit Properties\" option");
+        LOG.info("STEP1: Hover over the content created in the preconditions. STEP2: Click \"Edit Properties\" option");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Properties", documentLibraryPage);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), fileName), "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");

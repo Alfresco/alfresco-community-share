@@ -65,8 +65,6 @@ public class LinkingToDifferentRuleSet extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Manage Rule page for folder1");
-        documentLibraryPage.mouseOverContentItem(folderName);
-        documentLibraryPage.clickMoreMenu(folderName);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
@@ -91,8 +89,6 @@ public class LinkingToDifferentRuleSet extends ContextAwareWebTest
 
         LOG.info("Navigate to Manage Rule page for folder2");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.mouseOverContentItem(folderName2);
-        documentLibraryPage.clickMoreMenu(folderName2);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName2, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName2 + ": Rules", "Rule title=");

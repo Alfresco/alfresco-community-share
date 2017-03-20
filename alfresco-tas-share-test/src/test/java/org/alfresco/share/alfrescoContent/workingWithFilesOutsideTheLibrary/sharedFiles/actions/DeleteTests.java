@@ -53,11 +53,8 @@ public class DeleteTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        getBrowser().waitInSeconds(4);
 
         LOG.info("STEP1: Hover over the file you want to delete");
-        sharedFilesPage.mouseOverContentItem(docName);
-
         LOG.info("STEP2: Click 'More' menu -> \"Delete Document\"");
         sharedFilesPage.clickDocumentLibraryItemAction(docName, language.translate("documentLibrary.contentActions.deleteDocument"), deleteDialog);
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), docName), "Delete dialog message= ");
@@ -78,13 +75,8 @@ public class DeleteTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        getBrowser().waitInSeconds(4);
 
         LOG.info("STEP1: Hover over the file you want to delete and press \"More\"");
-        sharedFilesPage.mouseOverContentItem(folderName);
-        getBrowser().waitInSeconds(3);
-        assertTrue(sharedFilesPage.isMoreMenuDisplayed(folderName), "'More' menu displayed for " + folderName);
-
         LOG.info("STEP2: Press \"Delete Folder\"");
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.deleteFolder"), deleteDialog);
 
@@ -107,17 +99,12 @@ public class DeleteTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        getBrowser().waitInSeconds(4);
 
         LOG.info("STEP1: Hover over " + docName2);
-        sharedFilesPage.mouseOverFileName(docName2);
-        getBrowser().waitInSeconds(3);
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName2, language.translate("documentLibrary.contentActions.deleteDocument")),
                 language.translate("documentLibrary.contentActions.deleteDocument") + " option is displayed for " + docName2);
 
         LOG.info("STEP1: Hover over " + folderName2);
-        sharedFilesPage.mouseOverFolder(folderName2);
-        getBrowser().waitInSeconds(3);
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(folderName2, language.translate("documentLibrary.contentActions.deleteDocument")),
                 language.translate("documentLibrary.contentActions.deleteDocument") + " option is displayed for " + folderName2);
     }

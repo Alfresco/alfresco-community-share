@@ -107,8 +107,6 @@ public class DocumentLibraryTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "test folder is not displayed");
 
         LOG.info("Step 3: Hover over the created folder.");
-        documentLibraryPage.mouseOverContentItem(folderName);
-        documentLibraryPage.clickMore();
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Download as Zip"), "Download as zip is not available");
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "View Details"), "View Details is not available");
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Edit Properties"), "Edit Properties is not available");
@@ -126,21 +124,17 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     {
         String docName = "docName-C6936-" + random;
 
+        contentService.createDocument(user, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+
         LOG.info("Step 1: Navigate to testSite's document library page.");
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library");
         assertEquals(documentLibraryPage.getCurrentSiteName(), siteName);
 
         LOG.info("Step 2: Create any file in the site's document library (e.g. testFile).");
-        contentService.createDocument(user, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
-        documentLibraryPage.renderedPage();
-        getBrowser().refresh();
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " document is displayed");
 
         LOG.info("Step 3: Hover over the created file.");
-        documentLibraryPage.mouseOverFileName(docName);
-        documentLibraryPage.clickMore();
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Download"), "Download is not available");
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "View In Browser"), "View In Browser is not available");
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Edit in Google Docs™"), "Edit in Google Docs™ is not available");

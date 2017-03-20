@@ -54,7 +54,6 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on a folder (e.g. testFolder) and then hover over a file in the document library (e.g. testFile) .");
         documentLibraryPage.clickOnFolderName(folderName);
         getBrowser().waitInSeconds(1);
-        documentLibraryPage.mouseOverFileName(docName);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Edit in Google Docs™"),
                 "Edit in Google Docs™ is not available for file");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Download"), "Download is not available for test document");

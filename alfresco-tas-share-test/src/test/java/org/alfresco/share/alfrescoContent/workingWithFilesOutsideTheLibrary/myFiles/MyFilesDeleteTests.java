@@ -51,10 +51,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         uploadContent.uploadContent(testFilePath);
         assertTrue(myFilesPage.isContentNameDisplayed(testFile),String.format("The file [%s] is not present", testFile));
 
-        LOG.info("STEP1: Hover over the file");
-        myFilesPage.mouseOverFileName(testFile);
-
-        LOG.info("STEP2: Click 'More...' link. Click 'Delete Document' link");
+        LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Delete Document' link");
         myFilesPage.clickDocumentLibraryItemAction(testFile, "Delete Document", deleteDialog);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteDocument"), "'Delete Document' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), testFile));
@@ -84,10 +81,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
-        LOG.info("STEP1: Hover over the folder");
-        myFilesPage.mouseOverContentItem(folderName);
-
-        LOG.info("STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
+        LOG.info("STEP1: Hover over the folder. STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
         myFilesPage.clickDocumentLibraryItemAction(folderName, "Delete Folder", deleteDialog);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteFolder"), "'Delete Folder' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), folderName));

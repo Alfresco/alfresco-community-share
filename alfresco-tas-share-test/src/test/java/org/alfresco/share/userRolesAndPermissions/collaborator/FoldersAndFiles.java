@@ -486,10 +486,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     documentLibraryPage.navigate(siteName5);
 
     LOG.info("Step 1: Hover over 'testFolder1'.");
-    documentLibraryPage.mouseOverContentItem(testFolder5);
-
     LOG.info("Step 2: Click 'More...' link. The Move to option is not available.");
-    documentLibraryPage.clickMoreMenu(testFolder5);
     assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(testFolder5, "Move to..."),
         ("Move to...") + " option is displayed for " + testFolder5);
 
@@ -573,10 +570,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     documentLibraryPage.navigate(siteName2);
 
     LOG.info("Step 1: Hover 'DelFolder' name from the content item list.");
-    documentLibraryPage.mouseOverContentItem(testFolder8);
-
     LOG.info("Step 2: Click on 'More...' link. The Delete folder option is not available.");
-    documentLibraryPage.clickMoreMenu(testFolder8);
     assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(testFolder8, "Delete Folder"),
         ("Delete Folder") + " option is displayed for " + testFolder8);
 
@@ -596,7 +590,6 @@ public class FoldersAndFiles extends ContextAwareWebTest {
         "Step 1: Hover for 'testFolder' and click on 'Manage Permissions' option from 'More' menu.");
     documentLibraryPage.clickDocumentLibraryItemAction(testFolder9, "Manage Permissions",
         managePermissionsPage);
-    // managePermissionsPage.renderedPage();
     assertEquals(managePermissionsPage.getTitle(), "Manage Permissions: " + testFolder9,
         "Manage Permissions: " + testFolder9 + " title displayed.");
 
@@ -613,7 +606,6 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     LOG.info("Step 4: Click 'More' menu, 'Manage Permissions' options.");
     documentLibraryPage.clickDocumentLibraryItemAction(testFolder9, "Manage Permissions",
         managePermissionsPage);
-    // managePermissionsPage.renderedPage();
     assertEquals(managePermissionsPage.getTitle(), "Manage Permissions: " + testFolder9,
         "Manage Permissions: " + testFolder9 + " title displayed.");
     assertTrue(managePermissionsPage.isPermissionAddedForUser(user),
@@ -631,10 +623,8 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     contentService.createFolder(adminUser, adminPassword, testFolder10, siteName);
     documentLibraryPage.navigate(siteName);
 
-    LOG.info(
-        "Step 1: Mouse over and click on 'More...' button. 'Manage Permissions' option from 'More' menu must not be displayed.");
-    assertFalse(
-        documentLibraryPage.isActionAvailableForLibraryItem(testFolder10, "Manage Permissions"),
+    LOG.info("Step 1: Mouse over and click on 'More...' button. 'Manage Permissions' option from 'More' menu must not be displayed.");
+    assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(testFolder10, "Manage Permissions"),
         "Manage Permissions" + " option is not displayed for " + testFolder10);
 
   }

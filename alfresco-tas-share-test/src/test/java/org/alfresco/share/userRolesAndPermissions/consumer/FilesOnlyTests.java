@@ -149,7 +149,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
 
         LOG.info("Step 1: Mouse over fileC8884 and check that Download action is available");
-        documentLibraryPage.mouseOverFileName(fileC8884);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileC8884, "Download"));
 
         LOG.info("Step 2: Click download button");
@@ -171,8 +170,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Mouse over test file and check that View In Browser action is available");
-
-        documentLibraryPage.mouseOverFileName(fileC8885);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileC8885, "View In Browser"), "View in browser is not available");
 
         LOG.info("Step 2: Click view in Browser");
@@ -202,9 +199,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     {
         LOG.info("Preconditions: log in with different user and lock file for editing");
         setupAuthenticatedSession(adminUser, adminPassword);
-        getBrowser().waitInSeconds(2);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.mouseOverFileName(fileC8888);
         documentLibraryPage.clickDocumentLibraryItemAction(fileC8888, "Edit Offline", documentLibraryPage);
         getBrowser().waitInSeconds(2);
         cleanupAuthenticatedSession();
@@ -277,9 +272,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     {
         LOG.info("Preconditions: log in with different user and lock file for editing");
         setupAuthenticatedSession(adminUser, adminPassword);
-        getBrowser().waitInSeconds(2);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.mouseOverFileName(fileC8902);
         documentLibraryPage.clickDocumentLibraryItemAction(fileC8902, "Edit Offline", documentLibraryPage);
         getBrowser().waitInSeconds(2);
         cleanupAuthenticatedSession();
@@ -300,9 +293,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Login with admin user and Mouse over testFile and click Edit Offline");
         setupAuthenticatedSession(adminUser, adminPassword);
-        getBrowser().waitInSeconds(2);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.mouseOverFileName(fileC8903);
         documentLibraryPage.clickDocumentLibraryItemAction(fileC8903, "Edit Offline", documentLibraryPage);
         getBrowser().waitInSeconds(2);
 
@@ -312,8 +303,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 4: Mouse over testFile and check the availability of the View Original Document option");
-
-        documentLibraryPage.mouseOverFileName(fileC8903);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileC8903, "View Original Document"), "View Original Document is not available");
         documentLibraryPage.clickDocumentLibraryItemAction(fileC8903, "View Original Document", documentDetailsPage);
         // Assert.assertEquals(documentDetailsPage.getContentText(), testContent, "Document content is not correct");
@@ -325,9 +314,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Login with admin user and Mouse over testFile and click Edit Offline");
         setupAuthenticatedSession(adminUser, adminPassword);
-        getBrowser().waitInSeconds(2);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.mouseOverFileName(fileC8904);
         documentLibraryPage.clickDocumentLibraryItemAction(fileC8904, "Edit Offline", documentLibraryPage);
         getBrowser().waitInSeconds(2);
 
@@ -337,9 +324,8 @@ public class FilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 4: Mouse over testFile and check the availability of the View Original Document option");
-
-        documentLibraryPage.mouseOverFileName(fileC8904);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileC8904, "View Original Document"), "View Original Document is not available");
+        documentLibraryPage.mouseOverContentItem(fileC8904);
         documentLibraryPage.clickDocumentLibraryItemAction(fileC8904, "View Original Document", documentDetailsPage);
 
         LOG.info("Step 5: Check View Working Copy action availability");
@@ -354,9 +340,8 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void consumerStartWorkflow()
     {
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.renderedPage();
 
-        LOG.info("Step 1: Mouse over fileC8906 and confirm that Edit Offline option is not available");
+        LOG.info("Step 1: Mouse over fileC8906 and confirm that Start Workflow option is available");
         documentLibraryPage.mouseOverFileName(fileC8906);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileC8906, "Start Workflow"));
 
@@ -374,11 +359,8 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Step 1: In Documents Library, go to Documents sections and select Recently Added.");
         documentLibraryPage.clickDocumentsFilterOption("Recently Added");
-        documentLibraryPage.renderedPage();
 
         LOG.info("Step 2: Mouse over testFile and confirm the presence of Locate File.");
-        getBrowser().waitInSeconds(3);
-        documentLibraryPage.mouseOverFileName(fileC8907);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileC8907, "Locate File"));
 
         LOG.info("Step 3: Click Locate File");
@@ -497,7 +479,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Navigate to Document Library and check that user with consumer role does not have access to Cancel Editing or Edit Google Doc");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.mouseOverFileName("Untitled Document.docx");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem("Untitled Document.docx", "Cancel Editing in Google Docs™"));
         cleanupAuthenticatedSession();
         LOG.info("Step 4: Login with admin account and check-in document");

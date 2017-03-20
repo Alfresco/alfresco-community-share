@@ -57,11 +57,7 @@ public class CreateTagTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
 
-        LOG.info("STEP1: Hover over the file name");
-        documentLibraryPage.mouseOverFileName(fileName);
-        assertTrue(documentLibraryPage.isMoreMenuDisplayed(fileName), "'More' menu is displayed.");
-
-        LOG.info("STEP2: Click \"Edit Properties\" link");
+        LOG.info("STEP1: Hover over the file name. STEP2: Click \"Edit Properties\" link");
         documentLibraryPage.clickCheckBox(fileName);
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Properties", documentLibraryPage);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), fileName), "Displayed dialog=");

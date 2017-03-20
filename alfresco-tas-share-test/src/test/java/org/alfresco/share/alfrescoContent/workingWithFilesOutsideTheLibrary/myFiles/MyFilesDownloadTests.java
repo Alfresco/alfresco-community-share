@@ -76,7 +76,6 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
         uploadContent.uploadContent(filePath, fileContent);
 
         LOG.info("Step 1: Mouse over file, click Download");
-        myFilesPage.mouseOverFileName(fileNameC7799);
         myFilesPage.clickDocumentLibraryItemAction(fileNameC7799, "Download", myFilesPage);
 
         if (documentCommon.isAlertPresent())
@@ -107,8 +106,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
         assertTrue(myFilesPage.isContentNameDisplayed(folderNameC7802), folderNameC7802 + " displayed in My Files documents list.");
 
         LOG.info("Step 1: Mouse over folder, click Download");
-        myFilesPage.mouseOverFolder(folderNameC7802);
-        myFilesPage.clickAction(folderNameC7802, "Download as Zip");
+        myFilesPage.clickDocumentLibraryItemAction(folderNameC7802, "Download as Zip", myFilesPage);
 
         if (documentCommon.isAlertPresent())
         {

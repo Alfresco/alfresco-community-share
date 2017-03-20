@@ -68,11 +68,8 @@ public class DownloadTests  extends ContextAwareWebTest
     public void downloadFileFromAlfresco()
     {
         sharePage.navigate();
-        sharePage.renderedPage();
 
         LOG.info("Step 1: Mouse over file, click Download");
-
-        sharePage.mouseOverFileName(fileNameC8024);
         sharePage.clickDocumentLibraryItemAction(fileNameC8024, "Download", sharePage);
 
         if (documentCommon.isAlertPresent())
@@ -92,11 +89,9 @@ public class DownloadTests  extends ContextAwareWebTest
     public void downloadFolder()
     {
         sharePage.navigate();
-        sharePage.renderedPage();
       
         LOG.info("Step 1: Mouse over folder, click Download");
-        sharePage.mouseOverFolder(folderNameC8027);
-        sharePage.clickAction(folderNameC8027, "Download as Zip");
+        sharePage.clickDocumentLibraryItemAction(folderNameC8027, "Download as Zip", sharePage);
 
         if (documentCommon.isAlertPresent())
         {

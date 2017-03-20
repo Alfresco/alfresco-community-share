@@ -81,11 +81,9 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.mouseOverFileName(docName);
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
-        getBrowser().waitInSeconds(4);
         startWorkflowPage.selectAWorkflow();
 
         LOG.info("STEP 3: Select the workflow 'Review And Approve (single reviewer)' from the drop-down list.");
@@ -125,7 +123,6 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.mouseOverFileName(docName);
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
@@ -180,7 +177,6 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.mouseOverFileName(docName);
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
@@ -222,11 +218,9 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.mouseOverFileName(docName);
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
-        getBrowser().waitInSeconds(4);
         startWorkflowPage.selectAWorkflow();
 
         LOG.info("STEP 3: Select the workflow 'Review and Approve (pooled review)' from the drop-down list.");

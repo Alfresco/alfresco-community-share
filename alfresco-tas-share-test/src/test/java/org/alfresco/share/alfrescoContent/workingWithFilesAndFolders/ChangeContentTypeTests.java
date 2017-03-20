@@ -88,7 +88,6 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-        documentLibraryPage.mouseOverContentItem(folderName);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page:");
 

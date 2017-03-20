@@ -71,7 +71,6 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
         documentLibraryPage.clickCheckBox(fileName);
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentActions.editInAlfresco"),
                 editInAlfrescoPage);
-        getBrowser().waitInSeconds(2);
 
         logger.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.sendDocumentDetailsFields(editedName, editedContent, editedTitle, editedDescription);

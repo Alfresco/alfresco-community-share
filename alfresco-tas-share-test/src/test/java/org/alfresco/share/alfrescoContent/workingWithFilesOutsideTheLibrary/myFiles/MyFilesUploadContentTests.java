@@ -73,9 +73,6 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Navigate back to My Files page and click on upload new version for the file.");
         sitePage.clickMyFilesLink();
-        getBrowser().waitInSeconds(4);
-        myFilesPage.mouseOverFileName(testFile);
-        myFilesPage.clickMoreMenu(testFile);
         myFilesPage.clickDocumentLibraryItemAction(testFile, "Upload New Version", uploadContent);
 
         LOG.info("STEP3: Update the file with major version.");

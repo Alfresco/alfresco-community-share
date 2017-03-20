@@ -110,7 +110,6 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: On to Document Library page verify the user has access to View the folder details page");
         documentLibraryPage.clickDocumentLibraryItemAction(folderC8761, "View Details", documentDetailsPage);
-        getBrowser().waitInSeconds(3);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
 
         LOG.info("Step 2: Verify the user has access to View the file details page");
@@ -205,10 +204,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
 
-        LOG.info("STEP1: Hover over the file");
-        documentLibraryPage.mouseOverContentItem(fileC8770);
-
-        LOG.info("STEP2: Click 'More...' link. Click 'Copy to...' link");
+        LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
         documentLibraryPage.clickDocumentLibraryItemAction(fileC8770, copyAction, copyMoveToDialog);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + fileC8770 + " to...", "Displayed pop up");
 
@@ -288,7 +284,6 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: On to Document Library page click on 'View Details' option for the folder.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderC8761, "View Details", documentDetailsPage);
-        getBrowser().waitInSeconds(3);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
 
         LOG.info("Step 2: Verify the user does not have access to change the type.");
@@ -341,7 +336,6 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: On to Document Library page click on 'View Details' option for the folder.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderC8784, "View Details", documentDetailsPage);
-        getBrowser().waitInSeconds(3);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "User is not on the Folder Details page");
 
         LOG.info("Step 2: Verify the user does not have access to edit the comment.");

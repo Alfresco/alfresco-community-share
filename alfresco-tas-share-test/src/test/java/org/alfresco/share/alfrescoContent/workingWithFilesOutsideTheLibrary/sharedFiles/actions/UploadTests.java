@@ -96,7 +96,6 @@ public class UploadTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Navigate to Shared Files page and click on upload new version");
         sharedFilesPage.navigate();
-        sharedFilesPage.mouseOverFileName(testFile);
         sharedFilesPage.clickDocumentLibraryItemAction(testFile, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
 
         LOG.info("STEP3: Select file to upload. Update version");

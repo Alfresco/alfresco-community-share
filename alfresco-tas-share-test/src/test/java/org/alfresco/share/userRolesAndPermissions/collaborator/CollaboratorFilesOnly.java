@@ -298,8 +298,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
 
     LOG.info("Step 1: Mouse over the testDocument from Document Library");
     documentLibraryPage.navigate(siteName);
-    documentLibraryPage.renderedPage();
-    documentLibraryPage.mouseOverFileName(fileNameC8940);
 
     LOG.info("Step 2: Click the Download Button. Check the file was saved locally");
     documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8940, "Download",
@@ -326,8 +324,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
 
     LOG.info("Step 1: Mouse over the testFile and check available actions");
     documentLibraryPage.navigate(siteName);
-    documentLibraryPage.renderedPage();
-    documentLibraryPage.mouseOverFileName(fileNameC8941);
 
     LOG.info("Step 2: Click 'View in getBrowser().'");
     documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8941, "View In Browser",
@@ -346,8 +342,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
 
     LOG.info("Step 1: Mouse over the testFile and check available actions");
     documentLibraryPage.navigate(siteName);
-    documentLibraryPage.renderedPage();
-    documentLibraryPage.mouseOverFileName(fileNameC8947);
 
     LOG.info("Step 2: Click Edit in Alfresco.");
     documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8947,
@@ -386,15 +380,12 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
 
     LOG.info("Step 1: Mouse over the testFile and check available actions");
     documentLibraryPage.navigate(siteName);
-    documentLibraryPage.renderedPage();
-    documentLibraryPage.mouseOverContentItem(fileNameC8948);
 
     LOG.info("Step 2: Click Edit in Alfresco.");
     documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8948,
         language.translate("documentLibrary.contentActions.editInAlfresco"), editInAlfrescoPage);
 
     LOG.info("Step 3: Edit content and save changes.");
-    editInAlfrescoPage.renderedPage();
     editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName1, updatedContent1, updatedTitle1,
         updatedDescription1);
     editInAlfrescoPage.renderedPage();
@@ -452,8 +443,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
         "Google Drive icon is not displayed");
 
     LOG.info("Step 4: Mouse over testFile name and check available actions.");
-    documentLibraryPage.mouseOverFileName(fileNameC8957);
-
     LOG.info("Step 5: Click Cancel editing action..");
     documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8957,
         "Cancel Editing in Google Docs™", documentLibraryPage);
@@ -476,12 +465,10 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
 
     LOG.info("Step 1: Mouse over the testFile and check available actions");
     documentLibraryPage.navigate(siteName);
-    documentLibraryPage.renderedPage();
     Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileNameC8962),
         String.format("Document %s is not present", fileNameC8962));
 
     LOG.info("Step 2: Click Start Workflow.");
-    documentLibraryPage.mouseOverContentItem(fileNameC8962);
     documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8962, "Start Workflow",
         startWorkflowPage);
 
@@ -530,7 +517,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
 
     LOG.info("Step 1: Mouse over the testFile and check available actions");
     documentLibraryPage.navigate(siteName);
-    documentLibraryPage.mouseOverFileName(fileNameC8942);
     Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8942,language.translate("documentLibrary.contentAction.uploadNewVersion")), "Upload new version action is not available for "+ fileNameC8942);
 
     LOG.info("Step 2: Click Upload New Version");
@@ -570,8 +556,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
     setupAuthenticatedSession(user, password);
 
     LOG.info("Step 1: Mouse over the testFile and check available actions");
-    documentLibraryPage.navigate(siteName).renderedPage();
-    documentLibraryPage.mouseOverFileName(fileNameC8943);
+    documentLibraryPage.navigate(siteName);
     Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8943,language.translate("documentLibrary.contentAction.uploadNewVersion")), "Upload new version action is not available for "+ fileNameC8943);
 
     LOG.info("Step 2: Click Upload New Version");
@@ -731,11 +716,8 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
     contentService.createDocument(user, password, siteName2, DocumentType.MSWORD, fileNameC8945, fileContent);
     setupAuthenticatedSession(user,password);
     documentLibraryPage.navigate(siteName2);
-    documentLibraryPage.renderedPage();
 
     LOG.info("Step 1: Mouse over testFile and check available actions.");
-    documentLibraryPage.mouseOverFileName(fileNameC8945);
-    documentLibraryPage.clickMore();
     Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8945, "Edit in Microsoft Office™"), "Edit in Microsoft Office™ is not available");
     cleanupAuthenticatedSession();
 
@@ -752,11 +734,8 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
     contentService.createDocument(adminUser, adminPassword, siteName2, DocumentType.MSWORD, fileNameC8946, content);
     setupAuthenticatedSession(user,password);
     documentLibraryPage.navigate(siteName2);
-    documentLibraryPage.renderedPage();
 
     LOG.info("Step 1: Mouse over testFile and check that Edit in Microsoft Office™ is one of the available actions");
-    documentLibraryPage.mouseOverFileName(fileNameC8946);
-    documentLibraryPage.clickMore();
     Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8946, "Edit in Microsoft Office™"), "Edit in Microsoft Office™ is not available");
     cleanupAuthenticatedSession();
 
@@ -773,11 +752,8 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
     contentService.createDocument(user, password, siteName2, DocumentType.TEXT_PLAIN, fileNameC8949, content);
     setupAuthenticatedSession(user,password);
     documentLibraryPage.navigate(siteName2);
-    documentLibraryPage.renderedPage();
 
     LOG.info("Step 1: Mouse over testFile and check that Edit Offline is one of the available actions");
-    documentLibraryPage.mouseOverFileName(fileNameC8949);
-    documentLibraryPage.clickMore();
     Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8949, "Edit Offline"), "Edit Offline is not available");
     cleanupAuthenticatedSession();
 
@@ -794,11 +770,8 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest {
     contentService.createDocument(adminUser, adminPassword, siteName2, DocumentType.TEXT_PLAIN, fileNameC8950, content);
     setupAuthenticatedSession(user,password);
     documentLibraryPage.navigate(siteName2);
-    documentLibraryPage.renderedPage();
 
     LOG.info("Step 1: Mouse over testFile and check that Edit Offline is one of the available actions");
-    documentLibraryPage.mouseOverFileName(fileNameC8950);
-    documentLibraryPage.clickMore();
     Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8950, "Edit Offline"), "Edit Offline is not available");
     cleanupAuthenticatedSession();
 

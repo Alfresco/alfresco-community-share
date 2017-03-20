@@ -50,8 +50,6 @@ public class ViewingFolderDetailsTest extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isHideFoldersMenuOptionDisplayed(), "Hide Folders menu option is not displayed");
 
         LOG.info("Step 3 - Hover over a folder (e.g. testFolder) in the file list in the document 'Library' and click on 'View Details' icon.");
-        documentLibraryPage.mouseOverContentItem(folderName);
-        documentLibraryPage.clickMore();
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
         assertTrue(documentDetailsPage.isFilePropertiesDetailsDisplayed(), "File Properties details are not displayed");
         assertTrue(documentDetailsPage.isFolderActionsPanelDisplayed(), "Folder actions panel is not displayed");

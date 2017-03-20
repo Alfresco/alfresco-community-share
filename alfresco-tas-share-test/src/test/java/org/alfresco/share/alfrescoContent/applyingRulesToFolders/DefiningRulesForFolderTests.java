@@ -421,10 +421,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Manage Rule page for folder1");
-        // documentLibraryPage.mouseOverContentItem(folderName);
-        // documentLibraryPage.clickMoreMenu(folderName);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
-        getBrowser().waitInSeconds(2);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 
@@ -456,9 +453,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         LOG.info("STEP4: Navigate to folder content. For file click on 'Edit in Alfresco' and update the content");
         documentLibraryPage.clickOnFolderName(folderName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
-        // getBrowser().findElement(By.id("Value")).sendKeys(Keys.ARROW_DOWN);
-        // documentLibraryPage.mouseOverFileName(fileName);
-        documentLibraryPage.clickMoreMenu(fileName);
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentActions.editInAlfresco"), editInAlfrescoPage);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Edit in Alfresco", "Displayed page=");
         editInAlfrescoPage.typeContent("Content updated!");
@@ -491,7 +485,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         LOG.info("Navigate to Manage Rule page for folder1");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
-        getBrowser().waitInSeconds(2);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
 

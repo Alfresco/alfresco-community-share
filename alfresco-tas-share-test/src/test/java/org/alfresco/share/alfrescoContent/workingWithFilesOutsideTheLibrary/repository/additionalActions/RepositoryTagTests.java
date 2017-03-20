@@ -115,10 +115,6 @@ public class RepositoryTagTests extends ContextAwareWebTest
         repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8278), fileNameC8278 + " is not available in Repository");
         LOG.info("STEP1: Hover over the content created in the preconditions");
-
-        repositoryPage.mouseOverFileName(fileNameC8278);
-        getBrowser().waitInSeconds(2);
-        repositoryPage.clickMore();
         LOG.info("STEP2: Click \"Edit Properties\" option");
         repositoryPage.clickDocumentLibraryItemAction(fileNameC8278, "Edit Properties", repositoryPage);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), fileNameC8278),

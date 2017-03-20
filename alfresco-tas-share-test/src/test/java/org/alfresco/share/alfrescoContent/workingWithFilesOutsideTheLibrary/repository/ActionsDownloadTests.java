@@ -73,8 +73,6 @@ public class ActionsDownloadTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8240), fileNameC8240 + " is not available in Repository");
 
         LOG.info("Step 1: Mouse over file, click Download");
-
-        repositoryPage.mouseOverFileName(fileNameC8240);
         repositoryPage.clickDocumentLibraryItemAction(fileNameC8240, "Download", repositoryPage);
 
         if (documentCommon.isAlertPresent())
@@ -99,7 +97,6 @@ public class ActionsDownloadTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(folderNameC8243), folderNameC8243 + " is not available in Repository");
 
         LOG.info("Step 1: Mouse over folder, click Download");
-        repositoryPage.mouseOverContentItem(folderNameC8243);
         repositoryPage.clickDocumentLibraryItemAction(folderNameC8243, "Download as Zip", repositoryPage);
 
         if (documentCommon.isAlertPresent())

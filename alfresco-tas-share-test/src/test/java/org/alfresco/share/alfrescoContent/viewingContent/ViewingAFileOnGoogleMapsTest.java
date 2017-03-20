@@ -60,7 +60,6 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
         documentLibraryPage.clickOnFolderName(folderName);
         getBrowser().waitInSeconds(1);
         Assert.assertTrue(documentLibraryPage.isGeolocationMetadataIconDisplayed(), "Geolocation Metadata icon is not displayed");
-        documentLibraryPage.mouseOverFileName(docName);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Edit in Google Docs™"),
                 "Edit in Google Docs™ is not available for file");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Download"), "Download is not available for test document");

@@ -98,7 +98,6 @@ public class FoldersOnlyTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(subFolderName), subFolderName + " is displayed in 'My Favorites'.");
 
         LOG.info("STEP2: Click 'More' menu for " + subFolderName + ", and verify presence of \"Locate Folder\" option");
-        documentLibraryPage.clickMoreMenu(subFolderName);
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, language.translate("documentLibrary.contentActions.locateFolder")),
                 "'Locate Folder' option is displayed for " + subFolderName);
 
@@ -115,7 +114,6 @@ public class FoldersOnlyTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
-        documentLibraryPage.clickMoreMenu(folderName3);
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName3, language.translate("documentLibrary.contentActions.manageRules")),
                 "'Manage Rules' option is displayed for " + folderName3);
 

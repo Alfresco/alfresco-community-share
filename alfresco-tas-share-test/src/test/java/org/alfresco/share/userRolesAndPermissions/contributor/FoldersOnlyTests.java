@@ -107,12 +107,11 @@ public class FoldersOnlyTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(subFolderName), subFolderName + " is displayed in 'My Favorites'.");
 
         LOG.info("STEP2: Click 'More' menu for " + subFolderName + ", and verify presence of \"Locate Folder\" option");
-        documentLibraryPage.clickMoreMenu(subFolderName);
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, language.translate("documentLibrary.contentActions.locateFolder")),
                 "'Locate Folder' option is displayed for " + subFolderName);
 
         LOG.info("STEP3: Click \"Locate Folder\" option");
-        documentLibraryPage.clickOnAction(subFolderName, language.translate("documentLibrary.contentActions.locateFolder"));
+        documentLibraryPage.clickDocumentLibraryItemAction(subFolderName, language.translate("documentLibrary.contentActions.locateFolder"), documentLibraryPage);
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString(), "Breadcrumb=");
     }
 
@@ -124,11 +123,11 @@ public class FoldersOnlyTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
-        documentLibraryPage.clickMoreMenu(folderName3);
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName3, language.translate("documentLibrary.contentActions.manageRules")),
                 "'Manage Rules' option is displayed for " + folderName3);
 
         LOG.info("STEP2: Click 'Manage Rules' option for " + folderName3);
+        documentLibraryPage.mouseOverContentItem(folderName3);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName3, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
     }

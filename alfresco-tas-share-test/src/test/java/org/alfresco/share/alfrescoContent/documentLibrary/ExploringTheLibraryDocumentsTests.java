@@ -97,13 +97,11 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         
         LOG.info("Step 2: Checkout testFile1 for offline editing");
         documentLibraryPage.navigate(siteNameC6321);
-        documentLibraryPage.mouseOverFileName(docName);
         documentLibraryPage.clickDocumentLibraryItemAction(docName, "Edit Offline", documentLibraryPage);
   
         LOG.info("Step 3: Open again Document Library and click I'm editing filter");
        
         documentLibraryPage.navigate(siteNameC6321);
-        documentLibraryPage.renderedPage();       
         filters.clickIMEditingFilter();
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName1), "testFile2 is displayed and it should not be displayed");
