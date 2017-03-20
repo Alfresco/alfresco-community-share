@@ -11,6 +11,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.asserts.Assertion;
+
+import junit.framework.Assert;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
 import java.util.List;
@@ -203,10 +206,10 @@ public class CustomizeSiteDashboardPage extends SiteCommon<CustomizeSiteDashboar
     {
         WebElement dashToMove = null;
         WebElement dashToReplace = null;
-        String addedDaslet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']";
+        String addedDashlet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']/following-sibling::div";
         try
         {
-            dashToMove = browser.waitUntilElementVisible(By.xpath(String.format(addedDaslet, column, dashletToMove.getDashletName())));
+            dashToMove = browser.waitUntilElementVisible(By.xpath(String.format(addedDashlet, column, dashletToMove.getDashletName())));
         }
         catch(NoSuchElementException ns)
         {
@@ -214,7 +217,7 @@ public class CustomizeSiteDashboardPage extends SiteCommon<CustomizeSiteDashboar
         }
         try
         {
-            dashToReplace = browser.waitUntilElementVisible(By.xpath(String.format(addedDaslet, column, dashletToReplace.getDashletName())));
+            dashToReplace = browser.waitUntilElementVisible(By.xpath(String.format(addedDashlet, column, dashletToReplace.getDashletName())));
         }
         catch(NoSuchElementException ns)
         {
@@ -224,4 +227,5 @@ public class CustomizeSiteDashboardPage extends SiteCommon<CustomizeSiteDashboar
         browser.dragAndDrop(dashToMove, dashToReplace);
         browser.dragAndDrop(dashToMove, dashToReplace);
     }
+    
 }

@@ -426,25 +426,25 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     
     public void moveAddedDashletInColumn(Dashlets dashlet, int fromColumn, int toColumn)
     {
-        WebElement dasletToMove;
+        WebElement dashletToMove;
         try
         {
-            dasletToMove = browser.waitUntilElementVisible(By.xpath(String.format(addedDashlet, fromColumn, dashlet.getDashletName())));
+            dashletToMove = browser.waitUntilElementVisible(By.xpath(String.format(addedDashlet, fromColumn, dashlet.getDashletName())));
         }
         catch(NoSuchElementException ns)
         {
             throw new PageOperationException(dashlet.getDashletName() + " not found in column " +  fromColumn);
         }
-        dasletToMove.click();
+        dashletToMove.click();
         if(browser.findElements(By.cssSelector(String.format(dashletsInColumn, toColumn))).size() > 5)
         {
             throw new PageOperationException("Exceeded the number of dashlets in given column.");
         }
         WebElement target = browser.findElement(By.cssSelector(String.format(targetColumn, toColumn)));
-        browser.dragAndDrop(dasletToMove, target);
+        browser.dragAndDrop(dashletToMove, target);
         if(!isDashletAddedInColumn(dashlet, toColumn))
         {
-            browser.dragAndDrop(dasletToMove, target);
+            browser.dragAndDrop(dashletToMove, target);
         }
     }
     
