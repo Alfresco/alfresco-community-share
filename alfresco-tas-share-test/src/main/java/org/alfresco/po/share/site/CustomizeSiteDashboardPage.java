@@ -223,7 +223,6 @@ public class CustomizeSiteDashboardPage extends SiteCommon<CustomizeSiteDashboar
         {
             throw new PageOperationException(dashletToReplace.getDashletName() + " not found in column " +  column);
         }
-        dashToMove.click();
         browser.dragAndDrop(dashToMove, dashToReplace);
         browser.dragAndDrop(dashToMove, dashToReplace);
     }
