@@ -2,10 +2,8 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sha
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
-import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -30,16 +28,10 @@ public class TagTests extends ContextAwareWebTest
     private SharedFilesPage sharedFilesPage;
 
     @Autowired
-    private HeaderMenuBar headerMenuBar;
-
-    @Autowired
     private EditPropertiesDialog editPropertiesDialog;
 
     @Autowired
     private SelectDialog selectDialog;
-
-    @Autowired
-    private DeleteDialog deleteDialog;
 
     private final String random = DataUtil.getUniqueIdentifier();
     private final String docName = "Doc-C8062-" + random;
@@ -71,10 +63,6 @@ public class TagTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(adminUser, adminPassword, path13766, CMISUtil.DocumentType.TEXT_PLAIN, docName5, "");
         contentAction.addSingleTag(adminUser, adminPassword, path + "/" + folderName2, tagName2);
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
-
-//        setupAuthenticatedSession(adminUser, adminPassword);
-//        sharedFilesPage.navigate();
-//        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -91,7 +79,6 @@ public class TagTests extends ContextAwareWebTest
     {
         LOG.info("STEP1: Hover over one tag from the content name");
         sharedFilesPage.mouseOverNoTags(docName);
-        getBrowser().waitInSeconds(3);
 
         LOG.info("STEP2: Click \"Tag\" icon");
         sharedFilesPage.clickEditTagIcon(docName);
@@ -112,7 +99,6 @@ public class TagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from the folder");
         sharedFilesPage.mouseOverNoTags(folderName);
-        getBrowser().waitInSeconds(3);
         assertTrue(sharedFilesPage.isEditTagIconDisplayed(folderName), folderName + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -130,13 +116,8 @@ public class TagTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addExistingTag()
     {
-        LOG.info("STEP1: Hover over " + docName2);
-        sharedFilesPage.mouseOverContentItem(docName2);
-        getBrowser().waitInSeconds(3);
-
-        LOG.info("STEP2: Click \"Edit Properties\" option");
-        sharedFilesPage.clickDocumentLibraryItemAction(docName2, language.translate("documentLibrary.contentActions.editProperties"), sharedFilesPage);
-        getBrowser().waitInSeconds(3);
+        LOG.info("STEP1: Hover over " + docName2 +".STEP2: Click \"Edit Properties\" option");
+        sharedFilesPage.clickDocumentLibraryItemAction(docName2, language.translate("documentLibrary.contentActions.editProperties"), editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), docName2), "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
 
@@ -164,7 +145,6 @@ public class TagTests extends ContextAwareWebTest
     {
         LOG.info("STEP1: Hover over the tag(s) from the content");
         sharedFilesPage.mouseOverTags(folderName2);
-        getBrowser().waitInSeconds(3);
         assertTrue(sharedFilesPage.isEditTagIconDisplayed(folderName2), folderName2 + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -189,9 +169,7 @@ public class TagTests extends ContextAwareWebTest
     {
         LOG.info("  Hover over the text \"No Tags\" from " + docName3);
         sharedFilesPage.navigate();
-        getBrowser().waitInSeconds(7);
         sharedFilesPage.mouseOverNoTags(docName3);
-        getBrowser().waitInSeconds(5);
         assertTrue(sharedFilesPage.isEditTagIconDisplayed(docName3), docName3 + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("  Click \"Edit Tag\" icon");
@@ -229,9 +207,7 @@ public class TagTests extends ContextAwareWebTest
     {
         LOG.info("STEP1: Hover over the text \"No Tags\" from " + docName4);
         sharedFilesPage.navigate();
-        getBrowser().waitInSeconds(7);
         sharedFilesPage.mouseOverNoTags(docName4);
-        getBrowser().waitInSeconds(5);
         assertTrue(sharedFilesPage.isEditTagIconDisplayed(docName4), docName4 + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");

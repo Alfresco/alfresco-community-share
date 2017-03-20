@@ -6,14 +6,13 @@ import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class RestrictingMobileAccessTests extends ContextAwareWebTest
@@ -25,38 +24,33 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
 
     @Autowired private AspectsForm aspectsForm;
 
-    @Autowired private SiteDashboardPage siteDashboardPage;
-
     @Autowired private EditPropertiesPage editPropertiesPage;
 
     private String userName;
     private String siteName;
     private String fileName;
-    private String fileContent;
-    private String helpMessage;
+    private String fileContent = "testContent";
+    private String helpMessage = "This field must contain a number.";
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
-        fileName = "testFile";
-        fileContent = "testContent";
-        helpMessage = "This field must contain a number.";
+
         userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
-        contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
     }
 
     @TestRail(id = "C7111")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void addRestrictableAspect() throws Exception
-
     {
+        fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
+        contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         logger.info("Preconditions: Navigate to Document Details page for the test file");
-        siteDashboardPage.navigate(siteName);
-        siteDashboardPage.clickDocumentLibrary();
+        documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileName);
 
         logger.info("Step1: Click Actions -> Manage Aspects option");
@@ -77,24 +71,20 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     @TestRail(id = "C7112")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void editRestrictableProperty()
-
     {
-
+        fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
+        contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         logger.info("Preconditions: Add Restrictable aspect to test file");
-        siteDashboardPage.navigate(siteName);
-        siteDashboardPage.renderedPage();
-        siteDashboardPage.clickDocumentLibrary();
-        documentLibraryPage.renderedPage();
+        documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileName);
-        documentDetailsPage.renderedPage();
         documentDetailsPage.clickManageAspects();
         aspectsForm.addElement(14);
         aspectsForm.clickApplyChangesButton();
+        getBrowser().refresh();
 
         logger.info("Step1: Click Actions -> Edit Properties option");
         documentDetailsPage.renderedPage();
         documentDetailsPage.clickEditProperties();
-        editPropertiesPage.renderedPage();
 
         logger.info("Step2: Click '?' icon and verify the help message");
 
@@ -114,10 +104,10 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void removeRestrictableProperty() throws Exception
     {
-
+        fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
+        contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         logger.info("Preconditions: Add Restrictable aspect to test file");
-        siteDashboardPage.navigate(siteName);
-        siteDashboardPage.clickDocumentLibrary();
+        documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileName);
         documentDetailsPage.clickManageAspects();
         aspectsForm.addElement(14);

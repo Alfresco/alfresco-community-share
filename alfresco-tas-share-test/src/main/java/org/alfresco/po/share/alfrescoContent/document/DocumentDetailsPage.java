@@ -42,7 +42,6 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @Autowired
     TinyMceEditor tinyMceEditor;
 
-    @RenderWebElement
     @FindBy(css = "div[class='node-info'] h1")
     protected WebElement documentTitle;
 
@@ -131,6 +130,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @FindBy(css = "[id*=default-paginator-top] [class*=previous]")
     protected WebElement previousPage;
 
+    @RenderWebElement
     @FindBy(css = ".viewmode-label")
     protected List<WebElement> propertiesList;
 
