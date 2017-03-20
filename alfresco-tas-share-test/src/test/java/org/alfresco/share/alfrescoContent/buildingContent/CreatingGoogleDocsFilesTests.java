@@ -52,7 +52,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     @TestRail(id = "C6990")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createGoogleDocsDocument() throws Exception
-
     {
         logger.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
         googleDocs.loginToGoogleDocs();
@@ -90,7 +89,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     @TestRail(id = "C6991")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createGoogleDocsSpreadsheet() throws Exception
-
     {
         logger.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
         googleDocs.loginToGoogleDocs();

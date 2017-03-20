@@ -67,10 +67,10 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     @FindBy(xpath = ".//*[@id='docs-file-menu']")
     protected WebElement fileLinkGoogleDocs;
 
-    @FindBy(xpath = ".//*[@id='insertLinkButton']/div/div/div/div")
+    @FindBy(xpath = "//div[@id='insertLinkButton']")
     protected WebElement addLinkInGoogleDoc;
 
-    @FindBy(xpath = ".//*[@id='t-insert-link']/div/div/div/div")
+    @FindBy(xpath = "//div[@id='t-insert-link']")
     protected WebElement addLinkInGoogleSheet;
 
     @FindBy(xpath = "//input[contains(@class, 'docs-link-insertlinkbubble-text jfk-textinput label-input-label')]")
@@ -144,9 +144,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     }
 
     public void switchToGoogleDocsWindowandAndEditContent(String title, String content)
-
     {
-
         String currentWindow = browser.getWindowHandle();
 
         for (String winHandle : browser.getWindowHandles())
@@ -161,15 +159,11 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         browser.waitInSeconds(5);
 
         browser.close();
-
         browser.switchTo().window(currentWindow);
-
     }
 
     public void switchToGoogleSheetsWindowandAndEditContent(String title, String content)
-
     {
-
         String currentWindow = browser.getWindowHandle();
 
         for (String winHandle : browser.getWindowHandles())
@@ -186,7 +180,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         browser.close();
 
         browser.switchTo().window(currentWindow);
-
     }
 
     public void switchToGooglePresentationsAndEditContent(String title)
@@ -216,13 +209,10 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         while (counter <= retryRefreshCount)
         {
             try
-            {
-                WebElement element = browser.findElement(By.xpath(".//*[@id='insertLinkButton']/div/div/div/div"));
-
+            {     
                 String js = "arguments[0].style.height='auto'; arguments[0].style.visibility='visible';";
-
-                ((JavascriptExecutor) browser).executeScript(js, element);
-                element.click();
+                ((JavascriptExecutor) browser).executeScript(js, addLinkInGoogleDoc);
+                addLinkInGoogleDoc.click();                
                 browser.waitInSeconds(4);
                 if (inputTextForLinkInGoogleDoc.isDisplayed() && inputLinkInGoogleDoc.isDisplayed())
                 {
@@ -250,13 +240,10 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         while (counter <= retryRefreshCount)
         {
             try
-            {
-                WebElement element = browser.findElement(By.xpath(".//*[@id='t-insert-link']/div/div/div/div"));
-
+            {                          
                 String js = "arguments[0].style.height='auto'; arguments[0].style.visibility='visible';";
-
-                ((JavascriptExecutor) browser).executeScript(js, element);
-                element.click();
+                ((JavascriptExecutor) browser).executeScript(js, addLinkInGoogleSheet);
+                addLinkInGoogleSheet.click();
                 browser.waitInSeconds(4);
                 if (inputLinkInGoogleSheets.isDisplayed() && inputLinkInGoogleSheets.isDisplayed())
                 {

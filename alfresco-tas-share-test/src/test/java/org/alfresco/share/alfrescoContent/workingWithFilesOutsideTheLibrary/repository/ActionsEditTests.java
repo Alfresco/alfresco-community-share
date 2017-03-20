@@ -25,13 +25,10 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class ActionsEditTests extends ContextAwareWebTest
-
 {
-
     @Autowired private RepositoryPage repositoryPage;
 
-    @Autowired
-    SiteDashboardPage sitePage;
+    @Autowired private SiteDashboardPage sitePage;
 
     @Autowired private DocumentDetailsPage detailsPage;
 
