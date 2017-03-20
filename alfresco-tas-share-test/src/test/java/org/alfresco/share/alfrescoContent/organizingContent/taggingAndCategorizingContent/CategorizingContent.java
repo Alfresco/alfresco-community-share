@@ -66,12 +66,7 @@ public class CategorizingContent extends ContextAwareWebTest
     public void addCategoryForFile_NoCategoriesAdded()
     {
         documentLibraryPage.navigate(siteName);
-
-        LOG.info("STEP1: Hover over the file");
-        documentLibraryPage.mouseOverFileName(docName);
-
-        LOG.info("STEP2: Click 'Edit Properties' link");
-        documentLibraryPage.clickMore();
+        LOG.info("STEP1: Hover over the file. STEP2: Click 'Edit Properties' link");
         documentLibraryPage.clickDocumentLibraryItemAction(docName, editPropAction, editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), docName), "'Edit Properties' pop-up is displayed");
 
@@ -97,12 +92,7 @@ public class CategorizingContent extends ContextAwareWebTest
     public void addCategoryForFolder_NoCategoriesAdded()
     {
         documentLibraryPage.navigate(siteName);
-
-        LOG.info("STEP1: Mouse hover the folder's name link");
-        documentLibraryPage.mouseOverContentItem(folderName);
-
-        LOG.info("STEP2: Click 'Edit Properties' link");
-        documentLibraryPage.clickMore();
+        LOG.info("STEP1: Mouse hover the folder's name link. STEP2: Click 'Edit Properties' link");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, editPropAction, editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), folderName), "'Edit Properties' pop-up is displayed");
 
@@ -128,11 +118,7 @@ public class CategorizingContent extends ContextAwareWebTest
     public void addCategory_ContentWithCategory()
     {
         documentLibraryPage.navigate(siteName);
-
-        LOG.info("STEP1: Hover over the file");
-        documentLibraryPage.mouseOverFileName(docWithCategory);
-
-        LOG.info("STEP2: Click 'Edit Properties' link");
+        LOG.info("STEP1: Hover over the file. STEP2: Click 'Edit Properties' link");
         documentLibraryPage.clickDocumentLibraryItemAction(docWithCategory, editPropAction, editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), docWithCategory), "'Edit Properties' pop-up is displayed");
         assertTrue(editPropertiesDialog.isCategorySelected(category), "Precondition category is displayed in selected categories list.");
@@ -160,11 +146,7 @@ public class CategorizingContent extends ContextAwareWebTest
     public void removeCategory()
     {
         documentLibraryPage.navigate(siteName);
-
-        LOG.info("STEP1: Hover over the file");
-        documentLibraryPage.mouseOverFileName(removeCategoryDoc);
-
-        LOG.info("STEP2: Click 'Edit Properties' link");
+        LOG.info("STEP1: Hover over the file. STEP2: Click 'Edit Properties' link");
         documentLibraryPage.clickDocumentLibraryItemAction(removeCategoryDoc, editPropAction, editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), removeCategoryDoc), "'Edit Properties' pop-up is displayed");
         assertTrue(editPropertiesDialog.isCategorySelected(category), "Precondition category is displayed in selected categories list.");
