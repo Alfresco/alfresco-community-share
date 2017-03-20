@@ -110,9 +110,7 @@ public class ActionsEditTests extends ContextAwareWebTest
     @TestRail(id = "C7737")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void repositoryEditFilesProperties()
-
     {
-
         logger.info("Precondition: Login to share and navigate to Repository->User Homes->Test User page ");
         setupAuthenticatedSession(editFileUsr, password);
         repositoryPage.navigate();
@@ -152,15 +150,12 @@ public class ActionsEditTests extends ContextAwareWebTest
         assertEquals(repositoryPage.getItemTitle(editedFileName), "(" + editedTitle + ")", editedFileName + " - document's title=");
         assertEquals(repositoryPage.getItemDescription(editedFileName), editedDescription, editedFileName + "- document's description=");
         assertEquals(repositoryPage.getTags(editedFileName), Collections.singletonList(tagName.toLowerCase()).toString(), editedFileName + "- document's tag=");
-
     }
 
     @TestRail(id = "C7745")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void repositoryEditFolderProperties()
-
     {
-
         logger.info("Precondition: Login to Share and navigate to Repository->User Homes->Test User page");
         setupAuthenticatedSession(editFolderUsr, password);
         repositoryPage.navigate();
@@ -200,15 +195,12 @@ public class ActionsEditTests extends ContextAwareWebTest
         assertEquals(repositoryPage.getTags(editedFolderName), Collections.singletonList(tagName.toLowerCase()).toString(), editedFolderName + "- document's tag=");
 
         getBrowser().cleanUpAuthenticatedSession();
-
     }
 
     @TestRail(id = "C7767")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void repositoryEditFileInAlfresco()
-
     {
-
         logger.info("Precondition: Precondition: Login to Share and navigate to Repository->User Homes->Test User page");
 
         setupAuthenticatedSession(editInAlfUsr, password);
@@ -242,15 +234,12 @@ public class ActionsEditTests extends ContextAwareWebTest
         Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedDescription), "Updated description is not displayed");
 
         getBrowser().cleanUpAuthenticatedSession();
-
     }
 
     @TestRail(id = "C7782")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void repositoryEditFilesInGoogleDocs() throws Exception
-
     {
-
         logger.info("Precondition: Precondition: Login to Share and navigate to Repository->User Homes->Test User page");
         setupAuthenticatedSession(editFileInGDUsr, password);
         repositoryPage.navigate();
@@ -259,7 +248,6 @@ public class ActionsEditTests extends ContextAwareWebTest
         docsCommon.loginToGoogleDocs();
 
         logger.info("Step1: Hover over the test file and click Edit in Google Docs option");
-
         repositoryPage.mouseOverContentItem(fileName);
         docsCommon.editInGoogleDocs();
 
@@ -294,7 +282,5 @@ public class ActionsEditTests extends ContextAwareWebTest
         Assert.assertTrue(detailsPage.getContentText().contains(editedContent));
 
         getBrowser().cleanUpAuthenticatedSession();
-
     }
-
 }
