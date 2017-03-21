@@ -27,7 +27,6 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     @Autowired private DocumentDetailsPage documentDetailsPage;
   
     private final String user = "C8256TestUser" + DataUtil.getUniqueIdentifier();
-    private final String path = "";
     private final String zipFile = "testFileC8256.zip";
     private final String testDataFolder = srcRoot + "testdata" + File.separator;
     private final String zipContent = "testFile1";
@@ -38,8 +37,8 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
-        contentService.uploadFileInRepository(adminUser, adminPassword, path, testDataFolder + zipFile);    
-        contentService.uploadFileInRepository(adminUser, adminPassword, path, testDataFolder + acpFile); 
+        contentService.uploadFileInRepository(adminUser, adminPassword, null, testDataFolder + zipFile);
+        contentService.uploadFileInRepository(adminUser, adminPassword, null, testDataFolder + acpFile);
     }
 
     @TestRail(id = "C8256")
@@ -49,8 +48,6 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     {
         LOG.info("Upload zip archive");
         repositoryPage.navigate();
-        getBrowser().refresh();
-        repositoryPage.renderedPage();
         assertTrue(repositoryPage.getFilesList().contains(zipFile), "Repository: list of files=");
 
         LOG.info("STEP1: Click archive name, e.g: testArchive");
