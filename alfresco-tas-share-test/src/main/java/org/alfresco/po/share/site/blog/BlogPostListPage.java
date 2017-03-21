@@ -18,6 +18,9 @@ import java.util.List;
 public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 {
     @Autowired
+    CreateBlogPostPage createBlogPostPage;
+
+    @Autowired
     BlogPostPage blogPostPage;
 
     @Autowired
@@ -440,9 +443,10 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     /**
      * Method to click the New Post button
      */
-    public void clickNewPostButton()
+    public CreateBlogPostPage clickNewPostButton()
     {
         newPostButton.click();
+        return (CreateBlogPostPage) createBlogPostPage.renderedPage();
     }
 
     /**

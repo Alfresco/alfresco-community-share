@@ -2,6 +2,7 @@ package org.alfresco.po.share.site.blog;
 
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,9 +12,11 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
 {
     private By pageTitle = By.xpath("//div[@id ='bd']//div[@class = 'page-form-header']//h1");
 
+    @RenderWebElement
     @FindBy(css = "input[id*='_default-title']")
     private WebElement titleField;
 
+    @RenderWebElement
     @FindBy(xpath = "//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']")
     private WebElement frame;
 

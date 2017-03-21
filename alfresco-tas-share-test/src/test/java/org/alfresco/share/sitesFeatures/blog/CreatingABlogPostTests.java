@@ -67,7 +67,6 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click 'New Post' button.");
         blogPage.clickNewPostButton();
-        createBlogPost.renderedPage();
         Assert.assertEquals(createBlogPost.getPageTitle(), "Create Blog Post");
 
         LOG.info("Step 2: Type a Title for the post (e.g. 'Post1').");
@@ -103,13 +102,11 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void cancelCreatingNewBlogPost()
-
     {
         blogPage.navigate(siteName);
 
         LOG.info("Step 1: Click 'New Post' button.");
         blogPage.clickNewPostButton();
-        createBlogPost.renderedPage();
         Assert.assertEquals(createBlogPost.getPageTitle(), "Create Blog Post");
 
         LOG.info("Step 2: Type a Title for the postb and a content");
@@ -172,13 +169,13 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
 
     public void creatingANewBlogPostFromBlogPostView()
     {
-        blogPostView.navigate(siteName);
-        //blogPostView.renderedPage();
+        sitePagesService.createBlogPost(user, password, siteName, "Test Blog", blogPostContentText, false, null);
+        blogPage.navigate(siteName);
+        blogPage.clickOnThePostTitle("Test Blog");
 
         LOG.info("Step 1: Click 'New Post' button.");
 
         blogPostView.clickNewPostButton();
-        createBlogPost.renderedPage();
         Assert.assertEquals(createBlogPost.getPageTitle(), "Create Blog Post");
 
         LOG.info("Step 2: Provide data for the blog post (title, content, tag)");
@@ -197,7 +194,6 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 4 : Navigate to blog post list");
 
         blogPostList.navigate(siteName);
-        blogPostList.renderedPage();
         Assert.assertTrue(blogPostList.isBlogPostDisplayed(blogPostTitleC6119), "Blog Post is not displayed on the blog post list page");
     }
 
@@ -206,12 +202,13 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
 
     public void creatingANewDraftBlogPostFromBlogPostView()
     {
-        blogPostView.navigate(siteName);
+        sitePagesService.createBlogPost(user, password, siteName, "Test Blog", blogPostContentText, false, null);
+        blogPage.navigate(siteName);
+        blogPage.clickOnThePostTitle("Test Blog");
 
         LOG.info("Step 1: Click 'New Post' button.");
 
         blogPostView.clickNewPostButton();
-        createBlogPost.renderedPage();
         Assert.assertEquals(createBlogPost.getPageTitle(), "Create Blog Post");
 
         LOG.info("Step 2: Provide data for the Blog post (title, content, tag)");

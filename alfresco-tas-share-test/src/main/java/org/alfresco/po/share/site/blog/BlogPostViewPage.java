@@ -2,13 +2,22 @@ package org.alfresco.po.share.site.blog;
 
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
 public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 {
+    @Autowired
+    CreateBlogPostPage createBlogPostPage;
+
+    @RenderWebElement
+    @FindBy(css = "div[id$='_default-postview']")
+    private WebElement postView;
+
     public By blogPostTitle(String title)
     {
         return By.xpath("//div[@class = 'sticky-wrapper']//div[@id = 'bd']//div[@class = 'nodeTitle']//a[text() = '" + title + "']");
@@ -137,9 +146,10 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     /**
      * Method to click the New Post button
      */
-    public void clickNewPostButton()
+    public CreateBlogPostPage clickNewPostButton()
     {
         browser.findElement(newPostButton).click();
+        return (CreateBlogPostPage) createBlogPostPage.renderedPage();
     }
 
     /**
