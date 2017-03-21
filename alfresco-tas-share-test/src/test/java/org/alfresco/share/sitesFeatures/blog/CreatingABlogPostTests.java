@@ -20,9 +20,6 @@ import java.util.List;
 public class CreatingABlogPostTests extends ContextAwareWebTest
 {
     @Autowired
-    BlogPostListPage blogPage;
-
-    @Autowired
     CreateBlogPostPage createBlogPost;
 
     @Autowired
@@ -63,10 +60,10 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
 
     public void creatingANewBlogPostFromBlogPage()
     {
-        blogPage.navigate(siteName);
+        blogPostList.navigate(siteName);
 
         LOG.info("Step 1: Click 'New Post' button.");
-        blogPage.clickNewPostButton();
+        blogPostList.clickNewPostButton();
         Assert.assertEquals(createBlogPost.getPageTitle(), "Create Blog Post");
 
         LOG.info("Step 2: Type a Title for the post (e.g. 'Post1').");
@@ -94,8 +91,8 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Step 7: Navigate to 'Blog Post List'.");
 
-        blogPage.navigate(siteName);
-        Assert.assertEquals(blogPage.getBlogPostTitle(blogPostTitle), blogPostTitle);
+        blogPostList.navigate(siteName);
+        Assert.assertEquals(blogPostList.getBlogPostTitle(blogPostTitle), blogPostTitle);
     }
 
     @TestRail(id = "C5535")
@@ -103,10 +100,10 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
 
     public void cancelCreatingNewBlogPost()
     {
-        blogPage.navigate(siteName);
+        blogPostList.navigate(siteName);
 
         LOG.info("Step 1: Click 'New Post' button.");
-        blogPage.clickNewPostButton();
+        blogPostList.clickNewPostButton();
         Assert.assertEquals(createBlogPost.getPageTitle(), "Create Blog Post");
 
         LOG.info("Step 2: Type a Title for the postb and a content");
@@ -121,7 +118,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 4: Click Cancel button");
         createBlogPost.clickCancelButton();
 
-        Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
+        Assert.assertEquals(blogPostList.getBlogContentText(), "No blog posts found");
     }
 
     @TestRail(id = "5541")
@@ -129,10 +126,10 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
 
     public void creatingANewDraftPost()
     {
-        blogPage.navigate(siteName);
+        blogPostList.navigate(siteName);
 
         LOG.info("Step 1: Click 'New Post' button.");
-        blogPage.clickNewPostButton();
+        blogPostList.clickNewPostButton();
         Assert.assertEquals(createBlogPost.getPageTitle(), "Create Blog Post");
 
         LOG.info("Step 2: Type a Title for the post and a content");
@@ -170,8 +167,8 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
     public void creatingANewBlogPostFromBlogPostView()
     {
         sitePagesService.createBlogPost(user, password, siteName, "Test Blog", blogPostContentText, false, null);
-        blogPage.navigate(siteName);
-        blogPage.clickOnThePostTitle("Test Blog");
+        blogPostList.navigate(siteName);
+        blogPostList.clickOnThePostTitle("Test Blog");
 
         LOG.info("Step 1: Click 'New Post' button.");
 
@@ -203,8 +200,8 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
     public void creatingANewDraftBlogPostFromBlogPostView()
     {
         sitePagesService.createBlogPost(user, password, siteName, "Test Blog", blogPostContentText, false, null);
-        blogPage.navigate(siteName);
-        blogPage.clickOnThePostTitle("Test Blog");
+        blogPostList.navigate(siteName);
+        blogPostList.clickOnThePostTitle("Test Blog");
 
         LOG.info("Step 1: Click 'New Post' button.");
 
