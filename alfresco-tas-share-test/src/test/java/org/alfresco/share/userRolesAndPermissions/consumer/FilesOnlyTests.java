@@ -4,7 +4,6 @@ package org.alfresco.share.userRolesAndPermissions.consumer;
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
-import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -34,9 +33,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
     @Autowired
     DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    DocumentCommon documentCommon;
 
     @Autowired
     DocumentDetailsPage documentDetailsPage;
