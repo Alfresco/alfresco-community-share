@@ -11,6 +11,7 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -115,6 +116,7 @@ public class LikeCommentTests extends ContextAwareWebTest
 
         LOG.info("Like folder " + folderName);
         sharedFilesPage.navigate();
+        Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(folderName), "Folder is not displayed in Shared Files.");
         social.clickLikeButton(folderName);
 
         LOG.info("Step 1: Hover over the folder's Like link.");
