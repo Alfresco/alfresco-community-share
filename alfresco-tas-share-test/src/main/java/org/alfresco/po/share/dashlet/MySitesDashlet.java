@@ -159,33 +159,9 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     public void confirmDeleteSite(String deleteOption)
     {
         Parameter.checkIsMandotary("Delete Option for Delete Site dialog", deleteOption);
-        try
-        {
-            for (WebElement confirmationDeleteButton : confirmationDeleteButtons)
-                if (confirmationDeleteButton.getText().equalsIgnoreCase(deleteOption))
-                {
-                    confirmationDeleteButton.click();
-                }
-        }
-        catch (NoSuchElementException nse)
-        {
-            LOG.error("Delete Site dialouge is not present.");
-        }
-    }
-
-    /**
-     * Delete site from the delete icon of My Sites Dashlet.
-     * 
-     * @param siteName String
-     * @return HtmlPage
-     */
-    public void deleteSite(String siteName)
-    {
-        Parameter.checkIsMandotary("Site name", siteName);
-        clickDeleteSiteIconForSite(siteName);
-        confirmDeleteSite("Delete");
-        confirmDeleteSite("Yes");
-        browser.waitUntilElementDisappears(By.cssSelector("div[id='message']"), 30);
+        WebElement buttonToBeClicked = browser.findFirstElementWithExactValue(confirmationDeleteButtons, deleteOption);
+        Parameter.checkIsMandotary("Button for Delete Site dialog", buttonToBeClicked);
+        buttonToBeClicked.click();
     }
 
     /**

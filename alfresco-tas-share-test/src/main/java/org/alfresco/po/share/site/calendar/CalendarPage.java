@@ -83,6 +83,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     @FindBy(css = "a.addEvent")
     private Link agendaAddEvent;
 
+    @RenderWebElement
     @FindBy(id = "calendar_t")
     private WebElement miniCalendar;
 
@@ -520,8 +521,9 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         browser.findElement(By.cssSelector("a[rel='-all-']")).click();
     }
 
-    public void clickTodayButton()
+    public CalendarPage clickTodayButton()
     {
         todayButton.click();
+        return (CalendarPage) this.renderedPage();
     }
 }

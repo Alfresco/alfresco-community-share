@@ -74,7 +74,6 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Navigate to the Calendar page for Site.");
         calendarPage.navigate(siteName);
-        calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
         Assert.assertEquals(calendarPage.getSelectedViewName(), "Month");
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.currentMonthReference());
@@ -131,7 +130,6 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
          */
         LOG.info("Step 1: Open Calendar page - Day view.");
         calendarPage.navigate(siteName);
-        calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
         calendarPage.clickDayButton();
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
@@ -239,7 +237,6 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Open Calendar page - Day view.");
         calendarPage.navigate(siteName);
-        calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
         calendarPage.clickDayButton();
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1), "Only testEvent1 is displayed on the Calendar.");
@@ -306,7 +303,6 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
          */
         LOG.info("Navigate to Calendar page for Site - Agenda view.");
         calendarPage.navigate(siteName);
-        calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
         calendarPage.clickAgendaButton();
         Assert.assertTrue(calendarPage.isEventPresentInAgenda(eventTitle1));
@@ -334,7 +330,6 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
                 calendarUtility.dayOfNextWeek(), "", "", false, "tag3");
 
         calendarPage.navigate(siteName);
-        calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
 
         /**
@@ -380,8 +375,6 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, startDate, startDate, "", "", false, "tag1");
         calendarPage.navigate(siteName);
-        calendarPage.renderedPage();
-        getBrowser().waitInSeconds(2);
         calendarPage.clickMonthButton();
 
         /**
@@ -393,82 +386,68 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click on Today button.");
         calendarPage.clickTodayButton();
-        calendarPage.renderedPage();
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.currentMonthReference());
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
 
         LOG.info("Step 3: Click on Next button (next to Agenda tab).");
         calendarPage.clickOnNextButton();
-        calendarPage.renderedPage();
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.refferenceNextMonth());
 
         LOG.info("Step 4: Click on Today button");
         calendarPage.clickTodayButton();
-        calendarPage.renderedPage();
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.currentMonthReference());
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
 
         LOG.info("Step 5: Switch the calendar to Week view.");
         calendarPage.clickWeekButton();
-        calendarPage.renderedPage();
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.firstDayOfCurrentWeek());
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
 
         LOG.info("Step 6: Click on Previous button (before the Day tab)");
         calendarPage.clickOnPreviousButton();
-        calendarPage.renderedPage();
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.firstDayOfLastWeek());
 
         LOG.info("Step 7: Click on Today button");
         calendarPage.clickTodayButton();
-        calendarPage.renderedPage();
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.firstDayOfCurrentWeek());
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
 
         LOG.info("Step 8: Click on Next button (next to Agenda tab).");
         calendarPage.clickOnNextButton();
-        calendarPage.renderedPage();
         String firstDayOfNextWeek = new SimpleDateFormat("d MMMM yyyy", Locale.ENGLISH).format(calendarUtility.firstDayOfNextWeek());
         Assert.assertEquals(calendarPage.getCalendarHeader(), firstDayOfNextWeek);
 
         LOG.info("Step 9: Click on Today button");
         calendarPage.clickTodayButton();
-        calendarPage.renderedPage();
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.firstDayOfCurrentWeek());
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
 
         LOG.info("Step 10: Switch to Day view.");
         calendarPage.clickDayButton();
-        calendarPage.renderedPage();
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.currentDay());
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
 
         LOG.info("Step 11: Click on Previous button (before the Day tab).");
         calendarPage.clickOnPreviousButton();
-        calendarPage.renderedPage();
         Assert.assertEquals(calendarPage.getCalendarHeader(), yesterday.toString("E, dd, MMMM yyyy"));
 
         LOG.info("Step 12: Click on Today button");
         calendarPage.clickTodayButton();
-        calendarPage.renderedPage();
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.currentDay());
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
 
         LOG.info("Step 13: Click on Next button (next to Agenda tab).");
         calendarPage.clickOnNextButton();
-        calendarPage.renderedPage();
         String tomorrow = new SimpleDateFormat("E, dd, MMMM yyyy", Locale.ENGLISH).format(calendarUtility.tomorrow());
         Assert.assertEquals(calendarPage.getCalendarHeader(), tomorrow);
 
         LOG.info("Step 14: Click on Today button");
         calendarPage.clickTodayButton();
-        calendarPage.renderedPage();
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.currentDay());
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
 
         LOG.info("Step 15: Switch to Agenda view.");
         calendarPage.clickAgendaButton();
-        calendarPage.renderedPage();
         Assert.assertEquals(calendarPage.getTodayButtonState(), "true");
     }
 
@@ -479,8 +458,6 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         LOG.info("Step 1: Verify the presence of the mini-calendar.");
 
         calendarPage.navigate(siteName);
-        calendarPage.renderedPage();
-        getBrowser().waitInSeconds(2);
         Assert.assertTrue(calendarPage.isMiniCalendarPresent(), "Mini Calendar is present.");
         Integer dayFromCalendar = Integer.valueOf(miniCalendar.getCurrentDayMiniCalendar().trim());
         Assert.assertEquals(dayFromCalendar, dayOfMonth, "Current date is highlighted.");
@@ -534,7 +511,6 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
                 calendarUtility.firstDayOfCW(), "10:00", "12:00", false, "tag4");
 
         calendarPage.navigate(siteName);
-        calendarPage.renderedPage();
         getBrowser().waitInSeconds(2);
         calendarPage.clickDayButton();
         Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.currentDay());

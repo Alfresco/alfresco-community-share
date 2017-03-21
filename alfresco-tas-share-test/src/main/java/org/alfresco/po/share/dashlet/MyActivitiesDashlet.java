@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.discussion.TopicViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.utility.exception.PageOperationException;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
@@ -179,9 +180,10 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
      *
      * @param name identifier to match against link title
      */
-    public void clickOnItemNameFromActivityList(final String name)
+    public HtmlPage clickOnItemNameFromActivityList(final String name, HtmlPage pageToBeRendered)
     {
         selectActivityDocument(name).click();
+        return pageToBeRendered.renderedPage();
     }
 
     /**

@@ -1,10 +1,6 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
@@ -19,6 +15,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MySitesTests extends ContextAwareWebTest
 {
     @Autowired
@@ -26,9 +25,6 @@ public class MySitesTests extends ContextAwareWebTest
 
     @Autowired
     UserDashboardPage userDashboardPage;
-
-    @Autowired
-    ContentService content;
 
     private String userName;
     private String siteName1;
@@ -38,7 +34,6 @@ public class MySitesTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void setup()
     {
-        super.setup();
         cleanupAuthenticatedSession();
         userName = "User1" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + "@tests.com", userName, userName);

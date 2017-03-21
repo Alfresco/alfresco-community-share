@@ -218,14 +218,12 @@ public class MyActivitiesTests extends ContextAwareWebTest
         }
 
 //         LOG.info("STEP 2-Click blog post's name link");
-//         myActivitiesDashlet.clickOnItemNameFromActivityList(blogTitle);
-//        blogPostPage.renderedPage();
+//         myActivitiesDashlet.clickOnItemNameFromActivityList(blogTitle, blogPostPage);
 //         assertTrue(getBrowser().getCurrentUrl().endsWith("blog-postlist"), "'Blog' page is opened.");
 
          LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
 //         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(eventName);
-         calendarPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(eventName, calendarPage);
          assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
 
 //         LOG.info("STEP 4-Go back to User Dashboard. Click data list's name link");
@@ -235,32 +233,27 @@ public class MyActivitiesTests extends ContextAwareWebTest
 
          LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
          userDashboardPage.navigateByMenuBar();
-         myActivitiesDashlet.clickOnItemNameFromActivityList(discussionTitle);
-         topicViewPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(discussionTitle, topicViewPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topicview"), "'Discussions' page is opened.");
 
          LOG.info("STEP6-Go back to User Dashboard. Click content's name link");
          userDashboardPage.navigateByMenuBar();
-         myActivitiesDashlet.clickOnItemNameFromActivityList(fileName);
-         docDetailsPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(fileName, docDetailsPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
 
          LOG.info("STEP7-Go back to User Dashboard. Click document's name link");
          menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(documentName);
-        docDetailsPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(documentName, docDetailsPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
 
          LOG.info("STEP8-Go back to User Dashboard. Click link's name link");
          menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(linkTitle);
-         linkPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(linkTitle, linkPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
 
          LOG.info("STEP9-Go back to User Dashboard. Click wiki page's name link");
          menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle);
-         wikiPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle, wikiPage);
          assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/wiki-page?title=" + wikiTitle), "'Wiki' page is opened.");
     }
 
@@ -314,8 +307,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
 
          LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
 //         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(eventName);
-         calendarPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(eventName, calendarPage);
          assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
 
 //         LOG.info("STEP 4-Go back to User Dashboard. Click data list's name link");
@@ -325,32 +317,27 @@ public class MyActivitiesTests extends ContextAwareWebTest
 
          LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
          userDashboardPage.navigateByMenuBar();
-         myActivitiesDashlet.clickOnItemNameFromActivityList("New" + discussionTitle);
-         topicViewPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList("New" + discussionTitle, topicViewPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topicview"), "'Discussions' page is opened.");
 
          LOG.info("STEP6-Go back to User Dashboard. Click content's name link");
          userDashboardPage.navigateByMenuBar();
-         myActivitiesDashlet.clickOnItemNameFromActivityList(fileName);
-         docDetailsPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(fileName, docDetailsPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
 
          LOG.info("STEP7-Go back to User Dashboard. Click document's name link");
          menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(documentName);
-         docDetailsPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(documentName, docDetailsPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
 
          LOG.info("STEP8-Go back to User Dashboard. Click link's name link");
          menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList("New" + linkTitle);
-         linkPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList("New" + linkTitle, linkPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
 
          LOG.info("STEP9-Go back to User Dashboard. Click wiki page's name link");
          menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle);
-         wikiPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle, wikiPage);
          assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/wiki-page?title=" + wikiTitle), "'Wiki' page is opened.");
     }
 
@@ -398,14 +385,12 @@ public class MyActivitiesTests extends ContextAwareWebTest
         }
 
          LOG.info("STEP 2-Click blog post's name link");
-         myActivitiesDashlet.clickOnItemNameFromActivityList(blogTitle);
-         blogPostPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(blogTitle, blogPostPage);
          assertTrue(getBrowser().getCurrentUrl().contains("blog-postlist"), "'Blog' page is opened.");
 
          LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
          menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(eventName);
-         calendarPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(eventName, calendarPage);
          assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
 
 //         LOG.info("STEP 4-Go back to User Dashboard. Click data list's name link");
@@ -415,34 +400,27 @@ public class MyActivitiesTests extends ContextAwareWebTest
 
          LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
          userDashboardPage.navigateByMenuBar();
-         myActivitiesDashlet.clickOnItemNameFromActivityList(discussionTitle);
-         topicListPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(discussionTitle, topicListPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topiclist"), "'Discussions' page is opened.");
 
          LOG.info("STEP6-Go back to User Dashboard. Click content's name link");
          userDashboardPage.navigateByMenuBar();
-         myActivitiesDashlet.clickOnItemNameFromActivityList(fileName);
-         getBrowser().waitInSeconds(5);
-         documentLibraryPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(fileName, documentLibraryPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/documentlibrary"), "'Document Library' page is opened.");
 
          LOG.info("STEP7-Go back to User Dashboard. Click document's name link");
          menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(documentName);
-         getBrowser().waitInSeconds(5);
-         documentLibraryPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(documentName, documentLibraryPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/documentlibrary"), "'Document Library' page is opened.");
 
          LOG.info("STEP8-Go back to User Dashboard. Click link's name link");
          menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(linkTitle);
-         linkPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(linkTitle, linkPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
 
          LOG.info("STEP9-Go back to User Dashboard. Click wiki page's name link");
          menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle);
-         wikiListPage.renderedPage();
+         myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle, wikiListPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/wiki"), "'Wiki' page is opened.");
     }
 
