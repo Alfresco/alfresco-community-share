@@ -247,8 +247,8 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
         getBrowser().waitInSeconds(1);
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
-        getBrowser().waitInSeconds(5);
+        googleDocs.clickOkButtonOnTheAuthPopup();
+        getBrowser().waitInSeconds(10);
 
         logger.info("Step9: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
@@ -318,7 +318,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
         getBrowser().waitInSeconds(1);
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(5);
 
         logger.info("Step9: Input some texts in this Google Doc file and exit.");
@@ -464,7 +464,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsSpreadsheet();
         getBrowser().waitInSeconds(1);
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(5);
 
         logger.info("Step9: Input some texts in this Google Doc file and exit.");
@@ -542,7 +542,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
         getBrowser().waitInSeconds(1);
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(5);
 
         logger.info("Step10: Input some texts in this Google Doc file and exit.");

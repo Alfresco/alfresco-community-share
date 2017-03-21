@@ -16,6 +16,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -57,6 +58,21 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     private final String googleDocSpreadsheet = "googleDoc title.xlsx";
     private final String googleDocPresentation = "googleDoc title.pptx";
     private final String docContent = "googleDoccontent";
+    private String user = "user" + DataUtil.getUniqueIdentifier();
+
+    @BeforeClass(alwaysRun = true)
+    public void createPrecondition()
+    {
+        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        setupAuthenticatedSession(adminUser, adminPassword);
+        myFilesPage.navigate();
+        myFilesPage.clickFolderFromExplorerPanel("Data Dictionary");
+        myFilesPage.clickOnFolderName("Node Templates");
+        uploadContent.uploadContent(fileTemplatePath);
+        getBrowser().waitInSeconds(2);
+        googleDocs.loginToGoogleDocs();
+        cleanupAuthenticatedSession();
+    }
 
     @TestRail(id = "C7650")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
@@ -267,7 +283,6 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         String user = "user" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
-        googleDocs.loginToGoogleDocs();
         getBrowser().waitInSeconds(3);
         sitePage.clickMyFilesLink();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
@@ -278,7 +293,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         Assert.assertTrue(googleDocs.isAuthorizeWithGoogleDocsDisplayed(), "Authorize with Google Docs popup is not displayed");
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(5);
 
         LOG.info("Step 3: Edit the document in the Google Docs tab.");
@@ -314,7 +329,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         Assert.assertTrue(googleDocs.isAuthorizeWithGoogleDocsDisplayed(), "Authorize with Google Docs popup is not displayed");
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(7);
 
         LOG.info("Step 3: Edit the document in the Google Docs tab.");
@@ -350,7 +365,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         Assert.assertTrue(googleDocs.isAuthorizeWithGoogleDocsDisplayed(), "Authorize with Google Docs popup is not displayed");
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(5);
 
         LOG.info("Step 3: Edit the document in the Google Docs tab ");

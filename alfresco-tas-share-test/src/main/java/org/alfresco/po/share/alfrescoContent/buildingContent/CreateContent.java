@@ -2,6 +2,7 @@ package org.alfresco.po.share.alfrescoContent.buildingContent;
 
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -15,6 +16,8 @@ public class CreateContent extends SiteCommon<CreateContent>
 {
     @Autowired
     TinyMceEditor tinyMceEditor;
+
+    @Autowired GoogleDocsCommon googleDocs;
 
     @Autowired
     DocumentDetailsPage documentDetailsPage;
@@ -351,6 +354,8 @@ public class CreateContent extends SiteCommon<CreateContent>
     public void clickGoogleDocsSpreadsheet()
     {
         googleDocsSpreadsheet.click();
+        if (googleDocs.isAuthorizeWithGoogleDocsDisplayed())
+            browser.waitInSeconds(10);
     }
 
     /**
@@ -359,6 +364,8 @@ public class CreateContent extends SiteCommon<CreateContent>
     public void clickGoogleDocsPresentation()
     {
         googleDocsPresentation.click();
+        if (googleDocs.isAuthorizeWithGoogleDocsDisplayed())
+            browser.waitInSeconds(10);
     }
 
     /**

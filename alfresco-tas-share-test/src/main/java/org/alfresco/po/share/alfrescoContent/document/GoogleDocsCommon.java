@@ -26,7 +26,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     protected WebElement editInGoogleDocs;
 
     @FindBy(xpath = "//*[contains(text(), 'OK')]")
-    protected WebElement okButton;
+    protected WebElement okButtonOnVersionPopup;
 
     @FindBy(xpath = ".//*[@id='Email']")
     protected WebElement googleDocsEmail;
@@ -106,8 +106,11 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     public void clickOkButton()
     {
-        if (browser.isElementDisplayed(okButton))
-            okButton.click();
+        if (browser.isElementDisplayed(okButtonOnVersionPopup))
+        {
+            okButtonOnVersionPopup.click();
+            browser.waitInSeconds(10);
+        }
     }
 
     public void loginToGoogleDocs()
@@ -153,11 +156,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         }
 
         changeGoogleDocsTitle(title);
-        browser.waitInSeconds(5);
-
         editGoogleDocsContent(content);
-        browser.waitInSeconds(5);
-
         browser.close();
         browser.switchTo().window(currentWindow);
     }
@@ -172,20 +171,13 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         }
 
         changeGoogleDocsTitle(title);
-        browser.waitInSeconds(3);
-
         editGoogleSheetsContent(content);
-        browser.waitInSeconds(5);
-
         browser.close();
-
         browser.switchTo().window(currentWindow);
     }
 
     public void switchToGooglePresentationsAndEditContent(String title)
-
     {
-
         String currentWindow = browser.getWindowHandle();
 
         for (String winHandle : browser.getWindowHandles())
@@ -194,10 +186,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         }
 
         changeGoogleDocsTitle(title);
-        browser.waitInSeconds(3);
-
         browser.close();
-
         browser.switchTo().window(currentWindow);
 
     }
@@ -265,8 +254,8 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     }
 
     public void changeGoogleDocsTitle(String newGoogleDocsTitle)
-
     {
+        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector(".docs-title-input"));
         googleDocsTitle.clear();
         googleDocsTitle.sendKeys(newGoogleDocsTitle);
         googleDocsTitle.sendKeys(Keys.ENTER);
@@ -353,6 +342,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
         browser.mouseOver(fileLink);
         checkInGoogleDoc.click();
+        browser.waitInSeconds(10);
     }
 
     public boolean isDocumentNameUpdated(String updatedName)
@@ -418,18 +408,23 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
      * @throws Exception
      */
 
-    public void clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup() throws Exception
+    public void clickOkButtonOnTheAuthPopup() throws Exception
     {
-
-        if (isOkButtonOnTheAuthorizeWithGoogleDocsPopupDisplayed())
+        try
         {
-            okButtonAuthorizeWithGoogleDocsPopup.click();
-        }
-        else
-        {
-            // do nothing
-        }
+            if (isAuthorizeWithGoogleDocsDisplayed())
 
+                okButtonAuthorizeWithGoogleDocsPopup.click();
+
+        }
+        catch (NoSuchElementException e)
+        {
+
+        }
+        finally
+        {
+            browser.waitInSeconds(10);
+        }
     }
 
     /**
@@ -442,7 +437,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     {
         try
         {
-            browser.findElement(By.xpath("//div[@id ='prompt_c']//span[@class ='yui-button yui-push-button alf-primary-button']"));
+            browser.findElement(By.xpath("//button[contains(text(),'OK')]"));
             return true;
 
         }

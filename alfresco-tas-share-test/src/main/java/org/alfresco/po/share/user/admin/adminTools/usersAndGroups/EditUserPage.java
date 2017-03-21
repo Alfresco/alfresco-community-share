@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -17,17 +18,22 @@ import java.util.List;
 @PageObject
 public class EditUserPage extends SharePage<EditUserPage>
 {
-    @RenderWebElement
-    private By searchGroupButton = By.cssSelector("button[id$='_default-update-groupfinder-group-search-button-button']");
+    @Autowired
+    UserProfileAdminToolsPage userProfileAdminToolsPage;
+
+    @FindBy(css ="button[id$='_default-update-groupfinder-group-search-button-button']")
+    private WebElement searchGroupButton;
 
     @RenderWebElement
-    private By useDefaultButton = By.cssSelector("button[id$='_default-updateuser-clearphoto-button-button']");
+    @FindBy(css ="button[id$='_default-updateuser-clearphoto-button-button']")
+    private WebElement useDefaultButton;
 
     @RenderWebElement
-    private By saveChangesButton = By.cssSelector("button[id$='_default-updateuser-save-button-button']");
+    @FindBy(css ="button[id$='_default-updateuser-save-button-button']")
+    private WebElement saveChangesButton;
 
-    @RenderWebElement
-    private By cancelButton = By.cssSelector("button[id$='_default-updateuser-cancel-button-button']");
+    @FindBy(css ="button[id$='_default-updateuser-cancel-button-button']")
+    private WebElement cancelButton;
 
     @FindBy(css ="span[id$='_default-update-title']")
     private WebElement userNameInEditUserPageTitle;
@@ -69,25 +75,21 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public boolean isSearchButtonDisplayed()
     {
-        browser.waitUntilElementClickable(searchGroupButton, 5);
         return browser.isElementDisplayed(searchGroupButton);
     }
 
     public boolean isUseDefaultButtonDisplayed()
     {
-        browser.waitUntilElementClickable(useDefaultButton, 5);
         return browser.isElementDisplayed(useDefaultButton);
     }
 
     public boolean isSaveChangesButtonDisplayed()
     {
-        browser.waitUntilElementClickable(saveChangesButton, 5);
         return browser.isElementDisplayed(saveChangesButton);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        browser.waitUntilElementClickable(cancelButton, 5);
         return browser.isElementDisplayed(cancelButton);
     }
 
@@ -114,7 +116,6 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public void editFirstName(String firstName)
     {
-        browser.waitUntilElementVisible(firstNameField);
         firstNameField.clear();
         firstNameField.sendKeys(firstName);
     }
@@ -126,7 +127,6 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public void editLastNameField(String lastName)
     {
-        browser.waitUntilElementVisible(lastNameField);
         lastNameField.clear();
         lastNameField.sendKeys(lastName);
     }
@@ -138,85 +138,72 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public void editEmailField(String email)
     {
-        browser.waitUntilElementVisible(emailField);
         emailField.clear();
         emailField.sendKeys(email);
     }
 
     public boolean isGroupsInputFieldDisplayed()
     {
-        browser.waitUntilElementVisible(groupsInputField);
         return browser.isElementDisplayed(groupsInputField);
     }
 
     public void editGroupsField(String groupName)
     {
-        browser.waitUntilElementClickable(groupsInputField,5);
         groupsInputField.clear();
         groupsInputField.sendKeys(groupName);
     }
 
     public boolean isQuotaFieldDisplayed()
     {
-        browser.waitUntilElementVisible(quotaField);
         return browser.isElementDisplayed(quotaField);
     }
 
     public void editQuota(String quota)
     {
-        browser.waitUntilElementClickable(quotaField, 5);
         quotaField.clear();
         quotaField.sendKeys(quota);
     }
 
     public boolean isNewPasswordFieldDisplayed()
     {
-        browser.waitUntilElementVisible(newPasswordField);
         return browser.isElementDisplayed(newPasswordField);
     }
 
     public void editNewPassword(String newPassword)
     {
-        browser.waitUntilElementClickable(newPasswordField, 5);
         newPasswordField.clear();
         newPasswordField.sendKeys(newPassword);
     }
 
     public boolean isVerifyPasswordFieldDisplayed()
     {
-        browser.waitUntilElementVisible(verifyPasswordField);
         return  browser.isElementDisplayed(verifyPasswordField);
     }
 
     public void editVerifyPasswordFieldDisplayed(String verifyPassword)
     {
-        browser.waitUntilElementClickable(verifyPasswordField, 5);
         verifyPasswordField.clear();
         verifyPasswordField.sendKeys(verifyPassword);
     }
 
     public boolean isDisableAccountFieldDisplayed()
     {
-        browser.waitUntilElementVisible(disableAccount);
         return browser.isElementDisplayed(disableAccount);
     }
 
     public void clickDisabledAccount()
     {
-        browser.waitUntilElementClickable(disableAccount, 5L);
         disableAccount.click();
     }
 
     public boolean isEditPhotoFieldDisplayed()
     {
-        browser.waitUntilElementVisible(photoField);
         return browser.isElementDisplayed(photoField);
     }
 
-    public HtmlPage clickSaveChangesButton(HtmlPage page)
+    public UserProfileAdminToolsPage clickSaveChangesButton()
     {
-        browser.waitUntilElementClickable(saveChangesButton, 5L);
-        browser.findElement(saveChangesButton).click();
-        return page.renderedPage();
+        saveChangesButton.click();
+        return (UserProfileAdminToolsPage) userProfileAdminToolsPage.renderedPage();
     }
 }

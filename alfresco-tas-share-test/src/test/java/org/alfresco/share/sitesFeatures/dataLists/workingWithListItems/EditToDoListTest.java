@@ -115,6 +115,7 @@ public class EditToDoListTest extends ContextAwareWebTest
         editItemPopUp.clickSave();
         List<String> expectedItem = Arrays.asList(titleInputToEdit, dueDateTomorrowStringformated + " " + dueTime, priorityEdited, newItemStatus,
                 notesEdited, asigneeName, attachedFile);
+        dataListsPage.renderedPage();
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedItem), titleInputToEdit + " issue list item is displayed.");
     }
 }

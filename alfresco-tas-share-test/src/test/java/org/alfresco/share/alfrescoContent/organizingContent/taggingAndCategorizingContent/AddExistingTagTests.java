@@ -39,8 +39,8 @@ public class AddExistingTagTests extends ContextAwareWebTest
     private final String siteName = "site-C7464-" + random;
     private final String fileName = "file-C7464-" + random;
     private final String folderName = "folder-C7464-" + random;
-    private final String tagName1 = "tagName1-C7464-" + random;
-    private final String tagName2 = "tagName2-C7464-" + random;
+    private final String tagName1 = "C7464-1" + random;
+    private final String tagName2 = "C7464-2" + random;
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteUserDialogPage;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -8,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -17,14 +19,22 @@ import java.util.List;
 @PageObject
 public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPage>
 {
-    @RenderWebElement
-    private By editUserButton = By.cssSelector("button[id$='_default-edituser-button-button']");
+    @Autowired
+    EditUserPage editUserPage;
+
+    @Autowired DeleteUserDialogPage deleteUserDialogPage;
 
     @RenderWebElement
-    private By deleteUserButton = By.cssSelector("button[id$='_default-deleteuser-button-button']");
+    @FindBy(css="button[id$='_default-edituser-button-button']")
+    private WebElement editUserButton;
 
     @RenderWebElement
-    private By goBackButton = By.cssSelector("button[id$='_default-goback-button-button']");
+    @FindBy(css="button[id$='_default-deleteuser-button-button']")
+    private WebElement deleteUserButton;
+
+    @RenderWebElement
+    @FindBy(css="button[id$='_default-goback-button-button']")
+    private WebElement goBackButton;
 
     private By userProfileUserName = By.cssSelector("span[id$='_default-view-title']");
 
@@ -64,19 +74,16 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
 
     public boolean isEditUserButtonDisplayed()
     {
-        browser.waitUntilElementClickable(editUserButton, 5L);
         return browser.isElementDisplayed(editUserButton);
     }
 
     public boolean isDeleteUserButtonDisplayed()
     {
-        browser.waitUntilElementClickable(deleteUserButton, 5L);
         return browser.isElementDisplayed(deleteUserButton);
     }
 
     public boolean isGoBackButtonDisplayed()
     {
-        browser.waitUntilElementClickable(goBackButton, 5L);
         return browser.isElementDisplayed(goBackButton);
     }
 
@@ -105,11 +112,10 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
         return userNameInAboutSection.getText();
     }
 
-    public HtmlPage clickEditUserButton(HtmlPage page)
+    public EditUserPage clickEditUserButton()
     {
-        browser.waitUntilElementClickable(editUserButton, 5L);
-        browser.findElement(editUserButton).click();
-        return page.renderedPage();
+        editUserButton.click();
+        return (EditUserPage) editUserPage.renderedPage();
     }
 
     public String getUserName()
@@ -124,11 +130,10 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
         return email.getText();
     }
 
-    public HtmlPage clickDelete(HtmlPage page)
+    public DeleteUserDialogPage clickDelete()
     {
-        browser.waitUntilElementClickable(deleteUserButton, 5L);
-        browser.findElement(deleteUserButton).click();
-        return page.renderedPage();
+        deleteUserButton.click();
+        return (DeleteUserDialogPage) deleteUserDialogPage.renderedPage();
     }
 
     public String getUserQuota(String quota)

@@ -289,7 +289,7 @@ public class AddEventDialog extends ShareDialog
     {
         browser.waitInSeconds(1);
         saveButton.click();
-        browser.waitInSeconds(1);
+        browser.waitInSeconds(3);
         return (CalendarPage) calendarPage.renderedPage();
     }
 

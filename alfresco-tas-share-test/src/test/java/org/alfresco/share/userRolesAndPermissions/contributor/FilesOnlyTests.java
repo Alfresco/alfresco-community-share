@@ -498,7 +498,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         logger.info("Steps2: Click 'Edit in Google Docs' action and add some content");
         documentLibraryPage.clickDocumentLibraryItemAction("uploadedDoc.docx", "Edit in Google Docs", docs);
         getBrowser().waitInSeconds(5);
-        docs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        docs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(15);
         docs.switchToGoogleDocsWindowandAndEditContent("GDTitle", "Edited");
 
@@ -586,7 +586,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs", docs);
         getBrowser().waitInSeconds(5);
-        docs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        docs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(15);
         docs.switchToGoogleDocsWindowandAndEditContent("GDTitle", "Google Doc test content");
 
@@ -773,7 +773,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         String currentWindow = getBrowser().getWindowHandle();
 
         documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs", docs);
-        docs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        docs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(15);
 
         // Switch to new window opened

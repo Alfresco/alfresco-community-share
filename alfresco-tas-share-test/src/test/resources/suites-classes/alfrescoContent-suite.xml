@@ -27,7 +27,7 @@
     <test name="LinkingToDifferentRuleSet">
         <classes>
             <class
-                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.LinkingToDifferentRuleSet"/>
+                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.LinkingToDifferentRuleSetTest"/>
         </classes>
     </test>
     <test name="ManuallyRunningRulesTest">

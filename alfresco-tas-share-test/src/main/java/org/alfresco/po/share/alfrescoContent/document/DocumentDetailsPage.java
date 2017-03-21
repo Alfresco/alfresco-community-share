@@ -261,6 +261,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public String getFileName()
     {
+        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[class='node-info'] h1"));
         return documentTitle.getText().replace(getFileVersion(), "");
     }
 
@@ -319,7 +320,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         browser.waitUntilElementClickable(commentContentIframe, 5L);
         browser.findElement(commentContentIframe).sendKeys(comment);
         addCommentButton.click();
-        browser.waitInSeconds(2);
+        browser.waitInSeconds(4);
     }
 
     /**

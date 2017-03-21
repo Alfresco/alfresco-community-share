@@ -65,6 +65,8 @@ public class TagManagerTests extends ContextAwareWebTest
         contentAction.addSingleTag(user, password, site, fileName, tag);
 
         setupAuthenticatedSession(userAdmin, password);
+        tagManagerPage.navigate();
+        assertEquals(tagManagerPage.getRelativePath(), "share/page/console/admin-console/tag-management", "Displayed url=");
     }
 
     @TestRail(id = "C9383")
@@ -72,9 +74,6 @@ public class TagManagerTests extends ContextAwareWebTest
     public void renamingTag()
     {
         preconditionsTest("c9383");
-
-        tagManagerPage.navigate();
-        assertEquals(tagManagerPage.getRelativePath(), "share/page/console/admin-console/tag-management", "Displayed url=");
 
         LOG.info("STEP1: Click 'Edit tag' for content");
         assertEquals(tagManagerPage.clickEditTagIcon(tag), "'Edit tag' icon clicked for " + tag, "Result on click edit tag icon=");
@@ -97,9 +96,6 @@ public class TagManagerTests extends ContextAwareWebTest
     {
         preconditionsTest("c9385");
 
-        tagManagerPage.navigate();
-        assertEquals(tagManagerPage.getRelativePath(), "share/page/console/admin-console/tag-management", "Displayed url=");
-
         LOG.info("STEP1: Verify 'Tag Manager' page");
         assertTrue(tagManagerPage.isSearchButtonDisplayed(), "'Search' button is displayed.");
         assertTrue(tagManagerPage.isSearchInputFieldDisplayed(), "'Search' input field is displayed.");
@@ -120,9 +116,6 @@ public class TagManagerTests extends ContextAwareWebTest
     public void deleteTag()
     {
         preconditionsTest("c9388");
-
-        tagManagerPage.navigate();
-        assertEquals(tagManagerPage.getRelativePath(), "share/page/console/admin-console/tag-management", "Displayed url=");
 
         LOG.info("STEP1: Hover any tag and click \"Delete\" button");
         assertEquals(tagManagerPage.clickDeleteTagIcon(tag), "'Delete tag' icon clicked for " + tag, "Result on click Delete tag icon=");

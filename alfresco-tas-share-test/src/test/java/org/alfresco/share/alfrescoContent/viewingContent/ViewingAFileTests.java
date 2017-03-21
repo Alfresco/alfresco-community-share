@@ -4,6 +4,7 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -25,8 +26,11 @@ public class ViewingAFileTests extends ContextAwareWebTest
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
     @Autowired private PreviewFileActionsSection fileActions;
+
+    @Autowired
+    private UserDashboardPage userDashboard;
     
-    private final String user = "C9917User" + DataUtil.getUniqueIdentifier();
+    private final String user = "C9917User1489451372540";
     private final String siteName = "C9917SiteName" + DataUtil.getUniqueIdentifier();
     private final String description = "C9917SiteDescription" + DataUtil.getUniqueIdentifier();
     private final String testDataFolder = srcRoot + "testdata" + File.separator;
@@ -39,8 +43,10 @@ public class ViewingAFileTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
-        setupAuthenticatedSession(user, password);
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName + ".docx");
+        setupAuthenticatedSession(user, password);
+
+        getBrowser().waitUntilWebElementIsDisplayedWithRetry(userDashboard.customizeUserDashboard);
     }
 
     @TestRail(id = "C9917")

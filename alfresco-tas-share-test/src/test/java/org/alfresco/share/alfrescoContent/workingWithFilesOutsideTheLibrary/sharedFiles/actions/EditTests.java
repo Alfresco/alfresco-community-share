@@ -222,7 +222,7 @@ public class EditTests extends ContextAwareWebTest
         LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
         sharedFilesPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs™", googleDocsCommon);
         getBrowser().waitInSeconds(5);
-        googleDocsCommon.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocsCommon.clickOkButtonOnTheAuthPopup();
 
         LOG.info("Step2,3: Provide edited input to Google Docs file and close Google Docs tab");
         getBrowser().waitInSeconds(15);

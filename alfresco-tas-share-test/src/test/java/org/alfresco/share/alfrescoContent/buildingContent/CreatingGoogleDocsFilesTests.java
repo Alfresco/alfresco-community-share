@@ -26,7 +26,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     @Autowired private GoogleDocsCommon googleDocs;
 
     private String user;
-    private String siteDescription;
     private String siteName;
     private String documentTitle;
     private String spreadsheetTitle;
@@ -38,14 +37,13 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     {
 
         user = "testUser" + DataUtil.getUniqueIdentifier();
-        siteDescription = "Site Description" + DataUtil.getUniqueIdentifier();
-        siteName = "testSite" + DataUtil.getUniqueIdentifier();
+        siteName = "testSiteGoogleDocs" + DataUtil.getUniqueIdentifier();
         documentTitle = "testDocument";
         spreadsheetTitle = "testSpreadsheet";
         presentationTitle = "testPresentation";
         content = "testcontent";
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
-        siteService.create(user, password, domain, siteName, siteDescription, Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, "Site used for Google Docs", Visibility.PUBLIC);
 
     }
 
@@ -61,24 +59,19 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         logger.info("Step 1: Click 'Create' button and select the type 'Google Docs Document'");
         documentLibraryPage.clickCreateButton();
         create.clickGoogleDocsDoc();
-        getBrowser().waitInSeconds(5);
 
         logger.info("Step 2: Click Ok button on the Authorize with Google Docs pop-up");
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocs.clickOkButtonOnTheAuthPopup();
 
         logger.info("Step 3: Edit the document in the Google Docs tab (enter some text).");
-        getBrowser().waitInSeconds(15);
         googleDocs.switchToGoogleDocsWindowandAndEditContent(documentTitle, content);
         documentLibraryPage.renderedPage();
-        getBrowser().waitInSeconds(5);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Untitled Document"), "The file created with Google Docs present");
         Assert.assertTrue(googleDocs.isLockedDocumentMessageDisplayed(), "Locked label displayed");
         Assert.assertTrue(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
 
         logger.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore");
-
         googleDocs.checkInGoogleDoc("Untitled Document");
-        getBrowser().waitInSeconds(15);
         Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false, "Locked label displayed");
         Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false, "Google Drive icon displayed");
 
@@ -98,24 +91,19 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         logger.info("Step 1: Click 'Create' button and select the type 'Google Docs Spreadsheet'");
         documentLibraryPage.clickCreateButton();
         create.clickGoogleDocsSpreadsheet();
-        getBrowser().waitInSeconds(5);
 
         logger.info("Step 2: Click Ok button on the 'Authorize with Google Docs' pop-up");
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocs.clickOkButtonOnTheAuthPopup();
 
         logger.info("Step 3: Edit the document in the Google Docs tab (enter some text).");
-        getBrowser().waitInSeconds(15);
         googleDocs.switchToGoogleSheetsWindowandAndEditContent(spreadsheetTitle, content);
         documentLibraryPage.renderedPage();
-        getBrowser().waitInSeconds(5);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Untitled Spreadsheet"), "The file created with Google Docs present");
         Assert.assertTrue(googleDocs.isLockedDocumentMessageDisplayed(), "Locked label displayed");
         Assert.assertTrue(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
 
         logger.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore");
-
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet");
-        getBrowser().waitInSeconds(15);
         Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false, "Locked label displayed");
         Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false, "Google Drive icon displayed");
 
@@ -136,16 +124,13 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         logger.info("Step 1: Click 'Create' button and select the type 'Google Docs Presentation'");
         documentLibraryPage.clickCreateButton();
         create.clickGoogleDocsPresentation();
-        getBrowser().waitInSeconds(5);
 
         logger.info("Step 2: Click Ok button on the Authorize with Google Docs pop-up");
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocs.clickOkButtonOnTheAuthPopup();
 
         logger.info("Step 3: Edit the document in the Google Docs tab (enter some text).");
-        getBrowser().waitInSeconds(15);
         googleDocs.switchToGooglePresentationsAndEditContent(presentationTitle);
         documentLibraryPage.renderedPage();
-        getBrowser().waitInSeconds(5);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Untitled Presentation"), "The file created with Google Docs present");
         Assert.assertTrue(googleDocs.isLockedDocumentMessageDisplayed(), "Locked label displayed");
         Assert.assertTrue(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
@@ -153,7 +138,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         logger.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore");
 
         googleDocs.checkInGoogleDoc("Untitled Presentation");
-        getBrowser().waitInSeconds(15);
         Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false, "Locked label displayed");
         Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false, "Google Drive icon displayed");
 

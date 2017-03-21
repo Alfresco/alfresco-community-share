@@ -1014,9 +1014,10 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     /**
      * Method to click on the document thumbnail to open the document in preview
      */
-    public void clickOnFileInGoogleMaps()
+    public DocumentDetailsPage clickOnFileInGoogleMaps()
     {
         googleMapPopUp.click();
+        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
     /**

@@ -3,12 +3,14 @@ package org.alfresco.po.share.user.admin.adminTools;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,6 +48,7 @@ public class TagManagerPage extends AdminToolsPage {
 	@FindBy(css = "div[id*='list-bar-bottom'] span[id*='pages'] .yui-pg-page")
 	private List<WebElement> pagesList;
 
+	@RenderWebElement
 	@FindBy(css = "span[class*='current-page']")
 	private WebElement currentPage;
 
@@ -81,6 +84,11 @@ public class TagManagerPage extends AdminToolsPage {
 
 	@FindAll(@FindBy(css = "td[class*='action'] a[id*='delete']"))
 	private List<WebElement> deleteIconList;
+
+	@FindBy(css = "div[class*='tags-list-info']")
+	private WebElement noFoundMessage;
+
+	private String cellsFromColumn = ".yui-dt-data tr td:nth-child(%s)";
 
 	private final By rowSelector = By.cssSelector("tr[class*='yui-dt-rec']");
 	private final By editIconSelector = By.cssSelector("a[id*='edit']");
@@ -211,5 +219,96 @@ public class TagManagerPage extends AdminToolsPage {
 			return "'Delete tag' icon clicked for " + tag;
 		} else
 			return tag + " isn't displayed. 'Delete tag' icon not clicked!";
+	}
+
+
+
+	/**
+	 * Search by a specific tag name - with results.
+	 *
+	 * @param tagName
+	 *            - tag name
+	 * @param columnIndex
+	 *            - column index
+	 */
+	public void searchTagWithResults(String tagName, String columnIndex) {
+		search(tagName);
+		waitUntilTagIsDisplayed(tagName, columnIndex);
+		List<String> allTags = getAllTagsTextFromColumn(columnIndex);
+		Assert.assertTrue(allTags.toString().contains((tagName)));
+	}
+
+	public String getNotFoungTagMessage() {
+		return noFoundMessage.getText();
+	}
+
+	/**
+	 * Search by a specific tag name - without results.
+	 *
+	 * @param tagName
+	 *            - tag name
+	 * @param columnIndex
+	 *            - column index
+	 */
+	public void searchTagWithoutResults(String tagName, String columnIndex) {
+		search(tagName);
+		Assert.assertEquals(getNotFoungTagMessage(), "No tag found");
+		List<String> allTags = getAllTagsTextFromColumn(columnIndex);
+		Assert.assertTrue(allTags.isEmpty());
+	}
+
+	/**
+	 * Delete a specific tag.
+	 *
+	 * @param tagName
+	 *            - tag name
+	 * @param columnIndex
+	 *            - column index
+	 */
+	public void deleteTag(String tagName, String columnIndex) {
+		deleteDialog.deleteButton.click();
+		browser.waitInSeconds(4);
+		browser.refresh();
+		searchTagWithoutResults(tagName, columnIndex);
+	}
+
+	private List<WebElement> getCellsFromColumn(String columnId) {
+		return browser.findElements(By.cssSelector(String.format(cellsFromColumn, columnId)));
+	}
+
+	private List<String> getAllTagsTextFromColumn(String columnIndex) {
+		try {
+			List<WebElement> allItems = getCellsFromColumn(columnIndex);
+			List<String> allItemsText = new ArrayList<String>();
+			for (WebElement item : allItems) {
+				allItemsText.add(item.getText());
+			}
+			return allItemsText;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	private void search(String tagName) {
+		searchInput.clear();
+		searchInput.sendKeys(tagName);
+		searchButton.click();
+		browser.waitInSeconds(2);
+	}
+
+	private void waitUntilTagIsDisplayed(String tagName, String columnIndex) {
+		int counter = 0;
+		try {
+			while (getAllTagsTextFromColumn(columnIndex).isEmpty()) {
+				searchButton.click();
+				browser.waitInSeconds(2);
+				if (counter == 3) {
+					break;
+				}
+				counter++;
+			}
+		} catch (Exception e) {
+			System.err.println("Tag:" + tagName + "was not found in table.");
+		}
 	}
 }

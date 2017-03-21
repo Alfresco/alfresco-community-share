@@ -32,7 +32,7 @@ public class MySitesTests extends ContextAwareWebTest
     private String siteName3;
 
     @BeforeMethod(alwaysRun = true)
-    public void setup()
+    public void createUser()
     {
         cleanupAuthenticatedSession();
         userName = "User1" + DataUtil.getUniqueIdentifier();
@@ -125,21 +125,21 @@ public class MySitesTests extends ContextAwareWebTest
 
         logger.info("STEP 2 - All filter, check that all sites are displayed");
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.All.toString());
-        userDashboardPage.navigate(userName);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is not available");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " is not available");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " is not available");
 
         logger.info("STEP 3 - Recent filter, check that only site1 is displayed");
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.Recent.toString());
-        userDashboardPage.navigate(userName);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " should not be available");
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is not available");
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " should not be available");
 
         logger.info("STEP 4 - My Favorites filter, check that only site1 is displayed");
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.MyFavorites.toString());
-        userDashboardPage.navigate(userName);
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is not available");
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " should not be available");
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " should not be available");

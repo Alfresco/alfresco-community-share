@@ -33,6 +33,7 @@ public class LinkPage extends SiteCommon<LinkPage>
     @FindBy(css = ".filter.links-filter")
     private WebElement linksFilter;
 
+    @RenderWebElement
     @FindBy(css = "[class=list-title]")
     private WebElement linksListTitle;
 
@@ -258,6 +259,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public String getNoLinksFoundMsg()
     {
+        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
         return dataTableMsgEmpty.getText();
     }
 

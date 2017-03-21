@@ -75,6 +75,7 @@ public class SubgroupsTests extends ContextAwareWebTest
 
         groupsPage.navigate();
         assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
+        groupsPage.writeInSearchInput(group0);
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group0);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group0));
@@ -112,6 +113,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     {
         groupsPage.navigate();
         assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
+        groupsPage.writeInSearchInput(group1);
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group1);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group1));
@@ -152,6 +154,7 @@ public class SubgroupsTests extends ContextAwareWebTest
 
         groupsPage.navigate();
         assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
+        groupsPage.writeInSearchInput(group2);
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group2);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group2));
@@ -187,6 +190,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     {
         groupsPage.navigate();
         assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
+        groupsPage.writeInSearchInput(group3);
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group3);
         String user = name + " " + userModelAdmin + " (" + userModelAdmin + ")";
@@ -216,6 +220,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     {
         groupsPage.navigate();
         assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
+        groupsPage.writeInSearchInput(group3);
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group3);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group3));
@@ -241,6 +246,9 @@ public class SubgroupsTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Click 'Delete' button");
         deleteGroupDialog.clickDeleteButton();
+        groupsPage.writeInSearchInput(groupNameToDelete);
+        groupsPage.clickBrowseButton();
+        groupsPage.clickItemFromList(groupNameToDelete);
         assertTrue(groupsPage.isItemDisplayedInSpecifiedColumn(groupNameToDelete, 1), groupNameToDelete + " is displayed in first column.");
         assertFalse(groupsPage.isItemDisplayedInSpecifiedColumn(groupNameToDelete, 2), groupNameToDelete + " is displayed for " + group3);
     }

@@ -172,6 +172,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
      */
     public MySitesDashlet selectOptionFromSiteFilters(String siteOption)
     {
+        browser.waitUntilWebElementIsDisplayedWithRetry(myFavoritesButton);
         try
         {
             myFavoritesButton.click();
@@ -239,6 +240,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
      */
     public boolean isSitePresent(String siteName)
     {
+        browser.waitUntilElementVisible(myFavoritesButton);
         try
         {
             WebElement siteLink = selectSite(siteName);

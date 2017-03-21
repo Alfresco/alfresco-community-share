@@ -81,6 +81,7 @@ public class DocumentCommon<T> extends SharePage<DocumentCommon<T>>
 
     {
         browser.waitUntilElementVisible(By.xpath("//span[text() = 'No Categories']"));
+        List<WebElement> fadedDetails = browser.findElements(By.cssSelector("span.faded"));
 
         ArrayList<String> fadedText = new ArrayList<>();
         for (WebElement fadedDetail : fadedDetails)

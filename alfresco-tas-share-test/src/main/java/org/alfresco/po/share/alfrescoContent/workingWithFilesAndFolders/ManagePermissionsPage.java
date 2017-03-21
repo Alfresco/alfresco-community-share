@@ -32,7 +32,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     private WebElement addUserGroupButton;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='-okButton-button']")
+    @FindBy(css = "button[id$='_default-okButton-button']")
     private WebElement saveButton;
 
     @FindBy(css = "button[id$='-cancelButton-button']")
@@ -44,7 +44,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     @FindBy(css = "div.authority-search-button button")
     private WebElement searchUserButton;
 
-    @FindBy(css = "div[id$='_default-inheritedButtonContainer']")
+    @FindBy(css = "div[id$='button[id$='_manage-permissions_x0023_default-inheritedButton-button']']")
     private WebElement inheritPermissionButton;
 
     @FindBy(css = "td[class$='displayName']")
@@ -70,6 +70,17 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     @FindAll(@FindBy(css = "button[id*='yui-gen']"))
     protected List<WebElement> addButtonsList;
+
+    @FindAll(@FindBy(css="div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']"))
+    private List<WebElement> usersAndGroupsList;
+
+    private By usersAndGroups = By.cssSelector("div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']");
+
+    @FindBy(css="div[id$='_default-directContainer'] div[id$='_default-directPermissions']")
+    private WebElement locallySetPermissionsList;
+
+    @FindBy(css="div.onActionDelete")
+    private WebElement deleteButton;
 
     private final String userRowLocator = "//div[contains(@id, 'default-directPermissions')]//td//div[contains(text(), '%s')]/../..";
 
@@ -332,5 +343,73 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     {
         browser.findFirstElementWithValue(breadcrumbList, location).click();
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
+    }
+
+    /**
+     * Method to check if Add User/Group button is displayed
+     */
+
+    public boolean isAddUserGroupButtonDisplayed()
+    {
+        browser.waitUntilElementVisible(addUserGroupButton);
+        return browser.isElementDisplayed(addUserGroupButton);
+    }
+
+    /**
+     * Method to check if Inherit Permissions button is displayed
+     */
+
+    public boolean isInheritPermissionsButtonDisplayed()
+    {
+        browser.waitUntilElementVisible(inheritPermissionButton);
+        return browser.isElementDisplayed(inheritPermissionButton);
+    }
+
+    /**
+     * Method to check if the Save button is displayed
+     */
+
+    public boolean isTheSaveButtonDisplayed()
+    {
+        browser.waitUntilElementVisible(saveButton);
+        return browser.isElementDisplayed(saveButton);
+    }
+
+    /**
+     * Method to check if the Cancel button is displayed
+     */
+
+    public boolean isCancelButtonDisplayed()
+    {
+        browser.waitUntilElementVisible(cancelButton);
+        return browser.isElementDisplayed(cancelButton);
+    }
+
+    /**
+     * Method to check if the Locally Set Permissions list is displayed
+     */
+
+    public boolean isLocallySetPermissionsListDisplayed()
+    {
+        browser.waitUntilElementVisible(locallySetPermissionsList);
+        return browser.isElementDisplayed(locallySetPermissionsList);
+    }
+
+    public WebElement selectRow(String rowDetails)
+    {
+        browser.waitUntilElementVisible(usersAndGroups);
+        return browser.findFirstElementWithValue(usersAndGroups, rowDetails);
+    }
+
+    public String getRowDetails(String details)
+    {
+        return selectRow(details).getText();
+    }
+
+    public boolean isDeleteButtonAvailable(String identifier)
+    {
+        browser.mouseOver(selectRow(identifier));
+        //browser.waitInSeconds(2);
+        return browser.isElementDisplayed(deleteButton);
     }
 }

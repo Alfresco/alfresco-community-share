@@ -344,7 +344,7 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertTrue(googleDocs.isAuthorizeWithGoogleDocsDisplayed(), "Authorize with Google Docs popup is not displayed");
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(5);
 
         LOG.info("Step 3: Edit the document in the Google Docs tab.");
@@ -389,7 +389,7 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertTrue(googleDocs.isAuthorizeWithGoogleDocsDisplayed(), "Authorize with Google Docs popup is not displayed");
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(7);
 
         LOG.info("Step 3: Edit the document in the Google Docs tab.");
@@ -434,7 +434,7 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertTrue(googleDocs.isAuthorizeWithGoogleDocsDisplayed(), "Authorize with Google Docs popup is not displayed");
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
-        googleDocs.clickTheOkButtonOnTheAuthorizeWithGoogleDocsPopup();
+        googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(5);
 
         LOG.info("Step 3: Edit the document in the Google Docs tab ");

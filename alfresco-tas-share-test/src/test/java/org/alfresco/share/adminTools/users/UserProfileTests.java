@@ -88,7 +88,6 @@ public class UserProfileTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Click on the test user name displayed in search results");
         usersPage.clickUserLink(fullName);
-        userProfileAdminToolsPage.renderedPage();
         Assert.assertEquals(userProfileAdminToolsPage.getUserNameInPageTitle(), fullName, "User is not opened in User Profile");
 
         LOG.info("Step 4: Verify \"User Profile: \" page");
@@ -137,10 +136,9 @@ public class UserProfileTests extends ContextAwareWebTest
         usersPage.navigate();
         usersPage.searchUser(c9416User);
         usersPage.clickUserLink(fullName);
-        userProfileAdminToolsPage.renderedPage();
 
         LOG.info("Step 1: Click \"Edit User\" button");
-        userProfileAdminToolsPage.clickEditUserButton(editUserPage);
+        userProfileAdminToolsPage.clickEditUserButton();
         Assert.assertEquals(editUserPage.getUserInEditUserPageTitle(fullName), fullName, "User is not displayed in Edit User page");
 
         LOG.info("Step 2: Verify \"Edit User\" page ");
@@ -184,20 +182,14 @@ public class UserProfileTests extends ContextAwareWebTest
         usersPage.navigate();
         usersPage.searchUser(c9417User);
         usersPage.clickUserLink(fullName);
-        userProfileAdminToolsPage.renderedPage();
-        userProfileAdminToolsPage.clickEditUserButton(editUserPage);
-        editUserPage.renderedPage();
+        userProfileAdminToolsPage.clickEditUserButton();
 
         LOG.info("Step 1: Edit first name, last name and email for test user");
-        //getBrowser().waitInSeconds(2);
         editUserPage.editFirstName(firstName);
         editUserPage.editLastNameField(lastName);
         editUserPage.editEmailField(email);
-        editUserPage.clickSaveChangesButton(userProfileAdminToolsPage);
+        editUserPage.clickSaveChangesButton();
 
-        //getBrowser().waitInSeconds(1);
-        userProfileAdminToolsPage.renderedPage();
-        getBrowser().waitUntilElementContainsText(userProfileAdminToolsPage.userName, expectedUserName);
         Assert.assertEquals(userProfileAdminToolsPage.getUserName(), expectedUserName, "User name is not correct");
         Assert.assertEquals(userProfileAdminToolsPage.getEmail(), email, "Email is not correct");
         cleanupAuthenticatedSession();
@@ -212,10 +204,9 @@ public class UserProfileTests extends ContextAwareWebTest
         usersPage.navigate();
         usersPage.searchUser(c9431User);
         usersPage.clickUserLink(fullName);
-        userProfileAdminToolsPage.renderedPage();
 
         LOG.info("Step 1:On the User Profile page for user1 click the Delete User button");
-        userProfileAdminToolsPage.clickDelete(deleteUserDialogPage);
+        userProfileAdminToolsPage.clickDelete();
         Assert.assertTrue(deleteUserDialogPage.isDeleteUserWindowDisplayed(), "Delete User window is not displayed");
         Assert.assertEquals(
                 deleteUserDialogPage.getDeleteUserWindowText(),
@@ -248,15 +239,12 @@ public class UserProfileTests extends ContextAwareWebTest
         usersPage.navigate();
         usersPage.searchUser(c9427User);
         usersPage.clickUserLink(fullName);
-        userProfileAdminToolsPage.renderedPage();
-        userProfileAdminToolsPage.clickEditUserButton(editUserPage);
-        editUserPage.renderedPage();
+        userProfileAdminToolsPage.clickEditUserButton();
 
         LOG.info("Step 1: Edit quota to 500 GB ");
 
         editUserPage.editQuota("500");
-        editUserPage.clickSaveChangesButton(userProfileAdminToolsPage);
-        userProfileAdminToolsPage.renderedPage();
+        editUserPage.clickSaveChangesButton();
         Assert.assertEquals(userProfileAdminToolsPage.getUserQuota("500 GB"), "500 GB", "User quota is not 500 GB");
         cleanupAuthenticatedSession();
     }
@@ -270,18 +258,16 @@ public class UserProfileTests extends ContextAwareWebTest
         usersPage.navigate();
         usersPage.searchUser(c9426User);
         usersPage.clickUserLink(fullName);
-        userProfileAdminToolsPage.renderedPage();
-        userProfileAdminToolsPage.clickEditUserButton(editUserPage);
-        getBrowser().waitInSeconds(3);
+        userProfileAdminToolsPage.clickEditUserButton();
         editUserPage.clickDisabledAccount(); getBrowser().waitInSeconds(1);
-        editUserPage.clickSaveChangesButton(userProfileAdminToolsPage);
+        editUserPage.clickSaveChangesButton();
         getBrowser().waitUntilElementContainsText(userProfileAdminToolsPage.accountStatus, "Disabled");
         Assert.assertEquals(userProfileAdminToolsPage.getAccountStatus(), "Disabled", "Account is not disabled");
 
         LOG.info("Step 1&2: Switch off \"Disable account\" check-box");
-        userProfileAdminToolsPage.clickEditUserButton(editUserPage);
+        userProfileAdminToolsPage.clickEditUserButton();
         editUserPage.clickDisabledAccount(); getBrowser().waitInSeconds(3);
-        editUserPage.clickSaveChangesButton(userProfileAdminToolsPage); getBrowser().waitInSeconds(1);
+        editUserPage.clickSaveChangesButton();
         Assert.assertEquals(userProfileAdminToolsPage.getAccountStatus(), "Enabled", "Account is not enabled");
 
         LOG.info("Step 3: Try to log in as a user");
