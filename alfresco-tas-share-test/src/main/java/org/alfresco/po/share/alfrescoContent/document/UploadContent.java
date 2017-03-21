@@ -1,6 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
@@ -8,7 +8,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import ru.yandex.qatools.htmlelements.element.FileInput;
 
 import java.io.File;
@@ -24,7 +23,7 @@ import java.nio.charset.Charset;
 public class UploadContent extends SiteCommon<UploadContent> {
 	
     @Autowired 
-    SharedFilesPage sharedFilesPage;
+    DocumentLibraryPage documentLibraryPage;
     
 	@FindBy(css = "button[id$='-fileUpload-button-button']")
 	private WebElement uploadButton;
@@ -95,7 +94,7 @@ public class UploadContent extends SiteCommon<UploadContent> {
 		uploadContent(filePath, "contents");
 	}
 
-	public SharedFilesPage updateDocumentVersion(String filePath, String comments, Version versionType) {
+	public DocumentLibraryPage updateDocumentVersion(String filePath, String comments, Version versionType) {
 		if (versionType.equals(Version.Major)) {
 			 browser.waitUntilElementClickable(By.cssSelector("input[id$='_default-majorVersion-radioButton']"),
 			 3).click();
@@ -113,7 +112,7 @@ public class UploadContent extends SiteCommon<UploadContent> {
 		WebElement submitButton = browser
 				.waitUntilElementVisible(By.cssSelector("button[id$='_default-upload-button-button']"));
 		submitButton.click();
-		return (SharedFilesPage) sharedFilesPage.renderedPage();
+		return (DocumentLibraryPage) documentLibraryPage.renderedPage();
 	}
 
 	public boolean isUploadFilesToDialogDisplayed() {

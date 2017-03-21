@@ -55,24 +55,19 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
     private String userName;
     private String siteName;
-    private String folderName;
-    private String mainSmartFolder;
-    private String testFileName;
+    private String folderName = "testFolder";
+    private String mainSmartFolder = "My content";
+    private String testFileName = "test.pdf";
     private String testFilePath;
+    private String newVersionFileName = "EditedTestFile8650.docx";
     private String newVersionFilePath;
-    private String newVersionFileName;
-    String uniqueIdentifier = DataUtil.getUniqueIdentifier();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
-        testFileName = "test.pdf";
         testFilePath = testDataFolder + testFileName;
-        mainSmartFolder = "My content";
-        folderName = "testFolder";
-        newVersionFileName = "EditedTestFile8650.docx";
         newVersionFilePath = testDataFolder + newVersionFileName;
         userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
@@ -131,7 +126,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         logger.info("Step8: Click on the folder and verify it has 'Smart Folder' structure under it");
         getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
@@ -208,7 +202,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         logger.info("Step1: Hover over folder and click More -> Manage Aspects.");
-        getBrowser().waitInSeconds(2);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
@@ -246,7 +239,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
         getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
@@ -267,23 +259,16 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step11: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("All site content");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Documents");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Office Documents");
-        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
-
     }
 
     @TestRail(id = "C8650")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void updateFileInSmartFolder() throws Exception
-
     {
-
         logger.info("Preconditions: Navigate to Document Library for the page for the test site");
         documentLibraryPage.navigate(siteName);
 
@@ -346,23 +331,20 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step11: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("All site content");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Documents");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Office Documents");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
 
         logger.info("Step12: Hover over the created file and click 'Upload new version'");
         documentLibraryPage.clickDocumentLibraryItemAction("Test.docx", "Upload New Version", uploadContent);
-        getBrowser().waitInSeconds(1);
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Minor);
+        getBrowser().waitInSeconds(2);
 
         logger.info("Step13: Verify the document is updated and the version is increased");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(newVersionFileName), "The uploaded file displayed in Office Documents list");
         documentLibraryPage.clickOnFile(newVersionFileName);
-        documentDetailsPage.renderedPage();
-        assertEquals(documentDetailsPage.getContentText(), "Edited content C8650", String.format("Contents of %s are wrong.", newVersionFileName));
+        assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Content of %s is wrong.", newVersionFileName));
         assertEquals(documentDetailsPage.getFileVersion(), "1.1", String.format("Version of %s is wrong.", newVersionFileName));
 
     }
@@ -413,13 +395,11 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
         logger.info("Step8: Click on 'My content' the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(mainSmartFolder);
-        getBrowser().waitInSeconds(3);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("All site content"), "'All site content' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Contributions"), "'Contributions' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("My content modified by other users"),
@@ -476,7 +456,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
@@ -498,13 +477,9 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step11: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("All site content");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Documents");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName("Office Documents");
-        getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.xlsx"), "The uploaded file displayed in Office Documents list");
 
     }
