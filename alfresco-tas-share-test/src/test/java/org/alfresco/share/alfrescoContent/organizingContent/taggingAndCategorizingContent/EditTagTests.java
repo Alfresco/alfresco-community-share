@@ -31,14 +31,14 @@ public class EditTagTests extends ContextAwareWebTest
     private final String newTagName = "newTagName-" + random;
     private final String fileName = "file-" + random;
     private final String userName = "profileUser-" + random;
-    private final String firstName = "FirstName";
-    private final String lastName = "LastName";
     private final String description = "Description-" + random;
-    private final String fileContent = "content of the file.";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
+        final String fileContent = "content of the file.";
+        final String firstName = "FirstName";
+        final String lastName = "LastName";
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteName2, description, Site.Visibility.PUBLIC);

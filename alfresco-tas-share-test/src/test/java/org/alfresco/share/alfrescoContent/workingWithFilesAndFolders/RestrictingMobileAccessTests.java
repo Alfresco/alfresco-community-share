@@ -95,7 +95,6 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
 
         editPropertiesPage.addOfflineExpiresAfterValue("48");
         editPropertiesPage.clickButton("Save");
-        documentDetailsPage.renderedPage();
         Assert.assertTrue(documentDetailsPage.isRestrictableValueUpdated("48"), "The value for Offline Expires After (hours) has not been updated");
 
     }

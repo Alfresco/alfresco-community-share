@@ -177,10 +177,10 @@ public class ViewingAFileTests extends ContextAwareWebTest
         LOG.info("Step 5: Check that the Properties block is displayed");
         Assert.assertTrue(fileActions.isPropertiesBlockDisplayed(), "Properties block is not displayed");
         
-        LOG.info("Step 6: Check that workflows block displayed");
+        LOG.info("Step 6: Check that the workflow block is displayed");
         Assert.assertTrue(fileActions.isWorkflowsBlockDisplayed(), "Workflows block is not displayed");
         
-        LOG.info("Step 7: Check that Vesrion History block is displayed ");
+        LOG.info("Step 7: Check that Version History block is displayed ");
         Assert.assertTrue(fileActions.isVersionHistoryBlockDisplayed(), "Version History block is not displayed");
     }
 }

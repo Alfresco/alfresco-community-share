@@ -41,6 +41,9 @@ public class InsertLinkPopUp extends ShareDialog
     @FindBy(xpath = "//label[text()='Target']/following-sibling::*/button")
     private Button targetButton;
 
+    @FindBy(xpath = ".//*[@class='mce-reset']")
+    private WebElement insertLinkPopup;
+
     private By targetMenu = By.cssSelector("#mce-modal-block+div");
     private By targetMenuItem = By.className("mce-text");
 
@@ -60,5 +63,11 @@ public class InsertLinkPopUp extends ShareDialog
     public String getPopupTitle()
     {
         return popupTitle.getText();
+    }
+
+    public boolean isTextPresent(String text)
+    {
+        browser.waitUntilElementContainsText(insertLinkPopup, text);
+        return insertLinkPopup.getText().contains(text);
     }
 }

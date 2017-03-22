@@ -3,6 +3,7 @@ package org.alfresco.share.site.analyzingASite;
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.po.share.dashlet.SiteContributorBreakdownDashlet;
 import org.alfresco.po.share.dashlet.SiteFileTypeBreakdownDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -30,12 +31,15 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
     @Autowired
     SiteFileTypeBreakdownDashlet siteFileTypeBreakdownDashlet;
 
+    @Autowired SiteContributorBreakdownDashlet siteContributorBreackdownDashlet;
+
     private String user = "user2233-" + DataUtil.getUniqueIdentifier();
     private String siteName = "C2233" + DataUtil.getUniqueIdentifier();
     private String siteNameC2234 ="C2234SiteName"+ DataUtil.getUniqueIdentifier();
-    private String user1C2234 = "C2234-1"+ DataUtil.getUniqueIdentifier();
-    private String user2C2234 = "C2234-2"+ DataUtil.getUniqueIdentifier();
-    private String user3C2234 = "C2234-3"+ DataUtil.getUniqueIdentifier();
+    private String user1C2234 = "C2234-1";//+ DataUtil.getUniqueIdentifier();
+    private String user2C2234 = "C2234-2";//+ DataUtil.getUniqueIdentifier();
+    private String user3C2234 = "C2234-3";//+ DataUtil.getUniqueIdentifier();
+    private String user4C2234 = "C2234-4";
     private String fileNameTxt1 = "txt file1";
     private String fileContentTxt1 = "Content for .txt file 1";
     private String fileNameTxt2 = "txt file2";
@@ -60,16 +64,16 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
     private String fileName1User1 = "File1"+ DataUtil.getUniqueIdentifier();
     private String fileName2User1 = "File2"+ DataUtil.getUniqueIdentifier();
     private String fileName3User1 = "File3"+ DataUtil.getUniqueIdentifier();
-    private String fileName4User1 = "File4"+ DataUtil.getUniqueIdentifier();
-    private String fileName5User1 = "File5"+ DataUtil.getUniqueIdentifier();
     private String fileContentUser1 = "Content User 1";
     private String fileName1User2 = "File1User2"+ DataUtil.getUniqueIdentifier();
     private String fileName2User2 = "File2User2"+ DataUtil.getUniqueIdentifier();
     private String fileName3User2 = "File3User2"+ DataUtil.getUniqueIdentifier();
-    private String fileName4User2 = "File4User2"+ DataUtil.getUniqueIdentifier();
     private String fileContentUser2 = "Content User 2";
     private String fileName1User3 = "File1User3"+ DataUtil.getUniqueIdentifier();
     private String fileContentUser3 = "Content User 3";
+    private String fileContentUser4 = "Content User 4";
+    private String fileName1User4 = "File1User4"+ DataUtil.getUniqueIdentifier();
+    private String fileName2User4 = "File2User4"+ DataUtil.getUniqueIdentifier();
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -90,7 +94,27 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
         contentService.createDocument(user, password, siteName, CMISUtil.DocumentType.MSWORD, fileNameDocx1, fileContentDocx1);
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + picture + ".jpg");
 
+        //C2234
+        userService.create(adminUser, adminPassword, user1C2234, password, user1C2234 + domain, "C2233-1", "C2233-1");
+        userService.create(adminUser, adminPassword, user2C2234, password, user2C2234 + domain, "C2233-2", "C2233-2");
+        userService.create(adminUser, adminPassword, user3C2234, password, user3C2234 + domain, "C2233-3", "C2233-3");
+        userService.create(adminUser, adminPassword, user4C2234, password, user4C2234 + domain, "C2233-4", "C2233-4");
+        siteService.create(user1C2234, password, domain, siteNameC2234, siteNameC2234, Site.Visibility.PUBLIC);
+        siteService.addDashlet(adminUser, adminPassword, siteNameC2234, DashboardCustomization.SiteDashlet.SITE_CONTRIB_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
 
+        userService.createSiteMember(user1C2234, password, user2C2234, siteNameC2234, "SiteManager");
+        userService.createSiteMember(user1C2234, password, user3C2234, siteNameC2234, "SiteManager");
+        userService.createSiteMember(user1C2234, password, user4C2234, siteNameC2234, "SiteManager");
+
+        contentService.createDocument(user1C2234, password, siteNameC2234, CMISUtil.DocumentType.TEXT_PLAIN, fileName1User1, fileContentUser1);
+        contentService.createDocument(user1C2234, password, siteNameC2234, CMISUtil.DocumentType.TEXT_PLAIN, fileName2User1, fileContentUser1);
+        contentService.createDocument(user1C2234, password, siteNameC2234, CMISUtil.DocumentType.TEXT_PLAIN, fileName3User1, fileContentUser1);
+        contentService.createDocument(user2C2234, password, siteNameC2234, CMISUtil.DocumentType.TEXT_PLAIN, fileName1User2, fileContentUser2);
+        contentService.createDocument(user2C2234, password, siteNameC2234, CMISUtil.DocumentType.TEXT_PLAIN, fileName2User2, fileContentUser2);
+        contentService.createDocument(user2C2234, password, siteNameC2234, CMISUtil.DocumentType.TEXT_PLAIN, fileName3User2, fileContentUser2);
+        contentService.createDocument(user3C2234, password, siteNameC2234, CMISUtil.DocumentType.TEXT_PLAIN, fileName1User3, fileContentUser3);
+        contentService.createDocument(user4C2234, password, siteNameC2234, CMISUtil.DocumentType.TEXT_PLAIN, fileName1User4, fileContentUser4);
+        contentService.createDocument(user4C2234, password, siteNameC2234, CMISUtil.DocumentType.HTML, fileName2User4, fileContentUser4);
     }
 
     @TestRail(id="C2233")
@@ -123,5 +147,35 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
         assertTrue(fileDetails.get("Microsoft Word").contains("1 items (10%)"), "The Microsoft Word file number is not correct.");
         assertTrue(fileDetails.get("Microsoft Word").contains("Size: 24 bytes"), "Size of the Microsoft Word files is not correct.");
         cleanupAuthenticatedSession();
+    }
+
+    @TestRail(id="C2234")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+
+    public void verifySiteContributorBreakdownDashlet()
+    {
+        setupAuthenticatedSession(user1C2234, password);
+        siteDashboardPage.navigate(siteNameC2234);
+
+        LOG.info("Step 1&2: Verify the content of \"Contributor Breakdown\" dashlet.");
+
+        siteContributorBreackdownDashlet.renderedPage();
+        Assert.assertEquals(siteContributorBreackdownDashlet.getNumberOfPieChartSlices(), 4, "There are not 4 different sections in the pie chart");
+        Map<String, String> fileDetails = siteContributorBreackdownDashlet.getPieChartSliceTooltip();
+        assertTrue(fileDetails.containsKey(user3C2234), user3C2234+" contribution is not displayed");
+        assertTrue(fileDetails.get(user3C2234).contains("1 items (11.1%)"), user3C2234+" user contribution number of files in not correct");
+        assertTrue(fileDetails.get(user3C2234).contains("Size: 14 bytes"),user3C2234+ " user contribution file size is not correct");
+
+        assertTrue(fileDetails.containsKey(user2C2234), user2C2234+" contribution is not displayed");
+        assertTrue(fileDetails.get(user2C2234).contains("3 items (33.3%)"), user2C2234+" user contribution number of files in not correct");
+        assertTrue(fileDetails.get(user2C2234).contains("Size: 42 bytes"),user2C2234+ " user contribution file size is not correct");
+
+        assertTrue(fileDetails.containsKey(user4C2234), user4C2234+" contribution is not displayed");
+        assertTrue(fileDetails.get(user4C2234).contains("2 items (22.2%)"), user4C2234+" user contribution number of files in not correct");
+        assertTrue(fileDetails.get(user4C2234).contains("Size: 28 bytes"),user4C2234+ " user contribution file size is not correct");
+
+        assertTrue(fileDetails.containsKey(user1C2234), user1C2234+" contribution is not displayed");
+        assertTrue(fileDetails.get(user1C2234).contains("3 items (33.3%)"), user1C2234+" user contribution number of files in not correct");
+        assertTrue(fileDetails.get(user1C2234).contains("Size: 42 bytes"),user1C2234+ " user contribution file size is not correct");
     }
 }

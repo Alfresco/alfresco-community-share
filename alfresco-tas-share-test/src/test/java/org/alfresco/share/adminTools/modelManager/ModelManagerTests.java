@@ -385,9 +385,6 @@ public class ModelManagerTests extends ContextAwareWebTest
         importModelDialogPage.importFile(filePath);
         importModelDialogPage.clickImportButton();
         modelManagerPage.renderedPage();
-
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//tr[contains(@id, 'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']"),
-                6);
         Assert.assertTrue(modelManagerPage.isModelDisplayed(modelName), "Imported model is not present on the Model Manager Page");
 
         LOG.info("Step 4: Check the Model details displayed on the Model Manager page");

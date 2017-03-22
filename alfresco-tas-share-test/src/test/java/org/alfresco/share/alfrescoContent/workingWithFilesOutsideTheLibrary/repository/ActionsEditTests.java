@@ -230,7 +230,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedTitle), "Updated title is not displayed");
         Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedDescription), "Updated description is not displayed");
 
-        getBrowser().cleanUpAuthenticatedSession();
+        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C7782")
@@ -245,8 +245,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         docsCommon.loginToGoogleDocs();
 
         logger.info("Step1: Hover over the test file and click Edit in Google Docs option");
-        repositoryPage.mouseOverContentItem(fileName);
-        docsCommon.editInGoogleDocs();
+        repositoryPage.clickDocumentLibraryItemAction(fileName, "Edit in Google Docs™", docsCommon);
 
         logger.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
         docsCommon.clickOkButton();
@@ -278,6 +277,6 @@ public class ActionsEditTests extends ContextAwareWebTest
         docsCommon.clickOnUpdatedName(editedTitle);
         Assert.assertTrue(detailsPage.getContentText().contains(editedContent));
 
-        getBrowser().cleanUpAuthenticatedSession();
+        cleanupAuthenticatedSession();
     }
 }

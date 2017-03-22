@@ -30,35 +30,40 @@ public class CreateTagTests extends ContextAwareWebTest
 
     @Autowired private SelectDialog selectDialog;
 
-    private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    private final String firstName = "FirstName";
-    private final String lastName = "LastName";
-    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
-    private final String fileContent = "content of the file.";
+    private final String random = DataUtil.getUniqueIdentifier();
+    private final String userName = "profileUser-" + random;
+    private final String siteName = "site" + random;
+    private final String description = "Description-" + random;
+    private final String fileName = "fileC10209-" + random;
+    private final String folderName = "folderC10210-" + random;
+    private final String fileTag = "tagC10209-" + random;
+    private final String folderTag = "tagC10210-" + random;
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
+        String lastName = "LastName";
+        String firstName = "FirstName";
+        String fileContent = "content of the file.";
+
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
+        contentService.createFolder(userName, password, folderName, siteName);
+
+        setupAuthenticatedSession(userName, password);
+        documentLibraryPage.navigate(siteName);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
     }
 
     @TestRail(id = "C10209")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createTagEditPropertiesDialog()
     {
-        String random = DataUtil.getUniqueIdentifier();
-        String siteName = "site-C10209-" + random;
-        String fileName = "file-C10209-" + random;
-        String tagName = "tagName-C10209-" + random;
-        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
-
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
 
         LOG.info("STEP1: Hover over the file name. STEP2: Click \"Edit Properties\" link");
-        documentLibraryPage.clickCheckBox(fileName);
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Properties", documentLibraryPage);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), fileName), "Displayed dialog=");
 
@@ -67,37 +72,27 @@ public class CreateTagTests extends ContextAwareWebTest
         assertEquals(selectDialog.getDialogTitle(), language.translate("selectDialog.title"), "Displayed dialog=");
 
         LOG.info("STEP4: Type any tag name in the input field and click \"Create new item\" icon");
-        selectDialog.typeTag(tagName);
+        selectDialog.typeTag(fileTag);
         selectDialog.clickCreateNewIcon();
-        assertTrue(selectDialog.isItemSelected(tagName.toLowerCase()),
-                "'Select...' dialog -> added tags section: '" + tagName.toLowerCase() + "' is displayed.");
-        assertTrue(selectDialog.isItemRemovable(tagName.toLowerCase()), "'Select...' dialog -> 'Remove' icon is displayed for: " + tagName.toLowerCase());
+        assertTrue(selectDialog.isItemSelected(fileTag.toLowerCase()),
+                "'Select...' dialog -> added tags section: '" + fileTag.toLowerCase() + "' is displayed.");
+        assertTrue(selectDialog.isItemRemovable(fileTag.toLowerCase()), "'Select...' dialog -> 'Remove' icon is displayed for: " + fileTag.toLowerCase());
 
         LOG.info("STEP5: Click \"Ok\" button");
         selectDialog.clickOk();
-        assertTrue(editPropertiesDialog.isTagSelected(tagName.toLowerCase()), "'Tags:' section=");
+        assertTrue(editPropertiesDialog.isTagSelected(fileTag.toLowerCase()), "'Tags:' section=");
 
         LOG.info("STEP6: Click \"Save\" button");
         editPropertiesDialog.clickSave();
-        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(fileTag.toLowerCase()));
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         assertEquals(documentLibraryPage.getTags(fileName), tagsList.toString(), fileName + " -> tags=");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C10210")
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void createTagEditTagIcon()
     {
-        String random = DataUtil.getUniqueIdentifier();
-        String siteName = "site-C10210-" + random;
-        String folderName = "folder-C10210-" + random;
-        String tagName = "tagName-C10210-" + random;
-        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        contentService.createFolder(userName, password, folderName, siteName);
-
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
 
@@ -111,11 +106,9 @@ public class CreateTagTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isEditTagInputFieldDisplayed(), folderName + " -> Edit tag text input field is displayed.");
 
         LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
-        documentLibraryPage.typeTagName(tagName);
+        documentLibraryPage.typeTagName(folderTag);
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName.toLowerCase()));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(folderTag.toLowerCase()));
         assertEquals(documentLibraryPage.getTags(folderName), tagsList.toString(), folderName + " -> tags=");
-
-        cleanupAuthenticatedSession();
     }
 }

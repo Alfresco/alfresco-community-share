@@ -269,27 +269,22 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     documentLibraryPage.navigate(siteName);
 
     LOG.info("Step 1: Hover over the created folder and click 'Edit Properties' action.");
-    documentLibraryPage.mouseOverFolder(folderName);
-    documentLibraryPage.clickEditProperties(folderName);
-    Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(),
-        "Some elements of the 'Edit Properties' dialog are not sdisplayed");
+    documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editFilePropertiesDialog);
+    Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
     LOG.info("Step 2: In the 'Name' field enter a name for the folder.");
-    editFilePropertiesDialog.renderedPage();
     editFilePropertiesDialog.setName(editedName);
 
     LOG.info("Step 3: In the 'Title' field enter a title for the folder ('editedTitle').");
     editFilePropertiesDialog.setTitle(editedTitle);
 
-    LOG.info(
-        "Step 4: In the 'Description' field enter a description for the folder (e.g.: 'editedDescription').");
+    LOG.info("Step 4: In the 'Description' field enter a description for the folder (e.g.: 'editedDescription').");
     editFilePropertiesDialog.setDescription(editedDescription);
 
     LOG.info("Step 5: Click 'Select' beneath the Tags label to edit the tag associations.");
     editFilePropertiesDialog.clickSelectTags();
 
-    LOG.info(
-        "Step 6: Type any tag name (e.g.: 'newtag') and click the checked icon and click 'OK' to save the changes.");
+    LOG.info("Step 6: Type any tag name (e.g.: 'newtag') and click the checked icon and click 'OK' to save the changes.");
     selectDialog.renderedPage();
     selectDialog.typeTag(editTag);
     selectDialog.clickCreateNewIcon();
@@ -323,8 +318,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     documentLibraryPage.navigate(siteName);
 
     LOG.info("Step 1: Hover over the created folder and click 'Edit Properties' action.");
-    documentLibraryPage.mouseOverFolder(folderName2);
-    documentLibraryPage.clickEditProperties(folderName2);
+    documentLibraryPage.clickDocumentLibraryItemAction(folderName2, "Edit Properties", editFilePropertiesDialog);
     Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(),
         "Some elements of the 'Edit Properties' dialog are not sdisplayed");
 
@@ -334,15 +328,13 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     LOG.info("Step 3: In the 'Title' field enter a title for the folder ('editedTitle1').");
     editFilePropertiesDialog.setTitle(editedTitle);
 
-    LOG.info(
-        "Step 4: In the 'Description' field enter a description for the folder (e.g.: 'editedDescription').");
+    LOG.info("Step 4: In the 'Description' field enter a description for the folder (e.g.: 'editedDescription').");
     editFilePropertiesDialog.setDescription(editedDescription);
 
     LOG.info("Step 5: Click 'Select' beneath the Tags label to edit the tag associations.");
     editFilePropertiesDialog.clickSelectTags();
 
-    LOG.info(
-        "Step 6: Type any tag name (e.g.: 'newtag') and click the checked icon and click 'OK' to save the changes.");
+    LOG.info("Step 6: Type any tag name (e.g.: 'newtag') and click the checked icon and click 'OK' to save the changes.");
     selectDialog.typeTag(editTag2);
     selectDialog.clickCreateNewIcon();
     selectDialog.clickOk();
@@ -372,8 +364,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
         "Page displayed");
 
     LOG.info("Step 1: Hover over the content name.");
-    documentLibraryPage.mouseOverContentItem(testContentC8816);
-    assertTrue(documentLibraryPage.isRenameIconDisplayed(), "'Rename' icon is not displayed.");
+    assertTrue(documentLibraryPage.isRenameIconDisplayed(testContentC8816), "'Rename' icon is not displayed.");
 
 
     LOG.info("Step 2: Click on 'Rename' icon.");
@@ -403,14 +394,11 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     LOG.info("Preconditions.");
     contentService.createFolder(adminUser, adminPassword, testContentC8817, siteName6);
     documentLibraryPage.navigate(siteName6);
-    documentLibraryPage.renderedPage();
     assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library",
         "Page displayed");
 
     LOG.info("Step 1: Hover over the content name.");
-    documentLibraryPage.mouseOverContentItem(testContentC8817);
-    getBrowser().waitInSeconds(1);
-    assertTrue(documentLibraryPage.isRenameIconDisplayed(), "'Rename' icon is not displayed.");
+    assertTrue(documentLibraryPage.isRenameIconDisplayed(testContentC8817), "'Rename' icon is not displayed.");
 
     LOG.info("Step 2: Click on 'Rename' icon.");
     documentLibraryPage.clickRenameIcon();

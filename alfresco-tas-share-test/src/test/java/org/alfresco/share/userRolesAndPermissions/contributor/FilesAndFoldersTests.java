@@ -173,8 +173,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         documentLibraryPage.renderedPage();
 
         logger.info("Step1: Hover over the test file");
-        documentLibraryPage.mouseOverFileName(fileName);
-        assertTrue(documentLibraryPage.isRenameIconDisplayed(), "'Rename' icon displayed.");
+        assertTrue(documentLibraryPage.isRenameIconDisplayed(fileName), "'Rename' icon displayed.");
 
         logger.info("Step2: Click on 'Rename' icon");
         documentLibraryPage.clickRenameIcon();
@@ -208,8 +207,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         logger.info("Step1: Hover over the test file. Verify 'Rename' icon is missing.");
-        documentLibraryPage.mouseOverFileName(fileName);
-        assertFalse(documentLibraryPage.isRenameIconDisplayed(), "'Rename' icon displayed.");
+        assertFalse(documentLibraryPage.isRenameIconDisplayed(fileName), "'Rename' icon displayed.");
 
     }
 

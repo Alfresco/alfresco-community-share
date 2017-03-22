@@ -1,8 +1,10 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.po.share.user.UserDashboardPage;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -74,7 +76,9 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     @FindAll(@FindBy(css="div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']"))
     private List<WebElement> usersAndGroupsList;
 
-    private By usersAndGroups = By.cssSelector("div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']");
+    private By usersAndGroupsLocallySetPermissions = By.cssSelector("div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']");
+
+    private By inheritedPermissionsUsersAndGroups = By.cssSelector("div[id$='_default-inheritedPermissions'] tr[class^='yui-dt-rec ']");
 
     @FindBy(css="div[id$='_default-directContainer'] div[id$='_default-directPermissions']")
     private WebElement locallySetPermissionsList;
@@ -82,7 +86,25 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     @FindBy(css="div.onActionDelete")
     private WebElement deleteButton;
 
+    @FindBy(css="input[id$='_default-authorityFinder-search-text']")
+    private WebElement searchInputBox;
+
+    @FindBy(css="div[id$='_manage-permissions_x0023_default-authorityFinder-body']")
+    private WebElement addUserGroupWindow;
+
+    @FindBy(css="button[id$='_manage-permissions_x0023_default-authorityFinder-authority-search-button-button']")
+    private WebElement searchButton;
+
+    @FindBy(css="td[class$='yui-dt-col-role'] button")
+    private WebElement roleButton;
+
+    private By searchResultsList = By.cssSelector("td[class$='yui-dt-col-fullName'] span");
+
+    private By addButton = By.xpath("//button[text()='Add ']");
+
     private final String userRowLocator = "//div[contains(@id, 'default-directPermissions')]//td//div[contains(text(), '%s')]/../..";
+
+    private By roles = By.cssSelector("div.yui-module.yui-overlay.yuimenu.yui-button-menu.yui-menu-button-menu.visible li");
 
     public enum ButtonType
     {
@@ -395,21 +417,78 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
         return browser.isElementDisplayed(locallySetPermissionsList);
     }
 
-    public WebElement selectRow(String rowDetails)
+    public WebElement selectRowLocallySetPermissions(String rowDetails)
     {
-        browser.waitUntilElementVisible(usersAndGroups);
-        return browser.findFirstElementWithValue(usersAndGroups, rowDetails);
+        browser.waitUntilElementVisible(usersAndGroupsLocallySetPermissions);
+        return browser.findFirstElementWithValue(usersAndGroupsLocallySetPermissions, rowDetails);
     }
 
     public String getRowDetails(String details)
     {
-        return selectRow(details).getText();
+        return selectRowLocallySetPermissions(details).getText();
     }
 
     public boolean isDeleteButtonAvailable(String identifier)
     {
-        browser.mouseOver(selectRow(identifier));
-        //browser.waitInSeconds(2);
+        browser.mouseOver(selectRowLocallySetPermissions(identifier));
         return browser.isElementDisplayed(deleteButton);
+    }
+
+    public void clickAddUserGroupButton()
+    {
+        addUserGroupButton.click();
+        browser.waitUntilElementVisible(addUserGroupWindow);
+    }
+
+    public void sendSearchInput(String userName)
+    {
+        searchInputBox.clear();
+        searchInputBox.sendKeys(userName);
+    }
+
+    public void clickSearchButton()
+    {
+        searchButton.click();
+    }
+
+    public WebElement selectUser(String userName)
+    {
+        browser.waitUntilElementVisible(searchResultsList);
+        return browser.findFirstElementWithValue(searchResultsList, userName);
+    }
+
+    public ManagePermissionsPage clickAddButtonForUser(String userName)
+    {
+        selectUser(userName).findElement(addButton).click();
+        return (ManagePermissionsPage) this.renderedPage();
+    }
+
+    public void clickRoleButton(String item)
+    {
+        browser.waitUntilElementClickable(roleButton, 6L);
+        selectRowLocallySetPermissions(item).findElement(By.cssSelector("td[class$='yui-dt-col-role'] button")).click();
+    }
+
+    public void selectRole(String role)
+    {
+        browser.waitUntilElementsVisible(roles);
+        browser.findFirstElementWithValue(roles, role).click();
+    }
+
+    public DocumentLibraryPage clickSave()
+    {
+        saveButton.click();
+        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
+    }
+
+    public WebElement selectRowInheritedPermissions(String rowDetails)
+    {
+        browser.waitUntilElementVisible(inheritedPermissionsUsersAndGroups);
+        return browser.findFirstElementWithValue(inheritedPermissionsUsersAndGroups, rowDetails);
+    }
+
+    public String getInheritedPermissions(String identifier)
+    {
+        return selectRowInheritedPermissions(identifier).getText();
     }
 }

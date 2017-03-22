@@ -614,10 +614,20 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         return selectDocumentLibraryItemRow(fileName).findElement(favoriteLink).getAttribute("class").contains("enabled");
     }
 
-    public boolean isRenameIconDisplayed()
+    public boolean isRenameIconDisplayed(String content)
     {
-        browser.waitInSeconds(4);
-        return browser.isElementDisplayed(renameIcon);
+        int counter=0;
+        while(counter<5)
+        {
+            mouseOverContentItem(content);
+            if (browser.isElementDisplayed(renameIcon))
+            {
+                return true;
+            }
+            refresh();
+             counter++;
+        }
+        return false;
     }
 
     /**

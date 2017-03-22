@@ -79,10 +79,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreatePlainTextFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("Step 1: Click Create... button");
@@ -132,10 +130,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateHTMLFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("Step 1: Click Create... button");
@@ -176,10 +172,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateXMLFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("Step 1: Click Create... button");
@@ -221,8 +215,6 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateFolderFromTemplate()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
@@ -249,16 +241,6 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void myFilesCreateFileFromTemplate()
     {
-        LOG.info("Precondition: Login as admin user and create a file template.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
-        setupAuthenticatedSession(adminUser, adminPassword);
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("Data Dictionary");
-        repositoryPage.clickOnFolderName("Node Templates");
-        uploadContent.uploadContent(fileTemplatePath);
-        cleanupAuthenticatedSession();
-
         LOG.info("Precondition: Login as user and navigate to My Files page.");
         setupAuthenticatedSession(user, password);
         myFilesPage.navigate();
@@ -280,11 +262,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateGoogleDocsDocument() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
-        getBrowser().waitInSeconds(3);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Document'.");
@@ -315,18 +294,15 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
         googleDocs.loginToGoogleDocs();
         getBrowser().waitInSeconds(3);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Spreadsheet'");
         myFilesPage.clickCreateButton();
         create.clickGoogleDocsSpreadsheet();
-        Assert.assertTrue(googleDocs.isAuthorizeWithGoogleDocsDisplayed(), "Authorize with Google Docs popup is not displayed");
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
         googleDocs.clickOkButtonOnTheAuthPopup();
@@ -351,18 +327,15 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateGoogleDocsPresentation() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
         googleDocs.loginToGoogleDocs();
         getBrowser().waitInSeconds(3);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Presentation'");
         myFilesPage.clickCreateButton();
         create.clickGoogleDocsPresentation();
-        Assert.assertTrue(googleDocs.isAuthorizeWithGoogleDocsDisplayed(), "Authorize with Google Docs popup is not displayed");
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
         googleDocs.clickOkButtonOnTheAuthPopup();

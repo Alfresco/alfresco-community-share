@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
@@ -32,9 +33,14 @@ public class SharedFilesTests extends ContextAwareWebTest
 
     @Autowired private DeleteDialog deleteDialog;
 
+    private final String docName = "Doc-C7661-" + DataUtil.getUniqueIdentifier();
+    private final String path = "Shared/";
+
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
+        contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName, docName + " Content");
+
         setupAuthenticatedSession(adminUser, adminPassword);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
@@ -44,18 +50,6 @@ public class SharedFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void verifyShareButton()
     {
-        String docName = "Doc-C7661-" + DataUtil.getUniqueIdentifier();
-
-        LOG.info("Create a document in 'Shared Files'");
-        setupAuthenticatedSession(adminUser, adminPassword);
-        sharedFilesPage.navigate();
-        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        sharedFilesPage.clickCreateButton();
-        createContent.clickPlainTextButton();
-        createContent.sendInputForName(docName);
-        createContent.clickCreateButton();
-        sharedFilesPage.navigate();
-
         LOG.info("STEP1: Hover over a file and click on the \"Share\" button.");
         sharedFilesPage.mouseOverFileName(docName);
         assertTrue(socialFeatures.checkShareButtonAvailability(), "Share button is displayed.");
@@ -66,14 +60,6 @@ public class SharedFilesTests extends ContextAwareWebTest
     @AfterClass
     public void cleanUp()
     {
-        LOG.info("Delete All from 'Shared Files'");
-        sharedFilesPage.navigate();
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.all"));
-        headerMenuBar.clickSelectedItemsMenu();
-        headerMenuBar.clickSelectedItemsOption(language.translate("documentLibrary.breadcrumb.selectedItems.delete"));
-        deleteDialog.clickDelete();
-
-        cleanupAuthenticatedSession();
+        contentService.deleteContentByPath(adminUser, adminPassword, path + docName);
     }
 }

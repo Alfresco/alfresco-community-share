@@ -52,8 +52,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
         LOG.info("STEP1: Hover over the file name");
-        documentLibraryPage.mouseOverFileName(docName);
-        assertTrue(documentLibraryPage.isRenameIconDisplayed(), "'Rename' icon is displayed.");
+        assertTrue(documentLibraryPage.isRenameIconDisplayed(docName), "'Rename' icon is displayed.");
 
         LOG.info("STEP2: Click on \"Rename\" icon");
         documentLibraryPage.clickRenameIcon();
@@ -85,8 +84,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
         LOG.info("STEP1: Hover over the folder name");
-        documentLibraryPage.mouseOverContentItem(folderName);
-        assertTrue(documentLibraryPage.isRenameIconDisplayed(), "'Rename' icon is displayed.");
+        assertTrue(documentLibraryPage.isRenameIconDisplayed(folderName), "'Rename' icon is displayed.");
 
         LOG.info("STEP2: Click on \"Rename\" icon");
         documentLibraryPage.clickRenameIcon();
@@ -118,8 +116,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
         LOG.info("STEP1: Hover over the file name");
-        documentLibraryPage.mouseOverFileName(docName);
-        assertTrue(documentLibraryPage.isRenameIconDisplayed(), "'Rename' icon is displayed.");
+        assertTrue(documentLibraryPage.isRenameIconDisplayed(docName), "'Rename' icon is displayed.");
 
         LOG.info("STEP2: Click on \"Rename\" icon");
         documentLibraryPage.clickRenameIcon();

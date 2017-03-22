@@ -21,9 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 8/11/2016.
@@ -45,14 +43,14 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Autowired
     InsertImagePopUp insertImagePopUp;
 
+    DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
+    String today = df.format(new Date());
     private String user1 = "User1" + DataUtil.getUniqueIdentifier();
     private String siteName = "Site1" + DataUtil.getUniqueIdentifier();
     private String topicTitle;
     private String topicContent = "Some content";
     private String topicReply = "Reply content";
     private String reply1 = "Reply1";
-    DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
-    String today = df.format(new Date());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -77,14 +75,14 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         topicListPage.clickTopicTitle(topicTitle);
         assertEquals(topicViewPage.getTopicTitle(), topicTitle, "Title is displayed.");
         assertTrue(topicViewPage.getTopicPublished().startsWith("Created on: " + today),
-                "Topic was created today. Actual: [" +topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
+                "Topic was created today. Actual: [" + topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
         assertTrue(topicViewPage.getTopicPublished().contains("Author : " + user1 + " lName1"), "The user who created the topic is User1.");
         assertEquals(topicViewPage.getTopicContent(), topicContent, "Content is displayed.");
         assertEquals(topicViewPage.getTopicReplies(), "(0)", "Topic has 0 reply.");
         assertEquals(topicViewPage.getTopicTags(), "(None)", "Topic has 0 tags.");
 
         LOG.info("STEP 2 - Click on 'Reply' link. ");
-        topicViewPage.addTopicReply();
+        topicViewPage.clickReply();
         assertEquals(topicViewPage.getReplyBoxTitle(), "Add Reply", "The Add Reply box is displayed.");
 
         LOG.info("STEP 3 - Add some text in the reply box 'Reply content' and click 'Create'.");
@@ -109,14 +107,14 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         topicListPage.clickTopicTitle(topicTitle);
         assertEquals(topicViewPage.getTopicTitle(), topicTitle, "Title is displayed.");
         assertTrue(topicViewPage.getTopicPublished().startsWith("Created on: " + today),
-                "Topic was created today. Actual: [" +topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
+                "Topic was created today. Actual: [" + topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
         assertTrue(topicViewPage.getTopicPublished().contains("Author : " + user1 + " lName1"), "The user who created the topic is User1.");
         assertEquals(topicViewPage.getTopicContent(), topicContent, "Content is displayed.");
         assertEquals(topicViewPage.getTopicReplies(), "(0)", "Topic has 0 reply.");
         assertEquals(topicViewPage.getTopicTags(), "(None)", "Topic has 0 tags.");
 
         LOG.info("STEP 2 - Click on 'Reply' link. ");
-        topicViewPage.addTopicReply();
+        topicViewPage.clickReply();
         assertEquals(topicViewPage.getReplyBoxTitle(), "Add Reply", "The Add Reply box is displayed.");
 
         LOG.info("STEP 3 - Add some text in the reply box 'Reply content' and click 'Cancel'.");
@@ -138,18 +136,15 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         topicListPage.clickTopicTitle(topicTitle);
 
         LOG.info("STEP 1 - Click on 'Reply' link. ");
-        topicViewPage.addTopicReply();
-        assertEquals(topicViewPage.getReplyBoxTitle(), "Add Reply", "The Add Reply box is displayed.");
+        topicViewPage.clickReply();
+        assertEquals(topicViewPage.getTopicReplyHeader(), "Add Reply", "The Add Reply box is displayed.");
 
         LOG.info("STEP 2 - Click on 'insert/edit link'.");
         topicViewPage.selectOptionFromInsertMenu("Insert link");
-        assertEquals(insertLinkPopUp.getPopupTitle(), "Insert link", "'Insert link' pop-up is displayed.");
+        assertTrue(insertLinkPopUp.isTextPresent("Insert link"), "'Insert link' pop-up is displayed.");
 
-        LOG.info("STEP 3 - Add the following in the 'Insert Link' pop-up: Url: https://www.alfresco.com/\n" +
-                "Text to display: Alfresco site\n" +
-                "Title: Alfresco\n" +
-                "Target: None\n" +
-                "Click on 'Ok' button.");
+        LOG.info("STEP 3 - Add the following in the 'Insert Link' pop-up: Url: https://www.alfresco.com/\n" + "Text to display: Alfresco site\n"
+                + "Title: Alfresco\n" + "Target: None\n" + "Click on 'Ok' button.");
         insertLinkPopUp.insertLink(linkUrl, linkText, linkTitle, "None");
 
         LOG.info("STEP 4 - Click on 'Create' button.");
@@ -174,18 +169,17 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         topicListPage.clickTopicTitle(topicTitle);
 
         LOG.info("STEP 1 - Click on 'Reply' link. ");
-        topicViewPage.addTopicReply();
-        assertEquals(topicViewPage.getReplyBoxTitle(), "Add Reply", "The Add Reply box is displayed.");
+        topicViewPage.clickReply();
+        assertEquals(topicViewPage.getTopicReplyHeader(), "Add Reply", "The Add Reply box is displayed.");
 
         LOG.info("STEP 2 - Click on 'insert/edit image'.");
         topicViewPage.typeReply(topicReply);
         topicViewPage.selectOptionFromInsertMenu("Insert image");
         assertEquals(insertImagePopUp.getPopupTitle(), "Insert/edit image", "'Insert/edit image' pop-up is displayed.");
 
-        LOG.info("STEP 3 - Add the following in the 'Insert/edit Image' pop-up:\n" +
-                "Source: https://www.alfresco.com/sites/www.alfresco.com/files/alfresco-logo.png\n" +
-                "Image description: Alfresco logo\n" +
-                "Click on 'OK' button.");
+        LOG.info("STEP 3 - Add the following in the 'Insert/edit Image' pop-up:\n"
+                + "Source: https://www.alfresco.com/sites/www.alfresco.com/files/alfresco-logo.png\n" + "Image description: Alfresco logo\n"
+                + "Click on 'OK' button.");
         insertImagePopUp.insertImage(imageSource, imageDescription);
 
         LOG.info("STEP 4 - Click on 'Create' button.");
@@ -212,7 +206,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         LOG.info("STEP 2 - Add some content in the reply box and click 'Create'.");
         topicViewPage.typeReply(reply1);
         topicViewPage.submitReply();
-        getBrowser().refresh(); //necessary to appear Hide replies/Show replies link
+        getBrowser().refresh(); // necessary to appear Hide replies/Show replies link
         assertEquals(topicViewPage.getTopicReplies(), "(2)", "Topic has 2 replies.");
         assertEquals(topicViewPage.getReplyNoReplies(topicReply), "(1)", "Topic reply has now 1 reply.");
         assertTrue(topicViewPage.isReplyIndentedFromItsParent(reply1, topicReply), "The reply appears indented from its reply.");

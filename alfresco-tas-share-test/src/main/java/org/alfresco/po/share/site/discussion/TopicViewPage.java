@@ -27,7 +27,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     @FindBy(css = "div.new-topic button[id$='default-create-button-button']")
     private Button newTopicButton;
 
-    /* Topic area*/
+    /* Topic area */
     @RenderWebElement
     @FindBy(css = "div.node.topic")
     private WebElement topicElement;
@@ -47,12 +47,15 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     @FindBy(css = ".onDeleteTopic>a")
     private Link deleteLink;
 
+    @FindBy(xpath = "//div[contains(text(), 'Add Reply')]")
+    private WebElement addReplyHeader;
+
     private By replyLink = By.cssSelector(".onAddReply>a");
     private By content = By.className("content");
     private By status = By.className("nodeStatus");
     private By noReplies = By.cssSelector(".replyTo+span");
 
-    /* Replies area*/
+    /* Replies area */
     @FindAll(@FindBy(css = ".reply"))
     private List<WebElement> repliesList;
 
@@ -87,6 +90,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Get element for the specified reply
+     * 
      * @param reply
      * @return
      */
@@ -103,6 +107,17 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public String getTopicTitle()
     {
         return topicTitle.getText();
+    }
+
+    /**
+     * Get Add Reply Header text
+     *
+     * @return
+     */
+    public String getTopicReplyHeader()
+    {
+        browser.waitUntilElementVisible(addReplyHeader);
+        return addReplyHeader.getText();
     }
 
     /**
@@ -158,6 +173,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Get the number of noReplies for the specified reply
+     * 
      * @param reply
      * @return
      */
@@ -168,6 +184,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Get when the specified reply was posted
+     * 
      * @param reply
      * @return
      */
@@ -178,9 +195,10 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Method to add reply to topic
+     * 
      * @return
      */
-    public TopicViewPage addTopicReply()
+    public TopicViewPage clickReply()
     {
         topicElement.findElement(replyLink).click();
         return (TopicViewPage) this.renderedPage();
@@ -188,6 +206,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Method to edit topic
+     * 
      * @return
      */
     public EditTopicPage editTopic()
@@ -198,6 +217,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Method to delete topic
+     * 
      * @return
      */
     public DeleteDialog deleteTopic()
@@ -256,6 +276,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Get the title of the Reply Box
+     * 
      * @return
      */
     public String getReplyBoxTitle()
@@ -265,6 +286,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Get the content of the Reply Box
+     * 
      * @return
      */
     public String getReplyBoxContent()
@@ -298,17 +320,20 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Check if replyChild appears indented from its parent
+     * 
      * @param replyChild
      * @param replyParent
      * @return
      */
     public boolean isReplyIndentedFromItsParent(String replyChild, String replyParent)
     {
-        return browser.isElementDisplayed(selectReply(replyParent), By.xpath("following-sibling::*[@class='indented']//*[contains(@class, 'content')]/*[text()='" + replyChild + "']"));
+        return browser.isElementDisplayed(selectReply(replyParent),
+                By.xpath("following-sibling::*[@class='indented']//*[contains(@class, 'content')]/*[text()='" + replyChild + "']"));
     }
 
     /**
      * Click on Show/ Hide Replies link from Reply Parent
+     * 
      * @param reply
      * @return
      */
@@ -345,7 +370,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public void clickLinkInReply(String reply, String linkTitle)
     {
-        selectReply(reply).findElement(content).findElement(By.cssSelector("a[title='"+ linkTitle +"']")).click();
+        selectReply(reply).findElement(content).findElement(By.cssSelector("a[title='" + linkTitle + "']")).click();
     }
 
     /**

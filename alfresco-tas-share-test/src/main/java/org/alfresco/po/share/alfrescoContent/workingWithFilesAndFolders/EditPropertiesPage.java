@@ -97,12 +97,7 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
      */
     public DocumentDetailsPage clickButton(String buttonName)
     {
-        for (WebElement aButtonsList : buttonsList)
-        {
-            if (aButtonsList.getText().equals(buttonName))
-                aButtonsList.click();
-        }
-
+        browser.findFirstElementWithExactValue(buttonsList, buttonName).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 

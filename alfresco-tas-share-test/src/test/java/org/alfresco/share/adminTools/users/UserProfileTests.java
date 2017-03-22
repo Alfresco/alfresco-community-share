@@ -12,6 +12,7 @@ import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
+import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -259,20 +260,24 @@ public class UserProfileTests extends ContextAwareWebTest
         usersPage.searchUser(c9426User);
         usersPage.clickUserLink(fullName);
         userProfileAdminToolsPage.clickEditUserButton();
-        editUserPage.clickDisabledAccount(); getBrowser().waitInSeconds(1);
+        editUserPage.clickDisabledAccount();
+        getBrowser().waitInSeconds(1);
         editUserPage.clickSaveChangesButton();
         getBrowser().waitUntilElementContainsText(userProfileAdminToolsPage.accountStatus, "Disabled");
         Assert.assertEquals(userProfileAdminToolsPage.getAccountStatus(), "Disabled", "Account is not disabled");
 
         LOG.info("Step 1&2: Switch off \"Disable account\" check-box");
         userProfileAdminToolsPage.clickEditUserButton();
-        editUserPage.clickDisabledAccount(); getBrowser().waitInSeconds(3);
+        editUserPage.clickDisabledAccount();
+        getBrowser().waitInSeconds(3);
         editUserPage.clickSaveChangesButton();
         Assert.assertEquals(userProfileAdminToolsPage.getAccountStatus(), "Enabled", "Account is not enabled");
 
         LOG.info("Step 3: Try to log in as a user");
-        cleanupAuthenticatedSession();loginPage.navigate();
+        cleanupAuthenticatedSession();
+        loginPage.navigate();
         loginPage.login(c9426User, password);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[id$='get-started-panel-container']"));
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
         cleanupAuthenticatedSession();
     }

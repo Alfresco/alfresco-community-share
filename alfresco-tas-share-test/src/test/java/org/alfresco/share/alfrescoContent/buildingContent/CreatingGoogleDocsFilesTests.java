@@ -75,7 +75,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false, "Locked label displayed");
         Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false, "Google Drive icon displayed");
 
-        getBrowser().cleanUpAuthenticatedSession();
+        cleanupAuthenticatedSession();
 
     }
 
@@ -107,7 +107,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false, "Locked label displayed");
         Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false, "Google Drive icon displayed");
 
-        getBrowser().cleanUpAuthenticatedSession();
+        cleanupAuthenticatedSession();
 
     }
 
@@ -141,7 +141,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false, "Locked label displayed");
         Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false, "Google Drive icon displayed");
 
-        getBrowser().cleanUpAuthenticatedSession();
+        cleanupAuthenticatedSession();
 
     }
 }

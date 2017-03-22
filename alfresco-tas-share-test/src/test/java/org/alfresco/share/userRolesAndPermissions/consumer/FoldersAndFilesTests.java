@@ -188,13 +188,9 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step 1: Verify the user does not have access to rename file and folder");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8761, "Edit Properties"), "Edit Properties is not available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8761, "Edit in Alfresco"), "Edit in Alfresco is not available.");
-        documentLibraryPage.mouseOverFileName(fileC8761);
-        getBrowser().waitInSeconds(3);
-        Assert.assertFalse(documentLibraryPage.isRenameIconDisplayed(), "Rename icon is not displayed.");
+        Assert.assertFalse(documentLibraryPage.isRenameIconDisplayed(fileC8761), "Rename icon is not displayed.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderC8761, "Edit Properties"), "Edit Properties is not available.");
-        documentLibraryPage.mouseOverContentItem(folderC8761);
-        getBrowser().waitInSeconds(3);
-        Assert.assertFalse(documentLibraryPage.isRenameIconDisplayed(), "Rename icon is not displayed.");
+        Assert.assertFalse(documentLibraryPage.isRenameIconDisplayed(folderC8761), "Rename icon is not displayed.");
     }
 
     @TestRail(id = "C8770")
