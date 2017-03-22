@@ -41,7 +41,7 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5920")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void viewingAFileInBrowser()
     {

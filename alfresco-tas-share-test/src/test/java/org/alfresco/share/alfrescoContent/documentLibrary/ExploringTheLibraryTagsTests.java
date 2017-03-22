@@ -40,7 +40,7 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C6939")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void noTagsAdded()
     {
@@ -56,7 +56,7 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C6940")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void contentItemsWithDifferentTags()
     {

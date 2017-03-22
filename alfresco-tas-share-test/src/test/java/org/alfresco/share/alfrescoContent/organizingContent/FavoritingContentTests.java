@@ -50,7 +50,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7501")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void favoriteFile()
     {
         documentLibraryPage.navigate(siteName1);
@@ -78,7 +78,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7502")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void favoriteFolder()
     {
         documentLibraryPage.navigate(siteName2);
@@ -103,7 +103,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7503")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void removeFavoriteForFile()
     {
         documentLibraryPage.navigate(siteName3);
@@ -128,7 +128,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7504")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void removeFavoriteForFolder()
     {
         documentLibraryPage.navigate(siteName4);

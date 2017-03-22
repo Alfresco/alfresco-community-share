@@ -43,7 +43,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     private final String userLastName = "Jones";
 
     @TestRail(id = "C6292")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createFolderFromTemplate()
     {
         String userName = "testUser" + DataUtil.getUniqueIdentifier();
@@ -95,7 +95,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6293")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelCreatingFolderFromTemplate()
     {
         String userName = "testUser" + DataUtil.getUniqueIdentifier();
@@ -123,7 +123,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C8139")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createFolderFromTemplateUsingWildcards()
     {
         String userName = "testUser" + DataUtil.getUniqueIdentifier();

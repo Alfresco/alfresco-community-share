@@ -29,7 +29,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
     private UploadContent uploadContent;
 
     @TestRail(id = "C7651")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUploadDocument()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -50,7 +50,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7792")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUpdateDocumentNewVersion()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();

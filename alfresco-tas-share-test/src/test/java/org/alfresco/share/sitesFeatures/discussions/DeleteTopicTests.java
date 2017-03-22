@@ -65,7 +65,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6244")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteTopicFromDiscussionsTopicListPage()
     {
         //precondition
@@ -83,7 +83,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6246")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteTopicFromTopicViewPage()
     {
         //precondition
@@ -103,7 +103,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6245")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingTopic()
     {
         //precondition

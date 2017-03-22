@@ -44,7 +44,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7111")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void addRestrictableAspect() throws Exception
     {
         fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
@@ -69,7 +69,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7112")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editRestrictableProperty()
     {
         fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
@@ -100,7 +100,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7113")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void removeRestrictableProperty() throws Exception
     {
         fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();

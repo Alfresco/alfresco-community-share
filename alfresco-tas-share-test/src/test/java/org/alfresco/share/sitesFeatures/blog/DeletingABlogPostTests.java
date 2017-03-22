@@ -54,7 +54,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5955")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void deletingABlogDirectlyFromBlogPage()
     {
@@ -72,7 +72,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5957")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void deletingADraftBlogPostDirectlyFromBlogPage()
     {
@@ -99,7 +99,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5959")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void deletingABlogPostFromBlogPostView()
     {
@@ -126,7 +126,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C5967")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     
     public void deletingABlogDraftPostFromBlogPostView()
     {

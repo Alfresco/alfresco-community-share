@@ -62,7 +62,7 @@ public class CategorizingContent extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7484")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void addCategoryForFile_NoCategoriesAdded()
     {
         documentLibraryPage.navigate(siteName);
@@ -88,7 +88,7 @@ public class CategorizingContent extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7485")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void addCategoryForFolder_NoCategoriesAdded()
     {
         documentLibraryPage.navigate(siteName);
@@ -114,7 +114,7 @@ public class CategorizingContent extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7487")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void addCategory_ContentWithCategory()
     {
         documentLibraryPage.navigate(siteName);
@@ -142,7 +142,7 @@ public class CategorizingContent extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7486")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void removeCategory()
     {
         documentLibraryPage.navigate(siteName);

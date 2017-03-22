@@ -47,7 +47,7 @@ public class AccessingLinkTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6250")
     public void accessingTheSiteLinks()
     {
@@ -71,7 +71,7 @@ public class AccessingLinkTests extends ContextAwareWebTest
         Assert.assertTrue(linkPage.getLinksListTitle().equals("All Links"), "All links should be displayed after clicking on 'Links' link!");
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6251")
     public void toggleBetweenSimpleAndDetailedView()
     {

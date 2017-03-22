@@ -74,7 +74,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8062")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createTagForFile()
     {
         LOG.info("STEP1: Hover over one tag from the content name");
@@ -92,7 +92,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8063")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createTagForFolder()
     {
         String tagNameFolder = "tagNameFolder-C8063-" + random;
@@ -113,7 +113,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8074")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void addExistingTag()
     {
         LOG.info("STEP1: Hover over " + docName2 +".STEP2: Click \"Edit Properties\" option");
@@ -140,7 +140,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8086")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editTag()
     {
         LOG.info("STEP1: Hover over the tag(s) from the content");
@@ -164,7 +164,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8087")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void removeTag()
     {
         LOG.info("  Hover over the text \"No Tags\" from " + docName3);
@@ -202,7 +202,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8096")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void updateTags()
     {
         LOG.info("STEP1: Hover over the text \"No Tags\" from " + docName4);
@@ -226,7 +226,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13766")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void noTagsOptionDisplayed()
     {
         LOG.info("Preconditions: Test user with no admin permissions.");

@@ -32,7 +32,7 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6910")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void verifyCategoryRootTreeNodes()
     {
@@ -52,7 +52,7 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
     }
     
     @TestRail(id="C10595")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void expandColapseNodeInCategoriesTree()
     {

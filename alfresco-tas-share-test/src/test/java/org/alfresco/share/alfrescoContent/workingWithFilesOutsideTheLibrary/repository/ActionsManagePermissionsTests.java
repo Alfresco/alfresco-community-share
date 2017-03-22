@@ -66,7 +66,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C202757")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void managePermissionOption()
     {
         setupAuthenticatedSession(userName, password);

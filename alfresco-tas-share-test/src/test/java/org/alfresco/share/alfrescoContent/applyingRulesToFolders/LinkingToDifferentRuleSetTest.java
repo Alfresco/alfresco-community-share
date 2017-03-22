@@ -95,7 +95,7 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7327")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void linkToRuleSet()
     {
         LOG.info("STEP1: Click on 'Link to Rule Set' link\n" + "Set path to 'Folder1'.\n" + "Click 'Link' button");

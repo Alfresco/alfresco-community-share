@@ -55,7 +55,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5500")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void renameWikiMainPage()
     {
         LOG.info("Preconditions: create site and update wiki main page content");
@@ -93,7 +93,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5501")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelRenameWikiMainPage()
     {
         LOG.info("Preconditions: create site and update wiki main page content");
@@ -114,7 +114,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5502")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void renameWikiPage()
     {
         LOG.info("Preconditions: create site and two wiki pages");
@@ -154,7 +154,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5503")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelRenameWikiPage()
     {
         LOG.info("Preconditions: create site and a wiki page");

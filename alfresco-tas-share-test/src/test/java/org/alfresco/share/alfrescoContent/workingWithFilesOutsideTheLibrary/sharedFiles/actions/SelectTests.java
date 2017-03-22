@@ -48,7 +48,7 @@ public class SelectTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8004")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectFile()
     {
         LOG.info("STEP1: Click on Select -> Documents option");
@@ -82,7 +82,7 @@ public class SelectTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8005")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectFolder()
     {
         LOG.info("STEP1: Click on Select -> Folders option");

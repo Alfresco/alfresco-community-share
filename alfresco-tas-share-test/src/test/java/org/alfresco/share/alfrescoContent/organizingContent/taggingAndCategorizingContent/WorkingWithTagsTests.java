@@ -29,7 +29,7 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
     private final String fileContent = "content of the file.";
 
     @TestRail(id = "C7444")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void updateTags()
     {
         String random = DataUtil.getUniqueIdentifier();

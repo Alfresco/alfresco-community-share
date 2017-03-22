@@ -57,7 +57,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6187")
     public void deleteLinkFromLinkDetailsPage()
     {
@@ -82,7 +82,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6188")
     public void deleteLinkFromLinksPage()
     {
@@ -110,7 +110,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
         Assert.assertTrue(linkPage.getTagsFromTagsSection().isEmpty(), "No tags should be displayed!");
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6189")
     public void cancelDeletingLink()
     {
@@ -134,7 +134,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
         Assert.assertTrue(linkPage.getLinksTitlesList().contains(linkTitle), "Link is not displayed in the list!");
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6190")
     public void deleteMultipleLinks()
     {

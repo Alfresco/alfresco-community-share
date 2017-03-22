@@ -53,7 +53,7 @@ public class EditTagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7460")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editTagFile()
     {
         setupAuthenticatedSession(userName, password);
@@ -91,7 +91,7 @@ public class EditTagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C10529")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editTagFolder()
     {
         setupAuthenticatedSession(userName, password);

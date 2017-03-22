@@ -35,7 +35,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6976")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void createPlainTextFile()
     {
@@ -84,7 +84,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6977")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void createHTMLFile()
     {
@@ -132,7 +132,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6978")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void createXMLFile()
     {
@@ -181,7 +181,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C6986")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void verifyCreateContentPage()
     {

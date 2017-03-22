@@ -65,7 +65,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7799")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesDownloadFileFromAlfresco()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
@@ -90,7 +90,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7802")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void downloadFolder()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");

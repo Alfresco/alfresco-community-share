@@ -39,7 +39,7 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C2266")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void tableViewOption()
     {
@@ -53,7 +53,7 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C2267")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void tableViewDisplayingItems()
     {

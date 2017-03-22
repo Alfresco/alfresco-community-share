@@ -74,7 +74,7 @@ public class EditLocationItemTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6795")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void saveEditItem()
     {
         LOG.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");

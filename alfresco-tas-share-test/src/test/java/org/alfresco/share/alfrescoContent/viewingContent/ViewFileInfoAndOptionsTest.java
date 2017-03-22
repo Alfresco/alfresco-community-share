@@ -43,7 +43,7 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5883")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void viewFileInfoAndOptions()
     {
         LOG.info("STEP 1: Navigate to 'Document Library' page for 'siteName'");

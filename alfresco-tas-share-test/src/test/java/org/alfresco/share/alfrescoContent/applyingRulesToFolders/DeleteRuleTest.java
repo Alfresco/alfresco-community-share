@@ -83,7 +83,7 @@ public class DeleteRuleTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7254")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void deleteRule()
     {
         LOG.info("STEP1: Click 'Delete' button for rule");

@@ -62,7 +62,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5560")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void editABlogPostDirectlyFromBlogPage()
     {
@@ -89,7 +89,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5561")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void editBlogPostFromBlogPostView()
     {
@@ -123,7 +123,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6107")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void editABlogDraftPostDirectlyFromBlogPage()
     {
@@ -161,7 +161,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6108")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     private void editBlogDraftPostFromBlogPostView()
     {
@@ -199,7 +199,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C6110")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     
     public void editABlogDraftPostAndPublishIt()
     {

@@ -40,7 +40,7 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7814")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyManageAspectsForm()
     {
         logger.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects form");
@@ -57,7 +57,7 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7810")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsApplyChanges()
     {
         logger.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");

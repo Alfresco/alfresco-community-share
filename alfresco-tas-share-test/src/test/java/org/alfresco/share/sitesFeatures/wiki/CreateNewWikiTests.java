@@ -54,7 +54,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5504")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewWikiPage()
     {
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
@@ -83,7 +83,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5504")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreationOfNewWikiPage()
     {
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
@@ -112,7 +112,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5524")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createWikiPageFromWikiPageList()
     {
         siteName = "siteName" + DataUtil.getUniqueIdentifier();

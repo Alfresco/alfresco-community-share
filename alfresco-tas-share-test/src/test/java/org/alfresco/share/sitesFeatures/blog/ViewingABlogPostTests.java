@@ -61,7 +61,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5528")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewingABlogPostSmallAmountOfContent()
     {
         sitePagesService.createBlogPost(user1, password, siteName, blogTitleUser1Published, blogContent, false, tags);
@@ -96,7 +96,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6116")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void visibilityOfPublishedDraft()
     {
         setupAuthenticatedSession(user1, password);

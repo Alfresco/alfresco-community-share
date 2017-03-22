@@ -41,7 +41,7 @@ public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6333")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void OpenFoldersFromTree()
     {

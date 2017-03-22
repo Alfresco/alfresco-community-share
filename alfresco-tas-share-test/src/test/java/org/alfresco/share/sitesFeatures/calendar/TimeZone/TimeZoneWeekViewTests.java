@@ -80,7 +80,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5960")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void singleDayEvent()
     {
         String currentEventName = "testEvent-C5960";
@@ -111,7 +111,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5961")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void singleDayAllDayEvent()
     {
         String currentEventName = "testEvent-C5961";
@@ -142,7 +142,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5962")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleDaysEvent()
     {
         String currentEventName = "testEvent-C5962";
@@ -175,7 +175,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5963")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleDaysFAllDayEvent()
     {
         String currentEventName = "testEvent-C5963";
@@ -207,7 +207,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5964")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleWeeksEvent()
     {
         String currentEventName = "testEvent-C5964";
@@ -240,7 +240,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5965")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleWeeksAllDayEvent()
     {
         String currentEventName = "testEvent-C5965";
@@ -274,7 +274,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5966")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleMonthsEvent()
     {
         String currentEventName = "testEvent-C5966";
@@ -307,7 +307,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5968")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleMonthsAllDayEvent()
     {
         String currentEventName = "testEvent-C5968";
@@ -340,7 +340,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5969")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void specificScenario()
     {
         String currentEventName = "testEvent-C5969";

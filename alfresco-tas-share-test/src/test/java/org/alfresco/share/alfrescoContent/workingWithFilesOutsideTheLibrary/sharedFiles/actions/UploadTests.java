@@ -50,7 +50,7 @@ public class UploadTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7939")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void uploadDocument()
     {
         setupAuthenticatedSession(user, password);
@@ -77,7 +77,7 @@ public class UploadTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7942")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void updateDocumentNewVersion()
     {
         String testFilePath = testDataFolder + doc2;
@@ -127,7 +127,7 @@ public class UploadTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13756")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void optionNotDisplayed()
     {
         setupAuthenticatedSession(user, password);

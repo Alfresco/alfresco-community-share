@@ -50,7 +50,7 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     }
     
     @TestRail(id="C7906")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void likeFile()
     {
@@ -71,7 +71,7 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="7907")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void likeFolder()
     {
@@ -88,7 +88,7 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     }  
     
     @TestRail(id ="C7908")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void unlikeFile()
     {
@@ -106,7 +106,7 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C7909")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void unlikeFolder()
     {

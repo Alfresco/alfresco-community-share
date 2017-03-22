@@ -105,7 +105,7 @@ public class ActionsEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7737")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void repositoryEditFilesProperties()
     {
         logger.info("Precondition: Login to share and navigate to Repository->User Homes->Test User page ");
@@ -150,7 +150,7 @@ public class ActionsEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7745")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void repositoryEditFolderProperties()
     {
         logger.info("Precondition: Login to Share and navigate to Repository->User Homes->Test User page");
@@ -195,7 +195,7 @@ public class ActionsEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7767")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void repositoryEditFileInAlfresco()
     {
         logger.info("Precondition: Precondition: Login to Share and navigate to Repository->User Homes->Test User page");
@@ -234,7 +234,7 @@ public class ActionsEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7782")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void repositoryEditFilesInGoogleDocs() throws Exception
     {
         logger.info("Precondition: Precondition: Login to Share and navigate to Repository->User Homes->Test User page");

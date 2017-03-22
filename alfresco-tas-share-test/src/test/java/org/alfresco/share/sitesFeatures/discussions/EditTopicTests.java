@@ -58,7 +58,7 @@ public class EditTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6220")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editTopicFromDiscussionsTopicListPage()
     {
         //precondition
@@ -86,7 +86,7 @@ public class EditTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6336")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editTopicFromTopicViewPage()
     {
         //precondition
@@ -117,7 +117,7 @@ public class EditTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6221")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEditingTopic()
     {
         //precondition

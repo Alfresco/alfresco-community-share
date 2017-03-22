@@ -45,7 +45,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7546")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectItemsByCheckbox()
     {
         String random = DataUtil.getUniqueIdentifier();
@@ -82,7 +82,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7548")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectItemsByMenu()
     {
         String random = DataUtil.getUniqueIdentifier();
@@ -176,7 +176,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8410")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectMultipleDocumentsStartWorkflow()
     {
         String random = DataUtil.getUniqueIdentifier();
@@ -225,7 +225,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7554")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectedItemsDelete()
     {
         String random = DataUtil.getUniqueIdentifier();

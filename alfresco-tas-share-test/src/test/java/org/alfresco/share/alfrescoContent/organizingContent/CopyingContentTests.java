@@ -49,7 +49,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7377")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void copyFileToSharedFiles()
     {
         String siteName = "Site-C7377-" + DataUtil.getUniqueIdentifier();
@@ -87,7 +87,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7378")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelCopyFileToSharedFiles()
     {
         String siteName = "Site-C7378-" + DataUtil.getUniqueIdentifier();
@@ -121,7 +121,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7388")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void copyFolderToPublicSite()
     {
         String siteName1 = "Site1-C7388-" + DataUtil.getUniqueIdentifier();

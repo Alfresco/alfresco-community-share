@@ -52,7 +52,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5515")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteWikiMainPageFromPageView()
     {
         LOG.info("Preconditions: create site and add wiki main page content");
@@ -72,7 +72,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5516")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteWikiMainPageFromWikiPageList()
     {
         LOG.info("Preconditions: create site and wiki main page content");
@@ -92,7 +92,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5517")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteWikiPageFromPageView()
     {
         LOG.info("Preconditions: create site and wiki page");
@@ -115,7 +115,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5518")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteWikiPageFromWikiPageList()
     {
         LOG.info("Preconditions: create site and wiki pages");
@@ -142,7 +142,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5519")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingWikiPage()
     {
         LOG.info("Preconditions: create site and update wiki main page content");

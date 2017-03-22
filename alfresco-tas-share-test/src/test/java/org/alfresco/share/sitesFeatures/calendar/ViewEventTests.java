@@ -60,7 +60,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3167")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventMonthView()
     {
         calendarPage.navigate(siteName);
@@ -77,7 +77,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5407")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventDayView()
     {
         calendarPage.navigate(siteName);
@@ -97,7 +97,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "5408")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventWeekView()
     {
         calendarPage.navigate(siteName);
@@ -117,7 +117,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5409")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventByClickingOnTheEventAgendaView()
     {
         calendarPage.navigate(siteName);
@@ -137,7 +137,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6109")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventByClickingViewIconAgendaView()
     {
         calendarPage.navigate(siteName);
@@ -157,7 +157,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5402")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void closeEventInformationPopup()
     {
         calendarPage.navigate(siteName);

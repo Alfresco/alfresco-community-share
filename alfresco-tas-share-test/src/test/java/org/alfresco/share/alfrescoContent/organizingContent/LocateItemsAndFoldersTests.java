@@ -46,7 +46,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
 
     @Bug(id = "MNT-17556")
     @TestRail(id = "C7516")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void locateFileDetailedView()
     {
         documentLibraryPage.navigate(siteName);
@@ -71,7 +71,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
 
     @Bug(id = "MNT-17556")
     @TestRail(id = "C7517")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void locateFolderDetailedView()
     {
         documentLibraryPage.navigate(siteName);

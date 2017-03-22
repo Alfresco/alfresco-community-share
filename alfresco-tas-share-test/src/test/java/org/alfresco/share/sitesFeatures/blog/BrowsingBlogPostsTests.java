@@ -58,7 +58,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6001")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPosts()
     {
         // Precondition
@@ -80,7 +80,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6004")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPostsLatestPosts()
     {
         blogPage.navigate(siteName);
@@ -100,7 +100,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6005")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPostsMyDrafts()
     {
         blogPage.navigate(siteName);
@@ -117,7 +117,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6006")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPostsMyPublishedPosts()
     {
         blogPage.navigate(siteName);
@@ -135,7 +135,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6008")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPostsByTags()
     {
         blogPage.navigate(siteName);
@@ -169,7 +169,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6010")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPostsArchive()
     {
         // Can not create blog posts in the past, can not check for posts from previous month

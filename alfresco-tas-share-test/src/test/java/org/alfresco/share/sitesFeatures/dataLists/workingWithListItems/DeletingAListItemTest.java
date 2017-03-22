@@ -57,7 +57,7 @@ public class DeletingAListItemTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6399")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteSingleItemList()
     {
         LOG.info("STEP1: Click on Delete icon from Actions section of the data list item");

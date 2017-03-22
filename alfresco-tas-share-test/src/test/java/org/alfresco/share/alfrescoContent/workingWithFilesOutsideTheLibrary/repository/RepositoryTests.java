@@ -57,7 +57,7 @@ public class RepositoryTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C8154")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void checkTheRepositoryIsAvailableInTheToolBar()
     {
@@ -72,7 +72,7 @@ public class RepositoryTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C8155")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void checkTheFilesAndFoldersAvailabilityInRepository()
     {

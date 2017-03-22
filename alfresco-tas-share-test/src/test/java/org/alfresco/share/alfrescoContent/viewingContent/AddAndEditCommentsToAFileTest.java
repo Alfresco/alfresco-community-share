@@ -43,7 +43,7 @@ public class AddAndEditCommentsToAFileTest extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT}, enabled = false)
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled = false)
     @TestRail(id = "C5885")
     public void addAndEditCommentsToAFile() throws ParseException
     {

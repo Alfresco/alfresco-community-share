@@ -46,7 +46,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6252")
     public void browseLinksByTags()
     {
@@ -86,7 +86,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
         Assert.assertTrue(CollectionUtils.isEqualCollection(linkPage.getLinksTitlesList(), linksList), "Only 'Link3' should be displayed!");
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6253")
     public void browseLinksByLinksMenu()
     {

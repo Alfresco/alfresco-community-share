@@ -65,7 +65,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5536")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewWikiPageDetailsFromPageView()
     {
         LOG.info("Preconditions: create site");
@@ -90,7 +90,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5537")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewWikiPageDetailsFromWikiPageList()
     {
         LOG.info("Preconditions: create site and wiki page");
@@ -108,7 +108,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5540")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void revertWikiPageToAnEarlierVersion()
     {
         LOG.info("Preconditions: create site and wiki page");

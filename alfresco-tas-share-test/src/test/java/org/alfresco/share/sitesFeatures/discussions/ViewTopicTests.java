@@ -57,7 +57,7 @@ public class ViewTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6211")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewTopicFromDiscussionsTopicListPage()
     {
         //precondition
@@ -88,7 +88,7 @@ public class ViewTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6212")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewTopicUsingReadAction()
     {
         //precondition
@@ -120,7 +120,7 @@ public class ViewTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6213")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewTopicByClickingOnItsName()
     {
         //precondition

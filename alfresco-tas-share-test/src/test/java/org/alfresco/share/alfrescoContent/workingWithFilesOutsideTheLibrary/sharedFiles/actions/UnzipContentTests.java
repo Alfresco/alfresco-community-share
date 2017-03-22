@@ -57,7 +57,7 @@ public class UnzipContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8040")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void unzipZipArchiveToSharedFile()
     {
         String deletePath = path + "/" + acpFile;
@@ -87,7 +87,7 @@ public class UnzipContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8041")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void unzipAcpArchiveToSharedFiles()
     {
         String deletePath = path + "/" + acpFile;

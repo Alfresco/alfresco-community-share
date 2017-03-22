@@ -42,7 +42,7 @@ public class MyFilesTests extends ContextAwareWebTest
     }
     
     @TestRail (id ="C7648")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void myFilesContentAvailability()
     {
@@ -69,7 +69,7 @@ public class MyFilesTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C7658")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void verifyPresenceOfMyFilesInHeaderBar()
     {

@@ -43,7 +43,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8308")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void deleteDocument()
     {
@@ -70,7 +70,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C8309")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void deleteFolder()
     {
@@ -97,7 +97,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C13749")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void nonAdminUserCanNotDeleteFileOrFolderFromTheMainRepository()
     {
@@ -119,7 +119,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C13751")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void adminUserCanDeleteFileOrFolderInMainRepository()
     {

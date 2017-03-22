@@ -47,7 +47,7 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
     }
     
     @TestRail (id="C5921")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void viewAFileOnGoogleMaps()
     {

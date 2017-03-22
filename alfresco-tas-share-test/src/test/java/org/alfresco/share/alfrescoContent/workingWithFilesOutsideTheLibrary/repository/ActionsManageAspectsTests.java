@@ -42,7 +42,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8254")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyAspectsForm()
     {
         setupAuthenticatedSession(nonAdminUser, password);
@@ -63,7 +63,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8250")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsApplyChanges()
     {
         setupAuthenticatedSession(nonAdminUser, password);
@@ -89,7 +89,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13763")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsForNonAdminOnRepositoryMainFolder()
     {
         setupAuthenticatedSession(nonAdminUser, password);
@@ -103,7 +103,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13764")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsAdminOnRepositoryMainFolder()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

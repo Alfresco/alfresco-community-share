@@ -54,7 +54,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8097")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void likeFile()
     {
         LOG.info("Step 1: Hover over the file Like link.");
@@ -70,7 +70,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8098")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void likeFolder()
     {
         LOG.info("Step 1: Hover over the folder's Like link.");
@@ -87,7 +87,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8099")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void unlikeFile()
     {
         LOG.info("Step 1: Hover over the file Like link.");
@@ -100,7 +100,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8100")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void unlikeFolder()
     {
         LOG.info("Step 1: Hover over the folder's Like link.");
@@ -113,7 +113,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8101")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void addCommentToFile()
     {
         LOG.info("STEP1: Hover over a document and press \"Comment\"");
@@ -130,7 +130,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8102")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void addCommentToFolder()
     {
         LOG.info("STEP1: Hover over a document and press \"Comment\"");

@@ -43,7 +43,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6907")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void accessTheDocumentLibrary()
     {
         LOG.info("Step 1: Navigate to testSite's dashboard page.");
@@ -57,7 +57,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6908")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyTheDocumentLibraryMainPage()
     {
         LOG.info("Step 1: Navigate to testSite's dashboard and click on Document Library link.");
@@ -91,7 +91,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6935")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void checkAvailableOptionsForFolder()
     {
         String folderName = "folder-C6935-" + random;
@@ -119,7 +119,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6936")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void checkAvailableOptionsForFile()
     {
         String docName = "docName-C6936-" + random;
@@ -150,7 +150,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6938")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void viewFolderContents()
     {
         String folderNameC6938 = "C6938-folder-" + random;

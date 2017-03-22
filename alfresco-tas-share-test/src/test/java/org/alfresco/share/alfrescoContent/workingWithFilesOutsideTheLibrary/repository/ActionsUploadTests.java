@@ -35,7 +35,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8172")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void uploadDocument()
     {
         setupAuthenticatedSession(user, password);
@@ -60,7 +60,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8175")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void updateDocumentNewVersion()
     {
         setupAuthenticatedSession(user, password);

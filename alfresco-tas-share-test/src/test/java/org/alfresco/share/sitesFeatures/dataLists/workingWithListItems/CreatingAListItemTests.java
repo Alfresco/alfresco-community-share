@@ -54,7 +54,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6374")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void provideAllRequiredInfoAndCancel()
     {       
         logger.info("Preconditions: Create a new List");
@@ -79,7 +79,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6375")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void provideAllRequiredInfoAndClose()
     {       
         logger.info("Preconditions: Create a new List");
@@ -104,7 +104,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6379")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewContactListItem()
     {       
         logger.info("Preconditions: Create a new Contact List");
@@ -129,7 +129,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6380")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewEventAgendaItem()
     {       
         logger.info("Preconditions: Create a new Event Agenda");
@@ -154,7 +154,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6381")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewEventListItem()
     {       
         logger.info("Preconditions: Create a new Event List and a 'pptx' file");
@@ -183,7 +183,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6382")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewIssueListItem()
     {       
         logger.info("Preconditions: Create a new Issue List, a second user and a 'xlsx' file");
@@ -214,7 +214,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6383")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewLocationListItem()
     {       
         logger.info("Preconditions: Create a new Location List and a 'test.xlsx' file");
@@ -243,7 +243,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6384")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewMeetingAgendaListItem()
     {       
         logger.info("Preconditions: Create a new Meeting Agenda List and a 'test.xlsx' file");
@@ -272,7 +272,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6385")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewAdvancedTaskListItem()
     {       
         logger.info("Preconditions: Create a new Advanced Task List, a second user and a 'test.xlsx' file");
@@ -303,7 +303,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6386")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewSimpleTaskListItem()
     {       
         logger.info("Preconditions: Create a new Simple Task List");
@@ -334,7 +334,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6386")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewToDoListItem()
     {       
         logger.info("Preconditions: Create a new To Do List, a second user and a 'test.xlsx' file");
@@ -366,7 +366,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     
     @Bug(id = "ACE-4226")
     @TestRail(id = "C6386")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewVisitorFeedbackListItem()
     {      
         logger.info("This test fails due to: 'https://issues.alfresco.com/jira/browse/ACE-4226?jql=text%20~%20%22visitor%20feedback%22' issue");

@@ -42,7 +42,7 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8038")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyManageAspectActions()
 
     {
@@ -63,7 +63,7 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8034")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsApplyChanges()
 
     {
@@ -92,7 +92,7 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13761")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsActionMissing()
     {
         logger.info("Preconditions: Login to Share and navigate to 'Shared Files' page");

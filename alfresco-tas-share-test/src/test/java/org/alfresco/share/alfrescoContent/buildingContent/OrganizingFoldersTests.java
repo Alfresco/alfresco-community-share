@@ -45,7 +45,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6276")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createNewFolderUsingMenu()
     {
         String siteName1 = "Site-C6276-" + uniqueId;
@@ -86,7 +86,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6277")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createFolderLink()
     {
         String siteName1 = "Site-C6277-" + uniqueId;
@@ -116,7 +116,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6278")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelCreatingFolder()
     {
         String siteName1 = "Site-C6278-" + uniqueId;
@@ -140,7 +140,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6291")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void checkFolderStructure()
     {
         String siteName1 = "Site-C6291-" + uniqueId;

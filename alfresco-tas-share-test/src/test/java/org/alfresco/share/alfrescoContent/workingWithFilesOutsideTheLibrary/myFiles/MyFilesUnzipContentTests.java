@@ -41,7 +41,7 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
     private final String acpPath = testDataFolder + acpFile;
 
     @TestRail(id = "C7816")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void unzipZipArchiveToMyFiles()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -73,7 +73,7 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7817")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void unzipACPArchiveToMyFiles()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();

@@ -50,7 +50,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7409")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void unzipZipFileToDocumentLibraryOfTheSameSite()
     {
         documentLibraryPage.navigate(siteName);
@@ -80,7 +80,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7410")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void unzipAcpFileToDocumentLibraryOfTheSameSite()
     {
         documentLibraryPage.navigate(siteName);

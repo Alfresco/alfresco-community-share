@@ -55,7 +55,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6391")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editingAMandatoryFieldOfAListItem()
     {      
         logger.info("Preconditions: Create a second user"); 
@@ -92,7 +92,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6392")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editingANonMandatoryFieldOfAListItem()
     {      
        

@@ -79,7 +79,7 @@ public class EditEventAgendaItemTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C10537")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyPossibilityToEditItem()
     {
         LOG.info("STEP1: Click Edit icon for the item");

@@ -59,7 +59,7 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C5493")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void accessWikiMainPageTest() {
 
         LOG.info("Starting test C5493");
@@ -91,7 +91,7 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C5494")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void accesWikiPageListTest() {
 
         List<String> siteTitles = new ArrayList<>();

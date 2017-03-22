@@ -52,7 +52,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8156")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void createPlainTextDocumentInRepository()
     {
@@ -105,7 +105,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8161")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void createHTMLDocumentInRepository()
     {
@@ -157,7 +157,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8162")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void createXMLFile()
     {
@@ -211,7 +211,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8159")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void createDocumentFromTemplate()
     {
@@ -236,7 +236,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8158")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void createFolderFromTemplateInRepository()
     {
@@ -268,7 +268,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C13745")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void checkThatUserWithoutAdminPermissionsCannotCreateInMainRepository()
     {
         setupAuthenticatedSession(user, password);
@@ -284,7 +284,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id =" C13746")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void checkThatTheCreateOptionIsAvailableForAdminInMainRepository()
     {

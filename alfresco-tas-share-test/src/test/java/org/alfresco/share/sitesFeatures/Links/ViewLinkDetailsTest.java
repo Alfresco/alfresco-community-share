@@ -53,7 +53,7 @@ public class ViewLinkDetailsTest extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6179")
     public void viewLinkDetails()
     {

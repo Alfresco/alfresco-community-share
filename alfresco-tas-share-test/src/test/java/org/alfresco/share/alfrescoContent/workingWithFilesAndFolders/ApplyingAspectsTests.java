@@ -48,7 +48,7 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7109")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyAspectsForm()
 
     {
@@ -72,7 +72,7 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7105")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsApplyChanges()
 
     {

@@ -33,7 +33,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
     private final String docContent = "content of the file.";
 
     @TestRail(id = "C7152")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void becomeFileOwner()
     {
         String random = DataUtil.getUniqueIdentifier();
@@ -83,7 +83,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7153")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void becomeFolderOwner()
     {
         String random = DataUtil.getUniqueIdentifier();
@@ -136,7 +136,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7154")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelBecomeOwner()
     {
         String random = DataUtil.getUniqueIdentifier();

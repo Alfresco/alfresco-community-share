@@ -39,7 +39,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
 
     @TestRail(id ="C6320")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void viewAllDocumentsInLibrary()
     {
         String siteName = "C6320SiteName" + DataUtil.getUniqueIdentifier();
@@ -75,7 +75,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
    
     @TestRail(id = "C6321")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void viewImEditingFiles()
     {
         String siteNameC6321 = "C6321SiteName" + DataUtil.getUniqueIdentifier();
@@ -112,7 +112,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C10597")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void viewOthersAreEditingFiles()
     {
         String docName = "C10597-1";
@@ -148,7 +148,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C6325")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void viewFilesFromMyFavorites()
     {
         String docName = "C6325-1";
@@ -186,7 +186,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C10598")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void viewRecentlyAddedFiles()
     {
         String siteNameC10598 = "C10598-site" + DataUtil.getUniqueIdentifier();

@@ -49,7 +49,7 @@ public class DeletingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9544")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void deleteDocument()
     {
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, "Document content");
@@ -69,7 +69,7 @@ public class DeletingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6968")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void deleteFolder()
     {
         contentService.createFolder(testUser, password, folderNameD, siteName);
@@ -90,7 +90,7 @@ public class DeletingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6968")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelDeletingFolder()
     {
         contentService.createFolder(testUser, password, folderNameC, siteName);

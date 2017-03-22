@@ -55,7 +55,7 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5526")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void renameTheBlogPage()
     {
@@ -79,7 +79,7 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5527")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     
     public void simpleAndDetailedViewOfCreatedPosts ()
     {

@@ -52,7 +52,7 @@ public class CreateNewTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6206")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewTopic()
     {
         topicListPage.navigate(siteName);
@@ -77,7 +77,7 @@ public class CreateNewTopicTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6207")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreatingNewTopic()
     {
         topicListPage.navigate(siteName);

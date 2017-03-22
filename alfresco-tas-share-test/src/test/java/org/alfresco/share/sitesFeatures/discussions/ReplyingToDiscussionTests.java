@@ -64,7 +64,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6214")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createReplyToDiscussion()
     {
         topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();
@@ -96,7 +96,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6215")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreatingReplyToDiscussion()
     {
         topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();
@@ -124,7 +124,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6216")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void insertLinkInReplyToDiscussion()
     {
         String linkUrl = "https://www.alfresco.com/";
@@ -158,7 +158,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6217")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void insertImageInReplyToDiscussion()
     {
         String imageSource = "https://www.alfresco.com/sites/www.alfresco.com/files/alfresco-logo.png";
@@ -190,7 +190,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6218")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void replyToAReply()
     {
         topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();
@@ -221,7 +221,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6219")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editReplyAddedToTopic()
     {
         topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();

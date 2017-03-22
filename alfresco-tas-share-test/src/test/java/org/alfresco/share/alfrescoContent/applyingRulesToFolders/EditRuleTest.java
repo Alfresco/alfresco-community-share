@@ -81,7 +81,7 @@ public class EditRuleTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7254")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editRule()
     {
         String updatedRuleName = "updateRule-C7254-" + random;

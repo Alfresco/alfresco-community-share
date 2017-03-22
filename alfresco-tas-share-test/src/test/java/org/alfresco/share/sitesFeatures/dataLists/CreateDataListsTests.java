@@ -52,7 +52,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5861")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewList()
     {       
         logger.info("Step 1: On the Data Lists page click on the New List button.");
@@ -74,7 +74,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5862")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void newListCantBeCreatedWithoutSelectingListType()
     {       
         logger.info("Step 1: On the Data Lists page click on the New List button.");
@@ -94,7 +94,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5863")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void newListCantBeCreatedWithEmptyTitle()
     {       
         logger.info("Step 1: On the Data Lists page click on the New List button.");
@@ -114,7 +114,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5864")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void newListCreatedWithEmptyDescription()
     {       
         logger.info("Step 1: On the Data Lists page click on the New List button.");
@@ -132,7 +132,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5865")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void newListCreatedWithExistingTitle()
     {    
         logger.info("Preconditions: Create a new List with 'Test list' name.");
@@ -154,7 +154,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5881")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreationOfNewDataList()
     {    
         
@@ -177,7 +177,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5882")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void closeCreationWindowOfNewDataList()
     {    
         
@@ -200,7 +200,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5892")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void newListDoesNotContainAnyListItems()
     {    
         

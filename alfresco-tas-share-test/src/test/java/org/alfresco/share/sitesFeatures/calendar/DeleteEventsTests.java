@@ -66,7 +66,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3174")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteEventMonthView()
     {
         // precondition
@@ -96,7 +96,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5400")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingEventMonthView()
     {
         // precondition
@@ -129,7 +129,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5415")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteEventDayView()
     {
         // precondition
@@ -160,7 +160,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5416")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingEventDayView()
     {
         // precondition
@@ -194,7 +194,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5417")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteEventWeekView()
     {
         // precondition
@@ -225,7 +225,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5418")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingEventWeekView()
     {
         // precondition
@@ -259,7 +259,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5419")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteEventByClickingOnTheEventAgendaView()
     {
         // precondition
@@ -290,7 +290,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5420")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingEventByClickingOnTheEventAgendaView()
     {
         // precondition
@@ -324,7 +324,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6080")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteEventByClickingDeleteIconAgendaView()
     {
         // precondition
@@ -348,7 +348,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6084")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingEventByClickingDeleteIconAgendaView()
     {
         // precondition

@@ -42,7 +42,7 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6909")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void verifyDocumentLibraryViewOptions()
     {
@@ -62,7 +62,7 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C6955")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void checkThatDefaultViewIsDetailedView()
     {
@@ -83,7 +83,7 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C6953")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void setCurrentViewAsDefault()
     {

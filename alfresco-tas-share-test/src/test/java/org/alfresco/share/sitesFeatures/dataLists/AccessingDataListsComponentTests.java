@@ -57,7 +57,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5844")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void onlySiteManagerIsAbleToRenameDataListsFeatures()
     {    
         siteDashboardPage.navigate(siteName);
@@ -97,7 +97,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5846")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browsingPaneDisplay()
     {    
         logger.info("Preconditions: Create multiple Lists");
@@ -116,7 +116,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5845")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewListsFromDataLists()
     {    
         logger.info("Preconditions: Create a new List");

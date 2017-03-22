@@ -50,7 +50,7 @@ public class ViewingAFileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9917")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void informationAndOptionsCheckAvailableInfo()
     {
@@ -79,7 +79,7 @@ public class ViewingAFileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9923")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void informationAndOptionsCheckLinkToReturnToDocumentLibrary()
     {
@@ -98,7 +98,7 @@ public class ViewingAFileTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C9925")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
     public void informationAndOptionsLikeOption()
     {
@@ -120,7 +120,7 @@ public class ViewingAFileTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C9926")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void informationAndOptionsFavoriteOption()
     {
@@ -143,7 +143,7 @@ public class ViewingAFileTests extends ContextAwareWebTest
     
     
     @TestRail(id = "C9936")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void checkActionsAvailability()
     {

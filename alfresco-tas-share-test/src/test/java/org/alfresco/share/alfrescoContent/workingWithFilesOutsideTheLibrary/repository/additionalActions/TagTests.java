@@ -48,7 +48,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8266")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createTagForFile()
     {
         // Preconditions
@@ -74,7 +74,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8267")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createTagForFolder()
     {
         contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
@@ -100,7 +100,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8278")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void addExistingTag()
     {
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8278, fileContent);
@@ -135,7 +135,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8290")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editTag()
     {
         // Preconditions
@@ -166,7 +166,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8291")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void removeTag()
     {
         // Preconditions
@@ -197,7 +197,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8300")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void updateTags()
     {
         // Preconditions

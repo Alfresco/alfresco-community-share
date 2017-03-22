@@ -69,7 +69,7 @@ public class EditToDoListTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C10352")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyPossibilityToEditItem()
     {
         titleInputToEdit = "test edited title";

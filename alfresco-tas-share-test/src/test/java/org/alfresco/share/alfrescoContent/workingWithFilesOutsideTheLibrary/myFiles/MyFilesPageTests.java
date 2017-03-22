@@ -74,7 +74,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7659")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyMyFilesMainPage()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -98,7 +98,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7660")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyMyFilesPageTags()
     {
         LOG.info("Step1: Login as admin and navigate to My Files page.");

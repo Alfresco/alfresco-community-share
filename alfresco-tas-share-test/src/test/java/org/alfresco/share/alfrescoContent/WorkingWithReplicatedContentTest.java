@@ -101,7 +101,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7600")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT}, enabled = false)
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled = false)
     public void verifyContentAfterReplication()
     {
         String name = "C7600-jobName-" + uniqueIdentifier;

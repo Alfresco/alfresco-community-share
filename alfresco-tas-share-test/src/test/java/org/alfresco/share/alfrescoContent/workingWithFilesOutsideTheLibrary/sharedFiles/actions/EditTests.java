@@ -83,7 +83,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7953")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editFileProperties()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -124,7 +124,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7958")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editFolderProperties()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -167,7 +167,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7979")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editFileInAlfresco()
     {
         String updatedContent = "Content updated C7979";
@@ -204,7 +204,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7994")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editFileInGoogleDocs() throws Exception
     {
         String editedInGoogleDocsTitle = uniqueIdentifier + "editedTestFile.docx";
@@ -259,7 +259,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C13760")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void optionNotDisplayed()
     {
         setupAuthenticatedSession(user, password);

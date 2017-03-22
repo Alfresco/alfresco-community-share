@@ -47,7 +47,7 @@ public class SharedFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7661")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyShareButton()
     {
         LOG.info("STEP1: Hover over a file and click on the \"Share\" button.");

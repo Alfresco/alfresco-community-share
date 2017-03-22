@@ -40,7 +40,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id="C12839")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesLikeFile()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -65,7 +65,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C13661")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesLikeFolder()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -94,7 +94,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C13662")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUnlikeFile()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -121,7 +121,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C13663")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUnlikeFolder()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -152,7 +152,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C12841")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesAddCommentToFile()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -181,7 +181,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail(id="C13664")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesAddCommentToFolder()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();

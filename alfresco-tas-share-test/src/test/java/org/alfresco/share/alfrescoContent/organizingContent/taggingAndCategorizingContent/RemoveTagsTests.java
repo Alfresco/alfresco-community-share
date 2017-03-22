@@ -46,7 +46,7 @@ public class RemoveTagsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7443")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void removeTagFolder()
     {
         setupAuthenticatedSession(userName, password);
@@ -73,7 +73,7 @@ public class RemoveTagsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C10530")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void removeTagFile()
     {
         setupAuthenticatedSession(userName, password);

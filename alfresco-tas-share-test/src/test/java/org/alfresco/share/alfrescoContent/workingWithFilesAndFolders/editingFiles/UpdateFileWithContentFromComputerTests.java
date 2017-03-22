@@ -56,7 +56,7 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest 
 	}
 
 	@TestRail(id = "C7074")
-	@Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+	@Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 	public void uploadFileUsingUploadNewVersion() {
 		logger.info("Preconditions: Navigate to Document Library page for the test site");
 		documentLibraryPage.navigate(siteName);

@@ -88,7 +88,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6864")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void duplicateAction()
 
     {
@@ -117,7 +117,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6865")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteAction()
     {
 
@@ -143,7 +143,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6867")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editAction()
 
     {

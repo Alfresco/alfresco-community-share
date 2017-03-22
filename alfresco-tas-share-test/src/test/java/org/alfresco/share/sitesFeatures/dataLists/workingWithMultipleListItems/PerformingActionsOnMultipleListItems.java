@@ -66,7 +66,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6396")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void duplicateMultipleListItems() {
 
         LOG.info("Starting test C6396");
@@ -103,7 +103,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6398")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteMultipleItems() {
 
         LOG.info("Starting test C6398");
@@ -138,7 +138,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6407")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deselectAllItems() {
         LOG.info("Starting test C6407");
         setup("C6407");

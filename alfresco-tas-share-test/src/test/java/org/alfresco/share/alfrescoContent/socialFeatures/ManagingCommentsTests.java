@@ -36,7 +36,7 @@ public class ManagingCommentsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C9934")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void commentsDeleteComment()
     {
         LOG.info("Precondition: Add a comment to the file created in the site.");
@@ -60,7 +60,7 @@ public class ManagingCommentsTests extends ContextAwareWebTest
     }   
     
     @TestRail(id= "C9935")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void commentsEditComment()
     {

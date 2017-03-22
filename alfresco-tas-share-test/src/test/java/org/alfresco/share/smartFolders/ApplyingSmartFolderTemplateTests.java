@@ -94,7 +94,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8665")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void applySFTemplateToExistingFolder()
     {
 
@@ -146,7 +146,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8666")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void applySFTemplateToCreatedFolder()
     {
         logger.info("Preconditions: Navigate to Document Library for the page for the test site");
@@ -223,7 +223,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8668")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void applyCustomSmartFolder()
     {
         String customSmartFolderTemplate = "employeeSmartSimpleTemplate.json";

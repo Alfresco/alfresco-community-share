@@ -57,7 +57,7 @@ public class CreateTagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C10209")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createTagEditPropertiesDialog()
     {
         documentLibraryPage.navigate(siteName);
@@ -90,7 +90,7 @@ public class CreateTagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C10210")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createTagEditTagIcon()
     {
         documentLibraryPage.navigate(siteName);

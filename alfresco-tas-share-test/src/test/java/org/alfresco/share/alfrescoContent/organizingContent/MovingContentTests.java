@@ -41,7 +41,7 @@ public class MovingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7345")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void moveFile()
     {
         String siteName = "Site-C7345-" + DataUtil.getUniqueIdentifier();
@@ -80,7 +80,7 @@ public class MovingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7346")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void moveFolder()
     {
         String siteName = "Site-C7346-" + DataUtil.getUniqueIdentifier();

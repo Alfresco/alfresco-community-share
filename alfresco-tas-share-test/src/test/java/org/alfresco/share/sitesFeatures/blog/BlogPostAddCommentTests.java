@@ -50,7 +50,7 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6011")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     
     public void addingACommentToABlogPost()
     {
@@ -81,7 +81,7 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6035")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     
     public void addCommentToDraftBlogPost()
     {

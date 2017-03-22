@@ -59,7 +59,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5548")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseWikiByTagTest()
     {
         LOG.info("Starting test C5548");
@@ -103,7 +103,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5549")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseWikiPagesAllPagesTest()
     {
 
@@ -150,7 +150,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5550")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseWikiPagesMyPagesTest()
     {
         cleanupAuthenticatedSession();
@@ -190,7 +190,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5554")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyPageSummaryFromWikiListTest()
     {
         LOG.info("Starting C5554");

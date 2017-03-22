@@ -78,7 +78,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3086")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyAddEventForm()
     {
         calendarPage.navigate(siteName);
@@ -99,7 +99,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5451")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addEventUsingAddEventButton()
     {
         String currentEventName = eventTitle + "C5451";
@@ -129,7 +129,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3156")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addEventByClickingOnTheCalendar()
     {
         calendarPage.navigate(siteName);
@@ -169,7 +169,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5452")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void agendaViewAddAnEventToThisCalendar()
     {
         calendarPage.navigate(siteName2);
@@ -189,7 +189,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5464")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void requiredFieldsForAddingAnEvent()
     {
         String currentEventName = eventTitle + "C5464";
@@ -213,7 +213,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5460")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addAllDayEvent()
     {
         String currentEventName = eventTitle + "C5460";
@@ -239,7 +239,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3091")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addSeveralDaysDurationEvent()
     {
         calendarPage.navigate(siteName);
@@ -284,7 +284,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5462")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addEventWithTags()
     {
         String currentEventName = eventTitle + "C5462";
@@ -341,7 +341,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5478")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addEventWithoutSaving()
     {
         String currentEventName = eventTitle + "C5478";
@@ -362,7 +362,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5477")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelAddingEvent()
     {
         String currentEventName = eventTitle + "C5477";
@@ -384,7 +384,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5465")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyDefaultStartEndDatesForEvents()
     {
         calendarPage.navigate(siteName3);

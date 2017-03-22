@@ -59,7 +59,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     private final String folderName = "Folder" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id = "C8186")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesEditFileProperties()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
@@ -105,7 +105,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8191")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesEditFolderProperties()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
@@ -154,7 +154,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8212")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesEditFileInAlfresco()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
@@ -194,7 +194,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8227")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesEditFilesInGoogleDocs() throws Exception
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");

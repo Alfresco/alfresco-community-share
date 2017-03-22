@@ -63,7 +63,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6403")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void selectAllItemsTest() {
 
         LOG.info("Starting test C6403");
@@ -107,7 +107,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6404")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void selectAllByUsingInvertSelection() {
 
         LOG.info("Starting test C6404");
@@ -151,7 +151,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6405")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deselectByUsingInvertSelection() {
         LOG.info("Starting test C6405");
         setup("C6405");
@@ -195,7 +195,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C6406")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deselectByUsingSelectNone() {
         LOG.info("Starting test C6406");
         setup("C6406");

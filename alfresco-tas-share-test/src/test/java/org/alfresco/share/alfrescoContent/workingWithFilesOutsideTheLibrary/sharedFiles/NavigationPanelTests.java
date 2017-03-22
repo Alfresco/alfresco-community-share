@@ -55,7 +55,7 @@ public class NavigationPanelTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7927")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyFilters()
     {
         LOG.info("STEP1: Verify the Sidebar");
@@ -64,7 +64,7 @@ public class NavigationPanelTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7928")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyTags()
     {
         LOG.info("STEP1: Verify the list of tags in the Tags section");

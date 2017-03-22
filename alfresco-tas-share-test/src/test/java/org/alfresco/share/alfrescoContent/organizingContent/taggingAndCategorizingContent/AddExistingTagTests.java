@@ -58,7 +58,7 @@ public class AddExistingTagTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7464")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void addExistingTagFromEditPropertiesDialog()
     {
         LOG.info("STEP1: Hover over the content created in the preconditions. STEP2: Click \"Edit Properties\" option");

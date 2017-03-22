@@ -62,7 +62,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C3168")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventMonthView()
     {
         //precondition
@@ -139,7 +139,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5581")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventWeekView()
     {
         //precondition
@@ -217,7 +217,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5583")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventDayView()
     {
         //precondition
@@ -295,7 +295,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5580")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventByClickingOnTheEventAgendaView()
     {
         //precondition
@@ -374,7 +374,7 @@ public class EditEventsTests extends ContextAwareWebTest
 
 
     @TestRail(id = "C6073")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventByClickingEditIconAgendaView()
     {
         //precondition
@@ -442,7 +442,7 @@ public class EditEventsTests extends ContextAwareWebTest
 
 
     @TestRail(id = "C3173")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEventMonthView()
     {
         //precondition
@@ -516,7 +516,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5715")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEventWeekView()
     {
         //precondition
@@ -591,7 +591,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5716")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEditEventDayView()
     {
         //precondition
@@ -666,7 +666,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5717")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEditEventByClickingOnEventAgendaView()
     {
         //precondition
@@ -741,7 +741,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6076")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEditEventByClickingEditIconAgendaView()
     {
         //precondition
@@ -808,7 +808,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5401")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventWithoutSavingMonthView()
     {
         //precondition
@@ -882,7 +882,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5718")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventWithoutSavingWeekView()
     {
         //precondition
@@ -957,7 +957,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5719")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventWithoutSavingDayView()
     {
         //precondition
@@ -1032,7 +1032,7 @@ public class EditEventsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5720")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventWithoutSavingAgendaView()
     {
         //precondition

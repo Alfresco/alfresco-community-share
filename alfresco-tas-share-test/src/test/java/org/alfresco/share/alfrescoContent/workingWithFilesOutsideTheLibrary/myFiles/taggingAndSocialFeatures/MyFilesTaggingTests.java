@@ -47,7 +47,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id = "C7861")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesCreateFileTag()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -77,7 +77,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7862")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesCreateFolderTag()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -112,7 +112,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7873")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesAddExistingTag()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -173,7 +173,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7885")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesEditTagFile()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -211,7 +211,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7886")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesRemoveTag()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -251,7 +251,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7895")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUpdateTag()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();

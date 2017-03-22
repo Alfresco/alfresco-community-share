@@ -84,7 +84,7 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C10354")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyEditDataItem()
     {
         LOG.info("STEP1: Click 'Edit' icon for the advanced task list item to be edited");

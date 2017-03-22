@@ -38,7 +38,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
     private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id = "C7896")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesDeleteDocument()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
@@ -64,7 +64,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7896")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesDeleteFolder()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();

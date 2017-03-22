@@ -52,7 +52,7 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7005")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editFileProperties()
     {
         LOG.info("Starting test C7005");
@@ -91,7 +91,7 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7013")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editFolderProperties()
     {
         LOG.info("Starting test C7005");

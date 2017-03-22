@@ -47,7 +47,7 @@ public class EditingLinkTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6184")
     public void editLinkFromLinkPageView()
     {
@@ -152,7 +152,7 @@ public class EditingLinkTests extends ContextAwareWebTest
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6185")
     public void editLinkFromLinksPage()
     {
@@ -269,7 +269,7 @@ public class EditingLinkTests extends ContextAwareWebTest
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("bing"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6186")
     public void cancelEditingLink()
     {

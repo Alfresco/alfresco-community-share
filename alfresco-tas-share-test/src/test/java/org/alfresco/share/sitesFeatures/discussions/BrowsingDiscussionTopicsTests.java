@@ -70,7 +70,7 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6199")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseByTopicsFilter()
     {
         topicListPage.navigate(siteName);
@@ -104,7 +104,7 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "6204")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTopicsByTags()
     {
         topicListPage.navigate(siteName);

@@ -38,7 +38,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7419")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void renameFileByEditIcon()
     {
         String siteName = "Site-C7419-" + DataUtil.getUniqueIdentifier();
@@ -70,7 +70,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7420")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void renameFolderByEditIcon()
     {
         String siteName = "Site-C7420-" + DataUtil.getUniqueIdentifier();
@@ -102,7 +102,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7431")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelRenamingContent()
     {
         String siteName = "Site-C7431-" + DataUtil.getUniqueIdentifier();

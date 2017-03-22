@@ -71,7 +71,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7929")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void sharedFilesCreatePlainTextFile()
     {
 
@@ -136,7 +136,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7937")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void sharedFilesCreateHTMLFile()
     {
 
@@ -192,7 +192,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7938")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void sharedFilesCreateXMLFile()
     {
 
@@ -248,7 +248,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7931")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void sharedFilesCreateFolderFromTemplate()
     {
 
@@ -287,7 +287,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7932")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void sharedFilesCreateDocumentFromTemplate()
     {
         LOG.info("Precondition: Login as admin user and create a file template.");
@@ -326,7 +326,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7934")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void sharedFilesCreateGoogleDocsDocument() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
@@ -371,7 +371,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7935")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void sharedFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
@@ -416,7 +416,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7936")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void sharedFilesCreateGoogleDocsPresentation() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");

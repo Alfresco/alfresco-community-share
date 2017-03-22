@@ -58,7 +58,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5894")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void modifyTitleAndDescriptionOfAnExistingList()
     {       
         logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
@@ -82,7 +82,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5895")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelModifyingTitleAndDescriptionOfAnExistingList()
     {       
         logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
@@ -101,7 +101,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5896")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void closeEditFormWithoutSavingChanges()
     {       
         logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
@@ -120,7 +120,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5898")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editingExistingListWithSiteCollaboratorUser()
     {      
         
@@ -152,7 +152,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5899")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void contributorRoleIsNotAbleToEditExistingList()
     {      
         
@@ -172,7 +172,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5900")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void consumerRoleIsNotAbleToEditExistingList()
     {      
         
@@ -192,7 +192,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5901")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void contributorRoleIsAbleToEditListCreatedBySameUser()
     {      
         
@@ -229,7 +229,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C5904")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void siteManagerIsAbleToEditList()
     {      
         

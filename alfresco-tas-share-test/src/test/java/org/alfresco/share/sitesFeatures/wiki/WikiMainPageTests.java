@@ -42,7 +42,7 @@ public class WikiMainPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5496")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createWikiMainPage()
     {
         // precondition
@@ -61,7 +61,7 @@ public class WikiMainPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5509")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreationOfWikiMainPage()
     {
         // precondition

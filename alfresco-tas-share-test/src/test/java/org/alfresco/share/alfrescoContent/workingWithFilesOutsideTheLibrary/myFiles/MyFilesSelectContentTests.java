@@ -40,7 +40,7 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
     private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
 
     @TestRail(id = "C7682")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectFileByMenu()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
@@ -89,7 +89,7 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7683")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectFolderByMenu()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");

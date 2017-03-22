@@ -41,7 +41,7 @@ public class CommentTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C8305")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void addCommentToFile()
     {
@@ -67,7 +67,7 @@ public class CommentTests extends ContextAwareWebTest
     }
     
     @TestRail(id ="C8306")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void addCommentToFolder()
     {

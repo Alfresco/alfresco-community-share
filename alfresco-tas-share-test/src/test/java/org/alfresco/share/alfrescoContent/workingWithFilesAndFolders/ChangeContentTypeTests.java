@@ -48,7 +48,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7163")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelChangeType()
     {
         String docName = "Doc-C7163-" + DataUtil.getUniqueIdentifier();
@@ -79,7 +79,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7166")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void changeTypeFolder()
     {
         String folderName = "Folder-C7166-" + DataUtil.getUniqueIdentifier();
@@ -135,7 +135,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7167")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void changeTypeFile()
     {
         String docName = "Doc-C7167-" + DataUtil.getUniqueIdentifier();

@@ -64,7 +64,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5542")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editWikiPageFromPageView()
     {
         wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
@@ -96,7 +96,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5543")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editWikiPageFromWikiPageList()
     {
         wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
@@ -126,7 +126,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5544")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEditingWikiPage()
     {
         wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
@@ -147,7 +147,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5545")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyInsertLibraryImageFeature()
     {
         wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
@@ -187,7 +187,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C5546")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyInsertDocumentLibraryFeature()
     {
         wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();

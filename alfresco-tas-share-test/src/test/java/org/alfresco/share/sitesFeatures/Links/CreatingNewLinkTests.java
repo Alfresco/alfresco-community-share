@@ -52,7 +52,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6180")
     public void createExternalLink()
     {
@@ -123,7 +123,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
         getBrowser().switchTo().window(currentWindow);
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6182")
     public void createInternalLink()
     {
@@ -198,7 +198,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
         Assert.assertEquals(linkPage.getLinkTitle(), linkTitle, "Link not displayed in Liks list");
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6182")
     public void cancelCreatingNewLink()
     {

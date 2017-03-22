@@ -44,7 +44,7 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2246")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void filmstripViewPresence()
     {
         documentLibraryPage.navigate(siteName);
@@ -57,7 +57,7 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2247")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void filmstripViewDisplayingItems()
     {
         documentLibraryPage.navigate(siteName);

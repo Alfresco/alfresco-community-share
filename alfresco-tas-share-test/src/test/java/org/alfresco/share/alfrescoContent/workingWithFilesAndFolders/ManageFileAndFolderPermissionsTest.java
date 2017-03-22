@@ -44,7 +44,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6092")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelManagePermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -63,7 +63,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7121")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void saveManagePermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -100,7 +100,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7124")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void turnOffInheritPermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -152,7 +152,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7125")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void turnOnInheritPermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -200,7 +200,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7143")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void deleteUser()
     {
         LOG.info("Precondition: Login as testUser1 and add local permissions for testUser2 for the file and folder.");
@@ -259,7 +259,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7123")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelChangesFromManagePermissions()
     {
         LOG.info("Precondition: Login as testUser1 and navigate to Manage Permissions for the testFile.");

@@ -50,7 +50,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6063")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     
     public void deletingACommentOfABlogPost()
     {
@@ -70,7 +70,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
     }
     
     @TestRail(id = "C6064")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     
     public void deletingACommentOfADraftPost()
     {

@@ -76,7 +76,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8646")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void smartFolderIcon()
 
     {
@@ -132,7 +132,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8648")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void addFileToSmartFolder()
 
     {
@@ -193,7 +193,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8649")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createFileInSmartFolder() throws Exception
 
     {
@@ -266,7 +266,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8650")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void updateFileInSmartFolder() throws Exception
     {
         logger.info("Preconditions: Navigate to Document Library for the page for the test site");
@@ -350,7 +350,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8663")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void checkSmartFolderStructure()
 
     {
@@ -412,7 +412,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8664")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void checkFilesAreCorrectlyFilled() throws Exception
     {
 
@@ -485,7 +485,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8647")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void checkAvailableActions() throws Exception
 
     {

@@ -44,7 +44,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
     private final String fileContent = "content of the file.";
 
     @TestRail(id = "C7570")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void recoverDeletedDocument()
     {
         String random = DataUtil.getUniqueIdentifier();
@@ -104,7 +104,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7571")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void recoverDeletedFolder()
     {
         String random = DataUtil.getUniqueIdentifier();
