@@ -1,6 +1,5 @@
 node('tas-node-win') {
  properties([
-        pipelineTriggers([cron('H 0 * * 0-6')]),
     	buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')),
     	parameters([
     	choice(choices: 'Firefox\nChrome', description: 'Browser', name: 'Browser'),
