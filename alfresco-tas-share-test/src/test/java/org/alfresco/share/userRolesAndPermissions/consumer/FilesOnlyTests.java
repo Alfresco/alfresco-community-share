@@ -14,14 +14,11 @@ import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
-import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.io.File;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -72,10 +69,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
     private String fileC8909 = "C8909 test file";
     private String testContent = "testContent";
     private String windowsUser;
-    private File downloadDirectory;
-    private String folderName;
-    private String downloadPath = srcRoot + "testdata";
-    private Alert alert;
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -385,7 +378,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 4: Navigate to DocumentLibrary and click on fileC8908");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileC8908);
-        documentDetailsPage.renderedPage();
 
         LOG.info("Step 5: Previous version (1.0) is available in Version History sections. Press Download");
         Assert.assertEquals(documentDetailsPage.getFileVersion(), "1.1", "Latest version is not 1.1");
@@ -437,7 +429,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 1: Create Google Doc document using admin user");
         setupAuthenticatedSession(adminUser, adminPassword);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.renderedPage();
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
         getBrowser().waitUntilElementDisappears(createContent.message, 60L);
