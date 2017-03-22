@@ -278,7 +278,7 @@ public class SitesManagerTests extends ContextAwareWebTest
         assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
 
         LOG.info("STEP1: For " + site6 + ", click 'Actions' menu and select 'Become Site Manager' link");
-        sitesManagerPage.clickActionForManagedSiteRow(site6, language.translate("sitesManager.becomeSiteManager"));
+        sitesManagerPage.clickActionForManagedSiteRow(site6, language.translate("sitesManager.becomeSiteManager"),sitesManagerPage);
         assertTrue(sitesManagerPage.isUserSiteManager(site6), "'I'm a Site Manager' value=Yes.");
     }
 
@@ -291,8 +291,7 @@ public class SitesManagerTests extends ContextAwareWebTest
         assertEquals(sitesManagerPage.getPageTitle(), "Alfresco » Sites Manager", "Displayed page=");
 
         LOG.info("STEP1: Click on \"Actions\" -> \"Delete\" button for \"siteA\"");
-        sitesManagerPage.clickActionForManagedSiteRow(site5, "Delete Site");
-        deleteSiteDialog.renderedPage();
+        sitesManagerPage.clickActionForManagedSiteRow(site5, "Delete Site",deleteSiteDialog);
         assertEquals(deleteSiteDialog.getConfirmMessageFromSitesManager(), String.format(language.translate("deleteSite.confirmFromSitesManager"), site5));
 
         LOG.info("STEP3: Confirm site deletion by clicking 'Ok' button");

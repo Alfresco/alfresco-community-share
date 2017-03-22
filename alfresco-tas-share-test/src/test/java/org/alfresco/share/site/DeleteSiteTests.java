@@ -378,7 +378,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertEquals(sitesManagerPage.isSitesTableDisplayed(), true, "Site Manager page is displayed.");
 
         LOG.info("STEP2: Click on \"Actions\" -> \"Delete\" button for \"siteA\"");
-        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site");
+        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
         assertEquals(deleteSiteDialog.getConfirmMessageFromSitesManager(), String.format(language.translate("deleteSite.confirmFromSitesManager"), siteName));
 
         LOG.info("STEP3: Confirm site deletion");
@@ -411,7 +411,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertEquals(sitesManagerPage.isSitesTableDisplayed(), true, "Site Manager page is displayed.");
 
         LOG.info("STEP2: Click on \"Actions\" -> \"Delete\" button for \"siteA\"");
-        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site");
+        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
         assertEquals(deleteSiteDialog.getConfirmMessageFromSitesManager(), String.format(language.translate("deleteSite.confirmFromSitesManager"), siteName));
 
         LOG.info("STEP3: Click \"Cancel\" button");

@@ -2,6 +2,7 @@ package org.alfresco.po.share;
 
 import org.alfresco.po.share.DashboardCustomizationImpl.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
+import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
@@ -167,7 +168,8 @@ public interface DashboardCustomization
      * @param fromColumn int from column number
      * @param toColumn int to column number
      */
-    void moveAddedDashletInColumn(Dashlets dashlet, int fromColumn, int toColumn);
-    
-    void reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column);
+    void moveAddedDashletInColumn(Dashlets dashlet, int fromColumn, int toColumn);   
+     
+    List<WebElement> reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column);
+ 
 }

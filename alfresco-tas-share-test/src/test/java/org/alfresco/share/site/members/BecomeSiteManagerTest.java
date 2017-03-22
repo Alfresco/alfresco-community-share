@@ -207,7 +207,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
                 "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
 
         LOG.info("STEP 4: Click 'Become Site Manager' option then verify again \"I'm a Site Manager\" column.");
-        sitesManager.clickActionForManagedSiteRow(siteName, "Become Site Manager");
+        sitesManager.clickActionForManagedSiteRow(siteName, "Become Site Manager", sitesManager);
         assertTrue(sitesManager.isUserSiteManager(siteName), "'Yes' value is present in \"I'm a Site Manager\" column for '" + siteName + "'.");
 
         LOG.info("STEP 5: Click again 'Actions' for '" + siteName + "'.");
@@ -278,7 +278,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
                 "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
 
         LOG.info("STEP 4: Click 'Become Site Manager' option then verify again \"I'm a Site Manager\" column.");
-        sitesManager.clickActionForManagedSiteRow(siteName, "Become Site Manager");
+        sitesManager.clickActionForManagedSiteRow(siteName, "Become Site Manager", sitesManager);
         assertTrue(sitesManager.isUserSiteManager(siteName), "'Yes' value is present in \"I'm a Site Manager\" column for '" + siteName + "'.");
 
         LOG.info("STEP 5: Click again 'Actions' for '" + siteName + "'.");

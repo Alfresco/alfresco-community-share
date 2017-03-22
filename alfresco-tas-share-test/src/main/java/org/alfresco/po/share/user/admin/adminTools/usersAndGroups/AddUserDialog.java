@@ -72,6 +72,7 @@ public class AddUserDialog extends ShareDialog
     {
         fillInSearchInput(userToSearch);
         clickSearchButton();
+        renderedPage();
     }
 
     /**

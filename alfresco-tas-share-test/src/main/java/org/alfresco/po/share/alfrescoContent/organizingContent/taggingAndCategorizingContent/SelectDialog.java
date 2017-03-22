@@ -142,7 +142,7 @@ public class SelectDialog extends ShareDialog
      * @param tagName to be typed into Create New input field
      */
     public void typeTag(String tagName)
-    {
+    {   renderedPage();
         browser.waitUntilElementVisible(tagInputField);
         tagInputField.clear();
         tagInputField.sendKeys(tagName);

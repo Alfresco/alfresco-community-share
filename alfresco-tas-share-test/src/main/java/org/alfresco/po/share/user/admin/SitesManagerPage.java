@@ -4,6 +4,7 @@ import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -26,6 +27,9 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
 
     @Autowired
     private ListPagination listPagination;
+    
+    @Autowired
+    private SitesManagerPage sitesManagerPage;
 
     private List<ManagedSiteRow> managedSiteRows;
 
@@ -180,7 +184,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
      * @param siteName String, the required site name
      * @param action String, the action to be clicked
      */
-    public void clickActionForManagedSiteRow(String siteName, String action)
+    public HtmlPage clickActionForManagedSiteRow(String siteName, String action, HtmlPage pageToBeRendered)
     {
         ManagedSiteRow manageSiteRow = loadActionsForManagedSiteRow(siteName);
 
@@ -188,10 +192,12 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         {
             for (WebElement siteAction : manageSiteRow.getSiteActions())
             {
-                if (action.equals(siteAction.getText()))
-                    siteAction.click();
+                if (action.equals(siteAction.getText())){
+                    siteAction.click(); }
+                break;
             }
         }
+		return pageToBeRendered.renderedPage();
     }
 
     private ManagedSiteRow loadSiteVisibilityOptionsForManagedSiteRow(String siteName)
@@ -230,7 +236,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
     }
 
     /**
-     * Verify presence of succes indicator on Site Visibility update
+     * Verify presence of success indicator on Site Visibility update
      *
      * @param siteName updated site
      * @return true if indicator is displayed
