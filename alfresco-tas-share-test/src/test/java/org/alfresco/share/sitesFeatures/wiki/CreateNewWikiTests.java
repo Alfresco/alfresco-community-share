@@ -46,9 +46,8 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     private String wikiPageContent;
 
     @BeforeMethod(alwaysRun = true)
-    public void setup()
+    public void setupTest()
     {
-        super.setup();
         pagesToAdd.add(Page.WIKI);
         userService.create(adminUser, adminPassword, testUser, password, "@tests.com", "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);

@@ -1,11 +1,8 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import java.io.File;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -15,14 +12,14 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 /**
  * @author iulia.cojocea
  */
 
 public class PreviewFileTest extends ContextAwareWebTest
 {
-    @Autowired private SiteDashboardPage siteDashboardPage;
-
     @Autowired private DocumentDetailsPage documentDetailsPage;
 
     @Autowired private DocumentLibraryPage documentLibraryPage;
@@ -34,9 +31,8 @@ public class PreviewFileTest extends ContextAwareWebTest
     private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC5884" + File.separator;
 
     @BeforeClass(alwaysRun = true)
-    public void setup()
+    public void setupTest()
     {
-        super.setup();
         userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         contentService.createFolder(testUser, password, folderName, siteName);
@@ -48,18 +44,16 @@ public class PreviewFileTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ALFRESCO_CONTENT})
     public void previewFile()
     {
-
         LOG.info("STEP 1: Navigate to 'Document Library' page for 'siteName'");
-        siteDashboardPage.navigate(siteName);
-        siteDashboardPage.clickDocumentLibrary();
+        documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageHeader(), siteName, "Document Library is not opened!");
         Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName), "Folder is not displayed!");
 
         LOG.info("STEP 2: Click on folder name then on file name");
         documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.getFilesList().contains(docName), "Document is not displayed!");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is not displayed!");
         documentLibraryPage.clickOnFile(docName);
-        Assert.assertTrue(documentDetailsPage.getFileName().equals(docName), "Wrong file name!");
+        Assert.assertEquals(documentDetailsPage.getFileName(), docName, "Wrong file name!");
 
         LOG.info("STEP 3: Click 'Maximize' to view a larger preview");
         documentDetailsPage.clickOnMaximizeMinimizeButton();
@@ -81,11 +75,9 @@ public class PreviewFileTest extends ContextAwareWebTest
         Assert.assertFalse(documentDetailsPage.getScaleValue().equals(initialScaleValue), "Scale value should be different!");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.getFilesList().contains(docName), "Document is not displayed!");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is not displayed!");
         documentLibraryPage.clickOnFile(docName);
-        System.out.println(initialScaleValue);
-        System.out.println(newScaleValue);
-        Assert.assertTrue(documentDetailsPage.getScaleValue().equals(newScaleValue), "Wrong scale value! expected " + documentDetailsPage.getScaleValue()
+        Assert.assertEquals(documentDetailsPage.getScaleValue(), newScaleValue, "Wrong scale value! expected " + documentDetailsPage.getScaleValue()
                 + "but found " + newScaleValue);
         documentDetailsPage.clickOnZoomOutButton();
         Assert.assertFalse(documentDetailsPage.getScaleValue().equals(newScaleValue), "Scale value should be different");
@@ -96,8 +88,8 @@ public class PreviewFileTest extends ContextAwareWebTest
         LOG.info("STEP 6: Go back to the folder content and click on the video");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.getFilesList().contains("Wildlife.wmv"), "Video is not displayed!");
-        documentLibraryPage.clickOnFile("Wildlife.wmv");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Tulips.jpg"), "Picture is not displayed!");
+        documentLibraryPage.clickOnFile("Tulips.jpg");
         Assert.assertFalse(documentDetailsPage.isZoomOutButtonDisplayed(), "Zoom out button should not be displayed!");
         Assert.assertFalse(documentDetailsPage.isZoomInButtonDisplayed(), "Zoom in button should not be displayed!");
         Assert.assertFalse(documentDetailsPage.isMaximizetButtonDisplayed(), "Maximize button should not be displayed!");
@@ -107,7 +99,7 @@ public class PreviewFileTest extends ContextAwareWebTest
         LOG.info("STEP 7: Go back to the folder content and click on the image");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.getFilesList().contains("Wildlife.wmv"), "Video is not displayed!");
+        Assert.assertTrue(documentLibraryPage.getFilesList().contains("Tulips.jpg"), "Picture is not displayed!");
         documentLibraryPage.clickOnFile("Tulips.jpg");
         Assert.assertFalse(documentDetailsPage.isZoomOutButtonDisplayed(), "Zoom out button should not be displayed!");
         Assert.assertFalse(documentDetailsPage.isZoomInButtonDisplayed(), "Zoom in button should not be displayed!");

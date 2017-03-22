@@ -53,9 +53,8 @@ public class MyTasksTest extends ContextAwareWebTest
     private String taskTypeAndStatus = "Task, Not Yet Started";
     
     @BeforeClass(alwaysRun = true)
-    public void setup()
+    public void setupTest()
     {
-        super.setup();
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
         setupAuthenticatedSession(userName, password);
         workflowService.startNewTask(userName, password, taskName, taskDate, userName, Priority.Low, null, true);

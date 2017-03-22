@@ -36,9 +36,8 @@ public class SiteProfileDashletTests extends ContextAwareWebTest
     private String siteVisibility;
 
     @BeforeClass(alwaysRun = true)
-    public void setup()
+    public void setupTest()
     {
-        super.setup();
         userName1 = "User1" + DataUtil.getUniqueIdentifier();
         userName2 = "User2" + DataUtil.getUniqueIdentifier();
         siteName1 = "Site1" + DataUtil.getUniqueIdentifier();

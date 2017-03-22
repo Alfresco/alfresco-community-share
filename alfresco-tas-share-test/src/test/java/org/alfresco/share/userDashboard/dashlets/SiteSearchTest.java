@@ -25,9 +25,8 @@ public class SiteSearchTest extends ContextAwareWebTest
     private String userName = "User" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass(alwaysRun = true)
-    public void setup()
+    public void setupTest()
     {
-        super.setup();
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
         setupAuthenticatedSession(userName, password);
         userService.addDashlet(userName, password, UserDashlet.SITE_SEARCH, DashletLayout.THREE_COLUMNS, 3, 1);

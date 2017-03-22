@@ -26,9 +26,8 @@ public class MyDiscussionsTests extends ContextAwareWebTest
     private String userName;
     
     @BeforeClass(alwaysRun = true)
-    public void setup()
+    public void setupTest()
     {
-        super.setup();
         userName = "User1" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + "@tests.com", userName, userName);
         userService.addDashlet(userName, DataUtil.PASSWORD, UserDashlet.MY_DISCUSSIONS, DashletLayout.THREE_COLUMNS, 3, 1);

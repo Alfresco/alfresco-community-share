@@ -27,9 +27,8 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
     private final String docContent = "C2247 content";
     private final String docName1 = "C2247 test file 1";
     private final String folderName = "folderName";
-    private final String testDataFolder = srcRoot + "testdata" + File.separator;
-    private final String videoFile = "Wildlife";
-    private final String picture = "Lighthouse";
+    private final String videoFile = "Video2.WMV";
+    private final String picture = "Lighthouse.jpg";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -39,8 +38,8 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
         contentService.createFolder(user, password, folderName, siteName);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createDocumentInFolder(user, password, siteName, folderName, DocumentType.TEXT_PLAIN, docName1, "Document content");
-        contentService.uploadFileInSite(user, password, siteName, testDataFolder + videoFile + ".wmv");
-        contentService.uploadFileInSite(user, password, siteName, testDataFolder + picture + ".jpg");
+        contentService.uploadFileInSite(user, password, siteName, testDataFolder + videoFile);
+        contentService.uploadFileInSite(user, password, siteName, testDataFolder + picture);
         setupAuthenticatedSession(user, password);
     }
 
@@ -74,9 +73,9 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(5);
         assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(docName), docName, docName + " is displayed in filmstrip view");
         assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(folderName), folderName, folderName + " is displayed in filmstrip view");
-        assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(videoFile + ".wmv"), videoFile + ".wmv",
+        assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(videoFile), videoFile,
                 "videoFile is not displayed in the filmstrip view");
-        assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(picture + ".jpg"), picture + ".jpg",
+        assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(picture), picture,
                 "picture is not displayed in the filmstrip view");
 
         assertTrue(documentLibraryPage.isDownArrowPointerDisplayed(), "Down arrow pointer is displayed");

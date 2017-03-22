@@ -16,23 +16,21 @@ public class UserProfileContentTests extends ContextAwareWebTest
     @Autowired
     UserContentPage userContentPage;
 
-    private String userName1;
+    private String userName1 = "User1" + DataUtil.getUniqueIdentifier();
     private String RecentlyAddedLabelText;
     private String NoAddedContentMessageText;
-    private String RecentlyModfiedLabelText;
+    private String RecentlyModifiedLabelText;
     private String NoModifiedContentMessage;
 
     @BeforeClass(alwaysRun = true)
-    public void setup()
+    public void setupTest()
     {
-        super.setup();
-        userName1 = "User1" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, userName1, userName1, userName1 + domain, "fName1", "lName1");
         setupAuthenticatedSession(userName1, userName1);
 
         RecentlyAddedLabelText = language.translate("userProfileContent.recentlyAddedLabel");
         NoAddedContentMessageText = language.translate("userProfileContent.noAddedContentMessage");
-        RecentlyModfiedLabelText = language.translate("userProfileContent.recentlyModifiedLabel");
+        RecentlyModifiedLabelText = language.translate("userProfileContent.recentlyModifiedLabel");
         NoModifiedContentMessage = language.translate("userProfileContent.noModifiedContentMessage");
     }
 
@@ -49,7 +47,7 @@ public class UserProfileContentTests extends ContextAwareWebTest
         Assert.assertTrue(userContentPage.isNoModifiedContentMessageDisplayed());
         Assert.assertEquals(userContentPage.getRecentlyAddedLabelText(), RecentlyAddedLabelText);
         Assert.assertEquals(userContentPage.getNoAddedContentMessageText(), NoAddedContentMessageText);
-        Assert.assertEquals(userContentPage.getRecentlyModfiedLabelText(), RecentlyModfiedLabelText);
+        Assert.assertEquals(userContentPage.getRecentlyModfiedLabelText(), RecentlyModifiedLabelText);
         Assert.assertEquals(userContentPage.getNoModifiedContentMessage(), NoModifiedContentMessage);
     }
 

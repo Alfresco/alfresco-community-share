@@ -40,9 +40,8 @@ public class DeletingADataListTests extends ContextAwareWebTest
     private List<Page> pagesToAdd = new ArrayList<Page>();
     
     @BeforeMethod(alwaysRun = true)
-    public void setup()
+    public void setupTests()
     {
-        super.setup();
         pagesToAdd.add(Page.DATALISTS);
         userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();

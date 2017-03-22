@@ -34,9 +34,8 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     private List<Page> pagesToAdd = new ArrayList<Page>();
     
     @BeforeMethod(alwaysRun = true)
-    public void setup()
+    public void setupTest()
     {
-        super.setup();
         pagesToAdd.add(Page.DATALISTS);
         userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
