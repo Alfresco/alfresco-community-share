@@ -3,7 +3,6 @@ package org.alfresco.po.share.user.admin;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -27,9 +26,6 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
 
     @Autowired
     private ListPagination listPagination;
-    
-    @Autowired
-    private SitesManagerPage sitesManagerPage;
 
     private List<ManagedSiteRow> managedSiteRows;
 
@@ -192,12 +188,14 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
         {
             for (WebElement siteAction : manageSiteRow.getSiteActions())
             {
-                if (action.equals(siteAction.getText())){
-                    siteAction.click(); }
+                if (action.equals(siteAction.getText()))
+                {
+                    siteAction.click();
+                }
                 break;
             }
         }
-		return pageToBeRendered.renderedPage();
+        return pageToBeRendered.renderedPage();
     }
 
     private ManagedSiteRow loadSiteVisibilityOptionsForManagedSiteRow(String siteName)

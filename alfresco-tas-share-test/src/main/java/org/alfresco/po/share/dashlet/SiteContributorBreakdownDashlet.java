@@ -70,8 +70,7 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     @Override
     public String getDashletTitle()
     {
-        browser.waitUntilElementVisible(dashletTitle);
-        return dashletTitle.getText();
+        return browser.waitUntilElementVisible(dashletTitle).getText();
     }
 
     public boolean isPeriodFilterDisplayed()
@@ -94,21 +93,13 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
 
     public String getSelectedFilterOption()
     {
-        browser.waitUntilElementVisible(selectedFilterOption);
-        return selectedFilterOption.getText();
+        return browser.waitUntilElementVisible(selectedFilterOption).getText();
     }
 
     public UserProfilePage clickOnUserSection(String userName)
     {
         List<WebElement> testUsers = browser.findElements(By.cssSelector("div[class='alfresco-charts-ccc-Chart'] text"));
-        for(WebElement user: testUsers)
-        {
-            if(user.getText().equals(userName))
-            {
-                user.click();
-                break;
-            }
-        }
+        browser.findFirstElementWithValue(testUsers, userName).click();
         return (UserProfilePage) userProfilePage.renderedPage();
     }
 }

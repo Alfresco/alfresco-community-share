@@ -31,8 +31,8 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
     @Autowired
     UserProfilePage userProfilePage;
 
-    private String userName1 = "CUserName1"+ DataUtil.getUniqueIdentifier();
-    private String userName2 = "CUserName2" + DataUtil.getUniqueIdentifier();
+    private String userName1 = "CUser1"+ DataUtil.getUniqueIdentifier();
+    private String userName2 = "CUser2" + DataUtil.getUniqueIdentifier();
     private String siteName = "CSiteName" + DataUtil.getUniqueIdentifier();
     private String fileName1User1 = "File1User1"+ DataUtil.getUniqueIdentifier();
     private String fileName2User1 = "File2User1" + DataUtil.getUniqueIdentifier();
@@ -46,7 +46,7 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, "FNUser2", "LNUser2");
         siteService.create(userName1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(adminUser, adminPassword, siteName, DashboardCustomization.SiteDashlet.SITE_CONTRIB_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
-        userService.inviteUserToSiteAndAccept(userName1, password, userName2, siteName, "SiteManager");
+        userService.createSiteMember(userName1, password, userName2, siteName, "SiteManager");
         contentService.createDocument(userName1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName1User1, fileContent);
         contentService.createDocument(userName1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName2User1, fileContent);
         contentService.createDocument(userName2, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName1User2, fileContent);
