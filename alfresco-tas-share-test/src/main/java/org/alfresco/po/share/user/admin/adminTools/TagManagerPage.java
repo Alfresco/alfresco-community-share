@@ -154,6 +154,7 @@ public class TagManagerPage extends AdminToolsPage {
 			if (tagElement.getText().equals(tag)) {
 				browser.mouseOver(tagElement);
 				rowElement = row;
+				break;
 			}
 		}
 	}
@@ -212,7 +213,7 @@ public class TagManagerPage extends AdminToolsPage {
 	 *            to be deleted
 	 * @return message if tag is displayed (icon clicked) or not
 	 */
-	public String clickDeleteTagIcon(String tag) {
+	public String clickDeleteTagIcon(String tag) {		
 		if (isTagDisplayed(tag)) {
 			browser.waitUntilElementVisible(rowElement.findElement(deleteIconSelector)).click();
 			browser.waitUntilElementClickable(deleteDialog.deleteButton, 10);
