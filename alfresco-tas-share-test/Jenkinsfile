@@ -1,5 +1,6 @@
 node('tas-node-win') {
  properties([
+        pipelineTriggers([cron('H 0 * * 0-6')]),
     	buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')),
     	parameters([
     	choice(choices: 'Firefox\nChrome', description: 'Browser', name: 'Browser'),
@@ -14,8 +15,6 @@ node('tas-node-win') {
     		string(defaultValue: '5.1.N-${AlfrescoHost}', description: 'The name of the Test Run In TestRail (requires *EnableTestRailIntegration*)', name: 'TestRailTestRunName')
     		])
     ])
-
-
 
 	stage('Checkout') {
 		checkout scm
