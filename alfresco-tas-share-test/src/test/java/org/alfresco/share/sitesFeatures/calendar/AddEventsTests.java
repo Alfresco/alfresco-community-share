@@ -329,8 +329,6 @@ public class AddEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 7: Click 'Save' button.");
         addEventDialog.clickSaveButton();
-        getBrowser().waitInSeconds(2);
-        assertEquals(notification.getDisplayedNotification(), "Event created", "'Event created' pop-up appears.");
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is created and displayed on the 'Calendar' page.");
 
         LOG.info("STEP 8: Verify 'Tags' section.");

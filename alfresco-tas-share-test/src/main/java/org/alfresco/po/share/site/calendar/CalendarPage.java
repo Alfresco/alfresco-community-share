@@ -61,6 +61,10 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     private WebElement todayButton;
 
     // Tags
+    @RenderWebElement
+    @FindBy(css= "div.filter.tags")
+    private WebElement tagsFilter;
+
     @FindBy(css = "a[rel='-all-']")
     private Table showAllItems;
 
@@ -219,6 +223,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public CalendarPage clickDayButton()
     {
         dayButton.click();
+        browser.waitInSeconds(1);
         return (CalendarPage) this.renderedPage();
     }
 
@@ -230,6 +235,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public CalendarPage clickWeekButton()
     {
         weekButton.click();
+        browser.waitInSeconds(1);
         return (CalendarPage) this.renderedPage();
     }
 
@@ -241,6 +247,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public CalendarPage clickMonthButton()
     {
         monthButton.click();
+        browser.waitInSeconds(1);
         return (CalendarPage) this.renderedPage();
     }
 
@@ -252,6 +259,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public CalendarPage clickAgendaButton()
     {
         agendaButton.click();
+        browser.waitInSeconds(1);
         return (CalendarPage) this.renderedPage();
     }
 
@@ -432,6 +440,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public CalendarPage clickOnNextButton()
     {
         nextButton.click();
+        browser.waitInSeconds(1);
         return (CalendarPage) this.renderedPage();
     }
 
@@ -443,6 +452,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public CalendarPage clickOnPreviousButton()
     {
         previousButton.click();
+        browser.waitInSeconds(1);
         return (CalendarPage) this.renderedPage();
     }
 
@@ -524,6 +534,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public CalendarPage clickTodayButton()
     {
         todayButton.click();
+        browser.waitInSeconds(1);
         return (CalendarPage) this.renderedPage();
     }
 }

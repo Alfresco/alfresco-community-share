@@ -59,7 +59,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
 
     @TestRail(id = "C5569")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void verifySiteDataListsDashletTwooListsCreated()
+    public void verifySiteDataListsDashletTwoListsCreated()
     {
         String userName = "userC5569-" + DataUtil.getUniqueIdentifier();
         String siteName = "C5569" + DataUtil.getUniqueIdentifier();

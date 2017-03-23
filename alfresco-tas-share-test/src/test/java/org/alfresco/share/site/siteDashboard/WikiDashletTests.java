@@ -43,12 +43,6 @@ public class WikiDashletTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass
-    public void tearDown()
-    {
-        cleanupAuthenticatedSession();
-    }
-
     @TestRail(id = "C5428")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void wikiDashletNoWikiPageCreated()

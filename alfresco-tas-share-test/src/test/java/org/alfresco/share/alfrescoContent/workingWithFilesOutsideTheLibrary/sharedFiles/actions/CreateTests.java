@@ -1,18 +1,13 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.po.share.DeleteDialog;
+import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.Notification;
-import org.alfresco.po.share.alfrescoContent.CreateFileFromTemplate;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
-import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
-import org.alfresco.po.share.alfrescoContent.document.UploadContent;
-import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -31,42 +26,35 @@ import static org.testng.Assert.assertTrue;
 
 public class CreateTests extends ContextAwareWebTest
 {
-    @Autowired private SharedFilesPage sharedFilesPage;
-
     @Autowired
-    SiteDashboardPage sitePage;
-
-    @Autowired private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired private CreateContent createContent;
-
-    @Autowired private HeaderMenuBar headerMenuBar;
-    @Autowired private CreateFolderFromTemplate createFolderFromTemplate;
+    private SharedFilesPage sharedFilesPage;
     @Autowired
-    CreateFileFromTemplate createFileFromTemplate;
-    @Autowired private GoogleDocsCommon googleDocs;
-    @Autowired private DeleteDialog deleteDialog;
-    @Autowired private Notification notification;
+    private DocumentDetailsPage documentDetailsPage;
     @Autowired
-    private RepositoryPage repositoryPage;
+    private CreateContent createContent;
     @Autowired
-    private UploadContent uploadContent;
+    private CreateFolderFromTemplate createFolderFromTemplate;
+    @Autowired
+    private GoogleDocsCommon googleDocs;
+    @Autowired
+    private Notification notification;
+
 
     private final String folderTemplateName = "Software Engineering Project";
     private final String fileTemplateName = DataUtil.getUniqueIdentifier() + "fileTemplate.txt";
-    private final String fileTemplatePath = testDataFolder + fileTemplateName;
-    private final String random = DataUtil.getUniqueIdentifier();
-    private final String user2 = "user2-" + random;
+    private final String user = "user" + DataUtil.getUniqueIdentifier();
+    private final String user2 = "user2-" + DataUtil.getUniqueIdentifier();
 
-    private final String title = "googleDoc title";
-    private final String googleDocName = "googleDoc title.docx";
-    private final String googleDocSpreadsheet = "googleDoc title.xlsx";
-    private final String googleDocPresentation = "googleDoc title.pptx";
+    private final String title = "googleDocTitle";
+    private final String googleDocName = "googleDocTitle.docx";
+    private final String googleDocSpreadsheet = "googleDocTitle.xlsx";
+    private final String googleDocPresentation = "googleDocTitle.pptx";
     private final String docContent = "googleDoccontent";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
+        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         userService.create(adminUser, adminPassword, user2, password, user2 + "@tests.com", user2, user2);
     }
 
@@ -76,8 +64,6 @@ public class CreateTests extends ContextAwareWebTest
     {
 
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
         Assert.assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
@@ -107,7 +93,7 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertTrue(createContent.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
-        createContent.sendInputForName("C7929 test name");
+        createContent.sendInputForName("C7929TestName");
         createContent.sendInputForContent("C7929 test content");
         createContent.sendInputForTitle("C7929 test title");
         createContent.sendInputForDescription("C7929 test description");
@@ -122,27 +108,24 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 6: Verify the document's preview");
         Assert.assertEquals(documentDetailsPage.getContentText(), "C7929 test content", "\"C7929 test content \" is not the content displayed in preview");
-        Assert.assertEquals(documentDetailsPage.getFileName(), "C7929 test name", "\"C7929 test name\" is not the file name for the file in preview");
+        Assert.assertEquals(documentDetailsPage.getFileName(), "C7929TestName", "\"C7929TestName\" is not the file name for the file in preview");
 
         LOG.info("Step 7: Login with testUser2 and navigate to Shared Files page.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed("C7929 test name"), String.format("File [%s] is displayed", "C7929 test name"));
+        assertTrue(sharedFilesPage.isContentNameDisplayed("C7929TestName"), String.format("File [%s] is displayed", "C7929TestName"));
 
         cleanupAuthenticatedSession();
-
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/C7929TestName");
     }
 
     @TestRail(id = "C7937")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void sharedFilesCreateHTMLFile()
     {
-
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
         Assert.assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
@@ -163,7 +146,7 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertTrue(createContent.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
-        createContent.sendInputForName("C7937 test name");
+        createContent.sendInputForName("C7937TestName");
         createContent.sendInputForHTMLContent("C7937 test content");
         createContent.sendInputForTitle("C7937 test title");
         createContent.sendInputForDescription("C7937 test description");
@@ -178,17 +161,17 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Mimetype:"), "HTML", "Mimetype property is not HTML");
 
         LOG.info("Step 6: Verify the document's preview");
-        Assert.assertEquals(documentDetailsPage.getFileName(), "C7937 test name", "\"C7937 test name\" is not the file name for the file in preview");
+        Assert.assertEquals(documentDetailsPage.getFileName(), "C7937TestName", "\"C7937TestName\" is not the file name for the file in preview");
 
         LOG.info("Step 7: Login with testUser2 and navigate to Shared Files page.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed("C7937 test name"), String.format("File [%s] is displayed", "C7937 test name"));
+        assertTrue(sharedFilesPage.isContentNameDisplayed("C7937TestName"), String.format("File [%s] is displayed", "C7937TestName"));
 
         cleanupAuthenticatedSession();
-
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/C7937TestName");
     }
 
     @TestRail(id = "C7938")
@@ -197,8 +180,6 @@ public class CreateTests extends ContextAwareWebTest
     {
 
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
         Assert.assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
@@ -219,7 +200,7 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertTrue(createContent.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
-        createContent.sendInputForName("C7938 test name");
+        createContent.sendInputForName("C7938TestName");
         createContent.sendInputForContent("C7938 test content");
         createContent.sendInputForTitle("C7938 test title");
         createContent.sendInputForDescription("C7938 test description");
@@ -235,26 +216,24 @@ public class CreateTests extends ContextAwareWebTest
         LOG.info("Step 6: Verify the document's preview");
         Assert.assertEquals(documentDetailsPage.getContentText().trim(), "C7938 test content",
                 "\"C7938 test content \" is not the content displayed in preview");
-        Assert.assertEquals(documentDetailsPage.getFileName(), "C7938 test name", "\"C7938 test name\" is not the file name for the file in preview");
+        Assert.assertEquals(documentDetailsPage.getFileName(), "C7938TestName", "\"C7938TestName\" is not the file name for the file in preview");
 
         LOG.info("Step 7: Login with testUser2 and navigate to Shared Files page.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed("C7938 test name"), String.format("File [%s] is displayed", "C7938 test name"));
+        assertTrue(sharedFilesPage.isContentNameDisplayed("C7938TestName"), String.format("File [%s] is displayed", "C7938TestName"));
 
         cleanupAuthenticatedSession();
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/C7938TestName");
     }
 
     @TestRail(id = "C7931")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void sharedFilesCreateFolderFromTemplate()
     {
-
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
         Assert.assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
@@ -269,21 +248,22 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
         LOG.info("STEP 3: Insert data into input fields and save.");
-        createFolderFromTemplate.fillInDetails("Test Folder C7931", "Test Title C7931", "Test Description C7931");
+        createFolderFromTemplate.fillInDetails("TestFolderC7931", "Test Title C7931", "Test Description C7931");
         createFolderFromTemplate.clickSaveButton();
-        assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", "Test Folder C7931"));
+        assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", "TestFolderC7931"));
         notification.waitUntilNotificationDisappears();
-        Assert.assertTrue(sharedFilesPage.getFoldersList().contains("Test Folder C7931"), "Subfolder not found");
-        Assert.assertTrue(sharedFilesPage.getExplorerPanelDocuments().contains("Test Folder C7931"), "Subfolder not found in Documents explorer panel");
+        Assert.assertTrue(sharedFilesPage.isContentNameDisplayed("TestFolderC7931"), "Subfolder not found");
+        Assert.assertTrue(sharedFilesPage.getExplorerPanelDocuments().contains("TestFolderC7931"), "Subfolder not found in Documents explorer panel");
 
         LOG.info("Step 4: Login with testUser2 and navigate to Shared Files page.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed("Test Folder C7931"), String.format("File [%s] is displayed", "Test Folder C7931"));
+        assertTrue(sharedFilesPage.isContentNameDisplayed("TestFolderC7931"), String.format("File [%s] is displayed", "TestFolderC7931"));
 
         cleanupAuthenticatedSession();
+        contentService.deleteTreeByPath(adminUser, adminPassword, "Shared/TestFolderC7931");
     }
 
     @TestRail(id = "C7932")
@@ -291,14 +271,7 @@ public class CreateTests extends ContextAwareWebTest
     public void sharedFilesCreateDocumentFromTemplate()
     {
         LOG.info("Precondition: Login as admin user and create a file template.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
-        setupAuthenticatedSession(adminUser, adminPassword);
-        repositoryPage.navigate();
-        repositoryPage.clickFolderFromExplorerPanel("Data Dictionary");
-        repositoryPage.clickOnFolderName("Node Templates");
-        uploadContent.uploadContent(fileTemplatePath);
-        cleanupAuthenticatedSession();
+        contentService.createDocumentInRepository(adminUser, adminPassword, "Data Dictionary/Node Templates", CMISUtil.DocumentType.TEXT_PLAIN, fileTemplateName, "some content");
 
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
@@ -313,6 +286,7 @@ public class CreateTests extends ContextAwareWebTest
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
         createContent.clickOnTemplate(fileTemplateName, sharedFilesPage);
         Assert.assertEquals(notification.getDisplayedNotification(), String.format("Created content based on template '%s'", fileTemplateName), "Notification message appears");
+        notification.waitUntilNotificationDisappears();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(fileTemplateName), String.format("Content: %s is not displayed.", fileTemplateName));
 
         LOG.info("Step 3: Login with testUser2 and navigate to Shared Files page.");
@@ -323,6 +297,7 @@ public class CreateTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(fileTemplateName), String.format("File [%s] is displayed", fileTemplateName));
 
         cleanupAuthenticatedSession();
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + fileTemplateName);
     }
 
     @TestRail(id = "C7934")
@@ -330,8 +305,6 @@ public class CreateTests extends ContextAwareWebTest
     public void sharedFilesCreateGoogleDocsDocument() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
         googleDocs.loginToGoogleDocs();
         getBrowser().waitInSeconds(3);
@@ -368,6 +341,7 @@ public class CreateTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocName), String.format("File [%s] is displayed", googleDocName));
 
         cleanupAuthenticatedSession();
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + googleDocName);
     }
 
     @TestRail(id = "C7935")
@@ -375,8 +349,6 @@ public class CreateTests extends ContextAwareWebTest
     public void sharedFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
         googleDocs.loginToGoogleDocs();
         getBrowser().waitInSeconds(3);
@@ -413,6 +385,7 @@ public class CreateTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocSpreadsheet), String.format("File [%s] is displayed", googleDocSpreadsheet));
 
         cleanupAuthenticatedSession();
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + googleDocSpreadsheet);
     }
 
     @TestRail(id = "C7936")
@@ -420,8 +393,6 @@ public class CreateTests extends ContextAwareWebTest
     public void sharedFilesCreateGoogleDocsPresentation() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         setupAuthenticatedSession(user, password);
         googleDocs.loginToGoogleDocs();
         getBrowser().waitInSeconds(3);
@@ -458,20 +429,6 @@ public class CreateTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocPresentation), String.format("File [%s] is displayed", googleDocPresentation));
 
         cleanupAuthenticatedSession();
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + googleDocPresentation);
     }
-
-    @AfterClass
-    public void cleanUp()
-    {
-        setupAuthenticatedSession(adminUser, adminPassword);
-
-        LOG.info("Delete All from 'Shared Files'");
-        sharedFilesPage.navigate();
-        headerMenuBar.clickSelectMenu();
-        headerMenuBar.clickSelectOption(language.translate("documentLibrary.breadcrumb.select.all"));
-        headerMenuBar.clickSelectedItemsMenu();
-        headerMenuBar.clickSelectedItemsOption(language.translate("documentLibrary.breadcrumb.selectedItems.delete"));
-        deleteDialog.clickDelete();
-    }
-
 }
