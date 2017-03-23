@@ -621,18 +621,23 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public boolean isRenameIconDisplayed(String content)
     {
-        int counter=0;
+        int counter = 0;
+        int nrOfTimes = 0;
         while(counter<5)
         {
             mouseOverContentItem(content);
+            while (!browser.isElementDisplayed(renameIcon) && nrOfTimes < 5)
+            {
+            	nrOfTimes++ ;
+            }
             if (browser.isElementDisplayed(renameIcon))
             {
-                return true;
+            	return true;
             }
             refresh();
-             counter++;
+            counter++;
         }
-        return false;
+        return browser.isElementDisplayed(renameIcon);
     }
 
     /**
