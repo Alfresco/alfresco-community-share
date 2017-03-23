@@ -152,6 +152,10 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     @FindBy(css = ".filename span[class='insitu-edit']")
     private WebElement renameIcon;
+    
+    @RenderWebElement
+   	@FindAll(@FindBy(css = "[class*='data'] tr img"))
+   	private WebElement fileImage;
 
     private WebElement selectViewInOptions(String viewName)
     {
@@ -300,6 +304,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public WebElement selectDocumentLibraryItemRow(String documentItem)
     {
+    	browser.waitInSeconds(2);
         browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 6);
         List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
         LOG.info("Number of DocumentLibraryItemsList: "+ itemsList.size());

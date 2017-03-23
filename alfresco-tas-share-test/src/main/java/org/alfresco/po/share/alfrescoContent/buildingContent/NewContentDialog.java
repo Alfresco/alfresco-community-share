@@ -75,6 +75,7 @@ public class NewContentDialog extends ShareDialog
     public void clickSaveButton()
     {
         saveButton.click();
+        browser.waitInSeconds(3);
     }
 
     public void clickCancelButton()
@@ -84,6 +85,7 @@ public class NewContentDialog extends ShareDialog
 
     public void fillInNameField(String name)
     {
+    	renderedPage();
         nameField.clear();
         nameField.sendKeys(name);
     }
