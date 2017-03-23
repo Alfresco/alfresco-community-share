@@ -35,7 +35,6 @@ public class CreateNewItemPopUp extends ShareDialog
     @FindBy(css = "button[id$='submit-button']")
     protected WebElement saveButton;
 
-    @RenderWebElement
     @FindBy(css = "button[id$='cancel-button']")
     protected WebElement cancelButton;
 

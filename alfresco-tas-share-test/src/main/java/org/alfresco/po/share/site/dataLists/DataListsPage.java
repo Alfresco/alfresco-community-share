@@ -23,6 +23,9 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     @Autowired 
     DeleteListPopUp deleteListPopUp;
 
+    @Autowired
+    EditItemPopUp editItemPopUp;
+
     @RenderWebElement
     @FindBy(css = "div.datalists div.filter")
     protected WebElement dataListsSection;
@@ -48,9 +51,8 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     
     @FindBy(css = ".datalists ul")
     protected WebElement listWithCreatedLists;
-       
-    @FindBy(css = "table a[title='Edit']")
-    protected WebElement editListItemButton;
+
+    protected By editListItemButton = By.cssSelector(".yui-dt-col-actions .onActionEdit>a");
 
     @FindBy(css = "td[headers*='actions']")
     protected WebElement listItemActionsField;
@@ -222,10 +224,11 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return browser.isElementDisplayed(listWithCreatedLists);
     }
     
-    public void clickEditButtonForListItem()
+    public EditItemPopUp clickEditButtonForListItem()
     {
     	browser.mouseOver(listItemActionsField);    	
-        editListItemButton.click();
+        browser.waitUntilElementVisible(editListItemButton).click();
+        return (EditItemPopUp) editItemPopUp.renderedPage();
     }
 
     public void clickNewItemButton()

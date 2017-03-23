@@ -39,11 +39,10 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
     EditItemPopUp editItemPopUp;
 
     private List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
-    String random = DataUtil.getUniqueIdentifier();
-    String userName = "User-" + random;
-    String userAssignee = "userAssignee-" + random;
-    String siteName = "SiteName-" + random;
-    String listName = "Advanced task item name" + random;
+    String userName = "User-" + DataUtil.getUniqueIdentifier();
+    String userAssignee = "UserA-" + DataUtil.getUniqueIdentifier();
+    String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
+    String listName = "Advanced task item name" + DataUtil.getUniqueIdentifier();
     String itemTitle = "Advanced task item title";
     String itemDescription = "Advanced task item description";
     String itemComment = "Advanced task item comment";
