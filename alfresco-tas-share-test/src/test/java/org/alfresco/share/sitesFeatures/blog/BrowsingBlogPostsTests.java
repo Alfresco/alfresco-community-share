@@ -6,6 +6,7 @@ import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -134,6 +135,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser1Draft), "Draft blog post of User 1 is displayed");
     }
 
+    @Bug(id="TBD")
     @TestRail(id = "C6008")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPostsByTags()
