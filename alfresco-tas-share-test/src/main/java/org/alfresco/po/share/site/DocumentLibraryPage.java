@@ -1,5 +1,6 @@
 package org.alfresco.po.share.site;
 
+import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.UploadFileDialog;
@@ -90,8 +91,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     @FindBy(css = "button[id*='folderUp']")
     private WebElement folderUpButton;
 
-    @FindBy(css = "input[id*='form-field']")
-    private WebElement contentNameInputField;
+    private By contentNameInputField = By.cssSelector("input[id*='form-field']");
 
     @FindBy(css = ".insitu-edit a")
     private List<WebElement> buttonsFromRenameContent;
@@ -663,8 +663,9 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public void typeContentName(String newContentName)
     {
-        contentNameInputField.clear();
-        contentNameInputField.sendKeys(newContentName);
+        WebElement contentNameInput = browser.waitUntilElementVisible(contentNameInputField);
+        contentNameInput.clear();
+        contentNameInput.sendKeys(newContentName);
         browser.waitInSeconds(1);
     }
 
@@ -687,16 +688,12 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      * @param expectedButtons list of expected to be displayed buttons from renaming content by icon
      * @return displayed buttons
      */
-    public String verifyButtonsFromRenameContent(ArrayList<String> expectedButtons)
+    public boolean verifyButtonsFromRenameContent(String... expectedButtons)
     {
-        if (buttonsFromRenameContent.size() == expectedButtons.size())
-            for (int i = 0; i < buttonsFromRenameContent.size(); i++)
-            {
-                String buttonName = buttonsFromRenameContent.get(i).getText();
-                if (!buttonName.equals(expectedButtons.get(i)))
-                    return expectedButtons.get(i) + " button isn't displayed.";
-            }
-        return expectedButtons.toString();
+        List<String> buttonNames = new ArrayList<>();
+        for(WebElement buttonFromRenameContent: buttonsFromRenameContent)
+            buttonNames.add(buttonFromRenameContent.getText());
+        return DataUtil.areListsEquals(buttonNames, expectedButtons);
     }
 
     /**

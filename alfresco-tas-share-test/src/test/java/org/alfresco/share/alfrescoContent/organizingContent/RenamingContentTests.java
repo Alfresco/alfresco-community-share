@@ -11,12 +11,7 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
@@ -57,8 +52,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         LOG.info("STEP2: Click on \"Rename\" icon");
         documentLibraryPage.clickRenameIcon();
         assertTrue(documentLibraryPage.isContentNameInputField(), "File name is text input field.");
-        ArrayList<String> expectedButtons = new ArrayList<>(Arrays.asList("Save", "Cancel"));
-        assertEquals(documentLibraryPage.verifyButtonsFromRenameContent(expectedButtons), expectedButtons.toString(), "Rename content buttons");
+        assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 
         LOG.info("STEP3: Fill in input field with a new name and click \"Save\" button");
         documentLibraryPage.typeContentName(newFileName);
@@ -89,8 +83,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         LOG.info("STEP2: Click on \"Rename\" icon");
         documentLibraryPage.clickRenameIcon();
         assertTrue(documentLibraryPage.isContentNameInputField(), "Folder name is text input field.");
-        ArrayList<String> expectedButtons = new ArrayList<>(Arrays.asList("Save", "Cancel"));
-        assertEquals(documentLibraryPage.verifyButtonsFromRenameContent(expectedButtons), expectedButtons.toString(), "Rename content buttons");
+        assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 
         LOG.info("STEP3: Fill in input field with a new name and click \"Save\" button");
         documentLibraryPage.typeContentName(newFolderName);
@@ -121,8 +114,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         LOG.info("STEP2: Click on \"Rename\" icon");
         documentLibraryPage.clickRenameIcon();
         assertTrue(documentLibraryPage.isContentNameInputField(), "File name is text input field.");
-        ArrayList<String> expectedButtons = new ArrayList<>(Arrays.asList("Save", "Cancel"));
-        assertEquals(documentLibraryPage.verifyButtonsFromRenameContent(expectedButtons), expectedButtons.toString(), "Rename content buttons");
+        assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 
         LOG.info("STEP3: Fill in input field with a new name and click \"Cancel\" button");
         documentLibraryPage.typeContentName(newFileName);

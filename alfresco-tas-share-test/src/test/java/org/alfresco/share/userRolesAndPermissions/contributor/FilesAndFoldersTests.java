@@ -28,6 +28,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.testng.Assert.*;
@@ -158,7 +159,6 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @TestRail(id = "C8789")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void renameItemAddedBySelf()
-
     {
         String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
@@ -170,7 +170,6 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.renderedPage();
 
         logger.info("Step1: Hover over the test file");
         assertTrue(documentLibraryPage.isRenameIconDisplayed(fileName), "'Rename' icon displayed.");
@@ -178,8 +177,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         logger.info("Step2: Click on 'Rename' icon");
         documentLibraryPage.clickRenameIcon();
         assertTrue(documentLibraryPage.isContentNameInputField(), "File name is text input field.");
-        ArrayList<String> expectedButtons = new ArrayList<>(Arrays.asList("Save", "Cancel"));
-        assertEquals(documentLibraryPage.verifyButtonsFromRenameContent(expectedButtons), expectedButtons.toString(), "Rename content buttons");
+        assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 
         logger.info("Step3: Fill in the input field with a new name and click 'Save' button");
         documentLibraryPage.typeContentName("newFileName");

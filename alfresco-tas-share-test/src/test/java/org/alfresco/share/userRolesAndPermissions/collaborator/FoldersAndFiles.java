@@ -4,26 +4,19 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.po.share.DeleteDialog;
-import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
-import org.alfresco.po.share.alfrescoContent.document.*;
+import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
-import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
-import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage.DocumentsFilters;
-import org.alfresco.po.share.site.SelectPopUpPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.tasksAndWorkflows.*;
 import org.alfresco.po.share.toolbar.Toolbar;
-import org.alfresco.po.share.toolbar.ToolbarTasksMenu;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -34,7 +27,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static java.util.Arrays.asList;
 import static org.testng.Assert.*;
@@ -47,15 +39,6 @@ public class FoldersAndFiles extends ContextAwareWebTest {
 
   @Autowired
   DocumentCommon documentCommon;
-  
-  @Autowired
-  SiteDashboardPage siteDashboardPage;
-
-  @Autowired
-  UserDashboardPage userDashboardPage;
-
-  @Autowired
-  MyDocumentsDashlet myDocumentsDashlet;
 
   @Autowired
   DocumentLibraryPage documentLibraryPage;
@@ -67,49 +50,16 @@ public class FoldersAndFiles extends ContextAwareWebTest {
   CreateContent create;
 
   @Autowired
-  UploadContent uploadContent;
-
-  @Autowired
-  HeaderMenuBar headerMenuBar;
-
-  @Autowired
   DeleteDialog deleteDialog;
 
   @Autowired
-  EditInAlfrescoPage editInAlfrescoPage;
-
-  @Autowired
-  GoogleDocsCommon googleDocsCommon;
-
-  @Autowired
-  StartWorkflowPage startWorkflowPage;
-
-  @Autowired
-  SelectPopUpPage selectPopUpPage;
-
-  @Autowired
-  SelectAssigneeToWorkflowPopUp selectAssigneeToWorkflowPopUp;
-
-  @Autowired
   AspectsForm aspectsForm;
-
-  @Autowired
-  ToolbarTasksMenu toolbarTasksMenu;
 
   @Autowired
   Toolbar toolbar;
 
   @Autowired
   WorkflowService workflow;
-
-  @Autowired
-  WorkflowDetailsPage workflowDetailsPage;
-
-  @Autowired
-  MyTasksPage myTasksPage;
-
-  @Autowired
-  EditTaskPage editTaskPage;
 
   @Autowired
   SocialFeatures social;
@@ -131,9 +81,6 @@ public class FoldersAndFiles extends ContextAwareWebTest {
 
   @Autowired
   DocumentDetailsPage documentPreviewPage;
-  
-  @Autowired
-  SelectDestinationDialog selectDestinationDialog;
 
   // setupTest
   private String user = "UserC" + DataUtil.getUniqueIdentifier();
@@ -370,9 +317,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     LOG.info("Step 2: Click on 'Rename' icon.");
     documentLibraryPage.clickRenameIcon();
     assertTrue(documentLibraryPage.isContentNameInputField(), "Folder name is text input field.");
-    ArrayList<String> expectedButtons = new ArrayList<>(Arrays.asList("Save", "Cancel"));
-    assertEquals(documentLibraryPage.verifyButtonsFromRenameContent(expectedButtons),
-        expectedButtons.toString(), "Rename content buttons");
+    assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 
     LOG.info(
         "Step 3: Fill in the input field with a new name (e.g. newContentName) and click 'Save' button");
@@ -403,9 +348,7 @@ public class FoldersAndFiles extends ContextAwareWebTest {
     LOG.info("Step 2: Click on 'Rename' icon.");
     documentLibraryPage.clickRenameIcon();
     assertTrue(documentLibraryPage.isContentNameInputField(), "Folder name is text input field.");
-    ArrayList<String> expectedButtons = new ArrayList<>(Arrays.asList("Save", "Cancel"));
-    assertEquals(documentLibraryPage.verifyButtonsFromRenameContent(expectedButtons),
-        expectedButtons.toString(), "Rename content buttons");
+    assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 
     LOG.info(
         "Step 3: Fill in the input field with a new name (e.g. newContentName) and click 'Save' button");

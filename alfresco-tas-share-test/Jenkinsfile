@@ -16,6 +16,10 @@ node('tas-node-win') {
     		])
     ])
 
+	stage('RunCleanupDB') {
+		build job: 'TSE/AlfrescoDatabaseCleanup', parameters: [string(name: 'alfresco_path', value: '/opt/alfresco-one-5.1.3')]
+	}
+
 	stage('Checkout') {
 		checkout scm
 	}
