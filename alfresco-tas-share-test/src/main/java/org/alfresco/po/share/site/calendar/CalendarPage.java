@@ -142,6 +142,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     {
         selectTag(tagName).click();
         browser.waitInSeconds(2);
+        this.renderedPage();
     }
 
     private WebElement selectEvent(String event)
@@ -526,9 +527,10 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         return today.getAttribute("class").contains("fc-state-highlight");
     }
 
-    public void clickShowAllItems()
+    public CalendarPage clickShowAllItems()
     {
         browser.findElement(By.cssSelector("a[rel='-all-']")).click();
+        return (CalendarPage) this.renderedPage();
     }
 
     public CalendarPage clickTodayButton()

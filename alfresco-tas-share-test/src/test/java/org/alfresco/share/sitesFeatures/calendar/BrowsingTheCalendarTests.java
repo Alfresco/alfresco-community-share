@@ -320,7 +320,6 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         String eventTitle1 = "testEvent1";
         String eventTitle2 = "testEvent2";
         String eventTitle3 = "testEvent3";
-        WebDriverWait wait = new WebDriverWait(getBrowser(), 1);
 
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, calendarUtility.tomorrow(),
                 calendarUtility.tomorrow(), "", "", false, "tag1");
@@ -357,8 +356,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         Assert.assertTrue(calendarPage.isShowAllItemsLinkDisplayed());
         calendarPage.clickShowAllItems();
         getBrowser().waitInSeconds(2);
-        wait.until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']")));
+
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle2));
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle3));

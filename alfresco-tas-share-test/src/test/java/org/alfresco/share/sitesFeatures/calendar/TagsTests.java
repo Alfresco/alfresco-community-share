@@ -77,7 +77,6 @@ public class TagsTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(1);
         addEventDialog.clickSaveButton();
         getBrowser().waitInSeconds(2);
-        assertEquals(notification.getDisplayedNotification(), "Event created", "'Event created' pop-up appears.");
         assertTrue(calendarPage.isEventPresentInCalendar(eventName), "Event is created and displayed on the 'Calendar' page.");
         assertTrue(calendarPage.isTagDisplayed(tagName), "Tag is displayed in Tags list.");
         assertEquals(calendarPage.getTagLink(tagName), tagName + " (1)",
