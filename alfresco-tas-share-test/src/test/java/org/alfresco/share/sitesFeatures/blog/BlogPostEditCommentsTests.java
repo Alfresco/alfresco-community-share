@@ -62,7 +62,6 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
 
         blogPage.navigate(siteName);
         blogPage.clickReadBlogPost(blogPostTitleC6061);
-        blogPostView.renderedPage();
 
         LOG.info("Step 1: Click Edit to the right of the comment.");
         blogPostView.clickEditComment(commentUser);

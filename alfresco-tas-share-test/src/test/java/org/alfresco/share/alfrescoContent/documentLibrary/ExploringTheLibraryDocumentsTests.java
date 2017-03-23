@@ -47,7 +47,6 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Go To Documents section and click All Documents link");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.renderedPage();
         filters.clickAllDocumentsFilter();
         getBrowser().waitInSeconds(1);
         assertEquals(filters.getNoContentText(), "No content items");
@@ -57,14 +56,12 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName1 + ".docx");
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName2 + ".docx");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.renderedPage();
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "File-6320-0 is not displayed");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName1), "File-6320-1 is not displayed");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName2), "File-6320-2 is not displayed");
 
         LOG.info("Step 3: Open again document libarary and click All Documents");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.renderedPage();
         filters.clickAllDocumentsFilter();
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "File-6320-0 is not displayed");
@@ -138,7 +135,6 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         userService.logout();
         setupAuthenticatedSession(user1, password);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.renderedPage();
         filters.clickOthersAreEditing();
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName), 6);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "testFile1 is not displayed in the list of files beeing edited by other users");

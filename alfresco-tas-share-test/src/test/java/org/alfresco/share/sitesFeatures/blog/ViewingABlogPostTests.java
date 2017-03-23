@@ -3,7 +3,7 @@ package org.alfresco.share.sitesFeatures.blog;
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
-import org.alfresco.po.share.site.blog.BlogPostPage;
+import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.EditBlogPostPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -16,7 +16,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,10 +25,10 @@ import static org.testng.Assert.assertFalse;
 public class ViewingABlogPostTests extends ContextAwareWebTest
 {
     @Autowired
-    BlogPostListPage blogPage;
+    BlogPostListPage blogPostListPage;
 
     @Autowired
-    BlogPostPage blogPostPage;
+    BlogPostViewPage blogPostViewPage;
 
     @Autowired
     EditBlogPostPage editBlogPost;
@@ -65,30 +64,30 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
     public void viewingABlogPostSmallAmountOfContent()
     {
         sitePagesService.createBlogPost(user1, password, siteName, blogTitleUser1Published, blogContent, false, tags);
-        blogPage.navigate(siteName);
+        blogPostListPage.navigate(siteName);
 
         LOG.info("Step 1: Click 'Read' beneath the Post1.");
-        blogPage.clickReadBlogPost(blogTitleUser1Published);
-        assertEquals(blogPostPage.getBlogPostTitle(), blogTitleUser1Published);
-        assertEquals(blogPostPage.getBlogPostContent(), blogContent, "The post view displays the selected blog post entirely.");
+        blogPostListPage.clickReadBlogPost(blogTitleUser1Published);
+        assertEquals(blogPostViewPage.getBlogPostTitle(), blogTitleUser1Published);
+        assertEquals(blogPostViewPage.getBlogPostContent(), blogContent, "The post view displays the selected blog post entirely.");
 
         LOG.info("Step 2: Click 'Blog Post List'.");
-        blogPostPage.clickBlogPostListButton();
+        blogPostViewPage.clickBlogPostListButton();
         String expectedRelativePath = "share/page/site/" + siteName + "/blog-postlist";
-        assertEquals(blogPage.getRelativePath(), expectedRelativePath);
+        assertEquals(blogPostListPage.getRelativePath(), expectedRelativePath);
 
         LOG.info("Step 3: Set view toggle button to 'Simple View'.");
-        blogPage.clickSimpleViewButton();
-        assertFalse(blogPage.isBlogPostContentDisplayed(blogTitleUser1Published), "Blog content is displayed while in Simple view mode");
+        blogPostListPage.clickSimpleViewButton();
+        assertFalse(blogPostListPage.isBlogPostContentDisplayed(blogTitleUser1Published), "Blog content is displayed while in Simple view mode");
 
         LOG.info("Step 4: Click the title of the post.");
-        blogPage.clickOnThePostTitle(blogTitleUser1Published);
-        assertEquals(blogPostPage.getBlogPostContent(), blogContent, "The post view displays the selected blog post in its entirety.");
+        blogPostListPage.clickOnThePostTitle(blogTitleUser1Published);
+        assertEquals(blogPostViewPage.getBlogPostContent(), blogContent, "The post view displays the selected blog post in its entirety.");
 
         LOG.info("Step 5: Go back on Blog page and set view toggle button on 'Detailed View'.");
 
-        blogPostPage.clickBlogPostListButton();
-        assertEquals(blogPage.getBlogPostContent(blogTitleUser1Published), sampleBlogContentDetailedView,
+        blogPostViewPage.clickBlogPostListButton();
+        assertEquals(blogPostListPage.getBlogPostContent(blogTitleUser1Published), sampleBlogContentDetailedView,
                 "A sample of the content is showing in the blog list.");
 
         cleanupAuthenticatedSession();
@@ -100,25 +99,23 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
     public void visibilityOfPublishedDraft()
     {
         setupAuthenticatedSession(user1, password);
-        blogPage.navigate(siteName);
-        blogPage.renderedPage();
+        blogPostListPage.navigate(siteName);
 
         LOG.info("Step 1: Click 'All' view.");
-        blogPage.clickAllFilter();
-        assertEquals(blogPage.getBlogContentText(), "No blog posts found");
-        assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser2Draft), "Blog post draft of user 2 is visible for user one before it was published");
+        blogPostListPage.clickAllFilter();
+        assertEquals(blogPostListPage.getBlogContentText(), "No blog posts found");
+        assertFalse(blogPostListPage.isBlogPostDisplayed(blogTitleUser2Draft), "Blog post draft of user 2 is visible for user one before it was published");
 
         LOG.info("Step 2: Logout and login as User2. Navigate to Blog post view for Post1. Click My Drafts view.");
         userService.logout();
         setupAuthenticatedSession(user2, password);
-        blogPage.navigate(siteName);
-        blogPage.renderedPage();
-        blogPage.clickMyDraftsFilter();
+        blogPostListPage.navigate(siteName);
+        blogPostListPage.clickMyDraftsFilter();
 
-        Assert.assertTrue(blogPage.isBlogPostDisplayed(blogTitleUser2Draft), "Draft blog post of user 2 is not displayed");
+        Assert.assertTrue(blogPostListPage.isBlogPostDisplayed(blogTitleUser2Draft), "Draft blog post of user 2 is not displayed");
 
         LOG.info("Step 3: Click Edit button");
-        blogPage.clickEditButton(blogTitleUser2Draft);
+        blogPostListPage.clickEditButton(blogTitleUser2Draft);
         getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.xpath("//div[@class = 'page-form-header']//h1[text() = 'Edit Blog Post']")),
                 "Edit Blog Post");
         assertEquals(editBlogPost.getEditBlogPostPageTitle(), "Edit Blog Post");
@@ -130,8 +127,8 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 5: Logout and login as User1. Navigate to Blog post view for Post1.");
         userService.logout();
         setupAuthenticatedSession(user1, password);
-        blogPage.navigate(siteName);
-        blogPage.clickAllFilter();
-        assertEquals(blogPage.getBlogPostTitle(blogPage.getBlogPostTitle(blogTitleUser2Draft)), blogTitleUser2Draft);
+        blogPostListPage.navigate(siteName);
+        blogPostListPage.clickAllFilter();
+        assertEquals(blogPostListPage.getBlogPostTitle(blogPostListPage.getBlogPostTitle(blogTitleUser2Draft)), blogTitleUser2Draft);
     }
 }

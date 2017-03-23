@@ -6,15 +6,21 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 
+@Primary
 @PageObject
 public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
 {
+    @Autowired
+    BlogPostViewPage blogPostViewPage;
+
     private By pageTitle = By.xpath("//div[@id ='bd']//div[@class = 'page-form-header']//h1");
 
     @RenderWebElement
     @FindBy(css = "input[id*='_default-title']")
-    private WebElement titleField;
+    protected WebElement titleField;
 
     @RenderWebElement
     @FindBy(xpath = "//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']")
@@ -28,16 +34,19 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
 
     private By deleteTagButton = By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']//span[@class = 'remove']");
 
-    private By publishInternallyButton = By.cssSelector("button[id$='_default-publish-button-button']");
+    @FindBy(css = "button[id$='_default-publish-button-button']")
+    protected WebElement publishInternallyButton;
+
+    @FindBy(css = "button[id$='_default-save-button-button']")
+    protected WebElement saveAsDraftButton;
+
+    @FindBy(css = "button[id$='_default-cancel-button-button']")
+    protected WebElement cancelButton;
 
     public WebElement findTag(String Tag)
     {
         return browser.findElement(By.xpath("//div[@class = 'taglibrary']//span[text() = '" + Tag + "']"));
     }
-
-    private By cancelButton = By.cssSelector("button[id$='_default-cancel-button-button']");
-
-    private By saveAsDraftButton = By.cssSelector("button[id$='_default-save-button-button']");
 
     @Override
     public String getRelativePath()
@@ -128,17 +137,6 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
     }
 
     /**
-     * Method to check if the blog post content is displayed
-     * 
-     * @param title
-     * @return
-     */
-    public boolean isBlogPostContentDisplayed(String title)
-    {
-        return browser.isElementDisplayed(By.xpath(".//div[@class = 'content yuieditor']"));
-    }
-
-    /**
      * Method to check if the Delete button is available for the selected tag
      * 
      * @param Tag
@@ -153,24 +151,24 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
     /**
      * Method to click Publish Internally button
      */
-    public void clickPublishInternally()
+    public BlogPostViewPage clickPublishInternally()
     {
-        browser.findElement(publishInternallyButton).click();
+        publishInternallyButton.click();
+        return (BlogPostViewPage) blogPostViewPage.renderedPage();
     }
 
     /**
      * Method to click the Cancel button
      */
-    public void clickCancelButton()
-    {
-        browser.findElement(cancelButton).click();
+    public void clickCancelButton(){cancelButton.click();
     }
 
     /**
      * Method to click Save As Draft button
      */
-    public void clickSaveAsDraftButton()
+    public BlogPostViewPage clickSaveAsDraftButton()
     {
-        browser.findElement(saveAsDraftButton).click();
+        saveAsDraftButton.click();
+        return (BlogPostViewPage) blogPostViewPage.renderedPage();
     }
 }

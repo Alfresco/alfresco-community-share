@@ -21,10 +21,10 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     CreateBlogPostPage createBlogPostPage;
 
     @Autowired
-    BlogPostPage blogPostPage;
+    BlogPostViewPage blogPostViewPage;
 
     @Autowired
-    BlogPostViewPage blogPostViewPage;
+    EditBlogPostPage editBlogPostPage;
 
     @RenderWebElement
     @FindBy(css = "div.new-blog span[id*='_default-create-button']")
@@ -390,11 +390,11 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     /**
      * Method to click on the Read button for the selected blog post
      */
-    public BlogPostPage clickReadBlogPost(String title)
+    public BlogPostViewPage clickReadBlogPost(String title)
     {
         browser.waitUntilWebElementIsDisplayedWithRetry( selectBlogPostFooter(title));
         selectBlogPostFooter(title).findElement(By.xpath(".//div[@class = 'nodeFooter']//span[@class = 'nodeAttrValue']//a[text() ='Read']")).click();
-        return (BlogPostPage) blogPostPage.renderedPage();
+        return (BlogPostViewPage) blogPostViewPage.renderedPage();
     }
 
     /**
@@ -423,10 +423,10 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      * 
      * @param title
      */
-    public BlogPostPage clickOnThePostTitle(String title)
+    public BlogPostViewPage clickOnThePostTitle(String title)
     {
         browser.findElement(By.xpath("//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '" + title + "']")).click();
-        return (BlogPostPage) blogPostPage.renderedPage();
+        return (BlogPostViewPage) blogPostViewPage.renderedPage();
     }
 
     /**
@@ -434,10 +434,10 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      * 
      * @param title
      */
-    public void clickEditButton(String title)
+    public EditBlogPostPage clickEditButton(String title)
     {
-        browser.waitUntilElementClickable(editButton, 6L);
         selectBlogPostWithtitle(title).findElement(editButton).click();
+        return (EditBlogPostPage) editBlogPostPage.renderedPage();
     }
 
     /**

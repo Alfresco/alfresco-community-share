@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CreatingABlogPostTests extends ContextAwareWebTest
@@ -90,7 +91,6 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         createBlogPost.clickPublishInternally();
 
         LOG.info("Step 7: Navigate to 'Blog Post List'.");
-
         blogPostList.navigate(siteName);
         Assert.assertEquals(blogPostList.getBlogPostTitle(blogPostTitle), blogPostTitle);
     }
@@ -143,13 +143,12 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click 'Save as draft' button");
         createBlogPost.clickSaveAsDraftButton();
-        getBrowser().waitUntilElementVisible(blogPostView.blogPostTitle(blogPostTitleC5541));
-        String blogPostViewTitle = blogPostView.getBlogPostTitle(blogPostTitleC5541) + " " + blogPostView.getBlogPostNote(blogPostTitleC5541);
+        String blogPostViewTitle = blogPostView.getBlogPostTitle() + " " + blogPostView.getBlogPostNote();
         Assert.assertEquals(blogPostViewTitle, "C5541 blog post title (Draft)");
         String expectedAuthorName = user + " " + user;
-        Assert.assertEquals(blogPostView.getBlogPostAuthor(blogPostTitleC5541), expectedAuthorName);
-        Assert.assertEquals(blogPostView.getBlogPostTags(blogPostTitleC5541, tagC5541), tagC5541);
-        Assert.assertEquals(blogPostView.getBlogPostContent(blogPostTitleC5541), blogPostContentC5541);
+        Assert.assertEquals(blogPostView.getBlogPostAuthor(), expectedAuthorName);
+        Assert.assertEquals(blogPostView.getBlogPostTags(), Arrays.asList(tagC5541));
+        Assert.assertEquals(blogPostView.getBlogPostContent(), blogPostContentC5541);
 
         LOG.info("Step 5: Navigate to 'Blog Post List'");
         blogPostList.navigate(siteName);
@@ -185,12 +184,10 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 3: Click Publish Internally button");
 
         createBlogPost.clickPublishInternally();
-        getBrowser().waitInSeconds(2);
-        Assert.assertEquals(blogPostView.getBlogPostTitle(blogPostTitleC6119), blogPostTitleC6119);
+        Assert.assertEquals(blogPostView.getBlogPostTitle(), blogPostTitleC6119);
 
         LOG.info("Step 4 : Navigate to blog post list");
-
-        blogPostList.navigate(siteName);
+        blogPostView.clickBlogPostListButton();
         Assert.assertTrue(blogPostList.isBlogPostDisplayed(blogPostTitleC6119), "Blog Post is not displayed on the blog post list page");
     }
 
@@ -204,26 +201,21 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         blogPostList.clickOnThePostTitle("Test Blog");
 
         LOG.info("Step 1: Click 'New Post' button.");
-
         blogPostView.clickNewPostButton();
         Assert.assertEquals(createBlogPost.getPageTitle(), "Create Blog Post");
 
         LOG.info("Step 2: Provide data for the Blog post (title, content, tag)");
-
         createBlogPost.sendTitleInput(blogPostTitleC6120);
         createBlogPost.sendBlogPostTextInput(blogPostContentC6120);
         createBlogPost.sendTagsInput(blogPostTagC6120);
         createBlogPost.clickAddTagButton();
 
         LOG.info("Step 3: Click Save as draft button");
-
         createBlogPost.clickSaveAsDraftButton();
-        getBrowser().waitUntilElementVisible(blogPostView.blogPostTitle(blogPostTitleC6120));
-        Assert.assertEquals(blogPostView.getBlogPostTitle(blogPostTitleC6120), blogPostTitleC6120);
+        Assert.assertEquals(blogPostView.getBlogPostTitle(), blogPostTitleC6120);
 
         LOG.info("Step 4: Navigate to blog post list");
-
-        blogPostList.navigate(siteName);
+        blogPostView.clickBlogPostListButton();
         Assert.assertFalse(blogPostList.isBlogPostDisplayed(blogPostTitleC6120), "Draft blog post is displayed on the Blog Post List page.");
 
         LOG.info("Step 5: Click All filter");

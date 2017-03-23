@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.BlogPromptWindow;
@@ -27,8 +28,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
     @Autowired
     BlogPostViewPage blogPostView;
     
-    @Autowired
-    BlogPromptWindow deleteCommentWindow;
+    @Autowired DeleteDialog deleteDialog;
 
     private String user = "C6063User" + DataUtil.getUniqueIdentifier();
     private String siteName = "C6063SiteName" + DataUtil.getUniqueIdentifier();
@@ -61,10 +61,10 @@ public class DeletingACommentTests extends ContextAwareWebTest
         
         LOG.info("Step 1: Click Delete Comment to the right of the comment.");
         blogPostView.clickDeleteComment(commentUser);
-        Assert.assertEquals(deleteCommentWindow.getTextDisplayedOnThePromptWindow(), "Are you sure you want to delete this comment?");
+        Assert.assertEquals(deleteDialog.getMessage(), "Are you sure you want to delete this comment?");
         
         LOG.info("Step 2: Click Delete button");
-        deleteCommentWindow.clickDeleteButton();
+        deleteDialog.clickDelete();
         getBrowser().waitUntilElementContainsText(blogPostView.noCommentsText, "No comments");
         Assert.assertEquals(blogPostView.getNoCommentsText(), "No comments");
     }
@@ -84,10 +84,10 @@ public class DeletingACommentTests extends ContextAwareWebTest
         
         LOG.info("Step 1: Click Delete Comment to the right of the comment.");
         blogPostView.clickDeleteComment(commentUser);
-        Assert.assertEquals(deleteCommentWindow.getTextDisplayedOnThePromptWindow(), "Are you sure you want to delete this comment?");
+        Assert.assertEquals(deleteDialog.getMessage(), "Are you sure you want to delete this comment?");
         
         LOG.info("Step 2: Click Delete button");
-        deleteCommentWindow.clickDeleteButton();
+        deleteDialog.clickDelete();
         getBrowser().waitUntilElementContainsText(blogPostView.noCommentsText, "No comments");
         Assert.assertEquals(blogPostView.getNoCommentsText(), "No comments");
     }

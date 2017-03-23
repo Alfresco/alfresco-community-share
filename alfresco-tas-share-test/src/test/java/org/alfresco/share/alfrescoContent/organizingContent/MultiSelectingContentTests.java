@@ -196,7 +196,6 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.renderedPage();
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
         LOG.info("STEP1: Click 'Select' menu  and choose 'Documents' option");

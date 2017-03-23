@@ -59,7 +59,6 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
         blogPage.navigate(siteName);
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC6011));
         blogPage.clickReadBlogPost(blogPostTitleC6011);
-        blogPostView.renderedPage();
         
         LOG.info("Step 1: Click Add comment button");
         blogPostView.clickAddCommentButton();
@@ -76,7 +75,7 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
         
         blogPostView.clickBlogPostListButton();
         getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//div[@class='nodeContent']//a[text()='" + blogPostTitleC6011 + "']"), 6);
-        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC6011));
+        //getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPostListPage.selectBlogPostWithtitle(blogPostTitleC6011));
         Assert.assertEquals(blogPage.getBlogPostNumberOfReplies(blogPostTitleC6011), "(1)", "Blog Post" + blogPostTitleC6011 + "is not displayed");
     }
     

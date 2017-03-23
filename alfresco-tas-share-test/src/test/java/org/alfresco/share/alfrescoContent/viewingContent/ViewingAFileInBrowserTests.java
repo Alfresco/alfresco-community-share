@@ -47,7 +47,6 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Navigate to Document Library page for testSite.");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.renderedPage();
         Assert.assertTrue(documentDetailsPage.isDocumentLibraryOpened(siteName), "Document Library is not opened!");
         Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName), "Folder is not displayed!");
 

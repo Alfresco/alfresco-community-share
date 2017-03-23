@@ -1,15 +1,10 @@
 package org.alfresco.share.sitesFeatures.blog;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
-import org.alfresco.po.share.site.blog.BlogPromptWindow;
 import org.alfresco.po.share.site.blog.CreateBlogPostPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -20,6 +15,10 @@ import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class DeletingABlogPostTests extends ContextAwareWebTest
 {
@@ -32,8 +31,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
     @Autowired
     BlogPostViewPage blogPostView;
 
-    @Autowired
-    BlogPromptWindow promptWindows;
+    @Autowired DeleteDialog deleteDialog;
 
     private String user = "C5955User" + DataUtil.getUniqueIdentifier();
     private String siteName = "C5955SiteName" + DataUtil.getUniqueIdentifier();
@@ -62,10 +60,10 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         blogPage.navigate(siteName);
         LOG.info("Step 1: Click Delete for blog post.");
         blogPage.clickDeleteButton(blogPostTitleC5955);
-        Assert.assertEquals(promptWindows.getTextDisplayedOnThePromptWindow(), "Do you really want to delete blog post 'C5955 blog post title'?");
+        Assert.assertEquals(deleteDialog.getMessage(), "Do you really want to delete blog post 'C5955 blog post title'?");
 
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
-        promptWindows.clickDeleteButtonOnDeleteBlogPost();
+        deleteDialog.clickDelete();
         // TODO get popup text for Post Deleted
         getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
@@ -88,10 +86,10 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 1: Click Delete for draft blog post");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogPostTitleC5957));
         blogPage.clickDeleteButton(blogPostTitleC5957);
-        Assert.assertEquals(promptWindows.getTextDisplayedOnThePromptWindow(), "Do you really want to delete blog post 'C5957 blog post title'?");
+        Assert.assertEquals(deleteDialog.getMessage(), "Do you really want to delete blog post 'C5957 blog post title'?");
 
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
-        promptWindows.clickDeleteButtonOnDeleteBlogPost();
+        deleteDialog.clickDelete();
         // TODO get popup text for Post Deleted
         blogPage.clickMyDraftsFilter();
         getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");
@@ -109,14 +107,13 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         
         blogPage.navigate(siteName);
         blogPage.clickOnThePostTitle(blogPostTitleC5959);
-        getBrowser().waitUntilElementVisible(blogPostView.blogPostTitle(blogPostTitleC5959));
         LOG.info("Test Steps");
         LOG.info("Step 1: Click Delete for blog post");
-        blogPostView.clickDeleteButton(blogPostTitleC5959);
-        Assert.assertEquals(promptWindows.getTextDisplayedOnThePromptWindow(), "Do you really want to delete blog post 'C5959 blog post title'?");
+        blogPostView.clickDeleteButton();
+        Assert.assertEquals(deleteDialog.getMessage(), "Do you really want to delete blog post 'C5959 blog post title'?");
 
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
-        promptWindows.clickDeleteButtonOnDeleteBlogPost();
+        deleteDialog.clickDelete();
         getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
         // TODO get popup text for Post Deleted
@@ -139,11 +136,11 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         
         LOG.info("Test Steps");
         LOG.info("Step 1: Click Delete for blog post");
-        blogPostView.clickDeleteButton(blogPostTitleC5967);
-        Assert.assertEquals(promptWindows.getTextDisplayedOnThePromptWindow(), "Do you really want to delete blog post 'C5967 blog post title'?");
+        blogPostView.clickDeleteButton();
+        Assert.assertEquals(deleteDialog.getMessage(), "Do you really want to delete blog post 'C5967 blog post title'?");
         
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
-        promptWindows.clickDeleteButtonOnDeleteBlogPost();
+        deleteDialog.clickDelete();
         // TODO get popup text for Post Deleted
         getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
         Assert.assertEquals(blogPage.getPageTitle(), "New Posts");

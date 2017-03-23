@@ -3,8 +3,10 @@ package org.alfresco.po.share.site.blog;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
@@ -13,13 +15,9 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
     @Autowired
     TinyMceEditor tinyMceEditor;
 
-    private By deleteButton = By.xpath("//div[@class = 'ft']//button[text()='Delete']");
-
-    private By cancelButton = By.xpath("//div[@class = 'ft']//button[text()='Cancel']");
-
-    private By textOnThePrompt = By.xpath("//div[@class = 'bd']");
-
-    private By addCommentBoxLabel = By.xpath("//div[@class = 'comment-form']//h2[text()='Add Your Comment...']");
+    @RenderWebElement
+    @FindBy(xpath = "//div[@class = 'comment-form']//h2[text()='Add Your Comment...']")
+    private WebElement addCommentBoxLabel;
 
     private By addCommentButton = By.xpath("//button[contains(@id, '_default-add-submit-button')]");
 
@@ -30,42 +28,12 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
     private By cancelButtonEditCommentWindow = By.xpath("//button[text()='Cancel']");
 
     private By editCommentBoxLabel = By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']");
-    
-    private By deleteCommentButton = By.xpath("//button[text()='Delete']");
-    
-    private By cancelButtonDeleteComment = By.xpath("//span[contains(@class, 'yui-push-button default')]//button[text()='Cancel']");
 
     @Override
     public String getRelativePath()
     {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    /**
-     * Method to click on the Delete button on the Delete Blog Post prompt window
-     */
-    public void clickDeleteButtonOnDeleteBlogPost()
-    {
-        browser.findElement(deleteButton).click();
-    }
-
-    /**
-     * Method to click on the Cancel button on the Delete Blog Post prompt window
-     */
-    public void clickCancelButtonOnDeleteBlogPost()
-    {
-        browser.findElement(cancelButton).click();
-    }
-
-    /**
-     * Method to get the text displayed on the Delete Blog Post prompt window
-     * 
-     * @return
-     */
-    public String getTextDisplayedOnThePromptWindow()
-    {
-        return browser.findElement(textOnThePrompt).getText();
     }
 
     /**
@@ -83,13 +51,13 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
     }
 
     /**
-     * Method to get the Add Comment box lable
-     * 
+     * Method to get the Add Comment box label
+     *
      * @return
      */
     public String getAddCommentLable()
     {
-        return browser.findElement(addCommentBoxLabel).getText();
+        return addCommentBoxLabel.getText();
     }
 
     /**
@@ -151,22 +119,5 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
     public void testEditComment(String comment)
     {
         tinyMceEditor.setText(comment);
-    }
-    
-    /**
-     * Method to click the Delete button on the Delete Comment prompt
-     */
-    public void clickDeleteButton()
-    {
-        browser.findElement(deleteCommentButton).click();
-    }
-    
-    /**
-     * Method to click the Cancel button on the Delete Comment prompt
-     */
-    
-    public void clickCancelButton()
-    {
-        browser.findElement(cancelButtonDeleteComment).click();
     }
 }
