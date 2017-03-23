@@ -44,6 +44,7 @@ public class SharedFilesTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
+        sharedFilesPage.renderedPage();
     }
 
     @TestRail(id = "C7661")

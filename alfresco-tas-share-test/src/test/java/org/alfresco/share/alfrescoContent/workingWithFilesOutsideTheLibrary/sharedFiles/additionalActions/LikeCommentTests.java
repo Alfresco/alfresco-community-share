@@ -136,6 +136,7 @@ public class LikeCommentTests extends ContextAwareWebTest
         LOG.info("STEP1: Hover over a document and press \"Comment\"");
         sharedFilesPage.navigate();
         social.clickCommentLink(folderName1);
+        documentDetailsPage.renderedPage();
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page=");
 
         LOG.info("STEP2: In the \"Comments\" area of Document Details page write a comment and press \"Add Comment\" button");
@@ -144,6 +145,7 @@ public class LikeCommentTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Navigate to Shared Files page");
         sharedFilesPage.navigate();
+        social.renderedPage();
         assertEquals(social.getNumberOfComments(folderName1), 1, "Number of comments=");
     }
 
