@@ -772,7 +772,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      */
     public List<String> getDocumentLibraryFilesList()
     {
-        List<String> filesName = new ArrayList<String>();
+        List<String> filesName = new ArrayList<>();
         for (WebElement file : filesList)
         {
             filesName.add(file.getText());

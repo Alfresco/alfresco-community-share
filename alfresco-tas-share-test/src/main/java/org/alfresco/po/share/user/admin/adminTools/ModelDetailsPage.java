@@ -2,7 +2,6 @@ package org.alfresco.po.share.user.admin.adminTools;
 
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateAspectDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
-import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;

@@ -108,7 +108,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
 
         LOG.info("Step 5 - Verify 'Available Site Pages' section.");
         List<SitePageType> availablePages = customizeSite.getAvailablePages();
-        List<SitePageType> pages = new ArrayList<SitePageType>();
+        List<SitePageType> pages = new ArrayList<>();
         for (SitePageType page : SitePageType.values())
         {
             if (page.equals(SitePageType.DOCUMENT_LIBRARY))

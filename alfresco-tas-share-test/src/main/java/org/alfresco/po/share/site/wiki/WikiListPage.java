@@ -73,7 +73,7 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      */
 
     public List<String> getWikiPageTitlesList() {
-        List<String> wikiPageTitles = new ArrayList<String>();
+        List<String> wikiPageTitles = new ArrayList<>();
         for (WebElement wikiPageTitle : wikiPagesTitleList) {
             wikiPageTitles.add(wikiPageTitle.getText());
         }
@@ -111,7 +111,7 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      */
     public List<String> getTagsList() {
         browser.refresh();
-        List<String> tags = new ArrayList<String>();
+        List<String> tags = new ArrayList<>();
         for (WebElement tag : tagsList) {
             tags.add(tag.getText());
         }
@@ -149,8 +149,7 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      */
     private List<String> getDetailsOfWikiPage(String wikiPage) {
         List<String> stringDetails = new ArrayList<>();
-        List<WebElement> webDetails = new ArrayList<>();
-        webDetails = selectWikiDetailsRow(wikiPage).findElements(wikiRowDetails);
+        List<WebElement> webDetails = selectWikiDetailsRow(wikiPage).findElements(wikiRowDetails);
         for (int i = 0; i < webDetails.size(); i++) {
             if (webDetails.get(i).getText().equals("Created by:"))
                 stringDetails.add(webDetails.get(i + 1).findElement(By.cssSelector("a")).getText());

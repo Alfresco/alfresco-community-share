@@ -47,7 +47,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     private String wikiNewContent = "New content";
     private String wikiInitialContent = "Initial content";
     private String tagName = "tag" + DataUtil.getUniqueIdentifier();
-    private List<String> tags = new ArrayList<String>();
+    private List<String> tags = new ArrayList<>();
 
     @BeforeClass(alwaysRun = true)
     public void createUser()
@@ -161,7 +161,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 2: Click 'Insert Library Image' button");
         editWikiPage.clickInsertLibraryImage();
         int i = 0;
-        while (editWikiPage.existsElement(image) != true && i < 3)
+        while (!editWikiPage.existsElement(image) && i < 3)
         {
             editWikiPage.clickInsertLibraryImage();
             i++;

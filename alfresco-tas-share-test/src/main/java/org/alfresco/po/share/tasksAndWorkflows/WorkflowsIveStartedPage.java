@@ -83,7 +83,7 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
 
     public List<String> getActiveWorkflows()
     {
-        List<String> allWorkflowsNames = new ArrayList<String>();
+        List<String> allWorkflowsNames = new ArrayList<>();
         List<WebElement> workflows = browser.findElements(By.cssSelector("div[id$='_default-workflows'] tr[class*='yui-dt-rec']"));
         for (WebElement specificTask : workflows)
         {

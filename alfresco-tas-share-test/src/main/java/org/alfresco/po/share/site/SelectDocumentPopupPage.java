@@ -30,7 +30,7 @@ public class SelectDocumentPopupPage extends SelectPopUpPage
 
     public List<String> getSelectedDocumentTitlesList()
     {
-        List<String> selectedDocssTitleList = new ArrayList<String>();
+        List<String> selectedDocssTitleList = new ArrayList<>();
         for (WebElement docTitle : selectedDocumentsList)
         {
             selectedDocssTitleList.add(docTitle.getText().trim());

@@ -71,7 +71,7 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
     public List<String> getTagsList()
     {
 
-        List<String> wikiPageTags = new ArrayList<String>();
+        List<String> wikiPageTags = new ArrayList<>();
         for (WebElement wikiPageTag : tagsList)
         {
             wikiPageTags.add(wikiPageTag.getText());
@@ -82,7 +82,7 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
     public List<String> getLinkedPagesList()
     {
 
-        List<String> linkedPages = new ArrayList<String>();
+        List<String> linkedPages = new ArrayList<>();
         for (WebElement linkedPage : linkedPagesList)
         {
             linkedPages.add(linkedPage.getText());

@@ -36,7 +36,7 @@ public class SelectPopUpPage extends ShareDialog
 
     public List<String> getTitlesList()
     {
-        List<String> titleList = new ArrayList<String>();
+        List<String> titleList = new ArrayList<>();
         for (WebElement title : list)
         {
             titleList.add(title.getText().trim());

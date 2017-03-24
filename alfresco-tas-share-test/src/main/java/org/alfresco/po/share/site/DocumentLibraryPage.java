@@ -277,7 +277,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     
     public List<String> getAllOptionsText()
     {
-    	List<String> optionsText = new ArrayList<String>();
+    	List<String> optionsText = new ArrayList<>();
     	List<WebElement> options = browser.findElements(displayedOptionsListBy);
     	for(WebElement option : options)
     	{

@@ -33,7 +33,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
     private String siteName;
     private String description;
     private String contactList;
-    private List<String> contacts = new ArrayList<String>();
+    private List<String> contacts = new ArrayList<>();
 
     @BeforeClass(alwaysRun = true)
     public void createUser()

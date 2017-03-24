@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class CreatingABlogPostTests extends ContextAwareWebTest
 {
@@ -143,7 +144,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPostViewTitle, "C5541 blog post title (Draft)");
         String expectedAuthorName = user + " " + user;
         Assert.assertEquals(blogPostView.getBlogPostAuthor(), expectedAuthorName);
-        Assert.assertEquals(blogPostView.getBlogPostTags(), Arrays.asList(tagC5541));
+        Assert.assertEquals(blogPostView.getBlogPostTags(), Collections.singletonList(tagC5541));
         Assert.assertEquals(blogPostView.getBlogPostContent(), blogPostContentC5541);
 
         LOG.info("Step 5: Navigate to 'Blog Post List'");

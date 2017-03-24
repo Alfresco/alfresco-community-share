@@ -269,7 +269,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
      */
     public List<String> getTaskNamesList()
     {
-        List<String> taskNameList = new ArrayList<String>();
+        List<String> taskNameList = new ArrayList<>();
         for (WebElement taskRow : taskRowList)
         {
             taskNameList.add(taskRow.findElement(taskNames).getText());
@@ -283,7 +283,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
      */
     public List<String> getTaskTypeAndStatusList()
     {
-        List<String> taskTypeAndStatusList = new ArrayList<String>();
+        List<String> taskTypeAndStatusList = new ArrayList<>();
         for (WebElement taskRow : taskRowList)
         {
             taskTypeAndStatusList.add(taskRow.findElement(taskTypeAndStatus).getText());
@@ -297,7 +297,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
      */
     public List<String> getTaskDueDateList()
     {
-        List<String> taskTypeAndStatusList = new ArrayList<String>();
+        List<String> taskTypeAndStatusList = new ArrayList<>();
         for (WebElement taskRow : taskRowList)
         {
             if (taskRow.findElements(taskDueDate).size() > 0)

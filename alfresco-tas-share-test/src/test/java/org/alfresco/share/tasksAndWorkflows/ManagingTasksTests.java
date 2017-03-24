@@ -47,7 +47,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
     private String siteName = "siteName" + DataUtil.getUniqueIdentifier();
     private String docName = "docName" + DataUtil.getUniqueIdentifier();
     private String docContent = "docContent" + DataUtil.getUniqueIdentifier();
-    private List<String> docs = new ArrayList<String>();
+    private List<String> docs = new ArrayList<>();
     private String taskName = "taskName" + DataUtil.getUniqueIdentifier();
     private String taskTypeAndStatus = "Task, In Progress";
 

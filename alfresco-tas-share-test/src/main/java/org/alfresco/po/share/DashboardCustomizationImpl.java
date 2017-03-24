@@ -219,7 +219,6 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
 		if (columnNumber < 1 || columnNumber > columns) {
 			throw new IllegalArgumentException("Column number should be between 1 and 4");
 		}
-		int noOfColumns = 0;
 		if (addDashlets.isDisplayed()) {
 			clickAddDashlet();
 		}
@@ -235,8 +234,8 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
 		browser.scroolToElement(webDashlet);
 		webDashlet.click();
 		String columns = availableColumns.getAttribute("class");
-		noOfColumns = Integer.valueOf(columns.substring(columns.length() - 1));
-		List<WebElement> existingDashletsInColumn = new ArrayList<WebElement>();
+		int noOfColumns = Integer.valueOf(columns.substring(columns.length() - 1));
+		List<WebElement> existingDashletsInColumn = new ArrayList<>();
 		if (columnNumber <= noOfColumns) {
 			try {
 				existingDashletsInColumn = browser
@@ -260,7 +259,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
 	}
 
 	public List<String> getDashletsFromColumn(int column) {
-		List<String> dashlets = new ArrayList<String>();
+		List<String> dashlets = new ArrayList<>();
 		List<WebElement> existingDashletsInColumn = browser
 				.findElements(By.cssSelector(String.format(dashletsInColumn, column)));
 		for (WebElement dashlet : existingDashletsInColumn) {
@@ -270,7 +269,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
 	}
 
 	public List<String> getAvailableDashlets() {
-		List<String> dashlets = new ArrayList<String>();
+		List<String> dashlets = new ArrayList<>();
 		for (WebElement dashlet : availableDashlets) {
 			dashlets.add(dashlet.getText());
 		}
@@ -420,7 +419,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
 	}	
 	
 	private List<WebElement> getDashlets(Dashlets dashletToMove, Dashlets dashletToReplace, int column) {
-		List<WebElement> elements = new ArrayList<WebElement>();
+		List<WebElement> elements = new ArrayList<>();
 		WebElement dashToMove = getDashletToMove(dashletToMove, column);
 		WebElement dashToReplace = getDashletToReplace(dashletToReplace, column);
 		elements.add(dashToMove);

@@ -83,9 +83,9 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     {
         periodFilter.click();
         ArrayList<String> optionText = new ArrayList<>();
-        for (int i = 0; i < optionsListText.size(); i++)
+        for (WebElement anOptionsListText : optionsListText)
         {
-            optionText.add(optionsListText.get(i).getText());
+            optionText.add(anOptionsListText.getText());
         }
         System.out.println("Text: " + optionText);
         return optionText;

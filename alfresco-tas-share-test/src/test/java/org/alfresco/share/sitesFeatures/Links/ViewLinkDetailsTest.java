@@ -30,7 +30,7 @@ public class ViewLinkDetailsTest extends ContextAwareWebTest
 
     private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
     private String siteName = "siteName" + DataUtil.getUniqueIdentifier();
-    private List<String> tags = new ArrayList<String>();
+    private List<String> tags = new ArrayList<>();
     private DateTime currentDate = new DateTime();
     private String linkTitle = "Link1";
 

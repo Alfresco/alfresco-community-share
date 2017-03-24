@@ -31,8 +31,8 @@ public class CalendarPicker extends ShareDialog
     @FindAll(@FindBy(css = "#calendarcontainer[style*='display: block'] a.selector"))
     private List<WebElement> dates;
 
-    private ArrayList<String> monthValues = new ArrayList<String>(Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August",
-            "September", "October", "November", "December"));
+    private ArrayList<String> monthValues = new ArrayList<>(
+            Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"));
 
     private String getYearHeader()
     {

@@ -55,7 +55,7 @@ public class DataUtil
     
     public List<UserData> createUsersWithRoles(List<String> usersRoles, String userManager, String siteName)
     {
-        List<UserData> users = new ArrayList<UserData>();
+        List<UserData> users = new ArrayList<>();
         for(String role : usersRoles)
         {
             UserData userData = new UserData("User" + role + DataUtil.getUniqueIdentifier() , role);

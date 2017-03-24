@@ -795,7 +795,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         LOG.info("STEP 4: Type '" + documentName + "' on the search box from 'Alfresco Toolbar' and press 'Enter' key.");
         toolbar.renderedPage();
         toolbar.search(documentName);
-        if(result == true)
+        if(result)
         {
         	assertTrue(searchPage.getFilterTypePosition(filterName) < searchPage.getFilterTypePosition(filterName2), "The 'Created' filter should be on top of the 'Modifier' filter.");
         }

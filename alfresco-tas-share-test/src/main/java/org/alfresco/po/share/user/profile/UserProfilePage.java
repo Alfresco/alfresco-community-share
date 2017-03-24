@@ -157,7 +157,7 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     public List<String> getAboutUserInfo()
     {
-        List<String> userInfo = new ArrayList<String>();
+        List<String> userInfo = new ArrayList<>();
         for (WebElement aboutUserDetail : aboutUserDetails)
         {
             userInfo.add(aboutUserDetail.getText());
@@ -172,37 +172,37 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
      */
     public Map<String, String> getUserInformation()
     {
-        Map<String, String> userInfo = new LinkedHashMap<String, String>();
+        Map<String, String> userInfo = new LinkedHashMap<>();
         for (WebElement info : userInformations)
         {
             String key = info.findElement(By.cssSelector(".fieldlabelright")).getText().replace(":", "");
             String value = info.findElement(By.cssSelector(".fieldvalue")).getText();
             // manage duplicate keys (for Telephone and Email)
-            if (key.equals("Telephone"))
+            switch (key)
             {
-                if (userInfo.get("Telephone") != null)
-                {
-                    userInfo.put("CompanyTelephone", value);
-                }
-                else
-                {
+                case "Telephone":
+                    if (userInfo.get("Telephone") != null)
+                    {
+                        userInfo.put("CompanyTelephone", value);
+                    }
+                    else
+                    {
+                        userInfo.put(key, value);
+                    }
+                    break;
+                case "Email":
+                    if (userInfo.get("Email") != null)
+                    {
+                        userInfo.put("CompanyEmail", value);
+                    }
+                    else
+                    {
+                        userInfo.put(key, value);
+                    }
+                    break;
+                default:
                     userInfo.put(key, value);
-                }
-            }
-            else if (key.equals("Email"))
-            {
-                if (userInfo.get("Email") != null)
-                {
-                    userInfo.put("CompanyEmail", value);
-                }
-                else
-                {
-                    userInfo.put(key, value);
-                }
-            }
-            else
-            {
-                userInfo.put(key, value);
+                    break;
             }
 
         }

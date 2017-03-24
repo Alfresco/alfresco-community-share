@@ -43,7 +43,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     private String siteName;
     private String wikiPageName = "Page1";
     private String tagName = "tag1";
-    private List<String> tags = new ArrayList<String>();
+    private List<String> tags = new ArrayList<>();
 
     @BeforeClass(alwaysRun = true)
     public void createUser()

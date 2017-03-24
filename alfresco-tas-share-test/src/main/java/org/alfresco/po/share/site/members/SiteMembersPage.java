@@ -105,7 +105,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
      */
     public List<String> getSiteMembersList()
     {
-        List<String> names = new ArrayList<String>();
+        List<String> names = new ArrayList<>();
         for (WebElement aNamesList : namesList)
         {
             names.add(aNamesList.getText());

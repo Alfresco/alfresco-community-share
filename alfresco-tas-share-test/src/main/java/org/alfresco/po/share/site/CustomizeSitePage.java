@@ -76,7 +76,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     public List<String> getThemeOptions()
     {
-        List<String> themeValues = new ArrayList<String>();
+        List<String> themeValues = new ArrayList<>();
         Select themes = new Select(siteThemeSelect);
         for (WebElement theme : themes.getOptions())
         {
@@ -87,7 +87,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     private List<SitePageType> getPages(WebElement webElement)
     {
-        List<SitePageType> currentPageTypes = new ArrayList<SitePageType>();
+        List<SitePageType> currentPageTypes = new ArrayList<>();
         SitePageType[] pageTypes = SitePageType.values();
         for (SitePageType pageType : pageTypes)
         {

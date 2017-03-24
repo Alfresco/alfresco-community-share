@@ -109,7 +109,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
      */
     private void populateData()
     {
-        activities = new ArrayList<ActivityLink>();
+        activities = new ArrayList<>();
         ArrayList<WebElement> shareLinks = new ArrayList<>();
 
         try
@@ -246,7 +246,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
     {
         myActivitiesButton.click();
 
-        List<String> userActivitiesFilterOptions = new ArrayList<String>();
+        List<String> userActivitiesFilterOptions = new ArrayList<>();
 
         try
         {

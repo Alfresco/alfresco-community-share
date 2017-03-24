@@ -199,7 +199,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
     public List<String> getRolesFromFilter()
     {
         setAllRolesToButton.click();
-        List<String> roles = new ArrayList<String>();
+        List<String> roles = new ArrayList<>();
         for (WebElement allRolesFilterOption : allRolesFilterOptions)
         {
             roles.add(allRolesFilterOption.getText());

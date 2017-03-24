@@ -1,10 +1,8 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
-import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.po.share.user.UserDashboardPage;
-import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -194,8 +192,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
      */
     public boolean isPermissionAddedForUser(String userProfile)
     {
-        List<WebElement> userPermissionRows = null;
-        userPermissionRows = browser.findElements(By.cssSelector("div[id$='default-directPermissions'] tbody.yui-dt-data tr"));
+        List<WebElement> userPermissionRows = browser.findElements(By.cssSelector("div[id$='default-directPermissions'] tbody.yui-dt-data tr"));
         for (WebElement userPermissionRow : userPermissionRows)
         {
             String name = userPermissionRow.findElement(By.cssSelector("td[class$='-displayName']")).getText();

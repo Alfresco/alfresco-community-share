@@ -280,7 +280,7 @@ public class TagManagerPage extends AdminToolsPage {
 	private List<String> getAllTagsTextFromColumn(String columnIndex) {
 		try {
 			List<WebElement> allItems = getCellsFromColumn(columnIndex);
-			List<String> allItemsText = new ArrayList<String>();
+			List<String> allItemsText = new ArrayList<>();
 			for (WebElement item : allItems) {
 				allItemsText.add(item.getText());
 			}

@@ -59,7 +59,7 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
     
     private List<String> getCurrentOptions()
     {
-        List<String> options = new ArrayList<String>();
+        List<String> options = new ArrayList<>();
         for(WebElement option: dropDownOptionsList)
         {
             options.add(option.getText());

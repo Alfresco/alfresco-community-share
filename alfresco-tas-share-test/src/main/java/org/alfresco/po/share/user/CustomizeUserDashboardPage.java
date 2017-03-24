@@ -51,7 +51,7 @@ public class CustomizeUserDashboardPage extends SharePage<CustomizeUserDashboard
 	}
 
 	public void activateGetStartedPanel(boolean activate) {
-		if (activate == true) {
+		if (activate) {
 			welcomePanel.selectByIndex(0);
 		} else {
 			welcomePanel.selectByIndex(1);

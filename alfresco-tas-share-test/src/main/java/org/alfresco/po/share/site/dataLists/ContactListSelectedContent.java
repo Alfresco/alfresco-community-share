@@ -39,7 +39,7 @@ public class ContactListSelectedContent extends ListItemSelectedContent
     {
         browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector(String.format(selectedColumnItems, column)));
         List<WebElement> items = browser.findElements(By.cssSelector(String.format(selectedColumnItems, column)));
-        List<String> text = new ArrayList<String>(items.size());
+        List<String> text = new ArrayList<>(items.size());
         for (WebElement item : items)
         {
             text.add(item.getText());
@@ -75,7 +75,7 @@ public class ContactListSelectedContent extends ListItemSelectedContent
     {
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         List<WebElement> rows = browser.findElements(listItems);
-        List<WebElement> found = new ArrayList<WebElement>();
+        List<WebElement> found = new ArrayList<>();
         for (WebElement row : rows)
         {
             int i = 0;
@@ -152,7 +152,7 @@ public class ContactListSelectedContent extends ListItemSelectedContent
     {
         int checkedItems = 0;
         int uncheckedItems = 0;
-        List<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList<>();
         List<WebElement> rows = findRow(listDetails);
         for (WebElement row : rows)
         {

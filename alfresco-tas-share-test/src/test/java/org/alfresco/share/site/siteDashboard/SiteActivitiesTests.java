@@ -198,9 +198,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String description = "Description" + DataUtil.getUniqueIdentifier();
         String groupName = "C12835Group";
         String groupId = "GROUP_"+ groupName;
-        ArrayList<String> expectedGroupName = new ArrayList<String>();
+        ArrayList<String> expectedGroupName = new ArrayList<>();
         expectedGroupName.add(groupName);
-        ArrayList<String> expectedId = new ArrayList<String>();
+        ArrayList<String> expectedId = new ArrayList<>();
         expectedId.add(groupId);
         String managerRole = "Manager";
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
@@ -238,9 +238,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String groupName = "C12836Group";
         String idLabelText ="ID:";
         String groupId = idLabelText +" GROUP_"+ groupName;
-        ArrayList<String> expectedGroupName = new ArrayList<String>();
+        ArrayList<String> expectedGroupName = new ArrayList<>();
         expectedGroupName.add(groupName);
-        ArrayList<String> expectedId = new ArrayList<String>();
+        ArrayList<String> expectedId = new ArrayList<>();
         expectedId.add(groupId);
         String managerRole = "Manager";
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
@@ -268,7 +268,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String description = "Description" + DataUtil.getUniqueIdentifier();
         String groupName = "C12837Group";
         String groupId = "GROUP_"+ groupName;
-        ArrayList<String> expectedGroupName = new ArrayList<String>();
+        ArrayList<String> expectedGroupName = new ArrayList<>();
         expectedGroupName.add(groupName);
         String managerRole = "Manager";
         String collaboratorRole = "Collaborator";
@@ -317,9 +317,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String description = "Description" + DataUtil.getUniqueIdentifier();
         String groupName = "C12838Group";
         String groupId = "GROUP_"+ groupName;
-        ArrayList<String> expectedGroupName = new ArrayList<String>();
+        ArrayList<String> expectedGroupName = new ArrayList<>();
         expectedGroupName.add(groupName);
-        ArrayList<String> expectedId = new ArrayList<String>();
+        ArrayList<String> expectedId = new ArrayList<>();
         String managerRole = "Manager";
         String activity ="\""+ groupName+"\"" + " group removed from site "+siteName ;
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");

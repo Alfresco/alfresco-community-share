@@ -117,7 +117,7 @@ public class MySitesTests extends ContextAwareWebTest
         mySitesDashlet.clickOnFavoriteLink(siteName1);
 
         mySitesDashlet.accessSite(siteName2);
-        List<Page> pagesToAdd = new ArrayList<Page>();
+        List<Page> pagesToAdd = new ArrayList<>();
         pagesToAdd.add(Page.WIKI);
         Assert.assertTrue(siteService.addPagesToSite(adminUser, adminPassword, siteName2, pagesToAdd));
 

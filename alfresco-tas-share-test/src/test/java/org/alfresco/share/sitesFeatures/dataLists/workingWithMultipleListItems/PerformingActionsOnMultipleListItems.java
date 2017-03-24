@@ -35,8 +35,8 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
     private String siteName;
     private String description;
     private String contactList;
-    private List<String> contacts = new ArrayList<String>();
-    private List<String> results = new ArrayList<String>();
+    private List<String> contacts = new ArrayList<>();
+    private List<String> results = new ArrayList<>();
 
     @BeforeClass(alwaysRun = true)
     public void createUser()

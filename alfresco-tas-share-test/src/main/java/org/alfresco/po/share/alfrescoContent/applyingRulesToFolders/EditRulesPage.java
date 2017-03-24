@@ -149,7 +149,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
         selectOptionFromDropdown("ruleConfigType", indexOfOptionFromDropdown.get(0));
         selectOptionFromDropdown("ruleConfigIfCondition", indexOfOptionFromDropdown.get(1));
         selectOptionFromDropdown("ruleConfigAction", indexOfOptionFromDropdown.get(2));
-        if (indexOfOptionFromDropdown.get(2).equals("2"))
+        if (indexOfOptionFromDropdown.get(2).equals(2))
             clickCopySelectButton();
     }
 

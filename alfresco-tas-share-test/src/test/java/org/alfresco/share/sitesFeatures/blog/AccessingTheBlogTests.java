@@ -41,7 +41,7 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
     private String blogContent = "C5527" + "Blog content";
     private String blogContent1 = "C5527" + "Second Blog";
     private List<String> tags = Collections.singletonList("tag1");
-    private List<String> noTags = new ArrayList<String>();
+    private List<String> noTags = new ArrayList<>();
     private String author = user + " " + user;
     
     @BeforeClass(alwaysRun = true)

@@ -155,7 +155,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     public List<String> getTagsList()
     {
 
-        List<String> linkTags = new ArrayList<String>();
+        List<String> linkTags = new ArrayList<>();
         for (WebElement linkTag : tagsList)
         {
             linkTags.add(linkTag.getText());

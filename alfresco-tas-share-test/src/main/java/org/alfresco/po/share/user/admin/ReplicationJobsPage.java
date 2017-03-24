@@ -1,6 +1,5 @@
 package org.alfresco.po.share.user.admin;
 
-import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;

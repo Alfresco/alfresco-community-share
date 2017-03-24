@@ -123,7 +123,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 
     public List<String> getWikiPageTagsList()
     {
-        List<String> wikiPageTags = new ArrayList<String>();
+        List<String> wikiPageTags = new ArrayList<>();
         for (WebElement wikiPageTag : wikiPageTagsList)
         {
             wikiPageTags.add(wikiPageTag.getText());

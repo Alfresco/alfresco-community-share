@@ -113,7 +113,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public List<String> getLinksTitlesList()
     {
-        List<String> linksTitles = new ArrayList<String>();
+        List<String> linksTitles = new ArrayList<>();
         for (WebElement linkTitle : linksTitleList)
         {
             linksTitles.add(linkTitle.getText());
@@ -129,7 +129,7 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public List<String> getLinksURL()
     {
-        List<String> linksURLs = new ArrayList<String>();
+        List<String> linksURLs = new ArrayList<>();
         for (WebElement linkURL : listOfLinksURL)
         {
             linksURLs.add(linkURL.getText());
@@ -167,8 +167,7 @@ public class LinkPage extends SiteCommon<LinkPage>
     private List<String> getDetailsOfLink(String linkTitle)
     {
         List<String> stringDetails = new ArrayList<>();
-        List<WebElement> webDetails = new ArrayList<>();
-        webDetails = selectLinkDetailsRow(linkTitle).findElements(linkDetails);
+        List<WebElement> webDetails = selectLinkDetailsRow(linkTitle).findElements(linkDetails);
         if (webDetails.get(0).getText().contains("URL:"))
             stringDetails.add(webDetails.get(0).findElement(By.cssSelector("a")).getText());
         if (webDetails.get(1).getText().contains("Created On:"))

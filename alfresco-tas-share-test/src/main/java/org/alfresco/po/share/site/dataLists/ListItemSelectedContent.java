@@ -57,7 +57,7 @@ public class ListItemSelectedContent extends NoListItemSelectedContent
     public List<String> getFilterOptionsValues()
     {
         List<WebElement> filterOptions = browser.findElements(By.cssSelector("ul[class='filterLink'] a"));
-        List<String> filterOptionsValues = new ArrayList<String>(filterOptions.size());
+        List<String> filterOptionsValues = new ArrayList<>(filterOptions.size());
         for (WebElement option : filterOptions)
         {
             filterOptionsValues.add(option.getText());

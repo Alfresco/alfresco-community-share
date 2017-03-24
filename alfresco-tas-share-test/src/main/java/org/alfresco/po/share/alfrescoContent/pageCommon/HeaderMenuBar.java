@@ -117,15 +117,14 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
         for (String anExpectedList : expectedList)
         {
             int k = 0;
-            String expectedOption = anExpectedList;
             for (WebElement aSelectedItemsOptionsList : selectedItemsOptionsList)
             {
                 String optionText = aSelectedItemsOptionsList.getText();
-                if (expectedOption.equals(optionText))
+                if (anExpectedList.equals(optionText))
                     k++;
             }
             if (k != 1)
-                return "'" + expectedOption + "' not displayed";
+                return "'" + anExpectedList + "' not displayed";
         }
         return expectedList.toString();
     }

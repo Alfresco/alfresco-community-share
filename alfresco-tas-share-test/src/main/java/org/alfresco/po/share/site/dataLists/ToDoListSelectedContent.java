@@ -27,7 +27,7 @@ public class ToDoListSelectedContent extends ListItemSelectedContent
     {
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         List<WebElement> rows = browser.findElements(listItems);
-        List<WebElement> found = new ArrayList<WebElement>();
+        List<WebElement> found = new ArrayList<>();
         for(WebElement row : rows)
         {
             int i=0;

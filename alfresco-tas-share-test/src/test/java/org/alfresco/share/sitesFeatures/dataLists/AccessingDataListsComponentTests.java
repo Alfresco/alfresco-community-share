@@ -100,7 +100,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     public void browsingPaneDisplay()
     {    
         logger.info("Preconditions: Create multiple Lists");
-        List<String> createdDataLists = new ArrayList<String>(2);
+        List<String> createdDataLists = new ArrayList<>(2);
         for(int i=0; i<2; i++)
         {
             String contactList = "link" + System.currentTimeMillis();
