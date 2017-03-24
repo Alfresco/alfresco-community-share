@@ -40,7 +40,7 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
 
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC7906, fileContentC7906);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileName7908, fileContentC7906);

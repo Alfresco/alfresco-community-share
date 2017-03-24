@@ -31,7 +31,7 @@ public class SavedSearchTests extends ContextAwareWebTest
     public void setupTest()
     {
         userName = "User1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, password, userName + "@tests.com", userName, userName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.addDashlet(userName, password, DashboardCustomization.UserDashlet.SAVED_SEARCH, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
 
         setupAuthenticatedSession(userName, password);

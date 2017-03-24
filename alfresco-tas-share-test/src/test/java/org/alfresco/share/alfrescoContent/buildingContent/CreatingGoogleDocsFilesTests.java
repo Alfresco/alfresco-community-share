@@ -42,7 +42,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         spreadsheetTitle = "testSpreadsheet";
         presentationTitle = "testPresentation";
         content = "testcontent";
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, "Site used for Google Docs", Visibility.PUBLIC);
 
     }

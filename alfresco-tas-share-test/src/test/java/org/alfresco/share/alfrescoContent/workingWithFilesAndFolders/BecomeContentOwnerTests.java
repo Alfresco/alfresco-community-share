@@ -47,8 +47,8 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userManager, password, userSiteManager + domain, firstName, lastName);
         userService.create(adminUser, adminPassword, userContributor, password, userSiteManager + domain, firstName, lastName);
         siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        userService.inviteUserToSiteAndAccept(userSiteManager, password, userManager, siteName, "SiteManager");
-        userService.inviteUserToSiteAndAccept(userSiteManager, password, userContributor, siteName, "SiteContributor");
+        userService.createSiteMember(userSiteManager, password, userManager, siteName, "SiteManager");
+        userService.createSiteMember(userSiteManager, password, userContributor, siteName, "SiteContributor");
         contentService.createDocument(userContributor, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userManager, password);
@@ -96,8 +96,8 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userManager, password, userSiteManager + domain, firstName, lastName);
         userService.create(adminUser, adminPassword, userContributor, password, userSiteManager + domain, firstName, lastName);
         siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        userService.inviteUserToSiteAndAccept(userSiteManager, password, userManager, siteName, "SiteManager");
-        userService.inviteUserToSiteAndAccept(userSiteManager, password, userContributor, siteName, "SiteContributor");
+        userService.createSiteMember(userSiteManager, password, userManager, siteName, "SiteManager");
+        userService.createSiteMember(userSiteManager, password, userContributor, siteName, "SiteContributor");
         contentService.createFolder(userContributor, password, folderName, siteName);
 
         setupAuthenticatedSession(userManager, password);
@@ -149,8 +149,8 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userManager, password, userSiteManager + domain, firstName, lastName);
         userService.create(adminUser, adminPassword, userContributor, password, userSiteManager + domain, firstName, lastName);
         siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        userService.inviteUserToSiteAndAccept(userSiteManager, password, userManager, siteName, "SiteManager");
-        userService.inviteUserToSiteAndAccept(userSiteManager, password, userContributor, siteName, "SiteContributor");
+        userService.createSiteMember(userSiteManager, password, userManager, siteName, "SiteManager");
+        userService.createSiteMember(userSiteManager, password, userContributor, siteName, "SiteContributor");
         contentService.createDocument(userContributor, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userManager, password);

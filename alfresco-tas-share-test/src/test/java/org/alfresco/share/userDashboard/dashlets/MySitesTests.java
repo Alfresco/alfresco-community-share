@@ -36,7 +36,7 @@ public class MySitesTests extends ContextAwareWebTest
     {
         cleanupAuthenticatedSession();
         userName = "User1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, password, userName + "@tests.com", userName, userName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
     }
 

@@ -169,8 +169,8 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
-        userService.create(adminUser, adminPassword, user2, password, user + "@tests.com", user2, user2);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+        userService.create(adminUser, adminPassword, user2, password, user + domain, user2, user2);
         siteService.create(adminUser, adminPassword, domain, siteName, "SiteC description", Visibility.PUBLIC);
         siteService.create(adminUser, adminPassword, domain, siteName2, "SiteC description", Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, user, siteName, "SiteCollaborator");

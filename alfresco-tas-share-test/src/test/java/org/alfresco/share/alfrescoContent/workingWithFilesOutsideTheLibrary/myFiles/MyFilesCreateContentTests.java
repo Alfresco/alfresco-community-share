@@ -63,7 +63,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createPrecondition()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(adminUser, adminPassword);
         myFilesPage.navigate();
         myFilesPage.clickFolderFromExplorerPanel("Data Dictionary");

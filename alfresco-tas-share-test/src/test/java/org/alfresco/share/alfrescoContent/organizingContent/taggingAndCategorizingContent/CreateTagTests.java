@@ -33,7 +33,6 @@ public class CreateTagTests extends ContextAwareWebTest
     private final String random = DataUtil.getUniqueIdentifier();
     private final String userName = "profileUser-" + random;
     private final String siteName = "site" + random;
-    private final String description = "Description-" + random;
     private final String fileName = "fileC10209-" + random;
     private final String folderName = "folderC10210-" + random;
     private final String fileTag = "tagC10209-" + random;
@@ -42,13 +41,9 @@ public class CreateTagTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        String lastName = "LastName";
-        String firstName = "FirstName";
-        String fileContent = "content of the file.";
-
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
-        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
+        siteService.create(userName, password, domain, siteName, "Description", Site.Visibility.PUBLIC);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "content of the file.");
         contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);

@@ -80,7 +80,7 @@ public class FoldersAndFiles extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(adminUser, adminPassword, domain, siteName, "SiteC description", Visibility.PUBLIC);
         siteService.create(adminUser, adminPassword, domain, siteName1, "SiteC description", Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, user, siteName, "SiteCollaborator");

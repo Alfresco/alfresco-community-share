@@ -70,7 +70,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
         String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();
         uploadContent.uploadContent(filePath, fileContent);
@@ -95,7 +95,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
         String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();
         myFilesPage.clickCreateButton();

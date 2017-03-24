@@ -35,7 +35,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         contentService.uploadFileInRepository(adminUser, adminPassword, null, testDataFolder + zipFile);
         contentService.uploadFileInRepository(adminUser, adminPassword, null, testDataFolder + acpFile);

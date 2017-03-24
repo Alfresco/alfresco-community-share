@@ -53,7 +53,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
     }
 

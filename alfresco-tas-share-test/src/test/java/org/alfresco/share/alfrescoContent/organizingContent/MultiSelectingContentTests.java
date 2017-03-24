@@ -33,15 +33,14 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     @Autowired private DeleteDialog deleteDialog;
 
     private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    private final String firstName = "FirstName";
-    private final String lastName = "LastName";
     private final String description = "Description-" + DataUtil.getUniqueIdentifier();
     private final String fileContent = "content of the file.";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
+        setupAuthenticatedSession(userName, password);
     }
 
     @TestRail(id = "C7546")
@@ -58,7 +57,6 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         contentService.createFolder(userName, password, folderName2, siteName);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, fileContent);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
@@ -77,8 +75,6 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         LOG.info("STEP4: Click on the folder2 checkbox");
         documentLibraryPage.clickCheckBox(folderName2);
         assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C7548")
@@ -99,7 +95,6 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, htmlFile, fileContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.XML, xmlFile, fileContent);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
@@ -171,8 +166,6 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         ArrayList<String> expectedContentList9 = new ArrayList<>(Arrays.asList(folderName1, folderName2, textFile, htmlFile, xmlFile));
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedContentList9), expectedContentList9.toString(), "Content not selected=");
         assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C8410")
@@ -194,7 +187,6 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, htmlFile, fileContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.XML, xmlFile, fileContent);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
@@ -219,8 +211,6 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         startWorkflowPage.renderedPage();
         ArrayList<String> expectedItemsList = new ArrayList<>(Arrays.asList(htmlFile, textFile, xmlFile));
         assertEquals(startWorkflowPage.getItemsList(), expectedItemsList.toString(), "Start Workflow Page- 'Items' list=");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C7554")
@@ -240,7 +230,6 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, htmlFile, fileContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, xmlFile, fileContent);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
@@ -277,7 +266,5 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         documentLibraryPage.renderedPage();
         assertEquals(documentLibraryPage.getFoldersList().toString(), expectedContentList3.toString(), "Document Library - displayed folders=");
         assertEquals(documentLibraryPage.getFilesList().toString(), expectedContentList3.toString(), "Document Library - displayed files=");
-
-        cleanupAuthenticatedSession();
     }
 }

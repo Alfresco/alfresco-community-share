@@ -45,7 +45,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteNameC7093, description, Visibility.PUBLIC);
         siteService.create(user, password, domain, siteNameC7649, description, Visibility.PUBLIC);
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);

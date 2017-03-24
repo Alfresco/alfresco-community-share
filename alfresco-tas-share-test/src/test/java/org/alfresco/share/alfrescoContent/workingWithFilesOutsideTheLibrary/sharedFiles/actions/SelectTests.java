@@ -38,7 +38,7 @@ public class SelectTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName, "");
         contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
 

@@ -54,7 +54,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void testSetup()
     {
-        userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName2", "lastName2");
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);

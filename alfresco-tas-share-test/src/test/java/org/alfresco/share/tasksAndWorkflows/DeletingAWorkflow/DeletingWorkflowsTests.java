@@ -37,7 +37,7 @@ public class DeletingWorkflowsTests  extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create user and a workflow.");
         String testUser = "testUser" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", testUser, "lastName");
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         String workflowID = workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
         workflow.taskDone(testUser, password, workflowID, WorkflowService.TaskStatus.COMPLETED, "C8434");
         workflow.taskDone(testUser, password, workflowID, WorkflowService.TaskStatus.COMPLETED, "C8434");

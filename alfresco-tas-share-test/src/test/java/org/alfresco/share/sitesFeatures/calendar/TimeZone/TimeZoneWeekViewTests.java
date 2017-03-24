@@ -56,7 +56,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
     {
         List<Page> pagesToAdd = new ArrayList<Page>();
         pagesToAdd.add(Page.CALENDAR);
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(user, password, siteName, pagesToAdd);
         setupAuthenticatedSession(user, password);

@@ -34,7 +34,7 @@ public class ImportUsersTests extends ContextAwareWebTest
         String importedUser = "C9438user";
 
         logger.info("Preconditions: User with administrator rights is created and logged into Share.");
-        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         groupService.addUserToGroup(adminUser, adminPassword, groupName, userName);
         setupAuthenticatedSession(userName, password);
 

@@ -32,7 +32,7 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
         folderName = "testFolder" + DataUtil.getUniqueIdentifier();
         path = "User Homes/" + userName;
 
-        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         contentService.createFolderInRepository(userName, password, folderName, path);
         setupAuthenticatedSession(userName, password);
         myFilesPage.navigate();

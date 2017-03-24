@@ -21,28 +21,25 @@ public class RenamingContentTests extends ContextAwareWebTest
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
     private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    private final String firstName = "FirstName";
-    private final String lastName = "LastName";
-    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
     private final String docContent = "content of the file.";
+    private final String siteName = "Site-" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
+        siteService.create(userName, password, domain, siteName, "Description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, password);
     }
 
     @TestRail(id = "C7419")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void renameFileByEditIcon()
     {
-        String siteName = "Site-C7419-" + DataUtil.getUniqueIdentifier();
         String docName = "Doc-C7419-" + DataUtil.getUniqueIdentifier();
         String newFileName = "newFileNameC7419";
-        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
@@ -59,21 +56,16 @@ public class RenamingContentTests extends ContextAwareWebTest
         documentLibraryPage.clickButtonFromRenameContent("Save");
         assertTrue(documentLibraryPage.isContentNameDisplayed(newFileName), docName + " name updated to: " + newFileName);
         assertFalse(documentLibraryPage.isContentNameInputField(), "File is input field.");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C7420")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void renameFolderByEditIcon()
     {
-        String siteName = "Site-C7420-" + DataUtil.getUniqueIdentifier();
         String newFolderName = "new folder name C7420";
         String folderName = "Folder-C7420-" + DataUtil.getUniqueIdentifier();
-        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
@@ -90,21 +82,16 @@ public class RenamingContentTests extends ContextAwareWebTest
         documentLibraryPage.clickButtonFromRenameContent("Save");
         assertTrue(documentLibraryPage.isContentNameDisplayed(newFolderName), newFolderName + " name updated to: " + newFolderName);
         assertFalse(documentLibraryPage.isContentNameInputField(), "Folder is input field.");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C7431")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelRenamingContent()
     {
-        String siteName = "Site-C7431-" + DataUtil.getUniqueIdentifier();
         String docName = "Doc-C7431-" + DataUtil.getUniqueIdentifier();
         String newFileName = "new file name C7431";
-        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
@@ -121,7 +108,5 @@ public class RenamingContentTests extends ContextAwareWebTest
         documentLibraryPage.clickButtonFromRenameContent("Cancel");
         assertFalse(documentLibraryPage.isContentNameDisplayed(newFileName), docName + " name isn't updated to: " + newFileName);
         assertFalse(documentLibraryPage.isContentNameInputField(), "File is input field.");
-
-        cleanupAuthenticatedSession();
     }
 }

@@ -50,7 +50,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     public void setupTest()
     {
         pagesToAdd.add(Page.WIKI);
-        userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", testUser, testUser);
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);
         setupAuthenticatedSession(testUser, password);
     }
 

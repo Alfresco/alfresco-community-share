@@ -81,7 +81,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         fileContent = "testContent";
         folderName = "testFolder";
         filesPath = "Sites/" + siteNameC8665 + "/" + "documentLibrary" + "/" + folderName;
-        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteNameC8665, siteNameC8665, Site.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteNameC8666, siteNameC8666, Site.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteNameC8668, siteNameC8668, Site.Visibility.PUBLIC);

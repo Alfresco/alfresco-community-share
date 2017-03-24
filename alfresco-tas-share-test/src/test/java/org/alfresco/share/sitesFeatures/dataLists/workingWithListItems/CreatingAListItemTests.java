@@ -47,7 +47,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         pagesToAdd.add(Page.DATALISTS);
         userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
         setupAuthenticatedSession(userName, password);
@@ -193,7 +193,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
-        userService.create(adminUser, adminPassword, userTest, password, "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.ISSUE_LIST, issueName, "issue list description");
         
         dataListsPage.navigate(siteName);
@@ -281,7 +281,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.TASKS_ADVANCED, advancedTaskName, "advanced task list description");
-        userService.create(adminUser, adminPassword, userTest, password, "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
@@ -312,7 +312,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.TASKS_SIMPLE, simpleTaskName, "simple task list description");
-        userService.create(adminUser, adminPassword, userTest, password, "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
@@ -343,7 +343,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.TODO_LIST, toDoName, "To Do list description");
-        userService.create(adminUser, adminPassword, userTest, password, "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
@@ -377,7 +377,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.TODO_LIST, visitorName, "Visitor Feedback list description");
-        userService.create(adminUser, adminPassword, userTest, password, "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         

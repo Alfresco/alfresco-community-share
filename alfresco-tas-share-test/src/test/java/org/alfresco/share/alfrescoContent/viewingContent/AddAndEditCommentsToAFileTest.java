@@ -36,7 +36,7 @@ public class AddAndEditCommentsToAFileTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         contentService.createFolder(testUser, password, folderName, siteName);
         contentService.createDocumentInFolder(testUser, password, siteName, folderName, DocumentType.TEXT_PLAIN, docName, "Document content");

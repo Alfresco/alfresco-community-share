@@ -32,7 +32,7 @@ public class UploadingFilesTests extends ContextAwareWebTest
         String siteName = "site-C6970-" + random;
         String testFile = random + "-C6970-File.txt";
         String testFilePath = testDataFolder + testFile;
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
 
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -57,7 +57,7 @@ public class UploadingFilesTests extends ContextAwareWebTest
         String testFileName = "testDoc.txt";
         String testFilePath = testDataFolder + testFileName;
 
-        userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         contentService.createFolder(testUser, password, folderName, siteName);
         setupAuthenticatedSession(testUser, password);

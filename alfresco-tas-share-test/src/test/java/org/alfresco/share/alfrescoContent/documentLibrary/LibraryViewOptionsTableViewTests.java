@@ -30,7 +30,7 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
 
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
         contentService.createFolder(user, password, folderName, siteName);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, docName, docContent);

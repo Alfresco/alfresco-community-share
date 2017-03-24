@@ -29,10 +29,10 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userConsumer, password, userConsumer + "@tests.com", userConsumer, userConsumer);
-        userService.create(adminUser, adminPassword, userContributor, password, userContributor + "@tests.com", userContributor, userContributor);
-        userService.create(adminUser, adminPassword, userCollaborator, password, userCollaborator + "@tests.com", userCollaborator, userCollaborator);
-        userService.create(adminUser, adminPassword, userSiteManager, password, userSiteManager + "@tests.com", userSiteManager, userSiteManager);
+        userService.create(adminUser, adminPassword, userConsumer, password, userConsumer + domain, userConsumer, userConsumer);
+        userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
+        userService.create(adminUser, adminPassword, userCollaborator, password, userCollaborator + domain, userCollaborator, userCollaborator);
+        userService.create(adminUser, adminPassword, userSiteManager, password, userSiteManager + domain, userSiteManager, userSiteManager);
         siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userConsumer, siteName, "SiteConsumer");
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");

@@ -23,9 +23,6 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
     private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    private final String firstName = "FirstName";
-    private final String lastName = "LastName";
-    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
     private final String fileContent = "content of the file.";
 
     @TestRail(id = "C7444")
@@ -38,8 +35,8 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
         String tagName = "tagName-C7444-" + random;
         String addedTagName = "addedTag-C7444-" + random;
 
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
-        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
+        siteService.create(userName, password, domain, siteName, "Description", Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentAction.addSingleTag(userName, password, siteName, fileName, tagName);
 
@@ -72,7 +69,5 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         getBrowser().waitInSeconds(2);
         assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(addedTagName.toLowerCase()).toString(), fileName + " -> tags=");
-
-        cleanupAuthenticatedSession();
     }
 }

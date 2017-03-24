@@ -37,8 +37,6 @@ public class EditRuleTest extends ContextAwareWebTest
 
     private final String random = DataUtil.getUniqueIdentifier();
     private final String userName = "user-" + random;
-    private final String firstName = "First Name";
-    private final String lastName = "Last Name";
     private final String siteName = "Site-" + random;
     private final String description = "description-" + random;
     private final String path = "Documents";
@@ -48,7 +46,7 @@ public class EditRuleTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
 
         contentService.createFolder(userName, password, folderName, siteName);

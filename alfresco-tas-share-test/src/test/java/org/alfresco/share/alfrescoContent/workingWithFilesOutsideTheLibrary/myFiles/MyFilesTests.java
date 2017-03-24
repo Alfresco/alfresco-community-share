@@ -35,9 +35,9 @@ public class MyFilesTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
-        userService.create(adminUser, adminPassword, user1, password, user1 + "@tests.com", user1, user1);     
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         setupAuthenticatedSession(user, password);
     }
     

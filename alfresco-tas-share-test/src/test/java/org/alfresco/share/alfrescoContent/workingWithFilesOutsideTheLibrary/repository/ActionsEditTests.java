@@ -94,10 +94,10 @@ public class ActionsEditTests extends ContextAwareWebTest
         editFileInGDPath = "User Homes/" + editFileInGDUsr;
         editedContent = "edited test content";
 
-        userService.create(adminUser, adminPassword, editFileUsr, password, editFileUsr + "@tests.com", lName, fName);
-        userService.create(adminUser, adminPassword, editFolderUsr, password, editFolderUsr + "@tests.com", lName, fName);
-        userService.create(adminUser, adminPassword, editInAlfUsr, password, editInAlfUsr + "@tests.com", lName, fName);
-        userService.create(adminUser, adminPassword, editFileInGDUsr, password, editFileInGDUsr + "@tests.com", lName, fName);
+        userService.create(adminUser, adminPassword, editFileUsr, password, editFileUsr + domain, lName, fName);
+        userService.create(adminUser, adminPassword, editFolderUsr, password, editFolderUsr + domain, lName, fName);
+        userService.create(adminUser, adminPassword, editInAlfUsr, password, editInAlfUsr + domain, lName, fName);
+        userService.create(adminUser, adminPassword, editFileInGDUsr, password, editFileInGDUsr + domain, lName, fName);
         contentService.createDocumentInRepository(editFileUsr, password, editFilePath, DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentService.createDocumentInRepository(editInAlfUsr, password, editInAlfrescoPath, DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentService.createDocumentInRepository(editFileInGDUsr, password, editFileInGDPath, DocumentType.MSWORD, fileName, fileContent);

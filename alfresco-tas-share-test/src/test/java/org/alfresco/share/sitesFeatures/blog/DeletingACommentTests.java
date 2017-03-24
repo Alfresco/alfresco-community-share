@@ -43,7 +43,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
     {
         List<Page> pagesToAdd = new ArrayList<Page>();
         pagesToAdd.add(Page.BLOG);
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
         siteService.addPagesToSite(user, password, siteName, pagesToAdd);
         setupAuthenticatedSession(user, password);

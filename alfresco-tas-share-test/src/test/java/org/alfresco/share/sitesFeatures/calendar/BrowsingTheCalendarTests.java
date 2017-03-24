@@ -54,7 +54,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     {
         List<Page> pagesToAdd = new ArrayList<Page>();
         pagesToAdd.add(Page.CALENDAR);
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(adminUser, adminPassword, user, siteName, description, Visibility.PUBLIC);
         siteService.addPagesToSite(adminUser, adminPassword, siteName, pagesToAdd);
         setupAuthenticatedSession(adminUser, adminPassword);

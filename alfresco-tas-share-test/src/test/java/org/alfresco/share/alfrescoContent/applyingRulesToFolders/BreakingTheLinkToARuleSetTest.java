@@ -48,9 +48,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        String lastName = "Last Name";
-        String firstName = "First Name";
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.createFolder(userName, password, folderName2, siteName);

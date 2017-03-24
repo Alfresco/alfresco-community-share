@@ -39,7 +39,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
         pagesToAdd.add(Page.DATALISTS);
         userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
         setupAuthenticatedSession(userName, password);
@@ -111,7 +111,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
         
         for(int i=0; i<51; i++)
         {
-            dataLists.addContactListItem(userName, password, siteName, listName, userName+i, userName+i, userName+i + "@tests.com", "companyName", "jobTitle", "phoneOffice", "phoneMobile", "notes");
+            dataLists.addContactListItem(userName, password, siteName, listName, userName+i, userName+i, userName+i + domain, "companyName", "jobTitle", "phoneOffice", "phoneMobile", "notes");
         }
         
         dataListsPage.navigate(siteName);
@@ -144,7 +144,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
         
         for(int i=0; i<2; i++)
         {
-            dataLists.addContactListItem(userName, password, siteName, listName, userName+i, userName+i, userName+i + "@tests.com", i+"comapanyName", "jobTitle", "phoneOffice", "phoneMobile", "notes");
+            dataLists.addContactListItem(userName, password, siteName, listName, userName+i, userName+i, userName+i + domain, i+"comapanyName", "jobTitle", "phoneOffice", "phoneMobile", "notes");
         }
         
         dataListsPage.navigate(siteName);
@@ -166,7 +166,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
         
         for(int i=0; i<2; i++)
         {
-            dataLists.addContactListItem(userName, password, siteName, listName, userName+i, userName+i, userName+i + "@tests.com", i+"comapanyName", "jobTitle", "phoneOffice", "phoneMobile", "notes");
+            dataLists.addContactListItem(userName, password, siteName, listName, userName+i, userName+i, userName+i + domain, i+"comapanyName", "jobTitle", "phoneOffice", "phoneMobile", "notes");
         }
         
         dataListsPage.navigate(siteName);

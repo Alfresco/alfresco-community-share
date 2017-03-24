@@ -64,7 +64,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
         String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
@@ -110,7 +110,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
         String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
@@ -159,7 +159,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
         String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
@@ -199,7 +199,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
         String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");

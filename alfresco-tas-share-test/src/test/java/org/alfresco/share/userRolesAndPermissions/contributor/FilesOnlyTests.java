@@ -95,7 +95,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     {
 
         userContributor = "Contributor" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userContributor, password, userContributor + "@tests.com", userContributor, userContributor);
+        userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
         setupAuthenticatedSession(userContributor, password);
 
     }

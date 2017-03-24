@@ -38,7 +38,7 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
     public void setupTest()
     {
 
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
         contentService.createFolder(user, password, folderName, siteName);
         contentService.createDocumentInFolder(user, password, siteName, folderName, DocumentType.TEXT_PLAIN, docName, "Document content");

@@ -52,8 +52,8 @@ public class EditToDoListTest extends ContextAwareWebTest
     public void setupTest()
     {
         pagesToAdd.add(Page.DATALISTS);
-        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
-        userService.create(adminUser, adminPassword, asigneeName, password, "@tests.com", "fName", "lName");
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        userService.create(adminUser, adminPassword, asigneeName, password, asigneeName + domain, "fName", "lName");
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         String path = srcRoot + "testdata" + File.separator;
         contentService.uploadFileInSite(userName, password, siteName, path + itemFile);

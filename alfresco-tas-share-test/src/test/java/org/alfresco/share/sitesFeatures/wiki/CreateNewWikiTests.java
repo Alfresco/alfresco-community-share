@@ -1,10 +1,6 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.Assert;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.wiki.CreateWikiPage;
@@ -18,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author iulia.nechita
@@ -48,8 +47,14 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
+        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
+        wikiPageContent = "WikiContent" + DataUtil.getUniqueIdentifier();
+        
         pagesToAdd.add(Page.WIKI);
-        userService.create(adminUser, adminPassword, testUser, password, "@tests.com", "firstName", "lastName");
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
+        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         setupAuthenticatedSession(testUser, password);
     }
 
@@ -57,13 +62,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewWikiPage()
     {
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
-        wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
-        wikiPageContent = "WikiContent" + DataUtil.getUniqueIdentifier();
-
         // precondition
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         wikiMainPage.navigate(siteName);
 
         LOG.info("STEP 1: Click on new page button");
@@ -86,13 +85,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreationOfNewWikiPage()
     {
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
-        wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
-        wikiPageContent = "WikiContent" + DataUtil.getUniqueIdentifier();
-
         // precondition
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         wikiMainPage.navigate(siteName);
 
         LOG.info("STEP 1: Click on new page button");
@@ -115,14 +108,9 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createWikiPageFromWikiPageList()
     {
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
-        wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
-        wikiPageContent = "WikiContent" + DataUtil.getUniqueIdentifier();
         String tagName = "tag" + DataUtil.getUniqueIdentifier();
 
         // precondition
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         wikiListPage.navigate(siteName);
 
         LOG.info("STEP 1: Click on new page button");

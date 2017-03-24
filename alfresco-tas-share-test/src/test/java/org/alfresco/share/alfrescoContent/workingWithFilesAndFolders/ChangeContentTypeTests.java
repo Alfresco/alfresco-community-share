@@ -34,17 +34,14 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     @Autowired private EditPropertiesPage editPropertiesPage;
 
     private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    private final String firstName = "FirstName";
-    private final String lastName = "LastName";
-    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
     private final String docContent = "content of the file.";
     private final String siteName = "Site-" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
-        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
+        siteService.create(userName, password, domain, siteName, "Description", Site.Visibility.PUBLIC);
     }
 
     @TestRail(id = "C7163")

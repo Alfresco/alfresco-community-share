@@ -51,8 +51,8 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         userTest = "User2-C2835-" + DataUtil.getUniqueIdentifier();
         siteName = "Site-C2835-" + DataUtil.getUniqueIdentifier();
         groupName = "Group-C2835-" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userManager, password, userManager + "@tests.com", userManager, userManager);
-        userService.create(adminUser, adminPassword, userTest, password, userTest + "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
 
         logger.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
@@ -97,8 +97,8 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         userTest = "User2-C2836-" + DataUtil.getUniqueIdentifier();
         siteName = "site-C2836-" + DataUtil.getUniqueIdentifier();
         groupName = "Group-C2836-" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userManager, password, userManager + "@tests.com", userManager, userManager);
-        userService.create(adminUser, adminPassword, userTest, password, userTest + "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
         setupAuthenticatedSession(userTest, password);
 
@@ -138,12 +138,12 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         userTest = "User2-C2837-" + DataUtil.getUniqueIdentifier();
         siteName = "site-C2837-" + DataUtil.getUniqueIdentifier();
         groupName = "Group" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userManager, password, userManager + "@tests.com", userManager, userManager);
-        userService.create(adminUser, adminPassword, userTest, password, userTest + "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
 
         logger.info("Preconditions: Add the userTest to the created site with 'Manager' role");
-        userService.inviteUserToSiteAndAccept(userManager, password, userTest, siteName, Role.SiteManager.toString());
+        userService.createSiteMember(userManager, password, userTest, siteName, Role.SiteManager.toString());
 
         setupAuthenticatedSession(userManager, password);
 

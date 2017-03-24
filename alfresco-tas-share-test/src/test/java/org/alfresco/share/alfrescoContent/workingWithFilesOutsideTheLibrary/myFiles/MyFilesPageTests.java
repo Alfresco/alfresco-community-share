@@ -41,7 +41,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
 
         LOG.info("Precondition: Login as admin and navigate to My Files page.");

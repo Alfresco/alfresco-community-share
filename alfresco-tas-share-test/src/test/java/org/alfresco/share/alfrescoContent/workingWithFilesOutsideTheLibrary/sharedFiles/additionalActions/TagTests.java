@@ -62,7 +62,7 @@ public class TagTests extends ContextAwareWebTest
         contentService.createFolderInRepository(adminUser, adminPassword, folderName3, path);
         contentService.createDocumentInRepository(adminUser, adminPassword, path13766, CMISUtil.DocumentType.TEXT_PLAIN, docName5, "");
         contentAction.addSingleTag(adminUser, adminPassword, path + "/" + folderName2, tagName2);
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
     }
 
     @BeforeMethod(alwaysRun = true)

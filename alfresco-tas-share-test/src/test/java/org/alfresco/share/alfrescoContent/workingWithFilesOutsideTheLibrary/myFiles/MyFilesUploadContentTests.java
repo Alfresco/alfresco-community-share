@@ -35,7 +35,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
         String user = "user" + DataUtil.getUniqueIdentifier();
         String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
         String testFilePath = testDataFolder + testFile;
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Login as user and navigate to My Files page.");
         setupAuthenticatedSession(user, password);
@@ -58,7 +58,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
         String newVersionFile =  DataUtil.getUniqueIdentifier() + "newVersionFile.txt";
         String testFilePath = testDataFolder + testFile;
         String newVersionFilePath = testDataFolder + newVersionFile;
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
         setupAuthenticatedSession(user, password);

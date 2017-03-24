@@ -36,8 +36,8 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createPrecondition()
     {
-        userService.create(adminUser, adminPassword, testUser1, password, testUser1 + "@tests.com", testUser1, "lastName");
-        userService.create(adminUser, adminPassword, testUser2, password, testUser2 + "@tests.com", testUser2, "lastName");
+        userService.create(adminUser, adminPassword, testUser1, password, testUser1 + domain, testUser1, "lastName");
+        userService.create(adminUser, adminPassword, testUser2, password, testUser2 + domain, testUser2, "lastName");
         siteService.create(testUser1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         contentService.createDocument(testUser1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, testFileName, docContent);
         contentService.createFolder(testUser1, password, testFolderName, siteName);

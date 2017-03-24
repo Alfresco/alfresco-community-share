@@ -65,8 +65,8 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
     public void setupTest()
     {
         pagesToAdd.add(DashboardCustomization.Page.DATALISTS);
-        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
-        userService.create(adminUser, adminPassword, userAssignee, password, "@tests.com", userAssignee, userAssignee);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        userService.create(adminUser, adminPassword, userAssignee, password, userAssignee + domain, userAssignee, userAssignee);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
         dataLists.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.TASKS_ADVANCED, listName, "Advanced Task list description.");

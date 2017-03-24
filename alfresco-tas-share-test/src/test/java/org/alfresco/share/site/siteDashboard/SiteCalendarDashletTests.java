@@ -46,7 +46,7 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
     {
         List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
         pagesToAdd.add(DashboardCustomization.Page.CALENDAR);
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(user, password, siteName, pagesToAdd);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_CALENDAR, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);

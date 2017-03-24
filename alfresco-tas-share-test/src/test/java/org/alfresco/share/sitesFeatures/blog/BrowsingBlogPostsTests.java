@@ -43,8 +43,8 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     {
         List<Page> pagesToAdd = new ArrayList<>();
         pagesToAdd.add(Page.BLOG);
-        userService.create(adminUser, adminPassword, user1, password, user1 + "@tests.com", user1, user1);
-        userService.create(adminUser, adminPassword, user2, password, user2 + "@tests.com", user2, user2);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
+        userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, user2);
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, user2, siteName, "SiteManager");
         siteService.addPagesToSite(user1, password, siteName, pagesToAdd);

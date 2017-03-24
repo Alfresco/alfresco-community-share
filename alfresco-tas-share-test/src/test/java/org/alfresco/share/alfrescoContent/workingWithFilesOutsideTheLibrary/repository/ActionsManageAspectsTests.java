@@ -35,7 +35,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         repositoryUserHomesPath = "User Homes/" + nonAdminUser;
         folderInRepoUserHomes = "folderInRepoUserHomes" + DataUtil.getUniqueIdentifier();
         repositoryMainFolderPath = "";
-        userService.create(adminUser, adminPassword, nonAdminUser, password, nonAdminUser + "@tests.com", nonAdminUser, nonAdminUser);
+        userService.create(adminUser, adminPassword, nonAdminUser, password, nonAdminUser + domain, nonAdminUser, nonAdminUser);
         contentService.createFolderInRepository(adminUser, adminPassword, folderInRepoMainPath, repositoryMainFolderPath);
         contentService.createFolderInRepository(nonAdminUser, password, folderInRepoUserHomes, repositoryUserHomesPath);
 

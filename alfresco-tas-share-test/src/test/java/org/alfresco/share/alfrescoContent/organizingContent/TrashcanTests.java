@@ -38,15 +38,14 @@ public class TrashcanTests extends ContextAwareWebTest
 
     private final String random = DataUtil.getUniqueIdentifier();
     private final String userName = "profileUser-" + random;
-    private final String firstName = "FirstName";
-    private final String lastName = "LastName";
     private final String description = "Description-" + random;
     private final String fileContent = "file content.";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
+        setupAuthenticatedSession(userName, password);
     }
 
     @TestRail(id = "C10506")
@@ -60,7 +59,6 @@ public class TrashcanTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
 
@@ -89,8 +87,6 @@ public class TrashcanTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'OK' button");
         emptyTrashcanDialog.clickButton("OK");
         assertEquals(userTrashcanPage.getNoItemsMessage(), "No items exist", "Empty trash");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C7572")
@@ -105,7 +101,6 @@ public class TrashcanTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
 
@@ -133,8 +128,6 @@ public class TrashcanTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'OK' button");
         emptyTrashcanDialog.clickButton("OK");
         assertEquals(userTrashcanPage.getNoItemsMessage(), "No items exist", "Empty trash");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C7573")
@@ -149,7 +142,6 @@ public class TrashcanTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
 
@@ -177,7 +169,5 @@ public class TrashcanTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'OK' button");
         emptyTrashcanDialog.clickButton("OK");
         assertEquals(userTrashcanPage.getNoItemsMessage(), "No items exist", "Empty trash");
-
-        cleanupAuthenticatedSession();
     }
 }

@@ -35,7 +35,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, "Document content");
         contentService.createFolder(testUser, password, folderName, siteName);

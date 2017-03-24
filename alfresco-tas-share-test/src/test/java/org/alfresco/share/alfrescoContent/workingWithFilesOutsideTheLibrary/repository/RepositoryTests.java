@@ -45,7 +45,7 @@ public class RepositoryTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
         siteService.create(user, password, domain, siteName2, description, Visibility.PUBLIC);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileName1, fileContent);

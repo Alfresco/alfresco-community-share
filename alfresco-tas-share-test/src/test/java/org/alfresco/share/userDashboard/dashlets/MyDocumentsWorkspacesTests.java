@@ -28,7 +28,7 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
         String siteName = "Site1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, password, userName + "@tests.com", userName, userName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 

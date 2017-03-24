@@ -73,7 +73,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, user, siteName, "SiteConsumer");
         contentService.createDocument(adminUser, adminPassword, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileC8884, testContent);

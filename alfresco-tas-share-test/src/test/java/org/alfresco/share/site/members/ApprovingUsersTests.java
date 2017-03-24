@@ -67,8 +67,8 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         userTest = "User2" + DataUtil.getUniqueIdentifier();
         siteName = "C2461" + DataUtil.getUniqueIdentifier();
         taskName = String.format("Request to join %s site", siteName);
-        userService.create(adminUser, adminPassword, userManager, password, userManager + "@tests.com", userManager, userManager);
-        userService.create(adminUser, adminPassword, userTest, password, userTest + "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
 
         setupAuthenticatedSession(userTest, password);

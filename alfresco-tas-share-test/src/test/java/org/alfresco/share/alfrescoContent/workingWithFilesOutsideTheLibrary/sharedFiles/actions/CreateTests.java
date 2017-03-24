@@ -54,8 +54,8 @@ public class CreateTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
-        userService.create(adminUser, adminPassword, user2, password, user2 + "@tests.com", user2, user2);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+        userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, user2);
     }
 
     @TestRail(id = "C7929")

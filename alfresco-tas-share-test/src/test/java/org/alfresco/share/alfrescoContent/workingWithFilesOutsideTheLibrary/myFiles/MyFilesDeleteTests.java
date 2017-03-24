@@ -42,7 +42,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
     public void myFilesDeleteDocument()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
         setupAuthenticatedSession(user, password);
@@ -68,7 +68,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
     public void myFilesDeleteFolder()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
         setupAuthenticatedSession(user, password);

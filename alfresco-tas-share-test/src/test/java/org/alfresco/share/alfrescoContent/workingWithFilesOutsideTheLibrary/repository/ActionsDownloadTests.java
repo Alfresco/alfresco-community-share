@@ -55,7 +55,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8240, fileContent);
         contentService.createFolderInRepository(adminUser, adminPassword, folderNameC8243, path);
 

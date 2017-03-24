@@ -52,9 +52,7 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        String firstName = "First Name";
-        String lastName = "Last Name";
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
 
         contentService.createFolder(userName, password, folderName, siteName);

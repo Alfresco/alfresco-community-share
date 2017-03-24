@@ -44,7 +44,7 @@ public class TagsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user1, password, user1 + "@tests.com", user1, user1);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         siteService.create(user1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
 
         List<Page> pagesToAdd = new ArrayList<>();

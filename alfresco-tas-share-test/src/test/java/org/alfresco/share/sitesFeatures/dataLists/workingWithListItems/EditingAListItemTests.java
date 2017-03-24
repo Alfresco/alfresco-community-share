@@ -48,7 +48,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
         pagesToAdd.add(Page.DATALISTS);
         userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
         setupAuthenticatedSession(userName, password);
@@ -60,7 +60,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
     {      
         logger.info("Preconditions: Create a second user"); 
         String userTest = "User" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userTest, password, "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         
         logger.info("Preconditions: Create a 'test.xlsx' file");
         String folderName = "testFolder";

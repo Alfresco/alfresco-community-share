@@ -45,7 +45,7 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
     public void unzipZipArchiveToMyFiles()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a zip archive.");
         setupAuthenticatedSession(user, password);
@@ -77,7 +77,7 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
     public void unzipACPArchiveToMyFiles()
     {
         String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a zip archive.");
         setupAuthenticatedSession(user, password);

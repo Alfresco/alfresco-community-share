@@ -62,7 +62,7 @@ public class FoldersOnlyTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, domain, name, user);
         siteService.create(adminUser, adminPassword, domain, site, description, Site.Visibility.PUBLIC);
-        userService.inviteUserToSiteAndAccept(adminUser, adminPassword, user, site, String.valueOf(SiteContributor));
+        userService.createSiteMember(adminUser, adminPassword, user, site, String.valueOf(SiteContributor));
         contentService.createFolder(adminUser, adminPassword, folderName, site);
         contentService.createFolder(user, password, folderName3, site);
         contentService.createFolderInRepository(adminUser, adminPassword, subFolderName, path);

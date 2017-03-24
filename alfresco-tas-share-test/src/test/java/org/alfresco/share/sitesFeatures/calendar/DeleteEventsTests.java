@@ -58,7 +58,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void setupTest()
     {
         pagesToAdd.add(Page.CALENDAR);
-        userService.create(adminUser, adminPassword, user1, password, user1 + "@tests.com", user1, user1);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         siteService.create(user1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
         siteService.addDashlet(user1, password, siteName, SiteDashlet.SITE_CALENDAR, DashletLayout.THREE_COLUMNS, 3, 1);

@@ -40,7 +40,7 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
         fileName = "testFile";
         fileContent = "testContent";
 
-        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);

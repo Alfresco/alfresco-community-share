@@ -34,7 +34,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         siteService.create(testUser, password, domain, siteName1, siteName1, Site.Visibility.PUBLIC);
         siteService.create(testUser, password, domain, siteName2, siteName2, Site.Visibility.PUBLIC);
         siteService.create(testUser, password, domain, siteName3, siteName3, Site.Visibility.PUBLIC);

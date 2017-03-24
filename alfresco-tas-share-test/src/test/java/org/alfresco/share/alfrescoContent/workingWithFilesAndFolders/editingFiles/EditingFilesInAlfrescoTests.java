@@ -53,7 +53,7 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
         editedTitle = "Edited test title";
         editedDescription = "Edited description";
 
-        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 

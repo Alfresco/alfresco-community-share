@@ -45,7 +45,7 @@ public class ViewLinkDetailsTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", "firstName", "lastName");
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         tags.add("tag1");

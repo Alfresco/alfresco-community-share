@@ -54,7 +54,7 @@ public class EditContactListItemTest extends ContextAwareWebTest
     public void setupTest()
     {
         pagesToAdd.add(DashboardCustomization.Page.DATALISTS);
-        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
         dataLists.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.CONTACT_LIST, contactListName, "Contact list description");

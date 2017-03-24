@@ -35,9 +35,7 @@ public class MovingContentTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        String lastName = "LastName";
-        String firstName = "FirstName";
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
     }
 
     @TestRail(id = "C7345")

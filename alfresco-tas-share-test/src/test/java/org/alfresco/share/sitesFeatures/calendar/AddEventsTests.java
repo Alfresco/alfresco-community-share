@@ -65,7 +65,7 @@ public class AddEventsTests extends ContextAwareWebTest
     {
         List<Page> pagesToAdd = new ArrayList<Page>();
         pagesToAdd.add(Page.CALENDAR);
-        userService.create(adminUser, adminPassword, user1, password, user1 + "@tests.com", user1, user1);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         userService.addDashlet(user1, password, UserDashlet.MY_CALENDAR, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
         siteService.create(user1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(user1, password, siteName, pagesToAdd);

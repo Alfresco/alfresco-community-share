@@ -80,7 +80,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     {
 
         userContributor = "Contributor" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userContributor, password, userContributor + "@tests.com", userContributor, userContributor);
+        userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
         setupAuthenticatedSession(userContributor, password);
 
     }
@@ -453,7 +453,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         siteService.create(adminUser, adminPassword, domain, sitePermissionsName, description, Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, sitePermissionsName, "SiteContributor");
         contentService.createFolder(userContributor, password, folderName, sitePermissionsName);
-        userService.create(adminUser, adminPassword, user2, password, user2 + "@tests.com", user2, user2);
+        userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, user2);
         documentLibraryPage.navigate(sitePermissionsName);
 
         logger.info("Step1: Hover for 'testFolder' and click on 'Manage Permissions' option from 'More' menu");

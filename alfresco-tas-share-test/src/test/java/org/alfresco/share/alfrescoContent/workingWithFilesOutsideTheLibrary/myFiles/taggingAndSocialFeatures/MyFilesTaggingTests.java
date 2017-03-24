@@ -57,7 +57,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest {
 	public void setupTest() {
 
 		user = "user" + DataUtil.getUniqueIdentifier();
-		userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+		userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
 		LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
 		setupAuthenticatedSession(user, password);

@@ -47,8 +47,8 @@ public class MyDocumentsTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         userName1 = "User1" + DataUtil.getUniqueIdentifier();
         userName2 = "User2" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName1, password, userName1 + "@tests.com", userName1, userName1);
-        userService.create(adminUser, adminPassword, userName2, password, userName1 + "@tests.com", userName1, userName1);
+        userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
+        userService.create(adminUser, adminPassword, userName2, password, userName1 + domain, userName1, userName1);
         siteName1 = "Site1" + DataUtil.getUniqueIdentifier();
         siteService.create(userName1, password, domain, siteName1, "description", Visibility.PUBLIC);
     }

@@ -45,7 +45,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
         LOG.info("Precondition: Create user and a workflow.");
         String testUser = "testUser" + DataUtil.getUniqueIdentifier();
         String comment = "C8463";
-        userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", testUser, "lastName");
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
         setupAuthenticatedSession(testUser, password);
 
@@ -89,7 +89,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
         LOG.info("Precondition: Create user and a workflow.");
         String testUser = "testUser" + DataUtil.getUniqueIdentifier();
         String comment = "C8464";
-        userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", testUser, "lastName");
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
         setupAuthenticatedSession(testUser, password);
 
@@ -120,7 +120,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create user and a workflow.");
         String testUser = "testUser" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, testUser, password, testUser + "@tests.com", testUser, "lastName");
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
         setupAuthenticatedSession(testUser, password);
 

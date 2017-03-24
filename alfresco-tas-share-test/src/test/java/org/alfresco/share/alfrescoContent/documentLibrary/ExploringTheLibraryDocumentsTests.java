@@ -33,7 +33,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         userService.create(adminUser, adminPassword, user1, password, user1+"@tests.com", user1, user1);
         setupAuthenticatedSession(user, password);
     }
@@ -76,7 +76,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     public void viewImEditingFiles()
     {
         String siteNameC6321 = "C6321SiteName" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteNameC6321, description, Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
         String docName = "testFile1";
@@ -186,7 +186,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     public void viewRecentlyAddedFiles()
     {
         String siteNameC10598 = "C10598-site" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteNameC10598, description, Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
         

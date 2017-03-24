@@ -24,7 +24,6 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
 
     private String userName;
     private String folderName;
-    private String path;
     private String userName1;
     private String folderPath;
 
@@ -34,11 +33,10 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
         userName = "User" + DataUtil.getUniqueIdentifier();
         userName1 = "User1" + DataUtil.getUniqueIdentifier();
         folderName = "testFolder" + DataUtil.getUniqueIdentifier();
-        path = "Shared";
         folderPath = "/Shared/" + folderName;
-        userService.create(adminUser, adminPassword, userName, password, "@tests.com", userName, userName);
-        userService.create(adminUser, adminPassword, userName1, password, "@tests.com", userName1, userName1);
-        contentService.createFolderInRepository(userName, password, folderName, path);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
+        contentService.createFolderInRepository(userName, password, folderName, "Shared");
     }
 
     @TestRail(id = "C8038")

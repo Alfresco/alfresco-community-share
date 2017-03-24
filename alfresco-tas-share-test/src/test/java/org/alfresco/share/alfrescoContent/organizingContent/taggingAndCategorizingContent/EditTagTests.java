@@ -31,20 +31,16 @@ public class EditTagTests extends ContextAwareWebTest
     private final String newTagName = "newTagName-" + random;
     private final String fileName = "file-" + random;
     private final String userName = "profileUser-" + random;
-    private final String description = "Description-" + random;
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        final String fileContent = "content of the file.";
-        final String firstName = "FirstName";
-        final String lastName = "LastName";
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
-        siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteName2, description, Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
+        siteService.create(userName, password, domain, siteName1, "Description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName2, "Description", Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName2);
         contentAction.addSingleTag(userName, password, siteName2, folderName, tagName);
-        contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
+        contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "content of the file.");
         contentAction.addSingleTag(userName, password, siteName1, fileName, tagName);
 
         setupAuthenticatedSession(userName, password);
