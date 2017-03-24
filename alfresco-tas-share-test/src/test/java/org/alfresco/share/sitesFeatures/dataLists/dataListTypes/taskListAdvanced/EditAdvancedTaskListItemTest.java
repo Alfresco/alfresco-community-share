@@ -2,7 +2,7 @@ package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListAdvance
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.AdvancedTaskAgendaFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -15,8 +15,6 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -30,15 +28,11 @@ import static org.testng.Assert.assertTrue;
 public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
 {
     @Autowired
-    DataListsService dataLists;
-
-    @Autowired
     DataListsPage dataListsPage;
 
     @Autowired
     EditItemPopUp editItemPopUp;
-
-    private List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
+    
     String userName = "User-" + DataUtil.getUniqueIdentifier();
     String userAssignee = "UserA-" + DataUtil.getUniqueIdentifier();
     String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
@@ -64,17 +58,15 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        pagesToAdd.add(DashboardCustomization.Page.DATALISTS);
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.create(adminUser, adminPassword, userAssignee, password, userAssignee + domain, userAssignee, userAssignee);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.TASKS_ADVANCED, listName, "Advanced Task list description.");
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.TASKS_ADVANCED, listName, "Advanced Task list description.");
 
-        String path = srcRoot + "testdata" + File.separator;
-        contentService.uploadFileInSite(userName, password, siteName, path + attachedFile);
-        contentService.uploadFileInSite(userName, password, siteName, path + itemFile);
-        dataLists.addTaskAdvancedItem(adminUser, adminPassword, siteName, listName, itemTitle, itemDescription, null, null, Collections.singletonList(userName),
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + attachedFile);
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + itemFile);
+        dataListsService.addTaskAdvancedItem(adminUser, adminPassword, siteName, listName, itemTitle, itemDescription, null, null, Collections.singletonList(userName),
                 itemPriority, itemStatus, 0, itemComment, Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
@@ -127,7 +119,5 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
         List<String> item = Arrays.asList(newItemTitle, newItemDescription, date2, date2, userAssignee, newItemPriority, newItemStatus, newComplete,
                 newComments, attachments.toString());
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(item), newItemTitle + " Advanced task list item is displayed.");
-
-        cleanupAuthenticatedSession();
     }
 }

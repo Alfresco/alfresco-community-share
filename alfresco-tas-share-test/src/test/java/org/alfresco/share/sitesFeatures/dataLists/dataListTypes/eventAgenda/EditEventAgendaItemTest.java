@@ -1,7 +1,7 @@
 package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.eventAgenda;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.EventAgendaFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -14,11 +14,8 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -29,15 +26,10 @@ import static org.testng.Assert.assertTrue;
 public class EditEventAgendaItemTest extends ContextAwareWebTest
 {
     @Autowired
-    DataListsService dataLists;
-
-    @Autowired
     DataListsPage dataListsPage;
 
     @Autowired
     EditItemPopUp editItemPopUp;
-
-    private List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
 
     String random = DataUtil.getUniqueIdentifier();
     String userName = "User-" + random;
@@ -61,16 +53,14 @@ public class EditEventAgendaItemTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        pagesToAdd.add(DashboardCustomization.Page.DATALISTS);
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.EVENT_AGENDA, listName, "Event Agenda list description.");
-
-        String path = srcRoot + "testdata" + File.separator;
-        contentService.uploadFileInSite(userName, password, siteName, path + file);
-        contentService.uploadFileInSite(userName, password, siteName, path + fileToAttach);
-        dataLists.addEventAgendaItem(userName, password, siteName, listName, itemReference, null, null, itemSessionName, null, null, null,
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.EVENT_AGENDA, listName, "Event Agenda list description.");
+        
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + file);
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + fileToAttach);
+        dataListsService.addEventAgendaItem(userName, password, siteName, listName, itemReference, null, null, itemSessionName, null, null, null,
                 Collections.singletonList(file));
 
         setupAuthenticatedSession(userName, password);

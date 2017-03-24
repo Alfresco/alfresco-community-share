@@ -1,7 +1,7 @@
 package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.eventList;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.EventListFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -14,8 +14,6 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -28,15 +26,11 @@ import static org.testng.Assert.assertTrue;
 public class EditEventListItemTest extends ContextAwareWebTest
 {
     @Autowired
-    DataListsService dataLists;
-
-    @Autowired
     DataListsPage dataListsPage;
 
     @Autowired
     EditItemPopUp editItemPopUp;
-
-    private List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
+    
     String random = DataUtil.getUniqueIdentifier();
     String userName = "User-" + random;
     String siteName = "SiteName-" + random;
@@ -60,16 +54,14 @@ public class EditEventListItemTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        pagesToAdd.add(DashboardCustomization.Page.DATALISTS);
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.EVENT_LIST, listName, "Issue List description");
-
-        String path = srcRoot + "testdata" + File.separator;
-        contentService.uploadFileInSite(userName, password, siteName, path + itemFile);
-        contentService.uploadFileInSite(userName, password, siteName, path + attachedFile);
-        dataLists.addEventListItem(adminUser, adminPassword, siteName, listName, itemTitle, "", "", null, null, "", "", Collections.singletonList(itemFile));
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.EVENT_LIST, listName, "Issue List description");
+        
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + itemFile);
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + attachedFile);
+        dataListsService.addEventListItem(adminUser, adminPassword, siteName, listName, itemTitle, "", "", null, null, "", "", Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
@@ -103,7 +95,5 @@ public class EditEventListItemTest extends ContextAwareWebTest
         List<String> expectedItem = Arrays.asList(newItemTitle, newItemDescription, newItemLocation, itemStartDate, itemEndDate, newItemRegistrations,
                 newItemNotes, attachedFile);
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedItem), newItemTitle + " issue list item is displayed.");
-
-        cleanupAuthenticatedSession();
     }
 }

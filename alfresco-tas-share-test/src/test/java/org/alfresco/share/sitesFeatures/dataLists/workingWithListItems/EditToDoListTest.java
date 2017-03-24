@@ -16,8 +16,10 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
@@ -52,9 +54,9 @@ public class EditToDoListTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.create(adminUser, adminPassword, asigneeName, password, asigneeName + domain, "fName", "lName");
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        String path = srcRoot + "testdata" + File.separator;
-        contentService.uploadFileInSite(userName, password, siteName, path + itemFile);
-        contentService.uploadFileInSite(userName, password, siteName, path + attachedFile);
+
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + itemFile);
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + attachedFile);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsService.createDataList(userName, password, siteName, DataList.TODO_LIST, todoListName, dataListDescription);
         dataListsService.addToDoItem(userName, password, siteName, todoListName, itemTitle, dueDateToday, priority, status, notes, null,

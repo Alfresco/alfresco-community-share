@@ -2,7 +2,7 @@ package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListSimple;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.SimpleTaskAgendaFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -16,7 +16,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -35,11 +34,9 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
     @Autowired
     EditItemPopUp editItemPopUp;
 
-    private List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
-    String random = DataUtil.getUniqueIdentifier();
-    String userName = "User-" + random;
-    String siteName = "SiteName-" + random;
-    String taskListSimple = "Simple task item name" + random;
+    String userName = "User-" + DataUtil.getUniqueIdentifier();
+    String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
+    String taskListSimple = "Simple task item name" + DataUtil.getUniqueIdentifier();
     String itemTitle = "Simple task item title";
     String itemDescription = "Simple task item description";
     String itemComment = "Simple task item comment";
@@ -55,10 +52,9 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-    	pagesToAdd.add(DashboardCustomization.Page.DATALISTS);
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.TASKS_SIMPLE, taskListSimple, "Simple Task list description");
         dataListsService.addTaskSimpleItem(adminUser, adminPassword, siteName, taskListSimple, itemTitle, itemDescription, null, itemPriority, itemStatus,
                 itemComment);

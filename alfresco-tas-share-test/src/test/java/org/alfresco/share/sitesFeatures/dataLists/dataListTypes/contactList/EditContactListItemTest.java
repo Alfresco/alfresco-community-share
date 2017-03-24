@@ -1,7 +1,7 @@
 package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.contactList;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.ContactListFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -14,7 +14,6 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,19 +26,13 @@ import static org.testng.Assert.assertTrue;
 public class EditContactListItemTest extends ContextAwareWebTest
 {
     @Autowired
-    DataListsService dataLists;
-
-    @Autowired
     DataListsPage dataListsPage;
 
     @Autowired
     EditItemPopUp editItemPopUp;
-
-    private List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
-
-    String random = DataUtil.getUniqueIdentifier();
-    String userName = "User-" + random;
-    String siteName = "SiteName-" + random;
+    
+    String userName = "User-" + DataUtil.getUniqueIdentifier();
+    String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
     String contactListName = "contactList";
     String editedFirstName = "editedFirstName";
     String editedLastName = "editedLastName";
@@ -53,12 +46,11 @@ public class EditContactListItemTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        pagesToAdd.add(DashboardCustomization.Page.DATALISTS);
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.CONTACT_LIST, contactListName, "Contact list description");
-        dataLists.addContactListItem(adminUser, adminPassword, siteName, contactListName, "firstName", "lastName", "test@test.com", "companyName", "jobTitle",
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.CONTACT_LIST, contactListName, "Contact list description");
+        dataListsService.addContactListItem(adminUser, adminPassword, siteName, contactListName, "firstName", "lastName", "test@test.com", "companyName", "jobTitle",
                 "123456", "+41256422", "testNotes");
 
         setupAuthenticatedSession(userName, password);
@@ -104,7 +96,5 @@ public class EditContactListItemTest extends ContextAwareWebTest
         List<String> expectedList = Arrays.asList(editedFirstName, editedLastName, editedEmail, editedCompany, editedJobTitle, editedPhoneOffice,
                 editedPhoneMobile, editedNotes);
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedList), "Data list item is updated.");
-
-        cleanupAuthenticatedSession();
     }
 }

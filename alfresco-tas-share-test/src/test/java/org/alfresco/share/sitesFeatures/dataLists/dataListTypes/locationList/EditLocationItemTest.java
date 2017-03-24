@@ -1,7 +1,7 @@
 package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.locationList;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.LocationFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -14,8 +14,6 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -28,15 +26,11 @@ import static org.testng.Assert.assertTrue;
 public class EditLocationItemTest extends ContextAwareWebTest
 {
     @Autowired
-    DataListsService dataLists;
-
-    @Autowired
     DataListsPage dataListsPage;
 
     @Autowired
     EditItemPopUp editItemPopUp;
-
-    private List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
+    
     String random = DataUtil.getUniqueIdentifier();
     String userName = "User-" + random;
     String siteName = "SiteName-" + random;
@@ -57,16 +51,14 @@ public class EditLocationItemTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        pagesToAdd.add(DashboardCustomization.Page.DATALISTS);
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.LOCATION_LIST, listName, "Location List description");
-
-        String path = srcRoot + "testdata" + File.separator;
-        contentService.uploadFileInSite(userName, password, siteName, path + itemFile);
-        contentService.uploadFileInSite(userName, password, siteName, path + attachedFile);
-        dataLists.addLocationItem(adminUser, adminPassword, siteName, listName, itemTitle, "", "", "", "", "", "", "", Collections.singletonList(itemFile));
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.LOCATION_LIST, listName, "Location List description");
+        
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + itemFile);
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + attachedFile);
+        dataListsService.addLocationItem(adminUser, adminPassword, siteName, listName, itemTitle, "", "", "", "", "", "", "", Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
@@ -101,7 +93,5 @@ public class EditLocationItemTest extends ContextAwareWebTest
         List<String> expectedItem = Arrays.asList(newItemTitle, itemAddress1, itemAddress2, itemAddress3, itemZipCode, itemState, itemCountry, itemDescription,
                 attachedFile);
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedItem), newItemTitle + " issue list item is displayed.");
-
-        cleanupAuthenticatedSession();
     }
 }

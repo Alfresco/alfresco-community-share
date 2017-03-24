@@ -2,7 +2,7 @@ package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.issueList;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.IssueFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -15,8 +15,6 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,15 +27,11 @@ import static org.testng.Assert.assertTrue;
 public class EditIssueItemTest extends ContextAwareWebTest
 {
     @Autowired
-    DataListsService dataLists;
-
-    @Autowired
     DataListsPage dataListsPage;
 
     @Autowired
     EditItemPopUp editItemPopUp;
 
-    private List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
     String random = DataUtil.getUniqueIdentifier();
     String userName = "User-" + random;
     String userAssignee = "userAssignee-" + random;
@@ -64,17 +58,15 @@ public class EditIssueItemTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        pagesToAdd.add(DashboardCustomization.Page.DATALISTS);
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.create(adminUser, adminPassword, userAssignee, password, userAssignee + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.ISSUE_LIST, listName, "Issue List description");
-
-        String path = srcRoot + "testdata" + File.separator;
-        contentService.uploadFileInSite(userName, password, siteName, path + itemFile);
-        contentService.uploadFileInSite(userName, password, siteName, path + attachedFile);
-        dataLists.addIssueListItem(adminUser, adminPassword, siteName, listName, itemId, itemTitle, Collections.singletonList(userName), itemStatus, itemPriority,
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.ISSUE_LIST, listName, "Issue List description");
+        
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + itemFile);
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + attachedFile);
+        dataListsService.addIssueListItem(adminUser, adminPassword, siteName, listName, itemId, itemTitle, Collections.singletonList(userName), itemStatus, itemPriority,
                 itemDescription, null, itemComment, Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
@@ -109,7 +101,5 @@ public class EditIssueItemTest extends ContextAwareWebTest
         List<String> expectedItem = Arrays.asList(newItemID, newItemTitle, userAssignee, newItemStatus, newItemPriority, newItemDescription, updatedItemDate,
                 newItemComments, attachmentsList.toString());
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedItem), newItemTitle + " issue list item is displayed.");
-
-        cleanupAuthenticatedSession();
     }
 }
