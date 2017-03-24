@@ -1,16 +1,17 @@
 package org.alfresco.share.site.members;
 
-import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.TestGroup;
-import org.testng.annotations.Test;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /// **
 // * Created by Gabriela Virna on 7/01/2016.

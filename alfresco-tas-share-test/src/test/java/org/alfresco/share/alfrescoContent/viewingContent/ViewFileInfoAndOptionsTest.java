@@ -1,7 +1,5 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import java.io.File;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -16,6 +14,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.io.File;
 
 /**
  * @author iulia.cojocea

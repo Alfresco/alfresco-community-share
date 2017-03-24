@@ -12,7 +12,6 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
@@ -31,8 +30,6 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
 
     private String user = "user-" + DataUtil.getUniqueIdentifier();
     private String siteName;
-    private String srcRoot = System.getProperty("user.dir") + File.separator;
-    private String testDataFolder = srcRoot + "testdata" + File.separator;
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

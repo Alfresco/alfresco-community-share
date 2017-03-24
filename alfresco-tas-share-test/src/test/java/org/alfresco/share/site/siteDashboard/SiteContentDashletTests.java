@@ -1,7 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import static org.testng.Assert.assertEquals;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
@@ -21,6 +19,8 @@ import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
 
 public class SiteContentDashletTests extends ContextAwareWebTest
 {

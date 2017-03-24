@@ -11,10 +11,8 @@ import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import java.io.File;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+
+import static org.testng.Assert.*;
 
 public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
 {
@@ -28,7 +26,6 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     private final String docName = "File-6320-0";
     private final String docName1 = "File-6320-1";
     private final String docName2 = "File-6320-2";
-    private final String testDataFolder = srcRoot + "testdata" + File.separator;
     
     @BeforeClass(alwaysRun = true)
     public void setupTest()

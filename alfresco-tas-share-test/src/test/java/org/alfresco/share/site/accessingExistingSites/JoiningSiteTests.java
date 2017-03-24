@@ -5,8 +5,8 @@ import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.po.share.site.accessingExistingSites.RequestSentDialog;
+import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -20,9 +20,7 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 7/7/2016.

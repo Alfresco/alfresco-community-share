@@ -3,10 +3,10 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sha
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
-import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
-import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
+import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
+import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.io.File;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -42,7 +40,6 @@ public class UnzipContentTests extends ContextAwareWebTest
 
     private final String user = "C8040TestUser" + DataUtil.getUniqueIdentifier();
     private final String path = "Shared";
-    private final String testDataFolder = srcRoot + "testdata" + File.separator;
     private final String zipFile = "archiveC8040.zip";
     private final String zipContent = "fileC8040";
     private final String acpFile = "archiveC8041.acp";

@@ -15,8 +15,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-
 import static org.testng.Assert.assertEquals;
 
 public class ViewingAFileTests extends ContextAwareWebTest
@@ -33,7 +31,6 @@ public class ViewingAFileTests extends ContextAwareWebTest
     private final String user = "C9917User1489451372540";
     private final String siteName = "C9917SiteName" + DataUtil.getUniqueIdentifier();
     private final String description = "C9917SiteDescription" + DataUtil.getUniqueIdentifier();
-    private final String testDataFolder = srcRoot + "testdata" + File.separator;
     private final String docName = "File-C9917";
     private final DateTime currentDate = new DateTime();
   

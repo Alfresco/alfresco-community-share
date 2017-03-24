@@ -1,7 +1,8 @@
 package org.alfresco.share.site.siteDashboard;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.*;
+import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.dashlet.SiteContributorBreakdownDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;

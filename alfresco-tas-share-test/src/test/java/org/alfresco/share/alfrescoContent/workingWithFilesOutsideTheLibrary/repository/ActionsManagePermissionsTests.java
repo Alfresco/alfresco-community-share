@@ -14,8 +14,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-
 /**
  * Created by Mirela Tifui on 3/20/2017.
  */
@@ -41,7 +39,6 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
     private String path ="";
     private String folderName = "C202758Folder";
     private String pathC202758 = "C202758Folder";
-    private String testDataFolder = srcRoot + "testdata" + File.separator;
     private String file = "Manage_permissions_test_file";
     private String userC202776 = "C202759_1"+ DataUtil.getUniqueIdentifier();
     private String folderC202776 = "C202776Folder";

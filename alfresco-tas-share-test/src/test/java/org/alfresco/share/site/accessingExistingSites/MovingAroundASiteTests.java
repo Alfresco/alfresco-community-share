@@ -1,7 +1,5 @@
 package org.alfresco.share.site.accessingExistingSites;
 
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -14,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertTrue;
 
 
 public class MovingAroundASiteTests extends ContextAwareWebTest

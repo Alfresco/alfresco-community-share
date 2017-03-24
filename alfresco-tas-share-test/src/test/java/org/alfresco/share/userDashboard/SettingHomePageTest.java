@@ -1,7 +1,9 @@
 package org.alfresco.share.userDashboard;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.po.share.*;
+import org.alfresco.po.share.MyFilesPage;
+import org.alfresco.po.share.PeopleFinderPage;
+import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;

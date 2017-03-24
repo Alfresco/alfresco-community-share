@@ -15,7 +15,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.util.Map;
 
 import static org.testng.Assert.assertTrue;
@@ -58,7 +57,6 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
     private String fileContentXml2 = "Content for .xml file 2";
     private String fileNameDocx1 = "Docx file1";
     private String fileContentDocx1 = "Content for .docx file 1";
-    private String testDataFolder = srcRoot + "testdata" + File.separator;
     private String picture = "Lighthouse";
 
     private String fileName1User1 = "File1"+ DataUtil.getUniqueIdentifier();

@@ -1,8 +1,5 @@
 package org.alfresco.share.site.members;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.GroupService;
 import org.alfresco.po.share.site.members.SiteGroupsPage;
@@ -13,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Claudia Agache on 6/30/2016.

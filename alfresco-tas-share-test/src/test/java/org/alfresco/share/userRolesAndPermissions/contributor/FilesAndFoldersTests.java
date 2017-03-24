@@ -28,7 +28,6 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.testng.Assert.*;

@@ -1,9 +1,5 @@
 package org.alfresco.share.site;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.Theme;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
@@ -17,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author bogdan.bocancea

@@ -1,8 +1,5 @@
 package org.alfresco.share.userProfile;
 
-import java.util.List;
-import java.util.Map;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.user.profile.EditUserProfilePage;
 import org.alfresco.po.share.user.profile.MyProfileNavigation;
@@ -14,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.List;
+import java.util.Map;
 
 public class UpdateAndViewProfileTests extends ContextAwareWebTest
 {

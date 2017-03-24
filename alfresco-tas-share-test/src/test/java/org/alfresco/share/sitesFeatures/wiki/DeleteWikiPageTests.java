@@ -2,7 +2,6 @@ package org.alfresco.share.sitesFeatures.wiki;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.wiki.DeleteWikiPagePopUp;
 import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;

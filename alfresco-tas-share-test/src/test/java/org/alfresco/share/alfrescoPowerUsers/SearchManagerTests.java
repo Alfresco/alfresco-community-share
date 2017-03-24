@@ -2,7 +2,8 @@ package org.alfresco.share.alfrescoPowerUsers;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.po.share.searching.*;
+import org.alfresco.po.share.searching.SearchManagerPage;
+import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;

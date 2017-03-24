@@ -1,8 +1,5 @@
 package org.alfresco.share.searching.advancedSearch;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
@@ -16,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdvancedSearchPageTest extends ContextAwareWebTest
 {

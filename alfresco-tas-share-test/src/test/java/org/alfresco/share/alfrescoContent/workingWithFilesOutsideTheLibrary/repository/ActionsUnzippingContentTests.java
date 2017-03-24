@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -28,7 +27,6 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
   
     private final String user = "C8256TestUser" + DataUtil.getUniqueIdentifier();
     private final String zipFile = "testFileC8256.zip";
-    private final String testDataFolder = srcRoot + "testdata" + File.separator;
     private final String zipContent = "testFile1";
     private final String acpFile = "archiveC8257.acp";
    

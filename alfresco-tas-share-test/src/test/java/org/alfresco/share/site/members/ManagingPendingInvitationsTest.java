@@ -1,7 +1,5 @@
 package org.alfresco.share.site.members;
 
-import java.util.Date;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.po.share.site.members.PendingInvitesPage;
@@ -14,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.Date;
 
 public class ManagingPendingInvitationsTest extends ContextAwareWebTest
 {

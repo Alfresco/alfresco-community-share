@@ -13,14 +13,12 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
-import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -369,8 +367,6 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void importModel()
     {
-        String srcRoot = System.getProperty("user.dir") + File.separator;
-        String testDataFolder = srcRoot + "testdata" + File.separator;
         String filePath = testDataFolder + "C9509TestModelName.zip";
         String modelName = "C9509TestModelName";
         modelManagerPage.navigate();
@@ -483,8 +479,6 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     public void useCreatedModel()
     {
-        String srcRoot = System.getProperty("user.dir") + File.separator;
-        String testDataFolder = srcRoot + "testdata" + File.separator;
         String filePath = testDataFolder + "Marketing_content.zip";
         String modelName = "Marketing_content";
         // Precondition

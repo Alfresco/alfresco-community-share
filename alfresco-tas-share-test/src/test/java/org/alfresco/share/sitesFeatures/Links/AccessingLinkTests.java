@@ -1,8 +1,5 @@
 package org.alfresco.share.sitesFeatures.Links;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.site.CustomizeSitePage;
@@ -18,6 +15,9 @@ import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author iulia.cojocea
