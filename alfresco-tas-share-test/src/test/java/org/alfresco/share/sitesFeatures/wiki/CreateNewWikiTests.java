@@ -2,7 +2,7 @@ package org.alfresco.share.sitesFeatures.wiki;
 
 import junit.framework.Assert;
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.site.wiki.CreateWikiPage;
 import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
@@ -15,9 +15,6 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author iulia.nechita
@@ -37,8 +34,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
 
     @Autowired
     CreateWikiPage createWikiPage;
-
-    private List<Page> pagesToAdd = new ArrayList<Page>();
+    
     private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
     private String siteName;
     private String wikiPageHeader = "Create Wiki Page";
@@ -48,8 +44,6 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        pagesToAdd.add(Page.WIKI);
-
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
     }
@@ -62,7 +56,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
         wikiPageContent = "WikiContent" + DataUtil.getUniqueIdentifier();
 
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.WIKI, null);
     }
 
     @TestRail(id = "C5504")

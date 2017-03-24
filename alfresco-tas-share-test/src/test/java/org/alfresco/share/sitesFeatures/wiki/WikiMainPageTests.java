@@ -1,8 +1,5 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.wiki.EditWikiPage;
@@ -28,7 +25,6 @@ public class WikiMainPageTests extends ContextAwareWebTest
     @Autowired
     EditWikiPage editWikiPage;
 
-    private List<Page> pagesToAdd = new ArrayList<Page>();
     private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
     private String siteName;
     private String wikiPageContent = "content";
@@ -36,7 +32,6 @@ public class WikiMainPageTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        pagesToAdd.add(Page.WIKI);
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);
         setupAuthenticatedSession(testUser, password);
     }
@@ -48,7 +43,7 @@ public class WikiMainPageTests extends ContextAwareWebTest
         // precondition
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         wikiPage.navigate(siteName);
 
         LOG.info("STEP 1: Click on edit wiki page link");
@@ -67,7 +62,7 @@ public class WikiMainPageTests extends ContextAwareWebTest
         // precondition
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         wikiPage.navigate(siteName);
 
         LOG.info("STEP 1: Click on edit wiki page link");

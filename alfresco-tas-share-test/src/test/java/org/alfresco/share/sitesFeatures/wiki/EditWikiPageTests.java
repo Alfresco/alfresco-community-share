@@ -45,7 +45,6 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @Autowired
     WikiPage wikiPage;
 
-    private List<Page> pagesToAdd = new ArrayList<Page>();
     private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
     private String siteName;
     private String wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
@@ -57,7 +56,6 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        pagesToAdd.add(Page.WIKI);
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);
         setupAuthenticatedSession(testUser, password);
         tags.add(tagName);
@@ -72,7 +70,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("Preconditions: create site and wiki page");
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Initial content", null);
         wikiListPage.navigate(siteName);
 
@@ -104,7 +102,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("Preconditions: create site and wiki page");
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Content", tags);
         wikiListPage.navigate(siteName);
 
@@ -134,7 +132,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("Preconditions: create site and wiki page");
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Content", null);
         wikiListPage.navigate(siteName);
 
@@ -156,7 +154,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("Preconditions: create site and wiki page, upload image in document library");
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Content", null);
         contentService.uploadFileInSite(testUser, password, siteName, testDataFolder + image);
         wikiListPage.navigate(siteName);
@@ -196,7 +194,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("Preconditions: create site and wiki page, upload document in document library");
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Content", null);
         contentService.uploadFileInSite(testUser, password, siteName, testDataFolder + docName);
         wikiListPage.navigate(siteName);

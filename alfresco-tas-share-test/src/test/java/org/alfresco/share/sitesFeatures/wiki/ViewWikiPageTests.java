@@ -39,7 +39,6 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     @Autowired
     RevertVersionPopUp revertPopUp;
 
-    private List<Page> pagesToAdd = new ArrayList<Page>();
     private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
     private String siteName;
     private String wikiPageName = "Page1";
@@ -49,7 +48,6 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        pagesToAdd.add(Page.WIKI);
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);
         setupAuthenticatedSession(testUser, password);
         tags.add(tagName);
@@ -62,7 +60,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         LOG.info("Preconditions: create site");
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         wikiMainPage.navigate(siteName);
 
         LOG.info("STEP 1: Click 'Edit Page' link");
@@ -87,7 +85,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         LOG.info("Preconditions: create site and wiki page");
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageName, "[[Page2]]", tags);
         wikiListPage.navigate(siteName);
 
@@ -105,7 +103,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         LOG.info("Preconditions: create site and wiki page");
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageName, "[[Page2]]", tags);
         wikiListPage.navigate(siteName);
 

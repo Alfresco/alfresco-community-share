@@ -15,8 +15,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author iulia.cojocea
@@ -32,7 +30,6 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     @Autowired
     WikiListPage wikiListPage;
 
-    private List<Page> pagesToAdd = new ArrayList<Page>();
     private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
     private String siteName;
     private String newWikiMainPageTitle = "New wiki main page title";
@@ -42,8 +39,6 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        pagesToAdd.add(Page.WIKI);
-
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
     }
@@ -54,7 +49,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
 
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
     }
 
     @TestRail(id = "C5500")

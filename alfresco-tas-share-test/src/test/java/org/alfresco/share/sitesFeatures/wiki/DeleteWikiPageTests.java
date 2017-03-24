@@ -1,6 +1,7 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.wiki.DeleteWikiPagePopUp;
 import org.alfresco.po.share.site.wiki.WikiListPage;
@@ -16,9 +17,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * @author iulia.cojocea
@@ -37,8 +36,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
 
     @Autowired
     WikiPage wikiPage;
-
-    private List<Page> pagesToAdd = new ArrayList<Page>();
+    
     private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
     private String siteName;
     private String wikiMainPageContent = "Wiki main page content";
@@ -46,8 +44,6 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        pagesToAdd.add(Page.WIKI);
-
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
     }
@@ -56,10 +52,8 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     public void createSite()
     {
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
-
-        pagesToAdd.add(Page.WIKI);
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
+        siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.WIKI, null);
     }
 
     @TestRail(id = "C5515")
