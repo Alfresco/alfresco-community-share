@@ -45,7 +45,6 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
     public void noTagsAdded()
     {
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.renderedPage();
         
         LOG.info("Step 1: Verify Tags section");
         Assert.assertTrue(filters.checkIfTagsFilterIsPresent(), "Tags filter is not displayed");

@@ -54,10 +54,9 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
     @TestRail(id="C10595")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
-    public void expandColapseNodeInCategoriesTree()
+    public void expandCollapseNodeInCategoriesTree()
     {
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.renderedPage();
         
         LOG.info("Step 1: Click on Category Root");
         filters.clickCategoryRootIcon();

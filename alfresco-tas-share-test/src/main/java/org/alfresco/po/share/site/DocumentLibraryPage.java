@@ -1189,18 +1189,6 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         return browser.isElementDisplayed(createContentMenu);
     }
 
-    public void mouseOverFolder(String folderName)
-    {
-        browser.mouseOver(selectDocumentLibraryItemRow(folderName).findElement(folderNameSelector));
-    }
-
-    public WebElement subfolderDocListTree(String docListSubFolder)
-    {
-        browser.waitUntilElementClickable(
-                (By.xpath("//div[@class ='breadcrumb hideable DocListTree DocListCategories']//a[text() ='" + docListSubFolder + "']")), 5L);
-        return browser.findElement(By.xpath("//div[@class ='breadcrumb hideable DocListTree DocListCategories']//a[text() ='" + docListSubFolder + "']"));
-    }
-
     public void clickCreateButtonWithoutWait()
     {
         browser.waitUntilElementVisible(createButton);

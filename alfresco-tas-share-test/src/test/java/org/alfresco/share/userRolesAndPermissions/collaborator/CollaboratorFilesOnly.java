@@ -3,23 +3,20 @@ package org.alfresco.share.userRolesAndPermissions.collaborator;
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.WorkflowService;
-import org.alfresco.po.share.DeleteDialog;
-import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
-import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
-import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.tasksAndWorkflows.*;
+import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
+import org.alfresco.po.share.tasksAndWorkflows.SelectAssigneeToWorkflowPopUp;
+import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
+import org.alfresco.po.share.tasksAndWorkflows.WorkflowDetailsPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.toolbar.ToolbarTasksMenu;
-import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -43,16 +40,6 @@ import static org.testng.Assert.assertTrue;
 
 public class CollaboratorFilesOnly extends ContextAwareWebTest
 {
-
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
-
-    @Autowired
-    UserDashboardPage userDashboardPage;
-
-    @Autowired
-    MyDocumentsDashlet myDocumentsDashlet;
-
     @Autowired
     DocumentLibraryPage documentLibraryPage;
 
@@ -64,12 +51,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
 
     @Autowired
     UploadContent uploadContent;
-
-    @Autowired
-    HeaderMenuBar headerMenuBar;
-
-    @Autowired
-    DeleteDialog deleteDialog;
 
     @Autowired
     DocumentCommon documentCommon;
@@ -90,9 +71,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     SelectAssigneeToWorkflowPopUp selectAssigneeToWorkflowPopUp;
 
     @Autowired
-    AspectsForm aspectsForm;
-
-    @Autowired
     ToolbarTasksMenu toolbarTasksMenu;
 
     @Autowired
@@ -107,8 +85,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @Autowired
     MyTasksPage myTasksPage;
 
-    @Autowired
-    EditTaskPage editTaskPage;
     // Upload
     String testFile = DataUtil.getUniqueIdentifier() + "-testFile-C8939-.txt";
     String testFilePath = testDataFolder + testFile;
@@ -132,7 +108,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     private String user = "UserC" + DataUtil.getUniqueIdentifier();
     private String siteName = "SiteC" + DataUtil.getUniqueIdentifier();
     private String siteName2 = "SiteC2" + DataUtil.getUniqueIdentifier();
-    private String description = "SiteC description";
     // Download
     private String path = "Shared";
     private String fileNameC8940 = "C8940 file" + DataUtil.getUniqueIdentifier();
@@ -194,24 +169,20 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-
         userService.create(adminUser, adminPassword, user, password, user + "@tests.com", user, user);
         userService.create(adminUser, adminPassword, user2, password, user + "@tests.com", user2, user2);
-        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
-        siteService.create(adminUser, adminPassword, domain, siteName2, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, "SiteC description", Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName2, "SiteC description", Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, user, siteName, "SiteCollaborator");
         userService.createSiteMember(adminUser, adminPassword, user, siteName2, "SiteCollaborator");
         userService.createSiteMember(adminUser, adminPassword, user2, siteName, "SiteCollaborator");
-
+        setupAuthenticatedSession(user, password);
     }
 
     @TestRail(id = "C8938")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorCreateContent()
     {
-
-        setupAuthenticatedSession(user, password);
-
         LOG.info("Precondition: testSite Document Library page is opened.");
         documentLibraryPage.navigate(siteName);
 
@@ -240,17 +211,12 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Title:"), "C8938test", "\"C8938test\" is not the file title for the file in preview");
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Description:"), "C8938test",
                 "\"C8938test\" is not the file description for the file in preview");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C8939")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorUploadContent()
     {
-
-        setupAuthenticatedSession(user, password);
-
         LOG.info("Precondition: testSite Document Library page is opened.");
         documentLibraryPage.navigate(siteName);
 
@@ -260,16 +226,12 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         LOG.info("STEP2: Choose the testFile to upload and confirm Upload.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFile), String.format("File [%s] is displayed", testFile));
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFile), String.format("File [%s] is displayed", testFile));
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C8940")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorDownloadContent()
     {
-
-        setupAuthenticatedSession(user, password);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8940, fileContent);
 
         LOG.info("Step 1: Mouse over the testDocument from Document Library");
@@ -285,16 +247,12 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
             alert.accept();
         }
         Assert.assertTrue(isFileInDirectory(fileNameC8940, null), "The file was not found in the specified location");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C8941")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorViewInBrowser()
     {
-
-        setupAuthenticatedSession(user, password);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8941, fileContent2);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
@@ -302,16 +260,12 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
 
         LOG.info("Step 2: Click 'View in getBrowser().'");
         documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8941, "View In Browser", documentLibraryPage);
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C8947")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorEditInlineBySelf()
     {
-
-        setupAuthenticatedSession(user, password);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8947, fileContent5);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
@@ -335,17 +289,13 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getContentText(), updatedContent);
         assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedTitle), "Updated title is not displayed");
         assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedDescription), "Updated description is not displayed");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C8948")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorEditInlineByOthers()
     {
-
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileNameC8948, fileContent6);
-        setupAuthenticatedSession(user, password);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
@@ -358,7 +308,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName1, updatedContent1, updatedTitle1, updatedDescription1);
         editInAlfrescoPage.renderedPage();
         editInAlfrescoPage.clickButton("Save");
-        documentLibraryPage.renderedPage();
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
@@ -369,22 +318,16 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getContentText(), updatedContent1);
         assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedTitle1), "Updated title is not displayed");
         assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedDescription1), "Updated description is not displayed");
-
-        cleanupAuthenticatedSession();
-
     }
 
     @TestRail(id = "C8957")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorCancelEditingBySelf()
     {
-
-        setupAuthenticatedSession(user, password);
         contentService.createDocument(user, password, siteName, DocumentType.MSWORD, fileNameC8957, fileContent9);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.renderedPage();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileNameC8957), String.format("Document %s is not present", fileNameC8957));
 
         LOG.info("Step 2: Click Check out to Google docs or Edit in Google Docs.");
@@ -408,8 +351,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         googleDocsCommon.confirmFormatUpgrade();
         Assert.assertEquals(googleDocsCommon.getConfirmationPopUpMessage(), "Cancel Editing in Google Docs™", "Cancel Editing in Google Doc is not found.");
         getBrowser().waitUntilElementDisappears(googleDocsCommon.confirmationPopup, 15L);
-
-        cleanupAuthenticatedSession();
     }
 
     @Bug(id = "MNT-17015")
@@ -417,8 +358,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorStartWorkflow()
     {
-
-        setupAuthenticatedSession(user, password);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8962, fileContent10);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
@@ -457,16 +396,12 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         Assert.assertTrue(workflowDetailsPage.getStartedByUser().contains(user));
         Assert.assertTrue(workflowDetailsPage.getMessage().contains("test workflow"));
         Assert.assertTrue(workflowDetailsPage.getAssignedToUser().contains(user));
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C8942")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorUploadNewVersionSelfCreated()
     {
-
-        setupAuthenticatedSession(user, password);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8942, fileContent3);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
@@ -492,16 +427,13 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFile));
         assertEquals(documentDetailsPage.getFileVersion(), "2.0", String.format("Version of %s is wrong.", newVersionFile));
         assertEquals(documentDetailsPage.getFileName(), newVersionFile, String.format("Name of %s is wrong.", newVersionFile));
-
     }
 
     @TestRail(id = "C8943")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorUploadNewVersionOtherUserCreated()
     {
-
         contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8943, fileContent4);
-        setupAuthenticatedSession(user, password);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
@@ -526,15 +458,12 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFile2));
         assertEquals(documentDetailsPage.getFileVersion(), "2.0", String.format("Version of %s is wrong.", newVersionFile2));
         assertEquals(documentDetailsPage.getFileName(), newVersionFile2, String.format("Name of %s is wrong.", newVersionFile2));
-
     }
 
     @TestRail(id = "C8953")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorCheckOutGoogleDocBySelf() throws Exception
     {
-
-        setupAuthenticatedSession(user, password);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8953, fileContent7);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
@@ -582,15 +511,12 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
 
         LOG.info("Step 10: Check the testFile content.");
         Assert.assertTrue(documentDetailsPage.getContentText().contains(editedContent));
-
     }
 
     @TestRail(id = "C8954")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorCheckOutGoogleDocByOthers() throws Exception
     {
-
-        setupAuthenticatedSession(user, password);
         contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8954, fileContent8);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
@@ -638,7 +564,6 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
 
         LOG.info("Step 10: Check the testFile content.");
         Assert.assertTrue(documentDetailsPage.getContentText().contains(editedContent));
-
     }
 
     @TestRail(id = "C8945")
@@ -649,13 +574,11 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         String fileNameC8945 = "C8945TestFile";
         String fileContent = "C8945 content";
         contentService.createDocument(user, password, siteName2, DocumentType.MSWORD, fileNameC8945, fileContent);
-        setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName2);
 
         LOG.info("Step 1: Mouse over testFile and check available actions.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8945, "Edit in Microsoft Office™"),
                 "Edit in Microsoft Office™ is not available");
-        cleanupAuthenticatedSession();
 
         // TODO edit in MSOffice has not yet been automated
     }
@@ -668,13 +591,11 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         String fileNameC8946 = "C8946TestFile";
         String content = "C8946 content";
         contentService.createDocument(adminUser, adminPassword, siteName2, DocumentType.MSWORD, fileNameC8946, content);
-        setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName2);
 
         LOG.info("Step 1: Mouse over testFile and check that Edit in Microsoft Office™ is one of the available actions");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8946, "Edit in Microsoft Office™"),
                 "Edit in Microsoft Office™ is not available");
-        cleanupAuthenticatedSession();
 
         // TODO edit in MSOffice has not yet been automated
     }
@@ -687,12 +608,10 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         String fileNameC8949 = "C8949TestFile";
         String content = "C8949 content";
         contentService.createDocument(user, password, siteName2, DocumentType.TEXT_PLAIN, fileNameC8949, content);
-        setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName2);
 
         LOG.info("Step 1: Mouse over testFile and check that Edit Offline is one of the available actions");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8949, "Edit Offline"), "Edit Offline is not available");
-        cleanupAuthenticatedSession();
 
         // TODO edit Offline has not yet been automated
     }
@@ -705,12 +624,10 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         String fileNameC8950 = "C8950TestFile";
         String content = "C8950 content";
         contentService.createDocument(adminUser, adminPassword, siteName2, DocumentType.TEXT_PLAIN, fileNameC8950, content);
-        setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName2);
 
         LOG.info("Step 1: Mouse over testFile and check that Edit Offline is one of the available actions");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8950, "Edit Offline"), "Edit Offline is not available");
-        cleanupAuthenticatedSession();
 
         // TODO edit Offline has not yet been automated
     }
