@@ -13,9 +13,7 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -47,11 +45,9 @@ public class EditTopicTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        List<Page> pagesToAdd = new ArrayList<Page>();
-        pagesToAdd.add(Page.DISCUSSIONS);
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lName1");
         siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
+        siteService.addPageToSite(user1, password, siteName, Page.DISCUSSIONS, null);
         sitePagesService.createDiscussion(user1, password, siteName, topic1Title, topicContent, null);
         sitePagesService.createDiscussion(user1, password, siteName, topic2Title, topicContent, Arrays.asList(topicTag1, topicTag2));
         setupAuthenticatedSession(user1, password);

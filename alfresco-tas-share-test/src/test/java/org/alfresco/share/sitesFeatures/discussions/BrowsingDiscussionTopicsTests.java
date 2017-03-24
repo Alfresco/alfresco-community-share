@@ -12,14 +12,10 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 8/11/2016.
@@ -47,12 +43,10 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        List<Page> pagesToAdd = new ArrayList<Page>();
-        pagesToAdd.add(Page.DISCUSSIONS);
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lName1");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, "lName2");
         siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
+        siteService.addPageToSite(user1, password, siteName, Page.DISCUSSIONS, null);
         userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
         sitePagesService.createDiscussion(user1, password, siteName, topic1Title, topicContent, Collections.singletonList(topicTag1));
         sitePagesService.createDiscussion(user2, password, siteName, topic2Title, topicContent, Arrays.asList(topicTag1, topicTag2));

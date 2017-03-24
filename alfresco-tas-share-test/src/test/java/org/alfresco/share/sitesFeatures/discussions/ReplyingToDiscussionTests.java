@@ -17,9 +17,7 @@ import org.testng.annotations.Test;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -55,11 +53,9 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        List<Page> pagesToAdd = new ArrayList<Page>();
-        pagesToAdd.add(Page.DISCUSSIONS);
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lName1");
         siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
+        siteService.addPageToSite(user1, password, siteName, Page.DISCUSSIONS, null);
         setupAuthenticatedSession(user1, password);
     }
 

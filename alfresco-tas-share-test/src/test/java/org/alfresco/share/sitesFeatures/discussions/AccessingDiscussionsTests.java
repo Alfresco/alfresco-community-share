@@ -39,11 +39,9 @@ public class AccessingDiscussionsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        List<Page> pagesToAdd = new ArrayList<Page>();
-        pagesToAdd.add(Page.DISCUSSIONS);
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(user, password, siteName, pagesToAdd);
+        siteService.addPageToSite(user, password, siteName, Page.DISCUSSIONS, null);
         sitePagesService.createDiscussion(user, password, siteName, topicTitle, "Topic content", Collections.singletonList("tag1"));
         setupAuthenticatedSession(user, password);
     }

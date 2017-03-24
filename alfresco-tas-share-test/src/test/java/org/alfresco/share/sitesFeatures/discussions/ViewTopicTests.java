@@ -14,11 +14,10 @@ import org.testng.annotations.Test;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 8/10/2016.
@@ -44,13 +43,11 @@ public class ViewTopicTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        List<Page> pagesToAdd = new ArrayList<Page>();
-        pagesToAdd.add(Page.DISCUSSIONS);
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lName1");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, "lName2");
         siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
-        siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
+        siteService.addPageToSite(user1, password, siteName, Page.DISCUSSIONS, null);
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, Collections.singletonList(topicTag));
         sitePagesService.replyToDiscussion(user2, password, siteName, topicTitle, topicReply);
         setupAuthenticatedSession(user1, password);
