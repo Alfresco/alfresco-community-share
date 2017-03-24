@@ -38,44 +38,44 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         sitePages.add(Page.LINKS);
         sitePages.add(Page.DATALISTS);
 
-        siteService.addPagesToSite(userName, DataUtil.PASSWORD, siteName, sitePages);
+        siteService.addPagesToSite(userName, password, siteName, sitePages);
 
-        sitePagesService.createWiki(userName, DataUtil.PASSWORD, siteName, "test" + identifier + " wiki 1", "test" + identifier, null);
-        sitePagesService.createWiki(userName, DataUtil.PASSWORD, siteName, "test" + identifier + " wiki 2", "hello" + identifier, null);
-        sitePagesService.createWiki(userName, DataUtil.PASSWORD, siteName, identifier + " wiki 3", "test" + identifier, null);
-        sitePagesService.createWiki(userName, DataUtil.PASSWORD, siteName, identifier + " wiki 4", "hello" + identifier, null);
+        sitePagesService.createWiki(userName, password, siteName, "test" + identifier + " wiki 1", "test" + identifier, null);
+        sitePagesService.createWiki(userName, password, siteName, "test" + identifier + " wiki 2", "hello" + identifier, null);
+        sitePagesService.createWiki(userName, password, siteName, identifier + " wiki 3", "test" + identifier, null);
+        sitePagesService.createWiki(userName, password, siteName, identifier + " wiki 4", "hello" + identifier, null);
 
-        sitePagesService.createBlogPost(userName, DataUtil.PASSWORD, siteName, "test" + identifier + " blog 1", "test" + identifier, false, null);
-        sitePagesService.createBlogPost(userName, DataUtil.PASSWORD, siteName, "test" + identifier + " blog 2", "hello" + identifier, false, null);
-        sitePagesService.createBlogPost(userName, DataUtil.PASSWORD, siteName, identifier + " blog 3", "test" + identifier, false, null);
-        sitePagesService.createBlogPost(userName, DataUtil.PASSWORD, siteName, identifier + " blog 4", "hello" + identifier, false, null);
+        sitePagesService.createBlogPost(userName, password, siteName, "test" + identifier + " blog 1", "test" + identifier, false, null);
+        sitePagesService.createBlogPost(userName, password, siteName, "test" + identifier + " blog 2", "hello" + identifier, false, null);
+        sitePagesService.createBlogPost(userName, password, siteName, identifier + " blog 3", "test" + identifier, false, null);
+        sitePagesService.createBlogPost(userName, password, siteName, identifier + " blog 4", "hello" + identifier, false, null);
 
-        sitePagesService.addCalendarEvent(userName, DataUtil.PASSWORD, siteName, "test" + identifier + " event 1", "", "test" + identifier, today.toDate(),
+        sitePagesService.addCalendarEvent(userName, password, siteName, "test" + identifier + " event 1", "", "test" + identifier, today.toDate(),
                 tomorrow.toDate(), "", "", false, null);
-        sitePagesService.addCalendarEvent(userName, DataUtil.PASSWORD, siteName, "test" + identifier + " event 2", "", "hello" + identifier, today.toDate(),
+        sitePagesService.addCalendarEvent(userName, password, siteName, "test" + identifier + " event 2", "", "hello" + identifier, today.toDate(),
                 tomorrow.toDate(), "", "", false, null);
-        sitePagesService.addCalendarEvent(userName, DataUtil.PASSWORD, siteName, identifier + " event 3", "", "test" + identifier, today.toDate(),
+        sitePagesService.addCalendarEvent(userName, password, siteName, identifier + " event 3", "", "test" + identifier, today.toDate(),
                 tomorrow.toDate(), "", "", false, null);
-        sitePagesService.addCalendarEvent(userName, DataUtil.PASSWORD, siteName, identifier + " event 4", "", "hello" + identifier, today.toDate(),
+        sitePagesService.addCalendarEvent(userName, password, siteName, identifier + " event 4", "", "hello" + identifier, today.toDate(),
                 tomorrow.toDate(), "", "", false, null);
 
-        sitePagesService.createDiscussion(userName, DataUtil.PASSWORD, siteName, "test" + identifier + " topic 1", "test" + identifier, null);
-        sitePagesService.createDiscussion(userName, DataUtil.PASSWORD, siteName, "test" + identifier + " topic 2", "hello" + identifier, null);
-        sitePagesService.createDiscussion(userName, DataUtil.PASSWORD, siteName, identifier + " topic 3", "test" + identifier, null);
-        sitePagesService.createDiscussion(userName, DataUtil.PASSWORD, siteName, identifier + " topic 4", "hello" + identifier, null);
+        sitePagesService.createDiscussion(userName, password, siteName, "test" + identifier + " topic 1", "test" + identifier, null);
+        sitePagesService.createDiscussion(userName, password, siteName, "test" + identifier + " topic 2", "hello" + identifier, null);
+        sitePagesService.createDiscussion(userName, password, siteName, identifier + " topic 3", "test" + identifier, null);
+        sitePagesService.createDiscussion(userName, password, siteName, identifier + " topic 4", "hello" + identifier, null);
 
-        sitePagesService.createLink(userName, DataUtil.PASSWORD, siteName, "test" + identifier + " link 1", "https://www.alfresco.com", "test" + identifier,
+        sitePagesService.createLink(userName, password, siteName, "test" + identifier + " link 1", "https://www.alfresco.com", "test" + identifier,
                 false, null);
-        sitePagesService.createLink(userName, DataUtil.PASSWORD, siteName, "test" + identifier + " link 2", "https://www.alfresco.com", "hello" + identifier,
+        sitePagesService.createLink(userName, password, siteName, "test" + identifier + " link 2", "https://www.alfresco.com", "hello" + identifier,
                 false, null);
-        sitePagesService.createLink(userName, DataUtil.PASSWORD, siteName, identifier + " link 3", "https://www.alfresco.com", "test" + identifier, false, null);
-        sitePagesService.createLink(userName, DataUtil.PASSWORD, siteName, identifier + " link 4", "https://www.alfresco.com", "hello" + identifier, false,
+        sitePagesService.createLink(userName, password, siteName, identifier + " link 3", "https://www.alfresco.com", "test" + identifier, false, null);
+        sitePagesService.createLink(userName, password, siteName, identifier + " link 4", "https://www.alfresco.com", "hello" + identifier, false,
                 null);
 
-        datalistService.createDataList(userName, DataUtil.PASSWORD, siteName, DataListsService.DataList.TODO_LIST, "test" + identifier + " list 1", "test" + identifier);
-        datalistService.createDataList(userName, DataUtil.PASSWORD, siteName, DataListsService.DataList.TODO_LIST, "test" + identifier + " list 2", "hello" + identifier);
-        datalistService.createDataList(userName, DataUtil.PASSWORD, siteName, DataListsService.DataList.TODO_LIST, identifier + " list 3", "test" + identifier);
-        datalistService.createDataList(userName, DataUtil.PASSWORD, siteName, DataListsService.DataList.TODO_LIST, identifier + " list 4", "hello" + identifier);
+        datalistService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, "test" + identifier + " list 1", "test" + identifier);
+        datalistService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, "test" + identifier + " list 2", "hello" + identifier);
+        datalistService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, identifier + " list 3", "test" + identifier);
+        datalistService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, identifier + " list 4", "hello" + identifier);
     }
 
     @TestRail(id = "C5888")
@@ -83,8 +83,8 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     public void verifyAdvancedSearchPage()
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        setupAuthenticatedSession(userName, password);
         advancedSearchPage.navigate();
 
         LOG.info("STEP 1 - Verify page title");
@@ -133,10 +133,10 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         String identifier = DataUtil.getUniqueIdentifier();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         createPreconditions(userName, siteName, identifier);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName, password);
         advancedSearchPage.navigate();
 
         LOG.info("STEP 1 - Choose \"Content\" from \"Look for\" drop-down");
@@ -191,10 +191,10 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         String identifier = DataUtil.getUniqueIdentifier();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         createPreconditions(userName, siteName, identifier);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName, password);
         advancedSearchPage.navigate();
 
         LOG.info("STEP 1 - Choose \"Content\" from \"Look for\" drop-down");
@@ -226,10 +226,10 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         String identifier = DataUtil.getUniqueIdentifier();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         createPreconditions(userName, siteName, identifier);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName, password);
         advancedSearchPage.navigate();
 
         LOG.info("STEP 1 - Choose \"Content\" from \"Look for\" drop-down");
@@ -268,10 +268,10 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         String identifier = DataUtil.getUniqueIdentifier();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         createPreconditions(userName, siteName, identifier);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName, password);
         advancedSearchPage.navigate();
 
         LOG.info("STEP 1 - Choose \"Content\" from \"Look for\" drop-down");

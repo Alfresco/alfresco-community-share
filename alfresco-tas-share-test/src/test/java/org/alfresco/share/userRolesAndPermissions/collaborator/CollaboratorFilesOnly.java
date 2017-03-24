@@ -258,7 +258,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
 
-        LOG.info("Step 2: Click 'View in getBrowser().'");
+        LOG.info("Step 2: Click 'View in browser.'");
         documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8941, "View In Browser", documentLibraryPage);
     }
 

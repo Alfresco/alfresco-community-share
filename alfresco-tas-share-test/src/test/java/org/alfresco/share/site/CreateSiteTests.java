@@ -31,9 +31,9 @@ public class CreateSiteTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
-        siteService.create(user, DataUtil.PASSWORD, domain, testSiteName, "description", Site.Visibility.PUBLIC);
-        setupAuthenticatedSession(user, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
+        siteService.create(user, password, domain, testSiteName, "description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(user, password);
     }
 
     @TestRail(id = "C2103")

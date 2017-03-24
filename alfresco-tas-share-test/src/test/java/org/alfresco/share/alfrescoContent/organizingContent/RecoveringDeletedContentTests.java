@@ -54,8 +54,8 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         String fileName2 = "docName2-C7570-" + random;
         String fileName3 = "docName3-C7570-" + random;
 
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName1, fileContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName2, fileContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName3, fileContent);
@@ -114,7 +114,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         String folderName2 = "folderName2-C7571-" + random;
         String folderName3 = "folderName3-C7571-" + random;
 
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName1, siteName);
         contentService.createFolder(userName, password, folderName2, siteName);

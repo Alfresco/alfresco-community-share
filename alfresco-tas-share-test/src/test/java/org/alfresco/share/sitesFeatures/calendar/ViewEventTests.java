@@ -47,7 +47,7 @@ public class ViewEventTests extends ContextAwareWebTest
     public void setupTest()
     {
         pagesToAdd.add(Page.CALENDAR);
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + "@tests.com", user1, user1);
+        userService.create(adminUser, adminPassword, user1, password, user1 + "@tests.com", user1, user1);
         siteService.create(user1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), startHour, endHour, false, eventTags);

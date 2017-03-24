@@ -32,10 +32,10 @@ public class SiteMembersTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, "firstName", "lastName");
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
 
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName, password);
         siteDashboardPage.navigate(siteName);
         assertEquals(siteMembersDashlet.getDashletTitle(), "Site Members", "Dashlet title-");
     }

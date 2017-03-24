@@ -52,7 +52,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, "lastName");
         siteService.create(userName1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName1, password, siteName, DashboardCustomization.Page.WIKI, null);
-        userService.createSiteMember(userName1, DataUtil.PASSWORD, userName2, siteName, "SiteManager");
+        userService.createSiteMember(userName1, password, userName2, siteName, "SiteManager");
         userService.createSiteMember(userName1, password, userName2, siteName, "SiteManager");
 
         setupAuthenticatedSession(userName1, password);
@@ -76,9 +76,9 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         for (String siteTitle : siteTitles)
         {
             if (siteTitle != "Page3")
-                sitePagesService.createWiki(userName1, DataUtil.PASSWORD, siteName, siteTitle, siteTitle, siteTags1);
+                sitePagesService.createWiki(userName1, password, siteName, siteTitle, siteTitle, siteTags1);
             else
-                sitePagesService.createWiki(userName1, DataUtil.PASSWORD, siteName, siteTitle, siteTitle, siteTags2);
+                sitePagesService.createWiki(userName1, password, siteName, siteTitle, siteTitle, siteTags2);
         }
 
         wikiListPage.navigate(siteName);
@@ -116,12 +116,12 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         LOG.info("Creating wiki pages");
         for (String siteTitle : siteTitles)
         {
-            sitePagesService.createWiki(userName1, DataUtil.PASSWORD, siteName, "U1" + siteTitle, "U1" + siteTitle, siteTags1);
-            sitePagesService.createWiki(userName2, DataUtil.PASSWORD, siteName, "U2" + siteTitle, "U2" + siteTitle, siteTags1);
+            sitePagesService.createWiki(userName1, password, siteName, "U1" + siteTitle, "U1" + siteTitle, siteTags1);
+            sitePagesService.createWiki(userName2, password, siteName, "U2" + siteTitle, "U2" + siteTitle, siteTags1);
         }
 
         LOG.info("Logging in as user 1 and navigating to wiki list page for site");
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         wikiListPage.navigate(siteName);
         wikiListPage.clickAllPagesFilter();
 
@@ -201,7 +201,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         String pageName = "Page1" + uniqueIdentifier;
         String pageContent = pageName + " content";
 
-        sitePagesService.createWiki(userName1, DataUtil.PASSWORD, siteName, pageName, pageContent, siteTags);
+        sitePagesService.createWiki(userName1, password, siteName, pageName, pageContent, siteTags);
 
         LOG.info("Step 1 : Navigate to 'Wiki Page List' and verify all the displayed content for a wiki page");
         wikiListPage.navigate(siteName);

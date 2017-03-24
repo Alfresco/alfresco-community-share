@@ -7,7 +7,6 @@ import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -31,8 +30,6 @@ import static org.testng.Assert.*;
 public class DefiningRulesForFolderTests extends ContextAwareWebTest
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired private DocumentDetailsPage documentDetailsPage;
 
     @Autowired private EditInAlfrescoPage editInAlfrescoPage;
 
@@ -62,19 +59,17 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, password);
     }
 
     @TestRail(id = "C6367")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyFolderRulesPage()
     {
-        siteName = "Site-C6367-" + random;
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-
         folderName = "Folder-C6367-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
@@ -89,21 +84,15 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(manageRulesPage.getLinkToRuleSetDescription(), language.translate("documentLibrary.rules.linkToRuleSetDescription"),
                 "'Link to Rule Set' description=");
         assertEquals(manageRulesPage.getInheritButtonText(), language.translate("documentLibrary.rules.inheritButton"), "Inherit rules button text=");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C12857")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyEditRulePageDropdownElements()
     {
-        siteName = "Site-C12857-" + random;
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-
         folderName = "Folder-C12857-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
@@ -130,22 +119,16 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
                         "Add simple workflow", "Send email", "Transform and copy content", "Transform and copy image", "Extract common metadata fields",
                         "Import", "Specialise type", "Increment Counter", "Set property value", "webqs_publishTree", "webqs_publish"));
         editRulesPage.verifyDropdownOptions("ruleConfigAction", expectedOptionsList);
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C6372")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createRule()
     {
-        siteName = "Site-C6372-" + random;
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-
         ruleName1 = "rule-C6372-" + random;
         folderName = "Folder-C6372-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
@@ -179,22 +162,17 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(ruleDetailsPage.getPerformAction(), "Copy items to .../documentLibrary", "'Perform Action' section=");
         editRulesPage.cleanupSelectedValues();
 
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C6622")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void itemsAreCreated()
     {
-        siteName = "Site-C6622-" + random;
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-
         ruleName1 = "rule-C6622-" + random;
         folderName = "Folder-C6622-" + random;
         fileName = "testFile1.txt";
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
@@ -232,23 +210,17 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C7239")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createAndCreateAnother()
     {
-        siteName = "Site-C7239-" + random;
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-
         ruleName1 = "rule1-C7239-" + random;
         ruleName2 = "rule2-C7239-" + random;
         folderName = "Folder-C7239-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
@@ -290,22 +262,16 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(ruleDetailsPage.getIfAllCriteriaCondition(), editRulesPage.getSelectedOptionFromDropdown().get(1), "'If all criteria are met' section=");
         assertEquals(ruleDetailsPage.getPerformAction(), "Copy items to .../documentLibrary", "'Perform Action' section=");
         editRulesPage.cleanupSelectedValues();
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C7240")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelCreateRule()
     {
-        siteName = "Site-C7240-" + random;
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-
         ruleName1 = "rule-C7240-" + random;
         folderName = "Folder-C7240-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
@@ -327,23 +293,17 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         selectDestinationDialog.clickCancelButton();
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         editRulesPage.cleanupSelectedValues();
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C7245")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void disableRule()
     {
-        siteName = "Site-C7245-" + random;
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-
         ruleName1 = "rule-C7245-" + random;
         folderName = "Folder-C7245-" + random;
         fileName2 = "FileName2-C7245-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
@@ -400,23 +360,17 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFolderName(folderName);
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString(), "Document Library breadcrumb");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName2), fileName2 + " displayed in " + folderName);
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C6621")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createRuleItemsAreUpdated()
     {
-        siteName = "Site-6621-" + random;
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-
         ruleName1 = "rule-C6621-" + random;
         folderName = "Folder-C6621-" + random;
         fileName = "FileName-C6621-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
@@ -454,7 +408,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFolderName(folderName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentActions.editInAlfresco"), editInAlfrescoPage);
-        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Edit in Alfresco", "Displayed page=");
+        assertEquals(editInAlfrescoPage.getPageTitle(), "Alfresco » Edit in Alfresco", "Displayed page=");
         editInAlfrescoPage.typeContent("Content updated!");
         editInAlfrescoPage.clickSaveButton();
         // editInAlfrescoPage.clickSaveButton();
@@ -463,23 +417,17 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(2);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C6623")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createRuleItemsAreDeleted()
     {
-        siteName = "Site-C6623-" + random;
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-
         ruleName1 = "rule-C6623-" + random;
         folderName = "Folder-C6623-" + random;
         fileName = "FileName-C6623-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
@@ -520,7 +468,5 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         deleteDialog.clickDelete();
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
-
-        cleanupAuthenticatedSession();
     }
 }

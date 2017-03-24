@@ -41,9 +41,9 @@ public class SiteNoticeTests extends ContextAwareWebTest
         description = "description" + uniqueIdentifier;
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
-        siteService.addDashlet(userName, DataUtil.PASSWORD, siteName, DashboardCustomization.SiteDashlet.SITE_NOTICE,
+        siteService.addDashlet(userName, password, siteName, DashboardCustomization.SiteDashlet.SITE_NOTICE,
                 DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
         siteDashboardPage.navigate(siteName);
     }

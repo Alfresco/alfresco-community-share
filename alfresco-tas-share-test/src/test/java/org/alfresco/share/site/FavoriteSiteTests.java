@@ -33,9 +33,9 @@ public class FavoriteSiteTests extends ContextAwareWebTest
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
         String siteName = "Site1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Navigate to the created site");
         siteDashboardPage.navigate(siteName);
@@ -68,10 +68,10 @@ public class FavoriteSiteTests extends ContextAwareWebTest
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
         String siteName = "Site1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        siteService.setFavorite(userName, DataUtil.PASSWORD, siteName);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.setFavorite(userName, password, siteName);
+        setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Navigate to the created site. Click \"Sites\" menu from Alfresco Toolbar");
         siteDashboardPage.navigate(siteName);
@@ -98,9 +98,9 @@ public class FavoriteSiteTests extends ContextAwareWebTest
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
         String siteName = "Site1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Go to \"User Dashboard\" page");
         userDashboardPage.navigate(userName);
@@ -123,10 +123,10 @@ public class FavoriteSiteTests extends ContextAwareWebTest
     {
         String userName = "User1" + DataUtil.getUniqueIdentifier();
         String siteName = "Site1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        siteService.setFavorite(userName, DataUtil.PASSWORD, siteName);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.setFavorite(userName, password, siteName);
+        setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Go to \"User Dashboard\" page");
         userDashboardPage.navigate(userName);

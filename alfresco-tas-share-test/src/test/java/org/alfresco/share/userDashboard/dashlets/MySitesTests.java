@@ -36,8 +36,8 @@ public class MySitesTests extends ContextAwareWebTest
     {
         cleanupAuthenticatedSession();
         userName = "User1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + "@tests.com", userName, userName);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName, password, userName + "@tests.com", userName, userName);
+        setupAuthenticatedSession(userName, password);
     }
 
     @TestRail(id = "C2095")
@@ -82,7 +82,7 @@ public class MySitesTests extends ContextAwareWebTest
     {
         logger.info("STEP 1 - Create site, check that is available in user dashboard");
         siteName1 = "Site1" + DataUtil.getUniqueIdentifier();
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName1, "description", Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName1, "description", Visibility.PUBLIC);
         userDashboardPage.navigate(userName);
         Assert.assertEquals(mySitesDashlet.getSitesLinks().get(0).getText(), siteName1, "Existing site name is not correct");
 
@@ -104,13 +104,13 @@ public class MySitesTests extends ContextAwareWebTest
     {
         logger.info("STEP 1 - Create 3 sites, mark the first one as favourite");
         siteName1 = "Site1" + DataUtil.getUniqueIdentifier();
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName1, "description", Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName1, "description", Visibility.PUBLIC);
 
         siteName2 = "Site2" + DataUtil.getUniqueIdentifier();
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName2, "description", Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName2, "description", Visibility.PUBLIC);
 
         siteName3 = "Site3" + DataUtil.getUniqueIdentifier();
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName3, "description", Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName3, "description", Visibility.PUBLIC);
 
         userDashboardPage.navigate(userName);
 

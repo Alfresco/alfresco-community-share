@@ -53,9 +53,9 @@ public class DownloadingContentTests extends ContextAwareWebTest
         folderName = "TestFolder" + uniqueIdentifier;
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        contentService.createFolder(userName, DataUtil.PASSWORD, folderName, siteName);
-        contentService.createDocumentInFolder(userName, DataUtil.PASSWORD, siteName, folderName, CMISUtil.DocumentType.TEXT_PLAIN, docName, description);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        contentService.createFolder(userName, password, folderName, siteName);
+        contentService.createDocumentInFolder(userName, password, siteName, folderName, CMISUtil.DocumentType.TEXT_PLAIN, docName, description);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, description);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

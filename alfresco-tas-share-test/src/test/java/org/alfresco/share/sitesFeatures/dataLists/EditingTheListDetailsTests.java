@@ -126,8 +126,8 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         logger.info("Preconditions: Create a user with 'Collaborator' role");
         String collaborator = "Collaborator" + DataUtil.getUniqueIdentifier();
-        userService.create(properties.getAdminUser(), properties.getAdminPassword(), collaborator, DataUtil.PASSWORD, "collaborator@tests.com", "collaborator", "collaborator");
-        userService.createSiteMember(userName, DataUtil.PASSWORD, collaborator, siteName, "SiteCollaborator");
+        userService.create(properties.getAdminUser(), properties.getAdminPassword(), collaborator, password, "collaborator@tests.com", "collaborator", "collaborator");
+        userService.createSiteMember(userName, password, collaborator, siteName, "SiteCollaborator");
         setupAuthenticatedSession(collaborator, password);
         dataListsPage.navigate(siteName);
         
@@ -158,8 +158,8 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         logger.info("Preconditions: Create a user with 'Contributor' role");
         String contributor = "Contributor" + DataUtil.getUniqueIdentifier();
-        userService.create(properties.getAdminUser(), properties.getAdminPassword(), contributor, DataUtil.PASSWORD, "collaborator@tests.com", "collaborator", "collaborator");
-        userService.createSiteMember(userName, DataUtil.PASSWORD, contributor, siteName, "SiteContributor");
+        userService.create(properties.getAdminUser(), properties.getAdminPassword(), contributor, password, "collaborator@tests.com", "collaborator", "collaborator");
+        userService.createSiteMember(userName, password, contributor, siteName, "SiteContributor");
         setupAuthenticatedSession(contributor, password);
         dataListsPage.navigate(siteName);
         
@@ -178,8 +178,8 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         logger.info("Preconditions: Create a user with 'Consumer' role");
         String consumer = "Consumer" + DataUtil.getUniqueIdentifier();
-        userService.create(properties.getAdminUser(), properties.getAdminPassword(), consumer, DataUtil.PASSWORD, "collaborator@tests.com", "collaborator", "collaborator");
-        userService.createSiteMember(userName, DataUtil.PASSWORD, consumer, siteName, "SiteConsumer");
+        userService.create(properties.getAdminUser(), properties.getAdminPassword(), consumer, password, "collaborator@tests.com", "collaborator", "collaborator");
+        userService.createSiteMember(userName, password, consumer, siteName, "SiteConsumer");
         setupAuthenticatedSession(consumer, password);
         dataListsPage.navigate(siteName);
         
@@ -198,8 +198,8 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         logger.info("Preconditions: Create a user with 'Collaborator' role and a list");
         String contributor = "Contributor" + DataUtil.getUniqueIdentifier();
-        userService.create(properties.getAdminUser(), properties.getAdminPassword(), contributor, DataUtil.PASSWORD, "Contributor@tests.com", "Contributor", "Contributor");
-        userService.createSiteMember(userName, DataUtil.PASSWORD, contributor, siteName, "SiteContributor");
+        userService.create(properties.getAdminUser(), properties.getAdminPassword(), contributor, password, "Contributor@tests.com", "Contributor", "Contributor");
+        userService.createSiteMember(userName, password, contributor, siteName, "SiteContributor");
         setupAuthenticatedSession(contributor, password);
         dataListsPage.navigate(siteName);
         
@@ -235,8 +235,8 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         logger.info("Preconditions: Create a user with 'Collaborator' role and a list");
         String manager = "Manager" + DataUtil.getUniqueIdentifier();
-        userService.create(properties.getAdminUser(), properties.getAdminPassword(), manager, DataUtil.PASSWORD, "manager@tests.com", "manager", "manager");
-        userService.createSiteMember(userName, DataUtil.PASSWORD, manager, siteName, "SiteManager");
+        userService.create(properties.getAdminUser(), properties.getAdminPassword(), manager, password, "manager@tests.com", "manager", "manager");
+        userService.createSiteMember(userName, password, manager, siteName, "SiteManager");
         setupAuthenticatedSession(manager, password);
         dataListsPage.navigate(siteName);
         

@@ -47,10 +47,10 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String siteName = "Site" + uniqueIdentifier;
         String description = "Description" + uniqueIdentifier;
 
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
-        siteService.create(user, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
+        siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
 
-        setupAuthenticatedSession(user, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user, password);
         siteDashboardPage.navigate(siteName);
         assertEquals(siteActivitiesDashlet.getDashletTitle(), "Site Activities", "Dashlet title-");
 
@@ -86,11 +86,11 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String description = "Description" + uniqueIdentifier;
         String documentName = "Document" + uniqueIdentifier;
 
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
-        siteService.create(user, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
+        siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(user, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, documentName, documentName + " content");
 
-        setupAuthenticatedSession(user, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user, password);
         siteDashboardPage.navigate(siteName);
         getBrowser().refresh();
         assertEquals(siteActivitiesDashlet.getDashletTitle(), "Site Activities", "Dashlet title is: " + siteActivitiesDashlet.getDashletTitle());
@@ -129,7 +129,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String groupName = "C12833Group";
         String managerRole = "Manager";
         String activity ="\""+ groupName+"\"" + " group added to site " + siteName + " with role " + managerRole;
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
         siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -164,7 +164,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String groupName = "C12834Group";
         String managerRole = "Manager";
         String activity ="\""+ groupName+"\"" + " group added to site " + siteName + " with role " + managerRole;
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
         siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
@@ -203,7 +203,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         ArrayList<String> expectedId = new ArrayList<String>();
         expectedId.add(groupId);
         String managerRole = "Manager";
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
         siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -243,7 +243,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         ArrayList<String> expectedId = new ArrayList<String>();
         expectedId.add(groupId);
         String managerRole = "Manager";
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
         siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -273,7 +273,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String managerRole = "Manager";
         String collaboratorRole = "Collaborator";
         String activity ="\""+ groupName+"\"" + " group role changed to " + collaboratorRole;
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
         siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -322,7 +322,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         ArrayList<String> expectedId = new ArrayList<String>();
         String managerRole = "Manager";
         String activity ="\""+ groupName+"\"" + " group removed from site "+siteName ;
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
         siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(adminUser, adminPassword);

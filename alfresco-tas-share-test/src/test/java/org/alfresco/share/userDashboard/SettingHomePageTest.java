@@ -74,12 +74,12 @@ public class SettingHomePageTest extends ContextAwareWebTest
         String userName1 = "User1" + DataUtil.getUniqueIdentifier();
         String userName2 = "User2" + DataUtil.getUniqueIdentifier();
         String siteName = "Site1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName1, DataUtil.PASSWORD, userName1 + domain, userName1, userName1);
-        userService.create(adminUser, adminPassword, userName2, DataUtil.PASSWORD, userName2 + domain, userName2, userName2);
-        siteService.create(userName1, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        userService.createSiteMember(userName1, DataUtil.PASSWORD, userName2, siteName, "SiteCollaborator");
-        contentService.createFolder(userName2, DataUtil.PASSWORD, folderName, siteName);
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
+        userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
+        siteService.create(userName1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.createSiteMember(userName1, password, userName2, siteName, "SiteCollaborator");
+        contentService.createFolder(userName2, password, folderName, siteName);
+        setupAuthenticatedSession(userName1, password);
 
         LOG.info("STEP 1 - Create a folder in site’s document library");
         documentLibraryPage.navigate(siteName);
@@ -100,7 +100,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
 
         LOG.info("STEP 5 - Log into Alfresco Share as a site member created in preconditions");
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         documentDetailsPage.renderedPage();
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
@@ -113,7 +113,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         userDashboardPage.renderedPage();
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         userDashboardPage.renderedPage();
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
@@ -125,7 +125,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         myFilesPage.renderedPage();
         assertTrue(myFilesPage.isUploadButtonDisplayed(), "Upload button is displayed");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         myFilesPage.renderedPage();
         assertTrue(myFilesPage.isUploadButtonDisplayed(), "Upload button is displayed");
@@ -137,7 +137,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         sharedFilesPage.renderedPage();
         assertTrue(sharedFilesPage.isUploadButtonDisplayed(), "Upload button is displayed");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         sharedFilesPage.renderedPage();
         assertTrue(sharedFilesPage.isUploadButtonDisplayed(), "Upload button is displayed");
@@ -149,7 +149,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         siteFinderPage.renderedPage();
         assertTrue(siteFinderPage.isSearchFieldDisplayed(), "Search field is displayed");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         siteFinderPage.renderedPage();
         assertTrue(siteFinderPage.isSearchFieldDisplayed(), "Search field is displayed");
@@ -161,7 +161,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         myTasksPage.renderedPage();
         assertTrue(myTasksPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         myTasksPage.renderedPage();
         assertTrue(myTasksPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
@@ -173,7 +173,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         workflowsIveStartedPage.renderedPage();
         assertTrue(workflowsIveStartedPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         workflowsIveStartedPage.renderedPage();
         assertTrue(workflowsIveStartedPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
@@ -185,7 +185,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         peopleFinderPage.renderedPage();
         assertTrue(peopleFinderPage.isSearchButtonDisplayed(), "\"Search\" button is displayed");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         peopleFinderPage.renderedPage();
         assertTrue(peopleFinderPage.isSearchButtonDisplayed(), "\"Search\" button is displayed");
@@ -197,7 +197,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         repositoryPage.renderedPage();
         assertTrue(repositoryPage.isUploadButtonDisplayed(), "\"Upload\" button is displayed");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         repositoryPage.renderedPage();
         assertTrue(repositoryPage.isUploadButtonDisplayed(), "\"Upload\" button is displayed");
@@ -209,7 +209,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         userProfilePage.renderedPage();
         assertTrue(userProfilePage.isAboutHeaderDisplayed(), "\"About\" header is displayed");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         userProfilePage.renderedPage();
         assertTrue(userProfilePage.isAboutHeaderDisplayed(), "\"About\" header is displayed");
@@ -221,7 +221,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         changePasswordPage.renderedPage();
         assertTrue(changePasswordPage.isOldPasswordInputDisplayed(), "Old password input is displayed");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         changePasswordPage.renderedPage();
         assertTrue(changePasswordPage.isOldPasswordInputDisplayed(), "Old password input is displayed");
@@ -233,7 +233,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         siteDashboardPage.renderedPage();
         assertTrue(siteDashboardPage.isAlfrescoLogoDisplayed(), "Alfresco logo is displayed");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         siteDashboardPage.renderedPage();
         assertTrue(siteDashboardPage.isAlfrescoLogoDisplayed(), "Alfresco logo is displayed");
@@ -246,10 +246,10 @@ public class SettingHomePageTest extends ContextAwareWebTest
         String folderName = "TestFolder";
         String userName = "User1" + DataUtil.getUniqueIdentifier();
         String siteName = "Site1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        contentService.createFolder(userName, DataUtil.PASSWORD, folderName, siteName);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        contentService.createFolder(userName, password, folderName, siteName);
+        setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Create a folder in site’s document library");
         documentLibraryPage.navigate(siteName);
@@ -271,7 +271,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         toolbarUserMenu.clickLogout();
 
         LOG.info("STEP 5 - Log into Alfresco Share");
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName, password);
         getBrowser().refresh();
         documentDetailsPage.renderedPage();
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
@@ -288,7 +288,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
 
         LOG.info("STEP 8 - Click on the user drop down in the header bar, log out and log in again");
         toolbarUserMenu.clickLogout();
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName, password);
         getBrowser().refresh();
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
     }

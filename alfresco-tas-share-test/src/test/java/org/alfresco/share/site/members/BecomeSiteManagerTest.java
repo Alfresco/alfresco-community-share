@@ -43,12 +43,12 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         user2 = "testUser2-" + uniqueIdentifier;
         siteName = "SiteName-" + uniqueIdentifier;
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        userService.create(adminUser, adminPassword, user2, DataUtil.PASSWORD, user2 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        userService.createSiteMember(user1, DataUtil.PASSWORD, user2, siteName, "SiteCollaborator");
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.createSiteMember(user1, password, user2, siteName, "SiteCollaborator");
 
-        setupAuthenticatedSession(user2, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user2, password);
 
         LOG.info("Navigate to '" + siteName + "' site's dashboard and click 'Site configuration options' icon.");
         siteDashboard.navigate(siteName);
@@ -68,9 +68,9 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier + "-SiteName";
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        userService.createSiteMember(user1, DataUtil.PASSWORD, adminUser, siteName, "SiteManager");
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.createSiteMember(user1, password, adminUser, siteName, "SiteManager");
 
         setupAuthenticatedSession(adminUser, adminPassword);
 
@@ -108,9 +108,9 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = "SiteName-" + uniqueIdentifier;
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        userService.createSiteMember(user1, DataUtil.PASSWORD, adminUser, siteName, "SiteCollaborator");
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.createSiteMember(user1, password, adminUser, siteName, "SiteCollaborator");
 
         setupAuthenticatedSession(adminUser, adminPassword);
 
@@ -160,9 +160,9 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        userService.createSiteMember(user1, DataUtil.PASSWORD, adminUser, siteName, "SiteCollaborator");
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.createSiteMember(user1, password, adminUser, siteName, "SiteCollaborator");
 
         setupAuthenticatedSession(adminUser, adminPassword);
 
@@ -190,9 +190,9 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        userService.createSiteMember(user1, DataUtil.PASSWORD, adminUser, siteName, "SiteCollaborator");
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.createSiteMember(user1, password, adminUser, siteName, "SiteCollaborator");
 
         setupAuthenticatedSession(adminUser, adminPassword);
 
@@ -231,8 +231,8 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
 
         setupAuthenticatedSession(adminUser, adminPassword);
 
@@ -262,8 +262,8 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
 
         setupAuthenticatedSession(adminUser, adminPassword);
 

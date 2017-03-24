@@ -47,8 +47,8 @@ public class SelectingMultipleListItems extends ContextAwareWebTest {
         contactList = "ContactList" + uniqueIdentifier;
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        siteService.addPageToSite(userName, DataUtil.PASSWORD, siteName, DashboardCustomization.Page.DATALISTS, null);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.addPageToSite(userName, password, siteName, DashboardCustomization.Page.DATALISTS, null);
         dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.CONTACT_LIST, contactList, description);
         for (int i = 0; i <= 9; i++) {
             dataListsService.addContactListItem(userName, password, siteName, contactList, "FirstName" + i, "LastName" + i,

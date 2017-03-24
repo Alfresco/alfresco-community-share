@@ -51,8 +51,8 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         userTest = "User2-C2835-" + DataUtil.getUniqueIdentifier();
         siteName = "Site-C2835-" + DataUtil.getUniqueIdentifier();
         groupName = "Group-C2835-" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userManager, DataUtil.PASSWORD, userManager + "@tests.com", userManager, userManager);
-        userService.create(adminUser, adminPassword, userTest, DataUtil.PASSWORD, userTest + "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userManager, password, userManager + "@tests.com", userManager, userManager);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + "@tests.com", userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
 
         logger.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
@@ -62,7 +62,7 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         {
             logger.info("Login as " + user.getUserRole());
             cleanupAuthenticatedSession();
-            setupAuthenticatedSession(user.getUserName(), DataUtil.PASSWORD);
+            setupAuthenticatedSession(user.getUserName(), password);
 
             logger.info("Open 'Site Members' page for the site");
             siteUsersPage.navigate(siteName);
@@ -73,7 +73,7 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
 
         logger.info("Login as userManager");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userManager, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userManager, password);
 
         logger.info("Navigate to site and click 'Site Members' link");
         siteUsersPage.navigate(siteName);
@@ -97,10 +97,10 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         userTest = "User2-C2836-" + DataUtil.getUniqueIdentifier();
         siteName = "site-C2836-" + DataUtil.getUniqueIdentifier();
         groupName = "Group-C2836-" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userManager, DataUtil.PASSWORD, userManager + "@tests.com", userManager, userManager);
-        userService.create(adminUser, adminPassword, userTest, DataUtil.PASSWORD, userTest + "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userManager, password, userManager + "@tests.com", userManager, userManager);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + "@tests.com", userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
-        setupAuthenticatedSession(userTest, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userTest, password);
 
         logger.info("Preconditions: Add the userTest in new created group. Add the group to site with 'Manager' role");
         groupService.createGroup(adminUser, adminPassword, groupName);
@@ -138,14 +138,14 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         userTest = "User2-C2837-" + DataUtil.getUniqueIdentifier();
         siteName = "site-C2837-" + DataUtil.getUniqueIdentifier();
         groupName = "Group" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userManager, DataUtil.PASSWORD, userManager + "@tests.com", userManager, userManager);
-        userService.create(adminUser, adminPassword, userTest, DataUtil.PASSWORD, userTest + "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userManager, password, userManager + "@tests.com", userManager, userManager);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + "@tests.com", userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
 
         logger.info("Preconditions: Add the userTest to the created site with 'Manager' role");
         userService.inviteUserToSiteAndAccept(userManager, password, userTest, siteName, Role.SiteManager.toString());
 
-        setupAuthenticatedSession(userManager, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userManager, password);
 
         logger.info("Step 1: Open 'Site Members' page for the site");
         siteUsersPage.navigate(siteName);

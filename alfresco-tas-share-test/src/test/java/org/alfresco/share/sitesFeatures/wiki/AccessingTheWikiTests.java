@@ -52,8 +52,8 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
 
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        siteService.addPageToSite(userName, DataUtil.PASSWORD, siteName, DashboardCustomization.Page.WIKI, null);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.addPageToSite(userName, password, siteName, DashboardCustomization.Page.WIKI, null);
         setupAuthenticatedSession(userName, password);
         siteDashboardPage.navigate(siteName);
     }
@@ -104,7 +104,7 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
         wikiMainPage.navigate(siteName);
         for (String siteTitle : siteTitles)
         {
-            sitePagesService.createWiki(userName, DataUtil.PASSWORD, siteName, siteTitle, siteTitle, null);
+            sitePagesService.createWiki(userName, password, siteName, siteTitle, siteTitle, null);
         }
         wikiMainPage.navigate(siteName);
 

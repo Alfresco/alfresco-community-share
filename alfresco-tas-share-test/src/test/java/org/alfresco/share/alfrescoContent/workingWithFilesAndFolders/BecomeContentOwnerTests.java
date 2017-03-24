@@ -43,9 +43,9 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         String docName = "Doc-C7152-" + random;
         String siteName = "Site-C7152-" + random;
 
-        userService.create(adminUser, adminPassword, userSiteManager, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
-        userService.create(adminUser, adminPassword, userManager, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
-        userService.create(adminUser, adminPassword, userContributor, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userSiteManager, password, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userManager, password, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userContributor, password, userSiteManager + domain, firstName, lastName);
         siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
         userService.inviteUserToSiteAndAccept(userSiteManager, password, userManager, siteName, "SiteManager");
         userService.inviteUserToSiteAndAccept(userSiteManager, password, userContributor, siteName, "SiteContributor");
@@ -92,9 +92,9 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         String userContributor = "userContributor-C7153-" + random;
         String folderName = "Folder-C7153-" + random;
         String siteName = "Site-C7153-" + random;
-        userService.create(adminUser, adminPassword, userSiteManager, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
-        userService.create(adminUser, adminPassword, userManager, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
-        userService.create(adminUser, adminPassword, userContributor, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userSiteManager, password, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userManager, password, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userContributor, password, userSiteManager + domain, firstName, lastName);
         siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
         userService.inviteUserToSiteAndAccept(userSiteManager, password, userManager, siteName, "SiteManager");
         userService.inviteUserToSiteAndAccept(userSiteManager, password, userContributor, siteName, "SiteContributor");
@@ -145,9 +145,9 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         String userContributor = "userContributor-C7154-" + random;
         String siteName = "Site-C7154-" + random;
         String docName = "Doc-C7154-" + random;
-        userService.create(adminUser, adminPassword, userSiteManager, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
-        userService.create(adminUser, adminPassword, userManager, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
-        userService.create(adminUser, adminPassword, userContributor, DataUtil.PASSWORD, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userSiteManager, password, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userManager, password, userSiteManager + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userContributor, password, userSiteManager + domain, firstName, lastName);
         siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
         userService.inviteUserToSiteAndAccept(userSiteManager, password, userManager, siteName, "SiteManager");
         userService.inviteUserToSiteAndAccept(userSiteManager, password, userContributor, siteName, "SiteContributor");

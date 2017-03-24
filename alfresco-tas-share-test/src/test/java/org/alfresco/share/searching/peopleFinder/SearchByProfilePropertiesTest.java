@@ -19,10 +19,10 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     public void searchByUsernameOrName()
     {
         String identifier = DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, "test" + identifier, DataUtil.PASSWORD, "test" + identifier + domain, "firstName" + identifier, "lastName" + identifier);
-        userService.create(adminUser, adminPassword, "user1" + identifier, DataUtil.PASSWORD, "user1" + identifier + domain, "test" + identifier, "lastName" + identifier);
-        userService.create(adminUser, adminPassword, "user2" + identifier, DataUtil.PASSWORD, "user2" + identifier + domain, "firstName" + identifier, "test" + identifier);
-        setupAuthenticatedSession("test" + identifier, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, "test" + identifier, password, "test" + identifier + domain, "firstName" + identifier, "lastName" + identifier);
+        userService.create(adminUser, adminPassword, "user1" + identifier, password, "user1" + identifier + domain, "test" + identifier, "lastName" + identifier);
+        userService.create(adminUser, adminPassword, "user2" + identifier, password, "user2" + identifier + domain, "firstName" + identifier, "test" + identifier);
+        setupAuthenticatedSession("test" + identifier, password);
         peopleFinderPage.navigate();
 
         LOG.info("STEP 1 - Enter a First Name (e.g.: firstName) into Search field");
@@ -65,9 +65,9 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     public void searchByFullUsername()
     {
         String identifier = DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, "user1" + identifier, DataUtil.PASSWORD, "user1" + identifier + domain, "firstName" + identifier, "lastName" + identifier);
-        userService.create(adminUser, adminPassword, "user2" + identifier, DataUtil.PASSWORD, "user2" + identifier + domain, "firstName" + identifier, "lastName" + identifier);
-        setupAuthenticatedSession("user1" + identifier, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, "user1" + identifier, password, "user1" + identifier + domain, "firstName" + identifier, "lastName" + identifier);
+        userService.create(adminUser, adminPassword, "user2" + identifier, password, "user2" + identifier + domain, "firstName" + identifier, "lastName" + identifier);
+        setupAuthenticatedSession("user1" + identifier, password);
         peopleFinderPage.navigate();
 
         LOG.info("STEP 1 - Fill in search field with username (e.g: user2)");
@@ -86,9 +86,9 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     public void searchByPartialUsername()
     {
         String identifier = DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, "user" + identifier + "1", DataUtil.PASSWORD, "user" + identifier + "1" + domain, "firstName" + identifier, "lastName" + identifier);
-        userService.create(adminUser, adminPassword, "user" + identifier + "2", DataUtil.PASSWORD, "user" + identifier + "2" + domain, "firstName" + identifier, "lastName" + identifier);
-        setupAuthenticatedSession("user" + identifier + "1", DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, "user" + identifier + "1", password, "user" + identifier + "1" + domain, "firstName" + identifier, "lastName" + identifier);
+        userService.create(adminUser, adminPassword, "user" + identifier + "2", password, "user" + identifier + "2" + domain, "firstName" + identifier, "lastName" + identifier);
+        setupAuthenticatedSession("user" + identifier + "1", password);
         peopleFinderPage.navigate();
 
         LOG.info("STEP 1 - Fill in search field with a partial username (e.g: \"us\")");
@@ -108,9 +108,9 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     public void searchByFullName()
     {
         String identifier = DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, "user1" + identifier, DataUtil.PASSWORD, "user1" + identifier + domain, identifier, identifier);
-        userService.create(adminUser, adminPassword, "user2" + identifier, DataUtil.PASSWORD, "user2" + identifier + domain, "firstName" + identifier, "lastName" + identifier);
-        setupAuthenticatedSession("user1" + identifier, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, "user1" + identifier, password, "user1" + identifier + domain, identifier, identifier);
+        userService.create(adminUser, adminPassword, "user2" + identifier, password, "user2" + identifier + domain, "firstName" + identifier, "lastName" + identifier);
+        setupAuthenticatedSession("user1" + identifier, password);
         peopleFinderPage.navigate();
 
         LOG.info("STEP 1 - Fill in search field with user's full name (e.g.: \"firstName lastName\")");
@@ -139,9 +139,9 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     public void searchByPartialName()
     {
         String identifier = DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, "user" + identifier + "1", DataUtil.PASSWORD, "user" + identifier + "1" + domain, "firstName" + identifier, "lastName" + identifier);
-        userService.create(adminUser, adminPassword, "user" + identifier + "2", DataUtil.PASSWORD, "user" + identifier + "2" + domain, "firstName" + identifier, "lastName" + identifier);
-        setupAuthenticatedSession("user" + identifier + "1", DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, "user" + identifier + "1", password, "user" + identifier + "1" + domain, "firstName" + identifier, "lastName" + identifier);
+        userService.create(adminUser, adminPassword, "user" + identifier + "2", password, "user" + identifier + "2" + domain, "firstName" + identifier, "lastName" + identifier);
+        setupAuthenticatedSession("user" + identifier + "1", password);
         peopleFinderPage.navigate();
 
         LOG.info("STEP 1 - Fill in search field with a partial name (e.g: \"firstname\")");

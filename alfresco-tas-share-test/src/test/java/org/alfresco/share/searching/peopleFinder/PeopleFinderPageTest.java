@@ -28,9 +28,9 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
     {
         String userName1 = "User1" + DataUtil.getUniqueIdentifier();
         String userName2 = "User2" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName1, DataUtil.PASSWORD, userName1 + domain, userName1, userName1);
-        userService.create(adminUser, adminPassword, userName2, DataUtil.PASSWORD, userName2 + domain, userName2, userName2);
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
+        userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
+        setupAuthenticatedSession(userName1, password);
         peopleFinderPage.navigate();
 
         LOG.info("STEP 1 - Verify page title");
@@ -63,8 +63,8 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
     public void noResultsFound()
     {
         String userName1 = "User1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName1, DataUtil.PASSWORD, userName1 + domain, userName1, userName1);
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
+        setupAuthenticatedSession(userName1, password);
         peopleFinderPage.navigate();
 
         LOG.info("STEP 1 - Fill in 'search' field with an nonexistent user");
@@ -81,8 +81,8 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
     public void emptyInputSearchField()
     {
         String userName1 = "User1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName1, DataUtil.PASSWORD, userName1 + domain, userName1, userName1);
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
+        setupAuthenticatedSession(userName1, password);
         peopleFinderPage.navigate();
 
         LOG.info("STEP 1 - Click \"Search\" button");

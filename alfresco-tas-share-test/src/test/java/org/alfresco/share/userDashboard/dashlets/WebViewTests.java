@@ -33,10 +33,10 @@ public class WebViewTests extends ContextAwareWebTest{
     {
         super.setup();
         userName = "User1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + "@tests.com", userName, userName);
-        userService.addDashlet(userName, DataUtil.PASSWORD, UserDashlet.WEB_VIEW, DashletLayout.THREE_COLUMNS, 3, 1);
+        userService.create(adminUser, adminPassword, userName, password, userName + "@tests.com", userName, userName);
+        userService.addDashlet(userName, password, UserDashlet.WEB_VIEW, DashletLayout.THREE_COLUMNS, 3, 1);
 
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userName, password);
     }
     
     @TestRail(id = "C2143")

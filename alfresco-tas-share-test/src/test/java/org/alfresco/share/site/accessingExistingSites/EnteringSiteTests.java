@@ -51,11 +51,11 @@ public class EnteringSiteTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        siteService.setFavorite(user1, DataUtil.PASSWORD, siteName);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.setFavorite(user1, password, siteName);
 
-        setupAuthenticatedSession(user1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user1, password);
 
     }
 

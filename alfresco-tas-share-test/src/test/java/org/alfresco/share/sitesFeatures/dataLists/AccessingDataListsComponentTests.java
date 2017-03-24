@@ -83,7 +83,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         {
             logger.info("Login as " + user.getUserRole());
             cleanupAuthenticatedSession();
-            setupAuthenticatedSession(user.getUserName(), DataUtil.PASSWORD);
+            setupAuthenticatedSession(user.getUserName(), password);
             
             logger.info("'Customize Site' is not accessible");
             siteDashboardPage.navigate(siteName);

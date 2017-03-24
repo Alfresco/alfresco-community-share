@@ -29,9 +29,9 @@ public class MyMeetingWorkspacesTests extends ContextAwareWebTest
     public void setupTest()
     {
         userName = "User1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + "@tests.com", userName, userName);
-        userService.addDashlet(userName, DataUtil.PASSWORD, DashboardCustomization.UserDashlet.MY_MEETING_WORKSPACES, DashletLayout.THREE_COLUMNS, 3, 1);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName, password, userName + "@tests.com", userName, userName);
+        userService.addDashlet(userName, password, DashboardCustomization.UserDashlet.MY_MEETING_WORKSPACES, DashletLayout.THREE_COLUMNS, 3, 1);
+        setupAuthenticatedSession(userName, password);
     }
     
     @TestRail(id = "C2772")

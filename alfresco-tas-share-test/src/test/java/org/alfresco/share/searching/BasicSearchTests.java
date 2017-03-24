@@ -66,17 +66,17 @@ public class BasicSearchTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName1, DataUtil.PASSWORD, userName1 + domain, firstName, lastName1);
-        userService.create(adminUser, adminPassword, userName2, DataUtil.PASSWORD, userName2 + domain, firstName, lastName2);
-        siteService.create(userName1, DataUtil.PASSWORD, domain, siteName1, description, Site.Visibility.PUBLIC);
-        siteService.create(userName2, DataUtil.PASSWORD, domain, siteName2, description, Site.Visibility.PUBLIC);
-        contentService.createDocument(userName1, DataUtil.PASSWORD, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName1, docContent);
-        contentService.createDocument(userName1, DataUtil.PASSWORD, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName2, docContent);
-        sitePagesService.addCalendarEvent(userName1, DataUtil.PASSWORD, siteName1, calendarEvent, "EventLocation", "description of the event",
+        userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, firstName, lastName1);
+        userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, firstName, lastName2);
+        siteService.create(userName1, password, domain, siteName1, description, Site.Visibility.PUBLIC);
+        siteService.create(userName2, password, domain, siteName2, description, Site.Visibility.PUBLIC);
+        contentService.createDocument(userName1, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName1, docContent);
+        contentService.createDocument(userName1, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName2, docContent);
+        sitePagesService.addCalendarEvent(userName1, password, siteName1, calendarEvent, "EventLocation", "description of the event",
                 calendarUtility.firstDayOfCW(), calendarUtility.firstDayOfCW(), "", "", false, "tag");
-        sitePagesService.createWiki(userName1, DataUtil.PASSWORD, siteName1, wikiPage, "content of the wiki page", null);
-        sitePagesService.createDiscussion(userName1, DataUtil.PASSWORD, siteName1, discussion, "text", null);
-        sitePagesService.createBlogPost(userName1, DataUtil.PASSWORD, siteName1, blogPost, "content of the blog", false, null);
+        sitePagesService.createWiki(userName1, password, siteName1, wikiPage, "content of the wiki page", null);
+        sitePagesService.createDiscussion(userName1, password, siteName1, discussion, "text", null);
+        sitePagesService.createBlogPost(userName1, password, siteName1, blogPost, "content of the blog", false, null);
         sitePagesService.createLink(userName1, password, siteName1, link, "url", "description of link", false, null);
     }
 

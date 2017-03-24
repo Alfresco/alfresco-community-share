@@ -38,9 +38,9 @@ public class MyProfileTests extends ContextAwareWebTest
         String telephone = "0123456789" + DataUtil.getUniqueIdentifier();
         String skype = "skype" + DataUtil.getUniqueIdentifier();
         String im = "im" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        userService.addDashlet(userName, DataUtil.PASSWORD, UserDashlet.MY_PROFILE, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        userService.addDashlet(userName, password, UserDashlet.MY_PROFILE, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
+        setupAuthenticatedSession(userName, password);
         editUserProfilePage.navigate(userName);
         editUserProfilePage.setAboutInformation(userName, userName, jobTitle, "", "");
         editUserProfilePage.setContactInformation(telephone, "", userName + domain, skype, im, "");

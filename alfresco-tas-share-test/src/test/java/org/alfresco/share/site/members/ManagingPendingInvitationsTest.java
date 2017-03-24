@@ -35,15 +35,15 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         String userContributor = "User3" + DataUtil.getUniqueIdentifier();
         String userConsumer = "User4" + DataUtil.getUniqueIdentifier();
         String siteName = "Site1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userManager, DataUtil.PASSWORD, userManager + domain, userManager, userManager);
-        userService.create(adminUser, adminPassword, userCollaborator, DataUtil.PASSWORD, userCollaborator + domain, userCollaborator, userCollaborator);
-        userService.create(adminUser, adminPassword, userContributor, DataUtil.PASSWORD, userContributor + domain, userContributor, userContributor);
-        userService.create(adminUser, adminPassword, userConsumer, DataUtil.PASSWORD, userConsumer + domain, userConsumer, userConsumer);
-        siteService.create(userManager, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        userService.createSiteMember(userManager, DataUtil.PASSWORD, userCollaborator, siteName, "SiteCollaborator");
-        userService.createSiteMember(userManager, DataUtil.PASSWORD, userContributor, siteName, "SiteContributor");
-        userService.createSiteMember(userManager, DataUtil.PASSWORD, userConsumer, siteName, "SiteConsumer");
-        setupAuthenticatedSession(userCollaborator, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
+        userService.create(adminUser, adminPassword, userCollaborator, password, userCollaborator + domain, userCollaborator, userCollaborator);
+        userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
+        userService.create(adminUser, adminPassword, userConsumer, password, userConsumer + domain, userConsumer, userConsumer);
+        siteService.create(userManager, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        userService.createSiteMember(userManager, password, userCollaborator, siteName, "SiteCollaborator");
+        userService.createSiteMember(userManager, password, userContributor, siteName, "SiteContributor");
+        userService.createSiteMember(userManager, password, userConsumer, siteName, "SiteConsumer");
+        setupAuthenticatedSession(userCollaborator, password);
 
         LOG.info("STEP 1 - Login to Share as userCollaborator1 and open \"Site Members\" page for \"testSite\"");
         siteMembersPage.navigate(siteName);
@@ -51,19 +51,19 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
 
         LOG.info("STEP 2 - Logout from Share and login as userContributor1. Open \"Site Members\" page for \"testSite\".");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userContributor, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userContributor, password);
         siteMembersPage.navigate(siteName);
         Assert.assertFalse(siteMembersPage.isPendingInvitesDisplayed(), "\"Pending Invites\" isn't displayed");
 
         LOG.info("STEP 3 - Logout from Share and login as userConsumer1. Open \"Site Members\" page for \"testSite\"");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userConsumer, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userConsumer, password);
         siteMembersPage.navigate(siteName);
         Assert.assertFalse(siteMembersPage.isPendingInvitesDisplayed(), "\"Pending Invites\" isn't displayed");
 
         LOG.info("STEP 4 - Logout from Share and login as userManager1. Open \"Site Members\" page for \"testSite\"");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userManager, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userManager, password);
         siteMembersPage.navigate(siteName);
         Assert.assertTrue(siteMembersPage.isPendingInvitesDisplayed(), "\"Pending Invites\" is displayed");
     }
@@ -76,9 +76,9 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         String userIdentifier = DataUtil.getUniqueIdentifier();
         String userName = "User1" + DataUtil.getUniqueIdentifier();
         String siteName = "Site1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, password);
         addSiteUsersPage.navigate(siteName);
         addSiteUsersPage.addExternalUser("fname1" + userIdentifier, "lname1" + userIdentifier, "fname1" + userIdentifier + domain);
         addSiteUsersPage.addExternalUser("fname2" + userIdentifier, "lname2" + userIdentifier, "fname2" + userIdentifier + domain);
@@ -149,9 +149,9 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         String userIdentifier = DataUtil.getUniqueIdentifier();
         String userName = "User1" + DataUtil.getUniqueIdentifier();
         String siteName = "Site1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, userName, userName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, password);
         addSiteUsersPage.navigate(siteName);
         addSiteUsersPage.addExternalUser("fName" + userIdentifier, "lName" + userIdentifier, "test" + domain);
         addSiteUsersPage.setAllRolesTo(userRole);
@@ -188,10 +188,10 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         String userName1 = "User1" + DataUtil.getUniqueIdentifier();
         String userName2 = "User2" + DataUtil.getUniqueIdentifier();
         String siteName = "Site1" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName1, DataUtil.PASSWORD, userName1 + domain, userName1, userName1);
-        userService.create(adminUser, adminPassword, userName2, DataUtil.PASSWORD, userName2 + domain, userName2, userName2);
-        siteService.create(userName1, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        setupAuthenticatedSession(userName1, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
+        userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
+        siteService.create(userName1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName1, password);
         addSiteUsersPage.navigate(siteName);
 
         LOG.info("STEP 1 - In the \"Search for users...\" search box, enter " + userName2 + ". Click \"Search\" button");

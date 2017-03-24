@@ -48,7 +48,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, UserC8703, password, UserC8703 + domain, modifier1.split(" ")[0], modifier1.split(" ")[1]);
         userService.create(adminUser, adminPassword, userC8704, password, UserC8703 + domain, modifier1.split(" ")[0], modifier1.split(" ")[1]);
         userService.create(adminUser, adminPassword, userC8713, password, UserC8703 + domain, modifier1.split(" ")[0], modifier1.split(" ")[1]);
-        siteService.create(UserC8703, DataUtil.PASSWORD, domain, siteC8703, description, Site.Visibility.PUBLIC);
+        siteService.create(UserC8703, password, domain, siteC8703, description, Site.Visibility.PUBLIC);
         contentService.createDocument(UserC8703, password, siteC8703, DocumentType.TEXT_PLAIN, documentName + "UserC8703", documentName + " content");
         groupService.addUserToGroup(adminUser, adminPassword, alfrescoSearchAdministrators, userC8713);
         setupAuthenticatedSession(userC8713, password);

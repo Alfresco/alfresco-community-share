@@ -45,7 +45,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
     }
 
     @TestRail(id = "C7377")
@@ -54,8 +54,8 @@ public class CopyingContentTests extends ContextAwareWebTest
     {
         String siteName = "Site-C7377-" + DataUtil.getUniqueIdentifier();
         String docName = "Doc-C7377-" + DataUtil.getUniqueIdentifier();
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -92,8 +92,8 @@ public class CopyingContentTests extends ContextAwareWebTest
     {
         String siteName = "Site-C7378-" + DataUtil.getUniqueIdentifier();
         String docName = "Doc-C7378-" + DataUtil.getUniqueIdentifier();
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -128,9 +128,9 @@ public class CopyingContentTests extends ContextAwareWebTest
         String siteName2 = "Site2-C7388-" + DataUtil.getUniqueIdentifier();
         String docName = "TestDoc-C7388-" + DataUtil.getUniqueIdentifier();
         String folderName = "Folder-C7388-" + DataUtil.getUniqueIdentifier();
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName1, description, Site.Visibility.PUBLIC);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName2, description, Site.Visibility.PUBLIC);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName2, description, Site.Visibility.PUBLIC);
+        contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createFolder(userName, password, folderName, siteName1);
 
         setupAuthenticatedSession(userName, password);

@@ -64,7 +64,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1FirstName, user1LastName);
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2FirstName, user2LastName);
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, description, visibility);
+        siteService.create(user1, password, domain, siteName, description, visibility);
         setupAuthenticatedSession(user1, password);
 
     }
@@ -76,11 +76,11 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         LOG.info("Starting test C2882");
         setup("C2882", Site.Visibility.PUBLIC);
         // preconditions
-        userService.createSiteMember(user1, DataUtil.PASSWORD, user2, siteName, "SiteCollaborator");
+        userService.createSiteMember(user1, password, user2, siteName, "SiteCollaborator");
         LOG.info("Adding " + user2 + "as " + siteName + " collaborator");
 
         LOG.info("Step 1 logging in as user1 and verifying the users from site members!");
-        setupAuthenticatedSession(user1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user1, password);
         siteUsers.navigate(siteName);
         // assert if user 1 is present
         Assert.assertTrue(siteUsers.isUserRoleNotChangeable("Manager", user1CompleteName), "User1 is not manager for this site");
@@ -95,7 +95,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         Assert.assertFalse(siteUsers.isASiteMember(user2), "User 2 is not removed from site members list");
 
         LOG.info("Step 3 logout as user 1 and login as user 2");
-        setupAuthenticatedSession(user2, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user2, password);
 
         LOG.info("Step 4 opening site dashboard page");
         siteDashboardPage.navigate(siteName);
@@ -121,11 +121,11 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         groupService.addUserToGroup(adminUser, adminPassword, group1, user2);
 
         LOG.info("Added user " + user2 + " to group " + group1);
-        groupService.inviteGroupToSite(user1, DataUtil.PASSWORD, siteName, group1, "SiteConsumer");
+        groupService.inviteGroupToSite(user1, password, siteName, group1, "SiteConsumer");
 
         LOG.info("Added group " + group1 + " to site " + siteName + " with role Consumer");
 
-        setupAuthenticatedSession(user1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user1, password);
 
         LOG.info("Step 1 log in as user 1 and navigate to site 1 members page");
         siteUsers.navigate(siteName);
@@ -162,23 +162,23 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         siteName = "testSite" + uniqueIdentifier;
         description = "C2884";
 
-        userService.create(adminUser, adminPassword, siteManager, DataUtil.PASSWORD, siteManager + domain, "Manager", description);
-        userService.create(adminUser, adminPassword, siteCollaborator, DataUtil.PASSWORD, siteCollaborator + domain, "Collaborator", description);
-        userService.create(adminUser, adminPassword, siteContributor, DataUtil.PASSWORD, siteContributor + domain, "Contributor", description);
-        userService.create(adminUser, adminPassword, siteConsumer, DataUtil.PASSWORD, siteConsumer + domain, "Consumer", description);
+        userService.create(adminUser, adminPassword, siteManager, password, siteManager + domain, "Manager", description);
+        userService.create(adminUser, adminPassword, siteCollaborator, password, siteCollaborator + domain, "Collaborator", description);
+        userService.create(adminUser, adminPassword, siteContributor, password, siteContributor + domain, "Contributor", description);
+        userService.create(adminUser, adminPassword, siteConsumer, password, siteConsumer + domain, "Consumer", description);
 
-        siteService.create(siteManager, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(siteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
         LOG.info("Created site " + siteName + " with user " + siteManager + "as manager");
 
-        userService.createSiteMember(siteManager, DataUtil.PASSWORD, siteCollaborator, siteName, "SiteCollaborator");
+        userService.createSiteMember(siteManager, password, siteCollaborator, siteName, "SiteCollaborator");
         LOG.info("Adding " + siteCollaborator + " as " + siteName + " site collaborator");
-        userService.createSiteMember(siteManager, DataUtil.PASSWORD, siteContributor, siteName, "SiteContributor");
+        userService.createSiteMember(siteManager, password, siteContributor, siteName, "SiteContributor");
         LOG.info("Adding " + siteContributor + " as " + siteName + " site contributor");
-        userService.createSiteMember(siteManager, DataUtil.PASSWORD, siteConsumer, siteName, "SiteConsumer");
+        userService.createSiteMember(siteManager, password, siteConsumer, siteName, "SiteConsumer");
         LOG.info("Adding " + siteConsumer + " as " + siteName + " site consumer");
 
         LOG.info("Step 1 login as site collaborator open site members page and verify if the remove button is disabled for all members");
-        setupAuthenticatedSession(siteCollaborator, DataUtil.PASSWORD);
+        setupAuthenticatedSession(siteCollaborator, password);
         siteUsers.navigate(siteName);
 
         // verify that every member has correct role
@@ -197,7 +197,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         }
 
         LOG.info("Step 2 login as site contributor open site members page and verify if the remove button is disabled for all members");
-        setupAuthenticatedSession(siteContributor, DataUtil.PASSWORD);
+        setupAuthenticatedSession(siteContributor, password);
         siteUsers.navigate(siteName);
 
         members = siteUsers.getSiteMembersList();
@@ -210,7 +210,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         }
 
         LOG.info("Step 3 login as site consumer open site members page and verify if the remove button is disabled for all members");
-        setupAuthenticatedSession(siteConsumer, DataUtil.PASSWORD);
+        setupAuthenticatedSession(siteConsumer, password);
         siteUsers.navigate(siteName);
 
         members = siteUsers.getSiteMembersList();
@@ -223,7 +223,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         }
 
         LOG.info("Step 4 login as site manager open site members page and verify if the remove button is enabled for all members");
-        setupAuthenticatedSession(siteManager, DataUtil.PASSWORD);
+        setupAuthenticatedSession(siteManager, password);
         siteUsers.navigate(siteName);
 
         members = siteUsers.getSiteMembersList();
@@ -254,24 +254,24 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         siteName = "testSite" + uniqueIdentifier;
         description = "C2885";
 
-        userService.create(adminUser, adminPassword, siteManager, DataUtil.PASSWORD, siteManager + domain, "Manager", description);
-        userService.create(adminUser, adminPassword, siteCollaborator, DataUtil.PASSWORD, siteCollaborator + domain, "Collaborator", description);
-        userService.create(adminUser, adminPassword, siteContributor, DataUtil.PASSWORD, siteContributor + domain, "Contributor", description);
-        userService.create(adminUser, adminPassword, siteConsumer, DataUtil.PASSWORD, siteConsumer + domain, "Consumer", description);
+        userService.create(adminUser, adminPassword, siteManager, password, siteManager + domain, "Manager", description);
+        userService.create(adminUser, adminPassword, siteCollaborator, password, siteCollaborator + domain, "Collaborator", description);
+        userService.create(adminUser, adminPassword, siteContributor, password, siteContributor + domain, "Contributor", description);
+        userService.create(adminUser, adminPassword, siteConsumer, password, siteConsumer + domain, "Consumer", description);
 
-        siteService.create(siteManager, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(siteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
         LOG.info("Created site " + siteName + " with user " + siteManager + "as manager");
 
         groupService.createGroup(adminUser, adminPassword, group1);
         LOG.info("Created group with name " + group1);
 
-        userService.createSiteMember(siteManager, DataUtil.PASSWORD, siteCollaborator, siteName, "SiteCollaborator");
+        userService.createSiteMember(siteManager, password, siteCollaborator, siteName, "SiteCollaborator");
         LOG.info("Adding " + siteCollaborator + " as " + siteName + " site collaborator");
-        userService.createSiteMember(siteManager, DataUtil.PASSWORD, siteContributor, siteName, "SiteContributor");
+        userService.createSiteMember(siteManager, password, siteContributor, siteName, "SiteContributor");
         LOG.info("Adding " + siteContributor + " as " + siteName + " site contributor");
-        userService.createSiteMember(siteManager, DataUtil.PASSWORD, siteConsumer, siteName, "SiteConsumer");
+        userService.createSiteMember(siteManager, password, siteConsumer, siteName, "SiteConsumer");
         LOG.info("Adding " + siteConsumer + " as " + siteName + " site consumer");
-        groupService.inviteGroupToSite(siteManager, DataUtil.PASSWORD, siteName, group1, "SiteConsumer");
+        groupService.inviteGroupToSite(siteManager, password, siteName, group1, "SiteConsumer");
         LOG.info("Added group " + group1 + " to site " + siteName + " with role Consumer");
 
         for (int i = 0; i <= 3; i++)
@@ -280,19 +280,19 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
             {
                 case 0:
                     LOG.info("Step 1 login as site collaborator open group members page and verify if the remove button is disabled for consumer group");
-                    setupAuthenticatedSession(siteCollaborator, DataUtil.PASSWORD);
+                    setupAuthenticatedSession(siteCollaborator, password);
                     break;
                 case 1:
                     LOG.info("Step 2 login as site contributor open group members page and verify if the remove button is disabled for consumer group");
-                    setupAuthenticatedSession(siteContributor, DataUtil.PASSWORD);
+                    setupAuthenticatedSession(siteContributor, password);
                     break;
                 case 2:
                     LOG.info("Step 3 login as site consumer open group members page and verify if the remove button is disabled for consumer group");
-                    setupAuthenticatedSession(siteConsumer, DataUtil.PASSWORD);
+                    setupAuthenticatedSession(siteConsumer, password);
                     break;
                 case 3:
                     LOG.info("Step 4 login as site manager open group members page and verify if the remove button is enabled for consumer group");
-                    setupAuthenticatedSession(siteManager, DataUtil.PASSWORD);
+                    setupAuthenticatedSession(siteManager, password);
                     break;
             }
 
@@ -320,11 +320,11 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         setup("C2890", Site.Visibility.PRIVATE);
         LOG.info("Created site " + siteName + " with user " + user1 + "as manager");
 
-        userService.createSiteMember(user1, DataUtil.PASSWORD, user2, siteName, "SiteContributor");
+        userService.createSiteMember(user1, password, user2, siteName, "SiteContributor");
         LOG.info("Adding " + user2 + "as " + siteName + " contributor");
 
         LOG.info("Step 1 logging in as user1 and verifying the users from site members!");
-        setupAuthenticatedSession(user1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user1, password);
         siteUsers.navigate(siteName);
         // assert if user 1 is present
         Assert.assertTrue(siteUsers.isUserRoleNotChangeable("Manager", user1CompleteName), "User1 is not manager for this site");
@@ -341,7 +341,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         Assert.assertFalse(siteUsers.isASiteMember(user2), "User 2 is not removed from site members list");
 
         LOG.info("Step 3 logout as user 1 and login as user 2");
-        setupAuthenticatedSession(user2, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user2, password);
 
         LOG.info("Step 4 opening site dashboard page");
         getBrowser().navigate().to(properties.getShareUrl() + "/page/site/" + siteName + "/dashboard");
@@ -359,11 +359,11 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         setup("C2892", Site.Visibility.MODERATED);
         LOG.info("Created site " + siteName + " with user " + user1 + "as manager");
 
-        userService.createSiteMember(user1, DataUtil.PASSWORD, user2, siteName, "SiteContributor");
+        userService.createSiteMember(user1, password, user2, siteName, "SiteContributor");
         LOG.info("Adding " + user2 + "as " + siteName + " contributor");
 
         LOG.info("Step 1 logging in as user1 and verifying the users from site members!");
-        setupAuthenticatedSession(user1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user1, password);
         siteUsers.navigate(siteName);
         // assert if user 1 is present
         Assert.assertTrue(siteUsers.isUserRoleNotChangeable("Manager", user1CompleteName), "User1 is not manager for this site");
@@ -380,7 +380,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         Assert.assertFalse(siteUsers.isASiteMember(user2), "User 2 is not removed from site members list");
 
         LOG.info("Step 3 logout as user 1 and login as user 2");
-        setupAuthenticatedSession(user2, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user2, password);
 
         LOG.info("Step 4 open site's dashboard");
         siteDashboardPage.navigate(siteName);

@@ -33,8 +33,8 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
     {
         String userName = "C2168-" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, userName, password, userName, "C2793", "lname");
-        userService.addDashlet(userName, DataUtil.PASSWORD, UserDashlet.ADDONS_RSS_FEED, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
-        setupAuthenticatedSession(userName, DataUtil.PASSWORD);
+        userService.addDashlet(userName, password, UserDashlet.ADDONS_RSS_FEED, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
+        setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Click Configure this dashlet icon");
         userDashboardPage.navigate(userName);

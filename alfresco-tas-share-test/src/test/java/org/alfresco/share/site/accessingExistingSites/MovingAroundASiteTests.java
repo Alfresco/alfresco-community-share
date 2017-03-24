@@ -33,8 +33,8 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
-        setupAuthenticatedSession(user, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
+        setupAuthenticatedSession(user, password);
     }
 
     @TestRail(id = "C3034")
@@ -42,7 +42,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     public void verifyDefaultAreas()
     {
         siteName = "Site-C3034-" + DataUtil.getUniqueIdentifier();
-        siteService.create(user, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
 
         LOG.info("STEP 1: Go to the created site." + siteName + "and verify the default areas available.");
         siteDashboard.navigate(siteName);
@@ -68,7 +68,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     public void addAdditionalFeatures()
     {
         siteName = "Site-C3035-" + DataUtil.getUniqueIdentifier();
-        siteService.create(user, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         LOG.info("STEP 1: Add the other available pages to the site, in the following order (using 'Customize site' feature)");
         customizeSite.navigate(siteName);
         customizeSite.addPageToSite(SitePageType.CALENDER);
@@ -126,7 +126,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     public void siteFeaturesAreAvailableOnAnyPageFromTheSite()
     {
         siteName = "Site-C3036-" + DataUtil.getUniqueIdentifier();
-        siteService.create(user, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteDashboard.navigate(siteName);
         LOG.info("STEP 1: Click on 'Document Library' link.");
         siteDashboard.clickDocumentLibrary();

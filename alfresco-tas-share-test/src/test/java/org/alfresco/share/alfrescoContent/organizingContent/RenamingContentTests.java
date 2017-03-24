@@ -29,7 +29,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
     }
 
     @TestRail(id = "C7419")
@@ -39,8 +39,8 @@ public class RenamingContentTests extends ContextAwareWebTest
         String siteName = "Site-C7419-" + DataUtil.getUniqueIdentifier();
         String docName = "Doc-C7419-" + DataUtil.getUniqueIdentifier();
         String newFileName = "newFileNameC7419";
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -70,7 +70,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         String siteName = "Site-C7420-" + DataUtil.getUniqueIdentifier();
         String newFolderName = "new folder name C7420";
         String folderName = "Folder-C7420-" + DataUtil.getUniqueIdentifier();
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
@@ -101,8 +101,8 @@ public class RenamingContentTests extends ContextAwareWebTest
         String siteName = "Site-C7431-" + DataUtil.getUniqueIdentifier();
         String docName = "Doc-C7431-" + DataUtil.getUniqueIdentifier();
         String newFileName = "new file name C7431";
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

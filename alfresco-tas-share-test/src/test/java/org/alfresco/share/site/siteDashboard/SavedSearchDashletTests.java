@@ -37,8 +37,8 @@ public class SavedSearchDashletTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
-        siteService.addDashlet(userName, DataUtil.PASSWORD, siteName, SiteDashlet.SAVED_SEARCH, DashletLayout.THREE_COLUMNS, 3, 1);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.addDashlet(userName, password, siteName, SiteDashlet.SAVED_SEARCH, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(userName, password);
     }
     

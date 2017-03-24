@@ -67,11 +67,11 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         userTest = "User2" + DataUtil.getUniqueIdentifier();
         siteName = "C2461" + DataUtil.getUniqueIdentifier();
         taskName = String.format("Request to join %s site", siteName);
-        userService.create(adminUser, adminPassword, userManager, DataUtil.PASSWORD, userManager + "@tests.com", userManager, userManager);
-        userService.create(adminUser, adminPassword, userTest, DataUtil.PASSWORD, userTest + "@tests.com", userTest, userTest);
+        userService.create(adminUser, adminPassword, userManager, password, userManager + "@tests.com", userManager, userManager);
+        userService.create(adminUser, adminPassword, userTest, password, userTest + "@tests.com", userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
 
-        setupAuthenticatedSession(userTest, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userTest, password);
 
     }
 
@@ -91,7 +91,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
         logger.info("Step 3: Login second user");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userManager, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userManager, password);
 
         logger.info("Step 4: Go to 'My Tasks' page");
         menuNavigationBar.goTo(myTasksPage);
@@ -115,7 +115,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
         logger.info("Step 9: Login first user");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userTest, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userTest, password);
 
         logger.info("Step 10: Verify 'My sites' dashlet from user's dashboard page");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName));
@@ -139,7 +139,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
         logger.info("Step 3: Login second user");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userManager, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userManager, password);
 
         logger.info("Step 4: Verify 'My Tasks' dashlet");
         userDashboardPage.navigate(userManager);
@@ -160,7 +160,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
         logger.info("Step 8: Login first user");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userTest, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userTest, password);
 
         logger.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName));
@@ -184,7 +184,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
         logger.info("Step 3: Login second user");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userManager, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userManager, password);
 
         logger.info("Step 4: Go to 'My Tasks' page");
         menuNavigationBar.goTo(myTasksPage);
@@ -203,7 +203,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
         logger.info("Step 8: Login first user");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userTest, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userTest, password);
 
         logger.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName));
@@ -236,7 +236,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
         logger.info("Step 3: Login second user");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userManager, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userManager, password);
 
         logger.info("Step 4: Verify 'My Tasks' dashlet");
         userDashboardPage.navigate(userManager);
@@ -256,7 +256,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
         logger.info("Step 8: Login first user");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userTest, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userTest, password);
 
         logger.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName));
@@ -295,7 +295,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         {
             logger.info("Login as " + user.getUserRole());
             cleanupAuthenticatedSession();
-            setupAuthenticatedSession(user.getUserName(), DataUtil.PASSWORD);
+            setupAuthenticatedSession(user.getUserName(), password);
 
             logger.info("Verify 'My Tasks' dashlet");
             userDashboardPage.navigate(user.getUserName());
@@ -308,7 +308,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
         logger.info("Step 3: Login as 'userManager'");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(userManager, DataUtil.PASSWORD);
+        setupAuthenticatedSession(userManager, password);
 
         logger.info("Step 4: Verify 'My Tasks' page");
         menuNavigationBar.goTo(myTasksPage);

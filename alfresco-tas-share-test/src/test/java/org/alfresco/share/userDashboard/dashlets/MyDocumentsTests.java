@@ -47,10 +47,10 @@ public class MyDocumentsTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         userName1 = "User1" + DataUtil.getUniqueIdentifier();
         userName2 = "User2" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName1, DataUtil.PASSWORD, userName1 + "@tests.com", userName1, userName1);
-        userService.create(adminUser, adminPassword, userName2, DataUtil.PASSWORD, userName1 + "@tests.com", userName1, userName1);
+        userService.create(adminUser, adminPassword, userName1, password, userName1 + "@tests.com", userName1, userName1);
+        userService.create(adminUser, adminPassword, userName2, password, userName1 + "@tests.com", userName1, userName1);
         siteName1 = "Site1" + DataUtil.getUniqueIdentifier();
-        siteService.create(userName1, DataUtil.PASSWORD, domain, siteName1, "description", Visibility.PUBLIC);
+        siteService.create(userName1, password, domain, siteName1, "description", Visibility.PUBLIC);
     }
 
     @TestRail(id = "C2134")
@@ -59,10 +59,10 @@ public class MyDocumentsTests extends ContextAwareWebTest
     {
         logger.info("STEP 1 - Create document then update its content");
         String file = "TestDoc";
-        Assert.assertFalse(contentService.createDocument(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file, file).getId().isEmpty());
-        contentService.updateDocumentContent(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(10));
-        contentService.updateDocumentContent(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(20));
-        contentAction.likeContent(userName2, DataUtil.PASSWORD, siteName1, file);
+        Assert.assertFalse(contentService.createDocument(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, file).getId().isEmpty());
+        contentService.updateDocumentContent(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(10));
+        contentService.updateDocumentContent(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(20));
+        contentAction.likeContent(userName2, password, siteName1, file);
         loginPage.navigate();
         loginPage.login(userName1, password);
         myDocumentsDashlet.waitForDocument();
@@ -112,7 +112,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         Assert.assertTrue(documentDetailsPage.isAddToFavoriteLinkDisplayed(), "Add to favorites link is displayed, document is not favorite");
 
         logger.info("STEP 7 - Like document, check number of likes");
-        contentAction.likeContent(userName1, DataUtil.PASSWORD, siteName1, file);
+        contentAction.likeContent(userName1, password, siteName1, file);
         userDashboardPage.navigate(userName1);
         Assert.assertTrue(myDocumentsDashlet.isLikedIconDisplayed(file), "Like icon is not displayed for document");
         Assert.assertEquals(myDocumentsDashlet.getNumberOfLikes(file), 2, "Document has wrong number of likes");
@@ -136,12 +136,12 @@ public class MyDocumentsTests extends ContextAwareWebTest
         String file1 = "File1" + DataUtil.getUniqueIdentifier();
         String file2 = "File2" + DataUtil.getUniqueIdentifier();
         String file3 = "File3" + DataUtil.getUniqueIdentifier();
-        contentService.createDocument(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file1, file1);
-        contentService.createDocument(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file2, file2);
-        contentService.createDocument(userName1, DataUtil.PASSWORD, siteName1, DocumentType.TEXT_PLAIN, file3, file3);
+        contentService.createDocument(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file1, file1);
+        contentService.createDocument(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file2, file2);
+        contentService.createDocument(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file3, file3);
 
         contentAction.checkOut(userName1, password, siteName1, file2);
-        contentAction.setFileAsFavorite(userName1, DataUtil.PASSWORD, siteName1, file3);
+        contentAction.setFileAsFavorite(userName1, password, siteName1, file3);
 
         setupAuthenticatedSession(userName1, password);
         userDashboardPage.navigate(userName1);

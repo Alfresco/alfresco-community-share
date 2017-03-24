@@ -66,10 +66,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
         String description = "Description" + DataUtil.getUniqueIdentifier();
         String fileName = "fileC2280-" + DataUtil.getUniqueIdentifier();
 
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
-        siteService.create(user, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        contentService.createDocument(user, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "fileC2280");
-        setupAuthenticatedSession(user, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
+        siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        contentService.createDocument(user, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "fileC2280");
+        setupAuthenticatedSession(user, password);
         getBrowser().refresh();
 
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
@@ -123,11 +123,11 @@ public class DeleteSiteTests extends ContextAwareWebTest
         String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        userService.create(adminUser, adminPassword, user2, DataUtil.PASSWORD, user2 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        userService.createSiteMember(user1, DataUtil.PASSWORD, user2, siteName, "SiteContributor");
-        setupAuthenticatedSession(user2, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.createSiteMember(user1, password, user2, siteName, "SiteContributor");
+        setupAuthenticatedSession(user2, password);
 
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         toolbarSitesMenu.clickSiteFinder();
@@ -153,11 +153,11 @@ public class DeleteSiteTests extends ContextAwareWebTest
         String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        userService.create(adminUser, adminPassword, user2, DataUtil.PASSWORD, user2 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        userService.createSiteMember(user1, DataUtil.PASSWORD, user2, siteName, "SiteCollaborator");
-        setupAuthenticatedSession(user2, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.createSiteMember(user1, password, user2, siteName, "SiteCollaborator");
+        setupAuthenticatedSession(user2, password);
 
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         toolbarSitesMenu.clickSiteFinder();
@@ -183,11 +183,11 @@ public class DeleteSiteTests extends ContextAwareWebTest
         String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        userService.create(adminUser, adminPassword, user2, DataUtil.PASSWORD, user2 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        userService.createSiteMember(user1, DataUtil.PASSWORD, user2, siteName, "SiteConsumer");
-        setupAuthenticatedSession(user2, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.createSiteMember(user1, password, user2, siteName, "SiteConsumer");
+        setupAuthenticatedSession(user2, password);
 
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         toolbarSitesMenu.clickSiteFinder();
@@ -212,9 +212,9 @@ public class DeleteSiteTests extends ContextAwareWebTest
         String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
-        siteService.create(user, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        setupAuthenticatedSession(user, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
+        siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(user, password);
 
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         toolbarSitesMenu.clickSiteFinder();
@@ -261,10 +261,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
         String description = "Description" + DataUtil.getUniqueIdentifier();
         String fileName = "fileC2286-" + DataUtil.getUniqueIdentifier();
 
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
-        siteService.create(user, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        contentService.createDocument(user, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "fileC2286");
-        setupAuthenticatedSession(user, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
+        siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        contentService.createDocument(user, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "fileC2286");
+        setupAuthenticatedSession(user, password);
         getBrowser().refresh();
 
         LOG.info("STEP1&2: Hover over the created site from \"My sites\" dashlet. Click on \"Delete\" button");
@@ -304,11 +304,11 @@ public class DeleteSiteTests extends ContextAwareWebTest
         String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        userService.create(adminUser, adminPassword, user2, DataUtil.PASSWORD, user2 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        userService.createSiteMember(user1, DataUtil.PASSWORD, user2, siteName, "SiteContributor");
-        setupAuthenticatedSession(user2, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.createSiteMember(user1, password, user2, siteName, "SiteContributor");
+        setupAuthenticatedSession(user2, password);
 
         LOG.info("STEP1: Hover over the created site on \"My sites\" dashlet");
         mySitesDashlet.hoverSite(siteName);
@@ -326,11 +326,11 @@ public class DeleteSiteTests extends ContextAwareWebTest
         String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        userService.create(adminUser, adminPassword, user2, DataUtil.PASSWORD, user2 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        userService.createSiteMember(user1, DataUtil.PASSWORD, user2, siteName, "SiteCollaborator");
-        setupAuthenticatedSession(user2, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.createSiteMember(user1, password, user2, siteName, "SiteCollaborator");
+        setupAuthenticatedSession(user2, password);
 
         LOG.info("STEP1: Hover over the created site on \"My sites\" dashlet");
         mySitesDashlet.hoverSite(siteName);
@@ -348,11 +348,11 @@ public class DeleteSiteTests extends ContextAwareWebTest
         String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        userService.create(adminUser, adminPassword, user2, DataUtil.PASSWORD, user2 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        userService.createSiteMember(user1, DataUtil.PASSWORD, user2, siteName, "SiteConsumer");
-        setupAuthenticatedSession(user2, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.createSiteMember(user1, password, user2, siteName, "SiteConsumer");
+        setupAuthenticatedSession(user2, password);
 
         LOG.info("STEP1: Hover over the created site on \"My sites\" dashlet");
         mySitesDashlet.hoverSite(siteName);
@@ -369,8 +369,8 @@ public class DeleteSiteTests extends ContextAwareWebTest
         String siteName = "0-C2291-" + DataUtil.getUniqueIdentifier();
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(adminUser, adminPassword);
 
         LOG.info("STEP1: Open \"Site Manager\" page");
@@ -402,8 +402,8 @@ public class DeleteSiteTests extends ContextAwareWebTest
         String siteName = "0-C2292-" + DataUtil.getUniqueIdentifier();
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(adminUser, adminPassword);
 
         LOG.info("STEP1: Open \"Site Manager\" page");

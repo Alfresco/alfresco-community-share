@@ -43,8 +43,8 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
     }
 
     @TestRail(id = "C7163")
@@ -52,7 +52,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     public void cancelChangeType()
     {
         String docName = "Doc-C7163-" + DataUtil.getUniqueIdentifier();
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -83,7 +83,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     public void changeTypeFolder()
     {
         String folderName = "Folder-C7166-" + DataUtil.getUniqueIdentifier();
-        contentService.createFolder(userName, DataUtil.PASSWORD, folderName, siteName);
+        contentService.createFolder(userName, password, folderName, siteName);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -139,7 +139,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     public void changeTypeFile()
     {
         String docName = "Doc-C7167-" + DataUtil.getUniqueIdentifier();
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

@@ -41,11 +41,11 @@ public class SiteFinderTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user1, DataUtil.PASSWORD, user1 + domain, userFirstName, "lastName1");
-        userService.create(adminUser, adminPassword, user2, DataUtil.PASSWORD, user2 + domain, userFirstName, user2LastName);
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName1, description, Site.Visibility.MODERATED);
-        siteService.create(user1, DataUtil.PASSWORD, domain, siteName2, description, Site.Visibility.PRIVATE);
-        setupAuthenticatedSession(user1, DataUtil.PASSWORD);
+        userService.create(adminUser, adminPassword, user1, password, user1 + domain, userFirstName, "lastName1");
+        userService.create(adminUser, adminPassword, user2, password, user2 + domain, userFirstName, user2LastName);
+        siteService.create(user1, password, domain, siteName1, description, Site.Visibility.MODERATED);
+        siteService.create(user1, password, domain, siteName2, description, Site.Visibility.PRIVATE);
+        setupAuthenticatedSession(user1, password);
     }
 
     @TestRail(id = "C5876")
@@ -128,7 +128,7 @@ public class SiteFinderTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Logout and log in as user2");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(user2, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user2, password);
         assertEquals(userDashboardPage.getPageHeader(), userFirstName + " " + user2LastName + " Dashboard", user2 + "'s user dashboard is displayed");
 
         LOG.info("STEP3: Open \"Site Finder\" page");
@@ -141,6 +141,6 @@ public class SiteFinderTests extends ContextAwareWebTest
         assertFalse(siteFinderPage.checkSiteWasFound(siteName2), "No results displayed in search result section");
 
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(user1, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user1, password);
     }
 }

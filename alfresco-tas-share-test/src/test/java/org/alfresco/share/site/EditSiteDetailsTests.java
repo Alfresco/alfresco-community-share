@@ -34,11 +34,11 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userService.create(adminUser, adminPassword, user, DataUtil.PASSWORD, user + domain, "firstName", "lastName");
-        siteService.create(user, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        siteService.addDashlet(user, DataUtil.PASSWORD, siteName, DashboardCustomization.SiteDashlet.SITE_PROFILE,
+        userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
+        siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_PROFILE,
                 DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 1);
-        setupAuthenticatedSession(user, DataUtil.PASSWORD);
+        setupAuthenticatedSession(user, password);
     }
 
     @TestRail(id = "C2210")
