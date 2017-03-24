@@ -1,15 +1,10 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
+import junit.framework.Assert;
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.CMISUtil.Status;
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.ContactListFields;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.ToDoAgendaFields;
@@ -24,7 +19,9 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import junit.framework.Assert;
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class EditingAListItemTests extends ContextAwareWebTest
 {
@@ -40,17 +37,15 @@ public class EditingAListItemTests extends ContextAwareWebTest
     
     private String userName;
     private String siteName;
-    private List<Page> pagesToAdd = new ArrayList<Page>();
     
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        pagesToAdd.add(Page.DATALISTS);
         userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         setupAuthenticatedSession(userName, password);
     }
     

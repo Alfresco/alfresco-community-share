@@ -11,6 +11,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -19,11 +20,8 @@ import java.util.List;
 /**
  * Created by Argint Alex on 9/22/2016.
  */
-public class SelectingMultipleListItems extends ContextAwareWebTest {
-
-    @Autowired
-    DataListsService dataListsService;
-
+public class SelectingMultipleListItems extends ContextAwareWebTest
+{
     @Autowired
     DataListsPage dataListsPage;
 
@@ -37,16 +35,22 @@ public class SelectingMultipleListItems extends ContextAwareWebTest {
     private String contactList;
     private List<String> contacts = new ArrayList<String>();
 
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
+    {
+        userName = "User" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        setupAuthenticatedSession(userName, password);
+    }
+
     public void setup(String id) {
 
         LOG.info("Preconditions for test " + id);
         uniqueIdentifier = "-" + id + "-" + DataUtil.getUniqueIdentifier();
         siteName = "siteName" + uniqueIdentifier;
-        userName = "User" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;
         contactList = "ContactList" + uniqueIdentifier;
 
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, DashboardCustomization.Page.DATALISTS, null);
         dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.CONTACT_LIST, contactList, description);
@@ -55,7 +59,6 @@ public class SelectingMultipleListItems extends ContextAwareWebTest {
                     "E-mail" + i, "Company" + i, "JobTitle" + i, "PhoneOffice" + i, "PhoneMobile" + i, "Notes" + i);
         }
 
-        setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(contactList);
         getBrowser().waitInSeconds(2);

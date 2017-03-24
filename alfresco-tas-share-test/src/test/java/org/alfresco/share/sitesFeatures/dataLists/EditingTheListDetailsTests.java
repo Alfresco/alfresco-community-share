@@ -1,34 +1,26 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import junit.framework.Assert;
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
+import org.alfresco.po.share.site.dataLists.CreateDataListPopUp;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditListDetailsPopUp;
-import org.alfresco.po.share.site.dataLists.CreateDataListPopUp;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import junit.framework.Assert;
-
 public class EditingTheListDetailsTests extends ContextAwareWebTest
 {
-
     @Autowired
     DataListsPage dataListsPage;
-    
-    @Autowired
-    DataListsService dataLists;
-    
+
     @Autowired
     CreateDataListPopUp createDataListPopUp;
     
@@ -38,22 +30,24 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     private String userName;
     private String siteName;
     private String listName = "first list";
-    private List<Page> pagesToAdd = new ArrayList<Page>();
-    
-    @BeforeMethod(alwaysRun = true)
-    public void setup()
+
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
     {
-        super.setup();
-        pagesToAdd.add(Page.DATALISTS);
         userName = "User" + DataUtil.getUniqueIdentifier();
-        siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void precondition()
+    {
+        siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         createDataListPopUp.clickCancelFormButton();
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         getBrowser().refresh();
     }
     
@@ -126,7 +120,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         logger.info("Preconditions: Create a user with 'Collaborator' role");
         String collaborator = "Collaborator" + DataUtil.getUniqueIdentifier();
-        userService.create(properties.getAdminUser(), properties.getAdminPassword(), collaborator, password, "collaborator@tests.com", "collaborator", "collaborator");
+        userService.create(adminUser, adminPassword, collaborator, password, "collaborator@tests.com", "collaborator", "collaborator");
         userService.createSiteMember(userName, password, collaborator, siteName, "SiteCollaborator");
         setupAuthenticatedSession(collaborator, password);
         dataListsPage.navigate(siteName);
@@ -158,7 +152,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         logger.info("Preconditions: Create a user with 'Contributor' role");
         String contributor = "Contributor" + DataUtil.getUniqueIdentifier();
-        userService.create(properties.getAdminUser(), properties.getAdminPassword(), contributor, password, "collaborator@tests.com", "collaborator", "collaborator");
+        userService.create(adminUser, adminPassword, contributor, password, "collaborator@tests.com", "collaborator", "collaborator");
         userService.createSiteMember(userName, password, contributor, siteName, "SiteContributor");
         setupAuthenticatedSession(contributor, password);
         dataListsPage.navigate(siteName);
@@ -178,7 +172,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         logger.info("Preconditions: Create a user with 'Consumer' role");
         String consumer = "Consumer" + DataUtil.getUniqueIdentifier();
-        userService.create(properties.getAdminUser(), properties.getAdminPassword(), consumer, password, "collaborator@tests.com", "collaborator", "collaborator");
+        userService.create(adminUser, adminPassword, consumer, password, "collaborator@tests.com", "collaborator", "collaborator");
         userService.createSiteMember(userName, password, consumer, siteName, "SiteConsumer");
         setupAuthenticatedSession(consumer, password);
         dataListsPage.navigate(siteName);
@@ -198,13 +192,13 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         logger.info("Preconditions: Create a user with 'Collaborator' role and a list");
         String contributor = "Contributor" + DataUtil.getUniqueIdentifier();
-        userService.create(properties.getAdminUser(), properties.getAdminPassword(), contributor, password, "Contributor@tests.com", "Contributor", "Contributor");
+        userService.create(adminUser, adminPassword, contributor, password, "Contributor@tests.com", "Contributor", "Contributor");
         userService.createSiteMember(userName, password, contributor, siteName, "SiteContributor");
         setupAuthenticatedSession(contributor, password);
         dataListsPage.navigate(siteName);
         
         String ownDataList = "ownDataList";
-        dataLists.createDataList(contributor, password, siteName, DataList.CONTACT_LIST, ownDataList, "contact link description");
+        dataListsService.createDataList(contributor, password, siteName, DataList.CONTACT_LIST, ownDataList, "contact link description");
         getBrowser().refresh();
         
         logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
@@ -235,7 +229,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         logger.info("Preconditions: Create a user with 'Collaborator' role and a list");
         String manager = "Manager" + DataUtil.getUniqueIdentifier();
-        userService.create(properties.getAdminUser(), properties.getAdminPassword(), manager, password, "manager@tests.com", "manager", "manager");
+        userService.create(adminUser, adminPassword, manager, password, "manager@tests.com", "manager", "manager");
         userService.createSiteMember(userName, password, manager, siteName, "SiteManager");
         setupAuthenticatedSession(manager, password);
         dataListsPage.navigate(siteName);

@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -20,13 +21,11 @@ import java.util.List;
 /**
  * Created by Alex Argint on 9/29/2016.
  */
-public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
+public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
+{
 
     @Autowired
     ContactListSelectedContent contactListSelectedContent;
-
-    @Autowired
-    DataListsService dataListsService;
 
     @Autowired
     DataListsPage dataListsPage;
@@ -39,16 +38,22 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
     private List<String> contacts = new ArrayList<String>();
     private List<String> results = new ArrayList<String>();
 
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
+    {
+        userName = "User" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        setupAuthenticatedSession(userName, password);
+    }
+
     public void setup(String id) {
 
         LOG.info("Preconditions for test " + id);
         uniqueIdentifier = "-" + id + "-" + DataUtil.getUniqueIdentifier();
         siteName = "siteName" + uniqueIdentifier;
-        userName = "User" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;
         contactList = "ContactList" + uniqueIdentifier;
 
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, DashboardCustomization.Page.DATALISTS, null);
         dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.CONTACT_LIST, contactList, description);
@@ -57,7 +62,6 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest {
                     "E-mail" + i, "Company" + i, "JobTitle" + i, "PhoneOffice" + i, "PhoneMobile" + i, "Notes" + i);
         }
 
-        setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(contactList);
         getBrowser().waitInSeconds(2);

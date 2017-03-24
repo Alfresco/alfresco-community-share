@@ -72,10 +72,10 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         sitePagesService.createLink(userName, password, siteName, identifier + " link 4", "https://www.alfresco.com", "hello" + identifier, false,
                 null);
 
-        datalistService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, "test" + identifier + " list 1", "test" + identifier);
-        datalistService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, "test" + identifier + " list 2", "hello" + identifier);
-        datalistService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, identifier + " list 3", "test" + identifier);
-        datalistService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, identifier + " list 4", "hello" + identifier);
+        dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, "test" + identifier + " list 1", "test" + identifier);
+        dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, "test" + identifier + " list 2", "hello" + identifier);
+        dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, identifier + " list 3", "test" + identifier);
+        dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, identifier + " list 4", "hello" + identifier);
     }
 
     @TestRail(id = "C5888")

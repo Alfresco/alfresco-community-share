@@ -1,12 +1,7 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.UserData;
-import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.share.site.CustomizeSitePage;
@@ -19,12 +14,16 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class AccessingDataListsComponentTests extends ContextAwareWebTest
 {
-    
     @Autowired
     DataUtil dataUtil;
     
@@ -35,25 +34,25 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     CustomizeSitePage customizeSitePage;
     
     @Autowired
-    DataListsService dataLists;
-    
-    @Autowired
     DataListsPage dataListsPage;
     
     private String userName;
     private String siteName;
-    private List<Page> pagesToAdd = new ArrayList<Page>();
+    
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
+    {
+        userName = "User" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        setupAuthenticatedSession(userName, password);
+    }
 
     @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+    public void precondition()
     {
-        pagesToAdd.add(Page.DATALISTS);
-        userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        setupAuthenticatedSession(userName, password);
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
     }
     
     @TestRail(id = "C5844")
@@ -105,7 +104,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         for(int i=0; i<2; i++)
         {
             String contactList = "link" + System.currentTimeMillis();
-            dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, contactList, "contact link description");
+            dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, contactList, "contact link description");
             createdDataLists.add(contactList);
         }
         
@@ -121,7 +120,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     {    
         logger.info("Preconditions: Create a new List");
         String listName = "list" + System.currentTimeMillis();
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         
         dataListsPage.navigate(siteName);
         

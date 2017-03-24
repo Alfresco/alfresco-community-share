@@ -38,7 +38,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     @Autowired
     protected ContentService contentService;
     @Autowired
-    protected DataListsService datalistService;
+    protected DataListsService dataListsService;
     @Autowired
     protected SitePagesService sitePagesService;
     @Autowired 

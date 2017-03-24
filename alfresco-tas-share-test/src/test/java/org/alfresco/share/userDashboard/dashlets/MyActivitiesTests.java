@@ -94,7 +94,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
         sitePagesService.createBlogPost(userName, password, siteName, blogTitle, blogTitle + " content", false, null); //TODO check why blog creation isn't in My Activities dashlet
         sitePagesService.addCalendarEvent(userName, password, siteName, eventName, "Where " + eventName, "description " + eventName, today.toDate(), today.toDate(), "6:00 PM",
                 "8:00 PM", false, null);
-        datalistService.createDataList(userName, password, siteName, DataList.CONTACT_LIST, datalistName, "Contact list for user " + userName); //TODO check why data list creation isn't in My Activities dashlet
+        dataListsService.createDataList(userName, password, siteName, DataList.CONTACT_LIST, datalistName, "Contact list for user " + userName); //TODO check why data list creation isn't in My Activities dashlet
         sitePagesService.createDiscussion(userName, password, siteName, discussionTitle, discussionTitle + " content", null);
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, documentName, documentName + " content");
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + fileName);
@@ -106,7 +106,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     {
         sitePagesService.updateBlogPost(userName, password, siteName, blogTitle, "New" + blogTitle, "New " + blogTitle + " content", false);
         sitePagesService.updateEvent(userName, password, siteName, eventName, eventName, "Where " + eventName, today.toDate(), today.toDate(), "7:00 PM", "9:00 PM", false); //TODO check why event update isn't in My Activities dashlet
-        datalistService.updateDataList(userName, password, siteName, datalistName, "New" + datalistName, "New contact list for user " + userName);
+        dataListsService.updateDataList(userName, password, siteName, datalistName, "New" + datalistName, "New contact list for user " + userName);
         sitePagesService.updateDiscussion(userName, password, siteName, discussionTitle, "New" + discussionTitle, "New " + discussionTitle + " content", null);
         contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, documentName, "New " + documentName + " content");
         contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, "New  content");
@@ -118,7 +118,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     {
         sitePagesService.deleteBlogPost(userName, password, siteName, blogTitle, false);
         sitePagesService.removeEvent(userName, password, siteName, eventName, "Where " + eventName, today.toDate(), today.toDate(), "6:00 PM", "8:00 PM", false);
-        datalistService.deleteDataList(userName, password, siteName, datalistName);
+        dataListsService.deleteDataList(userName, password, siteName, datalistName);
         sitePagesService.deleteDiscussion(userName, password, siteName, discussionTitle);
         contentService.deleteDocument(userName, password, siteName, documentName);
         contentService.deleteDocument(userName, password, siteName, fileName);

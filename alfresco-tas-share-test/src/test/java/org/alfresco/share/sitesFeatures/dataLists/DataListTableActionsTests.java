@@ -1,16 +1,9 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
-import org.alfresco.po.share.site.CustomizeSitePage;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.dataLists.ContactListSelectedContent;
-import org.alfresco.po.share.site.dataLists.CreateDataListPopUp;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.ManageContactListItems;
 import org.alfresco.share.ContextAwareWebTest;
@@ -19,30 +12,16 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+
 public class DataListTableActionsTests extends ContextAwareWebTest
-
 {
-
-    @Autowired
-    DataUtil dataUtil;
-
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
-
-    @Autowired
-    CustomizeSitePage customizeSitePage;
-
-    @Autowired
-    DataListsService dataLists;
-
     @Autowired
     DataListsPage dataListsPage;
-
-    @Autowired
-    CreateDataListPopUp createDataListPopUp;
 
     @Autowired
     ManageContactListItems manageContactListItems;
@@ -50,31 +29,32 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     @Autowired
     ContactListSelectedContent contactListSelectedContent;
 
-    @Autowired
-    DataListsService dataListsService;
-
     private String userName;
     private String siteName;
-    private List<Page> pagesToAdd = new ArrayList<Page>();
     private String description;
     private String contactList;
     String contactListName = "contact" + System.currentTimeMillis();
 
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
+    {
+        userName = "User" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        setupAuthenticatedSession(userName, password);
+    }
+
     @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+    public void createSite()
     {
         logger.info("Preconditions for Data List Table Actions test");
-        pagesToAdd.add(Page.DATALISTS);
-        userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         description = "description" + DataUtil.getUniqueIdentifier();
         contactList = "ContactList" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
 
         dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.CONTACT_LIST, contactList, description);
-
         dataListsService.addContactListItem(userName, password, siteName, contactList, "FirstName", "LastName", "E-mail", "Company", "JobTitle", "PhoneOffice",
                 "PhoneMobile", "Notes");
 

@@ -2,7 +2,6 @@ package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.ToDoAgendaFields;
@@ -14,7 +13,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -38,7 +37,6 @@ public class EditToDoListTest extends ContextAwareWebTest
     private CMISUtil.Status status = CMISUtil.Status.IN_PROGRESS;
     private String notes = "Notes";
     private String doc1 = "doc";
-    private List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
     private DateTime today = new DateTime();
     private String userName = "User" + random;
     private String siteName = "SiteName" + random;
@@ -48,19 +46,18 @@ public class EditToDoListTest extends ContextAwareWebTest
     String itemFile = "testFile1";
     String attachedFile = "testDoc.txt";
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        pagesToAdd.add(Page.DATALISTS);
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.create(adminUser, adminPassword, asigneeName, password, asigneeName + domain, "fName", "lName");
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         String path = srcRoot + "testdata" + File.separator;
         contentService.uploadFileInSite(userName, password, siteName, path + itemFile);
         contentService.uploadFileInSite(userName, password, siteName, path + attachedFile);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        datalistService.createDataList(userName, password, siteName, DataList.TODO_LIST, todoListName, dataListDescription);
-        datalistService.addToDoItem(userName, password, siteName, todoListName, itemTitle, dueDateToday, priority, status, notes, null,
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
+        dataListsService.createDataList(userName, password, siteName, DataList.TODO_LIST, todoListName, dataListDescription);
+        dataListsService.addToDoItem(userName, password, siteName, todoListName, itemTitle, dueDateToday, priority, status, notes, null,
                 Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);

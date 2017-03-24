@@ -71,8 +71,8 @@ public class DataListsDashletTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C5568", "C5568");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addDashlet(userName, password, siteName, SiteDashlet.SITE_DATA_LIST, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
-        datalistService.createDataList(userName, password, siteName, DataList.EVENT_LIST, eventListName, description);
-        datalistService.createDataList(userName, password, siteName, DataList.TODO_LIST, todoListName, description);
+        dataListsService.createDataList(userName, password, siteName, DataList.EVENT_LIST, eventListName, description);
+        dataListsService.createDataList(userName, password, siteName, DataList.TODO_LIST, todoListName, description);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step 1 - Verify Site Data Lists dahslet.");
@@ -166,7 +166,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userNameSiteConsumer, password, userNameSiteConsumer + domain, "userC5571Consumer", "userC5571Consumer");
         siteService.create(userNameSiteManager, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addDashlet(userNameSiteManager, password, siteName, SiteDashlet.SITE_DATA_LIST, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
-        datalistService.createDataList(userNameSiteManager, password, siteName, DataList.CONTACT_LIST, listName, description);
+        dataListsService.createDataList(userNameSiteManager, password, siteName, DataList.CONTACT_LIST, listName, description);
         userService.createSiteMember(userNameSiteManager, password, userNameSiteConsumer, siteName, "SiteConsumer");
 
         setupAuthenticatedSession(userNameSiteConsumer, password);

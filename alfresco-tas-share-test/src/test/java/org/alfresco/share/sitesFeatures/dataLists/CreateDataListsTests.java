@@ -1,8 +1,5 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
@@ -16,6 +13,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -33,20 +31,22 @@ public class CreateDataListsTests extends ContextAwareWebTest
     
     private String userName;
     private String siteName;
-    private String dataListName;
-    private List<Page> pagesToAdd = new ArrayList<Page>();
+    private String dataListName = "Test List";
+    
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
+    {
+        userName = "User" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        setupAuthenticatedSession(userName, password);
+    }
     
     @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+    public void createSite()
     {
-        pagesToAdd.add(Page.DATALISTS);
-        userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
-        dataListName = "Test List";
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        setupAuthenticatedSession(userName, password);
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsPage.navigate(siteName);
         createDataListPopUp.clickCancelFormButton();
     }

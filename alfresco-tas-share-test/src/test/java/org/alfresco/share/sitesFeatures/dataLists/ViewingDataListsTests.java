@@ -2,7 +2,6 @@ package org.alfresco.share.sitesFeatures.dataLists;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
-import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.share.site.dataLists.ContactListSelectedContent.ListColumns;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -12,37 +11,34 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
 public class ViewingDataListsTests extends ContextAwareWebTest
 {
-    
     @Autowired
     DataListsPage dataListsPage;
-    
-    @Autowired
-    DataListsService dataLists;
 
     private String userName;
     private String siteName;
-    private List<Page> pagesToAdd = new ArrayList<Page>();
-    
-    @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
     {
-        pagesToAdd.add(Page.DATALISTS);
         userName = "User" + DataUtil.getUniqueIdentifier();
-        siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
         setupAuthenticatedSession(userName, password);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void precondition()
+    {
+        siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
     }
     
     @TestRail(id = "C5853")
@@ -51,7 +47,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     {       
         logger.info("Preconditions: Create a new List");
         String listName = "list" + System.currentTimeMillis();
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         
         dataListsPage.navigate(siteName);
         
@@ -65,8 +61,8 @@ public class ViewingDataListsTests extends ContextAwareWebTest
         assertTrue(dataListsPage.currentContent.allFilterOptionsAreDisplayed(), "Not all filters are displayed.");
     }
     
-    //@TestRail(id = "C5854")
-    //@Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail(id = "C5854")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
     public void selectAListAndApplyAllFilter()
     {       
         // TO_DO
@@ -74,8 +70,8 @@ public class ViewingDataListsTests extends ContextAwareWebTest
         // Data list items created eight days ago and six days ago, modified eight days ago and six days ago are added to the DataList by User1. -> can not create data list items any number of days in the past or the future
     }
     
-    //@TestRail(id = "C5855")
-    //@Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail(id = "C5855")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
     public void selectAListAndApplyRecentlyAddedFilter()
     {       
         // TO_DO
@@ -83,8 +79,8 @@ public class ViewingDataListsTests extends ContextAwareWebTest
         // Data list items created eight days ago and six days ago, modified eight days ago and six days ago are added to the DataList by User1. -> can not create data list items any number of days in the past or the future
     }
     
-    //@TestRail(id = "C5856")
-    //@Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail(id = "C5856")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
     public void selectAListAndApplyRecentlyModifiedFilter()
     {       
         // TO_DO
@@ -92,8 +88,8 @@ public class ViewingDataListsTests extends ContextAwareWebTest
         // Data list items created eight days ago and six days ago, modified eight days ago and six days ago are added to the DataList by User1. -> can not create data list items any number of days in the past or the future
     }
     
-    //@TestRail(id = "C5857")
-    //@Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail(id = "C5857")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
     public void selectAListAndApplyCreatedByMeFilter()
     {       
         // TO_DO
@@ -107,11 +103,11 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     {       
         logger.info("Preconditions: Create a new List and add new items to it");
         String listName = "list" + System.currentTimeMillis();
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         
         for(int i=0; i<51; i++)
         {
-            dataLists.addContactListItem(userName, password, siteName, listName, userName+i, userName+i, userName+i + domain, "companyName", "jobTitle", "phoneOffice", "phoneMobile", "notes");
+            dataListsService.addContactListItem(userName, password, siteName, listName, userName+i, userName+i, userName+i + domain, "companyName", "jobTitle", "phoneOffice", "phoneMobile", "notes");
         }
         
         dataListsPage.navigate(siteName);
@@ -140,11 +136,11 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     {       
         logger.info("Preconditions: Create a new List and add two items to it, descendent ordered by Company Name");
         String listName = "list" + System.currentTimeMillis();
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         
         for(int i=0; i<2; i++)
         {
-            dataLists.addContactListItem(userName, password, siteName, listName, userName+i, userName+i, userName+i + domain, i+"comapanyName", "jobTitle", "phoneOffice", "phoneMobile", "notes");
+            dataListsService.addContactListItem(userName, password, siteName, listName, userName+i, userName+i, userName+i + domain, i+"comapanyName", "jobTitle", "phoneOffice", "phoneMobile", "notes");
         }
         
         dataListsPage.navigate(siteName);
@@ -162,11 +158,11 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     {       
         logger.info("Preconditions: Create a new List and add two items to it, descendent ordered by Company Name");
         String listName = "list" + System.currentTimeMillis();
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         
         for(int i=0; i<2; i++)
         {
-            dataLists.addContactListItem(userName, password, siteName, listName, userName+i, userName+i, userName+i + domain, i+"comapanyName", "jobTitle", "phoneOffice", "phoneMobile", "notes");
+            dataListsService.addContactListItem(userName, password, siteName, listName, userName+i, userName+i, userName+i + domain, i+"comapanyName", "jobTitle", "phoneOffice", "phoneMobile", "notes");
         }
         
         dataListsPage.navigate(siteName);

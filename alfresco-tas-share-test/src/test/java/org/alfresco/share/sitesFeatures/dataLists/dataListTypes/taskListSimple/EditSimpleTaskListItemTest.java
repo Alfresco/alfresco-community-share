@@ -30,9 +30,6 @@ import static org.testng.Assert.assertTrue;
 public class EditSimpleTaskListItemTest extends ContextAwareWebTest
 {
     @Autowired
-    DataListsService dataLists;
-
-    @Autowired
     DataListsPage dataListsPage;
 
     @Autowired
@@ -62,8 +59,8 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.TASKS_SIMPLE, taskListSimple, "Simple Task list description");
-        dataLists.addTaskSimpleItem(adminUser, adminPassword, siteName, taskListSimple, itemTitle, itemDescription, null, itemPriority, itemStatus,
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.TASKS_SIMPLE, taskListSimple, "Simple Task list description");
+        dataListsService.addTaskSimpleItem(adminUser, adminPassword, siteName, taskListSimple, itemTitle, itemDescription, null, itemPriority, itemStatus,
                 itemComment);
 
         setupAuthenticatedSession(userName, password);
@@ -104,7 +101,5 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
         assertEquals(dataListsPage.currentContent.messageDisplayed(), "Data Item updated successfully", "The pop-up message isn't as expected.");
         item = Arrays.asList(newItemTitle, newItemDescription, newDateString, itemPriority.toString(), itemStatus.getValue(), newComments);
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(item), newItemTitle + " simple task list item is displayed.");
-
-        cleanupAuthenticatedSession();
     }
 }

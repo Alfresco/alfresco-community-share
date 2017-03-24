@@ -1,7 +1,7 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -13,7 +13,6 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,15 +24,10 @@ import static org.testng.Assert.*;
 public class DeletingAListItemTest extends ContextAwareWebTest
 {
     @Autowired
-    DataListsService dataLists;
-
-    @Autowired
     DataListsPage dataListsPage;
 
     @Autowired
     DeleteDialog deleteDialog;
-
-    private List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
 
     String random = DataUtil.getUniqueIdentifier();
     String userName = "User-" + random;
@@ -43,12 +37,11 @@ public class DeletingAListItemTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        pagesToAdd.add(DashboardCustomization.Page.DATALISTS);
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.CONTACT_LIST, contactListName, "Contact list description");
-        dataLists.addContactListItem(adminUser, adminPassword, siteName, contactListName, "firstName", "lastName", "test@test.com", "companyName", "jobTitle",
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.CONTACT_LIST, contactListName, "Contact list description");
+        dataListsService.addContactListItem(adminUser, adminPassword, siteName, contactListName, "firstName", "lastName", "test@test.com", "companyName", "jobTitle",
                 "123456", "+41256422", "testNotes");
 
         setupAuthenticatedSession(userName, password);

@@ -1,12 +1,6 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
@@ -18,17 +12,17 @@ import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.util.Arrays;
+
 public class CreatingAListItemTests extends ContextAwareWebTest
 {
-
     @Autowired
     DataListsPage dataListsPage;
-    
-    @Autowired
-    DataListsService dataLists;
     
     @Autowired
     CreateNewItemPopUp createNewItemPopUp;
@@ -36,21 +30,23 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     @Autowired
     DataUtil dataUtil;
     
-
     private String userName;
     private String siteName;
-    private List<Page> pagesToAdd = new ArrayList<Page>();
-    
+
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
+    {
+        userName = "User" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        setupAuthenticatedSession(userName, password);
+    }
+
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        pagesToAdd.add(Page.DATALISTS);
-        userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        setupAuthenticatedSession(userName, password);
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
     }
     
     @TestRail(id = "C6374")
@@ -59,7 +55,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     {       
         logger.info("Preconditions: Create a new List");
         String listName = "list" + System.currentTimeMillis();
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact list description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact list description");
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(listName);
@@ -84,7 +80,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     {       
         logger.info("Preconditions: Create a new List");
         String listName = "list" + System.currentTimeMillis();
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact list description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact list description");
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(listName);
@@ -109,7 +105,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     {       
         logger.info("Preconditions: Create a new Contact List");
         String listName = "list" + System.currentTimeMillis();
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact list description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact list description");
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(listName);
@@ -134,7 +130,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     {       
         logger.info("Preconditions: Create a new Event Agenda");
         String agendaName = "agenda" + System.currentTimeMillis();
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.EVENT_AGENDA, agendaName, "event agenda description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.EVENT_AGENDA, agendaName, "event agenda description");
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickEventAgendaListItem(agendaName);
@@ -161,7 +157,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         String eventName = "event" + System.currentTimeMillis();
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.EVENT_LIST, eventName, "event list description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.EVENT_LIST, eventName, "event list description");
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
@@ -194,7 +190,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.ISSUE_LIST, issueName, "issue list description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.ISSUE_LIST, issueName, "issue list description");
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickIssueListItem(issueName);
@@ -221,7 +217,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         String taskName = "location" + System.currentTimeMillis();
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.LOCATION_LIST, taskName, "location list description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.LOCATION_LIST, taskName, "location list description");
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
@@ -250,7 +246,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         String meetingName = "meeting" + System.currentTimeMillis();
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.MEETING_AGENDA, meetingName, "location list description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.MEETING_AGENDA, meetingName, "location list description");
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
@@ -280,7 +276,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         String advancedTaskName = "advanced" + System.currentTimeMillis();
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.TASKS_ADVANCED, advancedTaskName, "advanced task list description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.TASKS_ADVANCED, advancedTaskName, "advanced task list description");
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
@@ -311,7 +307,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         String simpleTaskName = "simple" + System.currentTimeMillis();
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.TASKS_SIMPLE, simpleTaskName, "simple task list description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.TASKS_SIMPLE, simpleTaskName, "simple task list description");
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
@@ -342,7 +338,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         String toDoName = "toDo" + System.currentTimeMillis();
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.TODO_LIST, toDoName, "To Do list description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.TODO_LIST, toDoName, "To Do list description");
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
@@ -376,7 +372,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         String visitorName = "toDo" + System.currentTimeMillis();
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
-        dataLists.createDataList(adminUser, adminPassword, siteName, DataList.TODO_LIST, visitorName, "Visitor Feedback list description");
+        dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.TODO_LIST, visitorName, "Visitor Feedback list description");
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
