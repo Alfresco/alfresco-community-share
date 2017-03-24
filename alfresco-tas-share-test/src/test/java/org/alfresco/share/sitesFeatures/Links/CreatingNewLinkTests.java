@@ -2,8 +2,6 @@ package org.alfresco.share.sitesFeatures.Links;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.po.share.site.CustomizeSitePage;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
@@ -24,13 +22,7 @@ import org.testng.annotations.Test;
 public class CreatingNewLinkTests extends ContextAwareWebTest
 {
     @Autowired
-    SiteDashboardPage siteDashboardPage;
-
-    @Autowired
     LinkPage linkPage;
-
-    @Autowired
-    CustomizeSitePage customizeSitePage;
 
     @Autowired
     CreateLinkPage createLinkPage;

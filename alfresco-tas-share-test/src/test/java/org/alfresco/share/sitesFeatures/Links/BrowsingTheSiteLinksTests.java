@@ -1,14 +1,7 @@
 package org.alfresco.share.sitesFeatures.Links;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.po.share.site.CustomizeSitePage;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -20,19 +13,18 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author iulia.cojocea
  */
 public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
 {
     @Autowired
-    SiteDashboardPage siteDashboardPage;
-
-    @Autowired
     LinkPage linkPage;
-
-    @Autowired
-    CustomizeSitePage customizeSitePage;
 
     private String user1 = "User1" + DataUtil.getUniqueIdentifier();
     private String user2 = "User2" + DataUtil.getUniqueIdentifier();

@@ -83,9 +83,9 @@ public class AccessingLinkTests extends ContextAwareWebTest
         LOG.info("Step 1 - Navigate to 'Links' page for Site1.");
         linkPage.navigate(siteName);
         Assert.assertTrue(linkPage.getLinksTitlesList().contains(linkTitle), "Link title is not in the list!");
-        Assert.assertTrue(linkPage.getLinkURL(linkTitle).equals("link1.com"), "Link URL is not correct!");
-        Assert.assertTrue(linkPage.getLinkAuthor(linkTitle).equals("firstName " + "lastName"), "Wrong author of the link!");
-        Assert.assertTrue(linkPage.getLinkDescription(linkTitle).equals("link1 description"), "Wrong description of the link!");
+        Assert.assertEquals(linkPage.getLinkURL(linkTitle), "link1.com", "Link URL is not correct!");
+        Assert.assertEquals(linkPage.getLinkAuthor(linkTitle), "firstName lastName", "Wrong author of the link!");
+        Assert.assertEquals(linkPage.getLinkDescription(linkTitle), "link1 description", "Wrong description of the link!");
         Assert.assertTrue(linkPage.getLinkCreationDate(linkTitle).contains(currentDate.toString("EEE d MMM yyyy")), "Wrong link creation date!");
         Assert.assertTrue(linkPage.getLinkTags(linkTitle).contains("tag1"), "Tag not available for the specified link!");
 
@@ -97,9 +97,9 @@ public class AccessingLinkTests extends ContextAwareWebTest
         LOG.info("Step 3 - Click 'Detailed View' button.");
         linkPage.changeViewMode();
         Assert.assertTrue(linkPage.getLinksTitlesList().contains(linkTitle), "Link title is not in the list!");
-        Assert.assertTrue(linkPage.getLinkURL(linkTitle).equals("link1.com"), "Link URL is not correct!");
-        Assert.assertTrue(linkPage.getLinkAuthor(linkTitle).equals("firstName " + "lastName"), "Wrong author of the link!");
-        Assert.assertTrue(linkPage.getLinkDescription(linkTitle).equals("link1 description"), "Wrong description of the link!");
+        Assert.assertEquals(linkPage.getLinkURL(linkTitle), "link1.com", "Link URL is not correct!");
+        Assert.assertEquals(linkPage.getLinkAuthor(linkTitle), "firstName lastName", "Wrong author of the link!");
+        Assert.assertEquals(linkPage.getLinkDescription(linkTitle), "link1 description", "Wrong description of the link!");
         Assert.assertTrue(linkPage.getLinkCreationDate(linkTitle).contains(currentDate.toString("EEE d MMM yyyy")), "Wrong link creation date!");
         Assert.assertTrue(linkPage.getLinkTags(linkTitle).contains("tag1"), "Tag not available for the specified link!");
     }
