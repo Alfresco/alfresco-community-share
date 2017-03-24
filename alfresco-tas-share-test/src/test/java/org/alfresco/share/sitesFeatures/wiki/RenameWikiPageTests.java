@@ -1,12 +1,7 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
-import org.alfresco.po.share.site.wiki.CreateWikiPage;
-import org.alfresco.po.share.site.wiki.EditWikiPage;
 import org.alfresco.po.share.site.wiki.RenameWikiMainPagePopup;
 import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
@@ -16,8 +11,12 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author iulia.cojocea
@@ -28,16 +27,10 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     WikiMainPage wikiMainPage;
 
     @Autowired
-    EditWikiPage editWikiPage;
-
-    @Autowired
     RenameWikiMainPagePopup renameWikiMainPage;
 
     @Autowired
     WikiListPage wikiListPage;
-
-    @Autowired
-    CreateWikiPage createWikiPage;
 
     private List<Page> pagesToAdd = new ArrayList<Page>();
     private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
@@ -46,12 +39,22 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     private String wikiMainPageContent = "Wiki main page content";
     private String wikiMainPagetTitle = "Main Page";
 
-    @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
     {
         pagesToAdd.add(Page.WIKI);
-        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);
+
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void createSite()
+    {
+        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+
+        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
     }
 
     @TestRail(id = "C5500")
@@ -59,9 +62,6 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     public void renameWikiMainPage()
     {
         LOG.info("Preconditions: create site and update wiki main page content");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         sitePagesService.updateWikiPage(testUser, password, siteName, "Main Page", "Main Page", wikiMainPageContent, null);
         wikiMainPage.navigate(siteName);
 
@@ -97,9 +97,6 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     public void cancelRenameWikiMainPage()
     {
         LOG.info("Preconditions: create site and update wiki main page content");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         sitePagesService.updateWikiPage(testUser, password, siteName, "Main Page", "Main Page", wikiMainPageContent, null);
         wikiMainPage.navigate(siteName);
 
@@ -118,9 +115,6 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     public void renameWikiPage()
     {
         LOG.info("Preconditions: create site and two wiki pages");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         sitePagesService.createWiki(testUser, password, siteName, "Page1", "Content", null);
         sitePagesService.createWiki(testUser, password, siteName, "Page2", "Content", null);
         wikiListPage.navigate(siteName);
@@ -158,9 +152,6 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     public void cancelRenameWikiPage()
     {
         LOG.info("Preconditions: create site and a wiki page");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         sitePagesService.createWiki(testUser, password, siteName, "Page1", "Content", null);
         wikiListPage.navigate(siteName);
 

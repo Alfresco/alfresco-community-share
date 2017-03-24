@@ -13,7 +13,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
@@ -33,8 +33,8 @@ public class WikiMainPageTests extends ContextAwareWebTest
     private String siteName;
     private String wikiPageContent = "content";
 
-    @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
     {
         pagesToAdd.add(Page.WIKI);
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);

@@ -1,25 +1,19 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
-import org.alfresco.po.share.site.wiki.CreateWikiPage;
-import org.alfresco.po.share.site.wiki.EditWikiPage;
-import org.alfresco.po.share.site.wiki.RevertVersionPopUp;
-import org.alfresco.po.share.site.wiki.WikiDetailsPage;
-import org.alfresco.po.share.site.wiki.WikiListPage;
-import org.alfresco.po.share.site.wiki.WikiMainPage;
-import org.alfresco.po.share.site.wiki.WikiPage;
+import org.alfresco.po.share.site.wiki.*;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author iulia.cojocea
@@ -37,9 +31,6 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     WikiDetailsPage wikiDetailsPage;
 
     @Autowired
-    CreateWikiPage createWikiPage;
-
-    @Autowired
     WikiListPage wikiListPage;
 
     @Autowired
@@ -55,8 +46,8 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     private String tagName = "tag1";
     private List<String> tags = new ArrayList<String>();
 
-    @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
     {
         pagesToAdd.add(Page.WIKI);
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);

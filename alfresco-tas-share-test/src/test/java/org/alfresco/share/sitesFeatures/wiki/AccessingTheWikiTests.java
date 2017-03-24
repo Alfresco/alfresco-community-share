@@ -92,7 +92,7 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
 
     @TestRail(id = "C5494")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void accesWikiPageListTest() {
+    public void accessWikiPageListTest() {
 
         List<String> siteTitles = new ArrayList<>();
         siteTitles.add("Page1");

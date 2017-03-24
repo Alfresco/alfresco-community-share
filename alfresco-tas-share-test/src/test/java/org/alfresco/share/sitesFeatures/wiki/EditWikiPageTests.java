@@ -55,7 +55,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     private List<String> tags = new ArrayList<String>();
 
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
+    public void createUser()
     {
         pagesToAdd.add(Page.WIKI);
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);

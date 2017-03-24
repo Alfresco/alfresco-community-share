@@ -1,10 +1,5 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.wiki.DeleteWikiPagePopUp;
@@ -17,8 +12,13 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author iulia.cojocea
@@ -43,12 +43,23 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     private String siteName;
     private String wikiMainPageContent = "Wiki main page content";
 
-    @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
     {
         pagesToAdd.add(Page.WIKI);
-        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);
+
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void createSite()
+    {
+        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+
+        pagesToAdd.add(Page.WIKI);
+        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
     }
 
     @TestRail(id = "C5515")
@@ -56,9 +67,6 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     public void deleteWikiMainPageFromPageView()
     {
         LOG.info("Preconditions: create site and add wiki main page content");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         sitePagesService.updateWikiPage(testUser, password, siteName, "Main Page", "Main Page", wikiMainPageContent, null);
         wikiMainPage.navigate(siteName);
 
@@ -76,9 +84,6 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     public void deleteWikiMainPageFromWikiPageList()
     {
         LOG.info("Preconditions: create site and wiki main page content");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         sitePagesService.updateWikiPage(testUser, password, siteName, "Main Page", "Main Page", wikiMainPageContent, null);
         wikiListPage.navigate(siteName);
 
@@ -96,9 +101,6 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     public void deleteWikiPageFromPageView()
     {
         LOG.info("Preconditions: create site and wiki page");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         sitePagesService.createWiki(testUser, password, siteName, "Page1", "", null);
         wikiListPage.navigate(siteName);
 
@@ -119,9 +121,6 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     public void deleteWikiPageFromWikiPageList()
     {
         LOG.info("Preconditions: create site and wiki pages");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         sitePagesService.createWiki(testUser, password, siteName, "Page1", "[[Page2]]", Collections.singletonList("tag1"));
         sitePagesService.createWiki(testUser, password, siteName, "Page2", "[[Page3]]", Collections.singletonList("tag2"));
         sitePagesService.createWiki(testUser, password, siteName, "Page3", "Page3 content", Collections.singletonList("tag3"));
@@ -146,9 +145,6 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     public void cancelDeletingWikiPage()
     {
         LOG.info("Preconditions: create site and update wiki main page content");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
         sitePagesService.createWiki(testUser, password, siteName, "Page1", "", null);
         sitePagesService.updateWikiPage(testUser, password, siteName, "Main Page", "Main Page", wikiMainPageContent, null);
 

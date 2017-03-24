@@ -12,6 +12,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -44,18 +45,24 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     private String wikiPageTitle;
     private String wikiPageContent;
 
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
+    {
+        pagesToAdd.add(Page.WIKI);
+
+        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
+        setupAuthenticatedSession(testUser, password);
+    }
+
     @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+    public void createSite()
     {
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
         wikiPageContent = "WikiContent" + DataUtil.getUniqueIdentifier();
-        
-        pagesToAdd.add(Page.WIKI);
-        userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
+
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(testUser, password, siteName, pagesToAdd);
-        setupAuthenticatedSession(testUser, password);
     }
 
     @TestRail(id = "C5504")
