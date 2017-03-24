@@ -143,6 +143,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public void typeRuleDetails(String ruleName, String description, List<Integer> indexOfOptionFromDropdown)
     {
+    	this.renderedPage();
         typeName(ruleName);
         typeDescription(description);
         selectOptionFromDropdown("ruleConfigType", indexOfOptionFromDropdown.get(0));
