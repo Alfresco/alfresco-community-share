@@ -330,14 +330,9 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public void mouseOverContentItem(String contentItemName)
     {
-        for (WebElement contentItem: contentItemsList)
-        {
-            if (contentItem.getText().equals(contentItemName))
-            {
-                browser.mouseOver(contentItem);
-                break;
-            }
-        }
+        WebElement contentItem = browser.findFirstElementWithValue(contentItemsList, contentItemName);
+        if(contentItem != null)
+            browser.mouseOver(contentItem);
     }
 
     /**
