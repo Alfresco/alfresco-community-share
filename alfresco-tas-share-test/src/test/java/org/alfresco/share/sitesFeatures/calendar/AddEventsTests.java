@@ -1,7 +1,10 @@
 package org.alfresco.share.sitesFeatures.calendar;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.DashboardCustomization.*;
+import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
+import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
+import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.dashlet.MyCalendarDashlet;
 import org.alfresco.po.share.dashlet.SiteCalendarDashlet;
@@ -18,12 +21,7 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 7/15/2016.
@@ -63,16 +61,14 @@ public class AddEventsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        List<Page> pagesToAdd = new ArrayList<Page>();
-        pagesToAdd.add(Page.CALENDAR);
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         userService.addDashlet(user1, password, UserDashlet.MY_CALENDAR, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
         siteService.create(user1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
+        siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
         siteService.create(user1, password, domain, siteName2, siteName2, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
+        siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
         siteService.create(user1, password, domain, siteName3, siteName3, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
+        siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
         siteService.addDashlet(user1, password, siteName, SiteDashlet.SITE_CALENDAR, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(user1, password);
     }

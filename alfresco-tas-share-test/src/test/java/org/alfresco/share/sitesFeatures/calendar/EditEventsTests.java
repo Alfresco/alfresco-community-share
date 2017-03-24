@@ -1,7 +1,7 @@
 package org.alfresco.share.sitesFeatures.calendar;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.DashboardCustomization.*;
+import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.EditEventDialog;
 import org.alfresco.po.share.site.calendar.EventInformationDialog;
@@ -14,12 +14,7 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 7/20/2016.
@@ -48,11 +43,9 @@ public class EditEventsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        List<Page> pagesToAdd = new ArrayList<>();
-        pagesToAdd.add(Page.CALENDAR);
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(user, password, siteName, pagesToAdd);
+        siteService.addPageToSite(user, password, siteName, Page.CALENDAR, null);
         setupAuthenticatedSession(user, password);
     }
 

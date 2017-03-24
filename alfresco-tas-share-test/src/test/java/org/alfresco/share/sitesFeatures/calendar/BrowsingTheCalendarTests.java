@@ -9,9 +9,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -19,7 +16,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class BrowsingTheCalendarTests extends ContextAwareWebTest
 {
@@ -52,11 +51,9 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        List<Page> pagesToAdd = new ArrayList<Page>();
-        pagesToAdd.add(Page.CALENDAR);
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(adminUser, adminPassword, user, siteName, description, Visibility.PUBLIC);
-        siteService.addPagesToSite(adminUser, adminPassword, siteName, pagesToAdd);
+        siteService.addPageToSite(adminUser, adminPassword, siteName, Page.CALENDAR, null);
         setupAuthenticatedSession(adminUser, adminPassword);
     }
 

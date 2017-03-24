@@ -19,9 +19,7 @@ import org.testng.annotations.Test;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -50,17 +48,15 @@ public class DeleteEventsTests extends ContextAwareWebTest
     private Date startDate = new Date();
     private String startHour = "2:00 PM";
     private String endHour = "4:00 PM";
-    private List<Page> pagesToAdd = new ArrayList<>();
     private String eventName;
     private DateFormat df = new SimpleDateFormat("EEEE, d MMMM, yyyy");
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        pagesToAdd.add(Page.CALENDAR);
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         siteService.create(user1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
+        siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
         siteService.addDashlet(user1, password, siteName, SiteDashlet.SITE_CALENDAR, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(user1, password);
     }

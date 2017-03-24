@@ -13,13 +13,9 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 7/11/2016.
@@ -46,10 +42,7 @@ public class TagsTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         siteService.create(user1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-
-        List<Page> pagesToAdd = new ArrayList<>();
-        pagesToAdd.add(Page.CALENDAR);
-        siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
+        siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
 
         sitePagesService.addCalendarEvent(user1, password, siteName, "event1", "", "", currentDate, currentDate, "08:00", "09:00", false, "tag1");
         sitePagesService.addCalendarEvent(user1, password, siteName, "event2", "", "", currentDate, currentDate, "09:00", "10:00", false, "tag2");

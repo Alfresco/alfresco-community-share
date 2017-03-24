@@ -13,12 +13,7 @@ import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 7/11/2016.
@@ -37,7 +32,6 @@ public class ViewEventTests extends ContextAwareWebTest
     private DateTime endDate = startDate.plusDays(4);
     private String startHour = "2:00 PM";
     private String endHour = "4:00 PM";
-    private List<Page> pagesToAdd = new ArrayList<Page>();
     private String eventName = "testEvent";
     private String eventLocation = "Iasi";
     private String eventDescription = "Event number 1";
@@ -46,10 +40,9 @@ public class ViewEventTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        pagesToAdd.add(Page.CALENDAR);
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         siteService.create(user1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPagesToSite(user1, password, siteName, pagesToAdd);
+        siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), startHour, endHour, false, eventTags);
         setupAuthenticatedSession(user1, password);
     }
