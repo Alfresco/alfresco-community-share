@@ -299,7 +299,7 @@ public class GroupsPage extends AdminToolsPage
         int index = secondColumnItems.indexOf(userName);
 
         browser.mouseOver(secondColumnItemsList.get(index));
-        removeUserButtonList.get(index).click();
+        removeUserButtonList.get(0).click();
         return (RemoveUserFromGroupDialog) removeUserFromGroupDialog.renderedPage();
     }
 
