@@ -114,7 +114,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         createContent.clickGoogleDocsDoc();
         getBrowser().waitInSeconds(1);
         googleDocs.clickOkButtonOnTheAuthPopup();
-        getBrowser().waitInSeconds(10);
 
         logger.info("Step6: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
@@ -141,7 +140,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         createContent.clickGoogleDocsDoc();
         getBrowser().waitInSeconds(1);
         googleDocs.clickOkButtonOnTheAuthPopup();
-        getBrowser().waitInSeconds(5);
 
         logger.info("Step6: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
@@ -194,7 +192,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         createContent.clickGoogleDocsSpreadsheet();
         getBrowser().waitInSeconds(1);
         googleDocs.clickOkButtonOnTheAuthPopup();
-        getBrowser().waitInSeconds(5);
 
         logger.info("Step6: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleSheetsWindowandAndEditContent("Test", "Test Content");
@@ -226,7 +223,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         createContent.clickGoogleDocsDoc();
         getBrowser().waitInSeconds(1);
         googleDocs.clickOkButtonOnTheAuthPopup();
-        getBrowser().waitInSeconds(5);
 
         logger.info("Step7: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");

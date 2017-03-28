@@ -434,7 +434,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
         getBrowser().waitUntilElementDisappears(createContent.message, 60L);
         // getBrowser().waitInSeconds(5);
         googleDocsCommon.clickOkButtonOnTheAuthPopup();
-        getBrowser().waitInSeconds(5);
 
         String currentWindow = getBrowser().getWindowHandle();
 

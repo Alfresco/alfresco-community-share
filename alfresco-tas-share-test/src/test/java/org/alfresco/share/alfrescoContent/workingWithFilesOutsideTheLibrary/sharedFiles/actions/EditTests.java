@@ -225,7 +225,6 @@ public class EditTests extends ContextAwareWebTest
         googleDocsCommon.clickOkButtonOnTheAuthPopup();
 
         LOG.info("Step2,3: Provide edited input to Google Docs file and close Google Docs tab");
-        getBrowser().waitInSeconds(15);
         googleDocsCommon.switchToGoogleDocsWindowandAndEditContent(editedInGoogleDocsTitle, editedInGoogleDocsContent);
 
         LOG.info("Step4: Verify the file is locked and Google Drive icon is displayed");

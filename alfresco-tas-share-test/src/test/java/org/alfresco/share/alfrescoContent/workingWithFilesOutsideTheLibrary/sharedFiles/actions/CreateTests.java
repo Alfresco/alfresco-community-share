@@ -317,7 +317,6 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
         googleDocs.clickOkButtonOnTheAuthPopup();
-        getBrowser().waitInSeconds(5);
 
         LOG.info("Step 3: Edit the document in the Google Docs tab.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent(title, docContent);
@@ -405,7 +404,6 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
         googleDocs.clickOkButtonOnTheAuthPopup();
-        getBrowser().waitInSeconds(5);
 
         LOG.info("Step 3: Edit the document in the Google Docs tab ");
         googleDocs.switchToGooglePresentationsAndEditContent(title);
