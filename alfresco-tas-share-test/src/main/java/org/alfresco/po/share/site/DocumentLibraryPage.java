@@ -412,6 +412,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public void clickCreateButton()
     {
         browser.waitUntilElementClickable(createButton, 60).click();
+        browser.waitUntilElementVisible(By.cssSelector("div[id$='_default-createContent-menu'][style*='visible']"));
     }
 
     public void clickAction(String libraryItem, String action)
@@ -560,7 +561,6 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         Parameter.checkIsMandotary("Library item", selectDocumentLibraryItemRow(contentItem));
 
         mouseOverContentItem(contentItem);
-        browser.waitInSeconds(2);
         if (isMoreMenuDisplayed(contentItem))
             clickMore();
         List<WebElement> availableActions = selectDocumentLibraryItemRow(contentItem).findElements(actionsSet);

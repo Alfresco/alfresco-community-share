@@ -8,43 +8,34 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class MyFilesManageAspectsTests extends ContextAwareWebTest
 {
-
     @Autowired private AspectsForm aspectsForm;
 
     @Autowired private MyFilesPage myFilesPage;
 
-    @Autowired private MyFilesPage myFiles;
+    private String userName = "User" + DataUtil.getUniqueIdentifier();
+    private String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private String path = "User Homes/" + userName;
 
-    private String userName;
-    private String folderName;
-    private String path;
-
-    @BeforeMethod(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-
-        userName = "User" + DataUtil.getUniqueIdentifier();
-        folderName = "testFolder" + DataUtil.getUniqueIdentifier();
-        path = "User Homes/" + userName;
-
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         contentService.createFolderInRepository(userName, password, folderName, path);
         setupAuthenticatedSession(userName, password);
-        myFilesPage.navigate();
-
     }
 
     @TestRail(id = "C7814")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void verifyManageAspectsForm()
+    public void checkManageAspectsForm()
     {
+        myFilesPage.navigate();
         logger.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects form");
-        myFiles.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        myFilesPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAspectsFormTitleDisplayed(), "Aspects for the file form is not diplayed");
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel is not diaplyed");
         Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel is not diaplyed");
@@ -60,8 +51,9 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsApplyChanges()
     {
+        myFilesPage.navigate();
         logger.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
-        myFiles.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        myFilesPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
 
         logger.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
         aspectsForm.addElement(0);
@@ -71,10 +63,9 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
         logger.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm.clickApplyChangesButton();
         getBrowser().refresh();
-        myFiles.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        myFilesPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
-
     }
 
 }

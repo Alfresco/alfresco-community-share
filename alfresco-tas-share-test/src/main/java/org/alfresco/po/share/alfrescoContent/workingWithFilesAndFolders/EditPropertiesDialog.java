@@ -91,10 +91,10 @@ public class EditPropertiesDialog extends ShareDialog
         return browser.isElementDisplayed(selectTagsButton);
     }
 
-    public void clickSelectTags()
+    public SelectDialog clickSelectTags()
     {
         selectTagsButton.click();
-        browser.waitUntilWebElementIsDisplayedWithRetry(saveButton, 10);
+        return (SelectDialog) selectDialog.renderedPage();
     }
 
     public void clickSave()

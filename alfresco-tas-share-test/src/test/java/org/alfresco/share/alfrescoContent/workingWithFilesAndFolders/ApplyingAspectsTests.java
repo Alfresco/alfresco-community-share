@@ -5,56 +5,42 @@ import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class ApplyingAspectsTests extends ContextAwareWebTest
 {
-
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
     @Autowired private DocumentDetailsPage documentDetailsPage;
 
     @Autowired private AspectsForm aspectsForm;
 
-    @Autowired private SiteDashboardPage siteDashboardPage;
+    private String userName = "User" + DataUtil.getUniqueIdentifier();
+    private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private String fileName = "testFile" + DataUtil.getUniqueIdentifier();
 
-    private String userName;
-    private String siteName;
-    private String fileName;
-    private String fileContent;
-
-    @BeforeMethod(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-
-        userName = "User" + DataUtil.getUniqueIdentifier();
-        siteName = "SiteName" + DataUtil.getUniqueIdentifier();
-        fileName = "testFile";
-        fileContent = "testContent";
-
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, "testContent");
         setupAuthenticatedSession(userName, password);
-        contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
-
     }
 
     @TestRail(id = "C7109")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void verifyAspectsForm()
-
+    public void checkAspectsForm()
     {
         logger.info("Precondition: Navigate to Document Details page for the test file");
-        siteDashboardPage.navigate(siteName);
-        siteDashboardPage.clickDocumentLibrary();
+        documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileName);
 
         logger.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
@@ -74,12 +60,9 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
     @TestRail(id = "C7105")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsApplyChanges()
-
     {
-
         logger.info("Preconditions: Navigate to Document Details page for the test file");
-        siteDashboardPage.navigate(siteName);
-        siteDashboardPage.clickDocumentLibrary();
+        documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileName);
 
         logger.info("Step1: Click Actions -> Manage Aspects option");
@@ -96,7 +79,5 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
         documentDetailsPage.clickManageAspects();
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
-
     }
-
 }

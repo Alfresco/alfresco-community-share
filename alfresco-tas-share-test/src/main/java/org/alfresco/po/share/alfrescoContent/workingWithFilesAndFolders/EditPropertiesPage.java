@@ -1,5 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
@@ -42,7 +43,7 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 
     private By selectorSF = By.cssSelector("select[id*='default_prop_smf_system-template-location']");
 
-    private By propertiesSelector = By.cssSelector(".viewmode-label");
+    private By propertiesSelector = By.cssSelector(".form-field>label");
 
     @Override
     public String getRelativePath()
@@ -56,17 +57,13 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
      * @param expectedPropertiesList list of expected properties to be checked
      * @return displayed properties
      */
-    public String checkDisplayedProperties(ArrayList<String> expectedPropertiesList)
+    public boolean arePropertiesDisplayed(String... expectedPropertiesList)
     {
-        List<WebElement> propertiesList = browser.findElements(propertiesSelector);
-        if (propertiesList.size() == expectedPropertiesList.size())
-            for (int i = 0; i < propertiesList.size(); i++)
-            {
-                String property = propertiesList.get(i).getText();
-                if (!property.equals(expectedPropertiesList.get(i)))
-                    return "'" + expectedPropertiesList.get(i) + "' isn't displayed.";
-            }
-        return expectedPropertiesList.toString();
+        List<WebElement> propertiesElements = browser.findElements(propertiesSelector);
+        List<String> propertiesList = new ArrayList<>();
+        for(WebElement propertyElement : propertiesElements)
+            propertiesList.add(propertyElement.getText().substring(0, propertyElement.getText().indexOf(":")));
+         return DataUtil.areListsEquals(propertiesList, expectedPropertiesList);
     }
 
     /**

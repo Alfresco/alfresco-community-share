@@ -114,16 +114,13 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     }
 
     public void loginToGoogleDocs()
-
     {
-
         String currentWindow = browser.getCurrentUrl();
 
         browser.get(googleDocsLoginUrl);
 
         if (isReauthEmailDisplayed())
         {
-
             googleDocsPassword.sendKeys(googleDocsTestPassword);
             signInToGoogleDocsButton.click();
         }
@@ -135,7 +132,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
             googleDocsPassword.sendKeys(googleDocsTestPassword);
             signInToGoogleDocsButton.click();
         }
-
+        browser.waitInSeconds(1);
         browser.get(currentWindow);
 
     }

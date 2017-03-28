@@ -1,19 +1,15 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
-import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
-import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -25,242 +21,193 @@ import static org.testng.Assert.*;
 /**
  * @author Razvan.Dorobantu
  */
-public class MyFilesTaggingTests extends ContextAwareWebTest {
+public class MyFilesTaggingTests extends ContextAwareWebTest
+{
+    private final String testFileC7861 = DataUtil.getUniqueIdentifier() + "testFileC7861.txt";
+    private final String testFileC7873 = DataUtil.getUniqueIdentifier() + "testFileC7873.txt";
+    private final String testFileC7885 = DataUtil.getUniqueIdentifier() + "testFileC7885.txt";
+    private final String testFileC7886 = DataUtil.getUniqueIdentifier() + "testFileC7886.txt";
+    private final String testFileC7895 = DataUtil.getUniqueIdentifier() + "testFileC7895.txt";
+    private final String tagName = "tag-" + DataUtil.getUniqueIdentifier();
+    private final String tagName2 = "tag2-" + DataUtil.getUniqueIdentifier();
+    private final String folderNameC7862 = "testFolderC7862" + DataUtil.getUniqueIdentifier();
+    private final String folderNameC7873 = "testFolderC7873" + DataUtil.getUniqueIdentifier();
+	private String user = "user" + DataUtil.getUniqueIdentifier();
+	private final String myFilesPath = "User Homes/" + user;
 
-	@Autowired
-	private MyFilesPage myFilesPage;
-	@Autowired
-	private SiteDashboardPage sitePage;
-	@Autowired
-	private EditPropertiesDialog editPropertiesDialog;
-	@Autowired
-	private NewContentDialog newContentDialog;
-	@Autowired
-	private SelectDialog selectDialog;
-	@Autowired
-	private UploadContent uploadContent;
-	@Autowired
-	private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private MyFilesPage myFilesPage;
+    @Autowired
+    private EditPropertiesDialog editPropertiesDialog;
+    @Autowired
+    private SelectDialog selectDialog;
 
-	private String user;
-	private final String testFile = DataUtil.getUniqueIdentifier() + "testFile.txt";
-	private final String testFilePath = testDataFolder + testFile;
-	private final String tagName = "tag-" + DataUtil.getUniqueIdentifier();
-	private final String tagName2 = "tag2-" + DataUtil.getUniqueIdentifier();
-	private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
+    {
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+        setupAuthenticatedSession(user, password);
+    }
 
-	@BeforeMethod(alwaysRun = true)
-	public void setupTest() {
+    @TestRail(id = "C7861")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void myFilesCreateFileTag()
+    {
+	    contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7861, "some content");
+        myFilesPage.navigate();
+        LOG.info("STEP1: Hover over the text \"No Tags\" from the file.");
+        myFilesPage.mouseOverNoTags(testFileC7861);
+        assertTrue(myFilesPage.isEditTagIconDisplayed(testFileC7861), testFileC7861 + " -> \"Edit Tag\" icon is displayed");
 
-		user = "user" + DataUtil.getUniqueIdentifier();
-		userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+        LOG.info("STEP2: Click \"Edit Tag\" icon");
+        myFilesPage.clickEditTagIcon(testFileC7861);
+        assertTrue(myFilesPage.isEditTagInputFieldDisplayed(), testFileC7861 + " -> Edit tag text input field is displayed.");
 
-		LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
-		setupAuthenticatedSession(user, password);
-		sitePage.clickMyFilesLink();
-		Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-		uploadContent.uploadContent(testFilePath);
-		assertTrue(myFilesPage.isContentNameDisplayed(testFile),
-				String.format("The file [%s] is not present", testFile));
-		myFilesPage.renderedPage();
-	}
+        LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
+        myFilesPage.typeTagName(tagName);
+        myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName.toLowerCase()));
+        assertEquals(myFilesPage.getTags(testFileC7861), tagsList.toString(), testFileC7861 + " -> tags=");
+    }
 
-	@TestRail(id = "C7861")
-	@Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-	public void myFilesCreateFileTag() {
+    @TestRail(id = "C7862")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void myFilesCreateFolderTag()
+    {
+	    contentService.createFolderInRepository(user, password, folderNameC7862, myFilesPath);
+        myFilesPage.navigate();
+        LOG.info("STEP1: Hover over the text \"No Tags\" from the folder.");
+        myFilesPage.mouseOverNoTags(folderNameC7862);
+        assertTrue(myFilesPage.isEditTagIconDisplayed(folderNameC7862), folderNameC7862 + " -> \"Edit Tag\" icon is displayed");
 
-		LOG.info("STEP1: Hover over the text \"No Tags\" from the file.");
-		myFilesPage.mouseOverNoTags(testFile);
-		assertTrue(myFilesPage.isEditTagIconDisplayed(testFile), testFile + " -> \"Edit Tag\" icon is displayed");
+        LOG.info("STEP2: Click \"Edit Tag\" icon");
+        myFilesPage.clickEditTagIcon(folderNameC7862);
+        assertTrue(myFilesPage.isEditTagInputFieldDisplayed(), folderNameC7862 + " -> Edit tag text input field is displayed.");
 
-		LOG.info("STEP2: Click \"Edit Tag\" icon");
-		myFilesPage.clickEditTagIcon(testFile);
-		assertTrue(myFilesPage.isEditTagInputFieldDisplayed(),
-				testFile + " -> Edit tag text input field is displayed.");
+        LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
+        myFilesPage.typeTagName(tagName);
+        myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
+        myFilesPage.renderedPage();
+        ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName.toLowerCase()));
+        assertEquals(myFilesPage.getTags(folderNameC7862), tagsList.toString(), folderNameC7862 + " -> tags=");
+    }
 
-		LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
-		myFilesPage.typeTagName(tagName);
-		myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));	
-		ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName.toLowerCase()));
-		assertEquals(myFilesPage.getTags(testFile), tagsList.toString(), testFile + " -> tags=");
-	}
+    @TestRail(id = "C7873")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void myFilesAddExistingTag()
+    {
+	    contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7873, "some content");
+	    contentAction.addSingleTag(user, password, myFilesPath + "/" + testFileC7873, tagName);
+	    contentService.createFolderInRepository(user, password, folderNameC7873, myFilesPath);
+	    contentAction.addSingleTag(user, password, myFilesPath + "/" + folderNameC7873, tagName2);
 
-	@TestRail(id = "C7862")
-	@Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-	public void myFilesCreateFolderTag() {
+        myFilesPage.navigate();
 
-		LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
-		myFilesPage.renderedPage();
-		myFilesPage.clickCreateButton();
-		myFilesPage.clickFolderLink();
-		newContentDialog.fillInNameField(folderName);
-		newContentDialog.clickSaveButton();
-	    assertTrue(myFilesPage.isContentNameDisplayed(folderName),
-				folderName + " displayed in My Files documents list.");
+        LOG.info("STEP1: Click \"Edit Properties\" option");
+        myFilesPage.clickDocumentLibraryItemAction(testFileC7873, "Edit Properties", editPropertiesDialog);
+        assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), testFileC7873),
+                "Displayed dialog=");
+        assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
 
-		LOG.info("STEP1: Hover over the text \"No Tags\" from the folder.");
-		myFilesPage.mouseOverNoTags(folderName);
-		assertTrue(myFilesPage.isEditTagIconDisplayed(folderName), folderName + " -> \"Edit Tag\" icon is displayed");
+        LOG.info("STEP2: Click \"Select\" button");
+        editPropertiesDialog.clickSelectTags();
+        assertEquals(selectDialog.getDialogTitle(), language.translate("selectDialog.title"), "Displayed dialog=");
 
-		LOG.info("STEP2: Click \"Edit Tag\" icon");
-		myFilesPage.clickEditTagIcon(folderName);
-		assertTrue(myFilesPage.isEditTagInputFieldDisplayed(),
-				folderName + " -> Edit tag text input field is displayed.");
+        LOG.info("STEP3: Pick any tag from the available tags list and click \"Add\"");
+        selectDialog.typeTag(tagName2.toLowerCase());
+        selectDialog.selectItems(Collections.singletonList(tagName2.toLowerCase()));
+        assertTrue(selectDialog.isItemSelected(tagName2.toLowerCase()), tagName2.toLowerCase() + " is displayed in selected categories list.");
+        assertFalse(selectDialog.isItemSelectable(tagName2.toLowerCase()), tagName2.toLowerCase() + " -> 'Add' icon isn't displayed.");
 
-		LOG.info("STEP3: Type any tag name in the input field and click \"Save\" link");
-		myFilesPage.typeTagName(tagName);
-		myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-		myFilesPage.renderedPage();
-		ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName.toLowerCase()));
-		assertEquals(myFilesPage.getTags(folderName), tagsList.toString(), folderName + " -> tags=");
-	}
+        LOG.info("STEP4: Click \"Ok\" button");
+        selectDialog.clickOk();
+        assertTrue(editPropertiesDialog.isTagSelected(tagName.toLowerCase()), "'Tags:' section=");
 
-	@TestRail(id = "C7873")
-	@Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-	public void myFilesAddExistingTag() {
+        LOG.info("STEP5: Click \"Save\" button");
+        editPropertiesDialog.clickSave();
+        ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName.toLowerCase(), tagName2.toLowerCase()));
+        assertEquals(myFilesPage.getTags(testFileC7873), tagsList.toString(), testFileC7873 + " -> tags=");
+    }
 
-		myFilesPage.clickCreateButton();
-		myFilesPage.clickFolderLink();
-		newContentDialog.fillInNameField(folderName);
-		newContentDialog.clickSaveButton();		 
-		assertTrue(myFilesPage.isContentNameDisplayed(folderName),
-				folderName + " displayed in My Files documents list.");
+    @TestRail(id = "C7885")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void myFilesEditTagFile()
+    {
+	    contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7885, "some content");
+	    contentAction.addSingleTag(user, password, myFilesPath + "/" + testFileC7885, tagName);
 
-		LOG.info("Precondition: Add a tag to the file and folder.");
-		myFilesPage.renderedPage();
-		myFilesPage.mouseOverNoTags(testFile);
-		myFilesPage.clickEditTagIcon(testFile);
-		myFilesPage.typeTagName(tagName);
-		myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-		myFilesPage.navigateByMenuBar();
-		myFilesPage.mouseOverNoTags(folderName);
-		myFilesPage.clickEditTagIcon(folderName);
-		myFilesPage.typeTagName(tagName2);
-		myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-		myFilesPage.renderedPage();
+        myFilesPage.navigate();
+        LOG.info("STEP1: Hover over the tag(s) from the content");
+        myFilesPage.mouseOverTags(testFileC7885);
+        assertTrue(myFilesPage.isEditTagIconDisplayed(testFileC7885), testFileC7885 + " -> 'Edit Tag' icon is displayed.");
 
-		LOG.info("STEP1: Click \"Edit Properties\" option");
-		myFilesPage.clickDocumentLibraryItemAction(testFile, "Edit Properties", editPropertiesDialog);
-		assertEquals(editPropertiesDialog.getDialogTitle(),
-				String.format(language.translate("editPropertiesDialog.title"), testFile), "Displayed dialog=");
-		assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
+        LOG.info("STEP2: Click \"Edit Tag\" icon");
+        myFilesPage.clickEditTagIcon(testFileC7885);
+        assertTrue(myFilesPage.isEditTagInputFieldDisplayed(), testFileC7885 + " -> 'Edit Tag' text input field is displayed.");
 
-		LOG.info("STEP2: Click \"Select\" button");
-		editPropertiesDialog.clickSelectTags();
-		assertEquals(selectDialog.getDialogTitle(), language.translate("selectDialog.title"), "Displayed dialog=");
+        LOG.info("STEP3: Click on any tag and type a valid tag name");
+        myFilesPage.editTag(testFileC7885, tagName.toLowerCase(), tagName2);
 
-		LOG.info("STEP3: Pick any tag from the available tags list and click \"Add\"");
-		selectDialog.typeTag(tagName2.toLowerCase());
-		selectDialog.selectItems(Collections.singletonList(tagName2.toLowerCase()));
-		assertTrue(selectDialog.isItemSelected(tagName2.toLowerCase()),
-				tagName2.toLowerCase() + " is displayed in selected categories list.");
-		assertFalse(selectDialog.isItemSelectable(tagName2.toLowerCase()),
-				tagName2.toLowerCase() + " -> 'Add' icon isn't displayed.");
+        LOG.info("STEP4: Click \"Save\" link and verify the content tags");
+        myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
+        assertEquals(myFilesPage.getTags(testFileC7885), Collections.singletonList(tagName2.toLowerCase()).toString(),
+                tagName.toLowerCase() + " is updated with value:");
+    }
 
-		LOG.info("STEP4: Click \"Ok\" button");
-		selectDialog.clickOk();
-		assertTrue(editPropertiesDialog.isTagSelected(tagName.toLowerCase()), "'Tags:' section=");
+    @TestRail(id = "C7886")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void myFilesRemoveTag()
+    {
+	    contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7886, "some content");
+	    contentAction.addSingleTag(user, password, myFilesPath + "/" + testFileC7886, tagName);
 
-		LOG.info("STEP5: Click \"Save\" button");
-		editPropertiesDialog.clickSave();
-		ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName.toLowerCase(), tagName2.toLowerCase()));
-		assertEquals(myFilesPage.getTags(testFile), tagsList.toString(), testFile + " -> tags=");
-	}
+        myFilesPage.navigate();
+        LOG.info("STEP1: Hover over the tag from the folder");
+        myFilesPage.mouseOverTags(testFileC7886);
+        assertTrue(myFilesPage.isEditTagIconDisplayed(testFileC7886), testFileC7886 + " -> 'Edit Tag' icon is displayed.");
 
-	@TestRail(id = "C7885")
-	@Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-	public void myFilesEditTagFile() {
+        LOG.info("STEP2: Click \"Edit Tags\" icon");
+        myFilesPage.clickEditTagIcon(testFileC7886);
+        assertTrue(myFilesPage.isEditTagInputFieldDisplayed(), testFileC7886 + " -> 'Edit Tag' text input field is displayed.");
 
-		LOG.info("Precondition: Add a tag to the file.");
-		myFilesPage.renderedPage();
-		myFilesPage.mouseOverNoTags(testFile);
-		myFilesPage.clickEditTagIcon(testFile);
-		myFilesPage.typeTagName(tagName);
-		myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
+        LOG.info("STEP3: Hover over the tag and click 'Remove' icon");
+        assertEquals(myFilesPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
 
-		LOG.info("STEP1: Hover over the tag(s) from the content");
-		myFilesPage.renderedPage();
-		myFilesPage.mouseOverTags(testFile);
-		assertTrue(myFilesPage.isEditTagIconDisplayed(testFile), testFile + " -> 'Edit Tag' icon is displayed.");
+        LOG.info("STEP4: Click 'Save' link");
+        myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
+        if (!myFilesPage.isNoTagsTextDisplayed(testFileC7886))
+            myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
+        assertTrue(myFilesPage.isNoTagsTextDisplayed(testFileC7886), testFileC7886 + " -> " + tagName + " is removed.");
+    }
 
-		LOG.info("STEP2: Click \"Edit Tag\" icon");
-		myFilesPage.clickEditTagIcon(testFile);
-		assertTrue(myFilesPage.isEditTagInputFieldDisplayed(),
-				testFile + " -> 'Edit Tag' text input field is displayed.");
+    @TestRail(id = "C7895")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void myFilesUpdateTag()
+    {
+	    contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7895, "some content");
+	    contentAction.addSingleTag(user, password, myFilesPath + "/" + testFileC7895, tagName);
+        myFilesPage.navigate();
+        LOG.info("STEP1: Hover over the tag from the file.");
+        myFilesPage.mouseOverTags(testFileC7895);
+        assertTrue(myFilesPage.isEditTagIconDisplayed(testFileC7895), testFileC7895 + " -> 'Edit Tag' icon is displayed.");
 
-		LOG.info("STEP3: Click on any tag and type a valid tag name");
-		myFilesPage.editTag(testFile, tagName.toLowerCase(), tagName2);
+        LOG.info("STEP2: Click \"Edit Tags\" icon");
+        myFilesPage.clickEditTagIcon(testFileC7895);
+        assertTrue(myFilesPage.isEditTagInputFieldDisplayed(), testFileC7895 + " -> 'Edit Tag' text input field is displayed.");
 
-		LOG.info("STEP4: Click \"Save\" link and verify the content tags");
-		myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-		assertEquals(myFilesPage.getTags(testFile), Collections.singletonList(tagName2.toLowerCase()).toString(),
-				tagName.toLowerCase() + " is updated with value:");
-	}
+        LOG.info("STEP3: Hover over the tag. Click 'Remove' icon. Click 'Save' link");
+        assertEquals(myFilesPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
+        myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
+        assertTrue(myFilesPage.isNoTagsTextDisplayed(testFileC7895), testFileC7895 + " -> " + tagName + " is removed.");
 
-	@TestRail(id = "C7886")
-	@Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-	public void myFilesRemoveTag() {
+        LOG.info("STEP4: Click \"Edit Tag\" icon");
+        myFilesPage.mouseOverNoTags(testFileC7895);
+        myFilesPage.clickEditTagIcon(testFileC7895);
 
-		LOG.info("Precondition: Add a tag to the file.");
-		myFilesPage.renderedPage();
-		myFilesPage.mouseOverNoTags(testFile);
-		myFilesPage.clickEditTagIcon(testFile);
-		myFilesPage.typeTagName(tagName);
-		myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));	
-
-		LOG.info("STEP1: Hover over the tag from the folder");
-		myFilesPage.mouseOverTags(testFile);
-		assertTrue(myFilesPage.isEditTagIconDisplayed(testFile), testFile + " -> 'Edit Tag' icon is displayed.");
-
-		LOG.info("STEP2: Click \"Edit Tags\" icon");
-		myFilesPage.clickEditTagIcon(testFile);
-		assertTrue(myFilesPage.isEditTagInputFieldDisplayed(),
-				testFile + " -> 'Edit Tag' text input field is displayed.");
-
-		LOG.info("STEP3: Hover over the tag and click 'Remove' icon");
-     	assertEquals(myFilesPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");	
-
-		LOG.info("STEP4: Click 'Save' link");
-		myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-		if (!myFilesPage.isNoTagsTextDisplayed(testFile))
-			myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-		assertTrue(myFilesPage.isNoTagsTextDisplayed(testFile), testFile + " -> " + tagName + " is removed.");
-	}
-
-	@TestRail(id = "C7895")
-	@Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-	public void myFilesUpdateTag() {
-
-		LOG.info("Precondition: Add a tag to the file.");
-		myFilesPage.renderedPage();
-		myFilesPage.mouseOverNoTags(testFile);
-		myFilesPage.clickEditTagIcon(testFile);
-		myFilesPage.typeTagName(tagName);
-		myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));		
-
-		LOG.info("STEP1: Hover over the tag from the file.");
-		myFilesPage.mouseOverTags(testFile);
-		assertTrue(myFilesPage.isEditTagIconDisplayed(testFile), testFile + " -> 'Edit Tag' icon is displayed.");
-
-		LOG.info("STEP2: Click \"Edit Tags\" icon");
-		myFilesPage.clickEditTagIcon(testFile);
-		assertTrue(myFilesPage.isEditTagInputFieldDisplayed(),
-				testFile + " -> 'Edit Tag' text input field is displayed.");
-
-		LOG.info("STEP3: Hover over the tag. Click 'Remove' icon. Click 'Save' link");
-		assertEquals(myFilesPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
-		myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-		assertTrue(myFilesPage.isNoTagsTextDisplayed(testFile), testFile + " -> " + tagName + " is removed.");
-
-		LOG.info("STEP4: Click \"Edit Tag\" icon");
-		myFilesPage.mouseOverNoTags(testFile);
-		myFilesPage.clickEditTagIcon(testFile);
-
-		LOG.info("STEP5: Type any tag name in the input field. Click \"Save\" link");
-		myFilesPage.typeTagName(tagName2);
-		myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
-		myFilesPage.renderedPage();
-		assertEquals(myFilesPage.getTags(testFile), Collections.singletonList(tagName2.toLowerCase()).toString(),
-				testFile + " -> tags=");
-	}
+        LOG.info("STEP5: Type any tag name in the input field. Click \"Save\" link");
+        myFilesPage.typeTagName(tagName2);
+        myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
+        myFilesPage.renderedPage();
+        assertEquals(myFilesPage.getTags(testFileC7895), Collections.singletonList(tagName2.toLowerCase()).toString(), testFileC7895 + " -> tags=");
+    }
 }

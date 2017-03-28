@@ -8,42 +8,34 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class ActionsManageAspectsTests extends ContextAwareWebTest
 {
-
     @Autowired private RepositoryPage repositoryPage;
 
     @Autowired private AspectsForm aspectsForm;
 
     private String nonAdminUser;
-
-    private String repositoryMainFolderPath;
     private String folderInRepoUserHomes;
     private String folderInRepoMainPath;
     private String repositoryUserHomesPath;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-
         nonAdminUser = "nonAdminUser" + DataUtil.getUniqueIdentifier();
-
         folderInRepoMainPath = "testFolderInRepoMainPath" + DataUtil.getUniqueIdentifier();
-        repositoryUserHomesPath = "User Homes/" + nonAdminUser;
         folderInRepoUserHomes = "folderInRepoUserHomes" + DataUtil.getUniqueIdentifier();
-        repositoryMainFolderPath = "";
         userService.create(adminUser, adminPassword, nonAdminUser, password, nonAdminUser + domain, nonAdminUser, nonAdminUser);
-        contentService.createFolderInRepository(adminUser, adminPassword, folderInRepoMainPath, repositoryMainFolderPath);
-        contentService.createFolderInRepository(nonAdminUser, password, folderInRepoUserHomes, repositoryUserHomesPath);
-
+        contentService.createFolderInRepository(adminUser, adminPassword, folderInRepoMainPath, null);
+        contentService.createFolderInRepository(nonAdminUser, password, folderInRepoUserHomes, "User Homes/" + nonAdminUser);
     }
 
     @TestRail(id = "C8254")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void verifyAspectsForm()
+    public void checkAspectsForm()
     {
         setupAuthenticatedSession(nonAdminUser, password);
         repositoryPage.navigate();
@@ -82,6 +74,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         logger.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm.clickApplyChangesButton();
         getBrowser().refresh();
+        repositoryPage.renderedPage();
         repositoryPage.clickDocumentLibraryItemAction(folderInRepoUserHomes, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
@@ -94,12 +87,10 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     {
         setupAuthenticatedSession(nonAdminUser, password);
         repositoryPage.navigate();
-
         logger.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
         repositoryPage.mouseOverContentItem(folderInRepoMainPath);
         Assert.assertEquals(repositoryPage.isMoreMenuDisplayed(folderInRepoMainPath), false);
         Assert.assertEquals(repositoryPage.isActionAvailableForLibraryItem(folderInRepoMainPath, "Manage Aspects"), false);
-
     }
 
     @TestRail(id = "C13764")

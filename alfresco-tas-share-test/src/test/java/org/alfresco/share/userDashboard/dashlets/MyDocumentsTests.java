@@ -37,8 +37,6 @@ public class MyDocumentsTests extends ContextAwareWebTest
     LoginPage loginPage;
 
     private String userName1;
-    private String userName2;
-
     private String siteName1;
 
     @BeforeMethod(alwaysRun = true)
@@ -46,9 +44,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
     {
         cleanupAuthenticatedSession();
         userName1 = "User1" + DataUtil.getUniqueIdentifier();
-        userName2 = "User2" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
-        userService.create(adminUser, adminPassword, userName2, password, userName1 + domain, userName1, userName1);
         siteName1 = "Site1" + DataUtil.getUniqueIdentifier();
         siteService.create(userName1, password, domain, siteName1, "description", Visibility.PUBLIC);
     }
@@ -58,6 +54,8 @@ public class MyDocumentsTests extends ContextAwareWebTest
     public void detailedView()
     {
         logger.info("STEP 1 - Create document then update its content");
+        String userName2 = "User2" + DataUtil.getUniqueIdentifier();
+        userService.create(adminUser, adminPassword, userName2, password, userName1 + domain, userName1, userName1);
         String file = "TestDoc";
         Assert.assertFalse(contentService.createDocument(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, file).getId().isEmpty());
         contentService.updateDocumentContent(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(10));

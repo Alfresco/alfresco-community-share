@@ -15,7 +15,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
@@ -40,23 +40,17 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private String user1;
-    private String user2;
-    private String user3;
+    private final String user1 = "User1" + DataUtil.getUniqueIdentifier();
+    private final String user2 = "User2" + DataUtil.getUniqueIdentifier();
+    private String user3 = "User3" + DataUtil.getUniqueIdentifier();
     private String siteName;
-    private String description;
-    private String group;
-    private String group2;
+    private final String description = "Description" + DataUtil.getUniqueIdentifier();
+    private final String group = "aGroup" + DataUtil.getUniqueIdentifier();
+    private final String group2 = "aGroup2" + DataUtil.getUniqueIdentifier();
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        user1 = "User1" + DataUtil.getUniqueIdentifier();
-        user2 = "User2" + DataUtil.getUniqueIdentifier();
-        user3 = "User3" + DataUtil.getUniqueIdentifier();
-        description = "Description" + DataUtil.getUniqueIdentifier();
-        group = "aGroup" + DataUtil.getUniqueIdentifier();
-        group2 = "aGroup2" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, "lastName");
         userService.create(adminUser, adminPassword, user3, password, user3 + domain, user3, "lastName");
@@ -184,7 +178,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     public void addGroupWithConsumerRole()
     {
         //precondition
-        siteName = "Site-C2779-" + DataUtil.getUniqueIdentifier();
+        siteName = "Site-C2780-" + DataUtil.getUniqueIdentifier();
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 

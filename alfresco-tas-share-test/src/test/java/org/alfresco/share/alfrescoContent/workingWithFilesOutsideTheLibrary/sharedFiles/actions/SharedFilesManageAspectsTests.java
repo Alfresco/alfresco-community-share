@@ -8,8 +8,8 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertFalse;
@@ -22,18 +22,13 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
 
     @Autowired private SharedFilesPage sharedFilesPage;
 
-    private String userName;
-    private String folderName;
-    private String userName1;
-    private String folderPath;
+    private String userName = "User" + DataUtil.getUniqueIdentifier();
+    private String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private String userName1 = "User1" + DataUtil.getUniqueIdentifier();
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userName = "User" + DataUtil.getUniqueIdentifier();
-        userName1 = "User1" + DataUtil.getUniqueIdentifier();
-        folderName = "testFolder" + DataUtil.getUniqueIdentifier();
-        folderPath = "/Shared/" + folderName;
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         contentService.createFolderInRepository(userName, password, folderName, "Shared");
@@ -41,8 +36,7 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
 
     @TestRail(id = "C8038")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void verifyManageAspectActions()
-
+    public void checkManageAspectActions()
     {
         logger.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
         setupAuthenticatedSession(userName, password);
@@ -63,7 +57,6 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     @TestRail(id = "C8034")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsApplyChanges()
-
     {
         logger.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
         setupAuthenticatedSession(userName, password);
@@ -86,7 +79,6 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
-
     }
 
     @TestRail(id = "C13761")
@@ -102,14 +94,12 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(1);
         Assert.assertFalse(sharedFilesPage.isMoreMenuDisplayed(folderName), "'More' menu not displayed for " + folderName);
         Assert.assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(folderName, "Manage Aspects"));
-
     }
 
-    @AfterMethod
+    @AfterClass
     public void deleteContent()
-
     {
-        contentService.deleteContentByPath(userName, password, folderPath);
+        contentService.deleteContentByPath(userName, password, "/Shared/" + folderName);
         userService.delete(adminUser, adminPassword, userName);
         userService.delete(adminUser, adminPassword, userName1);
     }

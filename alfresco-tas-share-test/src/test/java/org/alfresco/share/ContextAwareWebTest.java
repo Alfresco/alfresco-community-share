@@ -38,6 +38,8 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     @Autowired 
     protected ContentActions contentAction;
     @Autowired
+    protected ContentAspects contentAspects;
+    @Autowired
     protected GroupService groupService;
 
     @Autowired

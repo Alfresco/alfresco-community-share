@@ -17,6 +17,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -55,24 +56,25 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     @Autowired
     DataUtil dataUtil;
 
-    private String userManager;
-    private String userTest;
+    private final String userManager = "User1" + DataUtil.getUniqueIdentifier();
+    private final String userTest = "User2" + DataUtil.getUniqueIdentifier();
     private String siteName;
     protected String taskName;
 
-    @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+    @BeforeClass(alwaysRun = true)
+    public void createUsers()
     {
-        userManager = "User1" + DataUtil.getUniqueIdentifier();
-        userTest = "User2" + DataUtil.getUniqueIdentifier();
-        siteName = "C2461" + DataUtil.getUniqueIdentifier();
-        taskName = String.format("Request to join %s site", siteName);
         userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void createSite()
+    {
+        siteName = "Site" + DataUtil.getUniqueIdentifier();
+        taskName = String.format("Request to join %s site", siteName);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
-
         setupAuthenticatedSession(userTest, password);
-
     }
 
     @TestRail(id = "C2461")
