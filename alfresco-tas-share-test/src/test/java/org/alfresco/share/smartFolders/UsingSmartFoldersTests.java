@@ -70,61 +70,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     {
         folderName = "testFolder" + DataUtil.getUniqueIdentifier();
         contentService.createFolder(userName, password, folderName, siteName);
-    }
-
-    @TestRail(id = "C8646")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void smartFolderIcon()
-    {
-        logger.info("Preconditions: Navigate to Document Library for the page for the test site");
-        documentLibraryPage.navigate(siteName);
-
-        logger.info("Step1: Verify that the new created folder has no magnifying glass next to it.");
-        Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(0), "SF icon missing");
-
-        logger.info("Step2: Hover over folder and click More -> Manage Aspects.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
-        Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel displayed");
-        Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel displayed");
-        Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
-        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove buttons displayed for all the selected aspects");
-        Assert.assertTrue(aspectsForm.isSaveButtonDisplayed(), "'Apply Changes' button displayed");
-        Assert.assertTrue(aspectsForm.isCancelButtonDisplayed(), "'Cancel' button displayed");
-        Assert.assertTrue(aspectsForm.isCloseButtonDisplayed(), "'Close' button displayed");
-
-        logger.info("Step3: Click Add button next to System Smart Folder template.");
-        aspectsForm.addElement(17);
-        getBrowser().waitInSeconds(2);
-        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
-        Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
-
-        logger.info("Step4: Click 'Apply Changes'.");
-        aspectsForm.clickApplyChangesButton();
-        getBrowser().waitInSeconds(1);
-
-        logger.info("Step5: Hover over folder and click 'Edit Properties'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
-        Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
-
-        logger.info("Step6: Click 'All Properties' link.");
-        editPropertiesDialog.clickAllPropertiesLink();
-        Assert.assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Tags", "Smart Folder Template"), "Properties should be displayed");
-        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Save"), "Save button displayed");
-        Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Cancel"), "Cancel button displayed");
-
-        logger.info("Step7: Select 'smartFoldersExample.json template' and save.");
-        editPropertiesPage.selectSFTemplate(0);
-        editPropertiesPage.clickButtonForFolder("Save");
-
-        logger.info("Step8: Click on the folder and verify it has 'Smart Folder' structure under it");
-        getBrowser().waitInSeconds(2);
-        documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
-        Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
-    }
-
-    private void applySmartFolderAspect()
-    {
         contentAspects.addAspect(userName, password, siteName, folderName, CMISUtil.DocumentAspect.SYSTEM_SMART_FOLDER);
 
         logger.info("Step4: Hover over folder and click 'Edit Properties'.");
@@ -151,8 +96,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void addFileToSmartFolder()
     {
-        applySmartFolderAspect();
-
         logger.info("Steps8, 9: Click Upload button and select a pdf file.");
         uploadContent.uploadContent(testFilePath);
 
@@ -168,8 +111,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createFileInSmartFolder() throws Exception
     {
-        applySmartFolderAspect();
-
         logger.info("Step8: Press Create button -> Google Docs Document");
         googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
@@ -197,8 +138,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void updateFileInSmartFolder() throws Exception
     {
-        applySmartFolderAspect();
-
         logger.info("Step8: Press Create button -> Google Docs Document");
         googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
@@ -239,8 +178,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkSmartFolderStructure()
     {
-        applySmartFolderAspect();
-
         logger.info("Step8: Click on 'My content' the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(mainSmartFolder);
         List<String> expectedContentList = Arrays.asList("All site content", "Contributions", "My content modified by other users", "User home",
@@ -254,8 +191,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkFilesAreCorrectlyFilled() throws Exception
     {
-        applySmartFolderAspect();
-
         logger.info("Step8: Press Create button -> Google Docs Document");
         googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
@@ -285,7 +220,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkAvailableActions() throws Exception
     {
-        applySmartFolderAspect();
         logger.info("Step8: Verify that 'Create' button is available");
         Assert.assertTrue(documentLibraryPage.isCreateButtonDisplayed(), "Create button displayed");
 
