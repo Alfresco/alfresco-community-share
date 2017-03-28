@@ -186,7 +186,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();
@@ -234,7 +233,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();
@@ -245,7 +243,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Fill in Create Rule details and submit form");
         editRulesPage.typeRuleDetails(ruleName2, description, indexOfOptionFromDropdown);
-        editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();
@@ -285,7 +282,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         LOG.info("STEP1: Fill in Create Rule details and cancel form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickCancelButton();
@@ -318,7 +314,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();
@@ -385,7 +380,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(1, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();
@@ -442,7 +436,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         LOG.info("STEP1: Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(2, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();
