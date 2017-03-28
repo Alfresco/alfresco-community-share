@@ -20,9 +20,7 @@ import static org.testng.Assert.assertEquals;
 public class ViewingAFileTests extends ContextAwareWebTest
 {
     @Autowired private DocumentDetailsPage documentPreviewPage;
-
     @Autowired private DocumentLibraryPage documentLibraryPage;
-
     @Autowired private PreviewFileActionsSection fileActions;
 
     @Autowired
