@@ -46,6 +46,8 @@ public class ModelManagerPage extends AdminToolsPage
     public By actionsButton = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup']");
 
     public By status = By.xpath(".//td[contains(@class, 'statusColumn ')]//span[@class='value']");
+    
+    private String modelRow = "//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='%s']/../../../..";
 
     @FindBy (css="div.alfresco-lists-views-AlfListView__no-data")
     private WebElement noModelsText;
@@ -109,14 +111,16 @@ public class ModelManagerPage extends AdminToolsPage
 
     public WebElement selectModelByName(String modelName)
     {
-        By modelRow = By.xpath("//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']/../../../..");
-        browser.waitUntilElementIsDisplayedWithRetry(modelRow);
-        return browser.findElement(modelRow);
+    	By modelRowLocator = By.xpath(String.format(modelRow, modelName));
+        browser.waitUntilElementIsDisplayedWithRetry(modelRowLocator);
+        return browser.findElement(modelRowLocator);
     }
 
     public boolean isModelDisplayed(String modelName)
     {
-        return browser.isElementDisplayed(selectModelByName(modelName));
+    	By modelRowLocator = By.xpath(String.format(modelRow, modelName));
+        browser.waitUntilElementIsDisplayedWithRetry(modelRowLocator, 2);
+        return browser.isElementDisplayed(modelRowLocator);
     }
 
     public String getModelDetails(String modelName)

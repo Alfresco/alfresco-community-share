@@ -85,7 +85,6 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @TestRail(id = "C9500")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void checkModelManagerPage()
     {
         LOG.info("Step 1: Navigate to Admin Tools page, check and confirm that Model Manager is available under Admin tools");
@@ -110,7 +109,6 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @TestRail(id = "C42565")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void createModel()
     {
         String nameSpace = "C42565Namespace" + DataUtil.getUniqueIdentifier();
@@ -140,7 +138,6 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @TestRail(id = "C9511")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void checkImportModelForm()
     {
         modelManagerPage.navigate();
@@ -161,7 +158,6 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @TestRail(id = "C9516")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void activateModel()
     {
         // Preconditions
@@ -193,13 +189,12 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @TestRail(id = "C9517")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void editModel()
     {
         // Preconditions
         String name = "C9517testModel" + DataUtil.getUniqueIdentifier();
         String nameSpace = "C9517nameSpace" + DataUtil.getUniqueIdentifier();
-        String prefix = "C9517";
+        String prefix = "C9517" + DataUtil.getUniqueIdentifier();
         String editedNamespace = "C9517editedNamespace" + DataUtil.getUniqueIdentifier();
         String editedPrefix = "C9517editedPrefix" + DataUtil.getUniqueIdentifier();
         String editedCreator = "EditedCreator" + DataUtil.getUniqueIdentifier();
@@ -238,13 +233,12 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @TestRail(id = "C9518")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void deleteModel()
     {
         // Preconditions
         String name = "C9518testModel" + DataUtil.getUniqueIdentifier();
         String nameSpace = "C9518nameSpace" + DataUtil.getUniqueIdentifier();
-        String prefix = "C9518";
+        String prefix = "C9518" + DataUtil.getUniqueIdentifier();
         String expectedDialogText = "Are you sure you want to delete model '" + name
                 + "'? All custom types, aspects and properties in the model will also be deleted.";
         modelManagerPage.navigate();
@@ -279,13 +273,12 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @TestRail(id = "C9520")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void checkAvailableActionsForActiveModel()
     {
         // Preconditions
         String name = "C9520testModel" + DataUtil.getUniqueIdentifier();
         String nameSpace = "C9520nameSpace" + DataUtil.getUniqueIdentifier();
-        String prefix = "C9520";
+        String prefix = "C9520" + DataUtil.getUniqueIdentifier();
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
         createModelDialogPage.sendNamespaceText(nameSpace);
@@ -307,7 +300,6 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @TestRail(id = "C9521")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void deactivateModel()
     {
         // Preconditions
@@ -336,13 +328,12 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @TestRail(id = "C9519")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void exportModel()
     {
         // Preconditions
-        String name = "C9517testModel";
-        String nameSpace = "C9517nameSpace";
-        String prefix = "C9517";
+        String name = "C9517testModel" + DataUtil.getUniqueIdentifier();
+        String nameSpace = "C9517nameSpace" + DataUtil.getUniqueIdentifier();
+        String prefix = "C9517" + DataUtil.getUniqueIdentifier();
 
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
@@ -390,7 +381,6 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @TestRail(id = "C42566")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void createCustomType()
     {
         // Preconditions
@@ -433,7 +423,6 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @TestRail(id = "C42567")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void createAspect()
     {
         // Preconditions
@@ -476,7 +465,6 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Bug(id = "TBD")
     @TestRail(id = "C42568")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-
     public void useCreatedModel()
     {
         String filePath = testDataFolder + "Marketing_content.zip";
