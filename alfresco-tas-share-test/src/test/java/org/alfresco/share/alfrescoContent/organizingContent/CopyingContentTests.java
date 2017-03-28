@@ -76,10 +76,8 @@ public class CopyingContentTests extends ContextAwareWebTest
         LOG.info("STEP6: Go to 'Shared Files', from toolbar and verify the displayed files");
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        if (!documentLibraryPage.isContentNameDisplayed(docName))
-            getBrowser().refresh();
-        assertTrue(documentLibraryPage.getFilesList().toString().contains(docName),
-                docName + " displayed in 'Shared Files'. List of 'Shared Files' documents=" + documentLibraryPage.getFilesList().toString());
+        assertTrue(sharedFilesPage.isContentNameDisplayed(docName),
+                docName + " displayed in 'Shared Files'. List of 'Shared Files' documents=" + sharedFilesPage.getFilesList().toString());
 
         cleanupAuthenticatedSession();
     }
@@ -113,7 +111,7 @@ public class CopyingContentTests extends ContextAwareWebTest
 
         LOG.info("STEP6: Go to 'Shared Files', from toolbar and verify the displayed files");
         toolbar.clickSharedFiles();
-        assertFalse(documentLibraryPage.getFilesList().toString().contains(docName), docName + " displayed in 'Shared Files'");
+        assertFalse(sharedFilesPage.isContentNameDisplayed(docName), docName + " displayed in 'Shared Files'");
 
         cleanupAuthenticatedSession();
     }

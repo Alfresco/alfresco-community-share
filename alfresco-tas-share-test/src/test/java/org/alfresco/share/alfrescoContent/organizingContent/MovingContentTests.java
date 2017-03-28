@@ -72,7 +72,7 @@ public class MovingContentTests extends ContextAwareWebTest
 
         LOG.info("STEP5: Open the folder created in preconditions");
         documentLibraryPage.clickOnFolderName(folderName);
-        assertEquals(documentLibraryPage.getFilesList().toString(), "[" + docName + "]", "Displayed files in " + folderName);
+        assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Displayed files in " + folderName);
     }
 
     @TestRail(id = "C7346")

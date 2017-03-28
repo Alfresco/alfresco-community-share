@@ -99,7 +99,7 @@ public class PreviewFileTest extends ContextAwareWebTest
         LOG.info("STEP 7: Go back to the folder content and click on the image");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.getFilesList().contains("Tulips.jpg"), "Picture is not displayed!");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Tulips.jpg"), "Picture is not displayed!");
         documentLibraryPage.clickOnFile("Tulips.jpg");
         Assert.assertFalse(documentDetailsPage.isZoomOutButtonDisplayed(), "Zoom out button should not be displayed!");
         Assert.assertFalse(documentDetailsPage.isZoomInButtonDisplayed(), "Zoom in button should not be displayed!");

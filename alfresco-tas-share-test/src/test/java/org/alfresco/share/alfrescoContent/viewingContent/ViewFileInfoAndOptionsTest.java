@@ -53,7 +53,7 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click on folder name then on file name");
         documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentLibraryPage.getFilesList().contains(docName), "Document is not displayed!");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is not displayed!");
         documentLibraryPage.clickOnFile(docName);
         Assert.assertEquals(documentDetailsPage.getFileName(), docName, "Wrong file name!");
         Assert.assertEquals(documentDetailsPage.getFileVersion(), "1.0", "Wrong file version!");

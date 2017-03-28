@@ -2,7 +2,6 @@ package org.alfresco.share.alfrescoContent.buildingContent;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -11,44 +10,34 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired private CreateContent create;
-
+    private final String user = "testUser" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "testSiteGoogleDocs" + DataUtil.getUniqueIdentifier();
+    private final String content = "testcontent";
+    private final String documentTitle = "testDocument";
+    private final String spreadsheetTitle = "testSpreadsheet";
+    private final String presentationTitle = "testPresentation";
     @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private CreateContent create;
+    @Autowired
+    private GoogleDocsCommon googleDocs;
 
-    @Autowired private GoogleDocsCommon googleDocs;
-
-    private String user;
-    private String siteName;
-    private String documentTitle;
-    private String spreadsheetTitle;
-    private String presentationTitle;
-    private String content;
-
-    @BeforeMethod(alwaysRun = true)
-    public void setupTest()
+    @BeforeClass(alwaysRun = true)
+    public void createUserAndSite()
     {
-
-        user = "testUser" + DataUtil.getUniqueIdentifier();
-        siteName = "testSiteGoogleDocs" + DataUtil.getUniqueIdentifier();
-        documentTitle = "testDocument";
-        spreadsheetTitle = "testSpreadsheet";
-        presentationTitle = "testPresentation";
-        content = "testcontent";
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, "Site used for Google Docs", Visibility.PUBLIC);
 
     }
 
     @TestRail(id = "C6990")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createGoogleDocsDocument() throws Exception
     {
         logger.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
@@ -80,7 +69,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6991")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createGoogleDocsSpreadsheet() throws Exception
     {
         logger.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
@@ -112,9 +101,8 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6992")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createGoogleDocsPresentation() throws Exception
-
     {
         logger.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
         googleDocs.loginToGoogleDocs();

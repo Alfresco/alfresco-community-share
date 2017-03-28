@@ -140,7 +140,7 @@ public class FoldersAndFiles extends ContextAwareWebTest
         LOG.info("Step 3: Navigate to 'My Favorites' and check favorite items list.");
         documentLibraryPage.clickDocumentsFilterOption(DocumentsFilters.Favorites.title);
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentsFilters.Favorites.header, "My Favorites documents are displayed.");
-        assertTrue(documentLibraryPage.getFilesList().contains(testContentC8815), "Document is displayed in My favorites list!");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(testContentC8815), "Document is displayed in My favorites list!");
 
         LOG.info("Step 4: Hover over the content's yellow star.");
         assertEquals(documentLibraryPage.getFavoriteTooltip(testContentC8815), "Remove document from favorites",

@@ -3,7 +3,6 @@ package org.alfresco.share.smartFolders;
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.SmartFolders;
-import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
@@ -38,8 +37,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Autowired
     DocumentDetailsPage documentDetailsPage;
     @Autowired
-    AspectsForm aspectsForm;
-    @Autowired
     EditPropertiesDialog editPropertiesDialog;
     @Autowired
     EditPropertiesPage editPropertiesPage;
@@ -72,20 +69,20 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         contentService.createFolder(userName, password, folderName, siteName);
         contentAspects.addAspect(userName, password, siteName, folderName, CMISUtil.DocumentAspect.SYSTEM_SMART_FOLDER);
 
-        logger.info("Step4: Hover over folder and click 'Edit Properties'.");
+        logger.info("Step1: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
         Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
 
-        logger.info("Step5: Click 'All Properties' link.");
+        logger.info("Step2: Click 'All Properties' link.");
         editPropertiesDialog.clickAllPropertiesLink();
         Assert.assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Tags", "Smart Folder Template"), "Properties should be displayed");
 
-        logger.info("Step6: Select 'smartFoldersExample.json template' and save.");
+        logger.info("Step3: Select 'smartFoldersExample.json template' and save.");
         editPropertiesPage.selectSFTemplate(0);
         editPropertiesPage.clickButtonForFolder("Save");
 
-        logger.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");
+        logger.info("Step4: Click on the folder and verify it has 'Smart Folder' structure under it");
         getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName(folderName);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
@@ -96,10 +93,10 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void addFileToSmartFolder()
     {
-        logger.info("Steps8, 9: Click Upload button and select a pdf file.");
+        logger.info("Steps5: Click Upload button and select a pdf file.");
         uploadContent.uploadContent(testFilePath);
 
-        logger.info("Step10: Go to My Content -> All site content -> Documents -> PDF Documents and verify that the uploaded file is displayed");
+        logger.info("Step6: Go to My Content -> All site content -> Documents -> PDF Documents and verify that the uploaded file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
         documentLibraryPage.clickOnFolderName("All site content");
         documentLibraryPage.clickOnFolderName("Documents");
@@ -111,7 +108,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createFileInSmartFolder() throws Exception
     {
-        logger.info("Step8: Press Create button -> Google Docs Document");
+        logger.info("Step5: Press Create button -> Google Docs Document");
         googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
@@ -119,14 +116,14 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(10);
 
-        logger.info("Step9: Input some texts in this Google Doc file and exit.");
+        logger.info("Step6: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
 
-        logger.info("Step10: Hover over document and press Check in Google Doc.");
+        logger.info("Step7: Hover over document and press Check in Google Doc.");
         googleDocs.checkInGoogleDoc("Untitled Document");
         getBrowser().waitInSeconds(10);
 
-        logger.info("Step11: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
+        logger.info("Step8: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
         documentLibraryPage.clickOnFolderName("All site content");
         documentLibraryPage.clickOnFolderName("Documents");
@@ -138,7 +135,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void updateFileInSmartFolder() throws Exception
     {
-        logger.info("Step8: Press Create button -> Google Docs Document");
+        logger.info("Step5: Press Create button -> Google Docs Document");
         googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
@@ -146,27 +143,27 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(5);
 
-        logger.info("Step9: Input some texts in this Google Doc file and exit.");
+        logger.info("Step6: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
 
-        logger.info("Step10: Hover over document and press Check in Google Doc.");
+        logger.info("Step7: Hover over document and press Check in Google Doc.");
         getBrowser().waitInSeconds(2);
         googleDocs.checkInGoogleDoc("Untitled Document");
         getBrowser().waitInSeconds(10);
 
-        logger.info("Step11: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
+        logger.info("Step8: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
         documentLibraryPage.clickOnFolderName("All site content");
         documentLibraryPage.clickOnFolderName("Documents");
         documentLibraryPage.clickOnFolderName("Office Documents");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
 
-        logger.info("Step12: Hover over the created file and click 'Upload new version'");
+        logger.info("Step9: Hover over the created file and click 'Upload new version'");
         documentLibraryPage.clickDocumentLibraryItemAction("Test.docx", "Upload New Version", uploadContent);
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Minor);
         getBrowser().waitInSeconds(2);
 
-        logger.info("Step13: Verify the document is updated and the version is increased");
+        logger.info("Step10: Verify the document is updated and the version is increased");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(newVersionFileName), "The uploaded file displayed in Office Documents list");
         documentLibraryPage.clickOnFile(newVersionFileName);
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Content of %s is wrong.", newVersionFileName));
@@ -178,7 +175,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkSmartFolderStructure()
     {
-        logger.info("Step8: Click on 'My content' the folder and verify it has 'Smart Folder' structure under it");
+        logger.info("Step5: Click on 'My content' the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(mainSmartFolder);
         List<String> expectedContentList = Arrays.asList("All site content", "Contributions", "My content modified by other users", "User home",
                 "Tagged 'Confidential'", "My Categorized Files", "Recent updates");
@@ -191,7 +188,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkFilesAreCorrectlyFilled() throws Exception
     {
-        logger.info("Step8: Press Create button -> Google Docs Document");
+        logger.info("Step5: Press Create button -> Google Docs Document");
         googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsSpreadsheet();
@@ -199,15 +196,15 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(5);
 
-        logger.info("Step9: Input some texts in this Google Doc file and exit.");
+        logger.info("Step6: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleSheetsWindowandAndEditContent("Test", "Test Content");
 
-        logger.info("Step10: Hover over document and press Check in Google Doc.");
+        logger.info("Step7: Hover over document and press Check in Google Doc.");
         documentLibraryPage.renderedPage();
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet.xlsx");
         getBrowser().waitInSeconds(10);
 
-        logger.info("Step11: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
+        logger.info("Step8: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
         documentLibraryPage.clickOnFolderName("All site content");
         documentLibraryPage.clickOnFolderName("Documents");
@@ -220,10 +217,10 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkAvailableActions() throws Exception
     {
-        logger.info("Step8: Verify that 'Create' button is available");
+        logger.info("Step5: Verify that 'Create' button is available");
         Assert.assertTrue(documentLibraryPage.isCreateButtonDisplayed(), "Create button displayed");
 
-        logger.info("Step9: Press Create button -> Google Docs Document");
+        logger.info("Step6: Press Create button -> Google Docs Document");
         googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
@@ -231,22 +228,22 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         googleDocs.clickOkButtonOnTheAuthPopup();
         getBrowser().waitInSeconds(5);
 
-        logger.info("Step10: Input some texts in this Google Doc file and exit.");
+        logger.info("Step7: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
 
-        logger.info("Step11: Hover over document and press Check in Google Doc.");
+        logger.info("Step8: Hover over document and press Check in Google Doc.");
         getBrowser().waitInSeconds(2);
         googleDocs.checkInGoogleDoc("Untitled Document");
         getBrowser().waitInSeconds(10);
 
-        logger.info("Step12: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
+        logger.info("Step9: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
         documentLibraryPage.clickOnFolderName("All site content");
         documentLibraryPage.clickOnFolderName("Documents");
         documentLibraryPage.clickOnFolderName("Office Documents");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
 
-        logger.info("Step13: Hover over the created document and check available actions");
+        logger.info("Step10: Hover over the created document and check available actions");
         List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit Properties", "Upload New Version", "Edit in Microsoft Office™",
                 "Edit Offline", "Start Workflow");
         List<String> notExpectedActions = Arrays.asList("Delete Document", "Unzip to...", "Sync to Cloud", "Locate File", "Move to...", "Copy to...",

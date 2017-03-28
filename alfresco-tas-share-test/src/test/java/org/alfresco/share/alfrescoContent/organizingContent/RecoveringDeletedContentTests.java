@@ -96,9 +96,9 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         LOG.info("STEP4: Navigate to site's Document Library page");
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-        assertTrue(documentLibraryPage.getFilesList().contains(fileName1), fileName1 + " is displayed in Document Library.");
-        assertTrue(documentLibraryPage.getFilesList().contains(fileName3), fileName3 + " is displayed in Document Library.");
-        assertFalse(documentLibraryPage.getFilesList().contains(fileName2), fileName2 + " isn't displayed in Document Library.");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName1), fileName1 + " is displayed in Document Library.");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName3), fileName3 + " is displayed in Document Library.");
+        assertFalse(documentLibraryPage.isContentNameDisplayed(fileName2), fileName2 + " isn't displayed in Document Library.");
 
         cleanupAuthenticatedSession();
     }

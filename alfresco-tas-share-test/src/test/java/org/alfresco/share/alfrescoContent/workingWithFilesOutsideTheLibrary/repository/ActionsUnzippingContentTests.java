@@ -46,7 +46,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     {
         LOG.info("Upload zip archive");
         repositoryPage.navigate();
-        assertTrue(repositoryPage.getFilesList().contains(zipFile), "Repository: list of files=");
+        assertTrue(repositoryPage.isContentNameDisplayed(zipFile), "Repository: list of files=");
 
         LOG.info("STEP1: Click archive name, e.g: testArchive");
         repositoryPage.clickOnFile(zipFile);
@@ -76,7 +76,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     {
         LOG.info("Upload acp archive");
         repositoryPage.navigate();
-        assertTrue(repositoryPage.getFilesList().contains(acpFile), "Repository: list of files=");
+        assertTrue(repositoryPage.isContentNameDisplayed(acpFile), "Repository: list of files=");
 
         LOG.info("STEP1: Click archive name, e.g: testArchive");
         repositoryPage.clickOnFile(acpFile);

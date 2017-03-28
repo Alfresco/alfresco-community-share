@@ -82,7 +82,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @FindBy(css = "[id*='default-add-submit-button']")
     protected WebElement addCommentButton;
 
-    @FindBy(css = "[class=comment-content] p")
+    @FindBy(css = "[class=comment-content]")
     protected WebElement commentContent;
 
     @FindBy(css = "[class*=quickshare-action] [class=bd]")
@@ -214,7 +214,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     protected By addCommentBlock = By.cssSelector("div[id*='default-add-comment']");
     private By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
     private By editComment = By.cssSelector("[class*=edit-comment]");
-    private By commContent = By.cssSelector("[class=comment-content] p");
+    private By commContent = By.cssSelector("[class=comment-content]");
     private By documentActionsOptionsSelector = By.cssSelector(".action-set div a span");
     private By olderVersion = By.cssSelector("div[id$='_default-olderVersions'] span.document-version");
     private By latestVersion = By.cssSelector("div[id$='_default-latestVersion'] span.document-version");

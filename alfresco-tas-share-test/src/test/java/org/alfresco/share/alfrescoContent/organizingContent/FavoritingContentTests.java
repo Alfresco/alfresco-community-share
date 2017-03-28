@@ -58,7 +58,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Navigate to site1 Document Library");
         documentLibraryPage.clickFolderFromExplorerPanel("Documents");
-        assertTrue(documentLibraryPage.getFilesList().contains(docName), "Document is displayed in Documents list!");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is displayed in Documents list!");
 
         LOG.info("STEP 3: Hover over the file 'Favorite' link");
         assertEquals(documentLibraryPage.getFavoriteTooltip(docName), "Add document to favorites", "The text 'Add document to favorites' is displayed");
@@ -72,7 +72,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentsFilterOption(DocumentsFilters.Favorites.title);
         getBrowser().refresh();
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentsFilters.Favorites.header, "My Favorites documents are displayed.");
-        assertTrue(documentLibraryPage.getFilesList().contains(docName), "Document is displayed in My favorites list!");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is displayed in My favorites list!");
     }
 
     @TestRail(id = "C7502")
@@ -107,7 +107,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName3);
         documentLibraryPage.clickDocumentsFilterOption(DocumentsFilters.Favorites.title);
         LOG.info("STEP 1: Check the favorite items list.");
-        assertTrue(documentLibraryPage.getFilesList().contains(docName), "Document is displayed in My favorites list!");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is displayed in My favorites list!");
 
         LOG.info("STEP 2: Navigate to site1 Document Library");
         documentLibraryPage.clickFolderFromExplorerPanel("Documents");

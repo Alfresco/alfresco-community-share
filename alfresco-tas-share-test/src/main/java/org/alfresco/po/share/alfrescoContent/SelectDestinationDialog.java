@@ -65,11 +65,7 @@ public class SelectDestinationDialog extends ShareDialog {
 	 *            to be set
 	 */
 	public void clickSite(String siteName) {
-		for (WebElement aSiteList : siteList) {
-			if (aSiteList.getText().equals(siteName))
-				aSiteList.click();
-			break;
-		}
+		browser.findFirstElementWithValue(siteList, siteName).click();
 		browser.waitInSeconds(2);
 	}
 
