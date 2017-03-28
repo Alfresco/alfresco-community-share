@@ -152,8 +152,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     @FindBy(css = ".filename span[class='insitu-edit']")
     private WebElement renameIcon;
-    
-    @RenderWebElement
+
    	@FindAll(@FindBy(css = "[class*='data'] tr img"))
    	private WebElement fileImage;
 
