@@ -14,6 +14,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ViewingAFileInBrowserTests extends ContextAwareWebTest
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
@@ -53,14 +56,11 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on a folder (e.g. testFolder) and then hover over a file in the document library (e.g. testFile) .");
         documentLibraryPage.clickOnFolderName(folderName);
         getBrowser().waitInSeconds(1);
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Edit in Google Docs™"),
-                "Edit in Google Docs™ is not available for file");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Download"), "Download is not available for test document");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "View In Browser"),
-                "View In Browser is not available for test document");
+        List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™");
+        Assert.assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
         Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");
 
-        LOG.info("Step 3: Click View in getBrowser().");
+        LOG.info("Step 3: Click View In Browser.");
         documentLibraryPage.clickOnAction(docName, "View In Browser");
         Assert.assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), "Document content",
                 "File content is not correct or file has not be opened in new window");

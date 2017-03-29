@@ -14,6 +14,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Mirela Tifui on 3/20/2017.
  */
@@ -151,13 +154,8 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         LOG.info("Step 7: Open "+folderName+" folder and try to edit/delete uploaded file");
         repositoryPage.clickOnFolderName(folderName);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(file), file+" is not displayed in repository");
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Delete Document"), "Delete Document is available for "+ file);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Edit in Google Docs™"), "Edit in Google Docs™ is available for "+ file);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Edit in Microsoft Office™"), "Edit in Microsoft Office™ is available for "+ file);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Edit Properties"), "Edit Properties is available for "+ file);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Edit Offline"), "Edit Offline is available for "+ file);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Upload New Version"), "Upload New Version is available for "+ file);
-        Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(file, "Manage Permissions"), "Manage Permissions is available for "+ file);
+        List<String> notExpectedActions = Arrays.asList("Edit in Microsoft Office™", "Edit in Google Docs™", "Edit Properties", "Upload New Version",
+                "Edit Offline", "Delete Document", "Manage Permissions");
         cleanupAuthenticatedSession();
     }
 
@@ -200,11 +198,8 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickOnFolderName(folderC202776);
         repositoryPage.clickOnFolderName(subFolderC202776);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, "Edit in Google Docs™"), "Edit in Google Docs™ is not available for "+ fileNameC202776);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, "Edit Properties"), "Edit Properties is not available for "+ fileNameC202776);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, "Edit in Alfresco"), "Edit in Alfresco is not available for "+ fileNameC202776);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, "Edit Offline"), "Edit Offline is not available for "+ fileNameC202776);
-        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202776, "Delete Document"), "Delete Document is not available for "+ fileNameC202776);
+        List<String> expectedActions = Arrays.asList("Edit in Google Docs™", "Edit Properties", "Edit in Alfresco", "Edit Offline", "Delete Document");
+        Assert.assertTrue(repositoryPage.areActionsAvailableForLibraryItem(fileNameC202776, expectedActions), "Expected actions");
 
         LOG.info("Step 6: Edit TestFile and save changes");
         repositoryPage.clickDocumentLibraryItemAction(fileNameC202776, "Edit in Alfresco", editInAlfrescoPage);

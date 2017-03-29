@@ -15,6 +15,9 @@ import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -107,15 +110,8 @@ public class DocumentLibraryTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "test folder is not displayed");
 
         LOG.info("Step 3: Hover over the created folder.");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Download as Zip"), "Download as zip is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "View Details"), "View Details is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Edit Properties"), "Edit Properties is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Copy to..."), "Copy to... is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Move to..."), "Move to... is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Manage Rules"), "Manage Rules is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Delete Folder"), "Delete Folder is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Manage Permissions"), "Manage Permissions is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Manage Aspects"), "Manage Aspects is not available");
+        List<String> expectedActions = Arrays.asList("Download as Zip", "View Details", "Edit Properties", "Copy to...", "Move to...", "Manage Rules", "Delete Folder", "Manage Aspects", "Manage Permissions");
+        assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(folderName, expectedActions), "Expected actions");
     }
 
     @TestRail(id = "C6936")
@@ -135,18 +131,9 @@ public class DocumentLibraryTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " document is displayed");
 
         LOG.info("Step 3: Hover over the created file.");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Download"), "Download is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "View In Browser"), "View In Browser is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Edit in Google Docs™"), "Edit in Google Docs™ is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Edit Properties"), "Edit Properties is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Upload New Version"), "Upload New Version is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Edit in Alfresco"), "Edit in Alfresco is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Edit Offline"), "Edit Offline is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Copy to..."), "Copy to... is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Move to..."), "Move to... is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Delete Document"), "Delete Document is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Start Workflow"), "Start Workflow is not available");
-        assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(docName, "Manage Permissions"), "Manage Permissions is not available");
+        List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™", "Edit Properties", "Upload New Version", "Edit in Alfresco",
+                "Edit Offline", "Copy to...", "Move to...", "Delete Document", "Start Workflow", "Manage Permissions");
+        assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
     }
 
     @TestRail(id = "C6938")
