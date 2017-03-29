@@ -396,7 +396,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     public boolean isAuthorizeWithGoogleDocsDisplayed()
     {
-        return promptAuthorizeWithGoogleDocs.isDisplayed();
+        return browser.isElementDisplayed(promptAuthorizeWithGoogleDocs);
     }
 
     /**

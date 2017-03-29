@@ -329,6 +329,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public void mouseOverContentItem(String contentItemName)
     {
+        LOG.info(String.format("Mouse over item: %s", contentItemName));
         WebElement contentItem = browser.findFirstElementWithValue(contentItemsList, contentItemName);
         if(contentItem != null)
             browser.mouseOver(contentItem);
@@ -537,13 +538,47 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         }
     }
 
-    public boolean isActionAvailableForLibraryItem(String libraryItem, String action)
+    private List<WebElement> getAvailableActions(String libraryItem)
     {
         mouseOverContentItem(libraryItem);
         if (isMoreMenuDisplayed(libraryItem))
             clickMore();
-        List<WebElement> availableActions = selectDocumentLibraryItemRow(libraryItem).findElements(actionsSet);
-        return browser.findFirstElementWithValue(availableActions, action) != null;
+        return selectDocumentLibraryItemRow(libraryItem).findElements(actionsSet);
+    }
+
+    public boolean isActionAvailableForLibraryItem(String libraryItem, String action)
+    {
+        return browser.findFirstElementWithValue(getAvailableActions(libraryItem), action) != null;
+    }
+
+    public boolean areActionsAvailableForLibraryItem(String libraryItem, List<String> actions)
+    {
+        List<WebElement> availableActions = getAvailableActions(libraryItem);
+        boolean found = true;
+        for(String action: actions)
+        {
+            if (browser.findFirstElementWithValue(availableActions, action) == null)
+            {
+                LOG.info(String.format("Action '%s' is not available!", action));
+                return false;
+            }
+        }
+        return found;
+    }
+
+    public boolean areActionsNotAvailableForLibraryItem(String libraryItem, List<String> actions)
+    {
+        List<WebElement> availableActions = getAvailableActions(libraryItem);
+        boolean notFound = true;
+        for(String action: actions)
+        {
+            if (browser.findFirstElementWithValue(availableActions, action) != null)
+            {
+                LOG.info(String.format("Action '%s' is available!", action));
+                return false;
+            }
+        }
+        return notFound;
     }
 
     /**
@@ -560,12 +595,25 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         Parameter.checkIsMandotary("Library item", selectDocumentLibraryItemRow(contentItem));
 
         mouseOverContentItem(contentItem);
-        if (isMoreMenuDisplayed(contentItem))
-            clickMore();
-        List<WebElement> availableActions = selectDocumentLibraryItemRow(contentItem).findElements(actionsSet);
+        List<WebElement> availableActions = selectDocumentLibraryItemRow(contentItem).findElements(By.cssSelector(".action-set>div>a"));
         WebElement actionElement = browser.findFirstElementWithValue(availableActions, action);
-        Parameter.checkIsMandotary("Action", actionElement);
-        actionElement.click();
+        if (actionElement != null)
+        {
+            LOG.info(String.format("Click on '%s' action.", action));
+            actionElement.click();
+        } else {
+            actionElement = browser.findFirstElementWithValue(availableActions, "More...");
+            if(actionElement != null)
+            {
+                LOG.info("Click on 'More...'");
+                actionElement.click();
+                availableActions = selectDocumentLibraryItemRow(contentItem).findElements(By.cssSelector(".more-actions>div>a"));
+                actionElement = browser.findFirstElementWithValue(availableActions, action);
+                Parameter.checkIsMandotary("Action", actionElement);
+                LOG.info(String.format("Click on '%s' action.", action));
+                actionElement.click();
+            }
+        }
 
         return page.renderedPage();
     }

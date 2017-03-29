@@ -60,6 +60,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         testFilePath = testDataFolder + testFileName;
         newVersionFilePath = testDataFolder + newVersionFileName;
         setupAuthenticatedSession(userName, password);
+        googleDocs.loginToGoogleDocs();
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -109,7 +110,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     public void createFileInSmartFolder() throws Exception
     {
         logger.info("Step5: Press Create button -> Google Docs Document");
-        googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
         getBrowser().waitInSeconds(1);
@@ -120,7 +120,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
         logger.info("Step7: Hover over document and press Check in Google Doc.");
         googleDocs.checkInGoogleDoc("Untitled Document");
-        getBrowser().waitInSeconds(10);
 
         logger.info("Step8: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
@@ -135,7 +134,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     public void updateFileInSmartFolder() throws Exception
     {
         logger.info("Step5: Press Create button -> Google Docs Document");
-        googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
         getBrowser().waitInSeconds(1);
@@ -147,7 +145,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         logger.info("Step7: Hover over document and press Check in Google Doc.");
         getBrowser().waitInSeconds(2);
         googleDocs.checkInGoogleDoc("Untitled Document");
-        getBrowser().waitInSeconds(10);
 
         logger.info("Step8: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
@@ -187,7 +184,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     public void checkFilesAreCorrectlyFilled() throws Exception
     {
         logger.info("Step5: Press Create button -> Google Docs Document");
-        googleDocs.loginToGoogleDocs();
+
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsSpreadsheet();
         getBrowser().waitInSeconds(1);
@@ -199,7 +196,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         logger.info("Step7: Hover over document and press Check in Google Doc.");
         documentLibraryPage.renderedPage();
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet.xlsx");
-        getBrowser().waitInSeconds(10);
 
         logger.info("Step8: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
@@ -218,7 +214,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isCreateButtonDisplayed(), "Create button displayed");
 
         logger.info("Step6: Press Create button -> Google Docs Document");
-        googleDocs.loginToGoogleDocs();
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
         getBrowser().waitInSeconds(1);
@@ -230,7 +225,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         logger.info("Step8: Hover over document and press Check in Google Doc.");
         getBrowser().waitInSeconds(2);
         googleDocs.checkInGoogleDoc("Untitled Document");
-        getBrowser().waitInSeconds(10);
 
         logger.info("Step9: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
@@ -244,9 +238,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
                 "Edit Offline", "Start Workflow");
         List<String> notExpectedActions = Arrays.asList("Delete Document", "Unzip to...", "Sync to Cloud", "Locate File", "Move to...", "Copy to...",
                 "Manage permissions");
-        for (String expectedAction : expectedActions)
-            Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", expectedAction), expectedAction + " action available");
-        for (String notExpectedAction : notExpectedActions)
-            Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem("Test.docx", notExpectedAction), notExpectedAction + " action available");
+        Assert.assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem("Test.docx", expectedActions), "Expected actions");
+        Assert.assertTrue(documentLibraryPage.areActionsNotAvailableForLibraryItem("Test.docx", notExpectedActions), "Not expected actions");
     }
 }

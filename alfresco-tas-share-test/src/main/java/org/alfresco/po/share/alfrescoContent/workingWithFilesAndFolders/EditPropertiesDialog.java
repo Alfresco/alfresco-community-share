@@ -31,13 +31,13 @@ public class EditPropertiesDialog extends ShareDialog
 
     @RenderWebElement
     @FindBy(css = "input[name='prop_cm_name']")
-    private TextInput propertyName;
+    private WebElement propertyName;
 
     @FindBy(css = "input[name='prop_cm_title']")
-    private TextInput propertyTitle;
+    private WebElement propertyTitle;
 
     @FindBy(css = "textarea[name='prop_cm_description']")
-    private TextInput propertyDescription;
+    private WebElement propertyDescription;
 
     @FindBy(css = "input[id*='endpointhost']")
     private WebElement hostInputField;
@@ -74,7 +74,7 @@ public class EditPropertiesDialog extends ShareDialog
     private WebElement saveButton;
 
     @FindBy(css = "button[id$='form-cancel-button']")
-    private Button cancelButton;
+    private WebElement cancelButton;
 
     public String getDialogTitle()
     {
@@ -138,17 +138,12 @@ public class EditPropertiesDialog extends ShareDialog
 
     public boolean verifyAllElementsAreDisplayed()
     {
-        if (!propertyName.isDisplayed())
-            return false;
-        if (!propertyTitle.isDisplayed())
-            return false;
-        if (!propertyDescription.isDisplayed())
-            return false;
-        if (!selectTagsButton.isDisplayed())
-            return false;
-        if (!saveButton.isDisplayed())
-            return false;
-        return cancelButton.isDisplayed();
+        return browser.isElementDisplayed(propertyName) &&
+                browser.isElementDisplayed(propertyTitle) &&
+                browser.isElementDisplayed(propertyDescription) &&
+                browser.isElementDisplayed(selectTagsButton) &&
+                browser.isElementDisplayed(saveButton) &&
+                browser.isElementDisplayed(cancelButton);
     }
 
     public void typeHost(String host)
