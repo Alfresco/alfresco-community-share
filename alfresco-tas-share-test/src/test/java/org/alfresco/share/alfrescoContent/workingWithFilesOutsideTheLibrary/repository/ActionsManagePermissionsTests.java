@@ -40,16 +40,16 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
     private String fname2= "FirstN2";
     private String lname2 = "LastN2";
     private String path ="";
-    private String folderName = "C202758Folder";
-    private String pathC202758 = "C202758Folder";
+    private String folderName = "C202758Folder" + DataUtil.getUniqueIdentifier();
+    private String pathC202758 = "C202758Folder" + DataUtil.getUniqueIdentifier();
     private String file = "Manage_permissions_test_file";
     private String userC202776 = "C202759_1"+ DataUtil.getUniqueIdentifier();
-    private String folderC202776 = "C202776Folder";
-    private String subFolderC202776 = "C202776Subfolder";
+    private String folderC202776 = "C202776Folder" + DataUtil.getUniqueIdentifier();
+    private String subFolderC202776 = "C202776Subfolder" + DataUtil.getUniqueIdentifier();
     private String pathfolderC202776 = "";
-    private String pathSubfolder ="C202776Folder";
-    private String pathForFile = "C202776Folder/C202776Subfolder";
-    private String fileNameC202776 = "C202776File";
+    private String pathSubfolder = "C202776Folder" + DataUtil.getUniqueIdentifier();
+    private String pathForFile = folderC202776 + "/" + subFolderC202776;
+    private String fileNameC202776 = "C202776File" + DataUtil.getUniqueIdentifier();
     private String fileContent = "C202776 Test file content";
 
     @BeforeClass
@@ -70,7 +70,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
     public void managePermissionOption()
     {
         setupAuthenticatedSession(userName, password);
-        String identifier = userName+" "+ userName;
+        String identifier = String.format("%s %s", fname1, lname1);
         LOG.info("Step 1: Click on Repository link in the toolbar");
         repositoryPage.navigate();
         Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "User is not on the Repository Page");
@@ -211,4 +211,3 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getContentText(), updateContent, fileNameC202776+" was not updated");
     }
 }
-
