@@ -1,5 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
@@ -498,18 +499,14 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      *
      * @param expectedPropertiesList
      *            list of expected properties to be checked
-     * @return displayed properties
+     * @return
      */
-    public String checkDisplayedProperties(ArrayList<String> expectedPropertiesList)
+    public boolean arePropertiesDisplayed(String... expectedPropertiesList)
     {
-        if (propertiesList.size() == expectedPropertiesList.size())
-            for (int i = 0; i < propertiesList.size(); i++)
-            {
-                String property = propertiesList.get(i).getText();
-                if (!property.equals(expectedPropertiesList.get(i)))
-                    return "'" + expectedPropertiesList.get(i) + "' isn't displayed.";
-            }
-        return expectedPropertiesList.toString();
+        List<String> propertiesTextList = new ArrayList<>();
+        for(WebElement property : propertiesList)
+            propertiesTextList.add(property.getText().substring(0, property.getText().indexOf(":")));
+        return DataUtil.areListsEquals(propertiesTextList, expectedPropertiesList);
     }
 
     /**

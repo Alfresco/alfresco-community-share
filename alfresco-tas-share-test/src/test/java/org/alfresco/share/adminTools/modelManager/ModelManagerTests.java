@@ -19,9 +19,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -485,9 +482,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         LOG.info("Step 1: On the Document Library page click the name of the testDocument to open the file in Preview and check default properties");
         documentLibraryPage.clickOnFile(fileName);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details");
-        ArrayList<String> expectedProperties = new ArrayList<>(
-                Arrays.asList("Name:", "Title:", "Description:", "Author:", "Mimetype:", "Size:", "Creator:", "Created Date:", "Modifier:", "Modified Date:"));
-        assertEquals(documentDetailsPage.checkDisplayedProperties(expectedProperties), expectedProperties.toString(), "Displayed properties:");
+        Assert.assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Mimetype", "Size", "Creator", "Created Date", "Modifier", "Modified Date"), "Displayed properties:");
 
         LOG.info("Step 2: On the Document Details page click Change Type action;");
         documentDetailsPage.clickDocumentActionsOption("Change Type");
@@ -498,8 +493,6 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         changeContentTypeDialog.selectOption("Marketing content (MKT:Marketing)");
         changeContentTypeDialog.clickButton("OK");
-        expectedProperties.clear();
-        expectedProperties = new ArrayList<>(Arrays.asList("Title:", "Modifier:", "Creator:"));
-        assertEquals(documentDetailsPage.checkDisplayedProperties(expectedProperties), expectedProperties.toString(), "Displayed properties:");
+        Assert.assertTrue(documentDetailsPage.arePropertiesDisplayed("Title", "Modifier", "Creator"), "Displayed properties:");
     }
 }

@@ -444,9 +444,8 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
 
         logger.info("Step1: Verify document's Properties list");
         documentLibraryPage.clickOnFile(fileName);
-        ArrayList<String> expectedProperties = new ArrayList<>(Arrays.asList("Name:", "Title:", "Description:", "Author:", "Mimetype:", "Size:", "Creator:",
-                "Created Date:", "Modifier:", "Modified Date:"));
-        assertEquals(documentDetailsPage.checkDisplayedProperties(expectedProperties), expectedProperties.toString(), "Displayed properties:");
+        assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Mimetype", "Size", "Creator",
+                "Created Date", "Modifier", "Modified Date"), "Displayed properties:");
 
         logger.info("Step2: From 'Document Actions' list click 'Change Type' option");
         documentDetailsPage.clickDocumentActionsOption("Change Type");
@@ -456,11 +455,10 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         LOG.info("Step3: Select 'Article' from 'New Type' dropdown and click 'Ok' button");
         changeContentTypeDialog.selectOption("Article");
         changeContentTypeDialog.clickButton("OK");
+        getBrowser().refresh();
         documentDetailsPage.renderedPage();
-        expectedProperties.clear();
-        expectedProperties = new ArrayList<>(Arrays.asList("Name:", "Title:", "Description:", "Author:", "Creator:", "Created Date:", "Modifier:",
-                "Modified Date:", "Template Name:", "Mimetype:", "Size:", "Primary Image:", "Secondary Image:", "Related Articles:"));
-        assertEquals(documentDetailsPage.checkDisplayedProperties(expectedProperties), expectedProperties.toString(), "Displayed properties:");
+        assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Creator", "Created Date", "Modifier",
+                "Modified Date", "Template Name", "Mimetype", "Size", "Primary Image", "Secondary Image", "Related Articles"), "Displayed properties:");
 
         logger.info("Step6: Click 'Edit Properties' option from 'Document Actions' section");
         documentDetailsPage.clickDocumentActionsOption("Edit Properties");

@@ -81,14 +81,11 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page:");
 
         LOG.info("STEP1: Verify folder's Properties list from 'Folder Actions' section");
-        ArrayList<String> expectedProperties = new ArrayList<>(
-                Arrays.asList("Name:", "Title:", "Description:", "Author:", "Mimetype:", "Size:", "Creator:", "Created Date:", "Modifier:", "Modified Date:"));
-        assertEquals(documentDetailsPage.checkDisplayedProperties(expectedProperties), expectedProperties.toString(), "Displayed properties:");
+        assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Creator", "Created Date", "Modifier", "Modified Date"), "Displayed properties:");
 
         LOG.info("STEP2: Click 'Edit Properties' option from 'Document Actions' list");
         documentDetailsPage.clickDocumentActionsOption("Edit Properties");
@@ -131,9 +128,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page:");
 
         LOG.info("STEP1: Verify document's Properties list");
-        ArrayList<String> expectedProperties = new ArrayList<>(
-                Arrays.asList("Name:", "Title:", "Description:", "Author:", "Mimetype:", "Size:", "Creator:", "Created Date:", "Modifier:", "Modified Date:"));
-        assertEquals(documentDetailsPage.checkDisplayedProperties(expectedProperties), expectedProperties.toString(), "Displayed properties:");
+        assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Mimetype", "Size", "Creator", "Created Date", "Modifier", "Modified Date"), "Displayed properties:");
 
         LOG.info("STEP2: Click 'Edit Properties' option from 'Document Actions' list");
         documentDetailsPage.clickDocumentActionsOption("Edit Properties");
@@ -152,11 +147,10 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         LOG.info("STEP5: Select 'Article' from 'New Type' dropdown and click 'Ok' button");
         changeContentTypeDialog.selectOption("Article");
         changeContentTypeDialog.clickButton("OK");
-        expectedProperties.clear();
-        expectedProperties = new ArrayList<>(Arrays.asList("Name:", "Title:", "Description:", "Author:", "Creator:", "Created Date:", "Modifier:",
-                "Modified Date:", "Template Name:", "Mimetype:", "Size:", "Primary Image:", "Secondary Image:", "Related Articles:"));
-        assertEquals(documentDetailsPage.checkDisplayedProperties(expectedProperties), expectedProperties.toString(), "Displayed properties:");
         getBrowser().refresh();
+        documentDetailsPage.renderedPage();
+        assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Creator", "Created Date", "Modifier",
+                "Modified Date", "Template Name", "Mimetype", "Size", "Primary Image", "Secondary Image", "Related Articles"), "Displayed properties:");
 
         LOG.info("STEP6: Click 'Edit Properties' option from 'Document Actions' section");
         documentDetailsPage.clickDocumentActionsOption("Edit Properties");
