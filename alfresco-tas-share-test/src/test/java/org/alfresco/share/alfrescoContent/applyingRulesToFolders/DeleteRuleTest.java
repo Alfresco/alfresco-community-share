@@ -70,7 +70,6 @@ public class DeleteRuleTest extends ContextAwareWebTest
         LOG.info("Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName, description, indexOfOptionFromDropdown);
-        editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();
