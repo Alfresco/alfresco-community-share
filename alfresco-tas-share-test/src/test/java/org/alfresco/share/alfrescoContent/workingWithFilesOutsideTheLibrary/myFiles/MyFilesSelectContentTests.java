@@ -1,16 +1,15 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
-import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -24,32 +23,32 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesSelectContentTests extends ContextAwareWebTest
 {
-    @Autowired private MyFilesPage myFilesPage;
-
-    @Autowired private HeaderMenuBar headerMenuBar;
-
-    @Autowired private NewContentDialog newContentDialog;
-
-    @Autowired private SiteDashboardPage sitePage;
-    
-    @Autowired
-    private UploadContent uploadContent;
-
-    private final String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
-    private final String testFilePath = testDataFolder + testFile;
+    private final String testFile = "testFile" + DataUtil.getUniqueIdentifier();
     private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private String user;
+    private String myFilesPath;
+    @Autowired
+    private MyFilesPage myFilesPage;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
+
+    @BeforeMethod(alwaysRun = true)
+    public void createUser()
+    {
+        user = "user" + DataUtil.getUniqueIdentifier();
+        myFilesPath = "User Homes/" + user;
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+        setupAuthenticatedSession(user, password);
+    }
 
     @TestRail(id = "C7682")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectFileByMenu()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFile, "some content");
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        uploadContent.uploadContent(testFilePath);
 
         LOG.info("STEP1: Click 'Select' button and choose 'Documents' option.");
         headerMenuBar.clickSelectMenu();
@@ -89,19 +88,13 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7683")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectFolderByMenu()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        contentService.createFolderInRepository(user, password, folderName, myFilesPath);
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        myFilesPage.clickCreateButton();
-        myFilesPage.clickFolderLink();
-        newContentDialog.fillInNameField(folderName);
-        newContentDialog.clickSaveButton();
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("STEP1: Click 'Select' button and choose 'Folders'");

@@ -1,16 +1,15 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
-import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
@@ -20,34 +19,31 @@ import static org.testng.Assert.*;
  */
 public class MyFilesDeleteTests extends ContextAwareWebTest
 {
-    @Autowired private MyFilesPage myFilesPage;
-
-    @Autowired private SiteDashboardPage sitePage;
-
-    @Autowired private NewContentDialog newContentDialog;
-
-    @Autowired private DeleteDocumentOrFolderDialog deleteDialog;
-
-    @Autowired
-    private UploadContent uploadContent;
-
-    private final String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
-    private final String testFilePath = testDataFolder + testFile;
+    private final String user = "user" + DataUtil.getUniqueIdentifier();
+    private final String testFile = "testFile" + DataUtil.getUniqueIdentifier();
     private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private final String myFilesPath = "User Homes/" + user;
+    @Autowired
+    private MyFilesPage myFilesPage;
+    @Autowired
+    private DeleteDocumentOrFolderDialog deleteDialog;
+
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
+    {
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+        setupAuthenticatedSession(user, password);
+    }
 
     @TestRail(id = "C7896")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesDeleteDocument()
     {
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
-        setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFile, "some content");
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        uploadContent.uploadContent(testFilePath);
-        assertTrue(myFilesPage.isContentNameDisplayed(testFile),String.format("The file [%s] is not present", testFile));
+        assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
 
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Delete Document' link");
         myFilesPage.clickDocumentLibraryItemAction(testFile, "Delete Document", deleteDialog);
@@ -62,21 +58,13 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7896")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesDeleteFolder()
     {
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
-        setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        contentService.createFolderInRepository(user, password, folderName, myFilesPath);
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        myFilesPage.clickCreateButton();
-        myFilesPage.clickFolderLink();
-        newContentDialog.fillInNameField(folderName);
-        newContentDialog.clickSaveButton();
-        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("STEP1: Hover over the folder. STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");

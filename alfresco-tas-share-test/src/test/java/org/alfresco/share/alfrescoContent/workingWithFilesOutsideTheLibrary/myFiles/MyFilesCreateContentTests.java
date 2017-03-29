@@ -1,16 +1,13 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.Notification;
-import org.alfresco.po.share.alfrescoContent.CreateFileFromTemplate;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
-import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
-import org.alfresco.po.share.alfrescoContent.document.UploadContent;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -28,50 +25,32 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 {
     @Autowired private MyFilesPage myFilesPage;
 
-    @Autowired private SiteDashboardPage sitePage;
-
     @Autowired private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired private CreateContent create;
-
-    @Autowired
-    private UploadContent uploadContent;
-
-    @Autowired private CreateFolderFromTemplate createFolderFromTemplate;
-
-    @Autowired
-    CreateFileFromTemplate createFileFromTemplate;
-
-    @Autowired private GoogleDocsCommon googleDocs;
 
     @Autowired private CreateContent createContent;
 
+    @Autowired private CreateFolderFromTemplate createFolderFromTemplate;
+
+    @Autowired private GoogleDocsCommon googleDocs;
+
     @Autowired private Notification notification;
 
-    @Autowired private RepositoryPage repositoryPage;
-
     private final String folderTemplateName = "Software Engineering Project";
-    private final String fileTemplateName = DataUtil.getUniqueIdentifier() + "fileTemplate.txt";
-    private final String fileTemplatePath = testDataFolder + fileTemplateName;
+    private final String fileTemplateName = "fileTemplate" + DataUtil.getUniqueIdentifier();
     private final String title = "googleDoc title";
     private final String googleDocName = "googleDoc title.docx";
     private final String googleDocSpreadsheet = "googleDoc title.xlsx";
     private final String googleDocPresentation = "googleDoc title.pptx";
     private final String docContent = "googleDoccontent";
-    private String user = "user" + DataUtil.getUniqueIdentifier();
+    private final String user = "user" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass(alwaysRun = true)
     public void createPrecondition()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        setupAuthenticatedSession(adminUser, adminPassword);
-        myFilesPage.navigate();
-        myFilesPage.clickFolderFromExplorerPanel("Data Dictionary");
-        myFilesPage.clickOnFolderName("Node Templates");
-        uploadContent.uploadContent(fileTemplatePath);
-        getBrowser().waitInSeconds(2);
+        contentService.createDocumentInRepository(adminUser, adminPassword, "Data Dictionary/Node Templates", CMISUtil.DocumentType.TEXT_PLAIN, fileTemplateName, "some content");
         googleDocs.loginToGoogleDocs();
-        cleanupAuthenticatedSession();
+        setupAuthenticatedSession(user, password);
     }
 
     @TestRail(id = "C7650")
@@ -79,41 +58,40 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreatePlainTextFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
-        setupAuthenticatedSession(user, password);
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("Step 1: Click Create... button");
         myFilesPage.clickCreateButton();
-        Assert.assertTrue(create.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
-        Assert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
-        Assert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
-        Assert.assertTrue(create.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
-        Assert.assertTrue(create.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
-        Assert.assertTrue(create.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
+        Assert.assertTrue(createContent.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
+        Assert.assertTrue(createContent.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
+        Assert.assertTrue(createContent.isHTMLButtonDisplayed(), "Create... HTML... is not available");
+        Assert.assertTrue(createContent.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
+        Assert.assertTrue(createContent.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
+        Assert.assertTrue(createContent.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
+        Assert.assertTrue(createContent.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
+        Assert.assertTrue(createContent.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
 
         LOG.info("Step 2: Click \"Plain Text...\" option.");
-        create.clickPlainTextButton();
-        Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(create.isCreateFormDisplayed(), "Create Plain Text form is not displayed");
-        Assert.assertTrue(create.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(create.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
-        Assert.assertTrue(create.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
-        Assert.assertTrue(create.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
-        Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
-        Assert.assertTrue(create.isCreateButtonPresent(), "The Create button is not displayed on the create form");
-        Assert.assertTrue(create.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
+        createContent.clickPlainTextButton();
+        Assert.assertEquals(createContent.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
+        Assert.assertTrue(createContent.isCreateFormDisplayed(), "Create Plain Text form is not displayed");
+        Assert.assertTrue(createContent.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
+        Assert.assertTrue(createContent.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
+        Assert.assertTrue(createContent.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
+        Assert.assertTrue(createContent.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
+        Assert.assertTrue(createContent.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
+        Assert.assertTrue(createContent.isCreateButtonPresent(), "The Create button is not displayed on the create form");
+        Assert.assertTrue(createContent.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
-        create.sendInputForName("C7650 test name");
-        create.sendInputForContent("C7650 test content");
-        create.sendInputForTitle("C7650 test title");
-        create.sendInputForDescription("C7650 test description");
+        createContent.sendInputForName("C7650 test name");
+        createContent.sendInputForContent("C7650 test content");
+        createContent.sendInputForTitle("C7650 test title");
+        createContent.sendInputForDescription("C7650 test description");
 
         LOG.info("Step 4: Click the Create button");
-        create.clickCreateButton();
+        createContent.clickCreateButton();
         getBrowser().waitInSeconds(1);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
@@ -130,7 +108,6 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateHTMLFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
-        setupAuthenticatedSession(user, password);
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
@@ -138,25 +115,25 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         myFilesPage.clickCreateButton();
 
         LOG.info("Step 2: Click \"HTML...\" option.");
-        create.clickHTML();
-        Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(create.isCreateFormDisplayed(), "Create form is not displayed");
-        Assert.assertTrue(create.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(create.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
-        Assert.assertTrue(create.isHTMLContentFieldDisplayed(), "The Content field is not displayed on the create form");
-        Assert.assertTrue(create.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
-        Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
-        Assert.assertTrue(create.isCreateButtonPresent(), "The Create button is not displayed on the create form");
-        Assert.assertTrue(create.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
+        createContent.clickHTML();
+        Assert.assertEquals(createContent.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
+        Assert.assertTrue(createContent.isCreateFormDisplayed(), "Create form is not displayed");
+        Assert.assertTrue(createContent.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
+        Assert.assertTrue(createContent.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
+        Assert.assertTrue(createContent.isHTMLContentFieldDisplayed(), "The Content field is not displayed on the create form");
+        Assert.assertTrue(createContent.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
+        Assert.assertTrue(createContent.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
+        Assert.assertTrue(createContent.isCreateButtonPresent(), "The Create button is not displayed on the create form");
+        Assert.assertTrue(createContent.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
-        create.sendInputForName("C7696 test name");
-        create.sendInputForHTMLContent("C7696 test content");
-        create.sendInputForTitle("C7696 test title");
-        create.sendInputForDescription("C7696 test description");
+        createContent.sendInputForName("C7696 test name");
+        createContent.sendInputForHTMLContent("C7696 test content");
+        createContent.sendInputForTitle("C7696 test title");
+        createContent.sendInputForDescription("C7696 test description");
 
         LOG.info("Step 4: Click the Create button");
-        create.clickCreateButton();
+        createContent.clickCreateButton();
         getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
@@ -172,7 +149,6 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateXMLFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
-        setupAuthenticatedSession(user, password);
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
@@ -180,25 +156,25 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         myFilesPage.clickCreateButton();
 
         LOG.info("Step 2: Click \"XML...\" option.");
-        create.clickXMLButton();
-        Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(create.isCreateFormDisplayed(), "Create form is not displayed");
-        Assert.assertTrue(create.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(create.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
-        Assert.assertTrue(create.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
-        Assert.assertTrue(create.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
-        Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
-        Assert.assertTrue(create.isCreateButtonPresent(), "The Create button is not displayed on the create form");
-        Assert.assertTrue(create.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
+        createContent.clickXMLButton();
+        Assert.assertEquals(createContent.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
+        Assert.assertTrue(createContent.isCreateFormDisplayed(), "Create form is not displayed");
+        Assert.assertTrue(createContent.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
+        Assert.assertTrue(createContent.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
+        Assert.assertTrue(createContent.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
+        Assert.assertTrue(createContent.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
+        Assert.assertTrue(createContent.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
+        Assert.assertTrue(createContent.isCreateButtonPresent(), "The Create button is not displayed on the create form");
+        Assert.assertTrue(createContent.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
-        create.sendInputForName("C7697 test name");
-        create.sendInputForContent("C7697 test content");
-        create.sendInputForTitle("C7697 test title");
-        create.sendInputForDescription("C7697 test description");
+        createContent.sendInputForName("C7697 test name");
+        createContent.sendInputForContent("C7697 test content");
+        createContent.sendInputForTitle("C7697 test title");
+        createContent.sendInputForDescription("C7697 test description");
 
         LOG.info("Step 4: Click the Create button");
-        create.clickCreateButton();
+        createContent.clickCreateButton();
         getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
@@ -215,7 +191,6 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateFolderFromTemplate()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
-        setupAuthenticatedSession(user, password);
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
@@ -242,7 +217,6 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateFileFromTemplate()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
-        setupAuthenticatedSession(user, password);
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
@@ -262,13 +236,12 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateGoogleDocsDocument() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
-        setupAuthenticatedSession(user, password);
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Document'.");
         myFilesPage.clickCreateButton();
-        create.clickGoogleDocsDoc();
+        createContent.clickGoogleDocsDoc();
         Assert.assertTrue(googleDocs.isAuthorizeWithGoogleDocsDisplayed(), "Authorize with Google Docs popup is not displayed");
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
@@ -282,9 +255,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Document");
-        getBrowser().waitInSeconds(9);
-        Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false);
-        Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false);
+        Assert.assertFalse(googleDocs.checkLockedLAbelIsDisplayed());
+        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed());
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocName));
     }
 
@@ -293,15 +265,12 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
-        setupAuthenticatedSession(user, password);
-        googleDocs.loginToGoogleDocs();
-        getBrowser().waitInSeconds(3);
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Spreadsheet'");
         myFilesPage.clickCreateButton();
-        create.clickGoogleDocsSpreadsheet();
+        createContent.clickGoogleDocsSpreadsheet();
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
         googleDocs.clickOkButtonOnTheAuthPopup();
@@ -314,9 +283,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet");
-        getBrowser().waitInSeconds(9);
-        Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false);
-        Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false);
+        Assert.assertFalse(googleDocs.checkLockedLAbelIsDisplayed());
+        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed());
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocSpreadsheet));
     }
 
@@ -325,15 +293,12 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     public void myFilesCreateGoogleDocsPresentation() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
-        setupAuthenticatedSession(user, password);
-        googleDocs.loginToGoogleDocs();
-        getBrowser().waitInSeconds(3);
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Presentation'");
         myFilesPage.clickCreateButton();
-        create.clickGoogleDocsPresentation();
+        createContent.clickGoogleDocsPresentation();
 
         LOG.info("Step 2: Click Ok button on the Authorize ");
         googleDocs.clickOkButtonOnTheAuthPopup();
@@ -346,7 +311,6 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Presentation");
-        getBrowser().waitInSeconds(9);
         Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false);
         Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false);
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocPresentation));
