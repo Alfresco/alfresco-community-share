@@ -11,6 +11,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -34,22 +35,26 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
 
     @Autowired private SiteDashboardPage sitePage;
 
+    private final String user = "user" + DataUtil.getUniqueIdentifier();
     private final String zipFile = "archiveC7816.zip";
     private final String zipContent = "TestFileC7816";
     private final String zipFilePath = testDataFolder + zipFile;
     private final String acpFile = "archiveC7816.acp";
     private final String acpPath = testDataFolder + acpFile;
 
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
+    {
+        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+        setupAuthenticatedSession(user, password);
+    }
+
     @TestRail(id = "C7816")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void unzipZipArchiveToMyFiles()
     {
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a zip archive.");
-        setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         uploadContent.uploadContent(zipFilePath);
 
@@ -63,12 +68,12 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Select option My Files from 'Destination' section");
         unzipToDialog.clickDestinationButton("My Files");
-        ArrayList expectedDestionationPath = new ArrayList(Collections.singletonList("My Files"));
-        assertEquals(unzipToDialog.getPathList(), expectedDestionationPath.toString(), "Destionation set to=");
+        ArrayList expectedDestinationPath = new ArrayList(Collections.singletonList("My Files"));
+        assertEquals(unzipToDialog.getPathList(), expectedDestinationPath.toString(), "Destionation set to=");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
         unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         assertTrue(myFilesPage.isContentNameDisplayed(zipContent), zipFile + "'s content is displayed, " + zipContent);
     }
 
@@ -76,12 +81,8 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void unzipACPArchiveToMyFiles()
     {
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a zip archive.");
-        setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         uploadContent.uploadContent(acpPath);
 
@@ -95,12 +96,12 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Select option My Files from 'Destination' section");
         unzipToDialog.clickDestinationButton("My Files");
-        ArrayList expectedDestionationPath = new ArrayList(Collections.singletonList("My Files"));
-        assertEquals(unzipToDialog.getPathList(), expectedDestionationPath.toString(), "Destionation set to=");
+        ArrayList expectedDestinationPath = new ArrayList(Collections.singletonList("My Files"));
+        assertEquals(unzipToDialog.getPathList(), expectedDestinationPath.toString(), "Destionation set to=");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
         unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         assertTrue(myFilesPage.isContentNameDisplayed(acpFile.substring(0, acpFile.indexOf("."))),
                 "A folder with archive name is present in Documents list.");
     }

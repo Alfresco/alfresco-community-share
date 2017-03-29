@@ -4,7 +4,6 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -20,8 +19,6 @@ import static org.testng.Assert.assertTrue;
 public class MyFilesUploadContentTests extends ContextAwareWebTest
 {
     @Autowired private MyFilesPage myFilesPage;
-
-    @Autowired private SiteDashboardPage sitePage;
     
     @Autowired private DocumentDetailsPage documentDetailsPage;
 
@@ -39,7 +36,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Login as user and navigate to My Files page.");
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("STEP1: On the My Files page upload a file.");
@@ -62,7 +59,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
 
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         uploadContent.uploadContent(testFilePath);
         assertTrue(myFilesPage.isContentNameDisplayed(testFile),String.format("The file [%s] is not present", testFile));
@@ -72,7 +69,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getContentText(), "contents", String.format("Contents of %s are wrong.",testFile));
 
         LOG.info("STEP2: Navigate back to My Files page and click on upload new version for the file.");
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         myFilesPage.clickDocumentLibraryItemAction(testFile, "Upload New Version", uploadContent);
 
         LOG.info("STEP3: Update the file with major version.");

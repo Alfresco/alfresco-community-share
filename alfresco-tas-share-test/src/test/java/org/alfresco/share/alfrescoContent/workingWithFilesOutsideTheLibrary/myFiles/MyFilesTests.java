@@ -48,7 +48,6 @@ public class MyFilesTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: While logged in with user create Plain Text document in My Files");
         myFilesPage.navigate();
-        myFilesPage.renderedPage();
         
         myFilesPage.clickCreateButton();
         create.clickPlainTextButton();
@@ -58,7 +57,6 @@ public class MyFilesTests extends ContextAwareWebTest
         create.sendInputForDescription(C7648description);
         create.clickCreateButton();
         myFilesPage.navigate();
-        myFilesPage.renderedPage();
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(C7648name), "C7648 name is not displayed in My Files");
         userService.logout();
         
