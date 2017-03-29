@@ -75,7 +75,6 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
         LOG.info("Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName1, description, indexOfOptionFromDropdown);
-        editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         String path = "Documents";
         selectDestinationDialog.clickPathFolder(path);
