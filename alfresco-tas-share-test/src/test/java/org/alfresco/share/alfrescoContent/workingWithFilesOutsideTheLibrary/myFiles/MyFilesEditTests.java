@@ -1,21 +1,20 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
-import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertTrue;
@@ -25,57 +24,53 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesEditTests extends ContextAwareWebTest
 {
-    @Autowired private MyFilesPage myFilesPage;
-
-    @Autowired private SiteDashboardPage sitePage;
-    
-    @Autowired private DocumentDetailsPage detailsPage;
-
-    @Autowired private EditPropertiesDialog editFilePropertiesDialog;
-
-    @Autowired private SelectDialog selectDialog;
-
-    @Autowired private NewContentDialog newContentDialog;
-
-    @Autowired private EditInAlfrescoPage editInAlfrescoPage;
-
-    @Autowired private GoogleDocsCommon docsCommon;
-
-    @Autowired private DocumentCommon documentCommon;
-
-    @Autowired
-    private UploadContent uploadContent;
-
-    private final String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
-    private final String googleDocPath = testDataFolder + googleDocName;
-    private final String docName = DataUtil.getUniqueIdentifier() + "testDoc.txt";
-    private final String docNamePath = testDataFolder + docName;
-    private final String editedDocName = "editedDocName" + DataUtil.getUniqueIdentifier();
+private final String user = "user" + DataUtil.getUniqueIdentifier();
+    private final String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc";
+    private final String docNameC8186 = DataUtil.getUniqueIdentifier() + "testDocC8186";
+    private final String docNameC8212 = DataUtil.getUniqueIdentifier() + "testDocC8212";
     private final String editedFolderName = "editedFolderName" + DataUtil.getUniqueIdentifier();
     private final String editedTitle = "editedTitle";
     private final String editedContent = "edited content in Alfresco";
-    private final String editedDescription = "edited description in Alfresco";
+    private final String editedDescription = "edited description in Alfresco";;
     private final String tag = "editTag" + DataUtil.getUniqueIdentifier();
     private final String folderName = "Folder" + DataUtil.getUniqueIdentifier();
+    private final String myFilesPath = "User Homes/" + user;
+    @Autowired
+    private MyFilesPage myFilesPage;
+    @Autowired
+    private DocumentDetailsPage detailsPage;
+    @Autowired
+    private EditPropertiesDialog editFilePropertiesDialog;
+    @Autowired
+    private SelectDialog selectDialog;
+    @Autowired
+    private EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired
+    private GoogleDocsCommon docsCommon;
+    @Autowired
+    private DocumentCommon documentCommon;
+    private String editedDocName;
 
-    @TestRail(id = "C8186")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void myFilesEditFileProperties()
+    @BeforeClass(alwaysRun = true)
+    public void createUser()
     {
-        LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+    }
+
+    @TestRail(id = "C8186")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void myFilesEditFileProperties()
+    {
+        editedDocName = "editedDocName" + DataUtil.getUniqueIdentifier();
+        contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, docNameC8186, "some content");
+        LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        uploadContent.uploadContent(docNamePath);
-        Assert.assertTrue(myFilesPage.isContentNameDisplayed(docName), String.format("Document %s is not present", docName));
+        Assert.assertTrue(myFilesPage.isContentNameDisplayed(docNameC8186), String.format("Document %s is not present", docNameC8186));
 
         LOG.info("Step 1: Hover over a file and click 'Edit Properties'");
-        myFilesPage.mouseOverFileName(docName);
-        myFilesPage.clickMoreMenu(docName);
-        myFilesPage.clickEditProperties(docName);
-        getBrowser().waitInSeconds(2);
+        myFilesPage.clickDocumentLibraryItemAction(docNameC8186, "Edit Properties", editFilePropertiesDialog);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -105,24 +100,17 @@ public class MyFilesEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8191")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesEditFolderProperties()
     {
+        contentService.createFolderInRepository(user, password, folderName, myFilesPath);
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        myFilesPage.clickCreateButton();
-        myFilesPage.clickFolderLink();
-        newContentDialog.fillInNameField(folderName);
-        newContentDialog.clickSaveButton();
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("Step 1: Hover over a folder and click 'Edit Properties'");
-        myFilesPage.mouseOverContentItem(folderName);
-        myFilesPage.clickEditProperties(folderName);
+        myFilesPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editFilePropertiesDialog);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not sdisplayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -147,30 +135,23 @@ public class MyFilesEditTests extends ContextAwareWebTest
 
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(editedFolderName), "Edited document name is not found");
         Assert.assertEquals(myFilesPage.getItemTitle(editedFolderName), "(" + editedTitle + ")", "The title of edited document is not correct");
-        Assert.assertEquals(myFilesPage.getItemDescription(editedFolderName), editedFolderName,
-                "The description of edited document is not correct");
-        Assert.assertEquals(myFilesPage.getTags(editedFolderName), "[" + tag.toLowerCase() + "]",
-                "The tag of the edited document is not correct");
+        Assert.assertEquals(myFilesPage.getItemDescription(editedFolderName), editedFolderName, "The description of edited document is not correct");
+        Assert.assertEquals(myFilesPage.getTags(editedFolderName), "[" + tag.toLowerCase() + "]", "The tag of the edited document is not correct");
     }
 
     @TestRail(id = "C8212")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesEditFileInAlfresco()
     {
+        editedDocName = "editedDocName" + DataUtil.getUniqueIdentifier();
+        contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, docNameC8212, "some content");
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        uploadContent.uploadContent(docNamePath);
-        Assert.assertTrue(myFilesPage.isContentNameDisplayed(docName), String.format("Document %s is not present", docName));
+        Assert.assertTrue(myFilesPage.isContentNameDisplayed(docNameC8212), String.format("Document %s is not present", docNameC8212));
 
         logger.info("Step1: Hover over the test file and click Edit in Alfresco option");
-        myFilesPage.clickCheckBox(docName);
-        myFilesPage.clickDocumentLibraryItemAction(docName, language.translate("documentLibrary.contentActions.editInAlfresco"),
-                editInAlfrescoPage);
-        getBrowser().waitInSeconds(2);
+        myFilesPage.clickDocumentLibraryItemAction(docNameC8212, language.translate("documentLibrary.contentActions.editInAlfresco"), editInAlfrescoPage);
 
         logger.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.sendDocumentDetailsFields(editedDocName, editedContent, editedTitle, editedDescription);
@@ -194,23 +175,18 @@ public class MyFilesEditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8227")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesEditFilesInGoogleDocs() throws Exception
     {
+        contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.MSWORD, googleDocName, "some content");
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        setupAuthenticatedSession(user, password);
-        sitePage.clickMyFilesLink();
+        myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
-        uploadContent.uploadContent(googleDocPath);
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocName), String.format("Document %s is not present", googleDocName));
 
         logger.info("Step1: Hover over the test file and click Edit in Google Docs option");
         docsCommon.loginToGoogleDocs();
-        myFilesPage.mouseOverFileName(googleDocName);
-        myFilesPage.clickMoreMenu(googleDocName);
-        docsCommon.editInGoogleDocs();
+        myFilesPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs™", docsCommon);
 
         logger.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
         docsCommon.clickOkButton();
@@ -227,12 +203,10 @@ public class MyFilesEditTests extends ContextAwareWebTest
 
         logger.info("Step6: Click Check In Google Doc™ and verify Version Information pop-up is displayed");
         docsCommon.checkInGoogleDoc(googleDocName);
-        getBrowser().waitInSeconds(5);
         Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), true);
 
         logger.info("Step7: Click OK button on Version Information and verify the pop-up is closed");
         docsCommon.clickOkButton();
-        getBrowser().waitInSeconds(5);
         Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), false);
 
         logger.info("Step8: Verify the title for the document is changed");

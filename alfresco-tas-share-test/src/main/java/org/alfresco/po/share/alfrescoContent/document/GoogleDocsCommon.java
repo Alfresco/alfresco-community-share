@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 {
     @Autowired
-    DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
     DocumentDetailsPage documentDetailsPage;
 
     @FindBy(id = "prompt_h")
@@ -21,9 +18,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     @FindBy(xpath = "//div[@id ='prompt_c']//span[@class ='yui-button yui-push-button alf-primary-button']")
     private WebElement okButtonAuthorizeWithGoogleDocsPopup;
-
-    @FindBy(xpath = "//span[contains(text(), 'Edit in Google Docs™')]")
-    protected WebElement editInGoogleDocs;
 
     @FindBy(xpath = "//*[contains(text(), 'OK')]")
     protected WebElement okButtonOnVersionPopup;
@@ -98,11 +92,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     protected String googleDocsLoginUrl = "https://accounts.google.com/ServiceLogin#identifier";
     protected String googleDocsTestEmail = "test.alfresco5@gmail.com";
     protected String googleDocsTestPassword = "Ness2015*";
-
-    public void editInGoogleDocs()
-    {
-        browser.waitUntilElementVisible(editInGoogleDocs).click();
-    }
 
     public void clickOkButton()
     {

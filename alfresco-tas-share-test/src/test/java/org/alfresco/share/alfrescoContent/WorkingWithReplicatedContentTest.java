@@ -95,8 +95,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         assertEquals(repositoryPage.getBreadcrumbList(), explorerPanelPath.toString(), "Breadcrumb=");
 
         LOG.info("Edit properties for " + transferTargetFolder);
-        repositoryPage.mouseOverContentItem(transferTargetFolder);
-        repositoryPage.clickEditProperties(transferTargetFolder);
+        repositoryPage.clickDocumentLibraryItemAction(transferTargetFolder, "Edit Properties", editPropertiesDialog);
         editPropertiesDialog.updateFolderDetailsForReplication(properties.getServer2Url(), properties.getServer2Port(), adminUser, adminPassword);
     }
 

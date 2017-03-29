@@ -173,7 +173,6 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private By contentTagsSelector = By.cssSelector(".item .tag-link");
     private By inlineEditTagsSelector = By.cssSelector(".inlineTagEditTag span");
     private By removeTagIconSelector = By.cssSelector(".inlineTagEditTag img[src*='delete-item-off']");
-    private By editPropertiesSelector = By.cssSelector("a[title='Edit Properties']");
 
     private By folderNameSelector = By.cssSelector(".filter-change:nth-child(1)");
     private By fileNameSelector = By.cssSelector(".filename [href*='document-details']");
@@ -377,11 +376,6 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         // mouseOverFileName(fileName);
         // }
         // }
-    }
-
-    public void clickEditProperties(String contentName)
-    {
-        selectDocumentLibraryItemRow(contentName).findElement(editPropertiesSelector).click();
     }
 
     /**

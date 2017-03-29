@@ -161,9 +161,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(2);
 
         logger.info("Step 1: Hover over folder and click 'Edit Properties'");
-        repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickEditProperties(folderName);
-        getBrowser().waitInSeconds(2);
+        repositoryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editFilePropertiesDialog);
         assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         logger.info("Step 2: In the 'Name' field enter a valid name");

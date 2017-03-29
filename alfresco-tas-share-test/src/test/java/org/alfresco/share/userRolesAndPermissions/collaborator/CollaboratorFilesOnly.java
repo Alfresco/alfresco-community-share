@@ -2,7 +2,6 @@ package org.alfresco.share.userRolesAndPermissions.collaborator;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -15,7 +14,6 @@ import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.SelectAssigneeToWorkflowPopUp;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowDetailsPage;
-import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.toolbar.ToolbarTasksMenu;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -40,113 +38,82 @@ import static org.testng.Assert.assertTrue;
 
 public class CollaboratorFilesOnly extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
+    @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
+    @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired
-    CreateContent create;
+    @Autowired private CreateContent create;
 
-    @Autowired
-    UploadContent uploadContent;
+    @Autowired private UploadContent uploadContent;
 
-    @Autowired
-    DocumentCommon documentCommon;
+    @Autowired private DocumentCommon documentCommon;
 
-    @Autowired
-    EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired private EditInAlfrescoPage editInAlfrescoPage;
 
-    @Autowired
-    GoogleDocsCommon googleDocsCommon;
+    @Autowired private GoogleDocsCommon googleDocsCommon;
 
-    @Autowired
-    StartWorkflowPage startWorkflowPage;
+    @Autowired private StartWorkflowPage startWorkflowPage;
 
-    @Autowired
-    SelectPopUpPage selectPopUpPage;
+    @Autowired private SelectPopUpPage selectPopUpPage;
 
-    @Autowired
-    SelectAssigneeToWorkflowPopUp selectAssigneeToWorkflowPopUp;
+    @Autowired private SelectAssigneeToWorkflowPopUp selectAssigneeToWorkflowPopUp;
 
-    @Autowired
-    ToolbarTasksMenu toolbarTasksMenu;
+    @Autowired private ToolbarTasksMenu toolbarTasksMenu;
 
-    @Autowired
-    Toolbar toolbar;
+    @Autowired private WorkflowDetailsPage workflowDetailsPage;
 
-    @Autowired
-    WorkflowService workflow;
-
-    @Autowired
-    WorkflowDetailsPage workflowDetailsPage;
-
-    @Autowired
-    MyTasksPage myTasksPage;
+    @Autowired private MyTasksPage myTasksPage;
 
     // Upload
-    String testFile = DataUtil.getUniqueIdentifier() + "-testFile-C8939-.txt";
-    String testFilePath = testDataFolder + testFile;
-    String newVersionFile = DataUtil.getUniqueIdentifier() + "-NewFile-C8942" + ".txt";
-    String newVersionFilePath = testDataFolder + newVersionFile;
-    String newVersionFile2 = DataUtil.getUniqueIdentifier() + "-NewFile-C8943" + ".txt";
-    String newVersionFilePath2 = testDataFolder + newVersionFile2;
-    String updatedDocName = "UpdatedDocName-C8947-" + DataUtil.getUniqueIdentifier();
-    String updatedContent = "edited in Alfresco test content C8947";
-    String updatedTitle = "updated title C8947";
-    String updatedDescription = "updated description C8947";
-    String updatedDocName1 = "UpdatedDocName-C8948-" + DataUtil.getUniqueIdentifier();
-    String updatedContent1 = "edited in Alfresco test content C8948";
-    String updatedTitle1 = "updated title C8948";
-    String updatedDescription1 = "updated description C8948";
-    String editedTitle = "editedTitle";
-    String editedContent = "edited content in Google Docs";
-    String editedTitle1 = "editedTitle1";
-    String editedContent1 = "edited content in Google Docs1";
+    private final String testFile = DataUtil.getUniqueIdentifier() + "-testFile-C8939-.txt";
+    private final String testFilePath = testDataFolder + testFile;
+    private final String newVersionFile = DataUtil.getUniqueIdentifier() + "-NewFile-C8942" + ".txt";
+    private final String newVersionFilePath = testDataFolder + newVersionFile;
+    private final String newVersionFile2 = DataUtil.getUniqueIdentifier() + "-NewFile-C8943" + ".txt";
+    private final String newVersionFilePath2 = testDataFolder + newVersionFile2;
+    private final String updatedDocName = "UpdatedDocName-C8947-" + DataUtil.getUniqueIdentifier();
+    private final String updatedContent = "edited in Alfresco test content C8947";
+    private final String updatedTitle = "updated title C8947";
+    private final String updatedDescription = "updated description C8947";
+    private final String updatedDocName1 = "UpdatedDocName-C8948-" + DataUtil.getUniqueIdentifier();
+    private final String updatedContent1 = "edited in Alfresco test content C8948";
+    private final String updatedTitle1 = "updated title C8948";
+    private final String updatedDescription1 = "updated description C8948";
+    private final String editedTitle = "editedTitle";
+    private final String editedContent = "edited content in Google Docs";
+    private final String editedTitle1 = "editedTitle1";
+    private final String editedContent1 = "edited content in Google Docs1";
     // Create
-    private String user = "UserC" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteC" + DataUtil.getUniqueIdentifier();
-    private String siteName2 = "SiteC2" + DataUtil.getUniqueIdentifier();
+    private final String user = "UserC" + DataUtil.getUniqueIdentifier();
+    private final String siteName = "SiteC" + DataUtil.getUniqueIdentifier();
+    private final String siteName2 = "SiteC2" + DataUtil.getUniqueIdentifier();
     // Download
     private String path = "Shared";
-    private String fileNameC8940 = "C8940 file" + DataUtil.getUniqueIdentifier();
-    private String fileContent = "test content" + DataUtil.getUniqueIdentifier();
-    private Alert alert;
-    private String downloadPath = srcRoot + "testdata";
-    private File downloadDirectory;
+    private final String fileNameC8940 = "C8940 file" + DataUtil.getUniqueIdentifier();
+    private final String fileContent = "test content" + DataUtil.getUniqueIdentifier();
     // View in Browser
-    private String fileNameC8941 = "C8941 file" + DataUtil.getUniqueIdentifier();
-    private String fileContent2 = "test content" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8941 = "C8941 file" + DataUtil.getUniqueIdentifier();
     // Upload New Version by self
-    private String fileNameC8942 = "C8942 file" + DataUtil.getUniqueIdentifier();
-    private String fileContent3 = "test content" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8942 = "C8942 file" + DataUtil.getUniqueIdentifier();
     // Upload New Version by other user
-    private String user2 = "UserC" + DataUtil.getUniqueIdentifier();
-    private String fileNameC8943 = "C8943 file" + DataUtil.getUniqueIdentifier();
-    private String fileContent4 = "test content" + DataUtil.getUniqueIdentifier();
+    private final String user2 = "UserC" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8943 = "C8943 file" + DataUtil.getUniqueIdentifier();
     // Edit Inline by self
-    private String fileNameC8947 = "C8947 file" + DataUtil.getUniqueIdentifier();
-    private String fileContent5 = "test content" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8947 = "C8947 file" + DataUtil.getUniqueIdentifier();
     // Edit Inline by others
-    private String fileNameC8948 = "C8948 file" + DataUtil.getUniqueIdentifier();
-    private String fileContent6 = "test content" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8948 = "C8948 file" + DataUtil.getUniqueIdentifier();
     // Check Out Google Docs By Self
-    private String fileNameC8953 = "C8953 file" + DataUtil.getUniqueIdentifier();
-    private String fileContent7 = "test content" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8953 = "C8953 file" + DataUtil.getUniqueIdentifier();
     // Check out Google Docs By Others
-    private String fileNameC8954 = "C8954 file" + DataUtil.getUniqueIdentifier();
-    private String fileContent8 = "test content" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8954 = "C8954 file" + DataUtil.getUniqueIdentifier();
     // Cancel editing locked by self
-    private String fileNameC8957 = "C8957 file" + DataUtil.getUniqueIdentifier();
-    private String fileContent9 = "test content" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8957 = "C8957 file" + DataUtil.getUniqueIdentifier();
     // Start Workflow
-    private String fileNameC8962 = "C8962 file" + DataUtil.getUniqueIdentifier();
-    private String fileContent10 = "test content" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8962 = "C8962 file" + DataUtil.getUniqueIdentifier();
 
     private boolean isFileInDirectory(String fileName, String extension)
     {
-        downloadDirectory = new File(downloadPath);
+        File downloadDirectory = new File(srcRoot + "testdata");
         File[] directoryContent = downloadDirectory.listFiles();
 
         for (File aDirectoryContent : directoryContent)
@@ -242,7 +209,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
 
         if (documentCommon.isAlertPresent())
         {
-            alert = getBrowser().switchTo().alert();
+            Alert alert = getBrowser().switchTo().alert();
             LOG.info(alert.getText());
             alert.accept();
         }
@@ -253,7 +220,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorViewInBrowser()
     {
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8941, fileContent2);
+        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8941, fileContent);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
@@ -266,7 +233,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorEditInlineBySelf()
     {
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8947, fileContent5);
+        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8947, fileContent);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
@@ -295,7 +262,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorEditInlineByOthers()
     {
-        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileNameC8948, fileContent6);
+        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileNameC8948, fileContent);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
@@ -324,7 +291,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorCancelEditingBySelf()
     {
-        contentService.createDocument(user, password, siteName, DocumentType.MSWORD, fileNameC8957, fileContent9);
+        contentService.createDocument(user, password, siteName, DocumentType.MSWORD, fileNameC8957, fileContent);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
@@ -332,10 +299,8 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
 
         LOG.info("Step 2: Click Check out to Google docs or Edit in Google Docs.");
         googleDocsCommon.loginToGoogleDocs();
-        documentLibraryPage.mouseOverContentItem(fileNameC8957);
-        googleDocsCommon.editInGoogleDocs();
+        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8957, "Edit in Google Docs™", googleDocsCommon);
         googleDocsCommon.clickOkButton();
-        googleDocsCommon.renderedPage();
         googleDocsCommon.confirmFormatUpgrade();
         Assert.assertEquals(googleDocsCommon.getConfirmationPopUpMessage(), "Editing in Google Docs™...", "Checking in Google Doc is not found.");
         getBrowser().waitUntilElementDisappears(googleDocsCommon.confirmationPopup, 15L);
@@ -358,7 +323,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorStartWorkflow()
     {
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8962, fileContent10);
+        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8962, fileContent);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
@@ -402,7 +367,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorUploadNewVersionSelfCreated()
     {
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8942, fileContent3);
+        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8942, fileContent);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
@@ -433,7 +398,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorUploadNewVersionOtherUserCreated()
     {
-        contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8943, fileContent4);
+        contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8943, fileContent);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
@@ -464,7 +429,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorCheckOutGoogleDocBySelf() throws Exception
     {
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8953, fileContent7);
+        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8953, fileContent);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
@@ -472,8 +437,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
 
         LOG.info("Step 2: Click Check out to Google docs or Edit in Google Docs.");
         googleDocsCommon.loginToGoogleDocs();
-        documentLibraryPage.mouseOverFileName(fileNameC8953);
-        googleDocsCommon.editInGoogleDocs();
+        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8953, "Edit in Google Docs™", googleDocsCommon);
         googleDocsCommon.clickOkButton();
         googleDocsCommon.renderedPage();
 
@@ -517,7 +481,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorCheckOutGoogleDocByOthers() throws Exception
     {
-        contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8954, fileContent8);
+        contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8954, fileContent);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
@@ -525,8 +489,7 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
 
         LOG.info("Step 2: Click Check out to Google docs or Edit in Google Docs.");
         googleDocsCommon.loginToGoogleDocs();
-        documentLibraryPage.mouseOverFileName(fileNameC8954);
-        googleDocsCommon.editInGoogleDocs();
+        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8954, "Edit in Google Docs™", googleDocsCommon);
         googleDocsCommon.clickOkButton();
         googleDocsCommon.renderedPage();
 

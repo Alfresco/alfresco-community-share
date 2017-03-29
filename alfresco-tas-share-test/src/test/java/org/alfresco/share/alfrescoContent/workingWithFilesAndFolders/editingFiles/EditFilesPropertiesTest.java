@@ -59,9 +59,7 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
         setup("C7005");
 
         LOG.info("Step 1: Hover over a file and click 'Edit Properties'");
-        documentLibraryPage.mouseOverFileName(docName);
-        documentLibraryPage.clickMoreMenu(docName);
-        documentLibraryPage.clickEditProperties(docName);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, "Edit Properties", editFilePropertiesDialog);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -98,8 +96,7 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
         setup("C7005");
 
         LOG.info("Step 1: Hover over a folder and click 'Edit Properties'");
-        documentLibraryPage.mouseOverContentItem(folderName);
-        documentLibraryPage.clickEditProperties(folderName);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editFilePropertiesDialog);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not sdisplayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
