@@ -177,7 +177,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @FindBy(xpath = "//button[text()='Save']")
     private WebElement saveButtonEditComment;
 
-    @FindBy(css = "div[class ='textLayer']")
+    @FindBy(css = "div[class ='textLayer']>div")
     private WebElement contentText;
 
     @FindBy(xpath = ".//*[@id='onActionManageAspects']/a/span")
@@ -798,7 +798,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
             }
             catch (NoSuchElementException e2)
             {
-                LOG.info(e1.toString());
+                LOG.info(e2.toString());
                 content = "Content not loaded";
             }
         }
