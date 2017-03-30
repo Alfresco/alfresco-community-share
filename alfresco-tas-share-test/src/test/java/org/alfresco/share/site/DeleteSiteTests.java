@@ -421,7 +421,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         LOG.info("STEP4: Open the created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteName + "/dashboard";
         getBrowser().navigate().to(url);
-        assertEquals(siteDashboardPage.getCurrentUrl(), url, "User is successfully redirected to the site dashboard.");
+        assertEquals(siteDashboardPage.getCurrentUrl(), url.replace(":80/","/"), "User is successfully redirected to the site dashboard.");
 
         cleanupAuthenticatedSession();
     }
