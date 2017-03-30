@@ -20,6 +20,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     @FindBy(css = "div.dashlet.rssfeed")
     private WebElement dashletContainer;
 
+    @RenderWebElement
     @FindAll(@FindBy(css = "div.headline h4 a"))
     private List<WebElement> feedsList;
 

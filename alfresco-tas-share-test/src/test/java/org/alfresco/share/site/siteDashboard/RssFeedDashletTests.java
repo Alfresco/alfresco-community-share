@@ -42,6 +42,7 @@ public class RssFeedDashletTests extends ContextAwareWebTest
     {
         logger.info("Step 1: Verify \"RSS Feed\" dashlet");
         siteDashboardPage.navigate(siteName);
+        rssFeedDashlet.renderedPage();
         Assert.assertEquals(rssFeedDashlet.getFeedsListSize(), noOfFeeds);
 
         logger.info("Step 2: Verify title bar actions from \"RSS Feed\" dashlet");
