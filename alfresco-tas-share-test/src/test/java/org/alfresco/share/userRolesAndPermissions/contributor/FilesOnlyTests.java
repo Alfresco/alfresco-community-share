@@ -523,7 +523,8 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         logger.info("Steps1: Mouse over file and click 'Edit Offline' action. Verify the file appears as locked.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
-        getBrowser().refresh();
+        documentLibraryPage.refresh();
+        documentLibraryPage.renderedPage();
         Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
 
         logger.info("Steps2: Logout and login as Contributor user; hover over testFile and click 'View Original Document' option");
