@@ -5,8 +5,10 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,13 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     @Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @FindBy(css = "button[id*='form']")
+    @RenderWebElement
+    @FindAll(@FindBy(css = "button[id*='form']"))
     private List<WebElement> buttonsList;
+
+    @RenderWebElement
+    @FindAll(@FindBy(css = ".form-field>label"))
+    private List<WebElement> propertiesElements;
 
     @FindBy(css = "button[id*='yui-gen21-button']")
     protected WebElement selectButtonForCustomSmartFolder;
@@ -43,8 +50,6 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 
     private By selectorSF = By.cssSelector("select[id*='default_prop_smf_system-template-location']");
 
-    private By propertiesSelector = By.cssSelector(".form-field>label");
-
     @Override
     public String getRelativePath()
     {
@@ -59,7 +64,6 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
      */
     public boolean arePropertiesDisplayed(String... expectedPropertiesList)
     {
-        List<WebElement> propertiesElements = browser.findElements(propertiesSelector);
         List<String> propertiesList = new ArrayList<>();
         for(WebElement propertyElement : propertiesElements)
             propertiesList.add(propertyElement.getText().substring(0, propertyElement.getText().indexOf(":")));
@@ -74,10 +78,9 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
      */
     public String checkPropertiesAreNotDisplayed(ArrayList<String> propertiesNotDisplayedList)
     {
-        List<WebElement> propertiesList = browser.findDisplayedElementsFromLocator(propertiesSelector);
-        for (int i = 0; i < propertiesList.size(); i++)
+        for (int i = 0; i < propertiesElements.size(); i++)
         {
-            String property = propertiesList.get(i).getText();
+            String property = propertiesElements.get(i).getText();
             for (String aPropertiesNotDisplayedList : propertiesNotDisplayedList)
             {
                 if (property.equals(aPropertiesNotDisplayedList))

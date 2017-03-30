@@ -461,7 +461,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
                 "Modified Date", "Template Name", "Mimetype", "Size", "Primary Image", "Secondary Image", "Related Articles"), "Displayed properties:");
 
         logger.info("Step6: Click 'Edit Properties' option from 'Document Actions' section");
-        documentDetailsPage.clickDocumentActionsOption("Edit Properties");
+        documentDetailsPage.clickEditProperties();
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
         assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Template Name", "Tags", "Primary Image",
                 "Secondary Image", "Related Articles"), "Displayed properties:");

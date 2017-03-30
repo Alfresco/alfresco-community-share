@@ -68,7 +68,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.checkPropertiesAreNotDisplayed(propertiesList), "Given list isn't displayed", " property displayed.");
 
         LOG.info("STEP3: Click 'Edit Properties' option from 'Document Actions' list");
-        documentDetailsPage.clickDocumentActionsOption("Edit Properties");
+        documentDetailsPage.clickEditProperties();
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
         assertEquals(editPropertiesPage.checkPropertiesAreNotDisplayed(propertiesList), "Given list isn't displayed", " property is displayed.");
     }
@@ -88,7 +88,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Creator", "Created Date", "Modifier", "Modified Date"), "Displayed properties:");
 
         LOG.info("STEP2: Click 'Edit Properties' option from 'Document Actions' list");
-        documentDetailsPage.clickDocumentActionsOption("Edit Properties");
+        documentDetailsPage.clickEditProperties();
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
 
         assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Tags"), "Displayed properties:");
@@ -107,9 +107,11 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         LOG.info("STEP5: Select 'ws:website' from 'New Type' dropdown and click 'Ok' button");
         changeContentTypeDialog.selectOption("ws:website");
         changeContentTypeDialog.clickButton("OK");
+        getBrowser().refresh();
+        documentDetailsPage.renderedPage();
 
         LOG.info("STEP6: Click 'Edit Properties' option from 'Folder Actions' section");
-        documentDetailsPage.clickDocumentActionsOption("Edit Properties");
+        documentDetailsPage.clickEditProperties();
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
         assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Host Name", "Host Port ", "Web App Context ",
                 "Site Configuration", "Site Languages", "Feedback Configuration", "Publish Target"), "Displayed properties:");
@@ -131,9 +133,8 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Mimetype", "Size", "Creator", "Created Date", "Modifier", "Modified Date"), "Displayed properties:");
 
         LOG.info("STEP2: Click 'Edit Properties' option from 'Document Actions' list");
-        documentDetailsPage.clickDocumentActionsOption("Edit Properties");
+        documentDetailsPage.clickEditProperties();
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
-
         assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Tags", "Mimetype"), "Displayed properties:");
 
         LOG.info("STEP3: Cancel 'Edit Properties'.");
@@ -153,7 +154,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
                 "Modified Date", "Template Name", "Mimetype", "Size", "Primary Image", "Secondary Image", "Related Articles"), "Displayed properties:");
 
         LOG.info("STEP6: Click 'Edit Properties' option from 'Document Actions' section");
-        documentDetailsPage.clickDocumentActionsOption("Edit Properties");
+        documentDetailsPage.clickEditProperties();
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
         assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Template Name", "Tags", "Primary Image",
                 "Secondary Image", "Related Articles"), "Displayed properties:");
