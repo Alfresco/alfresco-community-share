@@ -167,6 +167,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     public EditRulesPage clickCreateAndCreateAnotherButton()
     {
         createAndCreateAnotherButton.click();
+        browser.refresh();
         return (EditRulesPage) this.renderedPage();
     }
 
