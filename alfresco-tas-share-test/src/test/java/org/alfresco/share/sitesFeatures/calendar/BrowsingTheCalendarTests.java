@@ -318,12 +318,17 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         String eventTitle2 = "testEvent2";
         String eventTitle3 = "testEvent3";
 
-        sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, calendarUtility.tomorrow(),
-                calendarUtility.tomorrow(), "", "", false, "tag1");
-        sitePagesService.addCalendarEvent(user, password, siteName, eventTitle2, eventLocation, eventDescription, calendarUtility.dayAfterTomorrow(),
-                calendarUtility.dayAfterTomorrow(), "", "", false, "tag2");
-        sitePagesService.addCalendarEvent(user, password, siteName, eventTitle3, eventLocation, eventDescription, calendarUtility.dayOfNextWeek(),
-                calendarUtility.dayOfNextWeek(), "", "", false, "tag3");
+        Calendar dayAfterMidDate = calendarUtility.midDateOfTheMonth();
+        dayAfterMidDate.add(Calendar.DAY_OF_MONTH, 1);
+
+        Calendar dayBeforeMidDate = calendarUtility.midDateOfTheMonth();
+        dayBeforeMidDate.add(Calendar.DAY_OF_MONTH, -1);
+        sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, calendarUtility.midDateOfTheMonth().getTime(),
+                calendarUtility.midDateOfTheMonth().getTime(), "", "", false, "tag1");
+        sitePagesService.addCalendarEvent(user, password, siteName, eventTitle2, eventLocation, eventDescription, dayAfterMidDate.getTime(),
+                dayAfterMidDate.getTime(), "", "", false, "tag2");
+        sitePagesService.addCalendarEvent(user, password, siteName, eventTitle3, eventLocation, eventDescription, dayBeforeMidDate.getTime(),
+                dayBeforeMidDate.getTime(), "", "", false, "tag3");
 
         calendarPage.navigate(siteName);
         getBrowser().waitInSeconds(2);

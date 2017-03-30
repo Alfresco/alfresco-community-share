@@ -63,6 +63,19 @@ public class CalendarUtility
     }
 
     /**
+     * Method to get the mid date of the current month
+     * @return
+     */
+    public Calendar midDateOfTheMonth()
+    {
+        Calendar calendar = Calendar.getInstance();
+        int midDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH) / 2;
+        calendar.set(Calendar.DAY_OF_MONTH, midDay);
+
+        return calendar;
+    }
+
+    /**
      * Method to get the value of the first day of the current month
      * 
      * @return
