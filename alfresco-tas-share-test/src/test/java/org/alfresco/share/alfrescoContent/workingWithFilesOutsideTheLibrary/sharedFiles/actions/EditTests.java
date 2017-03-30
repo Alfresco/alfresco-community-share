@@ -2,13 +2,10 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sha
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
-import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
-import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.share.ContextAwareWebTest;
@@ -33,9 +30,6 @@ public class EditTests extends ContextAwareWebTest
     private SharedFilesPage sharedFilesPage;
 
     @Autowired
-    private HeaderMenuBar headerMenuBar;
-
-    @Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     @Autowired
@@ -50,12 +44,6 @@ public class EditTests extends ContextAwareWebTest
     @Autowired
     private SelectDialog selectDialog;
 
-    @Autowired
-    private DeleteDialog deleteDialog;
-
-    @Autowired
-    private UploadContent uploadContent;
-
     private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
     private final String user = "User" + uniqueIdentifier;
     private final String path = "Shared";
@@ -69,8 +57,7 @@ public class EditTests extends ContextAwareWebTest
     private final String updatedTitle = "Updated Title" + uniqueIdentifier;
     private final String updatedDescription = "Updated Description";
     private final String tagName = "tag" + uniqueIdentifier;
-    private final String googleDocName = uniqueIdentifier + "googleDoc.docx";
-    private final String googleDocPath = testDataFolder + googleDocName;
+    private final String googleDocName = "googleDoc" + uniqueIdentifier;
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -80,6 +67,7 @@ public class EditTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName2, "");
         contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName3, "");
         contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
+        googleDocsCommon.loginToGoogleDocs();
     }
 
     @TestRail(id = "C7953")
@@ -92,7 +80,6 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Hover over file and click 'Edit Properties' action");
         sharedFilesPage.clickDocumentLibraryItemAction(docName1, language.translate("documentLibrary.contentActions.editProperties"), editFilePropertiesDialog);
-        getBrowser().waitInSeconds(2);
         assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -115,7 +102,7 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Step 7: Click 'Save' And verify that document details have been updated");
         editFilePropertiesDialog.clickSave();
-        getBrowser().waitInSeconds(3);
+        sharedFilesPage.renderedPage();
         assertTrue(sharedFilesPage.isContentNameDisplayed(updatedDocName1), updatedDocName1 + " is displayed.");
         assertEquals(sharedFilesPage.getItemTitle(updatedDocName1), "(" + updatedTitle + ")", updatedDocName1 + " - document's title=");
         assertEquals(sharedFilesPage.getItemDescription(updatedDocName1), updatedDescription, updatedDocName1 + "- document's description=");
@@ -129,13 +116,11 @@ public class EditTests extends ContextAwareWebTest
     {
         setupAuthenticatedSession(adminUser, adminPassword);
         sharedFilesPage.navigate();
-        getBrowser().waitInSeconds(3);
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
 
         LOG.info("Step 1: Hover over file and click 'Edit Properties'");
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.editProperties"),
                 editFilePropertiesDialog);
-        getBrowser().waitInSeconds(2);
         assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -158,7 +143,7 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Step 7: Click 'Save' And verify that document details have been updated");
         editFilePropertiesDialog.clickSave();
-        getBrowser().waitInSeconds(3);
+        sharedFilesPage.renderedPage();
         assertTrue(sharedFilesPage.isContentNameDisplayed(updatedFolderName), updatedFolderName + " is displayed.");
         assertEquals(sharedFilesPage.getItemTitle(updatedFolderName), "(" + updatedTitle + ")", updatedFolderName + " - document's title=");
         assertEquals(sharedFilesPage.getItemDescription(updatedFolderName), updatedDescription, updatedFolderName + "- document's description=");
@@ -192,7 +177,6 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Step5: Click on document title to open the document's details page");
         sharedFilesPage.clickOnFile(updatedDocName2);
-        documentDetailsPage.renderedPage();
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
 
         LOG.info("Step6: Verify the document's content");
@@ -211,13 +195,10 @@ public class EditTests extends ContextAwareWebTest
         String editedInGoogleDocsContent = "Edited";
 
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to Shared Files page; upload a .docx file");
-        googleDocsCommon.loginToGoogleDocs();
+        contentService.createDocumentInRepository(user, password, path, CMISUtil.DocumentType.MSWORD, googleDocName, "");
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
-        sharedFilesPage.renderedPage();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        uploadContent.uploadContent(googleDocPath);
-        getBrowser().waitInSeconds(5);
 
         LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
         sharedFilesPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs™", googleDocsCommon);
@@ -235,14 +216,12 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Step5: Click Check In Google Doc™ and verify Version Information pop-up");
         googleDocsCommon.checkInGoogleDoc(googleDocName);
-        getBrowser().waitInSeconds(5);
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), true, "Version information pop-up is displayed.");
 
         LOG.info("Step6: Click OK button on Version Information and verify the pop-up is closed");
         googleDocsCommon.clickOkButton();
-        getBrowser().waitInSeconds(10);
         assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), false, "Version information pop-up is displayed.");
-        getBrowser().refresh();
+        sharedFilesPage.refresh();
         sharedFilesPage.renderedPage();
 
         LOG.info("Step7: Verify document's title");
@@ -250,7 +229,6 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Steps8: Click on the document title and verify it's preview");
         googleDocsCommon.clickOnUpdatedName(editedInGoogleDocsTitle);
-        documentDetailsPage.renderedPage();
         assertTrue(documentDetailsPage.getContentText().replaceAll("\\s+", "").contains("Edited"),
                 String.format("Document: %s has incorrect contents.", editedInGoogleDocsTitle));
 

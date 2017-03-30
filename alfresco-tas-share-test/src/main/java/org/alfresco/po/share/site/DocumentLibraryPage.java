@@ -1085,7 +1085,11 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public String getInfoBannerText(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(infoBanner).getText();
+        WebElement fileElement = selectDocumentLibraryItemRow(fileName);
+        Parameter.checkIsMandotary("Document library file", fileElement);
+        WebElement bannerElement = fileElement.findElement(infoBanner);
+        Parameter.checkIsMandotary("File banner", bannerElement);
+        return bannerElement.getText();
     }
 
     /**
