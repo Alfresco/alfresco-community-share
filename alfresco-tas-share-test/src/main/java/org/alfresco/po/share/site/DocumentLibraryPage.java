@@ -77,16 +77,12 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     private By filesList = By.cssSelector(".filename a[href*='document-details']");
     private By documentLibraryItemsList = By.cssSelector("[class*='data'] tr");
-    private By documentLibraryItemsListItemText = By.cssSelector("[class*='data'] tr h3");
 
     @FindAll(@FindBy(css = ".crumb .folder"))
     private List<WebElement> breadcrumbList;
 
     @FindBy(css = ".crumb .label a")
     private WebElement breadcumbCurrentFolder;
-
-    @FindBy(css = "div[id*='new-folder-link-template-instance'] .docListOtherOptionsText a")
-    private WebElement createFolderLink;
 
     @FindBy(css = "button[id*='folderUp']")
     private WebElement folderUpButton;
@@ -586,10 +582,11 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public HtmlPage clickDocumentLibraryItemAction(String contentItem, String action, HtmlPage page)
     {
-        Parameter.checkIsMandotary("Library item", selectDocumentLibraryItemRow(contentItem));
+        WebElement libraryItem = selectDocumentLibraryItemRow(contentItem);
+        Parameter.checkIsMandotary("Library item", libraryItem);
 
         mouseOverContentItem(contentItem);
-        List<WebElement> availableActions = selectDocumentLibraryItemRow(contentItem).findElements(By.cssSelector(".action-set>div>a"));
+        List<WebElement> availableActions = libraryItem.findElements(By.cssSelector(".action-set>div>a"));
         WebElement actionElement = browser.findFirstElementWithValue(availableActions, action);
         if (actionElement != null)
         {
@@ -601,7 +598,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
             {
                 LOG.info("Click on 'More...'");
                 actionElement.click();
-                availableActions = selectDocumentLibraryItemRow(contentItem).findElements(By.cssSelector(".more-actions>div>a"));
+                availableActions = libraryItem.findElements(By.cssSelector(".more-actions>div>a"));
                 actionElement = browser.findFirstElementWithValue(availableActions, action);
                 Parameter.checkIsMandotary("Action", actionElement);
                 LOG.info(String.format("Click on '%s' action.", action));
@@ -1085,10 +1082,9 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      * Method to get the info banner text
      */
 
-    public String getInfoBannerText()
+    public String getInfoBannerText(String fileName)
     {
-        browser.waitInSeconds(2);
-        return browser.findElement(infoBanner).getText();
+        return selectDocumentLibraryItemRow(fileName).findElement(infoBanner).getText();
     }
 
     /**

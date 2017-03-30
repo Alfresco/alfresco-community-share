@@ -101,7 +101,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName1), "testFile2 is displayed and it should not be displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName2), "testFile3 is displayed and it should not be displayed");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "testFile1 is not displayed in the list of files currently beeing edited");
-        assertEquals(documentLibraryPage.getInfoBannerText(), "This document is locked by you for offline editing.",
+        assertEquals(documentLibraryPage.getInfoBannerText(docName), "This document is locked by you for offline editing.",
                 "this document is locked by you message is not displayed");
     }
 
@@ -112,7 +112,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         String docName = "C10597-1";
         String docName1 = "C10597-2";
         String docName2 = "C10597-3";
-        String expectedBannerText ="This document is locked by "+ user + " "+user+".";
+        String expectedBannerText = "This document is locked by "+ user + " "+user+".";
         String siteName = "C10597-site-" + DataUtil.getUniqueIdentifier();
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName + ".txt");
@@ -137,7 +137,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "testFile1 is not displayed in the list of files beeing edited by other users");
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName1), "testFile2 is displayed and it should not be displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName2), "testFile3 is displayed and it should not be displayed");
-        assertEquals(documentLibraryPage.getInfoBannerText(), expectedBannerText);
+        assertEquals(documentLibraryPage.getInfoBannerText(docName), expectedBannerText);
     }
     
     @TestRail(id ="C6325")

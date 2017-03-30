@@ -50,6 +50,10 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @FindBy(css = ".node-header")
     protected WebElement docDetailsPageHeader;
 
+    @RenderWebElement
+    @FindBy(className = "previewer")
+    protected WebElement docDetailsPreviewer;
+
     @FindBy(linkText = "Download")
     protected WebElement downloadDocument;
 

@@ -1,7 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
 import org.alfresco.po.share.SharePage;
-import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -184,10 +183,10 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         while (counter <= retryRefreshCount)
         {
             try
-            {     
+            {
                 String js = "arguments[0].style.height='auto'; arguments[0].style.visibility='visible';";
                 ((JavascriptExecutor) browser).executeScript(js, addLinkInGoogleDoc);
-                addLinkInGoogleDoc.click();                
+                addLinkInGoogleDoc.click();
                 browser.waitInSeconds(4);
                 if (inputTextForLinkInGoogleDoc.isDisplayed() && inputLinkInGoogleDoc.isDisplayed())
                 {
@@ -215,7 +214,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         while (counter <= retryRefreshCount)
         {
             try
-            {                          
+            {
                 String js = "arguments[0].style.height='auto'; arguments[0].style.visibility='visible';";
                 ((JavascriptExecutor) browser).executeScript(js, addLinkInGoogleSheet);
                 addLinkInGoogleSheet.click();
@@ -268,26 +267,13 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
      */
 
     public boolean isLockedDocumentMessageDisplayed()
-
     {
-
         return lockedDocumentMessage.isDisplayed();
     }
 
     public boolean checkLockedLAbelIsDisplayed() throws Exception
     {
-        try
-        {
-            browser.findElement(By.xpath("//div[contains(text(), 'This document is locked by you')]"));
-            return true;
-
-        }
-        catch (NoSuchElementException e)
-        {
-
-            return false;
-        }
-
+        return browser.isElementDisplayed(By.xpath("//div[contains(text(), 'This document is locked by you')]"));
     }
 
     /**
@@ -297,30 +283,16 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
      */
 
     public boolean isGoogleDriveIconDisplayed()
-
     {
-
-        return googleDriveIcon.isDisplayed();
+        return browser.isElementDisplayed(googleDriveIcon);
     }
 
     public boolean checkGoogleDriveIconIsDisplayed() throws Exception
     {
-        try
-        {
-            browser.findElement(By.xpath("//img[contains(@title,'status.googledrive')]')]"));
-            return true;
-
-        }
-        catch (NoSuchElementException e)
-        {
-
-            return false;
-        }
-
+        return browser.isElementDisplayed(By.xpath("//img[contains(@title,'status.googledrive')]')]"));
     }
 
     public void checkInGoogleDoc(String file)
-
     {
         String fileLocator = "//a[contains(text(), '" + file + "')]";
 
@@ -375,7 +347,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     @Override
     public String getRelativePath()
     {
-
         return null;
     }
 

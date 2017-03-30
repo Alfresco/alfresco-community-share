@@ -35,9 +35,6 @@ public class CreateTests extends ContextAwareWebTest
     private CreateFolderFromTemplate createFolderFromTemplate;
     @Autowired
     private GoogleDocsCommon googleDocs;
-    @Autowired
-    private Notification notification;
-
 
     private final String folderTemplateName = "Software Engineering Project";
     private final String fileTemplateName = DataUtil.getUniqueIdentifier() + "fileTemplate.txt";
@@ -55,13 +52,13 @@ public class CreateTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, user2);
+        googleDocs.loginToGoogleDocs();
     }
 
     @TestRail(id = "C7929")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void sharedFilesCreatePlainTextFile()
     {
-
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
@@ -249,8 +246,8 @@ public class CreateTests extends ContextAwareWebTest
         LOG.info("STEP 3: Insert data into input fields and save.");
         createFolderFromTemplate.fillInDetails("TestFolderC7931", "Test Title C7931", "Test Description C7931");
         createFolderFromTemplate.clickSaveButton();
-        assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", "TestFolderC7931"));
-        notification.waitUntilNotificationDisappears();
+        sharedFilesPage.refresh();
+        sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed("TestFolderC7931"), "Subfolder not found");
         Assert.assertTrue(sharedFilesPage.getExplorerPanelDocuments().contains("TestFolderC7931"), "Subfolder not found in Documents explorer panel");
 
@@ -284,8 +281,8 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
         createContent.clickOnTemplate(fileTemplateName, sharedFilesPage);
-        Assert.assertEquals(notification.getDisplayedNotification(), String.format("Created content based on template '%s'", fileTemplateName), "Notification message appears");
-        notification.waitUntilNotificationDisappears();
+        sharedFilesPage.refresh();
+        sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(fileTemplateName), String.format("Content: %s is not displayed.", fileTemplateName));
 
         LOG.info("Step 3: Login with testUser2 and navigate to Shared Files page.");
@@ -305,8 +302,6 @@ public class CreateTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
-        googleDocs.loginToGoogleDocs();
-        getBrowser().waitInSeconds(3);
         sharedFilesPage.navigate();
         Assert.assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
 
@@ -326,9 +321,10 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Document");
-        getBrowser().waitInSeconds(9);
-        Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false);
-        Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false);
+        sharedFilesPage.refresh();
+        sharedFilesPage.renderedPage();
+        Assert.assertFalse(googleDocs.checkLockedLAbelIsDisplayed());
+        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed());
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocName));
 
         LOG.info("Step 5: Login with testUser2 and navigate to Shared Files page.");
@@ -348,34 +344,28 @@ public class CreateTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
-        googleDocs.loginToGoogleDocs();
-        getBrowser().waitInSeconds(3);
         sharedFilesPage.navigate();
         Assert.assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Spreadsheet'");
         sharedFilesPage.clickCreateButton();
         createContent.clickGoogleDocsSpreadsheet();
-        Assert.assertTrue(googleDocs.isAuthorizeWithGoogleDocsDisplayed(), "Authorize with Google Docs popup is not displayed");
 
-        LOG.info("Step 2: Click Ok button on the Authorize ");
-        googleDocs.clickOkButtonOnTheAuthPopup();
-        getBrowser().waitInSeconds(7);
-
-        LOG.info("Step 3: Edit the document in the Google Docs tab.");
+        LOG.info("Step 2: Edit the document in the Google Docs tab.");
         googleDocs.switchToGoogleSheetsWindowandAndEditContent(title, docContent);
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed("Untitled Spreadsheet.xlsx"), "The file created with Google Docs is not present");
         Assert.assertTrue(googleDocs.isLockedDocumentMessageDisplayed(), "Locked label is not displayed");
         Assert.assertTrue(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon is not displayed");
 
-        LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
+        LOG.info("Step 3: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet");
-        getBrowser().waitInSeconds(9);
-        Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false);
-        Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false);
+        sharedFilesPage.refresh();
+        sharedFilesPage.renderedPage();
+        Assert.assertFalse(googleDocs.checkLockedLAbelIsDisplayed());
+        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed());
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocSpreadsheet));
 
-        LOG.info("Step 5: Login with testUser2 and navigate to Shared Files page.");
+        LOG.info("Step 4: Login with testUser2 and navigate to Shared Files page.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         sharedFilesPage.navigate();
@@ -392,33 +382,28 @@ public class CreateTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
-        googleDocs.loginToGoogleDocs();
-        getBrowser().waitInSeconds(3);
         sharedFilesPage.navigate();
         Assert.assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Presentation'");
         sharedFilesPage.clickCreateButton();
         createContent.clickGoogleDocsPresentation();
-        Assert.assertTrue(googleDocs.isAuthorizeWithGoogleDocsDisplayed(), "Authorize with Google Docs popup is not displayed");
 
-        LOG.info("Step 2: Click Ok button on the Authorize ");
-        googleDocs.clickOkButtonOnTheAuthPopup();
-
-        LOG.info("Step 3: Edit the document in the Google Docs tab ");
+        LOG.info("Step 2: Edit the document in the Google Docs tab ");
         googleDocs.switchToGooglePresentationsAndEditContent(title);
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed("Untitled Presentation"), "The file created with Google Docs is not present");
         Assert.assertTrue(googleDocs.isLockedDocumentMessageDisplayed(), "Locked label is not displayed");
         Assert.assertTrue(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon is not displayed");
 
-        LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
+        LOG.info("Step 3: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Presentation");
-        getBrowser().waitInSeconds(9);
-        Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false);
-        Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false);
+        sharedFilesPage.refresh();
+        sharedFilesPage.renderedPage();
+        Assert.assertFalse(googleDocs.checkLockedLAbelIsDisplayed());
+        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed());
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocPresentation));
 
-        LOG.info("Step 5: Login with testUser2 and navigate to Shared Files page.");
+        LOG.info("Step 4: Login with testUser2 and navigate to Shared Files page.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         sharedFilesPage.navigate();

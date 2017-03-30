@@ -149,7 +149,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         logger.info("Steps2,3: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
-        getBrowser().refresh();
+        documentLibraryPage.refresh();
         documentLibraryPage.renderedPage();
 
         logger.info("Steps4: Click on the file and check the content is updated.");
