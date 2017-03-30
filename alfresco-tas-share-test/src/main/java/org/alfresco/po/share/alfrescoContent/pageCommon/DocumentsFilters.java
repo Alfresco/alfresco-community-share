@@ -289,6 +289,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
      */
     public void clickSidebarTag(String tagName)
     {
+        refresh();
         clickTagsLink();
 
         try
