@@ -51,33 +51,21 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     @Autowired
     SelectDialog selectDialog;
 
-    private String userName;
-    private String siteNameC8665;
-    private String siteNameC8666;
-    private String siteNameC8668;
-    private String fileName1;
-    private String fileName2;
-    private String fileName3;
-    private String fileContent;
-    private String folderName;
-    private String filesPath;
-    private String mainSmartFolder;
+    private String userName = "User" + DataUtil.getUniqueIdentifier();
+    private String siteNameC8665 = "SiteNameC8665" + DataUtil.getUniqueIdentifier();
+    private String siteNameC8666 = "SiteNameC8666" + DataUtil.getUniqueIdentifier();
+    private String siteNameC8668 = "SiteNameC8668" + DataUtil.getUniqueIdentifier();
+    private String fileName1 = "testFile1";
+    private String fileName2 = "testFile2";
+    private String fileName3 = "testFile3";
+    private String fileContent = "testContent";
+    private String folderName = "testFolder";
+    private String filesPath = "Sites/" + siteNameC8665 + "/" + "documentLibrary" + "/" + folderName;
+    private String mainSmartFolder = "My content";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
-
     {
-        userName = "User" + DataUtil.getUniqueIdentifier();
-        siteNameC8665 = "SiteNameC8665" + DataUtil.getUniqueIdentifier();
-        siteNameC8666 = "SiteNameC8666" + DataUtil.getUniqueIdentifier();
-        siteNameC8668 = "SiteNameC8668" + DataUtil.getUniqueIdentifier();
-        fileName1 = "testFile1";
-        fileName2 = "testFile2";
-        fileName3 = "testFile3";
-        mainSmartFolder = "My content";
-        fileContent = "testContent";
-        folderName = "testFolder";
-        filesPath = "Sites/" + siteNameC8665 + "/" + "documentLibrary" + "/" + folderName;
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteNameC8665, siteNameC8665, Site.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteNameC8666, siteNameC8666, Site.Visibility.PUBLIC);
@@ -94,7 +82,6 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void applySFTemplateToExistingFolder()
     {
-
         logger.info("Preconditions: Navigate to Document Library for the page for the test site");
         documentLibraryPage.navigate(siteNameC8665);
 
@@ -123,7 +110,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
         logger.info("Step5: Click 'All Properties' link.");
         editPropertiesDialog.clickAllPropertiesLink();
-        Assert.assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Owner", "Tags", "Smart Folder Template"), "Displayed properties");
+        Assert.assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Tags", "Smart Folder Template"), "Displayed properties");
         Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Save"), "Save button displayed");
         Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Cancel"), "Cancel button displayed");
 
@@ -181,7 +168,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
         logger.info("Step7: Click 'All Properties' link.");
         editPropertiesDialog.clickAllPropertiesLink();
-        Assert.assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Owner", "Tags", "Smart Folder Template"), "Displayed properties");
+        Assert.assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Tags", "Smart Folder Template"), "Displayed properties");
         Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Save"), "Save button displayed");
         Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Cancel"), "Cancel button displayed");
 
@@ -243,7 +230,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
         logger.info("Step5: Click 'All Properties' link.");
         editPropertiesDialog.clickAllPropertiesLink();
-        Assert.assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Owner", "Tags", "Smart Folder Template"), "Displayed properties");
+        Assert.assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Tags", "Smart Folder Template"), "Displayed properties");
         Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Save"), "Save button displayed");
         Assert.assertTrue(editPropertiesPage.isButtonDisplayed("Cancel"), "Cancel button displayed");
 
