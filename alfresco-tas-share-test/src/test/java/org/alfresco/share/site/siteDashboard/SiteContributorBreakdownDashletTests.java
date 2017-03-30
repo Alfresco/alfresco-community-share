@@ -75,6 +75,7 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
     {
         LOG.info ("Step 1: Click on \"user2\" section.");
         siteDashboardPage.navigate(siteName);
+        Assert.assertEquals(siteContributorBreakdownDashlet.getNumberOfPieChartSlices(), 2, "Pie chart slices is different!");
         siteContributorBreakdownDashlet.clickOnUserSection(userName2);
 
         LOG.info("Step 2: Check that user is redirected to User Profile page and that "+ userName2 + " profile details are displayed");

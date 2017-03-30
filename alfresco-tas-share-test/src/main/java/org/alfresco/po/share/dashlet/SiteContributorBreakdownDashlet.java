@@ -3,6 +3,7 @@ package org.alfresco.po.share.dashlet;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -46,9 +47,6 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
 
     @FindBy(css="span[class$='dijitValidationTextBoxLabel ']")
     private WebElement selectedFilterOption;
-
-    @FindBy(css="div[class='alfresco-charts-ccc-Chart'] text")
-    private List<WebElement> user;
 
     public int getNumberOfPieChartSlices()
     {
@@ -99,7 +97,9 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     public UserProfilePage clickOnUserSection(String userName)
     {
         List<WebElement> testUsers = browser.findElements(By.cssSelector("div[class='alfresco-charts-ccc-Chart'] text"));
-        browser.findFirstElementWithValue(testUsers, userName).click();
+        WebElement userSectionElement = browser.findFirstElementWithValue(testUsers, userName);
+        Parameter.checkIsMandotary("User section", userSectionElement);
+        userSectionElement.click();
         return (UserProfilePage) userProfilePage.renderedPage();
     }
 }
