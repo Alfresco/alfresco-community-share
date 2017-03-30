@@ -1,6 +1,9 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
+import java.net.URL;
+
 import org.alfresco.common.DataUtil;
+import org.alfresco.common.EnvProperties;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -25,6 +28,8 @@ public class SharingFilesTests extends ContextAwareWebTest
     @Autowired private LoginPage loginPage;
 
     @Autowired private DocumentDetailsPage documentDetails;
+    
+    @Autowired private EnvProperties envProperties;
 
     private final String user = "C7095User" + DataUtil.getUniqueIdentifier();
     private final String description = "C7095SiteDescription" + DataUtil.getUniqueIdentifier();
@@ -94,11 +99,8 @@ public class SharingFilesTests extends ContextAwareWebTest
             String currentWindow = getBrowser().getWindowHandle();
             //documentLibraryPage.getRelativePath();
             documentLibraryPage.navigate(siteName);
-            String url = getBrowser().getCurrentUrl();
-            String server = url.substring(7, 26);
-            String expectedLink = "File" + " " + fileNameC7096 + " " + "shared from Alfresco http://" + server + "/share/s";
-            System.out.println("Current URL: " + getBrowser().getCurrentUrl());
-            System.out.println(server);
+            URL url2 = envProperties.getShareUrl();
+            String expectedLink = "File" + " " + fileNameC7096 + " " + "shared from Alfresco " + url2.toString().replace(":80/","/") + "/s";
             documentLibraryPage.getRelativePath();
 
             LOG.info("Step 1: Check that the Share button is available and click Share");
@@ -110,18 +112,10 @@ public class SharingFilesTests extends ContextAwareWebTest
             Assert.assertTrue(social.isPublicLinkDisplayed(), "public link is not displayed");
 
             LOG.info("Step 2: Click Twitter icon");
-
             social.clickTwitterIcon();
             getBrowser().waitInSeconds(5);
             //Switch to new window opened
-            for (String winHandle : getBrowser().getWindowHandles()) {
-                getBrowser().switchTo().window(winHandle);
-                if (getBrowser().getCurrentUrl().contains("https://twitter.com")) {
-                    break;
-                } else {
-                    getBrowser().switchTo().window(currentWindow);
-                }
-            }
+            getBrowser().switchWindow("https://twitter.com");
             Assert.assertEquals(social.getPageTitle(), "Share a link on Twitter", "User is not redirected to Twitter");
             Assert.assertEquals(social.getTwitterShareLink(), expectedLink, "Share link is not correct");
             Assert.assertEquals(social.getTwitterPageTitle(), "Share a link with your followers");
