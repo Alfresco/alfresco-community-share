@@ -882,6 +882,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         tagToBeEdited.clear();
         browser.waitInSeconds(1);
         tagToBeEdited.sendKeys(newTagName);
+        tagToBeEdited.sendKeys(Keys.ENTER);
     }
 
     public boolean isNoTagsTextDisplayed(String contentName)

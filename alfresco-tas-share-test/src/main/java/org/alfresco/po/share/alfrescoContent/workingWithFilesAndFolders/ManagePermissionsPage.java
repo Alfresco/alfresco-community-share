@@ -44,7 +44,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     @FindBy(css = "div.authority-search-button button")
     private WebElement searchUserButton;
 
-    @FindBy(css = "div[id$='button[id$='_manage-permissions_x0023_default-inheritedButton-button']']")
+    @FindBy(css = "div[id$='_manage-permissions_x0023_default-inheritedButtonContainer']")
     private WebElement inheritPermissionButton;
 
     @FindBy(css = "td[class$='displayName']")
