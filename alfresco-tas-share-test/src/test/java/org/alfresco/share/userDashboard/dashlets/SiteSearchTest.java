@@ -36,25 +36,25 @@ public class SiteSearchTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void siteSearchDashletTest()
     {
-        logger.info("Step 1: Verify Site Search dashlet");
+        LOG.info("Step 1: Verify Site Search dashlet");
         userDashboardPage.navigate(userName);
         Assert.assertEquals(siteSearchDashlet.getDashletTitle(), "Site Search");
         siteSearchDashlet.isSearchFieldDisplayed();
         siteSearchDashlet.isDropDownMenuDisplayed();
         siteSearchDashlet.isHelpIconDisplayed(DashletHelpIcon.SITE_SEARCH);
 
-        logger.info("Step 2: Click on \"?\" icon");
+        LOG.info("Step 2: Click on \"?\" icon");
         siteSearchDashlet.clickOnHelpIcon(DashletHelpIcon.SITE_SEARCH);
         siteSearchDashlet.isBalloonDisplayed();
         Assert.assertEquals(
                 siteSearchDashlet.getHelpBalloonMessage(),
                 "Use this dashlet to perform a site search and view the results.\nClicking the item name takes you to the details page so you can preview or work with the item.");
 
-        logger.info("Step 3: Click on \"X\" icon");
+        LOG.info("Step 3: Click on \"X\" icon");
         siteSearchDashlet.closeHelpBalloon();
         Assert.assertFalse(siteSearchDashlet.isBalloonDisplayed());
 
-        logger.info("Step 4: Click on drop down menu");
+        LOG.info("Step 4: Click on drop down menu");
         Assert.assertTrue(siteSearchDashlet.checkValuesFromDropDownList());
     }
 }

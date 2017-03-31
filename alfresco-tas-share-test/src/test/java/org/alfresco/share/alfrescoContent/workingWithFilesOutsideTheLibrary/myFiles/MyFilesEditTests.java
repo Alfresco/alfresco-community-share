@@ -150,26 +150,26 @@ private final String user = "user" + DataUtil.getUniqueIdentifier();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(docNameC8212), String.format("Document %s is not present", docNameC8212));
 
-        logger.info("Step1: Hover over the test file and click Edit in Alfresco option");
+        LOG.info("Step1: Hover over the test file and click Edit in Alfresco option");
         myFilesPage.clickDocumentLibraryItemAction(docNameC8212, language.translate("documentLibrary.contentActions.editInAlfresco"), editInAlfrescoPage);
 
-        logger.info("Step2: Edit the document's properties by sending new input");
+        LOG.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.sendDocumentDetailsFields(editedDocName, editedContent, editedTitle, editedDescription);
 
-        logger.info("Step3: Click Save button");
+        LOG.info("Step3: Click Save button");
         editInAlfrescoPage.clickButton("Save");
         getBrowser().waitInSeconds(4);
 
-        logger.info("Step4: Verify the new title for the document");
+        LOG.info("Step4: Verify the new title for the document");
         Assert.assertTrue(docsCommon.isDocumentNameUpdated(editedDocName), "Document name is not updated");
 
-        logger.info("Step5: Click on document title to open the document's details page");
+        LOG.info("Step5: Click on document title to open the document's details page");
         docsCommon.clickOnUpdatedName(editedDocName);
 
-        logger.info("Step6: Verify the document's content");
+        LOG.info("Step6: Verify the document's content");
         Assert.assertEquals(detailsPage.getContentText(), editedContent);
 
-        logger.info("Step7: Verify Title and Description fields");
+        LOG.info("Step7: Verify Title and Description fields");
         Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedTitle), "Updated title is not displayed");
         Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedDescription), "Updated description is not displayed");
     }
@@ -184,35 +184,35 @@ private final String user = "user" + DataUtil.getUniqueIdentifier();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocName), String.format("Document %s is not present", googleDocName));
 
-        logger.info("Step1: Hover over the test file and click Edit in Google Docs option");
+        LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
         docsCommon.loginToGoogleDocs();
         myFilesPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs™", docsCommon);
 
-        logger.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
+        LOG.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
         docsCommon.clickOkButton();
 
-        logger.info("Step3,4: Provide edited input to Google Docs file and close Google Docs tab");
+        LOG.info("Step3,4: Provide edited input to Google Docs file and close Google Docs tab");
         docsCommon.confirmFormatUpgrade();
         getBrowser().waitInSeconds(7);
         docsCommon.switchToGoogleDocsWindowandAndEditContent(editedTitle, editedContent);
 
-        logger.info("Step5: Verify the file is locked and Google Drive icon is displayed");
+        LOG.info("Step5: Verify the file is locked and Google Drive icon is displayed");
         Assert.assertTrue(docsCommon.isLockedIconDisplayed(), "Locked Icon is not displayed");
         Assert.assertTrue(docsCommon.isLockedDocumentMessageDisplayed(), "Message about the file being locked is not displayed");
         Assert.assertTrue(docsCommon.isGoogleDriveIconDisplayed(), "Google Drive icon is not displayed");
 
-        logger.info("Step6: Click Check In Google Doc™ and verify Version Information pop-up is displayed");
+        LOG.info("Step6: Click Check In Google Doc™ and verify Version Information pop-up is displayed");
         docsCommon.checkInGoogleDoc(googleDocName);
         Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), true);
 
-        logger.info("Step7: Click OK button on Version Information and verify the pop-up is closed");
+        LOG.info("Step7: Click OK button on Version Information and verify the pop-up is closed");
         docsCommon.clickOkButton();
         Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), false);
 
-        logger.info("Step8: Verify the title for the document is changed");
+        LOG.info("Step8: Verify the title for the document is changed");
         Assert.assertTrue(docsCommon.isDocumentNameUpdated(editedTitle), "Name of the document was not updated");
 
-        logger.info("Steps9, 10: Click on the document title and verify it's preview");
+        LOG.info("Steps9, 10: Click on the document title and verify it's preview");
         docsCommon.clickOnUpdatedName(editedTitle);
         Assert.assertTrue(detailsPage.getContentText().contains(editedContent));
     }

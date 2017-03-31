@@ -39,11 +39,11 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void checkAspectsForm()
     {
-        logger.info("Precondition: Navigate to Document Details page for the test file");
+        LOG.info("Precondition: Navigate to Document Details page for the test file");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileName);
 
-        logger.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
+        LOG.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
 
         documentDetailsPage.clickManageAspects();
         Assert.assertTrue(aspectsForm.isAspectsFormTitleDisplayed(), "Aspects for the file form is not diplayed");
@@ -61,19 +61,19 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsApplyChanges()
     {
-        logger.info("Preconditions: Navigate to Document Details page for the test file");
+        LOG.info("Preconditions: Navigate to Document Details page for the test file");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileName);
 
-        logger.info("Step1: Click Actions -> Manage Aspects option");
+        LOG.info("Step1: Click Actions -> Manage Aspects option");
         documentDetailsPage.clickManageAspects();
 
-        logger.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
+        LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
         aspectsForm.addElement(0);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 
-        logger.info("Step3: Click 'Apply Changes' and verify the aspect is added");
+        LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm.clickApplyChangesButton();
         getBrowser().refresh();
         documentDetailsPage.clickManageAspects();

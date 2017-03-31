@@ -49,19 +49,19 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     {
         fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
-        logger.info("Preconditions: Navigate to Document Details page for the test file");
+        LOG.info("Preconditions: Navigate to Document Details page for the test file");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileName);
 
-        logger.info("Step1: Click Actions -> Manage Aspects option");
+        LOG.info("Step1: Click Actions -> Manage Aspects option");
         documentDetailsPage.clickManageAspects();
 
-        logger.info("Step2: From 'Available to Add' list, click 'Add' icon next to 'Restrictable' aspect and verify it's displayed in 'Currently Selected' list");
+        LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to 'Restrictable' aspect and verify it's displayed in 'Currently Selected' list");
         aspectsForm.addElement(14);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Restrictable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Restrictable"), "Aspect is present on 'Available to Add' list");
 
-        logger.info("Step3: Click 'Apply Changes' and verify the restrictions are placed on the file");
+        LOG.info("Step3: Click 'Apply Changes' and verify the restrictions are placed on the file");
         aspectsForm.clickApplyChangesButton();
         getBrowser().refresh();
         Assert.assertTrue(documentDetailsPage.isRestrictableAspectDisplayed(), "Restrictable aspect is not added");
@@ -74,7 +74,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     {
         fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
-        logger.info("Preconditions: Add Restrictable aspect to test file");
+        LOG.info("Preconditions: Add Restrictable aspect to test file");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileName);
         documentDetailsPage.clickManageAspects();
@@ -82,16 +82,16 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
         aspectsForm.clickApplyChangesButton();
         getBrowser().refresh();
 
-        logger.info("Step1: Click Actions -> Edit Properties option");
+        LOG.info("Step1: Click Actions -> Edit Properties option");
         documentDetailsPage.renderedPage();
         documentDetailsPage.clickEditProperties();
 
-        logger.info("Step2: Click '?' icon and verify the help message");
+        LOG.info("Step2: Click '?' icon and verify the help message");
 
         editPropertiesPage.clickHelpIconForRestrictableAspect();
         Assert.assertEquals(helpMessage, editPropertiesPage.getHelpMessageForRestrictableAspect());
 
-        logger.info("Step3: Fill in 'Offline Expires After (hours) and verify the change is saved");
+        LOG.info("Step3: Fill in 'Offline Expires After (hours) and verify the change is saved");
 
         editPropertiesPage.addOfflineExpiresAfterValue("48");
         editPropertiesPage.clickButton("Save");
@@ -105,7 +105,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     {
         fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
-        logger.info("Preconditions: Add Restrictable aspect to test file");
+        LOG.info("Preconditions: Add Restrictable aspect to test file");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileName);
         documentDetailsPage.clickManageAspects();
@@ -113,13 +113,13 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
         aspectsForm.clickApplyChangesButton();
         getBrowser().refresh();
 
-        logger.info("Step1: Click Actions -> Manage Aspects option");
+        LOG.info("Step1: Click Actions -> Manage Aspects option");
         documentDetailsPage.clickManageAspects();
 
-        logger.info("Step2: Click 'Remove' icon next to 'Restrictable' aspect");
+        LOG.info("Step2: Click 'Remove' icon next to 'Restrictable' aspect");
         aspectsForm.removeElement(0);
 
-        logger.info("Step3: Click 'Apply changes' button and verify the 'Restrictable' property is removed from 'Properties' section");
+        LOG.info("Step3: Click 'Apply changes' button and verify the 'Restrictable' property is removed from 'Properties' section");
         aspectsForm.clickApplyChangesButton();
         getBrowser().refresh();
         Assert.assertFalse(documentDetailsPage.isRestrictableAspectDisplayed(), "Restrictable aspect is not added");

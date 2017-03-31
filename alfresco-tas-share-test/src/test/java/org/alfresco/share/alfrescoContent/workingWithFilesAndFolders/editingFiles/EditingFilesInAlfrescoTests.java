@@ -41,7 +41,7 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        logger.info("Preconditions for Editing files in Google Docs tests");
+        LOG.info("Preconditions for Editing files in Google Docs tests");
 
         userName = "User" + DataUtil.getUniqueIdentifier();
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
@@ -64,31 +64,31 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editFileInAlfresco()
     {
-        logger.info("Preconditions: Navigate to document library page for the test site");
+        LOG.info("Preconditions: Navigate to document library page for the test site");
         documentLibraryPage.navigate(siteName);
 
-        logger.info("Step1: Hover over the test file and click Edit in Alfresco option");
+        LOG.info("Step1: Hover over the test file and click Edit in Alfresco option");
         documentLibraryPage.clickCheckBox(fileName);
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentActions.editInAlfresco"),
                 editInAlfrescoPage);
 
-        logger.info("Step2: Edit the document's properties by sending new input");
+        LOG.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.sendDocumentDetailsFields(editedName, editedContent, editedTitle, editedDescription);
 
-        logger.info("Step3: Click Save button");
+        LOG.info("Step3: Click Save button");
         editInAlfrescoPage.clickButton("Save");
         
         getBrowser().waitInSeconds(3);
-        logger.info("Step4: Verify the new title for the document");
+        LOG.info("Step4: Verify the new title for the document");
         Assert.assertTrue(docsCommon.isDocumentNameUpdated(editedName), "Document name is not updated");
 
-        logger.info("Step5: Click on document title to open the document's details page");
+        LOG.info("Step5: Click on document title to open the document's details page");
         docsCommon.clickOnUpdatedName(editedName);
 
-        logger.info("Step6: Verify the document's content");
+        LOG.info("Step6: Verify the document's content");
         Assert.assertEquals(detailsPage.getContentText(), editedContent);
 
-        logger.info("Step7: Verify Title and Description fields");
+        LOG.info("Step7: Verify Title and Description fields");
         Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedTitle), "Updated title is not displayed");
         Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedDescription), "Updated description is not displayed");
     }

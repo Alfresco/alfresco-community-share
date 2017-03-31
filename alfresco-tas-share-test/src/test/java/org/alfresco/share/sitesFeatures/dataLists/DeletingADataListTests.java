@@ -59,14 +59,14 @@ public class DeletingADataListTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deletingExistingListWithSiteManagerUser()
     {       
-        logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the 'Delete' button.");
+        LOG.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the 'Delete' button.");
         dataListsPage.clickDeleteButtonForList(listName);
         
-        logger.info("Step 2: Click on the 'Delete' button.");
+        LOG.info("Step 2: Click on the 'Delete' button.");
         deleteListPopUp.clickDeleteButton();
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "Successfully deleted list");
         
-        logger.info("Step 3: Check that list has been deleted and is no longed displayed in the Lists section.");
+        LOG.info("Step 3: Check that list has been deleted and is no longed displayed in the Lists section.");
         Assert.assertEquals("The list is displayed.", dataListsPage.getListsDisplayName().contains("first list"), false);
         Assert.assertEquals("At least one list is displayed.", dataListsPage.noListDisplayed(), true);
     }
@@ -75,14 +75,14 @@ public class DeletingADataListTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deletingOwnExistingList()
     {       
-        logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the 'Delete' button.");
+        LOG.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the 'Delete' button.");
         dataListsPage.clickDeleteButtonForList(listName);
         
-        logger.info("Step 2: Click on the 'Delete' button.");
+        LOG.info("Step 2: Click on the 'Delete' button.");
         deleteListPopUp.clickDeleteButton();
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "Successfully deleted list");
         
-        logger.info("Step 3: Check that list has been deleted and is no longed displayed in the Lists section.");
+        LOG.info("Step 3: Check that list has been deleted and is no longed displayed in the Lists section.");
         Assert.assertEquals("The list is displayed.", dataListsPage.getListsDisplayName().contains("first list"), false);
         Assert.assertEquals("At least one list is displayed.", dataListsPage.noListDisplayed(), true);
     }
@@ -91,16 +91,16 @@ public class DeletingADataListTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingDataList()
     {   
-        logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel.");
+        LOG.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel.");
         Assert.assertEquals("The 'Delete' button is not displayed.", true, dataListsPage.isDeleteButtonDisplayedForList(listName));
         
-        logger.info("Step 2: Click on the 'Delete' button.");
+        LOG.info("Step 2: Click on the 'Delete' button.");
         dataListsPage.clickDeleteButtonForList(listName);
         
-        logger.info("Step 3: Click on the 'Cancel' button.");
+        LOG.info("Step 3: Click on the 'Cancel' button.");
         deleteListPopUp.clickCancelButton();
         
-        logger.info("Step 4: Check that list has not been deleted and is still displayed in the Lists section.");
+        LOG.info("Step 4: Check that list has not been deleted and is still displayed in the Lists section.");
         Assert.assertEquals("The list is not displayed.", dataListsPage.getListsDisplayName().contains("first list"), true);
     }
 }

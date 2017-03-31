@@ -46,7 +46,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void createSite()
     {
-        logger.info("Preconditions for Data List Table Actions test");
+        LOG.info("Preconditions for Data List Table Actions test");
         siteName = "SiteName" + DataUtil.getUniqueIdentifier();
         description = "description" + DataUtil.getUniqueIdentifier();
         contactList = "ContactList" + DataUtil.getUniqueIdentifier();
@@ -72,13 +72,13 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     public void duplicateAction()
 
     {
-        logger.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
+        LOG.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
 
         Assert.assertTrue(manageContactListItems.isEditActionDisplayed(), "Edit action is not displayed");
         Assert.assertTrue(manageContactListItems.isDuplicateActionDisplayed(), "Duplicate action is not displayed");
         Assert.assertTrue(manageContactListItems.isDeleteActionDisplayed(), "Delete action is not displayed");
 
-        logger.info("Step 2: Click Duplicate action and verify the new item is displayed in the table");
+        LOG.info("Step 2: Click Duplicate action and verify the new item is displayed in the table");
         manageContactListItems.clickDuplicateAction();
 
         contactListSelectedContent.setBrowser(getBrowser());
@@ -87,7 +87,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
         Assert.assertEquals(contactListSelectedContent.duplicatedRows(Arrays.asList("FirstName", "LastName", "E-mail", "Company", "JobTitle", "PhoneOffice",
                 "PhoneMobile", "Notes")), true);
 
-        logger.info("Step 3: Click Edit action and verify it has identical data with source row");
+        LOG.info("Step 3: Click Edit action and verify it has identical data with source row");
 
         manageContactListItems.clickEditAction();
         getBrowser().waitInSeconds(3);
@@ -101,20 +101,20 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     public void deleteAction()
     {
 
-        logger.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
+        LOG.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
 
         Assert.assertTrue(manageContactListItems.isEditActionDisplayed(), "Edit action is not displayed");
         Assert.assertTrue(manageContactListItems.isDuplicateActionDisplayed(), "Duplicate action is not displayed");
         Assert.assertTrue(manageContactListItems.isDeleteActionDisplayed(), "Delete action is not displayed");
 
-        logger.info("Step 2: Click Delete action and verify Delete Item pop-up");
+        LOG.info("Step 2: Click Delete action and verify Delete Item pop-up");
 
         manageContactListItems.clickDeleteAction();
         Assert.assertTrue(manageContactListItems.isDeletePopUpDisplayed(), "Delete pop-up is not displayed");
         Assert.assertTrue(manageContactListItems.isDeleteButtonDisplayedOnDeletePopup(), "Delete button is not displayed");
         Assert.assertTrue(manageContactListItems.isCancelButtonDisplayedOnDeletePopup(), "Cancel button is not displayed");
 
-        logger.info("Step 3: Click Delete on the Delete Item pop-up and verify the item is deleted (data list contains no items)");
+        LOG.info("Step 3: Click Delete on the Delete Item pop-up and verify the item is deleted (data list contains no items)");
 
         manageContactListItems.confirmDeleteAction();
 
@@ -128,19 +128,19 @@ public class DataListTableActionsTests extends ContextAwareWebTest
 
     {
 
-        logger.info("Step 1: Hover over the new item and verify Edit, Duplicate, Delete actions are visible");
+        LOG.info("Step 1: Hover over the new item and verify Edit, Duplicate, Delete actions are visible");
 
         Assert.assertTrue(manageContactListItems.isEditActionDisplayed(), "Edit action is not displayed");
         Assert.assertTrue(manageContactListItems.isDuplicateActionDisplayed(), "Duplicate action is not displayed");
         Assert.assertTrue(manageContactListItems.isDeleteActionDisplayed(), "Delete action is not displayed");
 
-        logger.info("Step 2: Click Edit action and verify Edit Data Item window is opened");
+        LOG.info("Step 2: Click Edit action and verify Edit Data Item window is opened");
 
         manageContactListItems.clickEditAction();
         getBrowser().waitInSeconds(3);
         Assert.assertTrue(manageContactListItems.isEditItemWindowDisplayed(), "Edit Item window is not displayed");
 
-        logger.info("Steps 3,4: Edit data, save the changes and verify the changes are saved");
+        LOG.info("Steps 3,4: Edit data, save the changes and verify the changes are saved");
 
         manageContactListItems.editContactItem("editedFirstName", "editedLastName", "editedEmail", "editedCompany", "editedJob", "editedPhoneOffice",
                 "editedPhoneMobile", "editedNotes");

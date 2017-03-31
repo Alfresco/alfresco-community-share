@@ -33,23 +33,23 @@ public class ImportUsersTests extends ContextAwareWebTest
         String filePath = testDataFolder + file;
         String importedUser = "C9438user";
 
-        logger.info("Preconditions: User with administrator rights is created and logged into Share.");
+        LOG.info("Preconditions: User with administrator rights is created and logged into Share.");
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         groupService.addUserToGroup(adminUser, adminPassword, groupName, userName);
         setupAuthenticatedSession(userName, password);
 
-        logger.info("Step1: Navigate to 'Admin Tools' and click 'Users' link on 'Tools' pane.");
+        LOG.info("Step1: Navigate to 'Admin Tools' and click 'Users' link on 'Tools' pane.");
         adminTools.navigateToNodeFromToolsPanel("Users", usersPage);
 
-        logger.info("Step2: Click 'Upload User CSV File' button. Select users CSV file and click 'Upload File'.");
+        LOG.info("Step2: Click 'Upload User CSV File' button. Select users CSV file and click 'Upload File'.");
         usersPage.uploadUsers(filePath, "bla");
         uploadResults.renderedPage();
 
-        logger.info("Step3: Click 'Go Back' button from 'Upload Users' page.");
+        LOG.info("Step3: Click 'Go Back' button from 'Upload Users' page.");
         uploadResults.clickGoBack();
         usersPage.renderedPage();
 
-        logger.info("Step4: Search for the imported user.");
+        LOG.info("Step4: Search for the imported user.");
         usersPage.searchUser(importedUser);
         assertTrue(usersPage.verifyUserIsFound(importedUser), "User " + importedUser + " found");
 

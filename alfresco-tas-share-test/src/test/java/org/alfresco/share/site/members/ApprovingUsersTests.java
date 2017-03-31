@@ -79,45 +79,45 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void approvingUsersUsingMyTasksPage()
     {
-        logger.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
+        LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         siteFinderPage.navigate();
         siteFinderPage.searchSite(siteName);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
-        logger.info("Step 2: Click 'Request to Join' button");
+        LOG.info("Step 2: Click 'Request to Join' button");
         siteFinderPage.clickSiteButton(siteName, "Request to Join");
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
 
-        logger.info("Step 3: Login second user");
+        LOG.info("Step 3: Login second user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userManager, password);
 
-        logger.info("Step 4: Go to 'My Tasks' page");
+        LOG.info("Step 4: Go to 'My Tasks' page");
         menuNavigationBar.goTo(myTasksPage);
         Assert.assertTrue(myTasksPage.checkTaskWasFound(siteName));
 
-        logger.info("Step 5: Click 'Edit Task'");
+        LOG.info("Step 5: Click 'Edit Task'");
         myTasksPage.clickEditTask(siteName);
 
-        logger.info("Step 6: Approve the task");
+        LOG.info("Step 6: Approve the task");
         editTaskPage.approve("Approve", myTasksPage);
         Assert.assertFalse(myTasksPage.checkTaskWasFound(siteName));
 
-        logger.info("Step 7: Click on 'Completed' task");
+        LOG.info("Step 7: Click on 'Completed' task");
         myTasksPage.clickCompletedTasks();
         Assert.assertTrue(myTasksPage.checkTaskWasFound(siteName));
 
-        logger.info("Step 8: Click on 'View task' button");
+        LOG.info("Step 8: Click on 'View task' button");
         myTasksPage.clickViewTask(siteName);
         Assert.assertEquals(viewTaskPage.getRequestDetails(), "Details: Request to join " + siteName + " site (Review Invitation)");
         Assert.assertEquals(viewTaskPage.getInviteTaskTitle(), "User " + userTest + " has requested to join the " + siteName + " Site.");
 
-        logger.info("Step 9: Login first user");
+        LOG.info("Step 9: Login first user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userTest, password);
 
-        logger.info("Step 10: Verify 'My sites' dashlet from user's dashboard page");
+        LOG.info("Step 10: Verify 'My sites' dashlet from user's dashboard page");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName));
         mySitesDashlet.accessSite(siteName);
         Assert.assertEquals(siteDashboardPage.getPageHeader(), siteName);
@@ -127,42 +127,42 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void approvingUsersUsingMyTasksDashlet()
     {
-        logger.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
+        LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         siteFinderPage.navigate();
         siteFinderPage.searchSite(siteName);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
-        logger.info("Step 2: Click 'Request to Join' button");
+        LOG.info("Step 2: Click 'Request to Join' button");
         siteFinderPage.clickSiteButton(siteName, "Request to Join");
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
 
-        logger.info("Step 3: Login second user");
+        LOG.info("Step 3: Login second user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userManager, password);
 
-        logger.info("Step 4: Verify 'My Tasks' dashlet");
+        LOG.info("Step 4: Verify 'My Tasks' dashlet");
         userDashboardPage.navigate(userManager);
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks", "My Tasks Dashlet title is not correct");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName));
 
-        logger.info("Step 5: Click 'Edit Task'");
+        LOG.info("Step 5: Click 'Edit Task'");
         myTasksDashlet.clickEditTask(taskName);
 
-        logger.info("Step 6: Approve the task");
+        LOG.info("Step 6: Approve the task");
         editTaskPage.approve("Approve", myTasksDashlet);
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName));
 
-        logger.info("Step 7: Switch the filter to 'Completed tasks'");
+        LOG.info("Step 7: Switch the filter to 'Completed tasks'");
         userDashboardPage.navigate(userManager);
         myTasksDashlet.selectOptionFromTaskFilters("Completed Tasks");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName));
 
-        logger.info("Step 8: Login first user");
+        LOG.info("Step 8: Login first user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userTest, password);
 
-        logger.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");
+        LOG.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName));
         mySitesDashlet.accessSite(siteName);
         Assert.assertEquals(siteDashboardPage.getPageHeader(), siteName);
@@ -172,49 +172,49 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void rejectingUsersUsingMyTasksPage()
     {
-        logger.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
+        LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         menuNavigationBar.goTo(siteFinderPage);
         siteFinderPage.searchSite(siteName);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
-        logger.info("Step 2: Click 'Request to Join' button");
+        LOG.info("Step 2: Click 'Request to Join' button");
         siteFinderPage.clickSiteButton(siteName, "Request to Join");
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
 
-        logger.info("Step 3: Login second user");
+        LOG.info("Step 3: Login second user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userManager, password);
 
-        logger.info("Step 4: Go to 'My Tasks' page");
+        LOG.info("Step 4: Go to 'My Tasks' page");
         menuNavigationBar.goTo(myTasksPage);
         Assert.assertTrue(myTasksPage.checkTaskWasFound(siteName));
 
-        logger.info("Step 5: Click 'Edit Task'");
+        LOG.info("Step 5: Click 'Edit Task'");
         myTasksPage.clickEditTask(siteName);
 
-        logger.info("Step 6: Reject the task");
+        LOG.info("Step 6: Reject the task");
         editTaskPage.reject("Reject", myTasksPage);
         Assert.assertFalse(myTasksPage.checkTaskWasFound(siteName));
 
-        logger.info("Step 7: Click on 'Completed' task");
+        LOG.info("Step 7: Click on 'Completed' task");
         myTasksPage.clickCompletedTasks();
         Assert.assertTrue(myTasksPage.checkTaskWasFound(siteName));
 
-        logger.info("Step 8: Login first user");
+        LOG.info("Step 8: Login first user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userTest, password);
 
-        logger.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");
+        LOG.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName));
 
-        logger.info("Step 10: Open 'Site Finder' page and search for 'moderatedSite'");
+        LOG.info("Step 10: Open 'Site Finder' page and search for 'moderatedSite'");
         menuNavigationBar.goTo(siteFinderPage);
         siteFinderPage.searchSite(siteName);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
-        logger.info("Step 11: Click on the site");
+        LOG.info("Step 11: Click on the site");
         siteFinderPage.accessSite(siteName);
         Assert.assertEquals(siteDashboardPage.getPageHeader(), siteName);
         Assert.assertEquals(siteDashboardPage.getSiteVisibility(), "Moderated");
@@ -224,50 +224,50 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void rejectingUsersUsingMyTasksDashlet()
     {
-        logger.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
+        LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         menuNavigationBar.goTo(siteFinderPage);
         siteFinderPage.searchSite(siteName);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
-        logger.info("Step 2: Click 'Request to Join' button");
+        LOG.info("Step 2: Click 'Request to Join' button");
         siteFinderPage.clickSiteButton(siteName, "Request to Join");
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
 
-        logger.info("Step 3: Login second user");
+        LOG.info("Step 3: Login second user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userManager, password);
 
-        logger.info("Step 4: Verify 'My Tasks' dashlet");
+        LOG.info("Step 4: Verify 'My Tasks' dashlet");
         userDashboardPage.navigate(userManager);
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks", "My Tasks Dashlet title is not correct");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Active tasks");
 
-        logger.info("Step 5: Click 'Edit Task'");
+        LOG.info("Step 5: Click 'Edit Task'");
         myTasksDashlet.clickEditTask(taskName);
 
-        logger.info("Step 6: Reject the task");
+        LOG.info("Step 6: Reject the task");
         editTaskPage.reject("Reject", myTasksDashlet);
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "Task is present");
 
-        logger.info("Step 7: Switch the filter to 'Completed tasks'");
+        LOG.info("Step 7: Switch the filter to 'Completed tasks'");
         myTasksDashlet.selectOptionFromTaskFilters("Completed Tasks");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Completed tasks");
 
-        logger.info("Step 8: Login first user");
+        LOG.info("Step 8: Login first user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userTest, password);
 
-        logger.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");
+        LOG.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName));
 
-        logger.info("Step 10: Open 'Site Finder' page and search for 'moderatedSite'");
+        LOG.info("Step 10: Open 'Site Finder' page and search for 'moderatedSite'");
         menuNavigationBar.goTo(siteFinderPage);
         siteFinderPage.searchSite(siteName);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
-        logger.info("Step 11: Click on the site");
+        LOG.info("Step 11: Click on the site");
         siteFinderPage.accessSite(siteName);
         Assert.assertEquals(siteDashboardPage.getPageHeader(), siteName);
         Assert.assertEquals(siteDashboardPage.getSiteVisibility(), "Moderated");
@@ -278,43 +278,43 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     public void onlySiteManagersApproveRejectRequestToJoinSite()
     {
 
-        logger.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
+        LOG.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
         List<UserData> usersData = dataUtil.createUsersWithRoles(Arrays.asList("SiteCollaborator", "SiteContributor", "SiteConsumer"), userManager, siteName);
 
-        logger.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
+        LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         menuNavigationBar.goTo(siteFinderPage);
         siteFinderPage.searchSite(siteName);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
-        logger.info("Step 2: Click 'Request to Join' button");
+        LOG.info("Step 2: Click 'Request to Join' button");
         siteFinderPage.clickSiteButton(siteName, "Request to Join");
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
 
         for (UserData user : usersData)
         {
-            logger.info("Login as " + user.getUserRole());
+            LOG.info("Login as " + user.getUserRole());
             cleanupAuthenticatedSession();
             setupAuthenticatedSession(user.getUserName(), password);
 
-            logger.info("Verify 'My Tasks' dashlet");
+            LOG.info("Verify 'My Tasks' dashlet");
             userDashboardPage.navigate(user.getUserName());
             Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Active tasks");
 
-            logger.info("Verify 'My Tasks' page");
+            LOG.info("Verify 'My Tasks' page");
             menuNavigationBar.goTo(myTasksPage);
             Assert.assertFalse(myTasksPage.checkTaskWasFound(siteName), "Task is not present in Active tasks");
         }
 
-        logger.info("Step 3: Login as 'userManager'");
+        LOG.info("Step 3: Login as 'userManager'");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userManager, password);
 
-        logger.info("Step 4: Verify 'My Tasks' page");
+        LOG.info("Step 4: Verify 'My Tasks' page");
         menuNavigationBar.goTo(myTasksPage);
         Assert.assertTrue(myTasksPage.checkTaskWasFound(siteName), "Task is present in Active tasks");
 
-        logger.info("Step 5: Verify 'My Tasks' dashlet");
+        LOG.info("Step 5: Verify 'My Tasks' dashlet");
         userDashboardPage.navigate(userManager);
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "Task is present in Active tasks");
 

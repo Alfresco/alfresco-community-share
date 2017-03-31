@@ -53,17 +53,17 @@ public class EditingAListItemTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editingAMandatoryFieldOfAListItem()
     {      
-        logger.info("Preconditions: Create a second user"); 
+        LOG.info("Preconditions: Create a second user");
         String userTest = "User" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         
-        logger.info("Preconditions: Create a 'test.xlsx' file");
+        LOG.info("Preconditions: Create a 'test.xlsx' file");
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
-        logger.info("Preconditions: Create a new 'To Do' List with an item");
+        LOG.info("Preconditions: Create a new 'To Do' List with an item");
         String toDoListName = "toDo" + System.currentTimeMillis();
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.TODO_LIST, toDoListName, "To Do list description");
         DateTime currentDate = new DateTime();
@@ -73,15 +73,15 @@ public class EditingAListItemTests extends ContextAwareWebTest
         dataListsPage.navigate(siteName);
         dataListsPage.clickToDoListItem(toDoListName);
         
-        logger.info("Step 1: Click the 'Edit' button for the to do list item to be edited.");
+        LOG.info("Step 1: Click the 'Edit' button for the to do list item to be edited.");
         dataListsPage.currentContent.editItem(Arrays.asList("itemTitle", "1",  "In Progress", userTest+" "+userTest, "test.xlsx"));
         
-        logger.info("Step 2: Edit the title and click on 'Save' button.");
+        LOG.info("Step 2: Edit the title and click on 'Save' button.");
         editItemPopUp.editContent(ToDoAgendaFields.Title.toString(), "new Title");
         editItemPopUp.clickSave();
         Assert.assertEquals("The pop-up message isn't as expected.", "Data Item updated successfully", dataListsPage.currentContent.messageDisplayed());
         
-        logger.info("Step 3: Check the new firstName for the To do list item.");
+        LOG.info("Step 3: Check the new firstName for the To do list item.");
         Assert.assertEquals("The data list was not updated.", dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("new Title", currentDate.toString("EEE dd MMM yyyy HH:mm")+":00", "1",  "In Progress", userTest+" "+userTest, "test.xlsx")), true);
 
     }
@@ -91,7 +91,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
     public void editingANonMandatoryFieldOfAListItem()
     {      
        
-        logger.info("Preconditions: Create a new 'Contact' List with an item");
+        LOG.info("Preconditions: Create a new 'Contact' List with an item");
         String contactListName = "contact" + System.currentTimeMillis();
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, contactListName, "Contact list description");
         dataLists.addContactListItem(adminUser, adminPassword, siteName, contactListName, "firstName", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes");
@@ -99,15 +99,15 @@ public class EditingAListItemTests extends ContextAwareWebTest
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(contactListName);
         
-        logger.info("Step 1: Click the 'Edit' button for the contact list item to be edited.");
+        LOG.info("Step 1: Click the 'Edit' button for the contact list item to be edited.");
         dataListsPage.currentContent.editItem(Arrays.asList("firstName", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes"));
         
-        logger.info("Step 2: Edit the firstName and click on 'Save' button.");
+        LOG.info("Step 2: Edit the firstName and click on 'Save' button.");
         editItemPopUp.editContent(ContactListFields.FirstName.toString(), "new Name");
         editItemPopUp.clickSave();
         Assert.assertEquals("The pop-up message isn't as expected.", "Data Item updated successfully", dataListsPage.currentContent.messageDisplayed());
         
-        logger.info("Step 3: Check the new firstName for the Contact list item.");
+        LOG.info("Step 3: Check the new firstName for the Contact list item.");
         Assert.assertEquals("The data list was not updated.", dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("new Name", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes")), true);
 
     }

@@ -38,11 +38,11 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void checkManageAspectActions()
     {
-        logger.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
+        LOG.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
         setupAuthenticatedSession(userName, password);
         sharedFilesPage.navigate();
 
-        logger.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects Form");
+        LOG.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects Form");
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         assertTrue(aspectsForm.isAspectsFormTitleDisplayed(), "Aspects for the file form is not diplayed");
         assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel is not diaplyed");
@@ -58,20 +58,20 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsApplyChanges()
     {
-        logger.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
+        LOG.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
         setupAuthenticatedSession(userName, password);
         sharedFilesPage.navigate();
 
-        logger.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
+        LOG.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
 
-        logger.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
+        LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
         aspectsForm.addElement(0);
         getBrowser().waitInSeconds(1);
         assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 
-        logger.info("Step3: Click 'Apply Changes' and verify the aspect is added");
+        LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm.clickApplyChangesButton();
         getBrowser().waitInSeconds(1);
         getBrowser().refresh();
@@ -85,11 +85,11 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsActionMissing()
     {
-        logger.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
+        LOG.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
         setupAuthenticatedSession(userName1, password);
         sharedFilesPage.navigate();
 
-        logger.info("Step1: Hover over the folder created by other user and verify 'Manage Aspects' action is missing");
+        LOG.info("Step1: Hover over the folder created by other user and verify 'Manage Aspects' action is missing");
         sharedFilesPage.mouseOverContentItem(folderName);
         getBrowser().waitInSeconds(1);
         Assert.assertFalse(sharedFilesPage.isMoreMenuDisplayed(folderName), "'More' menu not displayed for " + folderName);

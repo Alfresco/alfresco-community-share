@@ -51,39 +51,39 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
         String editedInGoogleDocsTitle = uniqueIdentifier + "editedTestFile.docx";
         String editedInGoogleDocsContent = "Edited";
         
-        logger.info("Preconditions: Login to Share/Google Docs and navigate to document library page for the test site");
+        LOG.info("Preconditions: Login to Share/Google Docs and navigate to document library page for the test site");
         googleDocsCommon.loginToGoogleDocs();
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         uploadContent.uploadContent(googleDocPath);
 
-        logger.info("Step1: Hover over the test file and click Edit in Google Docs option");
+        LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
         documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs™", googleDocsCommon);
 
-        logger.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
+        LOG.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
         googleDocsCommon.clickOkButtonOnTheAuthPopup();
 
-        logger.info("Step3,4: Provide edited input to Google Docs file and close Google Docs tab");
+        LOG.info("Step3,4: Provide edited input to Google Docs file and close Google Docs tab");
         googleDocsCommon.switchToGoogleDocsWindowandAndEditContent(editedInGoogleDocsTitle, editedInGoogleDocsContent);
 
-        logger.info("Step5: Verify the file is locked and Google Drive icon is displayed");
+        LOG.info("Step5: Verify the file is locked and Google Drive icon is displayed");
         documentLibraryPage.renderedPage();
         Assert.assertTrue(googleDocsCommon.isLockedIconDisplayed(), "Locked icon displayed");
         Assert.assertTrue(googleDocsCommon.isLockedDocumentMessageDisplayed(), "Message about the file being locked displayed");
         Assert.assertTrue(googleDocsCommon.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
 
-        logger.info("Step6: Click Check In Google Doc™ and verify Version Information pop-up is displayed");
+        LOG.info("Step6: Click Check In Google Doc™ and verify Version Information pop-up is displayed");
         googleDocsCommon.checkInGoogleDoc(googleDocName);
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), true, "Version information pop-up displayed");
 
-        logger.info("Step7: Click OK button on Version Information and verify the pop-up is closed");
+        LOG.info("Step7: Click OK button on Version Information and verify the pop-up is closed");
         googleDocsCommon.clickOkButton();
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), false, "Version Information pop-up displayed");
 
-        logger.info("Step8: Verify the title for the document is changed");
+        LOG.info("Step8: Verify the title for the document is changed");
         Assert.assertTrue(googleDocsCommon.isDocumentNameUpdated(editedInGoogleDocsTitle), "Name of the document updated");
 
-        logger.info("Steps9, 10: Click on the document title and verify it's preview");
+        LOG.info("Steps9, 10: Click on the document title and verify it's preview");
         googleDocsCommon.clickOnUpdatedName(editedInGoogleDocsTitle);
         documentDetailsPage.renderedPage();
         Assert.assertTrue(documentDetailsPage.getContentText().replaceAll("\\s+", "").contains("Edited"),

@@ -43,7 +43,7 @@ public class DuplicateAListItemTests extends ContextAwareWebTest
     public void editingAMandatoryFieldOfAListItem()
     {      
         
-        logger.info("Preconditions: Create a new 'Contact' List with an item");
+        LOG.info("Preconditions: Create a new 'Contact' List with an item");
         String contactListName = "contact" + System.currentTimeMillis();
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, contactListName, "Contact list description");
         dataListsService.addContactListItem(adminUser, adminPassword, siteName, contactListName, "firstName", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes");
@@ -51,11 +51,11 @@ public class DuplicateAListItemTests extends ContextAwareWebTest
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(contactListName);
         
-        logger.info("Step 1: Select the list item of the Contact list.");
+        LOG.info("Step 1: Select the list item of the Contact list.");
         Assert.assertEquals("The data list is not displayed.", dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("firstName", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes")), true);
         Assert.assertEquals("The row added is unique.", dataListsPage.currentContent.duplicatedRows(Arrays.asList("new Name", "user", "test@test.com", "test Company", "test", "123456", "+41256422", "testNotes")), false);
         
-        logger.info("Step 2: Click the 'Duplicate' button for the contact list item to be edited.");
+        LOG.info("Step 2: Click the 'Duplicate' button for the contact list item to be edited.");
         dataListsPage.currentContent.duplicateItem(Arrays.asList("firstName", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes"));
         dataListsPage.waitUntilMessageDisappears();
         Assert.assertEquals("The data list item was not duplicated.", dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("firstName", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes")), true);

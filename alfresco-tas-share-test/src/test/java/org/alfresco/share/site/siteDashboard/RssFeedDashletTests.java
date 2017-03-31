@@ -40,21 +40,21 @@ public class RssFeedDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void rssFeedDashlet()
     {
-        logger.info("Step 1: Verify \"RSS Feed\" dashlet");
+        LOG.info("Step 1: Verify \"RSS Feed\" dashlet");
         siteDashboardPage.navigate(siteName);
         rssFeedDashlet.renderedPage();
         Assert.assertEquals(rssFeedDashlet.getFeedsListSize(), noOfFeeds);
 
-        logger.info("Step 2: Verify title bar actions from \"RSS Feed\" dashlet");
+        LOG.info("Step 2: Verify title bar actions from \"RSS Feed\" dashlet");
         Assert.assertTrue(rssFeedDashlet.isConfigureDashletIconDisplayed(), "Configure Dashlet Icon is displayed");
         Assert.assertTrue(rssFeedDashlet.isHelpIconDisplayed(DashletHelpIcon.RSS_FEED), "Help balloon is displayed");
 
-        logger.info("Step 3: Click \"?\" icon");
+        LOG.info("Step 3: Click \"?\" icon");
         rssFeedDashlet.clickOnHelpIcon(DashletHelpIcon.RSS_FEED);
         Assert.assertTrue(rssFeedDashlet.isBalloonDisplayed(), "Help balloon is displayed");
         Assert.assertEquals(rssFeedDashlet.getHelpBalloonMessage(), language.translate("rssFeedDashlet.helpBalloonMessage"), "Help balloon text");
 
-        logger.info("Step 3: Click \"X\" icon on balloon popup");
+        LOG.info("Step 3: Click \"X\" icon on balloon popup");
         rssFeedDashlet.closeHelpBalloon();
         Assert.assertFalse(rssFeedDashlet.isBalloonDisplayed(), "Help balloon isn't displayed");
     }

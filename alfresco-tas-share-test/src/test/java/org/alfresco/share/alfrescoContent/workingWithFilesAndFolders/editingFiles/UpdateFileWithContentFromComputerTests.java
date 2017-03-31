@@ -58,22 +58,22 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest 
 	@TestRail(id = "C7074")
 	@Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 	public void uploadFileUsingUploadNewVersion() {
-		logger.info("Preconditions: Navigate to Document Library page for the test site");
+		LOG.info("Preconditions: Navigate to Document Library page for the test site");
 		documentLibraryPage.navigate(siteName);
 
-		logger.info("Steps1: Click 'Upload new version' action for the test file");
+		LOG.info("Steps1: Click 'Upload new version' action for the test file");
 		documentLibraryPage.clickDocumentLibraryItemAction(testFileName, "Upload New Version", uploadFileDialog);
 
-		logger.info(
+		LOG.info(
 				"Step2 - Click on 'Select files to upload' button, browse to the new version of the test file and select it. Click 'Upload' button.");
 		uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
 
-		logger.info("Step3 - Check the new title of the file displayed in Document Library.");
+		LOG.info("Step3 - Check the new title of the file displayed in Document Library.");
 		documentLibraryPage.navigate(siteName);
 		getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//h3[@class='filename']//span[contains(@id, 'alf-')]//a[text()= '" + newVersionFileName + "']"), 6);
 		assertTrue(documentLibraryPage.isContentNameDisplayed(newVersionFileName),
 				String.format("The file [%s] is not present", newVersionFileName));
-		logger.info("Steps4,5: Click on the file and check the version and content are updated.");
+		LOG.info("Steps4,5: Click on the file and check the version and content are updated.");
 		documentLibraryPage.clickOnFile(newVersionFileName);
 		assertEquals(documentDetailsPage.getContentText(), "Edited content C7074",
 				String.format("Contents of %s are wrong.", newVersionFileName));

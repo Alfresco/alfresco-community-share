@@ -72,7 +72,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
         assertTrue(siteLinksDashlet.isBalloonDisplayed(), "Help balloon is displayed");
         assertEquals(siteLinksDashlet.getHelpBalloonMessage(), language.translate("siteLinksDashlet.helpBalloonMessage"), "Help balloon text is correct.");
 
-        logger.info("Step 3: Click 'X' icon on balloon popup");
+        LOG.info("Step 3: Click 'X' icon on balloon popup");
         siteLinksDashlet.closeHelpBalloon();
         assertFalse(siteLinksDashlet.isBalloonDisplayed(), "Help balloon isn't displayed");
     }

@@ -40,17 +40,17 @@ public class MyMeetingWorkspacesTests extends ContextAwareWebTest
     {  
         userDashboardPage.navigate(userName);
         
-        logger.info("Step 1: Verify 'My Meeting Workspaces' dahslet");
+        LOG.info("Step 1: Verify 'My Meeting Workspaces' dahslet");
         Assert.assertEquals(myMeetingWorkspacesDashlet.getDashletTitle(), "My Meeting Workspaces");
         Assert.assertEquals(myMeetingWorkspacesDashlet.getDefaultMessage(), "No meeting workspaces to display");
         
-        logger.info("Step 2: Click Help icon");
+        LOG.info("Step 2: Click Help icon");
         myMeetingWorkspacesDashlet.clickOnHelpIcon(DashletHelpIcon.MY_MEETING_WORKSPACES);
         Assert.assertTrue(myMeetingWorkspacesDashlet.isBalloonDisplayed());
         Assert.assertEquals(myMeetingWorkspacesDashlet.getHelpBalloonMessage(), "A Meeting Workspace is a type of site that is created outside of Alfresco. This dashlet lists all of your Meeting Workspace sites."
                +"\nFrom here you can navigate to a Meeting Workspace site. You can also delete a site, if you have the correct permissions.");
         
-        logger.info("Step 3: Close ballon popup");
+        LOG.info("Step 3: Close ballon popup");
         myMeetingWorkspacesDashlet.closeHelpBalloon();
         Assert.assertFalse(myMeetingWorkspacesDashlet.isBalloonDisplayed());
     }

@@ -315,7 +315,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(adminUser, adminPassword);
 
-        logger.info("Step 1: Change the current role to 'Consumer'");
+        LOG.info("Step 1: Change the current role to 'Consumer'");
         siteUsersPage.navigate(site8865);
         getBrowser().waitInSeconds(2);
         assertTrue(siteUsersPage.isASiteMember(user8865 + " " + user8865));
@@ -323,11 +323,11 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
         siteUsersPage.changeRoleForMember("Consumer", user8865);
         assertEquals(siteUsersPage.getRole(user8865), "Consumer ▾", user8865 + " has role=");
 
-        logger.info("Step 2: Logout and login with testUser credentials.");
+        LOG.info("Step 2: Logout and login with testUser credentials.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user8865, password);
 
-        logger.info("Step 3: Navigate to Document Library page.");
+        LOG.info("Step 3: Navigate to Document Library page.");
         documentLibraryPage.navigate(site8865);
         getBrowser().waitInSeconds(4);
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8865consumer, "Edit Properties"), "Edit Properties is not available.");

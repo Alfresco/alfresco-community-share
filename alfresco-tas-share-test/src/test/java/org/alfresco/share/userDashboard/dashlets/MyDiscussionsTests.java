@@ -41,22 +41,22 @@ public class MyDiscussionsTests extends ContextAwareWebTest
     { 
         userDashboardPage.navigate(userName);
         
-        logger.info("Step 1: Verify 'My Discussions' dahslet");
+        LOG.info("Step 1: Verify 'My Discussions' dahslet");
         Assert.assertEquals(myDiscussionsDashlet.getDashletTitle(), "My Discussions");
         Assert.assertEquals(myDiscussionsDashlet.getDefaultMessage(), "There are no topics matching your filters.");
         
-        logger.info("Step 2: Verify 'My Topics' filter");
+        LOG.info("Step 2: Verify 'My Topics' filter");
         Assert.assertTrue(myDiscussionsDashlet.checkTopicDropdownOptions());
         
-        logger.info("Step 3: Verify 'Topics updated in the last day' filter");
+        LOG.info("Step 3: Verify 'Topics updated in the last day' filter");
         Assert.assertTrue(myDiscussionsDashlet.checkHistoryDropdownOptions());
         
-        logger.info("Step 4: Click Help icon");
+        LOG.info("Step 4: Click Help icon");
         myDiscussionsDashlet.clickOnHelpIcon(DashletHelpIcon.MY_DISCUSSIONS);
         Assert.assertTrue(myDiscussionsDashlet.isBalloonDisplayed());
         Assert.assertEquals(myDiscussionsDashlet.getHelpBalloonMessage(), "Discussion Forum dashlet.\nView your latest posts on the Discussion Forum.");
         
-        logger.info("Step 5: Close ballon popup");
+        LOG.info("Step 5: Close ballon popup");
         myDiscussionsDashlet.closeHelpBalloon();
         Assert.assertFalse(myDiscussionsDashlet.isBalloonDisplayed());
     }

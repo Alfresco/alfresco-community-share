@@ -55,30 +55,30 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
 
-        logger.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
+        LOG.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
         List<UserData> usersData = dataUtil.createUsersWithRoles(Arrays.asList("SiteCollaborator", "SiteContributor", "SiteConsumer"), userManager, siteName);
 
         for (UserData user : usersData)
         {
-            logger.info("Login as " + user.getUserRole());
+            LOG.info("Login as " + user.getUserRole());
             cleanupAuthenticatedSession();
             setupAuthenticatedSession(user.getUserName(), password);
 
-            logger.info("Open 'Site Members' page for the site");
+            LOG.info("Open 'Site Members' page for the site");
             siteUsersPage.navigate(siteName);
 
-            logger.info("Try to change the role of any user from the list");
+            LOG.info("Try to change the role of any user from the list");
             Assert.assertFalse(siteUsersPage.isRoleButtonDisplayed(usersData.get(0).getUserName()), "The role button shouldn't be displayed");
         }
 
-        logger.info("Login as userManager");
+        LOG.info("Login as userManager");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userManager, password);
 
-        logger.info("Navigate to site and click 'Site Members' link");
+        LOG.info("Navigate to site and click 'Site Members' link");
         siteUsersPage.navigate(siteName);
 
-        logger.info("Change the role of 'userCollaborator' from 'Collaborator' to 'Contributor'");
+        LOG.info("Change the role of 'userCollaborator' from 'Collaborator' to 'Contributor'");
         assertEquals(siteUsersPage.getRole(usersData.get(0).getUserName()), "Collaborator ▾", usersData.get(0).getUserName() + " has role=");
         siteUsersPage.changeRoleForMember("Contributor", usersData.get(0).getUserName());
         assertEquals(siteUsersPage.getRole(usersData.get(0).getUserName()), "Contributor ▾", usersData.get(0).getUserName() + " has new role=");
@@ -102,27 +102,27 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
         setupAuthenticatedSession(userTest, password);
 
-        logger.info("Preconditions: Add the userTest in new created group. Add the group to site with 'Manager' role");
+        LOG.info("Preconditions: Add the userTest in new created group. Add the group to site with 'Manager' role");
         groupService.createGroup(adminUser, adminPassword, groupName);
         groupService.addUserToGroup(adminUser, adminPassword, groupName, userTest);
         groupService.inviteGroupToSite(adminUser, adminPassword, siteName, groupName, "SiteManager");
 
-        logger.info("Step 1: Open 'Site Members' page for the site");
+        LOG.info("Step 1: Open 'Site Members' page for the site");
         siteUsersPage.navigate(siteName);
         assertTrue(siteUsersPage.isASiteMember(userTest + " " + userTest));
         assertEquals(siteUsersPage.getRole(userTest), "Manager", userTest + " has role=");
 
-        logger.info("Step 2: Click on 'Groups' link");
+        LOG.info("Step 2: Click on 'Groups' link");
         siteUsersPage.openSiteGroupsPage();
         siteGroupsPage.typeSearchGroup(groupName);
         siteGroupsPage.clickSearch();
         assertTrue(siteGroupsPage.isASiteMember(groupName), "Expected group '" + groupName + "' is not present on the page.");
 
-        logger.info("Step 3: Change the current role to 'Consumer'");
+        LOG.info("Step 3: Change the current role to 'Consumer'");
         siteGroupsPage.changeRoleForMember("Consumer", groupName);
         // assertEquals(notification.getDisplayedNotification(), "Successfully changed role of group " + groupName + " to Consumer");
 
-        logger.info("Step 3: Click on 'Users' link and check the role of userTest has changed to 'Consumer'");
+        LOG.info("Step 3: Click on 'Users' link and check the role of userTest has changed to 'Consumer'");
         siteGroupsPage.openSiteUsersPage();
         assertTrue(siteUsersPage.isASiteMember(userTest + " " + userTest));
         assertEquals(siteUsersPage.getRole(userTest), "Consumer", userTest + " has role=");
@@ -142,17 +142,17 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
 
-        logger.info("Preconditions: Add the userTest to the created site with 'Manager' role");
+        LOG.info("Preconditions: Add the userTest to the created site with 'Manager' role");
         userService.createSiteMember(userManager, password, userTest, siteName, Role.SiteManager.toString());
 
         setupAuthenticatedSession(userManager, password);
 
-        logger.info("Step 1: Open 'Site Members' page for the site");
+        LOG.info("Step 1: Open 'Site Members' page for the site");
         siteUsersPage.navigate(siteName);
         assertTrue(siteUsersPage.isASiteMember(userTest + " " + userTest));
         assertEquals(siteUsersPage.getRole(userTest), "Manager ▾", userTest + " has role=");
 
-        logger.info("Step 2: Change the current role to 'Consumer'");
+        LOG.info("Step 2: Change the current role to 'Consumer'");
         siteUsersPage.changeRoleForMember("Consumer", userTest);
         // Assert.assertEquals(notification.getDisplayedNotification(), "Successfully changed role of user " + userTest + " to Consumer");
         assertEquals(siteUsersPage.getRole(userTest), "Consumer ▾", userTest + " has role=");

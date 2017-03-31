@@ -61,7 +61,7 @@ public class MyTasksTest extends ContextAwareWebTest
     public void someTasksAssigned()
     {
 
-        logger.info("Step 1: Verify My Tasks dashlet");
+        LOG.info("Step 1: Verify My Tasks dashlet");
         userDashboardPage.navigate(userName);
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks");  
         myTasksDashlet.isStartWorkFlowLinkDisplayed();
@@ -73,38 +73,38 @@ public class MyTasksTest extends ContextAwareWebTest
         myTasksDashlet.checkEditAndViewIconsForEachTask();
         myTasksDashlet.isHelpIconDisplayed(DashletHelpIcon.MY_TASKS);
         
-        logger.info("Step 2: Verify info for the created task");
+        LOG.info("Step 2: Verify info for the created task");
         Assert.assertTrue(myTasksDashlet.getTaskNamesList().get(0).equals(taskName), "Wrong task name!");
         Assert.assertTrue(myTasksDashlet.getTaskTypeAndStatusList().get(0).equals(taskTypeAndStatus), "Wrong type and status!");
         SimpleDateFormat dt = new SimpleDateFormat("dd MMMM, YYYY");
         System.out.println(dt.format(taskDate));
         Assert.assertTrue(myTasksDashlet.getTaskDueDateList().get(0).equals(dt.format(taskDate)), "Wrong due date!");
 
-        logger.info("Step 3: Click Start WorkFlow link");
+        LOG.info("Step 3: Click Start WorkFlow link");
         myTasksDashlet.clickOnStartWorkFlowLink();
         Assert.assertTrue(startWorkFlowPage.getPageTitle().equals("Alfresco » Start Workflow"), "Start Workflow page should be displayed!");
         
-        logger.info("Step 4: Go back to User Dashboard. Click Active Tasks link.");
+        LOG.info("Step 4: Go back to User Dashboard. Click Active Tasks link.");
         userDashboardPage.navigate(userName);
         myTasksDashlet.clickOnActiveTasksLink();
         Assert.assertTrue(activeTasksPage.getPageTitle().equals("Alfresco » My Tasks"), "My Tasks page should be displayed!");
         
-        logger.info("Step 5: Go back to User Dashboard. Click Completed Tasks link.");
+        LOG.info("Step 5: Go back to User Dashboard. Click Completed Tasks link.");
         userDashboardPage.navigate(userName);
         myTasksDashlet.clickOnCompletedTasksLink();
         Assert.assertTrue(completedTasksPage.getPageTitle().equals("Alfresco » My Tasks"), "My Tasks page should be displayed!");
         
-        logger.info("Step 6: Go back to User Dashboard. Click on task's name link.");
+        LOG.info("Step 6: Go back to User Dashboard. Click on task's name link.");
         userDashboardPage.navigate(userName);
         myTasksDashlet.clickOnTaskNameLink(taskName);
         Assert.assertTrue(editTaskPage.getPageTitle().equals("Alfresco » Edit Task"), "Edit task page should be displayed!");
         
-        logger.info("Step 7: Go back to User Dashboard. Click Edit Task icon near the task");
+        LOG.info("Step 7: Go back to User Dashboard. Click Edit Task icon near the task");
         userDashboardPage.navigate(userName);
         myTasksDashlet.clickEditTask(taskName);
         Assert.assertTrue(editTaskPage.getPageTitle().equals("Alfresco » Edit Task"), "Edit task page should be displayed!");
         
-        logger.info("Step 7: Go back to User Dashboard. Click View Task icon");
+        LOG.info("Step 7: Go back to User Dashboard. Click View Task icon");
         userDashboardPage.navigate(userName);
         myTasksDashlet.clickViewTask(taskName);
         Assert.assertTrue(viewTaskPage.getPageTitle().equals("Alfresco » Task Details"), "View task page should be displayed!!");

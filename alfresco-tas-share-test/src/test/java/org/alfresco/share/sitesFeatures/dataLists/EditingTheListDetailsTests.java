@@ -55,23 +55,23 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void modifyTitleAndDescriptionOfAnExistingList()
     {       
-        logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
+        LOG.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
         dataListsPage.clickEditButtonForList(listName);
         
-        logger.info("Step 2: Check available editing options.");
+        LOG.info("Step 2: Check available editing options.");
         Assert.assertEquals("The 'Cancel' button is not displayed.", editListDetailsPopUp.isCancelButtonDisplayed(), true);
         Assert.assertEquals("The 'Close' button is not displayed.", editListDetailsPopUp.isCloseButtonDisplayed(), true);
         Assert.assertEquals("The 'Edit' button is not displayed.", editListDetailsPopUp.isSaveButtonDisplayed(), true);
         
-        logger.info("Step 3: Modify the text for Title and Description.");
+        LOG.info("Step 3: Modify the text for Title and Description.");
         editListDetailsPopUp.modifyTitle("new Title");
         editListDetailsPopUp.modifyDescription("new description");
         
-        logger.info("Step 4: Click on the 'Save' button.");
+        LOG.info("Step 4: Click on the 'Save' button.");
         editListDetailsPopUp.clickSaveButton();
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "List details successfully updated for 'new Title'.");
         
-        logger.info("Step 5: Check and confirm that the list now displays the new title and description.");
+        LOG.info("Step 5: Check and confirm that the list now displays the new title and description.");
         Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsDisplayName().contains("new Title"), true);
     }
     
@@ -79,17 +79,17 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelModifyingTitleAndDescriptionOfAnExistingList()
     {       
-        logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
+        LOG.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
         dataListsPage.clickEditButtonForList(listName);
         
-        logger.info("Step 2: Modify the text for Title and Description.");
+        LOG.info("Step 2: Modify the text for Title and Description.");
         editListDetailsPopUp.modifyTitle("new Title");
         editListDetailsPopUp.modifyDescription("new description");
         
-        logger.info("Step 3: Click on the 'Cancel' button.");
+        LOG.info("Step 3: Click on the 'Cancel' button.");
         editListDetailsPopUp.clickCancelButton();
         
-        logger.info("Step 4: Check and confirm that the list not has been updated.");
+        LOG.info("Step 4: Check and confirm that the list not has been updated.");
         Assert.assertEquals("The updated list is displayed.", dataListsPage.getListsDisplayName().contains("new Title"), false);
         Assert.assertEquals("The list is not displayed.", dataListsPage.getListsDisplayName().contains(listName), true);
     }
@@ -98,17 +98,17 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void closeEditFormWithoutSavingChanges()
     {       
-        logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
+        LOG.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
         dataListsPage.clickEditButtonForList(listName);
         
-        logger.info("Step 2: Modify the text for Title and Description.");
+        LOG.info("Step 2: Modify the text for Title and Description.");
         editListDetailsPopUp.modifyTitle("new Title");
         editListDetailsPopUp.modifyDescription("new description");
         
-        logger.info("Step 3: Click on the 'X' button.");
+        LOG.info("Step 3: Click on the 'X' button.");
         editListDetailsPopUp.clickCloseButton();
         
-        logger.info("Step 4: Check and confirm that the list not has been updated.");
+        LOG.info("Step 4: Check and confirm that the list not has been updated.");
         Assert.assertEquals("The updated list is displayed.", dataListsPage.getListsDisplayName().contains("new Title"), false);
         Assert.assertEquals("The list is not displayed.", dataListsPage.getListsDisplayName().contains(listName), true);
     }
@@ -118,30 +118,30 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     public void editingExistingListWithSiteCollaboratorUser()
     {      
         
-        logger.info("Preconditions: Create a user with 'Collaborator' role");
+        LOG.info("Preconditions: Create a user with 'Collaborator' role");
         String collaborator = "Collaborator" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, collaborator, password, "collaborator@tests.com", "collaborator", "collaborator");
         userService.createSiteMember(userName, password, collaborator, siteName, "SiteCollaborator");
         setupAuthenticatedSession(collaborator, password);
         dataListsPage.navigate(siteName);
         
-        logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
+        LOG.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
         dataListsPage.clickEditButtonForList(listName);
         
-        logger.info("Step 2: Check available editing options.");
+        LOG.info("Step 2: Check available editing options.");
         Assert.assertEquals("The 'Cancel' button is not displayed.", editListDetailsPopUp.isCancelButtonDisplayed(), true);
         Assert.assertEquals("The 'Close' button is not displayed.", editListDetailsPopUp.isCloseButtonDisplayed(), true);
         Assert.assertEquals("The 'Edit' button is not displayed.", editListDetailsPopUp.isSaveButtonDisplayed(), true);
         
-        logger.info("Step 3: Modify the text for Title and Description.");
+        LOG.info("Step 3: Modify the text for Title and Description.");
         editListDetailsPopUp.modifyTitle("new Title");
         editListDetailsPopUp.modifyDescription("new description");
         
-        logger.info("Step 4: Click on the 'Save' button.");
+        LOG.info("Step 4: Click on the 'Save' button.");
         editListDetailsPopUp.clickSaveButton();
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "List details successfully updated for 'new Title'.");
         
-        logger.info("Step 5: Check and confirm that the list now displays the new title and description.");
+        LOG.info("Step 5: Check and confirm that the list now displays the new title and description.");
         Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsDisplayName().contains("new Title"), true);
     }
     
@@ -150,17 +150,17 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     public void contributorRoleIsNotAbleToEditExistingList()
     {      
         
-        logger.info("Preconditions: Create a user with 'Contributor' role");
+        LOG.info("Preconditions: Create a user with 'Contributor' role");
         String contributor = "Contributor" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, contributor, password, "collaborator@tests.com", "collaborator", "collaborator");
         userService.createSiteMember(userName, password, contributor, siteName, "SiteContributor");
         setupAuthenticatedSession(contributor, password);
         dataListsPage.navigate(siteName);
         
-        logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
+        LOG.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
         Assert.assertEquals("The edit button is enabled", dataListsPage.isEditButtonDisabled(listName), true);
         
-        logger.info("Step 2: Click on the Edit button.");
+        LOG.info("Step 2: Click on the Edit button.");
         dataListsPage.clickOnDisabledEditButton(listName);
         
     }
@@ -170,17 +170,17 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     public void consumerRoleIsNotAbleToEditExistingList()
     {      
         
-        logger.info("Preconditions: Create a user with 'Consumer' role");
+        LOG.info("Preconditions: Create a user with 'Consumer' role");
         String consumer = "Consumer" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, consumer, password, "collaborator@tests.com", "collaborator", "collaborator");
         userService.createSiteMember(userName, password, consumer, siteName, "SiteConsumer");
         setupAuthenticatedSession(consumer, password);
         dataListsPage.navigate(siteName);
         
-        logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
+        LOG.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
         Assert.assertEquals("The edit button is enabled", dataListsPage.isEditButtonDisabled(listName), true);
         
-        logger.info("Step 2: Click on the Edit button.");
+        LOG.info("Step 2: Click on the Edit button.");
         dataListsPage.clickOnDisabledEditButton(listName);
         
     }
@@ -190,7 +190,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     public void contributorRoleIsAbleToEditListCreatedBySameUser()
     {      
         
-        logger.info("Preconditions: Create a user with 'Collaborator' role and a list");
+        LOG.info("Preconditions: Create a user with 'Collaborator' role and a list");
         String contributor = "Contributor" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, contributor, password, "Contributor@tests.com", "Contributor", "Contributor");
         userService.createSiteMember(userName, password, contributor, siteName, "SiteContributor");
@@ -201,23 +201,23 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         dataListsService.createDataList(contributor, password, siteName, DataList.CONTACT_LIST, ownDataList, "contact link description");
         getBrowser().refresh();
         
-        logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
+        LOG.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
         dataListsPage.clickEditButtonForList(ownDataList);
         
-        logger.info("Step 2: Check available editing options.");
+        LOG.info("Step 2: Check available editing options.");
         Assert.assertEquals("The 'Cancel' button is not displayed.", editListDetailsPopUp.isCancelButtonDisplayed(), true);
         Assert.assertEquals("The 'Close' button is not displayed.", editListDetailsPopUp.isCloseButtonDisplayed(), true);
         Assert.assertEquals("The 'Edit' button is not displayed.", editListDetailsPopUp.isSaveButtonDisplayed(), true);
         
-        logger.info("Step 3: Modify the text for Title and Description.");
+        LOG.info("Step 3: Modify the text for Title and Description.");
         editListDetailsPopUp.modifyTitle("new Title");
         editListDetailsPopUp.modifyDescription("new description");
         
-        logger.info("Step 4: Click on the 'Save' button.");
+        LOG.info("Step 4: Click on the 'Save' button.");
         editListDetailsPopUp.clickSaveButton();
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "List details successfully updated for 'new Title'.");
         
-        logger.info("Step 5: Check and confirm that the list now displays the new title and description.");
+        LOG.info("Step 5: Check and confirm that the list now displays the new title and description.");
         Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsDisplayName().contains("new Title"), true);
         
     }
@@ -227,30 +227,30 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     public void siteManagerIsAbleToEditList()
     {      
         
-        logger.info("Preconditions: Create a user with 'Collaborator' role and a list");
+        LOG.info("Preconditions: Create a user with 'Collaborator' role and a list");
         String manager = "Manager" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, manager, password, "manager@tests.com", "manager", "manager");
         userService.createSiteMember(userName, password, manager, siteName, "SiteManager");
         setupAuthenticatedSession(manager, password);
         dataListsPage.navigate(siteName);
         
-        logger.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
+        LOG.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
         dataListsPage.clickEditButtonForList(listName);
         
-        logger.info("Step 2: Check available editing options.");
+        LOG.info("Step 2: Check available editing options.");
         Assert.assertEquals("The 'Cancel' button is not displayed.", editListDetailsPopUp.isCancelButtonDisplayed(), true);
         Assert.assertEquals("The 'Close' button is not displayed.", editListDetailsPopUp.isCloseButtonDisplayed(), true);
         Assert.assertEquals("The 'Edit' button is not displayed.", editListDetailsPopUp.isSaveButtonDisplayed(), true);
         
-        logger.info("Step 3: Modify the text for Title and Description.");
+        LOG.info("Step 3: Modify the text for Title and Description.");
         editListDetailsPopUp.modifyTitle("new Title");
         editListDetailsPopUp.modifyDescription("new description");
         
-        logger.info("Step 4: Click on the 'Save' button.");
+        LOG.info("Step 4: Click on the 'Save' button.");
         editListDetailsPopUp.clickSaveButton();
         Assert.assertEquals("The current message wasn't as expected.", dataListsPage.successfullyCreatedDataListMessage(), "List details successfully updated for 'new Title'.");
         
-        logger.info("Step 5: Check and confirm that the list now displays the new title and description.");
+        LOG.info("Step 5: Check and confirm that the list now displays the new title and description.");
         Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsDisplayName().contains("new Title"), true);
         
     }

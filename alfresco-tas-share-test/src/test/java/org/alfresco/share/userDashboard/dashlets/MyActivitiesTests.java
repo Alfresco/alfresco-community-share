@@ -160,7 +160,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
         assertTrue(myActivitiesDashlet.isBalloonDisplayed(), "Help balloon is displayed");
         assertEquals(myActivitiesDashlet.getHelpBalloonMessage(), language.translate("myActivities.help"), "Help balloon text");
 
-        logger.info("Step 4: Click 'X' icon on balloon popup");
+        LOG.info("Step 4: Click 'X' icon on balloon popup");
         myActivitiesDashlet.closeHelpBalloon();
         assertFalse(myActivitiesDashlet.isBalloonDisplayed(), "Help balloon isn't displayed");
     }

@@ -45,26 +45,26 @@ public class WebViewTests extends ContextAwareWebTest{
     {  
         userDashboardPage.navigate(userName);
         
-        logger.info("Step 1: Verify 'Web View' dahslet");
+        LOG.info("Step 1: Verify 'Web View' dahslet");
         Assert.assertEquals(webViewDashlet.getDashletTitle(), "Web View");
         Assert.assertEquals(webViewDashlet.getDefaultMessage(), "No web page to display.");
         Assert.assertTrue(webViewDashlet.isConfigureDashletIconDisplayed());
         Assert.assertTrue(webViewDashlet.isHelpIconDisplayed(DashletHelpIcon.WEB_VIEW));
         
-        logger.info("Step 2: Click Help icon");
+        LOG.info("Step 2: Click Help icon");
         webViewDashlet.clickOnHelpIcon(DashletHelpIcon.WEB_VIEW);
         Assert.assertTrue(webViewDashlet.isBalloonDisplayed());
         Assert.assertEquals(webViewDashlet.getHelpBalloonMessage(), "This dashlet shows the website of your choice. Click the edit icon on the dashlet "
                 + "to change the web address.\nClicking the dashlet title opens the website in a separate window.");
         
-        logger.info("Step 3: Close ballon popup");
+        LOG.info("Step 3: Close ballon popup");
         webViewDashlet.closeHelpBalloon();
         Assert.assertFalse(webViewDashlet.isBalloonDisplayed());
         
-        logger.info("Step 4: Click 'Configure this dashlet' icon");
+        LOG.info("Step 4: Click 'Configure this dashlet' icon");
         webViewDashlet.clickOnConfigureDashletIcon();
         
-        logger.info("Step 5: Verify 'Configure Web View Dashlet' window");
+        LOG.info("Step 5: Verify 'Configure Web View Dashlet' window");
         Assert.assertEquals(configureWebViewPopUp.getPopUpTitle(), "Configure Web View Dashlet");
         Assert.assertTrue(configureWebViewPopUp.isLinkTitleFieldDisplayed());
         Assert.assertTrue(configureWebViewPopUp.isUrlFieldDisplayed());
@@ -72,7 +72,7 @@ public class WebViewTests extends ContextAwareWebTest{
         Assert.assertTrue(configureWebViewPopUp.isCloseButtonDisplayed());
         Assert.assertTrue(configureWebViewPopUp.isCancelButtonDisplayed());
         
-        logger.info("Step 6: Close 'Configure Web View Dashlet' window");
+        LOG.info("Step 6: Close 'Configure Web View Dashlet' window");
         configureWebViewPopUp.clickCloseButton();
         
     }

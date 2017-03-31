@@ -53,7 +53,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void detailedView()
     {
-        logger.info("STEP 1 - Create document then update its content");
+        LOG.info("STEP 1 - Create document then update its content");
         String userName2 = "User2" + DataUtil.getUniqueIdentifier();
         userService.create(adminUser, adminPassword, userName2, password, userName1 + domain, userName1, userName1);
         String file = "TestDoc";
@@ -66,25 +66,25 @@ public class MyDocumentsTests extends ContextAwareWebTest
         myDocumentsDashlet.waitForDocument();
         userDashboardPage.navigate(userName1);
 
-        logger.info("STEP 2 - Check document title and small thumbnail");
+        LOG.info("STEP 2 - Check document title and small thumbnail");
         Assert.assertEquals(myDocumentsDashlet.getDocumentsLinks().get(0), file, "Document name is not correct");
         Assert.assertTrue(myDocumentsDashlet.isSmallThumbnailDisplayed(file), "Small thumbnail is not displayed");
 
-        logger.info("STEP 3 - Set document view to Detailed View and check comment and like sections");
+        LOG.info("STEP 3 - Set document view to Detailed View and check comment and like sections");
         myDocumentsDashlet.setDocumentView(DocumentView.DetailedView.toString());
         Assert.assertTrue(myDocumentsDashlet.isCommentLinkDisplayed(file), "Comment link is not displayed for document");
         Assert.assertTrue(myDocumentsDashlet.isLikeLinkDisplayed(file), "Like link is not displayed for document");
         Assert.assertEquals(myDocumentsDashlet.getNumberOfLikes(file), 1, "Document has wrong number of likes");
         userDashboardPage.navigate(userName1);
 
-        logger.info("STEP 4 - Add/Remove document from favorites");
+        LOG.info("STEP 4 - Add/Remove document from favorites");
         Assert.assertTrue(myDocumentsDashlet.isAddToFavoritesPresent(file), "Document should not be set as favourite");
         myDocumentsDashlet.addDocumentToFavorites(file);
         Assert.assertTrue(myDocumentsDashlet.isDocumentFavourite(file), "Document should be set as favourite");
         myDocumentsDashlet.removeDocumentFromFavorites(file);
         Assert.assertTrue(myDocumentsDashlet.isAddToFavoritesPresent(file), "Document should not be set as favourite");
 
-        logger.info("STEP 5 - Check document description, size, modified information, version and large thumbnail");
+        LOG.info("STEP 5 - Check document description, size, modified information, version and large thumbnail");
         Assert.assertEquals(myDocumentsDashlet.getDocumentDescription(file), "No Description", "Document should have no description");
         Assert.assertEquals(myDocumentsDashlet.getDocumentSize(file), "20 bytes", "Document size is not correct");
         Assert.assertEquals(myDocumentsDashlet.getModifiedInformation(file), "Modified just now in " + siteName1,
@@ -96,7 +96,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         getBrowser().navigate().back();
         userDashboardPage.navigate(userName1);
 
-        logger.info("STEP 6 - Check favorite icon on document details page");
+        LOG.info("STEP 6 - Check favorite icon on document details page");
         myDocumentsDashlet.addDocumentToFavorites(file);
         Assert.assertTrue(myDocumentsDashlet.isDocumentFavourite(file), "Document should be set as favourite");
         myDocumentsDashlet.accessDocument(file);
@@ -109,7 +109,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         myDocumentsDashlet.pressDocumentThumbnail(file);
         Assert.assertTrue(documentDetailsPage.isAddToFavoriteLinkDisplayed(), "Add to favorites link is displayed, document is not favorite");
 
-        logger.info("STEP 7 - Like document, check number of likes");
+        LOG.info("STEP 7 - Like document, check number of likes");
         contentAction.likeContent(userName1, password, siteName1, file);
         userDashboardPage.navigate(userName1);
         Assert.assertTrue(myDocumentsDashlet.isLikedIconDisplayed(file), "Like icon is not displayed for document");
@@ -118,7 +118,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         Assert.assertTrue(myDocumentsDashlet.isLikeLinkDisplayed(file), "Like icon is not displayed for document");
         Assert.assertEquals(myDocumentsDashlet.getNumberOfLikes(file), 1, "Document has wrong number of likes");
 
-        logger.info("STEP 8 - Press add comment, check that comment section is displayed on document details page");
+        LOG.info("STEP 8 - Press add comment, check that comment section is displayed on document details page");
         myDocumentsDashlet.addComment(file);
         Assert.assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "Add comment block is not displayed on document details page");
     }
@@ -130,7 +130,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         loginPage.navigate();
         loginPage.login(userName1, password);
 
-        logger.info("STEP 1 - Create 3 documents, one is checked out for edit and one is favorite");
+        LOG.info("STEP 1 - Create 3 documents, one is checked out for edit and one is favorite");
         String file1 = "File1" + DataUtil.getUniqueIdentifier();
         String file2 = "File2" + DataUtil.getUniqueIdentifier();
         String file3 = "File3" + DataUtil.getUniqueIdentifier();
@@ -145,7 +145,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         userDashboardPage.navigate(userName1);
         myDocumentsDashlet.waitForDocument();
 
-        logger.info("STEP 2 - Filter Editing documents, check that only file2 is listed, " + file2);
+        LOG.info("STEP 2 - Filter Editing documents, check that only file2 is listed, " + file2);
         myDocumentsDashlet.filterMyDocuments(DocumentsFilter.Editing.toString());
         myDocumentsDashlet.refreshWhileErrorLoadingDocumentsIsDisplayed();
         Assert.assertTrue(myDocumentsDashlet.areNumberOfDocumentsDisplayed(1), "Number of displayed documents is 1");
@@ -153,7 +153,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         Assert.assertFalse(myDocumentsDashlet.isDocumentPresent(file1), file1 + " is not present");
         Assert.assertFalse(myDocumentsDashlet.isDocumentPresent(file3), file3 + " is not present");
 
-        logger.info("STEP 3 - Filter Recently Modified documents, check that all files are listed: " + file1 + file2 + file3);
+        LOG.info("STEP 3 - Filter Recently Modified documents, check that all files are listed: " + file1 + file2 + file3);
         myDocumentsDashlet.filterMyDocuments(DocumentsFilter.RecentlyModified.toString());
         myDocumentsDashlet.refreshWhileErrorLoadingDocumentsIsDisplayed();
         Assert.assertTrue(myDocumentsDashlet.areNumberOfDocumentsDisplayed(3), "Number of displayed documents is 3");
@@ -161,7 +161,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         Assert.assertTrue(myDocumentsDashlet.isDocumentPresent(file2), file2 + " is present");
         Assert.assertTrue(myDocumentsDashlet.isDocumentPresent(file3), file3 + " is present");
 
-        logger.info("STEP 4 - Filter My Favorites documents, check that only file3 is listed, " + file3);
+        LOG.info("STEP 4 - Filter My Favorites documents, check that only file3 is listed, " + file3);
         myDocumentsDashlet.filterMyDocuments(DocumentsFilter.MyFavorites.toString());
         myDocumentsDashlet.refreshWhileErrorLoadingDocumentsIsDisplayed();
         Assert.assertTrue(myDocumentsDashlet.areNumberOfDocumentsDisplayed(1), "Number of displayed documents is 1");

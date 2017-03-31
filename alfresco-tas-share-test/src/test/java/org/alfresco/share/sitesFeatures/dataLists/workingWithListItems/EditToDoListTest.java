@@ -81,36 +81,36 @@ public class EditToDoListTest extends ContextAwareWebTest
         String dueDateTomorrowStringformated = dueDateTomorrow.toString("EEE d MMM yyyy");
         String newItemStatus = CMISUtil.Status.IN_PROGRESS.getValue();
 
-        logger.info("Step 1: Click the Edit button in the Actions field of the List Item");
+        LOG.info("Step 1: Click the Edit button in the Actions field of the List Item");
         dataListsPage.clickEditButtonForListItem();
 
-        logger.info("Step 2: Edit Title input");
+        LOG.info("Step 2: Edit Title input");
         editItemPopUp.editContent(ToDoAgendaFields.Title.toString(), titleInputToEdit);
 
-        logger.info("Step 3: Click on Due Date and select a different Due Date");
+        LOG.info("Step 3: Click on Due Date and select a different Due Date");
         editItemPopUp.editContent(ToDoAgendaFields.DueDate.toString(), dueDateTomorrowString);
 
-        logger.info("Step 4: Edit the HH:MM filed input");
+        LOG.info("Step 4: Edit the HH:MM filed input");
         editItemPopUp.editContent(ToDoAgendaFields.DueTime.toString(), dueTime);
 
-        logger.info("Step 5: Edit Priority");
+        LOG.info("Step 5: Edit Priority");
         editItemPopUp.editContent(ToDoAgendaFields.Priority.toString(), priorityEdited);
 
-        logger.info("Step 6: Edit Status");
+        LOG.info("Step 6: Edit Status");
         editItemPopUp.selectDropDownItem(newItemStatus, "todoStatus");
 
-        logger.info("Step 7: Edit the Notes value");
+        LOG.info("Step 7: Edit the Notes value");
         editItemPopUp.editContent(ToDoAgendaFields.Notes.toString(), notesEdited);
 
-        logger.info("Step 8: Edit the Assignee field, search for assignee2 and assign user to list item.");
+        LOG.info("Step 8: Edit the Assignee field, search for assignee2 and assign user to list item.");
         editItemPopUp.addAssignedToToDo(asigneeName);
 
-        logger.info(
+        LOG.info(
                 "Step 9: Edit the Attachments filed, add new attachment.f.e. from the Select... window navigate to data list (click Document Library and select data list). "
                         + "Click the + button for the documentLibrary and Ok button.");
         editItemPopUp.addAttachmentFromDocumentLibrary(attachedFile);
 
-        logger.info("Step 10: Click on Save");
+        LOG.info("Step 10: Click on Save");
         editItemPopUp.clickSave();
         List<String> expectedItem = Arrays.asList(titleInputToEdit, dueDateTomorrowStringformated + " " + dueTime, priorityEdited, newItemStatus,
                 notesEdited, asigneeName, attachedFile);
