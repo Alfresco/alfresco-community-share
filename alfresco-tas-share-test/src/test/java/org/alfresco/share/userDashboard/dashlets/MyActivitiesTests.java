@@ -1,6 +1,7 @@
 package org.alfresco.share.userDashboard.dashlets;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -92,12 +93,12 @@ public class MyActivitiesTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Visibility.PUBLIC);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, documentName, documentName + " content"); 
         sitePagesService.createBlogPost(userName, password, siteName, blogTitle, blogTitle + " content", false, null); //TODO check why blog creation isn't in My Activities dashlet
         sitePagesService.addCalendarEvent(userName, password, siteName, eventName, "Where " + eventName, "description " + eventName, today.toDate(), today.toDate(), "6:00 PM",
                 "8:00 PM", false, null);
         dataListsService.createDataList(userName, password, siteName, DataList.CONTACT_LIST, datalistName, "Contact list for user " + userName); //TODO check why data list creation isn't in My Activities dashlet
-        sitePagesService.createDiscussion(userName, password, siteName, discussionTitle, discussionTitle + " content", null);
-        contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, documentName, documentName + " content");
+        sitePagesService.createDiscussion(userName, password, siteName, discussionTitle, discussionTitle + " content", null);       
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + fileName);
         sitePagesService.createLink(userName, password, siteName, linkTitle, "www.google.com", linkTitle + " description", true, null);
         sitePagesService.createWiki(userName, password, siteName, wikiTitle, wikiTitle + " content ", null);
@@ -119,12 +120,12 @@ public class MyActivitiesTests extends ContextAwareWebTest
     {
         sitePagesService.deleteBlogPost(userName, password, siteName, blogTitle, false);
         sitePagesService.removeEvent(userName, password, siteName, eventName, "Where " + eventName, today.toDate(), today.toDate(), "6:00 PM", "8:00 PM", false);
-        dataListsService.deleteDataList(userName, password, siteName, datalistName);
-        sitePagesService.deleteDiscussion(userName, password, siteName, discussionTitle);
+        dataListsService.deleteDataList(userName, password, siteName, datalistName);   
         contentService.deleteDocument(userName, password, siteName, documentName);
         contentService.deleteDocument(userName, password, siteName, fileName);
         sitePagesService.deleteLink(userName, password, siteName, linkTitle);
         sitePagesService.deleteWikiPage(userName, password, siteName, wikiTitle);
+        sitePagesService.deleteDiscussion(userName, password, siteName, discussionTitle);
     }
 
     @TestRail(id = "C2111")
@@ -400,7 +401,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
 //        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
 
          LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
-         userDashboardPage.navigateByMenuBar();
+         menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(discussionTitle, topicListPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topiclist"), "'Discussions' page is opened.");
 
