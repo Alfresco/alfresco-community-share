@@ -3,6 +3,7 @@ package org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCatego
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -42,7 +43,7 @@ public class SelectDialog extends ShareDialog
     @FindBy(css = "div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-cancel-button']")
     private WebElement cancelButton;
 
-    private By itemsRows = By.cssSelector("tr.yui-dt-rec");
+    private By itemsRows = By.xpath("//tr[contains(@class, 'yui-dt-rec') and not(contains(@class, 'create-new-row'))]");
     private By addIcon = By.cssSelector("a[class*='add-item']");
     private By removeIcon = By.cssSelector("a[class*='remove-item']");
 
@@ -76,7 +77,16 @@ public class SelectDialog extends ShareDialog
         browser.waitInSeconds(2);
         for (String item : items)
         {
-            getItemElementFromResultsPicker(item).findElement(addIcon).click();
+            try
+            {
+                WebElement result = getItemElementFromResultsPicker(item);
+                Parameter.checkIsMandotary("Select item result", result);
+                result.findElement(addIcon).click();
+            }
+            catch (NoSuchElementException noSuchElementExp)
+            {
+                LOG.error("Item: " + item + " is not present in results.", noSuchElementExp);
+            }
         }
     }
 
@@ -86,7 +96,9 @@ public class SelectDialog extends ShareDialog
         {
             try
             {
-                getItemElementFromSelectedItemsPicker(item).findElement(removeIcon).click();
+                WebElement selectedItem = getItemElementFromSelectedItemsPicker(item);
+                Parameter.checkIsMandotary("Selected item", selectedItem);
+                selectedItem.findElement(removeIcon).click();
             }
             catch (NoSuchElementException noSuchElementExp)
             {
