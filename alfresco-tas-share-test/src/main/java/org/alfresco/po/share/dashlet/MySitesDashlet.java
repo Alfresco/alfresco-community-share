@@ -12,6 +12,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
@@ -21,6 +22,9 @@ import java.util.List;
 @PageObject
 public class MySitesDashlet extends Dashlet<MySitesDashlet>
 {
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
+
     @RenderWebElement
     @FindBy(css = "div.dashlet.my-sites")
     protected HtmlElement dashletContainer;
@@ -198,7 +202,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
         Parameter.checkIsMandotary("Site name", siteName);
         try
         {
-            WebElement siteRow = (WebElement) selectSiteDetailsRow(siteName);
+            WebElement siteRow = selectSiteDetailsRow(siteName);
             browser.mouseOver(siteRow);
             siteRow.findElement(By.cssSelector("a[class*='favourite-action']")).click();
         }
@@ -309,7 +313,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     public SiteDashboardPage accessSite(final String siteName)
     {
         browser.findFirstElementWithValue(sitesLinksList, siteName).click();
-        return new SiteDashboardPage();
+        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
     /**

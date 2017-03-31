@@ -1,7 +1,6 @@
 package org.alfresco.share.userDashboard.dashlets;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.dashlet.MySitesDashlet.SitesFilter;
@@ -14,9 +13,6 @@ import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MySitesTests extends ContextAwareWebTest
 {
@@ -115,11 +111,7 @@ public class MySitesTests extends ContextAwareWebTest
         userDashboardPage.navigate(userName);
 
         mySitesDashlet.clickOnFavoriteLink(siteName1);
-
         mySitesDashlet.accessSite(siteName2);
-        List<Page> pagesToAdd = new ArrayList<>();
-        pagesToAdd.add(Page.WIKI);
-        Assert.assertTrue(siteService.addPagesToSite(adminUser, adminPassword, siteName2, pagesToAdd));
 
         userDashboardPage.navigate(userName);
 
@@ -133,15 +125,15 @@ public class MySitesTests extends ContextAwareWebTest
         LOG.info("STEP 3 - Recent filter, check that only site1 is displayed");
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.Recent.toString());
         getBrowser().waitInSeconds(2);
-        Assert.assertTrue(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " should not be available");
-        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is not available");
-        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " should not be available");
+        Assert.assertTrue(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " is not available");
+        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is available");
+        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " is available");
 
         LOG.info("STEP 4 - My Favorites filter, check that only site1 is displayed");
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.MyFavorites.toString());
         getBrowser().waitInSeconds(2);
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is not available");
-        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " should not be available");
-        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " should not be available");
+        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " is available");
+        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " is available");
     }
 }
