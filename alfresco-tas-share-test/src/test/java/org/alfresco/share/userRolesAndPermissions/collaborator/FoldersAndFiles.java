@@ -4,7 +4,6 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
@@ -44,9 +43,6 @@ public class FoldersAndFiles extends ContextAwareWebTest
 
     @Autowired
     DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    CreateContent create;
 
     @Autowired
     DeleteDialog deleteDialog;

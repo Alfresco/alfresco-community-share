@@ -143,7 +143,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     @FindAll(@FindBy(css = ".documentDroppable .ygtvlabel"))
     private List<WebElement> explorerPanelDocumentsList;
 
-    @FindBy(css = ".filename a")
+    @FindAll(@FindBy(css = ".filename a"))
     private List<WebElement> contentItemsList;
 
     @FindBy(css = ".filename span[class='insitu-edit']")
