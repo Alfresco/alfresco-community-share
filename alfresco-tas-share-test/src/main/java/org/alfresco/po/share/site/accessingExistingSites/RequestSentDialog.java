@@ -1,6 +1,7 @@
 package org.alfresco.po.share.site.accessingExistingSites;
 
 import org.alfresco.utility.web.annotation.PageObject;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -21,5 +22,13 @@ public class RequestSentDialog extends ConfirmationDialog
     public String getDialogTitle()
     {
         return dialogTitle.getText();
+    }
+    
+    /**
+     * Click on the OK button
+     */
+    public void clickOKButton()
+    {
+        browser.waitUntilElementVisible(By.cssSelector("span[widgetid*='alfresco_buttons_AlfButton'] span")).click();
     }
 }
