@@ -64,6 +64,7 @@ public class CreateUsers extends SharePage<CreateUsers>
     @FindBy(css = "input[id*='disableaccount']")
     private WebElement dissableAccountCheckBox;
 
+    @RenderWebElement
     @FindBy(xpath = "//button[contains(text(),'Create User')]")
     private WebElement createUserButton;
 
