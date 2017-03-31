@@ -116,7 +116,7 @@ public class FoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8876")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void manageRulesFolderSelfCreated()
     {
         documentLibraryPage.navigate(site);
