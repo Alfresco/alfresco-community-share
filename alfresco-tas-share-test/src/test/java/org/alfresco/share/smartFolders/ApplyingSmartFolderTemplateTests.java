@@ -88,7 +88,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         LOG.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAvailableToAddPanelDisplayed(), "Available to Add panel diaplyed");
-        Assert.assertTrue(aspectsForm.isCurrentlySelectedtPanel(), "Currently Selected panel diaplyed");
+        Assert.assertTrue(aspectsForm.isCurrentlySelectedPanel(), "Currently Selected panel diaplyed");
         Assert.assertTrue(aspectsForm.areAddButtonsDisplayed(), "Add buttons displayed for all the available to add aspects");
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove buttons displayed for all the selected aspects");
         Assert.assertTrue(aspectsForm.isSaveButtonDisplayed(), "'Apply Changes' button displayed");

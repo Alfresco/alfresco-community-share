@@ -1,17 +1,16 @@
 package org.alfresco.po.share.alfrescoContent.aspects;
 
-import org.alfresco.po.share.site.SiteCommon;
+import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 import java.util.List;
 
 @PageObject
-public class AspectsForm extends SiteCommon<AspectsForm>
+public class AspectsForm extends ShareDialog
 {
     @RenderWebElement
     @FindBy(css = "[id$='default-aspects-title']")
@@ -34,30 +33,20 @@ public class AspectsForm extends SiteCommon<AspectsForm>
     @FindBy(css = "button[id*='ok-button']")
     protected WebElement saveButton;
 
-    @FindBy(xpath = "//span[contains(@class, 'removeIcon')]")
-    protected WebElement removeButton;
-
     @FindBy(xpath = "//div[contains(@class, 'set-bordered-panel') and normalize-space(.)='Restrictable']")
     protected WebElement restrictableArea;
 
-    @FindAll(@FindBy(css = "div[class*='list-left yui-dt'] tr[class*='yui-dt-rec']"))
-    protected List<WebElement> availableAspectsList;
-
-    @FindAll(@FindBy(css = "span[class*='addIcon']"))
-    protected List<HtmlElement> addButtonsList;
-
-    @FindAll(@FindBy(css = "div[class*='list-right yui-dt'] tr[class*='yui-dt-rec']"))
-    protected List<WebElement> aspectsSelectedList;
-
-    @FindAll(@FindBy(css = "span[class*='removeIcon']"))
-    protected List<HtmlElement> removeButtonsList;
+    protected By availableAspectsList = By.cssSelector("div[class*='list-left yui-dt'] tr[class*='yui-dt-rec']");
+    protected By aspectsSelectedList = By.cssSelector("div[class*='list-right yui-dt'] tr[class*='yui-dt-rec']");
+    protected By addButtonsList = By.cssSelector("span[class*='addIcon']");
+    protected By removeButtonsList = By.cssSelector("span[class*='removeIcon']");
 
     /**
      * Get list of aspects from "Available to add" panel
      */
     public List<WebElement> getAspectsToBeAddedList()
     {
-        return availableAspectsList;
+        return browser.findElements(availableAspectsList);
     }
 
     /**
@@ -65,45 +54,53 @@ public class AspectsForm extends SiteCommon<AspectsForm>
      */
     public List<WebElement> getSelectedAspectsList()
     {
-        return aspectsSelectedList;
+        return browser.findElements(aspectsSelectedList);
+    }
+
+    /**
+     * Get list of add buttons from "Available to add" panel
+     */
+    public List<WebElement> getAddButtonsList()
+    {
+        return browser.findElements(addButtonsList);
+    }
+
+    /**
+     * Get list of remove buttons from "Currently Selected" panel
+     */
+    public List<WebElement> getRemoveButtonsList()
+    {
+        return browser.findElements(removeButtonsList);
     }
 
     public boolean areAddButtonsDisplayed()
     {
-        int numberOfAspectsavailabletoAdd = availableAspectsList.size();
-        int numberOfAddButtonsDisplayed = addButtonsList.size();
+        int numberOfAspectsAvailableToAdd = getAspectsToBeAddedList().size();
+        int numberOfAddButtonsDisplayed = getAddButtonsList().size();
 
-        return numberOfAspectsavailabletoAdd == numberOfAddButtonsDisplayed;
-
+        return numberOfAspectsAvailableToAdd == numberOfAddButtonsDisplayed;
     }
 
     public boolean areRemoveButtonsDisplayed()
     {
-        int numberOfSelectedAspects = aspectsSelectedList.size();
-        int numberOfRemoveButtonsDisplayed = removeButtonsList.size();
+        int numberOfSelectedAspects = getSelectedAspectsList().size();
+        int numberOfRemoveButtonsDisplayed = getRemoveButtonsList().size();
 
         return numberOfSelectedAspects == numberOfRemoveButtonsDisplayed;
-
     }
 
     public boolean isAspectsFormTitleDisplayed()
-
     {
         return aspectsFormTitle.isDisplayed();
-
     }
 
     public boolean isAvailableToAddPanelDisplayed()
-
     {
-
         return availableToAddPanel.isDisplayed();
     }
 
-    public boolean isCurrentlySelectedtPanel()
-
+    public boolean isCurrentlySelectedPanel()
     {
-
         return availableToAddPanel.isDisplayed();
     }
 
@@ -123,19 +120,13 @@ public class AspectsForm extends SiteCommon<AspectsForm>
     }
 
     public WebElement getAvailableAspects(final String aspectName)
-
     {
-
         return browser.findFirstElementWithValue(availableAspectsList, aspectName);
-
     }
 
     public WebElement getSelectedAspects(final String aspectName)
-
     {
-
         return browser.findFirstElementWithValue(aspectsSelectedList, aspectName);
-
     }
 
     public boolean isAspectPresentOnAvailableAspectList(String aspectName)
@@ -171,26 +162,18 @@ public class AspectsForm extends SiteCommon<AspectsForm>
     }
 
     public void addElement(int aspectNumber)
-
     {
-
-        addButtonsList.get(aspectNumber).click();
-
+        getAddButtonsList().get(aspectNumber).click();
     }
 
     public void removeElement(int aspectNumber)
-
     {
-
-        removeButtonsList.get(aspectNumber).click();
-
+        getRemoveButtonsList().get(aspectNumber).click();
     }
 
     public void clickApplyChangesButton()
-
     {
         saveButton.click();
-
     }
 
     public boolean isRestrictableAspectAdded()
@@ -199,16 +182,7 @@ public class AspectsForm extends SiteCommon<AspectsForm>
     }
 
     public void clickCloseButton()
-
     {
         closeButton.click();
     }
-
-    @Override
-    public String getRelativePath()
-    {
-
-        return null;
-    }
-
 }
