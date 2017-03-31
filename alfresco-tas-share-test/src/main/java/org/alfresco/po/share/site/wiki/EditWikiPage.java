@@ -168,7 +168,9 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     public void clickInsertLibraryImage()
     {
         browser.refresh();
+        this.renderedPage();
         insertLibraryImage.click();
+        browser.waitInSeconds(2);
     }
 
     public SelectDocumentPopupPage clickInsertDocumentLink()
@@ -195,21 +197,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
 
     {
         String image = StringUtils.deleteWhitespace(imageLink + imageName + "')]");
-        return browser.waitUntilElementVisible(By.xpath(image)).isDisplayed();
-    }
-
-    public boolean existsElement(String imageName)
-    {
-        try
-        {
-            String image = StringUtils.deleteWhitespace(imageLink + imageName + "')]");
-            browser.findElement(By.xpath(image));
-        }
-        catch (NoSuchElementException e)
-        {
-            return false;
-        }
-        return true;
+        return browser.isElementDisplayed(browser.waitUntilElementVisible(By.xpath(image)));
     }
 
     /**

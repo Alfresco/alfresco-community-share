@@ -124,7 +124,7 @@ public class WikiMainPage extends SiteCommon<WikiMainPage> {
     {
         String image1 = imageLink + imageName + "')]";
         String image = StringUtils.deleteWhitespace(image1);
-        return browser.findElement(By.xpath(image)).isDisplayed();
+        return browser.isElementDisplayed(By.xpath(image));
     }
 
     public boolean clickOnRenameWikiMainPageButton() {

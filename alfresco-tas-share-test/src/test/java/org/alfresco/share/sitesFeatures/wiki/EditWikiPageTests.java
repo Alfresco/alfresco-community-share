@@ -150,9 +150,9 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("Preconditions: create site and wiki page, upload image in document library");
         siteName = "siteName" + DataUtil.getUniqueIdentifier();
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        contentService.uploadFileInSite(testUser, password, siteName, testDataFolder + image);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Content", null);
-        contentService.uploadFileInSite(testUser, password, siteName, testDataFolder + image);
         wikiListPage.navigate(siteName);
 
         LOG.info("STEP 1: Click on edit wiki page");
@@ -161,14 +161,13 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 2: Click 'Insert Library Image' button");
         editWikiPage.clickInsertLibraryImage();
         int i = 0;
-        while (!editWikiPage.existsElement(image) && i < 3)
+        while (!editWikiPage.isImageDisplayed(image) && i < 5)
         {
             editWikiPage.clickInsertLibraryImage();
             i++;
         }
 
         Assert.assertTrue(editWikiPage.islibraryImagesTitlebarDisplayed(), "Missing library images title bar!");
-        getBrowser().waitInSeconds(3);
         Assert.assertTrue(editWikiPage.isImageDisplayed(image), "Missing image thumbnail.");
 
         LOG.info("STEP 3: Click the image thumbnail");
