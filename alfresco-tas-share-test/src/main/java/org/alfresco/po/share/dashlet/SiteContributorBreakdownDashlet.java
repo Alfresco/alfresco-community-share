@@ -97,9 +97,16 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     public UserProfilePage clickOnUserSection(String userName)
     {
         List<WebElement> testUsers = browser.findElements(By.cssSelector("div[class='alfresco-charts-ccc-Chart'] text"));
-        WebElement userSectionElement = browser.findFirstElementWithValue(testUsers, userName);
-        Parameter.checkIsMandotary("User section", userSectionElement);
-        userSectionElement.click();
+        List<WebElement> pieChartSlices = browser.findElements(By.cssSelector("div[class='alfresco-charts-ccc-Chart'] path[transform]"));
+        for(int i = 0; i < testUsers.size(); i++)
+        {
+            if(testUsers.get(i).getText().contains(userName))
+            {
+                pieChartSlices.get(i).click();
+                break;
+            }
+        }
+
         return (UserProfilePage) userProfilePage.renderedPage();
     }
 }
