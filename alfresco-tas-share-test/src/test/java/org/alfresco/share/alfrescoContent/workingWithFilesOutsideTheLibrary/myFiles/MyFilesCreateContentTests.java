@@ -255,7 +255,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Document");
-        Assert.assertFalse(googleDocs.checkLockedLAbelIsDisplayed());
+        Assert.assertFalse(myFilesPage.isInfoBannerDisplayed(googleDocName), "Document is unlocked");
         Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed());
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocName));
     }
@@ -283,7 +283,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet");
-        Assert.assertFalse(googleDocs.checkLockedLAbelIsDisplayed());
+        Assert.assertFalse(myFilesPage.isInfoBannerDisplayed(googleDocSpreadsheet), "Document is unlocked");
         Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed());
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocSpreadsheet));
     }
@@ -311,7 +311,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Presentation");
-        Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false);
+        Assert.assertFalse(myFilesPage.isInfoBannerDisplayed(googleDocPresentation), "Document is unlocked");
         Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false);
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocPresentation));
     }

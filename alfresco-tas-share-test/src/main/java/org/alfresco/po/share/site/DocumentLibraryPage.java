@@ -1093,6 +1093,15 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     }
 
     /**
+     * Method to check if the info banner is displayed
+     */
+
+    public boolean isInfoBannerDisplayed(String fileName)
+    {
+        return browser.isElementDisplayed(selectDocumentLibraryItemRow(fileName), infoBanner);
+    }
+
+    /**
      * Method to get the locked by user name
      */
     public String getLockedByUserName()

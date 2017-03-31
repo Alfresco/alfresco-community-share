@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     private final String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
     private final String adminFile = "AdminFile" + DataUtil.getUniqueIdentifier();
     private final String fileContent = "FileContent";
+    private final String deletePath = "Sites/" + siteName + "/documentLibrary";
     @Autowired
     UploadContent uploadContent;
     @Autowired
@@ -57,7 +59,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, adminFile, fileContent);
-        setupAuthenticatedSession(userContributor, password);
+        docs.loginToGoogleDocs();
     }
 
     @TestRail(id = "C8910")
@@ -65,6 +67,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void createContent()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step1: On the Document Library Page click on 'Create' button.");
@@ -92,6 +95,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         String testFilePath = testDataFolder + fileName;
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step1: On the Document Library Page click on 'Upload' button.");
@@ -107,6 +111,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void downloadContent()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step1, 2: Mouse over the test file  from Document Library and click 'Download'.");
@@ -121,6 +126,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void viewInBrowser()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step1: Mouse over testFile and check 'View in Browser' is available.");
@@ -142,6 +148,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step1: Mouse over test File and check 'Upload new version' action is available.");
@@ -155,6 +162,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info("Steps4: Click on the file and check the content is updated.");
         documentLibraryPage.clickOnFile(newVersionFileName);
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFileName));
+        contentService.deleteContentByPath(adminUser, adminPassword, deletePath + "/" + newVersionFileName);
     }
 
     @TestRail(id = "C8915")
@@ -162,6 +170,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void uploadNewVersionForItemCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step1: Mouse over test File and check 'Upload new version' action is not available.");
@@ -174,22 +183,22 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void uploadNewVersionForItemLockedByUser()
     {
         String fileName = "FileName" + DataUtil.getUniqueIdentifier();
-
+        String siteNameC8916 = "SiteNameC8916" + DataUtil.getUniqueIdentifier();
         LOG.info("Preconditions: Create test site, add Contributor user to site. Create a test file in site. Login as admin and navigate to site's doc lib");
-        contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        siteService.create(adminUser, adminPassword, domain, siteNameC8916, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteNameC8916, "SiteContributor");
+        contentService.createDocument(userContributor, password, siteNameC8916, DocumentType.TEXT_PLAIN, fileName, fileContent);
         setupAuthenticatedSession(adminUser, adminPassword);
-        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.navigate(siteNameC8916);
 
         LOG.info("Steps1,2: Mouse over file and click 'Edit offline' action");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
 
         LOG.info("Steps3: Logout and login as Contributor user.");
-
-        cleanupAuthenticatedSession();
         setupAuthenticatedSession(userContributor, password);
 
         LOG.info("Steps4:  Navigate to test site's doc lib and verify the file is locked by admin");
-        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.navigate(siteNameC8916);
         Assert.assertEquals(documentLibraryPage.getLockedByUserName(), "Administrator", "Document appears to be locked by admin");
 
         LOG.info("Steps5: Verify 'Upload new Version' option is not available for Contributor user, since the file is locked by admin");
@@ -202,16 +211,17 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void editOnlineForContentCreatedBySelf()
     {
         String fileName = "FileName" + DataUtil.getUniqueIdentifier();
-        String fileContent = "FileContent" + DataUtil.getUniqueIdentifier();
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.MSWORD, fileName, fileContent);
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Steps1: Mouse over file and check 'Edit in Microsoft Office' action is available.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit in Microsoft Office"),
                 "Edit in Microsoft Office available for Contributor user");
 
+        contentService.deleteContentByPath(adminUser, adminPassword, deletePath + "/" + fileName);
     }
 
     @TestRail(id = "C8918")
@@ -222,11 +232,13 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.MSWORD, fileName, fileContent);
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Steps1: Mouse over file and check 'Edit in Microsoft Office' action is available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit in Microsoft Office"),
                 "Edit in Microsoft Office available for Contributor user");
+        contentService.deleteContentByPath(adminUser, adminPassword, deletePath + "/" + fileName);
     }
 
     @TestRail(id = "C8919")
@@ -237,6 +249,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Steps1: Mouse over file and check 'Edit in Alfresco' action is available.");
@@ -259,6 +272,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void editInlineForContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Steps1: Mouse over file and check 'Edit in Alfresco' action is available.");
@@ -276,6 +290,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Steps1: Mouse over file and check 'Edit Offline' action is available.");
@@ -283,14 +298,15 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Steps2: Click 'Edit Offline' action.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
+        documentLibraryPage.refresh();
+        documentLibraryPage.renderedPage();
 
         LOG.info("Steps3: Check the file is locked for offline editing.");
-        Assert.assertTrue(docs.isLockedDocumentMessageDisplayed(), "Document locked for offline editing");
+        Assert.assertEquals(documentLibraryPage.getInfoBannerText(fileName), "This document is locked by you for offline editing.", "Document appears to be locked");
 
         LOG.info("Steps4,5: Upload a new version for the locked document");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Upload New Version"),
-                "Upload New Version available for Contributor user");
-        documentLibraryPage.renderedPage();
+//        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Upload New Version"),
+//                "Upload New Version available for Contributor user");
 
         LOG.info("Steps6: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Upload New Version", uploadContent);
@@ -308,6 +324,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void editOfflineForContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Steps1: Mouse over file and check 'Edit Offline' action is available.");
@@ -322,7 +339,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         LOG.info(
                 "Preconditions: Create test site and add contributor member to site. As Contributor user, navigate to Document Library page for the test site and create Google Doc file");
-        docs.loginToGoogleDocs();
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
         // documentLibraryPage.uploadNewFile(googleDocPath);
@@ -343,15 +359,10 @@ public class FilesOnlyTests extends ContextAwareWebTest
         // getBrowser().waitUntilElementVisible(By.xpath("//img[contains(@title,'Locked by you')]"));
         documentLibraryPage.renderedPage();
         assertTrue(docs.isLockedIconDisplayed(), "Locked icon displayed");
-        assertTrue(docs.isLockedDocumentMessageDisplayed(), "Message about the file being locked displayed");
+        Assert.assertEquals(documentLibraryPage.getInfoBannerText("uploadedDoc.docx"), "This document is locked by you.", "Document appears to be locked");
         assertTrue(docs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
 
-        LOG.info("Steps4: Mouse over testFile name and verify 'Check In Google Doc' action is available");
-
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("uploadedDoc.docx", "Check In Google Doc"),
-                "Check In Google Doc available for Contributor user");
-
-        LOG.info("Steps5: Click 'Check In Google Doc' and verify Version Information window is displayed.");
+        LOG.info("Steps4, 5: Mouse over testFile name and Click 'Check In Google Doc'. Verify Version Information window is displayed.");
         documentLibraryPage.clickDocumentLibraryItemAction("uploadedDoc.docx", "Check In Google Doc", documentLibraryPage);
         getBrowser().waitInSeconds(10);
         Assert.assertEquals(docs.isVersionInformationPopupDisplayed(), true, "Version information pop-up displayed");
@@ -362,7 +373,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         Assert.assertEquals(docs.isVersionInformationPopupDisplayed(), false, "Version Information pop-up displayed");
 
         LOG.info("Steps7: Check the status for the file");
-        Assert.assertEquals(docs.checkLockedLAbelIsDisplayed(), false, "Document aapers to be unlocked");
+        Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed("GDTitle"), "Document appears to be unlocked");
 
         LOG.info("Steps8: testFile name.");
         documentLibraryPage.clickOnFile("GDTitle");
@@ -404,7 +415,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         LOG.info(
                 "Preconditions: Create test site and add contributor member to site. As Admin user, navigate to Document Library page for the test site and create Google Doc file. Check out the file in google Docs.");
-        docs.loginToGoogleDocs();
         setupAuthenticatedSession(adminUser, adminPassword);
         documentLibraryPage.navigate(siteName);
         uploadContent.uploadContent(googleDocPath);
@@ -431,12 +441,14 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Steps1: Mouse over file and click 'Edit Offline' action. Verify the file appears as locked.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
-        getBrowser().refresh();
-        Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
+        documentLibraryPage.refresh();
+        documentLibraryPage.renderedPage();
+        Assert.assertEquals(documentLibraryPage.getInfoBannerText(fileName), "This document is locked by you for offline editing.", "Document appears to be locked");
 
         LOG.info("Steps2: Hover over testFile and check whether 'Cancel editing' action is available");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Cancel Editing"),
@@ -444,8 +456,9 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Steps3: Click 'Cancel Editing' action and check whether the lock is removed for the test file");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Cancel Editing", documentLibraryPage);
-        getBrowser().refresh();
-        Assert.assertFalse(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
+        documentLibraryPage.refresh();
+        documentLibraryPage.renderedPage();
+        Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(fileName), "Document appears to be locked");
     }
 
     @TestRail(id = "C8930")
@@ -453,21 +466,23 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void cancelEditingContentLockedByOthers() throws Exception
     {
         String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String siteNameC8930 = "SiteC8930" + DataUtil.getUniqueIdentifier();
 
         LOG.info(
                 "Preconditions: Create test site and add Contributor member to site. Create a file in the Document Library for the test site, as admin user.");
-        contentService.createDocument(adminUser, adminUser, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        siteService.create(adminUser, adminPassword, domain, siteNameC8930, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteNameC8930, "SiteContributor");
+        contentService.createDocument(adminUser, adminPassword, siteNameC8930, DocumentType.TEXT_PLAIN, fileName, fileContent);
 
         LOG.info("Step1: Login as admin and lock test file - e.g. for offline editing");
         setupAuthenticatedSession(adminUser, adminPassword);
-        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.navigate(siteNameC8930);
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
-        getBrowser().waitUntilElementVisible(By.xpath("//div[contains(text(), 'This document is locked by you')]"));
-        Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
+        Assert.assertEquals(documentLibraryPage.getInfoBannerText(fileName), "This document is locked by you for offline editing.", "Document appears to be locked");
 
         LOG.info("Step2: Login as Contributor user and check whether the file appears as locked by Admin");
         setupAuthenticatedSession(userContributor, password);
-        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.navigate(siteNameC8930);
         Assert.assertEquals(documentLibraryPage.getLockedByUserName(), "Administrator", "The document is not locked");
 
         LOG.info("Step3: Hover over test file and check whether 'Cancel Editing' action is missing");
@@ -481,21 +496,23 @@ public class FilesOnlyTests extends ContextAwareWebTest
     {
         String fileName = "FileName" + DataUtil.getUniqueIdentifier();
         String content = "FileContent" + DataUtil.getUniqueIdentifier();
+        String siteNameC8931 = "SiteC8931" + DataUtil.getUniqueIdentifier();
 
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as admin user.");
-        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, content);
+        siteService.create(adminUser, adminPassword, domain, siteNameC8931, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteNameC8931, "SiteContributor");
+        contentService.createDocument(adminUser, adminPassword, siteNameC8931, DocumentType.TEXT_PLAIN, fileName, content);
         setupAuthenticatedSession(adminUser, adminPassword);
-        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.navigate(siteNameC8931);
 
         LOG.info("Steps1: Mouse over file and click 'Edit Offline' action. Verify the file appears as locked.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
-        getBrowser().waitUntilElementVisible(By.xpath("//div[contains(text(), 'This document is locked by you')]"));
-        Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
+        Assert.assertEquals(documentLibraryPage.getInfoBannerText(fileName), "This document is locked by you for offline editing.", "Document appears to be locked");
 
         LOG.info("Steps2: Logout and login as Contributor user; hover over testFile and check whether 'View Original Document' action is available");
         setupAuthenticatedSession(userContributor, password);
-        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.navigate(siteNameC8931);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "View Original Document"),
                 "View Original Document' action available for Contributor user");
 
@@ -514,22 +531,25 @@ public class FilesOnlyTests extends ContextAwareWebTest
     {
         String fileName = "FileName" + DataUtil.getUniqueIdentifier();
         String content = "FileContent" + DataUtil.getUniqueIdentifier();
+        String siteNameC8932 = "SiteC8932" + DataUtil.getUniqueIdentifier();
 
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as admin user.");
-        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, content);
+        siteService.create(adminUser, adminPassword, domain, siteNameC8932, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteNameC8932, "SiteContributor");
+        contentService.createDocument(adminUser, adminPassword, siteNameC8932, DocumentType.TEXT_PLAIN, fileName, content);
         setupAuthenticatedSession(adminUser, adminPassword);
-        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.navigate(siteNameC8932);
 
         LOG.info("Steps1: Mouse over file and click 'Edit Offline' action. Verify the file appears as locked.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Edit Offline", documentLibraryPage);
         documentLibraryPage.refresh();
         documentLibraryPage.renderedPage();
-        Assert.assertTrue(docs.checkLockedLAbelIsDisplayed(), "Document appears to be locked");
+        Assert.assertEquals(documentLibraryPage.getInfoBannerText(fileName), "This document is locked by you for offline editing.", "Document appears to be locked");
 
         LOG.info("Steps2: Logout and login as Contributor user; hover over testFile and click 'View Original Document' option");
         setupAuthenticatedSession(userContributor, password);
-        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.navigate(siteNameC8932);
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "View Original Document", documentDetailsPage);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Page displayed");
         assertEquals(documentDetailsPage.getContentText(), content, "File preview successfully displayed");
@@ -554,7 +574,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site.  As Contributor user, navigate to Document Library page for the test site and upload a .docx file.");
-        docs.loginToGoogleDocs();
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
         uploadContent.uploadContent(googleDocPath);
 
@@ -565,7 +585,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs", docs);
         docs.clickOkButtonOnTheAuthPopup();
-        switchWindow();
+        getBrowser().switchWindow(docsUrl);
 
         assertTrue(getBrowser().getCurrentUrl().contains(docsUrl),
                 "After clicking on Google Docs link, the title is: " + getBrowser().getCurrentUrl());
@@ -582,9 +602,10 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
-        LOG.info("Step1: Mouse over file and click 'Start Workflowe' action. Verify the file appears as locked.");
+        LOG.info("Step1: Mouse over file and click 'Start Workflow' action.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Start Workflow"),
                 "Start Workflow action available for Contributor user");
 
@@ -595,6 +616,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         startWorkflowPage.selectAWorkflow();
         startWorkflowPage.selectWorkflowToStartFromDropdownList("New Task");
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Start Workflow", "Displayed page=");
+        contentService.deleteContentByPath(adminUser, adminPassword, deletePath + "/" + fileName);
     }
 
     @TestRail(id = "C8935")
@@ -606,6 +628,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step1: In Documents Library, go to Documents sections and select Recently Added.");
@@ -613,7 +636,10 @@ public class FilesOnlyTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentLibraryPage.DocumentsFilters.RecentlyAdded.header,
                 "Recently added documents are displayed.");
         if(!documentLibraryPage.isContentNameDisplayed(fileName))
-            getBrowser().refresh();
+        {
+            documentLibraryPage.refresh();
+            documentLibraryPage.renderedPage();
+        }
 
         LOG.info("Step2: Hover over test file and click 'Locate File'.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Locate File", documentLibraryPage);
@@ -622,7 +648,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), "User is redirected to location of the created document.");
        // On 5.2, the file it's checked
        // assertTrue(documentLibraryPage.isContentSelected(fileName), "Document is checked.");
-
+        contentService.deleteContentByPath(adminUser, adminPassword, deletePath + "/" + fileName);
     }
 
     @TestRail(id = "C8936")
@@ -636,6 +662,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, "");
+        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step1: Hover over the test file and click More -> Upload New Version");
@@ -669,7 +696,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void revertToPreviousVersion()
     {
         String fileName = "FileName" + DataUtil.getUniqueIdentifier();
-        String newVersionFileName = "NewVersionC8936.txt";
+        String newVersionFileName = "NewVersionC8937.txt";
         String newVersionFilePath = testDataFolder + newVersionFileName;
 
         LOG.info(
@@ -683,7 +710,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Steps2,3: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Minor);
-        documentLibraryPage.renderedPage();
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
 
@@ -699,7 +725,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step6: Click on 'Revert' action. Click 'Ok' button on the displayed pop-up for confirmation.");
         documentDetailsPage.clickRevertButton();
         documentDetailsPage.clickOkOnRevertPopup();
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//*[contains(text(), 'original content')]"));
         Assert.assertEquals(documentDetailsPage.getContentText(), "original content", "New version's content");
         Assert.assertTrue(documentDetailsPage.isNewVersionAvailable("1.2"), "New minor version created");
     }

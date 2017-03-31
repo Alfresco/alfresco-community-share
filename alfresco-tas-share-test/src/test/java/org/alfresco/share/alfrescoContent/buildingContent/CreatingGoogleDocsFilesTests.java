@@ -33,7 +33,8 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, "Site used for Google Docs", Visibility.PUBLIC);
-
+        googleDocs.loginToGoogleDocs();
+        setupAuthenticatedSession(user, password);
     }
 
     @TestRail(id = "C6990")
@@ -41,8 +42,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     public void createGoogleDocsDocument() throws Exception
     {
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
-        googleDocs.loginToGoogleDocs();
-        setupAuthenticatedSession(user, password);
+
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Document'");
@@ -56,15 +56,13 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         googleDocs.switchToGoogleDocsWindowandAndEditContent(documentTitle, content);
         documentLibraryPage.renderedPage();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Untitled Document"), "The file created with Google Docs present");
-        Assert.assertTrue(googleDocs.isLockedDocumentMessageDisplayed(), "Locked label displayed");
+        Assert.assertEquals(documentLibraryPage.getInfoBannerText("Untitled Document"), "This document is locked by you.", "Document appears to be locked");
         Assert.assertTrue(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore");
         googleDocs.checkInGoogleDoc("Untitled Document");
-        Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false, "Locked label displayed");
-        Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false, "Google Drive icon displayed");
-
-        cleanupAuthenticatedSession();
+        Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(documentTitle), "Locked label displayed");
+        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed(), "Google Drive icon displayed");
 
     }
 
@@ -73,8 +71,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     public void createGoogleDocsSpreadsheet() throws Exception
     {
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
-        googleDocs.loginToGoogleDocs();
-        setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Spreadsheet'");
@@ -88,16 +84,13 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         googleDocs.switchToGoogleSheetsWindowandAndEditContent(spreadsheetTitle, content);
         documentLibraryPage.renderedPage();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Untitled Spreadsheet"), "The file created with Google Docs present");
-        Assert.assertTrue(googleDocs.isLockedDocumentMessageDisplayed(), "Locked label displayed");
+        Assert.assertEquals(documentLibraryPage.getInfoBannerText("Untitled Spreadsheet"), "This document is locked by you.", "Document appears to be locked");
         Assert.assertTrue(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore");
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet");
-        Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false, "Locked label displayed");
-        Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false, "Google Drive icon displayed");
-
-        cleanupAuthenticatedSession();
-
+        Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(spreadsheetTitle), "Locked label displayed");
+        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed(), "Google Drive icon displayed");
     }
 
     @TestRail(id = "C6992")
@@ -105,8 +98,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     public void createGoogleDocsPresentation() throws Exception
     {
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
-        googleDocs.loginToGoogleDocs();
-        setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Presentation'");
@@ -120,16 +111,13 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         googleDocs.switchToGooglePresentationsAndEditContent(presentationTitle);
         documentLibraryPage.renderedPage();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Untitled Presentation"), "The file created with Google Docs present");
-        Assert.assertTrue(googleDocs.isLockedDocumentMessageDisplayed(), "Locked label displayed");
+        Assert.assertEquals(documentLibraryPage.getInfoBannerText("Untitled Presentation"), "This document is locked by you.", "Document appears to be locked");
         Assert.assertTrue(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore");
 
         googleDocs.checkInGoogleDoc("Untitled Presentation");
-        Assert.assertEquals(googleDocs.checkLockedLAbelIsDisplayed(), false, "Locked label displayed");
-        Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false, "Google Drive icon displayed");
-
-        cleanupAuthenticatedSession();
-
+        Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(presentationTitle), "Locked label displayed");
+        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed(), "Google Drive icon displayed");
     }
 }

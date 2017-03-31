@@ -4,6 +4,7 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -30,6 +31,9 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     @Autowired
     AspectsForm aspectsForm;
+
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
 
     @FindBy(css = ".filename")
     protected WebElement fileListLocator;
@@ -327,9 +331,12 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     /**
      * Method used to click 'Ok' button on 'Revert to previous version' pop-up
      */
-    public void clickOkOnRevertPopup()
+    public DocumentDetailsPage clickOkOnRevertPopup()
     {
         okOnRevertPopup.click();
+        browser.waitInSeconds(3);
+        browser.refresh();
+        return (DocumentDetailsPage) this.renderedPage();
     }
 
     public String getCommentContent()
@@ -586,9 +593,10 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     /**
      * Method to click on the Documents link
      */
-    public void clickDocumentsLink()
+    public DocumentLibraryPage clickDocumentsLink()
     {
         browser.findElement(documentsLink).click();
+        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
     /**
@@ -866,6 +874,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     public void clickRevertButton()
     {
         revertButton.click();
+        browser.waitUntilElementVisible(okOnRevertPopup);
     }
 
     /**
