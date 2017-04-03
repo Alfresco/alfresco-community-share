@@ -66,16 +66,12 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
 
         LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
-        aspectsForm.addElement(0);
-        getBrowser().waitInSeconds(1);
+        aspectsForm.addAspect("Classifiable");
         assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 
         LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
-        aspectsForm.clickApplyChangesButton();
-        getBrowser().waitInSeconds(1);
-        getBrowser().refresh();
-        sharedFilesPage.renderedPage();
+        aspectsForm.clickApplyChangesButton(sharedFilesPage);
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");

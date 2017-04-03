@@ -166,9 +166,9 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("Data Dictionary");
         repositoryPage.clickOnFolderName("Space Templates");
-        documentLibraryPage.clickDocumentLibraryItemAction(templateFolderName, "Manage Aspects", aspectsForm);
-        aspectsForm.addElement(0);
-        aspectsForm.clickApplyChangesButton();
+        repositoryPage.clickDocumentLibraryItemAction(templateFolderName, "Manage Aspects", aspectsForm);
+        aspectsForm.addAspect("Classifiable");
+        aspectsForm.clickApplyChangesButton(repositoryPage);
 
         cleanupAuthenticatedSession();
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);

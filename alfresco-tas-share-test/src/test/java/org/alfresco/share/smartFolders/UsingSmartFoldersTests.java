@@ -84,7 +84,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         editPropertiesPage.clickButtonForFolder("Save");
 
         LOG.info("Step4: Click on the folder and verify it has 'Smart Folder' structure under it");
-        getBrowser().waitInSeconds(1);
         documentLibraryPage.clickOnFolderName(folderName);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");

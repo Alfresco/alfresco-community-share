@@ -191,7 +191,6 @@ public class FoldersAndFiles extends ContextAwareWebTest
         selectDialog.clickOk();
 
         LOG.info("Step 7: Click 'Save' button.");
-        editFilePropertiesDialog.renderedPage();
         editFilePropertiesDialog.clickSave();
         documentLibraryPage.renderedPage();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(editedName), "Edited document name is not found");
@@ -497,12 +496,12 @@ public class FoldersAndFiles extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(testFolder11, "Manage Aspects", aspectsForm);
 
         LOG.info("Step 2: Make some changes, e.g: Add an aspect to your folder.");
-        aspectsForm.addElement(0);
+        aspectsForm.addAspect("Classifiable");
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 
         LOG.info("Step 3: Click on 'Apply changes' button.");
-        aspectsForm.clickApplyChangesButton();
+        aspectsForm.clickApplyChangesButton(documentLibraryPage);
         Assert.assertTrue(documentCommon.getFadedDetailsList().contains("No Categories"), "Folder does not have Classifiable aspect added.");
 
     }
@@ -522,12 +521,12 @@ public class FoldersAndFiles extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(testFolder12, "Manage Aspects", aspectsForm);
 
         LOG.info("Step 2: Make some changes, e.g: Add an aspect to your folder.");
-        aspectsForm.addElement(0);
+        aspectsForm.addAspect("Classifiable");
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 
         LOG.info("Step 3: Click on 'Apply changes' button.");
-        aspectsForm.clickApplyChangesButton();
+        aspectsForm.clickApplyChangesButton(documentLibraryPage);
         Assert.assertTrue(documentCommon.getFadedDetailsList().contains("No Categories"), "Folder does not have Classifiable aspect added.");
 
     }

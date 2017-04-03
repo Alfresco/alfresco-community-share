@@ -2,6 +2,7 @@ package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -27,6 +28,9 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 
     @Autowired
     DocumentLibraryPage documentLibraryPage;
+
+    @Autowired
+    SelectDialog selectDialog;
 
     @RenderWebElement
     @FindAll(@FindBy(css = "button[id*='form']"))
@@ -151,9 +155,9 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 
     }
 
-    public void clickSelectButtonForCustomSmartFolder()
-
+    public SelectDialog clickSelectButtonForCustomSmartFolder()
     {
         selectButtonForCustomSmartFolder.click();
+        return (SelectDialog) selectDialog.renderedPage();
     }
 }

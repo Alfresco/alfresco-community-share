@@ -2,6 +2,7 @@ package org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCatego
 
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
@@ -22,6 +23,9 @@ public class SelectDialog extends ShareDialog
 {
     @Autowired
     EditPropertiesDialog editPropertiesDialog;
+
+    @Autowired
+    EditPropertiesPage editPropertiesPage;
 
     @FindBy(css = "div[id*='prop_cm_taggable-cntrl-picker_c'] div[id*='cntrl-picker-head']")
     private WebElement dialogTitle;
@@ -151,6 +155,12 @@ public class SelectDialog extends ShareDialog
         return (EditPropertiesDialog) editPropertiesDialog.renderedPage();
     }
 
+    public EditPropertiesPage clickOkAndRenderPropertiesPage()
+    {
+        okButton.click();
+        return (EditPropertiesPage) editPropertiesPage.renderedPage();
+    }
+
     public void clickCancel()
     {
         cancelButton.click();
@@ -171,10 +181,5 @@ public class SelectDialog extends ShareDialog
         browser.waitUntilElementClickable(createNewIcon, 5);
         createNewIcon.click();
         browser.waitUntilElementClickable(removeIcon, 20L);
-    }
-    
-    public void clickAdd()
-    {
-        browser.findElement(addIcon).click();
     }
 }

@@ -231,7 +231,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
         }
         else
         {
-            browser.waitUntilElementDeletedFromDom(By.cssSelector(".node.topic.simple"), 30);
+            browser.waitUntilElementDeletedFromDom(By.cssSelector(".node.topic.simple"));
         }
         return (TopicListPage) this.renderedPage();
 

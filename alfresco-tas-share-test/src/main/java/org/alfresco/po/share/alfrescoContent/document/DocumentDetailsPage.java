@@ -35,6 +35,9 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @Autowired
     DocumentLibraryPage documentLibraryPage;
 
+    @Autowired
+    TinyMceEditor tinyMceEditor;
+
     @FindBy(css = ".filename")
     protected WebElement fileListLocator;
 
@@ -43,9 +46,6 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     @FindAll(@FindBy(css = ".filename [href*=document-details]"))
     private List<WebElement> filesList;
-
-    @Autowired
-    TinyMceEditor tinyMceEditor;
 
     @FindBy(css = "div[class='node-info'] h1")
     protected WebElement documentTitle;
@@ -829,20 +829,18 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     }
 
-    public boolean isRestrictableAspectDisplayed() throws Exception
+    public  boolean isAspectDisplayed(String aspectName)
     {
-        try
-        {
-            browser.findElement(By.xpath("//div[contains(@class, 'set-bordered-panel') and normalize-space(.)='Restrictable']"));
-            return true;
+        By aspectXPath = By.xpath(String.format("//div[contains(@class, 'set-bordered-panel') and normalize-space(.)='%s']", aspectName));
+        browser.waitUntilElementVisible(aspectXPath);
+        return browser.isElementDisplayed(aspectXPath);
+    }
 
-        }
-        catch (NoSuchElementException e)
-        {
-
-            return false;
-        }
-
+    public  boolean isAspectNotDisplayed(String aspectName)
+    {
+        By aspectXPath = By.xpath(String.format("//div[contains(@class, 'set-bordered-panel') and normalize-space(.)='%s']", aspectName));
+        browser.waitUntilElementDeletedFromDom(aspectXPath);
+        return browser.isElementDisplayed(aspectXPath);
     }
 
     public boolean isActionAvailable(String actionName)

@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -17,7 +18,6 @@ import org.testng.annotations.Test;
 
 public class RestrictingMobileAccessTests extends ContextAwareWebTest
 {
-
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
     @Autowired private DocumentDetailsPage documentDetailsPage;
@@ -26,8 +26,8 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
 
     @Autowired private EditPropertiesPage editPropertiesPage;
 
-    private String userName;
-    private String siteName;
+    private String userName = "User" + DataUtil.getUniqueIdentifier();
+    private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
     private String fileName;
     private String fileContent = "testContent";
     private String helpMessage = "This field must contain a number.";
@@ -35,9 +35,6 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userName = "User" + DataUtil.getUniqueIdentifier();
-        siteName = "SiteName" + DataUtil.getUniqueIdentifier();
-
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -57,14 +54,13 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
         documentDetailsPage.clickManageAspects();
 
         LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to 'Restrictable' aspect and verify it's displayed in 'Currently Selected' list");
-        aspectsForm.addElement(14);
+        aspectsForm.addAspect("Restrictable");
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Restrictable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Restrictable"), "Aspect is present on 'Available to Add' list");
 
         LOG.info("Step3: Click 'Apply Changes' and verify the restrictions are placed on the file");
-        aspectsForm.clickApplyChangesButton();
-        getBrowser().refresh();
-        Assert.assertTrue(documentDetailsPage.isRestrictableAspectDisplayed(), "Restrictable aspect is not added");
+        aspectsForm.clickApplyChangesButton(documentDetailsPage);
+        Assert.assertTrue(documentDetailsPage.isAspectDisplayed("Restrictable"), "Restrictable aspect is added");
 
     }
 
@@ -74,20 +70,14 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     {
         fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
-        LOG.info("Preconditions: Add Restrictable aspect to test file");
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickOnFile(fileName);
-        documentDetailsPage.clickManageAspects();
-        aspectsForm.addElement(14);
-        aspectsForm.clickApplyChangesButton();
-        getBrowser().refresh();
+        contentAspects.addAspect(userName, password, siteName, fileName, CMISUtil.DocumentAspect.RESTRICTABLE);
 
         LOG.info("Step1: Click Actions -> Edit Properties option");
-        documentDetailsPage.renderedPage();
+        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.clickOnFile(fileName);
         documentDetailsPage.clickEditProperties();
 
         LOG.info("Step2: Click '?' icon and verify the help message");
-
         editPropertiesPage.clickHelpIconForRestrictableAspect();
         Assert.assertEquals(helpMessage, editPropertiesPage.getHelpMessageForRestrictableAspect());
 
@@ -96,7 +86,6 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
         editPropertiesPage.addOfflineExpiresAfterValue("48");
         editPropertiesPage.clickButton("Save");
         Assert.assertTrue(documentDetailsPage.isRestrictableValueUpdated("48"), "The value for Offline Expires After (hours) has not been updated");
-
     }
 
     @TestRail(id = "C7113")
@@ -105,25 +94,19 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     {
         fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
-        LOG.info("Preconditions: Add Restrictable aspect to test file");
+        contentAspects.addAspect(userName, password, siteName, fileName, CMISUtil.DocumentAspect.RESTRICTABLE);
+
+        LOG.info("Step1: Click Actions -> Manage Aspects option");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileName);
         documentDetailsPage.clickManageAspects();
-        aspectsForm.addElement(14);
-        aspectsForm.clickApplyChangesButton();
-        getBrowser().refresh();
-
-        LOG.info("Step1: Click Actions -> Manage Aspects option");
-        documentDetailsPage.clickManageAspects();
 
         LOG.info("Step2: Click 'Remove' icon next to 'Restrictable' aspect");
-        aspectsForm.removeElement(0);
+        aspectsForm.removeAspect("Restrictable");
 
         LOG.info("Step3: Click 'Apply changes' button and verify the 'Restrictable' property is removed from 'Properties' section");
-        aspectsForm.clickApplyChangesButton();
-        getBrowser().refresh();
-        Assert.assertFalse(documentDetailsPage.isRestrictableAspectDisplayed(), "Restrictable aspect is not added");
-
+        aspectsForm.clickApplyChangesButton(documentDetailsPage);
+        Assert.assertFalse(documentDetailsPage.isAspectNotDisplayed("Restrictable"), "Restrictable aspect is removed");
     }
 
 }

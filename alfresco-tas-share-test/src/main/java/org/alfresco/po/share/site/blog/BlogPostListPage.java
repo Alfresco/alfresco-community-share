@@ -145,7 +145,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         }
         else
         {
-            browser.waitUntilElementDeletedFromDom(By.cssSelector(".node.post.simple"), 30);
+            browser.waitUntilElementDeletedFromDom(By.cssSelector(".node.post.simple"));
         }
         return (BlogPostListPage) this.renderedPage();
     }

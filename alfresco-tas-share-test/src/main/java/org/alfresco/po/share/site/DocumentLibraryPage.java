@@ -301,7 +301,6 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     	browser.waitInSeconds(2);
         browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 6);
         List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
-        LOG.info("Number of DocumentLibraryItemsList: "+ itemsList.size());
         return browser.findFirstElementWithValue(itemsList, documentItem);
     }
 

@@ -69,13 +69,12 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
         documentDetailsPage.clickManageAspects();
 
         LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
-        aspectsForm.addElement(0);
+        aspectsForm.addAspect("Classifiable");
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 
         LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
-        aspectsForm.clickApplyChangesButton();
-        getBrowser().refresh();
+        aspectsForm.clickApplyChangesButton(documentDetailsPage);
         documentDetailsPage.clickManageAspects();
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
