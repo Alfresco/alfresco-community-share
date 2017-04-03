@@ -16,18 +16,13 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
     Toolbar toolbar;
 
     @RenderWebElement
-    @FindBy(css = "[id$='default-fileUpload-button-button']")
-    private WebElement uploadButton;
+    @FindBy(xpath = "//span[@class= 'label']/a[text()='My Files']")
+    private WebElement myFilesBreadcrumb;
 
     @Override
     public String getRelativePath()
     {
         return "share/page/context/mine/myfiles";
-    }
-
-    public boolean isUploadButtonDisplayed()
-    {
-        return browser.isElementDisplayed(uploadButton);
     }
 
     @SuppressWarnings("unchecked")

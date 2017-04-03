@@ -51,7 +51,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
 
     @FindBy(css = "[id$='default-fileUpload-button-button']")
-    private WebElement uploadButton;
+    protected WebElement uploadButton;
 
     @FindBy(css = ".folder-file")
     private WebElement folderLink;
