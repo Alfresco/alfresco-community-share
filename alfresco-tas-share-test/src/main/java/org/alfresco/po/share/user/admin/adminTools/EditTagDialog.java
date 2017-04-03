@@ -73,8 +73,8 @@ public class EditTagDialog extends ShareDialog
         editTagInputField.sendKeys(updatedTag);
         browser.waitInSeconds(1);
         okButton.click();
-        browser.waitInSeconds(2);
-		return tagManagerPage;
+        
+        return tagManagerPage;
    
     }
 }

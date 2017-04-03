@@ -96,7 +96,6 @@ public class TagManagerPage extends AdminToolsPage {
 	private final By tagSelector = By.cssSelector("b");
 
 	private WebElement rowElement;
-	private int indexOfTag;
 
 	@Override
 	public String getRelativePath() {
@@ -131,21 +130,26 @@ public class TagManagerPage extends AdminToolsPage {
 	 *            to be found
 	 * @return true if tag is displayed
 	 */
-	public boolean isTagDisplayed(String tag) {
-		int counter = 0;
-		rowElement = null;
-		browser.refresh();
-		this.renderedPage();
+    public boolean isTagDisplayed(String tag)
+    {
+        LOG.info("Check that tag is displayed: " + tag);
 
-		while (counter <= pagesList.size()) {
-			counter++;
-			searchTagInTable(tag);
-			clickNextPage();
-			if (rowElement != null) 
-				return true;
-		}
-		return false;
-	}
+        int counter = 0;
+        rowElement = null;
+        browser.refresh();
+        this.renderedPage();
+
+        while (counter <= pagesList.size())
+        {
+            LOG.info(String.format("Looking for tag '%s' on page number #%s", tag, counter+1));
+            counter++;
+            searchTagInTable(tag);
+            clickNextPage();
+            if (rowElement != null)
+                return true;
+        }
+        return false;
+    }
 	
 	private void searchTagInTable(String tag){
 		List<WebElement> rowsList = browser.waitUntilElementsVisible(rowSelector);
