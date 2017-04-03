@@ -15,10 +15,6 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
     @Autowired
     Toolbar toolbar;
 
-    @RenderWebElement
-    @FindBy(xpath = "//span[@class= 'label']/a[text()='My Files']")
-    private WebElement myFilesBreadcrumb;
-
     @Override
     public String getRelativePath()
     {

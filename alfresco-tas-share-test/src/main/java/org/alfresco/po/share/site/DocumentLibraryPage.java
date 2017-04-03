@@ -213,7 +213,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public boolean isUploadButtonDisplayed()
     {
-        return browser.isElementDisplayed(uploadButton);
+        return browser.isElementDisplayed(browser.waitUntilElementVisible(uploadButton));
     }
 
     public boolean isContentNameDisplayed(String contentName)

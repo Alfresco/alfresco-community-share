@@ -18,10 +18,6 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     @Autowired
     Toolbar toolbar;
 
-    @RenderWebElement
-    @FindBy(xpath = "//span[@class= 'label']/a[text()='Repository']")
-    private WebElement repositoryBreadcrumb;
-
     @Override
     public String getRelativePath()
     {

@@ -15,10 +15,6 @@ public class SharedFilesPage extends DocumentLibraryPage implements AccessibleBy
     @Autowired
     Toolbar toolbar;
 
-    @RenderWebElement
-    @FindBy(xpath = "//span[@class= 'label']/a[text()='Shared Files']")
-    private WebElement sharedFilesBreadcrumb;
-
     @Override
     public String getRelativePath()
     {
