@@ -24,7 +24,7 @@ import static org.testng.Assert.assertTrue;
 public class MyFilesSelectContentTests extends ContextAwareWebTest
 {
     private final String testFile = "testFile" + DataUtil.getUniqueIdentifier();
-    private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private final String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
     private String user;
     private String myFilesPath;
     @Autowired

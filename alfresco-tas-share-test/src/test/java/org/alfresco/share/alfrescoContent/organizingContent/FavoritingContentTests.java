@@ -21,12 +21,12 @@ public class FavoritingContentTests extends ContextAwareWebTest
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private final String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private final String siteName1 = "siteC7501" + DataUtil.getUniqueIdentifier();
     private final String siteName2 = "siteC7502" + DataUtil.getUniqueIdentifier();
     private final String siteName3 = "siteC7503" + DataUtil.getUniqueIdentifier();
     private final String siteName4 = "siteC7504" + DataUtil.getUniqueIdentifier();
-    private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private final String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
     private final String docName = "testDoc" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass(alwaysRun = true)

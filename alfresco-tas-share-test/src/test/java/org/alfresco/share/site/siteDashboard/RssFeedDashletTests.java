@@ -24,7 +24,7 @@ public class RssFeedDashletTests extends ContextAwareWebTest
     SiteDashboardPage siteDashboardPage;
 
     private String userName = "User" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private int noOfFeeds = 10;
 
     @BeforeClass(alwaysRun = true)

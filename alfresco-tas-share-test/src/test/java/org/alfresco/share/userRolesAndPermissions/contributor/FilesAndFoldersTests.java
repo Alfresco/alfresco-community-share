@@ -69,7 +69,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     EditPropertiesPage editPropertiesPage;
 
     private String userContributor;
-    private final String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private final String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
     private final String adminFile = "AdminFile" + DataUtil.getUniqueIdentifier();
     private final String adminFolder = "AdminFolder" + DataUtil.getUniqueIdentifier();
@@ -90,7 +90,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void likeAndUnlike()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
@@ -120,7 +120,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void favoriteAndUnfavorite()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
@@ -148,7 +148,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void renameItemAddedBySelf()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
@@ -275,7 +275,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void moveContentCreatedBySelf()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
         String folderName = "FolderName" + DataUtil.getUniqueIdentifier();
 
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library for the test site, as Contributor user.");
@@ -322,7 +322,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void deleteContentCreatedBySelf()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
@@ -434,7 +434,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void changeTypeForContentCreatedBySelf()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library for the page test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
@@ -481,7 +481,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void addComment()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library for the test site, as Contributor user.");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
@@ -503,7 +503,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editCommentCreatedBySelf()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
@@ -527,7 +527,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editCommentCreatedByOthers()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library page for the test site, as Admin user; add a comment for the test file");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
@@ -545,7 +545,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void deleteCommentCreatedBySelf()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library for the test site, as Contributor user.");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
@@ -569,7 +569,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void deleteCommentCreatedByOthers()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test site, test file. Navigate to Document Library for the test site, as Admin user; add a comment to the file.");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");

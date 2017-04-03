@@ -27,8 +27,8 @@ import static org.testng.Assert.assertEquals;
 
 public class UsingSmartFoldersTests extends ContextAwareWebTest
 {
-    private final String userName = "User" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private final String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("SiteName%s", DataUtil.getUniqueIdentifier());
     private final String mainSmartFolder = "My content";
     private final String testFileName = "test.pdf";
     private final String newVersionFileName = "EditedTestFile8650.docx";
@@ -66,7 +66,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void createFolder()
     {
-        folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+        folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
         contentService.createFolder(userName, password, folderName, siteName);
         contentAspects.addAspect(userName, password, siteName, folderName, CMISUtil.DocumentAspect.SYSTEM_SMART_FOLDER);
 

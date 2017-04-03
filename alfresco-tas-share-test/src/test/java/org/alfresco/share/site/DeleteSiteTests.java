@@ -118,7 +118,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     {
         String user1 = "1UserC2281" + DataUtil.getUniqueIdentifier();
         String user2 = "2UserC2281" + DataUtil.getUniqueIdentifier();
-        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
@@ -148,7 +148,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     {
         String user1 = "1UserC2282" + DataUtil.getUniqueIdentifier();
         String user2 = "2UserC2282" + DataUtil.getUniqueIdentifier();
-        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
@@ -178,7 +178,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     {
         String user1 = "1UserC2283" + DataUtil.getUniqueIdentifier();
         String user2 = "2UserC2283" + DataUtil.getUniqueIdentifier();
-        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
@@ -207,7 +207,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     public void cancelDeleteSiteFromSiteFinder()
     {
         String user = "UserC2284" + DataUtil.getUniqueIdentifier();
-        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
@@ -255,7 +255,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     public void deleteSiteAsManagerFromDashlet()
     {
         String user = "UserC2286" + DataUtil.getUniqueIdentifier();
-        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         String description = "Description" + DataUtil.getUniqueIdentifier();
         String fileName = "fileC2286-" + DataUtil.getUniqueIdentifier();
 
@@ -299,7 +299,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     {
         String user1 = "1UserC2287" + DataUtil.getUniqueIdentifier();
         String user2 = "2UserC2287" + DataUtil.getUniqueIdentifier();
-        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
@@ -321,7 +321,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     {
         String user1 = "1UserC2288" + DataUtil.getUniqueIdentifier();
         String user2 = "2UserC2288" + DataUtil.getUniqueIdentifier();
-        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
@@ -343,7 +343,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     {
         String user1 = "1UserC2289" + DataUtil.getUniqueIdentifier();
         String user2 = "2UserC2289" + DataUtil.getUniqueIdentifier();
-        String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         String description = "Description" + DataUtil.getUniqueIdentifier();
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");

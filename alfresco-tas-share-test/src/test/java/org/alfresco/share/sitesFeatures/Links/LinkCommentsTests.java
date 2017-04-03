@@ -28,7 +28,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     @Autowired
     DeleteCommentPopUp deleteCommentPopUp;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName = "";
     private String linkTitle = "Link" + DataUtil.getUniqueIdentifier();
     private String linkURL = "LinkURL.com";
@@ -46,7 +46,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     public void addingACommentToALink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
@@ -72,7 +72,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     public void cancelAddingACommentToALink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
@@ -98,7 +98,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
         String comment = "comment1";
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
@@ -127,7 +127,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
         String comment = "comment1";
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
@@ -153,7 +153,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
         String comment = "comment1";
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
@@ -179,7 +179,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
         String comment = "comment1";
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);

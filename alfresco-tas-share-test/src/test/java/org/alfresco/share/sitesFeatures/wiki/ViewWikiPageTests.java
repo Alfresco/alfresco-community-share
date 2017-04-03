@@ -39,7 +39,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     @Autowired
     RevertVersionPopUp revertPopUp;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName;
     private String wikiPageName = "Page1";
     private String tagName = "tag1";
@@ -58,7 +58,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     public void viewWikiPageDetailsFromPageView()
     {
         LOG.info("Preconditions: create site");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         wikiMainPage.navigate(siteName);
@@ -83,7 +83,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     public void viewWikiPageDetailsFromWikiPageList()
     {
         LOG.info("Preconditions: create site and wiki page");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageName, "[[Page2]]", tags);
@@ -101,7 +101,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     public void revertWikiPageToAnEarlierVersion()
     {
         LOG.info("Preconditions: create site and wiki page");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageName, "[[Page2]]", tags);

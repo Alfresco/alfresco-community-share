@@ -30,8 +30,8 @@ public class DeletingContentTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private final String testUser = "testUser" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "siteName" + DataUtil.getUniqueIdentifier();
+    private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private final String folderNameD = "delFolder" + DataUtil.getUniqueIdentifier();
     private final String subFolder = "delSubfolder" + DataUtil.getUniqueIdentifier();
     private final String folderNameC = "cancelFolder" + DataUtil.getUniqueIdentifier();

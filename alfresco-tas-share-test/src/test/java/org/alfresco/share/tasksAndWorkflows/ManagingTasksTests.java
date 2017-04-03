@@ -42,9 +42,9 @@ public class ManagingTasksTests extends ContextAwareWebTest
     @Autowired
     SelectAssigneePopUp selectAssigneePopUp;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String user2 = "User2" + DataUtil.getUniqueIdentifier();
-    private String siteName = "siteName" + DataUtil.getUniqueIdentifier();
+    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private String docName = "docName" + DataUtil.getUniqueIdentifier();
     private String docContent = "docContent" + DataUtil.getUniqueIdentifier();
     private List<String> docs = new ArrayList<>();

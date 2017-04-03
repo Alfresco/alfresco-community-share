@@ -32,7 +32,7 @@ public class EditingLinkTests extends ContextAwareWebTest
     @Autowired
     EditLinkPage editLinkPage;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName = "";
     private DateTime currentDate = new DateTime();
     private String linkTitle = "Google" + DataUtil.getUniqueIdentifier();
@@ -53,7 +53,7 @@ public class EditingLinkTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create site, add 'Links' page to it and create an external link");
         linkTags.add("tag1");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, linkTags);
@@ -159,7 +159,7 @@ public class EditingLinkTests extends ContextAwareWebTest
         LOG.info("Precondition: Create site, add 'Links' page to it and create an external link");
         linkTags.add("tag1");
         linkTags.add("tag2");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, true, linkTags);
@@ -276,7 +276,7 @@ public class EditingLinkTests extends ContextAwareWebTest
         LOG.info("Precondition: Create site, add 'Links' page to it and create an external link");
         linkTags.add("tag1");
         linkTags.add("tag2");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, true, linkTags);

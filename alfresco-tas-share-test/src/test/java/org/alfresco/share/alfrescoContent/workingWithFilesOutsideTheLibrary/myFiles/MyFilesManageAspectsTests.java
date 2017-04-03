@@ -18,7 +18,7 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
     @Autowired private MyFilesPage myFilesPage;
 
     private String userName = "User" + DataUtil.getUniqueIdentifier();
-    private String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
     private String path = "User Homes/" + userName;
 
     @BeforeClass(alwaysRun = true)

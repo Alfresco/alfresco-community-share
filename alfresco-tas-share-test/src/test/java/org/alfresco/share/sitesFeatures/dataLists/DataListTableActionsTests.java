@@ -47,7 +47,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     public void createSite()
     {
         LOG.info("Preconditions for Data List Table Actions test");
-        siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         description = "description" + DataUtil.getUniqueIdentifier();
         contactList = "ContactList" + DataUtil.getUniqueIdentifier();
 

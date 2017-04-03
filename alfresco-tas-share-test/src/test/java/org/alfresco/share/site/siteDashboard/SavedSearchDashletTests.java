@@ -29,7 +29,7 @@ public class SavedSearchDashletTests extends ContextAwareWebTest
     ConfigureSavedSearchDashletPopUp configureSavedSearchPopUp;
 
     private String userName = "User" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     
     @BeforeClass(alwaysRun = true)
     public void setupTest()

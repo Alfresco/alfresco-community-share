@@ -33,9 +33,9 @@ public class CategorizingContent extends ContextAwareWebTest
 
     @Autowired private ContentAspects contentAspect;
 
-    private final String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private final String siteName = "siteName1" + DataUtil.getUniqueIdentifier();
-    private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private final String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
     private final String docName = "testDoc" + DataUtil.getUniqueIdentifier();
     private final String docWithCategory = "docWithCategory" + DataUtil.getUniqueIdentifier();
     private final String removeCategoryDoc = "removeCategoryDoc" + DataUtil.getUniqueIdentifier();

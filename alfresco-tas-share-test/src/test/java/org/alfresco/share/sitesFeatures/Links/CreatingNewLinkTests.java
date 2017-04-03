@@ -30,7 +30,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
     @Autowired
     LinkDetailsViewPage linkDetailsViewPage;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName = "";
     private DateTime currentDate = new DateTime();
     private String linkTitle = "Link" + DataUtil.getUniqueIdentifier();
@@ -49,7 +49,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
     public void createExternalLink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
 
@@ -120,7 +120,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
     public void createInternalLink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
 
@@ -195,7 +195,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
     public void cancelCreatingNewLink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
 

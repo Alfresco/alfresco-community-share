@@ -35,7 +35,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     @Autowired
     CreateWikiPage createWikiPage;
     
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName;
     private String wikiPageHeader = "Create Wiki Page";
     private String wikiPageTitle;
@@ -51,7 +51,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void createSite()
     {
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
         wikiPageContent = "WikiContent" + DataUtil.getUniqueIdentifier();
 

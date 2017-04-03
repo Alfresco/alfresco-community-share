@@ -31,7 +31,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
     @Autowired
     DeleteLinkPopUp deleteLinkPopUp;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName = "";
     private String linkTitle = "Link" + DataUtil.getUniqueIdentifier();
     private String linkURL = "LinkURL.com";
@@ -50,7 +50,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
     public void deleteLinkFromLinkDetailsPage()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
@@ -77,7 +77,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
         LOG.info("Precondition: Create site and add 'Links' page to it");
         linkTags.add("tag1");
         linkTags.add("tag2");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, true, linkTags);
@@ -103,7 +103,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
     public void cancelDeletingLink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
@@ -127,7 +127,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
     public void deleteMultipleLinks()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, "link1", "link1URL", "link1Description", false, null);

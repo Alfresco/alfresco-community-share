@@ -24,8 +24,8 @@ public class PreviewFileTest extends ContextAwareWebTest
 
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private final String testUser = "testUser" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "siteName" + DataUtil.getUniqueIdentifier();
+    private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private final String folderName = "testFolder";
     private final String docName = "MultiPageDocument.docx";
     private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC5884" + File.separator;

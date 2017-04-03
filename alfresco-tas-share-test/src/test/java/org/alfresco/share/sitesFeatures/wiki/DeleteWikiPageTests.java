@@ -36,7 +36,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     @Autowired
     WikiPage wikiPage;
     
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName;
     private String wikiMainPageContent = "Wiki main page content";
 
@@ -50,7 +50,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void createSite()
     {
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.WIKI, null);
     }

@@ -21,7 +21,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
 {
     private final String user = "user" + DataUtil.getUniqueIdentifier();
     private final String testFile = "testFile" + DataUtil.getUniqueIdentifier();
-    private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private final String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
     private final String myFilesPath = "User Homes/" + user;
     @Autowired
     private MyFilesPage myFilesPage;

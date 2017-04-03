@@ -26,8 +26,8 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
 
     @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    private final String testUser = "testUser" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "siteName" + DataUtil.getUniqueIdentifier();
+    private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private final String folderName = "testFolder";
     private final String docName = "testDoc" + DataUtil.getUniqueIdentifier();
     private final DateTime currentDate = new DateTime();

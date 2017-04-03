@@ -42,7 +42,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
     public void setupTest()
     {
         userName = "User" + DataUtil.getUniqueIdentifier();
-        siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);

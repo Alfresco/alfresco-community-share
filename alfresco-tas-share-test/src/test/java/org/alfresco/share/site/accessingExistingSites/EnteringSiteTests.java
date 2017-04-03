@@ -45,7 +45,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
     UserDashboardPage userDashboardPage;
 
     private String user1 = "testUser1" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private String description = "Description" + DataUtil.getUniqueIdentifier();
 
     @BeforeClass(alwaysRun = true)

@@ -46,7 +46,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void precondition()
     {
-        siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsPage.navigate(siteName);

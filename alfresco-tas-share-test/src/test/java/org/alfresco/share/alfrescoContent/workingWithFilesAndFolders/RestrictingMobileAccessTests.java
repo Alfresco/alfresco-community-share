@@ -26,8 +26,8 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
 
     @Autowired private EditPropertiesPage editPropertiesPage;
 
-    private String userName = "User" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private String fileName;
     private String fileContent = "testContent";
     private String helpMessage = "This field must contain a number.";

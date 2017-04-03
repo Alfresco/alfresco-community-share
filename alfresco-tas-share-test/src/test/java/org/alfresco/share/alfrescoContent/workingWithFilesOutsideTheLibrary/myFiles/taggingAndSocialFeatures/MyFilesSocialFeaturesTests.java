@@ -37,7 +37,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 
     private final String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
     private final String testFilePath = testDataFolder + testFile;
-    private final String folderName = "testFolder" + DataUtil.getUniqueIdentifier();
+    private final String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
 
     @TestRail(id="C12839")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})

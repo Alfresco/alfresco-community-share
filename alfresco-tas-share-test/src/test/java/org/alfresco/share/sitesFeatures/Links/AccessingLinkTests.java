@@ -33,8 +33,8 @@ public class AccessingLinkTests extends ContextAwareWebTest
     @Autowired
     CustomizeSitePage customizeSitePage;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
-    private String siteName = "siteName" + DataUtil.getUniqueIdentifier();
+    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private List<String> tags = new ArrayList<>();
     private DateTime currentDate = new DateTime();
 

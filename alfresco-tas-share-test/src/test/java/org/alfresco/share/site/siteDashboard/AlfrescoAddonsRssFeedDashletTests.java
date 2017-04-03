@@ -29,7 +29,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
     EnterFeedURLPopUp enterFeedURLPopUp;
 
     private String userName = "User" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

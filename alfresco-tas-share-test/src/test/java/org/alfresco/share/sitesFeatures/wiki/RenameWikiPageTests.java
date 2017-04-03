@@ -30,7 +30,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     @Autowired
     WikiListPage wikiListPage;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName;
     private String newWikiMainPageTitle = "New wiki main page title";
     private String wikiMainPageContent = "Wiki main page content";
@@ -46,7 +46,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void createSite()
     {
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
 
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);

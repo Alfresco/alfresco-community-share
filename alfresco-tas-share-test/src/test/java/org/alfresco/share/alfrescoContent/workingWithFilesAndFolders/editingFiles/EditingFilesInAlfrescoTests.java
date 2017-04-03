@@ -44,7 +44,7 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
         LOG.info("Preconditions for Editing files in Google Docs tests");
 
         userName = "User" + DataUtil.getUniqueIdentifier();
-        siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
 
         fileName = "testFile";
         fileContent = "testContent";

@@ -32,8 +32,8 @@ public class UnzippingContentTests extends ContextAwareWebTest
 
     @Autowired private SiteContentDashlet siteContentDashlet;
 
-    private final String testUser = "testUser" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "siteName" + DataUtil.getUniqueIdentifier();
+    private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private final String zipFile = "archiveC7409.zip";
     private final String fileName = "fileC7409";
     private final String acpFile = "archiveC7410.acp";

@@ -53,7 +53,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     private String user1 = "User1" + DataUtil.getUniqueIdentifier();
     private String user2 = "User2" + DataUtil.getUniqueIdentifier();
     private String user3 = "User3" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private String docName = "docName" + DataUtil.getUniqueIdentifier();
     private String docContent = "docContent" + DataUtil.getUniqueIdentifier();
     private String group = "testGroup" + DataUtil.getUniqueIdentifier();

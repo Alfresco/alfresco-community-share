@@ -25,7 +25,7 @@ public class WikiMainPageTests extends ContextAwareWebTest
     @Autowired
     EditWikiPage editWikiPage;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName;
     private String wikiPageContent = "content";
 
@@ -41,7 +41,7 @@ public class WikiMainPageTests extends ContextAwareWebTest
     public void createWikiMainPage()
     {
         // precondition
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         wikiPage.navigate(siteName);
@@ -60,7 +60,7 @@ public class WikiMainPageTests extends ContextAwareWebTest
     public void cancelCreationOfWikiMainPage()
     {
         // precondition
-        siteName = "siteName" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         wikiPage.navigate(siteName);

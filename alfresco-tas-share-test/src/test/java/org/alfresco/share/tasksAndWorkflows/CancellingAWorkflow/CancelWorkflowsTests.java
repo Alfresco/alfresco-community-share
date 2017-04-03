@@ -36,7 +36,7 @@ public class CancelWorkflowsTests extends ContextAwareWebTest
     public void cancelWorkflow()
     {
         LOG.info("Precondition: Create user and a workflow.");
-        String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+        String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
         setupAuthenticatedSession(testUser, password);

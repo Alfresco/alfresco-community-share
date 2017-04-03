@@ -46,9 +46,9 @@ public class CreateNewTaskTests extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    private String testUser = "testUser" + DataUtil.getUniqueIdentifier();
+    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String user2 = "User2" + DataUtil.getUniqueIdentifier();
-    private String siteName = "siteName" + DataUtil.getUniqueIdentifier();
+    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private String docName = "docName" + DataUtil.getUniqueIdentifier();
     private String docName1 = "docName1" + DataUtil.getUniqueIdentifier();
     private String docContent = "docContent" + DataUtil.getUniqueIdentifier();

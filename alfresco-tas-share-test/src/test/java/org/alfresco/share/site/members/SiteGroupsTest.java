@@ -26,7 +26,7 @@ public class SiteGroupsTest extends ContextAwareWebTest
     GroupService groupService;
 
     private String user = "testUser" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private String group1 = "testGroup1-" + DataUtil.getUniqueIdentifier();
     private String group2 = "testGroup2-" + DataUtil.getUniqueIdentifier();
     private String group3 = "testGroup3-" + DataUtil.getUniqueIdentifier();

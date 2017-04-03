@@ -30,7 +30,7 @@ import static org.testng.Assert.assertTrue;
 public class FilesOnlyTests extends ContextAwareWebTest
 {
     private final String userContributor = "Contributor" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private final String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
     private final String adminFile = "AdminFile" + DataUtil.getUniqueIdentifier();
     private final String fileContent = "FileContent";
@@ -91,7 +91,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void uploadContent()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
         String testFilePath = testDataFolder + fileName;
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -142,7 +142,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void uploadNewVersionForItemCreatedBySelf()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
         String newVersionFileName = "EditedTestFileC8914.txt";
         String newVersionFilePath = testDataFolder + newVersionFileName;
 
@@ -182,7 +182,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void uploadNewVersionForItemLockedByUser()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
         String siteNameC8916 = "SiteNameC8916" + DataUtil.getUniqueIdentifier();
         LOG.info("Preconditions: Create test site, add Contributor user to site. Create a test file in site. Login as admin and navigate to site's doc lib");
         siteService.create(adminUser, adminPassword, domain, siteNameC8916, description, Visibility.PUBLIC);
@@ -210,7 +210,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void editOnlineForContentCreatedBySelf()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.MSWORD, fileName, fileContent);
@@ -228,7 +228,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void editOnlineForContentCreatedByOthers()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.MSWORD, fileName, fileContent);
@@ -245,7 +245,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void editInlineForContentCreatedBySelf()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
@@ -284,7 +284,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void editOfflineForContentCreatedBySelf()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
         String newVersionFileName = "EditedTestFileC8921.txt";
         String newVersionFilePath = testDataFolder + newVersionFileName;
 
@@ -436,7 +436,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void cancelEditingContentLockedBySelf() throws Exception
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -465,7 +465,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void cancelEditingContentLockedByOthers() throws Exception
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
         String siteNameC8930 = "SiteC8930" + DataUtil.getUniqueIdentifier();
 
         LOG.info(
@@ -494,7 +494,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void viewOriginalVersion() throws Exception
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
         String content = "FileContent" + DataUtil.getUniqueIdentifier();
         String siteNameC8931 = "SiteC8931" + DataUtil.getUniqueIdentifier();
 
@@ -529,7 +529,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void viewWorkingCopy() throws Exception
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
         String content = "FileContent" + DataUtil.getUniqueIdentifier();
         String siteNameC8932 = "SiteC8932" + DataUtil.getUniqueIdentifier();
 
@@ -597,7 +597,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void startWorkflow()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -623,7 +623,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void locateFile()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -655,7 +655,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void downloadPreviousVersion()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
         String newVersionFileName = "NewVersionC8936.txt";
         String newVersionFilePath = testDataFolder + newVersionFileName;
 
@@ -695,7 +695,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void revertToPreviousVersion()
     {
-        String fileName = "FileName" + DataUtil.getUniqueIdentifier();
+        String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
         String newVersionFileName = "NewVersionC8937.txt";
         String newVersionFilePath = testDataFolder + newVersionFileName;
 

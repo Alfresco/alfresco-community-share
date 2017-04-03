@@ -27,7 +27,7 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     SiteProfileDashlet siteProfileDashlet;
 
     private String user = "profileUser" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName" + DataUtil.getUniqueIdentifier();
+    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private String description = "Description" + DataUtil.getUniqueIdentifier();
     private String newSiteName = "New Site Name " + DataUtil.getUniqueIdentifier();
     private String newDescription = "New description " + DataUtil.getUniqueIdentifier();
