@@ -6,6 +6,7 @@ import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
+import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -18,6 +19,9 @@ import org.testng.annotations.Test;
 
 public class RepositoryTests extends ContextAwareWebTest
 {
+    @Autowired
+    private Toolbar toolbar;
+
     @Autowired private UserDashboardPage userDashboardPage;
 
     @Autowired
@@ -64,10 +68,10 @@ public class RepositoryTests extends ContextAwareWebTest
         userDashboardPage.navigate(siteName);
         
         LOG.info("Step 1: Check that the Repository link is available in the toolbar");
-        Assert.assertTrue(repositoryPage.isRepositoryAvailableInToolbar(), "The repository link is not available in Toolbar");
+        Assert.assertTrue(toolbar.isRepositoryDisplayed(), "The repository link is not available in Toolbar");
         
         LOG.info("Step 2: Access the Repository via link in toolbar");
-        repositoryPage.clickOnRepository();
+        toolbar.clickRepository();
         Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "User is not redirected to the repository page");     
     }
     

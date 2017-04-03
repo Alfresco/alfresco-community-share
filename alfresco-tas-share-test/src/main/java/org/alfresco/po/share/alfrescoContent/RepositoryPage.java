@@ -19,31 +19,8 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     Toolbar toolbar;
 
     @RenderWebElement
-    @FindBy(css = "[id$='default-fileUpload-button-button']")
-    private WebElement uploadButton;
-
-    @RenderWebElement 
-    @FindBy(css ="div[id*='_default-paginatorBottom']")
-    private WebElement pagination;
-
-    @RenderWebElement
-    @FindBy(css="div[id*='default-dl-body']")
-    private WebElement repositoryContent;
-
-    @FindBy(id = "HEADER_REPOSITORY")
-    private WebElement repositoryButton;
-
-    @FindBy(css = ".filename a")
-    private List<WebElement> contentItemsList;
-
-    private By documentLibraryItemsList = By.cssSelector("[class*=data] tr");
-    
-    private WebElement selectContent(String contentName)
-    {
-        browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 6);
-        List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
-        return browser.findFirstElementWithValue(itemsList, contentName);
-    }
+    @FindBy(xpath = "//span[@class= 'label']/a[text()='Repository']")
+    private WebElement repositoryBreadcrumb;
 
     @Override
     public String getRelativePath()
@@ -57,25 +34,5 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     {
         toolbar.clickRepository();
         return (RepositoryPage) renderedPage();
-    }
-
-    public boolean isUploadButtonDisplayed()
-    {
-        return browser.isElementDisplayed(uploadButton);
-    }
-
-    public boolean isRepositoryAvailableInToolbar()
-    {
-        return browser.isElementDisplayed(repositoryButton);
-    }
-
-    public void clickOnRepository()
-    {
-        repositoryButton.click();
-    }
-
-    public WebElement editTag(String fileName)
-    {
-        return selectContent(fileName).findElement(By.xpath("//span[@title='Tag']"));               
     }
 }
