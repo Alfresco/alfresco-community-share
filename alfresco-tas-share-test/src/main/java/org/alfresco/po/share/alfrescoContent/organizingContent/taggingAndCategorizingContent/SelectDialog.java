@@ -1,6 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
@@ -8,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 
 import java.util.List;
@@ -18,6 +20,9 @@ import java.util.List;
 @PageObject
 public class SelectDialog extends ShareDialog
 {
+    @Autowired
+    EditPropertiesDialog editPropertiesDialog;
+
     @FindBy(css = "div[id*='prop_cm_taggable-cntrl-picker_c'] div[id*='cntrl-picker-head']")
     private WebElement dialogTitle;
 
@@ -43,7 +48,7 @@ public class SelectDialog extends ShareDialog
     @FindBy(css = "div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-cancel-button']")
     private WebElement cancelButton;
 
-    private By itemsRows = By.xpath("//tr[contains(@class, 'yui-dt-rec') and not(contains(@class, 'create-new-row'))]");
+    private By itemsRows = By.cssSelector("tr.yui-dt-rec:not(.create-new-row)");
     private By addIcon = By.cssSelector("a[class*='add-item']");
     private By removeIcon = By.cssSelector("a[class*='remove-item']");
 
@@ -85,7 +90,7 @@ public class SelectDialog extends ShareDialog
             }
             catch (NoSuchElementException noSuchElementExp)
             {
-                LOG.error("Item: " + item + " is not present in results.", noSuchElementExp);
+                LOG.error("Add icon for item: " + item + " is not present.", noSuchElementExp);
             }
         }
     }
@@ -102,7 +107,7 @@ public class SelectDialog extends ShareDialog
             }
             catch (NoSuchElementException noSuchElementExp)
             {
-                LOG.error("Item: " + item + " is not present in selected items.", noSuchElementExp);
+                LOG.error("Remove icon for item: " + item + " is not present.", noSuchElementExp);
             }
         }
     }
@@ -140,9 +145,10 @@ public class SelectDialog extends ShareDialog
         return browser.isElementDisplayed(getItemElementFromSelectedItemsPicker(item));
     }
 
-    public void clickOk()
+    public EditPropertiesDialog clickOk()
     {
         okButton.click();
+        return (EditPropertiesDialog) editPropertiesDialog.renderedPage();
     }
 
     public void clickCancel()
@@ -154,7 +160,7 @@ public class SelectDialog extends ShareDialog
      * @param tagName to be typed into Create New input field
      */
     public void typeTag(String tagName)
-    {   renderedPage();
+    {
         browser.waitUntilElementVisible(tagInputField);
         tagInputField.clear();
         tagInputField.sendKeys(tagName);

@@ -81,9 +81,10 @@ public class EditPropertiesDialog extends ShareDialog
         return dialogTitle.getText();
     }
 
-    public void clickSelectCategories()
+    public SelectDialog clickSelectCategories()
     {
         selectCategoriesButton.click();
+        return (SelectDialog) selectDialog.renderedPage();
     }
 
     public boolean isSelectTagsButtonDisplayed()
