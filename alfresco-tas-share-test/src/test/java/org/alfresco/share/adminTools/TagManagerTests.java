@@ -79,7 +79,7 @@ public class TagManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Type tag in dialog, and click 'Ok' button");
         editTagDialog.renameTag(updatedTag);
-        assertTrue(tagManagerPage.isTagDisplayed(updatedTag), tag + " for " + fileName + " updated to= " + updatedTag);
+        assertTrue(tagManagerPage.isTagDisplayed(updatedTag), "Tag for " + fileName + " was not updated to value=" + updatedTag);
 
         LOG.info("STEP3: Login as user who created content. Navigate to Document Library page");
         setupAuthenticatedSession(user, password);
