@@ -341,7 +341,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public String getCommentContent()
     {
-        return commentContent.getText();
+        return browser.waitUntilElementVisible(commentContent).getText();
     }
 
     public boolean clickOnSharedLink()
@@ -880,31 +880,10 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      */
     public void addCommentToItem(String comment)
     {
-        int counter = 1;
-        int retryRefreshCount = 5;
+        if (CommentTextArea.isDisplayed())
+            CommentTextArea.sendKeys(comment);
 
-        while (counter <= retryRefreshCount)
-        {
-            try
-            {
-
-                if (CommentTextArea.isDisplayed())
-                {
-                    CommentTextArea.sendKeys(comment);
-                    browser.waitInSeconds(2);
-                    break;
-                }
-
-            }
-            catch (NoSuchElementException e)
-            {
-                LOG.info("Wait for element after refresh: " + counter);
-                browser.refresh();
-                counter++;
-            }
-        }
         addCommentButton.click();
-        browser.waitInSeconds(2);
     }
 
 }

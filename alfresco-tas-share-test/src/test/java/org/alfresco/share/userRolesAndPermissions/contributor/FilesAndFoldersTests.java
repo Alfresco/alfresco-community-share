@@ -70,14 +70,14 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
 
     private String userContributor;
     private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private final String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
-    private final String adminFile = "AdminFile" + DataUtil.getUniqueIdentifier();
-    private final String adminFolder = "AdminFolder" + DataUtil.getUniqueIdentifier();
+    private final String description = String.format("SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String adminFile = String.format("AdminFile%s", DataUtil.getUniqueIdentifier());
+    private final String adminFolder = String.format("AdminFolder%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userContributor = "Contributor" + DataUtil.getUniqueIdentifier();
+        userContributor = String.format("Contributor%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
         siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
@@ -185,7 +185,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void editBasicDetailsCreatedBySelf()
     {
-        String folderName = "FolderName" + DataUtil.getUniqueIdentifier();
+        String folderName = String.format("folderName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createFolder(userContributor, password, folderName, siteName);
@@ -242,7 +242,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     {
         String siteName1 = "SiteName1" + DataUtil.getUniqueIdentifier();
         String siteName2 = "SiteName2" + DataUtil.getUniqueIdentifier();
-        String folderName = "FolderName" + DataUtil.getUniqueIdentifier();
+        String folderName = String.format("folderName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library page for the test site, as Contributor user.");
         siteService.create(adminUser, adminPassword, domain, siteName1, description, Visibility.PUBLIC);
@@ -276,7 +276,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     public void moveContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
-        String folderName = "FolderName" + DataUtil.getUniqueIdentifier();
+        String folderName = String.format("folderName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library for the test site, as Contributor user.");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
@@ -396,7 +396,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void manageAspectsForContentCreatedBySelf()
     {
-        String folderName = "FolderName" + DataUtil.getUniqueIdentifier();
+        String folderName = String.format("folderName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createFolder(userContributor, password, folderName, siteName);
@@ -490,7 +490,6 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         LOG.info("Step1: Add a comment for the file");
         socialFeatures.clickCommentLink(fileName);
         documentDetailsPage.addCommentToItem("commentAddedByContributor");
-        getBrowser().waitInSeconds(2);
         Assert.assertEquals(documentDetailsPage.getCommentContent(), "commentAddedByContributor", "Comment added successfully by contributor");
 
         LOG.info("Step 2: Return to Document Library page and check that the comment counter for the file has increased");
@@ -515,7 +514,6 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getCommentContent(), "commentAddedByContributor", "Comment added successfully by contributor");
 
         LOG.info("Step2: Edit the comment for the file");
-        getBrowser().waitInSeconds(2);
         documentDetailsPage.clickEditComment("commentAddedByContributor");
         documentDetailsPage.editComment("commentEditedByContributor");
         documentDetailsPage.clickOnSaveButtonEditComment();
