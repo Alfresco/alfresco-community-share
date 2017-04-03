@@ -121,7 +121,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         assertEquals(getBrowser().getTitle(), "User roles and permissions | Alfresco Documentation", "Alfresco documentation page for 'User roles and permissions' is opened.");
 
         LOG.info("STEP 4: Go back to 'Add Users' page and click 'x' button for 'Info' pop-up.");
-        getBrowser().navigate().back();
+        addSiteUsersPage.navigate(siteName);
         addSiteUsersPage.clickInfoIcon();
         addSiteUsersPage.closeInfoBalloon();
         assertFalse(addSiteUsersPage.isInfoBalloonDisplayed(), "'Info' pop-up is closed.");
