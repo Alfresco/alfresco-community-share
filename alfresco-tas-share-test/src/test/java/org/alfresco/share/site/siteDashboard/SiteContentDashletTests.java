@@ -155,12 +155,10 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         siteContentDashlet.clickDetailedViewButton();
 
         LOG.info("STEPS 1 - For the file available in the Site Content Dashlet click on Favorite icon");
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//a[@title = 'Add document to favorites']"));
         siteContentDashlet.clickOnFavoriteLink();
         Assert.assertTrue(siteContentDashlet.isDocumentFavorited(), "Document is favorited");
 
         LOG.info("STEPS 2 - Click on the Favorite icon to remove document from Favorites list");
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//a[@title = 'Unlike']"));
         siteContentDashlet.removeFromFavoritesLink();
         Assert.assertTrue(siteContentDashlet.isDocumentRemovedFromFavorites(), "Document is removed from favorites");
 

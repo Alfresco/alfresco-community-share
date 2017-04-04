@@ -306,12 +306,14 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public void clickOnFavoriteLink()
     {
+        browser.waitUntilElementVisible(addToFavoritesLink);
         addToFavoritesLink.click();
         browser.waitInSeconds(1);
     }
 
     public void removeFromFavoritesLink()
     {
+        browser.waitUntilElementVisible(removeFromFavoritesLink);
         removeFromFavoritesLink.click();
         browser.waitInSeconds(1);
     }
