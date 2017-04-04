@@ -44,7 +44,6 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     {
         userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        setupAuthenticatedSession(userName, password);
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -58,7 +57,8 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     @TestRail(id = "C5844")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void onlySiteManagerIsAbleToRenameDataListsFeatures()
-    {    
+    {
+        setupAuthenticatedSession(userName, password);
         siteDashboardPage.navigate(siteName);
         
         LOG.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
@@ -107,7 +107,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
             dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, contactList, "contact link description");
             createdDataLists.add(contactList);
         }
-        
+        setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         
         LOG.info("Step 1: The browsing pane displays a list of all existing data lists");
@@ -119,9 +119,10 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     public void viewListsFromDataLists()
     {    
         LOG.info("Preconditions: Create a new List");
-        String listName = "list" + System.currentTimeMillis();
+        String listName = "listC5845";
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
-        
+
+        setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         
         LOG.info("Step 1: The browsing pane displays a list of all existing data lists");
@@ -137,7 +138,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         Assert.assertFalse(dataListsPage.currentContent.isSelectItemsButtonEnabled(), "'Select items' button is enabled.");
         
         LOG.info("Step 3: Mouse over the list displayed under Lists");
-        Assert.assertTrue(dataListsPage.isEditButtonDisplayedForList(listName), "'Edit' button is not displayed.");
-        Assert.assertTrue(dataListsPage.isDeleteButtonDisplayedForList(listName), "'Delete' button is not displayed.");
+        Assert.assertTrue(dataListsPage.isEditButtonDisplayedForList(listName), "'Edit' button is displayed.");
+        Assert.assertTrue(dataListsPage.isDeleteButtonDisplayedForList(listName), "'Delete' button is displayed.");
     }
 }
