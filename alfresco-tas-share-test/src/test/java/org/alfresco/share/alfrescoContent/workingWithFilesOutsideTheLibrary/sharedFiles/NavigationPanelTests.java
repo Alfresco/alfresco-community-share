@@ -1,11 +1,8 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
-import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -27,16 +24,7 @@ public class NavigationPanelTests extends ContextAwareWebTest
 {
     @Autowired private DocumentsFilters documentsFilters;
 
-    @Autowired
-    HeaderMenuBar headerMenuBar;
-
     @Autowired private SharedFilesPage sharedFilesPage;
-
-    @Autowired
-    CreateContent createContent;
-
-    @Autowired
-    DeleteDialog deleteDialog;
 
     private final String uniqueId = DataUtil.getUniqueIdentifier();
     private final String folderName = "folder-C7928-" + uniqueId;

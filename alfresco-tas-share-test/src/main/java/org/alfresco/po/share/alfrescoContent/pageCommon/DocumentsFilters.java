@@ -2,6 +2,7 @@ package org.alfresco.po.share.alfrescoContent.pageCommon;
 
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -331,6 +332,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
      */
     public String getSidebarTag(String tagName)
     {
+        Parameter.checkIsMandotary("Tag", selectTagByTagName(tagName));
         return selectTagByTagName(tagName).getText();
     }
 
