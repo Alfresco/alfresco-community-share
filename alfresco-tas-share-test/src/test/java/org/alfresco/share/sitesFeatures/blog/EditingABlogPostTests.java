@@ -220,8 +220,6 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         
         LOG.info("Step 3: Go to Blog post list");
         blogPostView.clickBlogPostListButton();
-        blogPage.clickLatestFilter();
-        getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.blogPostTitle(newTitle), 10);
         Assert.assertTrue(blogPage.isBlogPostDisplayed(newTitle), "The blog post is not visible in the Latest view");
         blogPage.clickMyDraftsFilter();
         getBrowser().waitUntilElementsVisible(By.xpath("//td[@class = 'yui-dt-empty']//div[text() = 'No blog posts found']"));
