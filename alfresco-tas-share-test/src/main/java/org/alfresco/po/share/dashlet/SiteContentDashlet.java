@@ -89,8 +89,8 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         String smallThumbnail1 = smallThumbnailIcon + fileName + "')]";
         String smallThumbnail = StringUtils.deleteWhitespace(smallThumbnail1);
 
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath(smallThumbnail), 5);
-        return browser.findElement(By.xpath(smallThumbnail)) != null;
+        browser.waitUntilElementVisible(By.xpath(smallThumbnail));
+        return browser.isElementDisplayed(By.xpath(smallThumbnail));
     }
 
     /**
@@ -100,8 +100,8 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     public boolean isBigThumbnailDisplayed(String fileName)
     {
         String bigThumbnail = bigThumbnailIcon + fileName + "')]";
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath(bigThumbnail));
-        return browser.findElement(By.xpath(bigThumbnail)) != null;
+        browser.waitUntilElementVisible(By.xpath(bigThumbnail));
+        return browser.isElementDisplayed(By.xpath(bigThumbnail));
     }
 
     /**

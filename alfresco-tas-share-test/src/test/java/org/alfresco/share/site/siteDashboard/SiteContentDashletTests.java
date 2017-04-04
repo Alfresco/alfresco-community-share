@@ -79,9 +79,6 @@ public class SiteContentDashletTests extends ContextAwareWebTest
             getBrowser().refresh();
         }
         siteContentDashlet.clickSimpleViewButton();
-        String smallThumbnailIcon = "//img[contains(@src, '/share/res/components/images/filetypes/generic-file-32.png')][contains(@title,'" + uploadFileName
-                + "')]";
-        getBrowser().waitUntilElementVisible(By.xpath(smallThumbnailIcon));
         Assert.assertTrue(siteContentDashlet.isSmallThumbnailDisplayed(uploadFileName), "Small thumbnail for testFile1 is expected to be displayed");
         Assert.assertTrue(siteContentDashlet.isFileLinkPresent(uploadFileName), "Link for testFile1 is expected to be displayed");
         Assert.assertTrue(siteContentDashlet.isDocDetailsSectionPresent(uploadFileName), "Document details for testFile1 are expected to be displayed");
@@ -196,9 +193,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     @TestRail(id = "C5457")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void detailedView()
-
     {
-
         String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
         LOG.info("Preconditions: create site, add another user to site, add document to site, login to Share, navigate to site's dashboard");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
