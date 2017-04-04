@@ -136,7 +136,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         Assert.assertTrue(dataListsPage.currentContent.isSelectButtonDisplayed(), "'Select' button is not displayed.");
         Assert.assertFalse(dataListsPage.currentContent.isSelectItemsButtonEnabled(), "'Select items' button is enabled.");
         
-        LOG.info("Step 3: Hoover mouse over the list displayed under Lists");
+        LOG.info("Step 3: Mouse over the list displayed under Lists");
         Assert.assertTrue(dataListsPage.isEditButtonDisplayedForList(listName), "'Edit' button is not displayed.");
         Assert.assertTrue(dataListsPage.isDeleteButtonDisplayedForList(listName), "'Delete' button is not displayed.");
     }

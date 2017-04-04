@@ -167,12 +167,14 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public boolean isEditButtonDisplayedForList(String listName)
     {
         browser.mouseOver(getDataListElement(listName));
+        browser.waitUntilElementVisible(editListButton);
         return browser.isElementDisplayed(editListButton);
     }
     
     public boolean isDeleteButtonDisplayedForList(String listName)
     {
         browser.mouseOver(getDataListElement(listName));
+        browser.waitUntilElementVisible(deleteListButton);
         return browser.isElementDisplayed(deleteListButton);
     }
     
