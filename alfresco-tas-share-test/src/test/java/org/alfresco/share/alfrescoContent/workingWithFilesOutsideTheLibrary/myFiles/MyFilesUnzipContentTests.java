@@ -35,7 +35,7 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
 
     @Autowired private SiteDashboardPage sitePage;
 
-    private final String user = "user" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("user%s", DataUtil.getUniqueIdentifier());
     private final String zipFile = "archiveC7816.zip";
     private final String zipContent = "TestFileC7816";
     private final String zipFilePath = testDataFolder + zipFile;

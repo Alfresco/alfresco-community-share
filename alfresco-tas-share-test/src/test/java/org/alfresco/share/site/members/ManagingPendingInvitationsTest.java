@@ -30,11 +30,11 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void pendingInvitesAreAvailableOnlyForSiteManagers()
     {
-        String userManager = "User1" + DataUtil.getUniqueIdentifier();
-        String userCollaborator = "User2" + DataUtil.getUniqueIdentifier();
-        String userContributor = "User3" + DataUtil.getUniqueIdentifier();
-        String userConsumer = "User4" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        String userManager = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String userCollaborator = String.format("User2%s", DataUtil.getUniqueIdentifier());
+        String userContributor = String.format("User3%s", DataUtil.getUniqueIdentifier());
+        String userConsumer = String.format("User4%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
         userService.create(adminUser, adminPassword, userCollaborator, password, userCollaborator + domain, userCollaborator, userCollaborator);
         userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
@@ -74,8 +74,8 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     {
         String userRole = "Contributor";
         String userIdentifier = DataUtil.getUniqueIdentifier();
-        String userName = "User1" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -147,8 +147,8 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     {
         String userRole = "Collaborator";
         String userIdentifier = DataUtil.getUniqueIdentifier();
-        String userName = "User1" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -185,9 +185,9 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     public void verifyPendingInvitesForInternalUsers()
     {
         String userRole = "Consumer";
-        String userName1 = "User1" + DataUtil.getUniqueIdentifier();
-        String userName2 = "User2" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String userName2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
         siteService.create(userName1, password, domain, siteName, "description", Site.Visibility.PUBLIC);

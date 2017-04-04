@@ -38,7 +38,7 @@ public class UnzipContentTests extends ContextAwareWebTest
     @Autowired
     DeleteDialog deleteDialog;
 
-    private final String user = "C8040TestUser" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C8040TestUser%s", DataUtil.getUniqueIdentifier());
     private final String path = "Shared";
     private final String zipFile = "archiveC8040.zip";
     private final String zipContent = "fileC8040";

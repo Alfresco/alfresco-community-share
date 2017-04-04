@@ -21,7 +21,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     @Autowired private DeleteDialog deleteDialog;
 
 
-    private final String user = "C8308TestUser" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C8308TestUser%s", DataUtil.getUniqueIdentifier());
     private final String fileName = "C8308 file";
     private final String fileContent = "C8308 content";
     private final String path = "User Homes/" + user;

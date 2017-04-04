@@ -38,8 +38,8 @@ public class CreateTests extends ContextAwareWebTest
 
     private final String folderTemplateName = "Software Engineering Project";
     private final String fileTemplateName = DataUtil.getUniqueIdentifier() + "fileTemplate.txt";
-    private final String user = "user" + DataUtil.getUniqueIdentifier();
-    private final String user2 = "user2-" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+    private final String user2 = String.format("user2-%s", DataUtil.getUniqueIdentifier());
 
     private final String title = "googleDocTitle";
     private final String googleDocName = "googleDocTitle.docx";

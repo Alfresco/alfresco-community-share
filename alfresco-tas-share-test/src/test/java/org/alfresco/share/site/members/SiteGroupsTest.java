@@ -25,11 +25,11 @@ public class SiteGroupsTest extends ContextAwareWebTest
     @Autowired
     GroupService groupService;
 
-    private String user = "testUser" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private String group1 = "testGroup1-" + DataUtil.getUniqueIdentifier();
-    private String group2 = "testGroup2-" + DataUtil.getUniqueIdentifier();
-    private String group3 = "testGroup3-" + DataUtil.getUniqueIdentifier();
+    private String group1 = String.format("testGroup1-%s", DataUtil.getUniqueIdentifier());
+    private String group2 = String.format("testGroup2-%s", DataUtil.getUniqueIdentifier());
+    private String group3 = String.format("testGroup3-%s", DataUtil.getUniqueIdentifier());
 
 
     @BeforeClass(alwaysRun = true)

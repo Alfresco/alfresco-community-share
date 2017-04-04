@@ -35,8 +35,8 @@ public class DeleteTopicTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private String user1 = "User1" + DataUtil.getUniqueIdentifier();
-    private String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
     private String topic1Title = "Topic1";
     private String topic2Title = "Topic2";
     private String topicContent = "Some content";

@@ -27,7 +27,7 @@ public class RepositoryTagTests extends ContextAwareWebTest
 
     @Autowired private SelectDialog selectDialog;
 
-    private final String user = "C8266TestUser" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C8266TestUser%s", DataUtil.getUniqueIdentifier());
     private final String fileNameC8266 = "C8266 file";
     private final String fileNameC8290 = "C8290 file";
     private final String fileNameC8278 = "C8278 file";
@@ -36,10 +36,10 @@ public class RepositoryTagTests extends ContextAwareWebTest
     private final String fileContent = "test file content";
     private final String path = "User Homes/" + user;
     private final String folderName = "C8167 Folder";
-    private final String tagC8266 = "tagNameFile-C8266-" + DataUtil.getUniqueIdentifier();
-    private final String tagC8267 = "tag-C8267" + DataUtil.getUniqueIdentifier();
-    private final String tagC8278 = "tag-C8278" + DataUtil.getUniqueIdentifier();
-    private final String tagC8290 = "tag-C8290" + DataUtil.getUniqueIdentifier();
+    private final String tagC8266 = String.format("tagNameFile-C8266-%s", DataUtil.getUniqueIdentifier());
+    private final String tagC8267 = String.format("tag-C8267%s", DataUtil.getUniqueIdentifier());
+    private final String tagC8278 = String.format("tag-C8278%s", DataUtil.getUniqueIdentifier());
+    private final String tagC8290 = String.format("tag-C8290%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

@@ -71,11 +71,11 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     private final String newVersionFilePath = testDataFolder + newVersionFile;
     private final String newVersionFile2 = DataUtil.getUniqueIdentifier() + "-NewFile-C8943" + ".txt";
     private final String newVersionFilePath2 = testDataFolder + newVersionFile2;
-    private final String updatedDocName = "UpdatedDocName-C8947-" + DataUtil.getUniqueIdentifier();
+    private final String updatedDocName = String.format("UpdatedDocName-C8947-%s", DataUtil.getUniqueIdentifier());
     private final String updatedContent = "edited in Alfresco test content C8947";
     private final String updatedTitle = "updated title C8947";
     private final String updatedDescription = "updated description C8947";
-    private final String updatedDocName1 = "UpdatedDocName-C8948-" + DataUtil.getUniqueIdentifier();
+    private final String updatedDocName1 = String.format("UpdatedDocName-C8948-%s", DataUtil.getUniqueIdentifier());
     private final String updatedContent1 = "edited in Alfresco test content C8948";
     private final String updatedTitle1 = "updated title C8948";
     private final String updatedDescription1 = "updated description C8948";
@@ -84,32 +84,32 @@ public class CollaboratorFilesOnly extends ContextAwareWebTest
     private final String editedTitle1 = "editedTitle1";
     private final String editedContent1 = "edited content in Google Docs1";
     // Create
-    private final String user = "UserC" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "SiteC" + DataUtil.getUniqueIdentifier();
-    private final String siteName2 = "SiteC2" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("UserC%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("SiteC%s", DataUtil.getUniqueIdentifier());
+    private final String siteName2 = String.format("SiteC2%s", DataUtil.getUniqueIdentifier());
     // Download
     private String path = "Shared";
-    private final String fileNameC8940 = "C8940 file" + DataUtil.getUniqueIdentifier();
-    private final String fileContent = "test content" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8940 = String.format("C8940 file%s", DataUtil.getUniqueIdentifier());
+    private final String fileContent = String.format("test content%s", DataUtil.getUniqueIdentifier());
     // View in Browser
-    private final String fileNameC8941 = "C8941 file" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8941 = String.format("C8941 file%s", DataUtil.getUniqueIdentifier());
     // Upload New Version by self
-    private final String fileNameC8942 = "C8942 file" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8942 = String.format("C8942 file%s", DataUtil.getUniqueIdentifier());
     // Upload New Version by other user
-    private final String user2 = "UserC" + DataUtil.getUniqueIdentifier();
-    private final String fileNameC8943 = "C8943 file" + DataUtil.getUniqueIdentifier();
+    private final String user2 = String.format("UserC%s", DataUtil.getUniqueIdentifier());
+    private final String fileNameC8943 = String.format("C8943 file%s", DataUtil.getUniqueIdentifier());
     // Edit Inline by self
-    private final String fileNameC8947 = "C8947 file" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8947 = String.format("C8947 file%s", DataUtil.getUniqueIdentifier());
     // Edit Inline by others
-    private final String fileNameC8948 = "C8948 file" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8948 = String.format("C8948 file%s", DataUtil.getUniqueIdentifier());
     // Check Out Google Docs By Self
-    private final String fileNameC8953 = "C8953 file" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8953 = String.format("C8953 file%s", DataUtil.getUniqueIdentifier());
     // Check out Google Docs By Others
-    private final String fileNameC8954 = "C8954 file" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8954 = String.format("C8954 file%s", DataUtil.getUniqueIdentifier());
     // Cancel editing locked by self
-    private final String fileNameC8957 = "C8957 file" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8957 = String.format("C8957 file%s", DataUtil.getUniqueIdentifier());
     // Start Workflow
-    private final String fileNameC8962 = "C8962 file" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC8962 = String.format("C8962 file%s", DataUtil.getUniqueIdentifier());
 
     private boolean isFileInDirectory(String fileName, String extension)
     {

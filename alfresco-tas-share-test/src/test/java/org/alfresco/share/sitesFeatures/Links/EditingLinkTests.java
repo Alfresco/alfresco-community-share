@@ -35,9 +35,9 @@ public class EditingLinkTests extends ContextAwareWebTest
     private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName = "";
     private DateTime currentDate = new DateTime();
-    private String linkTitle = "Google" + DataUtil.getUniqueIdentifier();
+    private String linkTitle = String.format("Google%s", DataUtil.getUniqueIdentifier());
     private String linkURL = "https://www.google.ro";
-    private String linkDescription = "Link description" + DataUtil.getUniqueIdentifier();
+    private String linkDescription = String.format("Link description%s", DataUtil.getUniqueIdentifier());
     private List<String> linkTags = new ArrayList<>();
 
     @BeforeClass(alwaysRun = true)

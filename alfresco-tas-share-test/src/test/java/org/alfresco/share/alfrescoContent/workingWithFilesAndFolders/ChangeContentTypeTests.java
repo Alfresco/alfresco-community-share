@@ -33,9 +33,9 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
 
     @Autowired private EditPropertiesPage editPropertiesPage;
 
-    private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
+    private final String userName = String.format("profileUser-%s", DataUtil.getUniqueIdentifier());
     private final String docContent = "content of the file.";
-    private final String siteName = "Site-" + DataUtil.getUniqueIdentifier();
+    private final String siteName = String.format("Site-%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -49,7 +49,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelChangeType()
     {
-        String docName = "Doc-C7163-" + DataUtil.getUniqueIdentifier();
+        String docName = String.format("Doc-C7163-%s", DataUtil.getUniqueIdentifier());
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         documentLibraryPage.navigate(siteName);
@@ -77,7 +77,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void changeTypeFolder()
     {
-        String folderName = "Folder-C7166-" + DataUtil.getUniqueIdentifier();
+        String folderName = String.format("Folder-C7166-%s", DataUtil.getUniqueIdentifier());
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -121,7 +121,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void changeTypeFile()
     {
-        String docName = "Doc-C7167-" + DataUtil.getUniqueIdentifier();
+        String docName = String.format("Doc-C7167-%s", DataUtil.getUniqueIdentifier());
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
         documentLibraryPage.navigate(siteName);

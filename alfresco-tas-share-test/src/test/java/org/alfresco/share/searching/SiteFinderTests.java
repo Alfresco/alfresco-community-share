@@ -28,13 +28,13 @@ public class SiteFinderTests extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    String user1 = "profileUser1-" + DataUtil.getUniqueIdentifier();
-    String user2 = "profileUser2-" + DataUtil.getUniqueIdentifier();
+    String user1 = String.format("profileUser1-%s", DataUtil.getUniqueIdentifier());
+    String user2 = String.format("profileUser2-%s", DataUtil.getUniqueIdentifier());
     String userFirstName = "firstName";
     String user2LastName = "lastName2";
-    String siteName1 = "SiteName1-" + DataUtil.getUniqueIdentifier();
-    String siteName2 = "SiteName2-" + DataUtil.getUniqueIdentifier();
-    String description = "Description-" + DataUtil.getUniqueIdentifier();
+    String siteName1 = String.format("SiteName1-%s", DataUtil.getUniqueIdentifier());
+    String siteName2 = String.format("SiteName2-%s", DataUtil.getUniqueIdentifier());
+    String description = String.format("Description-%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

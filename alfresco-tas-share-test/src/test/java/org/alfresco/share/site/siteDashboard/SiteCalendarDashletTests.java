@@ -34,8 +34,8 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
     @Autowired
     CalendarPage calendarPage;
 
-    private String user = "user-" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("SiteName%s", DataUtil.getUniqueIdentifier());
     private DateTime today =  new DateTime();
     private DateTime tomorrow = today.plusDays(1);
 

@@ -35,7 +35,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
     {
         super.setup();
 
-        uniqueIdentifier = "-" + id + "-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = String.format("-" + id + "-%s", DataUtil.getUniqueIdentifier());
         siteName = "siteName" + uniqueIdentifier;
         userName = "User" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;

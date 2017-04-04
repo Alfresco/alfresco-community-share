@@ -25,8 +25,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    String user = "user" + DataUtil.getUniqueIdentifier();
-    String testSiteName = "testsite" + DataUtil.getUniqueIdentifier();
+    String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+    String testSiteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -84,8 +84,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPublicSiteFromToolbar()
     {
-        String siteName = "siteC2104-" + DataUtil.getUniqueIdentifier();
-        String description = "description-C2104-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteC2104-%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description-C2104-%s", DataUtil.getUniqueIdentifier());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
@@ -113,7 +113,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createSiteWithoutDescription()
     {
-        String siteName = "site-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: \"Go to User's dashboard page - \"My sites\" dashlet.\n" + "Click \"Create site\".");
@@ -139,8 +139,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createModeratedSiteFromToolbar()
     {
-        String siteName = "siteC2105-" + DataUtil.getUniqueIdentifier();
-        String description = "description-C2105-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteC2105-%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description-C2105-%s", DataUtil.getUniqueIdentifier());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
@@ -169,8 +169,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPrivateSiteFromToolbar()
     {
-        String siteName = "siteC2106-" + DataUtil.getUniqueIdentifier();
-        String description = "description-C2106-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteC2106-%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description-C2106-%s", DataUtil.getUniqueIdentifier());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
@@ -198,8 +198,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPublicSiteFromDashlet()
     {
-        String siteName = "siteC2107-" + DataUtil.getUniqueIdentifier();
-        String description = "description-C2107-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteC2107-%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description-C2107-%s", DataUtil.getUniqueIdentifier());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: \"Go to User's dashboard page - \"My sites\" dashlet.\n" + "Click \"Create site\".");
@@ -227,8 +227,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createModeratedSiteFromDashlet()
     {
-        String siteName = "siteC2108-" + DataUtil.getUniqueIdentifier();
-        String description = "description-C2108-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteC2108-%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description-C2108-%s", DataUtil.getUniqueIdentifier());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: \"Go to User's dashboard page - \"My sites\" dashlet.\n" + "Click \"Create site\".");
@@ -256,8 +256,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPrivateSiteFromDashlet()
     {
-        String siteName = "siteC2109-" + DataUtil.getUniqueIdentifier();
-        String description = "description-C2109-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteC2109-%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description-C2109-%s", DataUtil.getUniqueIdentifier());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: \"Go to User's dashboard page - \"My sites\" dashlet.\n" + "Click \"Create site\".");
@@ -285,8 +285,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelCreatingSite()
     {
-        String siteName = "siteC2124-" + DataUtil.getUniqueIdentifier();
-        String description = "description-C2124-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteC2124-%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description-C2124-%s", DataUtil.getUniqueIdentifier());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
@@ -307,8 +307,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyCloseButton()
     {
-        String siteName = "siteC2125-" + DataUtil.getUniqueIdentifier();
-        String description = "description-C2125-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteC2125-%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description-C2125-%s", DataUtil.getUniqueIdentifier());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
@@ -327,8 +327,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void urlNameAlreadyExists()
     {
-        String siteName = "siteC2130-" + DataUtil.getUniqueIdentifier();
-        String description = "description-C2130-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteC2130-%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description-C2130-%s", DataUtil.getUniqueIdentifier());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");

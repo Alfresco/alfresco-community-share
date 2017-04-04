@@ -26,8 +26,8 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyPeopleFinderPage()
     {
-        String userName1 = "User1" + DataUtil.getUniqueIdentifier();
-        String userName2 = "User2" + DataUtil.getUniqueIdentifier();
+        String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String userName2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
         setupAuthenticatedSession(userName1, password);
@@ -62,7 +62,7 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void noResultsFound()
     {
-        String userName1 = "User1" + DataUtil.getUniqueIdentifier();
+        String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         setupAuthenticatedSession(userName1, password);
         peopleFinderPage.navigate();
@@ -80,7 +80,7 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void emptyInputSearchField()
     {
-        String userName1 = "User1" + DataUtil.getUniqueIdentifier();
+        String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         setupAuthenticatedSession(userName1, password);
         peopleFinderPage.navigate();

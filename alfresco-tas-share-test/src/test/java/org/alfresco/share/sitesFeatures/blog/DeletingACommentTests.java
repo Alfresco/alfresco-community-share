@@ -27,9 +27,9 @@ public class DeletingACommentTests extends ContextAwareWebTest
     
     @Autowired DeleteDialog deleteDialog;
 
-    private String user = "C6063User" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C6063SiteName" + DataUtil.getUniqueIdentifier();
-    private String description = "C6063SiteDescription" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("C6063User%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("C6063SiteName%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("C6063SiteDescription%s", DataUtil.getUniqueIdentifier());
     private String blogPostContentText = "C6063 post content text";
     private List<String> tags = Collections.singletonList("tagcC6063");
     private String blogPostTitleC6063 = "C6063 blog post title";

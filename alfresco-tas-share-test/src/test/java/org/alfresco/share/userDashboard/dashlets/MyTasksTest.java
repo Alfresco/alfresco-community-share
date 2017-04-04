@@ -43,7 +43,7 @@ public class MyTasksTest extends ContextAwareWebTest
     
     @Autowired WorkflowService workflowService;
     
-    private String userName = "User" + DataUtil.getUniqueIdentifier();
+    private String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
     private String taskName = "NewTask";
     private Date taskDate = new Date();
     private String taskTypeAndStatus = "Task, Not Yet Started";

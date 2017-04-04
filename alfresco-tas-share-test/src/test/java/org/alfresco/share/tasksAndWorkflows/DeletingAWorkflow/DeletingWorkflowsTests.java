@@ -29,7 +29,7 @@ public class DeletingWorkflowsTests  extends ContextAwareWebTest
     @Autowired
     MyTasksPage myTasksPage;
 
-    private String workflowName = "taskName" + DataUtil.getUniqueIdentifier();
+    private String workflowName = String.format("taskName%s", DataUtil.getUniqueIdentifier());
 
     @TestRail(id = "C8501")
     @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})

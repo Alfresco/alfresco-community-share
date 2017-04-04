@@ -30,7 +30,7 @@ public class DuplicateAListItemTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userName = "User" + DataUtil.getUniqueIdentifier();
+        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);

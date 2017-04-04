@@ -36,7 +36,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     public void changeSiteTheme()
     {
         String userName = "user2135-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = "C2135" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("C2135%s", DataUtil.getUniqueIdentifier());
         LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2135", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -70,7 +70,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     public void cancelChangeSiteTheme()
     {
         String userName = "userC2148-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = "C2148" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("C2148%s", DataUtil.getUniqueIdentifier());
         LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2148", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -92,7 +92,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     public void verifyDefaultCurrentAndAvailablePages()
     {
         String userName = "user2156-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = "C2156" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("C2156%s", DataUtil.getUniqueIdentifier());
         LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2156", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -130,7 +130,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     public void addAvailablePagesToSite()
     {
         String userName = "userC2164-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = "C2164" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("C2164%s", DataUtil.getUniqueIdentifier());
         LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2164", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -171,7 +171,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     public void removePageFromSite()
     {
         String userName = "userC2171-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = "C2171" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("C2171%s", DataUtil.getUniqueIdentifier());
         LOG.info("Step 1: Login to Share as any user.");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2171", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -209,7 +209,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     public void renamePage()
     {
         String userName = "userC2173-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = "C2173" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("C2173%s", DataUtil.getUniqueIdentifier());
         LOG.info("Step 1: Login to Share as any user.");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2173", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);

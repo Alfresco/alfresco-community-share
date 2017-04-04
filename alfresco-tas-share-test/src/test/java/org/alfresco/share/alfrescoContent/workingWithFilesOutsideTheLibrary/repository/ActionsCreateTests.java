@@ -30,14 +30,14 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
     @Autowired private Notification notification;
 
-    private final String user = "C8156User" + DataUtil.getUniqueIdentifier();
-    private final String description = "C8156SiteDescription" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "C8156SiteName" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C8156User%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C8156SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C8156SiteName%s", DataUtil.getUniqueIdentifier());
     private final String path = "Data Dictionary/Node Templates";
-    private final String docName = "C8159template2" + DataUtil.getUniqueIdentifier();
+    private final String docName = String.format("C8159template2%s", DataUtil.getUniqueIdentifier());
     private final String docContent = "C8159 template content";
     private final String pathFolderTemplate = "Data Dictionary/Space Templates";
-    private final String folderName = "C8158" + DataUtil.getUniqueIdentifier();
+    private final String folderName = String.format("C8158%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
 

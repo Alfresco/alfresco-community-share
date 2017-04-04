@@ -29,7 +29,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUploadDocument()
     {
-        String user = "user" + DataUtil.getUniqueIdentifier();
+        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
         String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
         String testFilePath = testDataFolder + testFile;
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -50,7 +50,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUpdateDocumentNewVersion()
     {
-        String user = "user" + DataUtil.getUniqueIdentifier();
+        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
         String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
         String newVersionFile =  DataUtil.getUniqueIdentifier() + "newVersionFile.txt";
         String testFilePath = testDataFolder + testFile;

@@ -22,10 +22,10 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
     @Autowired
     SiteUsersPage siteUsersPage;
 
-    private String user1 = "testUser1" + DataUtil.getUniqueIdentifier();
-    private String user2 = "testUser2" + DataUtil.getUniqueIdentifier();
-    private String user3 = "testUser3" + DataUtil.getUniqueIdentifier();
-    private String siteName = "testSite" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("testUser1%s", DataUtil.getUniqueIdentifier());
+    private String user2 = String.format("testUser2%s", DataUtil.getUniqueIdentifier());
+    private String user3 = String.format("testUser3%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

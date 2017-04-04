@@ -25,9 +25,9 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
     @Autowired
     TopicListPage topicListPage;
 
-    private String user1 = "User1" + DataUtil.getUniqueIdentifier();
-    private String user2 = "User2" + DataUtil.getUniqueIdentifier();
-    private String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+    private String user2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
     private String topic1Title = "Topic1";
     private String topic2Title = "Topic2";
     private String topic3Title = "Topic3";

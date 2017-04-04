@@ -18,9 +18,9 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private final String user = "C2247User" + DataUtil.getUniqueIdentifier();
-    private final String description = "C2247SiteDescription" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "C2247Site" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C2247User%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C2247SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C2247Site%s", DataUtil.getUniqueIdentifier());
     private final String docName = "testFile1";
     private final String docContent = "C2247 content";
     private final String docName1 = "C2247 test file 1";

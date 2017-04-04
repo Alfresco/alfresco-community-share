@@ -23,9 +23,9 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
     @Autowired
     ContentAspects contentAspects;
 
-    private final String user = "C6939User" + DataUtil.getUniqueIdentifier();
-    private final String description = "C6939SiteDescription" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "C6939SiteName" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C6939User%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C6939SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C6939SiteName%s", DataUtil.getUniqueIdentifier());
     private final String folderName = "testFolder";
     private final String docName = "testFile1";
     private final String docContent ="C6940 content";
@@ -62,7 +62,7 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
         //Preconditions
         String tagName1 = "tag1c6940";
         String tagName2 = "tag2c6940";
-        String siteName = "C6940SiteName"+ DataUtil.getUniqueIdentifier();
+        String siteName = String.format("C6940SiteName", DataUtil.getUniqueIdentifier());
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
         contentService.createFolder(user, password, folderName, siteName);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, docName, docContent);

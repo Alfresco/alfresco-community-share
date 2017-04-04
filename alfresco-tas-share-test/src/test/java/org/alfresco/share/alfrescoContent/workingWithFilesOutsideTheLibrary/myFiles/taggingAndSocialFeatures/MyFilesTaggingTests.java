@@ -28,11 +28,11 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     private final String testFileC7885 = DataUtil.getUniqueIdentifier() + "testFileC7885.txt";
     private final String testFileC7886 = DataUtil.getUniqueIdentifier() + "testFileC7886.txt";
     private final String testFileC7895 = DataUtil.getUniqueIdentifier() + "testFileC7895.txt";
-    private final String tagName = "tag-" + DataUtil.getUniqueIdentifier();
-    private final String tagName2 = "tag2-" + DataUtil.getUniqueIdentifier();
-    private final String folderNameC7862 = "testFolderC7862" + DataUtil.getUniqueIdentifier();
-    private final String folderNameC7873 = "testFolderC7873" + DataUtil.getUniqueIdentifier();
-	private String user = "user" + DataUtil.getUniqueIdentifier();
+    private final String tagName = String.format("tag-%s", DataUtil.getUniqueIdentifier());
+    private final String tagName2 = String.format("tag2-%s", DataUtil.getUniqueIdentifier());
+    private final String folderNameC7862 = String.format("testFolderC7862%s", DataUtil.getUniqueIdentifier());
+    private final String folderNameC7873 = String.format("testFolderC7873%s", DataUtil.getUniqueIdentifier());
+	private String user = String.format("user%s", DataUtil.getUniqueIdentifier());
 	private final String myFilesPath = "User Homes/" + user;
 
     @Autowired

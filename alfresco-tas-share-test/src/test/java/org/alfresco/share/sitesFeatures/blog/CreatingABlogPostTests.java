@@ -28,9 +28,9 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
     @Autowired
     BlogPostListPage blogPostList;
 
-    private String user = "C5533User" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C5533SiteName" + DataUtil.getUniqueIdentifier();
-    private String description = "C5533SiteDescription" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("C5533User%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("C5533SiteName%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("C5533SiteDescription%s", DataUtil.getUniqueIdentifier());
     private String blogPostTitle = "Post1 Title";
     private String blogPostContentText = "first post content text";
     private String Tag = "tag1";

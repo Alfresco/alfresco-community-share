@@ -22,9 +22,9 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
 
     @Autowired private SharedFilesPage sharedFilesPage;
 
-    private String userName = "User" + DataUtil.getUniqueIdentifier();
+    private String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
     private String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
-    private String userName1 = "User1" + DataUtil.getUniqueIdentifier();
+    private String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

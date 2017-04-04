@@ -31,7 +31,7 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void verifyAlfrescoAddonsNewsFeedDashlet()
     {
-        String userName = "C2168-" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("C2168-%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2793", "lname");
         userService.addDashlet(userName, password, UserDashlet.ADDONS_RSS_FEED, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
         setupAuthenticatedSession(userName, password);

@@ -69,7 +69,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
     public void myFilesDownloadFileFromAlfresco()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
+        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();
@@ -94,7 +94,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
     public void downloadFolder()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
-        String user = "user" + DataUtil.getUniqueIdentifier();
+        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();

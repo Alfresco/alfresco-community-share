@@ -49,9 +49,9 @@ public class FilesOnlyTests extends ContextAwareWebTest
     @Autowired
     Download download;
 
-    private String user = "ConsumerUser" + DataUtil.getUniqueIdentifier();
-    private String description = "C8882SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C8882SiteName" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("ConsumerUser%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("C8882SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("C8882SiteName%s", DataUtil.getUniqueIdentifier());
     private String fileC8884 = "C8884 test file";
     private String fileC8885 = "C8885 test file";
     private String fileC8887 = "C8887 test file";

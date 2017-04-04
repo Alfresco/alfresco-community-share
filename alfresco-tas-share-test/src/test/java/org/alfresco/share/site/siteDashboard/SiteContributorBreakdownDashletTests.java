@@ -32,12 +32,12 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
     @Autowired
     UserProfilePage userProfilePage;
 
-    private String userName1 = "CUser1"+ DataUtil.getUniqueIdentifier();
-    private String userName2 = "CUser2" + DataUtil.getUniqueIdentifier();
-    private String siteName = "CSiteName" + DataUtil.getUniqueIdentifier();
-    private String fileName1User1 = "File1User1"+ DataUtil.getUniqueIdentifier();
-    private String fileName2User1 = "File2User1" + DataUtil.getUniqueIdentifier();
-    private String fileName1User2 = "File1User2"+ DataUtil.getUniqueIdentifier();
+    private String userName1 = String.format("CUser1%s", DataUtil.getUniqueIdentifier());
+    private String userName2 = String.format("CUser2%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("CSiteName%s", DataUtil.getUniqueIdentifier());
+    private String fileName1User1 = String.format("File1User1%s", DataUtil.getUniqueIdentifier());
+    private String fileName2User1 = String.format("File2User1%s", DataUtil.getUniqueIdentifier());
+    private String fileName1User2 = String.format("File1User2%s", DataUtil.getUniqueIdentifier());
     private String fileContent = "File content for site dashboard test";
 
     @BeforeClass(alwaysRun = true)

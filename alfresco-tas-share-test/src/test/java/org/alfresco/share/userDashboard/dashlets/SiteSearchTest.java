@@ -22,7 +22,7 @@ public class SiteSearchTest extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    private String userName = "User" + DataUtil.getUniqueIdentifier();
+    private String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

@@ -38,7 +38,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerActionIsMissingForNonAdmins()
     {
         // preconditions
-        uniqueIdentifier = "C2848-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = String.format("C2848-%s", DataUtil.getUniqueIdentifier());
         user1 = "testUser1-" + uniqueIdentifier;
         user2 = "testUser2-" + uniqueIdentifier;
         siteName = "SiteName-" + uniqueIdentifier;
@@ -64,7 +64,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerActionWhenAdminIsSiteManager()
     {
         // preconditions
-        uniqueIdentifier = "C2849-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = String.format("C2849-%s", DataUtil.getUniqueIdentifier());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier + "-SiteName";
 
@@ -104,7 +104,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerUsingSiteConfigurationIcon()
     {
         // preconditions
-        uniqueIdentifier = "C2850-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = String.format("C2850-%s", DataUtil.getUniqueIdentifier());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = "SiteName-" + uniqueIdentifier;
 
@@ -156,7 +156,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerActionAvailableForAdmins()
     {
         // preconditions
-        uniqueIdentifier = "0-C2852-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = String.format("0-C2852-%s", DataUtil.getUniqueIdentifier());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
@@ -186,7 +186,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerFromSitesManagerAdminIsSiteMember()
     {
         // preconditions
-        uniqueIdentifier = "0-C2854-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = String.format("0-C2854-%s", DataUtil.getUniqueIdentifier());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
@@ -227,7 +227,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerActionAvailableForAdminNotSiteMember()
     {
         // preconditions
-        uniqueIdentifier = "0-C2856-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = String.format("0-C2856-%s", DataUtil.getUniqueIdentifier());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
@@ -258,7 +258,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerFromSitesManagerAdminIsNotSiteMember()
     {
         // preconditions
-        uniqueIdentifier = "0-C2861-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = String.format("0-C2861-%s", DataUtil.getUniqueIdentifier());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 

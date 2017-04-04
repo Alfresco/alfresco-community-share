@@ -44,7 +44,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void addRestrictableAspect() throws Exception
     {
-        fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
+        fileName = String.format("testFileC7111%s", DataUtil.getUniqueIdentifier());
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         LOG.info("Preconditions: Navigate to Document Details page for the test file");
         documentLibraryPage.navigate(siteName);
@@ -68,7 +68,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editRestrictableProperty()
     {
-        fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
+        fileName = String.format("testFileC7111%s", DataUtil.getUniqueIdentifier());
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentAspects.addAspect(userName, password, siteName, fileName, CMISUtil.DocumentAspect.RESTRICTABLE);
 
@@ -92,7 +92,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void removeRestrictableProperty() throws Exception
     {
-        fileName = "testFileC7111" + DataUtil.getUniqueIdentifier();
+        fileName = String.format("testFileC7111%s", DataUtil.getUniqueIdentifier());
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentAspects.addAspect(userName, password, siteName, fileName, CMISUtil.DocumentAspect.RESTRICTABLE);
 

@@ -23,7 +23,7 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesSelectContentTests extends ContextAwareWebTest
 {
-    private final String testFile = "testFile" + DataUtil.getUniqueIdentifier();
+    private final String testFile = String.format("testFile%s", DataUtil.getUniqueIdentifier());
     private final String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
     private String user;
     private String myFilesPath;
@@ -35,7 +35,7 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void createUser()
     {
-        user = "user" + DataUtil.getUniqueIdentifier();
+        user = String.format("user%s", DataUtil.getUniqueIdentifier());
         myFilesPath = "User Homes/" + user;
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);

@@ -43,8 +43,8 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
 
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
     String today = df.format(new Date());
-    private String user1 = "User1" + DataUtil.getUniqueIdentifier();
-    private String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
     private String topicTitle;
     private String topicContent = "Some content";
     private String topicReply = "Reply content";
@@ -63,7 +63,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createReplyToDiscussion()
     {
-        topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();
+        topicTitle = String.format("Topic1%s", DataUtil.getUniqueIdentifier());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         topicListPage.navigate(siteName);
 
@@ -95,7 +95,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreatingReplyToDiscussion()
     {
-        topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();
+        topicTitle = String.format("Topic1%s", DataUtil.getUniqueIdentifier());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         topicListPage.navigate(siteName);
 
@@ -126,7 +126,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         String linkUrl = "https://www.alfresco.com/";
         String linkText = "Alfresco site";
         String linkTitle = "Alfresco";
-        topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();
+        topicTitle = String.format("Topic1%s", DataUtil.getUniqueIdentifier());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         topicListPage.navigate(siteName);
         topicListPage.clickTopicTitle(topicTitle);
@@ -159,7 +159,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     {
         String imageSource = "https://www.alfresco.com/sites/www.alfresco.com/files/alfresco-logo.png";
         String imageDescription = "Alfresco logo";
-        topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();
+        topicTitle = String.format("Topic1%s", DataUtil.getUniqueIdentifier());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         topicListPage.navigate(siteName);
         topicListPage.clickTopicTitle(topicTitle);
@@ -189,7 +189,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void replyToAReply()
     {
-        topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();
+        topicTitle = String.format("Topic1%s", DataUtil.getUniqueIdentifier());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         sitePagesService.replyToDiscussion(user1, password, siteName, topicTitle, topicReply);
         topicListPage.navigate(siteName);
@@ -220,7 +220,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editReplyAddedToTopic()
     {
-        topicTitle = "Topic1" + DataUtil.getUniqueIdentifier();
+        topicTitle = String.format("Topic1%s", DataUtil.getUniqueIdentifier());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         sitePagesService.replyToDiscussion(user1, password, siteName, topicTitle, topicReply);
         topicListPage.navigate(siteName);

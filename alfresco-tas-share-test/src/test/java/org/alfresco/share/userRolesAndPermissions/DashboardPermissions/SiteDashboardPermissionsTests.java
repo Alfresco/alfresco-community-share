@@ -19,12 +19,12 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     @Autowired
     SiteDashboardPage siteDashboardPage;
 
-    private String userConsumer = "C8723ConsumerUser" + DataUtil.getUniqueIdentifier();
+    private String userConsumer = String.format("C8723ConsumerUser%s", DataUtil.getUniqueIdentifier());
     private String userContributor = "C8724ContributorUser"+DataUtil.getUniqueIdentifier();
     private String userCollaborator = "C8725CollaboratorUser"+DataUtil.getUniqueIdentifier();
     private String userSiteManager = "C8726SiteManagerUser"+DataUtil.getUniqueIdentifier();
-    private String description = "C8723SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C8723" + DataUtil.getUniqueIdentifier();
+    private String description = String.format("C8723SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("C8723%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

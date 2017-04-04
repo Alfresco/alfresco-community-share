@@ -41,9 +41,9 @@ public class WebViewDashletTests extends ContextAwareWebTest
          * Precondition
          */
         LOG.info("Create site C5449");
-        String user = "C5449User" + DataUtil.getUniqueIdentifier();
-        String siteName = "C5449SiteName" + DataUtil.getUniqueIdentifier();
-        String description = "C5449SiteDescription" + DataUtil.getUniqueIdentifier();
+        String user = String.format("C5449User%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("C5449SiteName%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("C5449SiteDescription%s", DataUtil.getUniqueIdentifier());
 
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");
         siteService.create(adminUser, adminPassword, user, siteName, description, Visibility.PUBLIC);
@@ -100,9 +100,9 @@ public class WebViewDashletTests extends ContextAwareWebTest
          * Precondition
          */
         LOG.info("Create site C5450");
-        String user = "C5450User" + DataUtil.getUniqueIdentifier();
-        String siteName = "C5450SiteName" + DataUtil.getUniqueIdentifier();
-        String description = "C5450SiteDescription" + DataUtil.getUniqueIdentifier();
+        String user = String.format("C5450User%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("C5450SiteName%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("C5450SiteDescription%s", DataUtil.getUniqueIdentifier());
 
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");
         siteService.create(adminUser, adminPassword, user, siteName, description, Visibility.PUBLIC);
@@ -138,9 +138,9 @@ public class WebViewDashletTests extends ContextAwareWebTest
         /**
          * Precondition
          */
-        String user = "C5453User" + DataUtil.getUniqueIdentifier();
-        String siteName = "C5453SiteName" + DataUtil.getUniqueIdentifier();
-        String description = "C5453SiteDescription" + DataUtil.getUniqueIdentifier();
+        String user = String.format("C5453User%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("C5453SiteName%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("C5453SiteDescription%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Create Site C5453");
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");
@@ -180,9 +180,9 @@ public class WebViewDashletTests extends ContextAwareWebTest
         /**
          * Precondition
          */
-        String user = "C5459User" + DataUtil.getUniqueIdentifier();
-        String siteName = "C5459SiteName" + DataUtil.getUniqueIdentifier();
-        String description = "C5459SiteDescription" + DataUtil.getUniqueIdentifier();
+        String user = String.format("C5459User%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("C5459SiteName%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("C5459SiteDescription%s", DataUtil.getUniqueIdentifier());
         
         LOG.info("Create Site C5459");
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");

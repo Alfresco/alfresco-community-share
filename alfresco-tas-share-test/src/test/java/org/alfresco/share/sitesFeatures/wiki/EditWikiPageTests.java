@@ -46,7 +46,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     private String wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
     private String wikiNewContent = "New content";
     private String wikiInitialContent = "Initial content";
-    private String tagName = "tag" + DataUtil.getUniqueIdentifier();
+    private String tagName = String.format("tag%s", DataUtil.getUniqueIdentifier());
     private List<String> tags = new ArrayList<>();
     private final String image = "newavatar.jpg";
     private final String siteNameC5545 = String.format("siteNameC5545%s", DataUtil.getUniqueIdentifier());

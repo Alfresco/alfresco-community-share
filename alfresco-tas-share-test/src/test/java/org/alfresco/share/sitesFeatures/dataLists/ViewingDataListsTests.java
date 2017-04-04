@@ -28,7 +28,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        userName = "User" + DataUtil.getUniqueIdentifier();
+        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
     }

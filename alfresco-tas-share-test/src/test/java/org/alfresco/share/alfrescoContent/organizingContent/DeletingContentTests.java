@@ -32,10 +32,10 @@ public class DeletingContentTests extends ContextAwareWebTest
 
     private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private final String folderNameD = "delFolder" + DataUtil.getUniqueIdentifier();
-    private final String subFolder = "delSubfolder" + DataUtil.getUniqueIdentifier();
-    private final String folderNameC = "cancelFolder" + DataUtil.getUniqueIdentifier();
-    private final String docName = "testDoc" + DataUtil.getUniqueIdentifier();
+    private final String folderNameD = String.format("delFolder%s", DataUtil.getUniqueIdentifier());
+    private final String subFolder = String.format("delSubfolder%s", DataUtil.getUniqueIdentifier());
+    private final String folderNameC = String.format("cancelFolder%s", DataUtil.getUniqueIdentifier());
+    private final String docName = String.format("testDoc%s", DataUtil.getUniqueIdentifier());
     private final String folderPathInRepository = "Sites/"+siteName+"/documentLibrary/";
 
     @BeforeClass(alwaysRun = true)

@@ -32,24 +32,24 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
 
     @Autowired DocumentDetailsPage documentDetailsPage;
 
-    private String userName = "0_0C202757User" + DataUtil.getUniqueIdentifier();
-    private String userC202758_1 = "C202758_1"+ DataUtil.getUniqueIdentifier();
-    private String userC202758_2 = "C202758_2"+ DataUtil.getUniqueIdentifier();
+    private String userName = String.format("0_0C202757User%s", DataUtil.getUniqueIdentifier());
+    private String userC202758_1 = String.format("C202758_1%s", DataUtil.getUniqueIdentifier());
+    private String userC202758_2 = String.format("C202758_2%s", DataUtil.getUniqueIdentifier());
     private String fname1= "FirstN1";
     private String lname1 = "LastN1";
     private String fname2= "FirstN2";
     private String lname2 = "LastN2";
     private String path ="";
-    private String folderName = "C202758Folder" + DataUtil.getUniqueIdentifier();
-    private String pathC202758 = "C202758Folder" + DataUtil.getUniqueIdentifier();
+    private String folderName = String.format("C202758Folder%s", DataUtil.getUniqueIdentifier());
+    private String pathC202758 = String.format("C202758Folder%s", DataUtil.getUniqueIdentifier());
     private String file = "Manage_permissions_test_file";
     private String userC202776 = "C202759_1"+ DataUtil.getUniqueIdentifier();
-    private String folderC202776 = "C202776Folder" + DataUtil.getUniqueIdentifier();
-    private String subFolderC202776 = "C202776Subfolder" + DataUtil.getUniqueIdentifier();
+    private String folderC202776 = String.format("C202776Folder%s", DataUtil.getUniqueIdentifier());
+    private String subFolderC202776 = String.format("C202776Subfolder%s", DataUtil.getUniqueIdentifier());
     private String pathfolderC202776 = "";
-    private String pathSubfolder = "C202776Folder" + DataUtil.getUniqueIdentifier();
+    private String pathSubfolder = String.format("C202776Folder%s", DataUtil.getUniqueIdentifier());
     private String pathForFile = folderC202776 + "/" + subFolderC202776;
-    private String fileNameC202776 = "C202776File" + DataUtil.getUniqueIdentifier();
+    private String fileNameC202776 = String.format("C202776File%s", DataUtil.getUniqueIdentifier());
     private String fileContent = "C202776 Test file content";
 
     @BeforeClass

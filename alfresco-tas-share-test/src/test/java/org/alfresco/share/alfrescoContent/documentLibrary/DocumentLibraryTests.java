@@ -34,7 +34,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     private final String random = DataUtil.getUniqueIdentifier();
     private final String user = "User" + random;
     private final String description = "SiteDescription" + random;
-    private final String siteName = "C6907Site-" + DataUtil.getUniqueIdentifier();
+    private final String siteName = String.format("C6907Site-%s", DataUtil.getUniqueIdentifier());
     private final String docContent = "C6936 Doc content";
 
     @BeforeClass(alwaysRun = true)

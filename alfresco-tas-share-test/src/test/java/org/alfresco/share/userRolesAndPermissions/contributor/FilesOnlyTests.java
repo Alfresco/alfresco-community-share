@@ -29,12 +29,12 @@ import static org.testng.Assert.assertTrue;
 
 public class FilesOnlyTests extends ContextAwareWebTest
 {
-    private final String userContributor = "Contributor" + DataUtil.getUniqueIdentifier();
+    private final String userContributor = String.format("Contributor%s", DataUtil.getUniqueIdentifier());
     private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private final String description = "SiteDescription" + DataUtil.getUniqueIdentifier();
-    private final String adminFile = "AdminFile" + DataUtil.getUniqueIdentifier();
+    private final String description = String.format("SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String adminFile = String.format("AdminFile%s", DataUtil.getUniqueIdentifier());
     private final String fileContent = "FileContent";
-    private final String deletePath = "Sites/" + siteName + "/documentLibrary";
+    private final String deletePath = String.format("Sites/%s/documentLibrary", siteName);
     @Autowired
     UploadContent uploadContent;
     @Autowired
@@ -85,6 +85,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         documentDetailsPage.renderedPage();
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Page displayed");
         assertEquals(documentDetailsPage.getContentText(), "test", "File preview displayed");
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/test", deletePath));
     }
 
     @TestRail(id = "C8911")
@@ -104,6 +105,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step2: Verify the file is successfully uploaded.");
         documentLibraryPage.renderedPage();
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), String.format("The file [%s] is not present", fileName));
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 
     @TestRail(id = "C8912")
@@ -162,7 +164,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info("Steps4: Click on the file and check the content is updated.");
         documentLibraryPage.clickOnFile(newVersionFileName);
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFileName));
-        contentService.deleteContentByPath(adminUser, adminPassword, deletePath + "/" + newVersionFileName);
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
     }
 
     @TestRail(id = "C8915")
@@ -183,7 +185,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void uploadNewVersionForItemLockedByUser()
     {
         String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
-        String siteNameC8916 = "SiteNameC8916" + DataUtil.getUniqueIdentifier();
+        String siteNameC8916 = String.format("SiteNameC8916%s", DataUtil.getUniqueIdentifier());
         LOG.info("Preconditions: Create test site, add Contributor user to site. Create a test file in site. Login as admin and navigate to site's doc lib");
         siteService.create(adminUser, adminPassword, domain, siteNameC8916, description, Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteNameC8916, "SiteContributor");
@@ -220,8 +222,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info("Steps1: Mouse over file and check 'Edit in Microsoft Office' action is available.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit in Microsoft Office"),
                 "Edit in Microsoft Office available for Contributor user");
-
-        contentService.deleteContentByPath(adminUser, adminPassword, deletePath + "/" + fileName);
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 
     @TestRail(id = "C8918")
@@ -238,7 +239,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info("Steps1: Mouse over file and check 'Edit in Microsoft Office' action is available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit in Microsoft Office"),
                 "Edit in Microsoft Office available for Contributor user");
-        contentService.deleteContentByPath(adminUser, adminPassword, deletePath + "/" + fileName);
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 
     @TestRail(id = "C8919")
@@ -265,6 +266,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         LOG.info("Steps4: Click on test file to open file and check content.");
         documentLibraryPage.clickOnFile("editedName");
         Assert.assertEquals(documentDetailsPage.getContentText(), "editedContent");
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/editedName", deletePath));
     }
 
     @TestRail(id = "C8920")
@@ -466,7 +468,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void cancelEditingContentLockedByOthers() throws Exception
     {
         String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
-        String siteNameC8930 = "SiteC8930" + DataUtil.getUniqueIdentifier();
+        String siteNameC8930 = String.format("SiteC8930%s", DataUtil.getUniqueIdentifier());
 
         LOG.info(
                 "Preconditions: Create test site and add Contributor member to site. Create a file in the Document Library for the test site, as admin user.");
@@ -495,8 +497,8 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void viewOriginalVersion() throws Exception
     {
         String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
-        String content = "FileContent" + DataUtil.getUniqueIdentifier();
-        String siteNameC8931 = "SiteC8931" + DataUtil.getUniqueIdentifier();
+        String content = String.format("FileContent%s", DataUtil.getUniqueIdentifier());
+        String siteNameC8931 = String.format("SiteC8931%s", DataUtil.getUniqueIdentifier());
 
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as admin user.");
@@ -530,8 +532,8 @@ public class FilesOnlyTests extends ContextAwareWebTest
     public void viewWorkingCopy() throws Exception
     {
         String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
-        String content = "FileContent" + DataUtil.getUniqueIdentifier();
-        String siteNameC8932 = "SiteC8932" + DataUtil.getUniqueIdentifier();
+        String content = String.format("FileContent%s", DataUtil.getUniqueIdentifier());
+        String siteNameC8932 = String.format("SiteC8932%s", DataUtil.getUniqueIdentifier());
 
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as admin user.");
@@ -616,7 +618,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         startWorkflowPage.selectAWorkflow();
         startWorkflowPage.selectWorkflowToStartFromDropdownList("New Task");
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Start Workflow", "Displayed page=");
-        contentService.deleteContentByPath(adminUser, adminPassword, deletePath + "/" + fileName);
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 
     @TestRail(id = "C8935")
@@ -648,7 +650,7 @@ public class FilesOnlyTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), "User is redirected to location of the created document.");
        // On 5.2, the file it's checked
        // assertTrue(documentLibraryPage.isContentSelected(fileName), "Document is checked.");
-        contentService.deleteContentByPath(adminUser, adminPassword, deletePath + "/" + fileName);
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 
     @TestRail(id = "C8936")
@@ -727,5 +729,6 @@ public class FilesOnlyTests extends ContextAwareWebTest
         documentDetailsPage.clickOkOnRevertPopup();
         Assert.assertEquals(documentDetailsPage.getContentText(), "original content", "New version's content");
         Assert.assertTrue(documentDetailsPage.isNewVersionAvailable("1.2"), "New minor version created");
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
     }
 }

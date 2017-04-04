@@ -25,7 +25,7 @@ public class UserToolTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void accessingUsersTool()
     {
-        String userName = "testUser" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
         String groupName = "ALFRESCO_ADMINISTRATORS";
 
         LOG.info("Preconditions: User with administrator rights is created and logged into Share.");

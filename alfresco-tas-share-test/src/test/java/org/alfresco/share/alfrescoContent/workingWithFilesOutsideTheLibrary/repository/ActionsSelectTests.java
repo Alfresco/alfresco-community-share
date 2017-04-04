@@ -21,7 +21,7 @@ public class ActionsSelectTests extends ContextAwareWebTest
     
     @Autowired private HeaderMenuBar menuBar;
 
-    private final String user = "8163TestUser" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("8163TestUser%s", DataUtil.getUniqueIdentifier());
     private final String fileName = "C8163 file";
     private final String fileContent ="8163 content";
     private final String path = "User Homes/"+ user;

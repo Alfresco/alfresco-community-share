@@ -32,9 +32,9 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
 
     @Autowired SiteContributorBreakdownDashlet siteContributorBreackdownDashlet;
 
-    private String user = "user2233-" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C2233" + DataUtil.getUniqueIdentifier();
-    private String siteNameC2234 ="C2234SiteName"+ DataUtil.getUniqueIdentifier();
+    private String user = String.format("user2233-%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("C2233%s", DataUtil.getUniqueIdentifier());
+    private String siteNameC2234 = String.format("C2234SiteName%s", DataUtil.getUniqueIdentifier());
     private String user1C2234 = "C2234-1";//+ DataUtil.getUniqueIdentifier();
     private String user2C2234 = "C2234-2";//+ DataUtil.getUniqueIdentifier();
     private String user3C2234 = "C2234-3";//+ DataUtil.getUniqueIdentifier();

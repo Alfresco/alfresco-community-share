@@ -31,7 +31,7 @@ public class MySitesTests extends ContextAwareWebTest
     public void createUser()
     {
         cleanupAuthenticatedSession();
-        userName = "User1" + DataUtil.getUniqueIdentifier();
+        userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
     }
@@ -77,7 +77,7 @@ public class MySitesTests extends ContextAwareWebTest
     public void deleteSiteThenCancel()
     {
         LOG.info("STEP 1 - Create site, check that is available in user dashboard");
-        siteName1 = "Site1" + DataUtil.getUniqueIdentifier();
+        siteName1 = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         siteService.create(userName, password, domain, siteName1, "description", Visibility.PUBLIC);
         userDashboardPage.navigate(userName);
         Assert.assertEquals(mySitesDashlet.getSitesLinks().get(0).getText(), siteName1, "Existing site name is not correct");
@@ -99,13 +99,13 @@ public class MySitesTests extends ContextAwareWebTest
     public void filterSites()
     {
         LOG.info("STEP 1 - Create 3 sites, mark the first one as favourite");
-        siteName1 = "Site1" + DataUtil.getUniqueIdentifier();
+        siteName1 = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         siteService.create(userName, password, domain, siteName1, "description", Visibility.PUBLIC);
 
-        siteName2 = "Site2" + DataUtil.getUniqueIdentifier();
+        siteName2 = String.format("Site2%s", DataUtil.getUniqueIdentifier());
         siteService.create(userName, password, domain, siteName2, "description", Visibility.PUBLIC);
 
-        siteName3 = "Site3" + DataUtil.getUniqueIdentifier();
+        siteName3 = String.format("Site3%s", DataUtil.getUniqueIdentifier());
         siteService.create(userName, password, domain, siteName3, "description", Visibility.PUBLIC);
 
         userDashboardPage.navigate(userName);

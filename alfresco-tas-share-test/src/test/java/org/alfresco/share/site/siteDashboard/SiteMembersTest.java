@@ -25,9 +25,9 @@ public class SiteMembersTest extends ContextAwareWebTest
     @Autowired
     SiteMembersDashlet siteMembersDashlet;
 
-    private String userName = "profileUser" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName-C2799-" + DataUtil.getUniqueIdentifier();
-    private String description = "Description" + DataUtil.getUniqueIdentifier();
+    private String userName = String.format("profileUser%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("SiteName-C2799-%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("description%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

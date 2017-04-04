@@ -31,8 +31,8 @@ public class EditContactListItemTest extends ContextAwareWebTest
     @Autowired
     EditItemPopUp editItemPopUp;
     
-    String userName = "User-" + DataUtil.getUniqueIdentifier();
-    String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
+    String userName = String.format("User-%s", DataUtil.getUniqueIdentifier());
+    String siteName = String.format("SiteName%s", DataUtil.getUniqueIdentifier());
     String contactListName = "contactList";
     String editedFirstName = "editedFirstName";
     String editedLastName = "editedLastName";

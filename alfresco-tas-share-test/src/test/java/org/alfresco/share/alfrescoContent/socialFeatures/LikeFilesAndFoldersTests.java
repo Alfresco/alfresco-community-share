@@ -27,9 +27,9 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     
     @Autowired private SocialFeatures social;
     
-    private final String user = "C7906User" + DataUtil.getUniqueIdentifier();
-    private final String description = "C7906SiteDescription" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "C7906SiteName" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C7906User%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C7906SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C7906SiteName%s", DataUtil.getUniqueIdentifier());
     private final String fileNameC7906 = "C7906 title";
     private final String fileContentC7906 ="C7906 content";
     private final String folderNameC7907 ="C7907 folder name";

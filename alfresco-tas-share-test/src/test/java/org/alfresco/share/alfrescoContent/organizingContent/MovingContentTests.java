@@ -26,8 +26,8 @@ public class MovingContentTests extends ContextAwareWebTest
 
     @Autowired private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
 
-    private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
+    private final String userName = String.format("profileUser-%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("Description-%s", DataUtil.getUniqueIdentifier());
     private final String docContent = "content of the file.";
 
     @BeforeClass(alwaysRun = true)
@@ -40,9 +40,9 @@ public class MovingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void moveFile()
     {
-        String siteName = "Site-C7345-" + DataUtil.getUniqueIdentifier();
-        String docName = "Doc-C7345-" + DataUtil.getUniqueIdentifier();
-        String folderName = "Folder-C7345-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("Site-C7345-%s", DataUtil.getUniqueIdentifier());
+        String docName = String.format("Doc-C7345-%s", DataUtil.getUniqueIdentifier());
+        String folderName = String.format("Folder-C7345-%s", DataUtil.getUniqueIdentifier());
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createFolder(userName, password, folderName, siteName);
@@ -79,10 +79,10 @@ public class MovingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void moveFolder()
     {
-        String siteName = "Site-C7346-" + DataUtil.getUniqueIdentifier();
-        String docName = "TestDoc-C7346-" + DataUtil.getUniqueIdentifier();
-        String folderName1 = "folderName1-" + DataUtil.getUniqueIdentifier();
-        String folderName2 = "folderName2-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("Site-C7346-%s", DataUtil.getUniqueIdentifier());
+        String docName = String.format("TestDoc-C7346-%s", DataUtil.getUniqueIdentifier());
+        String folderName1 = String.format("folderName1-%s", DataUtil.getUniqueIdentifier());
+        String folderName2 = String.format("folderName2-%s", DataUtil.getUniqueIdentifier());
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createFolder(userName, password, folderName1, siteName);

@@ -33,10 +33,10 @@ public class CopyingContentTests extends ContextAwareWebTest
 
     @Autowired private CopyMoveUnzipToDialog copyMoveToDialog;
 
-    private final String userName = "profileUser1-" + DataUtil.getUniqueIdentifier();
+    private final String userName = String.format("profileUser1-%s", DataUtil.getUniqueIdentifier());
     private final String firstName = "FirstName";
     private final String lastName = "LastName";
-    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
+    private final String description = String.format("Description-%s", DataUtil.getUniqueIdentifier());
     private final String docContent = "content of the file.";
     private final String copyAction = "Copy to...";
 
@@ -50,8 +50,8 @@ public class CopyingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void copyFileToSharedFiles()
     {
-        String siteName = "Site-C7377-" + DataUtil.getUniqueIdentifier();
-        String docName = "Doc-C7377-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("Site-C7377-%s", DataUtil.getUniqueIdentifier());
+        String docName = String.format("Doc-C7377-%s", DataUtil.getUniqueIdentifier());
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
@@ -86,8 +86,8 @@ public class CopyingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelCopyFileToSharedFiles()
     {
-        String siteName = "Site-C7378-" + DataUtil.getUniqueIdentifier();
-        String docName = "Doc-C7378-" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("Site-C7378-%s", DataUtil.getUniqueIdentifier());
+        String docName = String.format("Doc-C7378-%s", DataUtil.getUniqueIdentifier());
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
@@ -120,10 +120,10 @@ public class CopyingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void copyFolderToPublicSite()
     {
-        String siteName1 = "Site1-C7388-" + DataUtil.getUniqueIdentifier();
-        String siteName2 = "Site2-C7388-" + DataUtil.getUniqueIdentifier();
-        String docName = "TestDoc-C7388-" + DataUtil.getUniqueIdentifier();
-        String folderName = "Folder-C7388-" + DataUtil.getUniqueIdentifier();
+        String siteName1 = String.format("Site1-C7388-%s", DataUtil.getUniqueIdentifier());
+        String siteName2 = String.format("Site2-C7388-%s", DataUtil.getUniqueIdentifier());
+        String docName = String.format("TestDoc-C7388-%s", DataUtil.getUniqueIdentifier());
+        String folderName = String.format("Folder-C7388-%s", DataUtil.getUniqueIdentifier());
         siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteName2, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);

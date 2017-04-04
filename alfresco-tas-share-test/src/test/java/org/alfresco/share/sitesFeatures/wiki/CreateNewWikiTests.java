@@ -109,7 +109,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createWikiPageFromWikiPageList()
     {
-        String tagName = "tag" + DataUtil.getUniqueIdentifier();
+        String tagName = String.format("tag%s", DataUtil.getUniqueIdentifier());
 
         // precondition
         wikiListPage.navigate(siteName);

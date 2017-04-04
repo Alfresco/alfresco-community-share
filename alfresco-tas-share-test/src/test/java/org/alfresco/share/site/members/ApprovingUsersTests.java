@@ -63,9 +63,9 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void createSite()
     {
-        userManager = "User1" + DataUtil.getUniqueIdentifier();
-        userTest = "User2" + DataUtil.getUniqueIdentifier();
-        siteName = "Site" + DataUtil.getUniqueIdentifier();
+        userManager = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        userTest = String.format("User2%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
         taskName = String.format("Request to join %s site", siteName);
 
         userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);

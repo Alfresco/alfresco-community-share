@@ -36,7 +36,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     @Autowired
     EditTaskPage editTaskPage;
 
-    private String workflowName = "taskName" + DataUtil.getUniqueIdentifier();
+    private String workflowName = String.format("taskName%s", DataUtil.getUniqueIdentifier());
 
     @TestRail(id = "C8425")
     @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
@@ -70,7 +70,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create 2 users and a workflow assigned by user1 to user2.");
         String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
-        String user2 = "User2" + DataUtil.getUniqueIdentifier();
+        String user2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), user2, CMISUtil.Priority.Normal, null, false);
@@ -117,7 +117,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create 2 users and a workflow assigned by user1 to user2.");
         String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
-        String user2 = "User2" + DataUtil.getUniqueIdentifier();
+        String user2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), user2, CMISUtil.Priority.Normal, null, false);

@@ -24,16 +24,16 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesEditTests extends ContextAwareWebTest
 {
-private final String user = "user" + DataUtil.getUniqueIdentifier();
+private final String user = String.format("user%s", DataUtil.getUniqueIdentifier());
     private final String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc";
     private final String docNameC8186 = DataUtil.getUniqueIdentifier() + "testDocC8186";
     private final String docNameC8212 = DataUtil.getUniqueIdentifier() + "testDocC8212";
-    private final String editedFolderName = "editedFolderName" + DataUtil.getUniqueIdentifier();
+    private final String editedFolderName = String.format("editedFolderName%s", DataUtil.getUniqueIdentifier());
     private final String editedTitle = "editedTitle";
     private final String editedContent = "edited content in Alfresco";
     private final String editedDescription = "edited description in Alfresco";;
-    private final String tag = "editTag" + DataUtil.getUniqueIdentifier();
-    private final String folderName = "Folder" + DataUtil.getUniqueIdentifier();
+    private final String tag = String.format("editTag%s", DataUtil.getUniqueIdentifier());
+    private final String folderName = String.format("Folder%s", DataUtil.getUniqueIdentifier());
     private final String myFilesPath = "User Homes/" + user;
     @Autowired
     private MyFilesPage myFilesPage;
@@ -62,7 +62,7 @@ private final String user = "user" + DataUtil.getUniqueIdentifier();
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesEditFileProperties()
     {
-        editedDocName = "editedDocName" + DataUtil.getUniqueIdentifier();
+        editedDocName = String.format("editedDocName%s", DataUtil.getUniqueIdentifier());
         contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, docNameC8186, "some content");
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
         myFilesPage.navigate();
@@ -143,7 +143,7 @@ private final String user = "user" + DataUtil.getUniqueIdentifier();
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesEditFileInAlfresco()
     {
-        editedDocName = "editedDocName" + DataUtil.getUniqueIdentifier();
+        editedDocName = String.format("editedDocName%s", DataUtil.getUniqueIdentifier());
         contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, docNameC8212, "some content");
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
         myFilesPage.navigate();

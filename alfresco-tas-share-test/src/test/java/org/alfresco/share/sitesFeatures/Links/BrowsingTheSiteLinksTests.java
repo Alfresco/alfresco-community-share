@@ -26,8 +26,8 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
     @Autowired
     LinkPage linkPage;
 
-    private String user1 = "User1" + DataUtil.getUniqueIdentifier();
-    private String user2 = "User2" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+    private String user2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
     private String siteName = "";
 
     @BeforeClass(alwaysRun = true)
@@ -48,7 +48,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
         linkTags1.add("test_tag");
         List<String> linkTags2 = new ArrayList<>();
         linkTags2.add("l3");
-        siteName = "Site" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
         siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(user1, password, siteName, "Link1", "link1.com", "link1 description", true, linkTags1);
@@ -84,7 +84,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
     {
 
         LOG.info("Precondition - Several links are added to site: Link1, Link2 are created by testUser1 and Link3 by testUser2.");
-        siteName = "Site" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
         siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, user2, siteName, "SiteCollaborator");
         siteService.addPageToSite(user1, password, siteName, DashboardCustomization.Page.LINKS, null);

@@ -33,15 +33,15 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Autowired
     Toolbar toolbar;
 
-    private String UserC8703 = "UserC8703" + DataUtil.getUniqueIdentifier();
-    private String userC8704 = "UserC8704" + DataUtil.getUniqueIdentifier();
-    private String userC8713 = "UserC8713" + DataUtil.getUniqueIdentifier();
+    private String UserC8703 = String.format("UserC8703%s", DataUtil.getUniqueIdentifier());
+    private String userC8704 = String.format("UserC8704%s", DataUtil.getUniqueIdentifier());
+    private String userC8713 = String.format("UserC8713%s", DataUtil.getUniqueIdentifier());
     private String modifier1 = "firstName1 lastName1";
     private String alfrescoAdminsGroupName = "ALFRESCO_ADMINISTRATORS";
     private String alfrescoSearchAdministrators = "ALFRESCO_SEARCH_ADMINISTRATORS";
-    private String siteC8703 = "siteC8703" + DataUtil.getUniqueIdentifier();
+    private String siteC8703 = String.format("siteC8703%s", DataUtil.getUniqueIdentifier());
     private String description = "siteC8703 description";
-    private String documentName = "Doc" + DataUtil.getUniqueIdentifier();
+    private String documentName = String.format("Doc%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

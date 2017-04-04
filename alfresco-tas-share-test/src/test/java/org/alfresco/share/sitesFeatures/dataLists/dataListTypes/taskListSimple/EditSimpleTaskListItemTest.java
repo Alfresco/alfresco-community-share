@@ -34,9 +34,9 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
     @Autowired
     EditItemPopUp editItemPopUp;
 
-    String userName = "User-" + DataUtil.getUniqueIdentifier();
-    String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
-    String taskListSimple = "Simple task item name" + DataUtil.getUniqueIdentifier();
+    String userName = String.format("User-%s", DataUtil.getUniqueIdentifier());
+    String siteName = String.format("SiteName%s", DataUtil.getUniqueIdentifier());
+    String taskListSimple = String.format("Simple task item name%s", DataUtil.getUniqueIdentifier());
     String itemTitle = "Simple task item title";
     String itemDescription = "Simple task item description";
     String itemComment = "Simple task item comment";

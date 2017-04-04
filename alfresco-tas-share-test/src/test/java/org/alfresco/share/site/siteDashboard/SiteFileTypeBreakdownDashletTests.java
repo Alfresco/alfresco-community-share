@@ -28,7 +28,7 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     @Autowired
     SiteFileTypeBreakdownDashlet siteFileTypeBreakdownDashlet;
 
-    private String user = "user-" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("user%s", DataUtil.getUniqueIdentifier());
     private String siteName;
 
     @BeforeClass(alwaysRun = true)
@@ -41,7 +41,7 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void noFilesAvailableInTheSiteLibrary()
     {
-        siteName = "SiteName-C5783-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("SiteName-C5783-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(user, password);
@@ -56,7 +56,7 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     public void multipleFileTypesAvailableInTheSiteLibrary()
     {
         String fileName = "File-C5785";
-        siteName = "SiteName-C5785-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("SiteName-C5785-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + fileName+".docx");

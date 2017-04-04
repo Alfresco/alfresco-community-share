@@ -45,7 +45,7 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
     public void setup(String id) {
         super.setup();
 
-        uniqueIdentifier = "-" + id + "-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = String.format("-" + id + "-%s", DataUtil.getUniqueIdentifier());
         siteName = "siteName" + uniqueIdentifier;
         userName = "User" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;

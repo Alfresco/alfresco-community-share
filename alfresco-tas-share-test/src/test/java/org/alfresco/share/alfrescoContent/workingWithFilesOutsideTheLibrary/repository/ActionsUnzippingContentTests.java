@@ -25,7 +25,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
 
     @Autowired private DocumentDetailsPage documentDetailsPage;
   
-    private final String user = "C8256TestUser" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C8256TestUser%s", DataUtil.getUniqueIdentifier());
     private final String zipFile = "testFileC8256.zip";
     private final String zipContent = "testFile1";
     private final String acpFile = "archiveC8257.acp";

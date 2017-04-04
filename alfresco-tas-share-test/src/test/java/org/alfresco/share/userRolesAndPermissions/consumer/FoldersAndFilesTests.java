@@ -47,11 +47,11 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     @Autowired
     SiteUsersPage siteUsersPage;
 
-    private String user = "ConsumerUser" + DataUtil.getUniqueIdentifier();
-    private String user8865 = "user8865" + DataUtil.getUniqueIdentifier();
-    private String description = "ConsumerDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "ConsumerSite" + DataUtil.getUniqueIdentifier();
-    private String site8865 = "site8865" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("ConsumerUser%s", DataUtil.getUniqueIdentifier());
+    private String user8865 = String.format("user8865%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("ConsumerDescription%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("ConsumerSite%s", DataUtil.getUniqueIdentifier());
+    private String site8865 = String.format("site8865%s", DataUtil.getUniqueIdentifier());
     private String fileC8761 = "C8761 test file";
     private String fileC8762 = "C8762 test file";
     private String fileC8763 = "C8763 test file";
@@ -63,7 +63,7 @@ public class FoldersAndFilesTests extends ContextAwareWebTest
     private String folderC8761 = "C8761 folder";
     private String folderC8784 = "C8784 folder";
     String copyAction = "Copy to...";
-    String comment = "Comment" + DataUtil.getUniqueIdentifier();
+    String comment = String.format("Comment%s", DataUtil.getUniqueIdentifier());
     String filePath8865 = testDataFolder + fileC8865collaborator;
 
     @BeforeClass(alwaysRun = true)

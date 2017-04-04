@@ -38,7 +38,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        userName = "User" + DataUtil.getUniqueIdentifier();
+        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
     }
@@ -46,7 +46,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
     public void setup(String id) {
 
         LOG.info("Preconditions for test " + id);
-        uniqueIdentifier = "-" + id + "-" + DataUtil.getUniqueIdentifier();
+        String.format(uniqueIdentifier = "-" + id + "-%s", DataUtil.getUniqueIdentifier());
         siteName = "siteName" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;
         contactList = "ContactList" + uniqueIdentifier;

@@ -47,7 +47,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void createUser()
 
     {
-        String userName = "user" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -80,7 +80,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void createAndStartAnother()
 
     {
-        String userName = "user" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -119,7 +119,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void managePassword()
 
     {
-        String userName = "user" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         String message = "Password fields don't match.";
 
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
@@ -157,7 +157,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void addingUserToGroup()
 
     {
-        String userName = "user" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         String group = "ALFRESCO_ADMINISTRATORS";
 
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
@@ -203,7 +203,7 @@ public class CreateUsersTests extends ContextAwareWebTest
 
     {
 
-        String userName = "user" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         String authenticatinError = language.translate("login.authError");
 
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
@@ -245,7 +245,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addQuotaToUser()
     {
-        String userName = "user" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         String quotaValue = "12345";
 
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");

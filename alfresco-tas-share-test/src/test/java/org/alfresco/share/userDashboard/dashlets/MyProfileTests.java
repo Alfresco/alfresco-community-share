@@ -33,11 +33,11 @@ public class MyProfileTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void myLimitedProfileDashlet()
     {
-        String userName = "User1" + DataUtil.getUniqueIdentifier();
-        String jobTitle = "jobTitle" + DataUtil.getUniqueIdentifier();
-        String telephone = "0123456789" + DataUtil.getUniqueIdentifier();
-        String skype = "skype" + DataUtil.getUniqueIdentifier();
-        String im = "im" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String jobTitle = String.format("jobTitle%s", DataUtil.getUniqueIdentifier());
+        String telephone = String.format("0123456789%s", DataUtil.getUniqueIdentifier());
+        String skype = String.format("skype%s", DataUtil.getUniqueIdentifier());
+        String im = String.format("im%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.addDashlet(userName, password, UserDashlet.MY_PROFILE, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
         setupAuthenticatedSession(userName, password);

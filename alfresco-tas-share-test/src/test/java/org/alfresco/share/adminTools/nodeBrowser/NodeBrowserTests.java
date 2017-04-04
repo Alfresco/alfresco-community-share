@@ -21,9 +21,9 @@ public class NodeBrowserTests extends ContextAwareWebTest
     @Autowired
     NodeBrowserPage nodeBrowserPage;
 
-    private String description = "nodeBrowserTests" + DataUtil.getUniqueIdentifier();
-    private String siteName = "nodeBrowserTests" + DataUtil.getUniqueIdentifier();
-    private String fileName = "nodeBrowserTests.xml" + DataUtil.getUniqueIdentifier();
+    private String description = String.format("nodeBrowserTests%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("nodeBrowserTests%s", DataUtil.getUniqueIdentifier());
+    private String fileName = String.format("nodeBrowserTests.xml%s", DataUtil.getUniqueIdentifier());
     private String content = "nodeBrowserTestsContent";
     private String xpathSearchTerm = String.format("/app:company_home/st:sites/cm:%s/cm:documentLibrary/cm:%s",siteName,fileName);
     private String cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'",fileName);

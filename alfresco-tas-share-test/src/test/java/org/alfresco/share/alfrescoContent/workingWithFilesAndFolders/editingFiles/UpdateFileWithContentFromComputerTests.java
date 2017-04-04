@@ -42,7 +42,7 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest 
 
 	@BeforeMethod(alwaysRun = true)
 	public void setupTest() {
-		userName = "User" + DataUtil.getUniqueIdentifier();
+		userName = String.format("User%s", DataUtil.getUniqueIdentifier());
 		siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
 		testFileName = "testFileC7074.txt";
 		fileContent = "Test Content C7074";

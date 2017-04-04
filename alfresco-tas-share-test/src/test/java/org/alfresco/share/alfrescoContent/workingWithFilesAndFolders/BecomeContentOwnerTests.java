@@ -27,7 +27,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
 
     private final String firstName = "FirstName";
     private final String lastName = "LastName";
-    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
+    private final String description = String.format("Description-%s", DataUtil.getUniqueIdentifier());
     private final String docContent = "content of the file.";
 
     @TestRail(id = "C7152")

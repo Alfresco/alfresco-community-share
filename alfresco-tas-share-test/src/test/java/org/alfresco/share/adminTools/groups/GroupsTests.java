@@ -46,7 +46,7 @@ public class GroupsTests extends ContextAwareWebTest
     private final String C9465groupEdited = "_C9465Edited";
     private final String C9465EditedName = C9465groupEdited + " (" + C9465group + ")";
     private final String userName = "user" + uniqueIdentifier;
-    private final String siteName = "C9460site" + uniqueIdentifier;
+    private final String siteName = String.format("C9460site%s", uniqueIdentifier);
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass()

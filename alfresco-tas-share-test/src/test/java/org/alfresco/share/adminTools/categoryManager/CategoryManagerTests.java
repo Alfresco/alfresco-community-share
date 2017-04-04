@@ -21,10 +21,10 @@ public class CategoryManagerTests extends ContextAwareWebTest
     @Autowired
     CategoryManagerPage categoryManagerPage;
 
-    String category9295 = "categoryC9295" + DataUtil.getUniqueIdentifier();
-    String category9301 = "categoryC9301" + DataUtil.getUniqueIdentifier();
-    String category9298 = "categoryC9298" + DataUtil.getUniqueIdentifier();
-    String categoryEdited = "categoryEdited" + DataUtil.getUniqueIdentifier();
+    String category9295 = String.format("categoryC9295%s", DataUtil.getUniqueIdentifier());
+    String category9301 = String.format("categoryC9301%s", DataUtil.getUniqueIdentifier());
+    String category9298 = String.format("categoryC9298%s", DataUtil.getUniqueIdentifier());
+    String categoryEdited = String.format("categoryEdited%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass()

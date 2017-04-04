@@ -34,11 +34,11 @@ public class CategorizingContent extends ContextAwareWebTest
     @Autowired private ContentAspects contentAspect;
 
     private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = "siteName1" + DataUtil.getUniqueIdentifier();
+    private final String siteName = String.format("siteName1%s", DataUtil.getUniqueIdentifier());
     private final String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
-    private final String docName = "testDoc" + DataUtil.getUniqueIdentifier();
-    private final String docWithCategory = "docWithCategory" + DataUtil.getUniqueIdentifier();
-    private final String removeCategoryDoc = "removeCategoryDoc" + DataUtil.getUniqueIdentifier();
+    private final String docName = String.format("testDoc%s", DataUtil.getUniqueIdentifier());
+    private final String docWithCategory = String.format("docWithCategory%s", DataUtil.getUniqueIdentifier());
+    private final String removeCategoryDoc = String.format("removeCategoryDoc%s", DataUtil.getUniqueIdentifier());
     private final String editPropAction = "Edit Properties";
     private final String category = "Languages";
     private final String category2 = "Regions";

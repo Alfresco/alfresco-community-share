@@ -240,8 +240,8 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void contributorCopy()
     {
-        String siteName1 = "SiteName1" + DataUtil.getUniqueIdentifier();
-        String siteName2 = "SiteName2" + DataUtil.getUniqueIdentifier();
+        String siteName1 = String.format("SiteName1%s", DataUtil.getUniqueIdentifier());
+        String siteName2 = String.format("SiteName2%s", DataUtil.getUniqueIdentifier());
         String folderName = String.format("folderName%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library page for the test site, as Contributor user.");
@@ -356,7 +356,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     public void managePermissionsContentCreatedBySelf()
     {
         String folderName = "FolderName";
-        String user2 = "User2" + DataUtil.getUniqueIdentifier();
+        String user2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
         String fullName = user2 + " " + user2;
 
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library page for the test site, as Contributor user.");

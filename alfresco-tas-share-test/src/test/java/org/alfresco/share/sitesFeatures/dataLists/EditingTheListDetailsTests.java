@@ -34,7 +34,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        userName = "User" + DataUtil.getUniqueIdentifier();
+        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
     }
 
@@ -119,7 +119,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     {      
         
         LOG.info("Preconditions: Create a user with 'Collaborator' role");
-        String collaborator = "Collaborator" + DataUtil.getUniqueIdentifier();
+        String collaborator = String.format("Collaborator%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, collaborator, password, "collaborator@tests.com", "collaborator", "collaborator");
         userService.createSiteMember(userName, password, collaborator, siteName, "SiteCollaborator");
         setupAuthenticatedSession(collaborator, password);
@@ -151,7 +151,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     {      
         
         LOG.info("Preconditions: Create a user with 'Contributor' role");
-        String contributor = "Contributor" + DataUtil.getUniqueIdentifier();
+        String contributor = String.format("Contributor%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, contributor, password, "collaborator@tests.com", "collaborator", "collaborator");
         userService.createSiteMember(userName, password, contributor, siteName, "SiteContributor");
         setupAuthenticatedSession(contributor, password);
@@ -171,7 +171,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     {      
         
         LOG.info("Preconditions: Create a user with 'Consumer' role");
-        String consumer = "Consumer" + DataUtil.getUniqueIdentifier();
+        String consumer = String.format("Consumer%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, consumer, password, "collaborator@tests.com", "collaborator", "collaborator");
         userService.createSiteMember(userName, password, consumer, siteName, "SiteConsumer");
         setupAuthenticatedSession(consumer, password);
@@ -191,7 +191,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     {      
         
         LOG.info("Preconditions: Create a user with 'Collaborator' role and a list");
-        String contributor = "Contributor" + DataUtil.getUniqueIdentifier();
+        String contributor = String.format("Contributor%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, contributor, password, "Contributor@tests.com", "Contributor", "Contributor");
         userService.createSiteMember(userName, password, contributor, siteName, "SiteContributor");
         setupAuthenticatedSession(contributor, password);
@@ -228,7 +228,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     {      
         
         LOG.info("Preconditions: Create a user with 'Collaborator' role and a list");
-        String manager = "Manager" + DataUtil.getUniqueIdentifier();
+        String manager = String.format("Manager%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, manager, password, "manager@tests.com", "manager", "manager");
         userService.createSiteMember(userName, password, manager, siteName, "SiteManager");
         setupAuthenticatedSession(manager, password);

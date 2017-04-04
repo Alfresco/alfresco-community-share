@@ -34,9 +34,9 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     @Autowired
     EditBlogPostPage editBlogPost;
 
-    private String user = "C5560User" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C5560SiteName" + DataUtil.getUniqueIdentifier();
-    private String description = "C5560SiteDescription" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("C5560User%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("C5560SiteName%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("C5560SiteDescription%s", DataUtil.getUniqueIdentifier());
     private String blogPostContentText = "first post content text";
     private List<String> tags = Collections.singletonList("tag1");
     private String blogPostTitleC5560 = "C5560 blog post title";

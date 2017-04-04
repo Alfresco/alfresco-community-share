@@ -19,13 +19,13 @@ public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
 
     @Autowired private DocumentsFilters filters;
 
-    private final String user = "C6333User" + DataUtil.getUniqueIdentifier();
-    private final String description = "C6333SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C6333User%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C6333SiteDescription%s", DataUtil.getUniqueIdentifier());
     private final String folderName = "testFolder1";
     private final String folderName1 = "testFolder2";
     private final String docName = "testFile1";
     private final String docName1 = "testFile2";
-    private final String siteName = "C6333SiteName" + DataUtil.getUniqueIdentifier();
+    private final String siteName = String.format("C6333SiteName%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
 

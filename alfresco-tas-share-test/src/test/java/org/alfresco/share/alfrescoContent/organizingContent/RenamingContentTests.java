@@ -20,9 +20,9 @@ public class RenamingContentTests extends ContextAwareWebTest
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
+    private final String userName = String.format("profileUser-%s", DataUtil.getUniqueIdentifier());
     private final String docContent = "content of the file.";
-    private final String siteName = "Site-" + DataUtil.getUniqueIdentifier();
+    private final String siteName = String.format("Site-%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -36,7 +36,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void renameFileByEditIcon()
     {
-        String docName = "Doc-C7419-" + DataUtil.getUniqueIdentifier();
+        String docName = String.format("Doc-C7419-%s", DataUtil.getUniqueIdentifier());
         String newFileName = "newFileNameC7419";
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
@@ -63,7 +63,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     public void renameFolderByEditIcon()
     {
         String newFolderName = "new folder name C7420";
-        String folderName = "Folder-C7420-" + DataUtil.getUniqueIdentifier();
+        String folderName = String.format("Folder-C7420-%s", DataUtil.getUniqueIdentifier());
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -88,7 +88,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelRenamingContent()
     {
-        String docName = "Doc-C7431-" + DataUtil.getUniqueIdentifier();
+        String docName = String.format("Doc-C7431-%s", DataUtil.getUniqueIdentifier());
         String newFileName = "new file name C7431";
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 

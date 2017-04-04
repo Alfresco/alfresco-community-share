@@ -25,10 +25,10 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     @Autowired
     BlogPostListPage blogPage;
 
-    private String user1 = "C6001User1" + DataUtil.getUniqueIdentifier();
-    private String user2 = "C6001User2" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C6001SiteName" + DataUtil.getUniqueIdentifier();
-    private String description = "C6001SiteDescription-" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("C6001User1%s", DataUtil.getUniqueIdentifier());
+    private String user2 = String.format("C6001User2%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("C6001SiteName%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("C6001SiteDescription-%s", DataUtil.getUniqueIdentifier());
     private String blogTitleUser1Published = "C6001-" + "blogTitle published post User 1";
     private String blogTitleUser1Draft = "C6001-" + "blogTitle draft User 1";
     private String blogTitleUser2Published = "C6001-" + "User2 Blog title Published";

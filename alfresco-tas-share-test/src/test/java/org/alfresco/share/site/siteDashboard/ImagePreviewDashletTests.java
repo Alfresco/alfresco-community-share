@@ -35,15 +35,15 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     @Autowired
     Download download;
 
-    private String siteName1 = "Site1-" + DataUtil.getUniqueIdentifier();
-    private String siteName2 = "Site2-" + DataUtil.getUniqueIdentifier();
-    private String siteName3 = "Site3-" + DataUtil.getUniqueIdentifier();
+    private String siteName1 = String.format("Site1-%s", DataUtil.getUniqueIdentifier());
+    private String siteName2 = String.format("Site2-%s", DataUtil.getUniqueIdentifier());
+    private String siteName3 = String.format("Site3-%s", DataUtil.getUniqueIdentifier());
     private final String fileName = "newavatar.jpg";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        String userName = "User" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName3, siteName3, PUBLIC);
         contentService.uploadFileInSite(userName, password, siteName3, testDataFolder + fileName);

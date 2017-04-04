@@ -27,7 +27,7 @@ public class ImportUsersTests extends ContextAwareWebTest
     public void importUsers()
     {
 
-        String userName = "testUser" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
         String groupName = "ALFRESCO_ADMINISTRATORS";
         String file = "C9438.csv";
         String filePath = testDataFolder + file;

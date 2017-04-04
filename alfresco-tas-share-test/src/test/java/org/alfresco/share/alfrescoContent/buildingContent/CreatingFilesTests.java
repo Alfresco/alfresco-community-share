@@ -21,9 +21,9 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
     @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    private final String user = "C6976User" + DataUtil.getUniqueIdentifier();
-    private final String description = "C6976SiteDescription" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "C6976SiteName" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C6976User%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C6976SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C6976SiteName%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
 

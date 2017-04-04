@@ -33,8 +33,8 @@ public class AccessingCalendarTests extends ContextAwareWebTest
     @Autowired
     SiteDashboardPage siteDashboardPage;
 
-    private String user = "User1" + DataUtil.getUniqueIdentifier();
-    private String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("User1%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

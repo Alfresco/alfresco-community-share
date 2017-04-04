@@ -23,8 +23,8 @@ public class ViewingFolderDetailsTest extends ContextAwareWebTest
 
     @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    private final String userName = "testUser" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "testSite" + DataUtil.getUniqueIdentifier();
+    private final String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private final String folderName = "testFolder";
 
     @BeforeClass(alwaysRun = true)

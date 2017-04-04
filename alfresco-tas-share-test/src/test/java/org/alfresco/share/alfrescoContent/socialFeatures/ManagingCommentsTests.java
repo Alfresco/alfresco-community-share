@@ -19,9 +19,9 @@ public class ManagingCommentsTests extends ContextAwareWebTest
 
     @Autowired private DocumentLibraryPage documentLibraryPage;
     
-    private final String user = "C9934User" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "C9934SiteName" + DataUtil.getUniqueIdentifier();
-    private final String description = "C9934SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C9934User%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C9934SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C9934SiteDescription%s", DataUtil.getUniqueIdentifier());
     private final String docName = "File-C9934";
     private final String comment = "Test comment for C9934-1";
     private final String editedComment = "Test comment edited for C9934";

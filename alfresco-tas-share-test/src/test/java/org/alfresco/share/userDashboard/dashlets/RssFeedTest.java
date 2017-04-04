@@ -25,7 +25,7 @@ public class RssFeedTest extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    private String userName = "User" + DataUtil.getUniqueIdentifier();
+    private String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
     private int noOfFeeds = 10;
 
     @BeforeClass(alwaysRun = true)

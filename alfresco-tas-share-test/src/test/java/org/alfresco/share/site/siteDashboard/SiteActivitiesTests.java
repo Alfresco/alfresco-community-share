@@ -42,7 +42,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void noActivitiesCreated()
     {
-        String uniqueIdentifier = "-C2803-" + DataUtil.getUniqueIdentifier();
+        String uniqueIdentifier = String.format("-C2803-%s", DataUtil.getUniqueIdentifier());
         String user = "profileUser" + uniqueIdentifier;
         String siteName = "Site" + uniqueIdentifier;
         String description = "Description" + uniqueIdentifier;
@@ -80,7 +80,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void dateFilter()
     {
-        String uniqueIdentifier = "-C2809-" + DataUtil.getUniqueIdentifier();
+        String uniqueIdentifier = String.format("-C2809-%s", DataUtil.getUniqueIdentifier());
         String user = "profileUser" + uniqueIdentifier;
         String siteName = "Site" + uniqueIdentifier;
         String description = "Description" + uniqueIdentifier;
@@ -123,9 +123,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
     public void activitiesDashletDisplaysGroupNameWhenLoggedInAsAdmin()
     {
-        String user = "C12833User" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site" + DataUtil.getUniqueIdentifier();
-        String description = "Description" + DataUtil.getUniqueIdentifier();
+        String user = String.format("C12833User%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
         String groupName = "C12833Group";
         String managerRole = "Manager";
         String activity ="\""+ groupName+"\"" + " group added to site " + siteName + " with role " + managerRole;
@@ -158,9 +158,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void activitiesDashletDisplaysGroupNameWhenLoginWithOtherUserThanAdmin()
     {
-        String user = "C12834User" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site" + DataUtil.getUniqueIdentifier();
-        String description = "Description" + DataUtil.getUniqueIdentifier();
+        String user = String.format("C12834User%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
         String groupName = "C12834Group";
         String managerRole = "Manager";
         String activity ="\""+ groupName+"\"" + " group added to site " + siteName + " with role " + managerRole;
@@ -193,9 +193,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
     public void groupNameIsDisplayedInGroupsTabSiteMembersGroup()
     {
-        String user = "C12835User" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site" + DataUtil.getUniqueIdentifier();
-        String description = "Description" + DataUtil.getUniqueIdentifier();
+        String user = String.format("C12835User%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
         String groupName = "C12835Group";
         String groupId = "GROUP_"+ groupName;
         ArrayList<String> expectedGroupName = new ArrayList<>();
@@ -232,9 +232,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
     public void groupNameIsDisplayedInGroupsTabAddGroup()
     {
-        String user = "C12836User" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site" + DataUtil.getUniqueIdentifier();
-        String description = "Description" + DataUtil.getUniqueIdentifier();
+        String user = String.format("C12836User%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
         String groupName = "C12836Group";
         String idLabelText ="ID:";
         String groupId = idLabelText +" GROUP_"+ groupName;
@@ -263,9 +263,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
     public void activitiesDashletDisplaysGroupNameWhenGroupsRoleIsChanged()
     {
-        String user = "C12837User" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site" + DataUtil.getUniqueIdentifier();
-        String description = "Description" + DataUtil.getUniqueIdentifier();
+        String user = String.format("C12837User%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
         String groupName = "C12837Group";
         String groupId = "GROUP_"+ groupName;
         ArrayList<String> expectedGroupName = new ArrayList<>();
@@ -312,9 +312,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
     public void activitiesDashletDisplaysGroupNameWhenGroupIsRemovedFromSite()
     {
-        String user = "C12838User" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site" + DataUtil.getUniqueIdentifier();
-        String description = "Description" + DataUtil.getUniqueIdentifier();
+        String user = String.format("C12838User%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
+        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
         String groupName = "C12838Group";
         String groupId = "GROUP_"+ groupName;
         ArrayList<String> expectedGroupName = new ArrayList<>();

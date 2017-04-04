@@ -33,9 +33,9 @@ public class DeleteLinkTests extends ContextAwareWebTest
 
     private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName = "";
-    private String linkTitle = "Link" + DataUtil.getUniqueIdentifier();
+    private String linkTitle = String.format("Link%s", DataUtil.getUniqueIdentifier());
     private String linkURL = "LinkURL.com";
-    private String linkDescription = "Link description" + DataUtil.getUniqueIdentifier();
+    private String linkDescription = String.format("Link description%s", DataUtil.getUniqueIdentifier());
     private List<String> linkTags = new ArrayList<>();
 
     @BeforeClass(alwaysRun = true)

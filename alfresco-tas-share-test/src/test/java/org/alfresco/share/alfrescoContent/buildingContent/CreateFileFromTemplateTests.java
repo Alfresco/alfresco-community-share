@@ -22,9 +22,9 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
 
     @Autowired private DocumentDetailsPage documentDetailsPage;
     
-    private final String user = "C7000User" + DataUtil.getUniqueIdentifier();
-    private final String description = "C7000SiteDescription" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "C7000SiteName" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C7000User%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C7000SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C7000SiteName%s", DataUtil.getUniqueIdentifier());
     private final String path = "Data Dictionary/Node Templates";
     private final String docName ="template"+DataUtil.getUniqueIdentifier();
     private final String docContent ="template content";

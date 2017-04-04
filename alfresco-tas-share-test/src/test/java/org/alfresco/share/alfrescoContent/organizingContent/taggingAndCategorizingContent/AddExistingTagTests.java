@@ -30,7 +30,7 @@ public class AddExistingTagTests extends ContextAwareWebTest
 
     @Autowired private SelectDialog selectDialog;
 
-    private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
+    private final String userName = String.format("profileUser-%s", DataUtil.getUniqueIdentifier());
     private final String fileContent = "content of the file.";
     private final String random = DataUtil.getUniqueIdentifier();
     private final String siteName = "site-C7464-" + random;

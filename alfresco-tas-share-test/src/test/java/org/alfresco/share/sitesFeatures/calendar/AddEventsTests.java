@@ -49,10 +49,10 @@ public class AddEventsTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private String user1 = "user1-" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
-    private String siteName2 = "SiteName-C5452" + DataUtil.getUniqueIdentifier();
-    private String siteName3 = "SiteName-C5465" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("user1-%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("SiteName-%s", DataUtil.getUniqueIdentifier());
+    private String siteName2 = String.format("SiteName-C5452%s", DataUtil.getUniqueIdentifier());
+    private String siteName3 = String.format("SiteName-C5465%s", DataUtil.getUniqueIdentifier());
     private DateTime today = new DateTime();
     private String eventTitle = "testEvent";
     private String defaultStartTime = "12:00 PM";
@@ -284,7 +284,7 @@ public class AddEventsTests extends ContextAwareWebTest
     public void addEventWithTags()
     {
         String currentEventName = eventTitle + "C5462";
-        String siteNameForEventWithTags = "SiteName-" + DataUtil.getUniqueIdentifier();
+        String siteNameForEventWithTags = String.format("SiteName-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user1, password, domain, siteNameForEventWithTags, siteNameForEventWithTags, Site.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteNameForEventWithTags, Page.CALENDAR, null);
         calendarPage.navigate(siteNameForEventWithTags);

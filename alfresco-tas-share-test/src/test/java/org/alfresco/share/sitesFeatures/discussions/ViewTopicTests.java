@@ -30,9 +30,9 @@ public class ViewTopicTests extends ContextAwareWebTest
     @Autowired
     TopicViewPage topicViewPage;
 
-    private String user1 = "User1" + DataUtil.getUniqueIdentifier();
-    private String user2 = "User2" + DataUtil.getUniqueIdentifier();
-    private String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+    private String user2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
     private String topicTitle = "Topic1";
     private String topicContent = "Some content";
     private String topicTag = "tag1";

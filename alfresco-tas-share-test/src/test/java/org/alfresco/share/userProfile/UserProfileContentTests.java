@@ -16,7 +16,7 @@ public class UserProfileContentTests extends ContextAwareWebTest
     @Autowired
     UserContentPage userContentPage;
 
-    private String userName1 = "User1" + DataUtil.getUniqueIdentifier();
+    private String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
     private String RecentlyAddedLabelText;
     private String NoAddedContentMessageText;
     private String RecentlyModifiedLabelText;

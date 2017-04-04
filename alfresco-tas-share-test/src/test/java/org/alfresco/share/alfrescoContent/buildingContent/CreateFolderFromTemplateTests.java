@@ -46,8 +46,8 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createFolderFromTemplate()
     {
-        String userName = "testUser" + DataUtil.getUniqueIdentifier();
-        String siteName = "testSite" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         String fileName = "system-overview.html";
         String breadcrumbPath = Arrays.asList("Documents", "Software Engineering Project", "Documentation", "Samples").toString();
 
@@ -98,8 +98,8 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelCreatingFolderFromTemplate()
     {
-        String userName = "testUser" + DataUtil.getUniqueIdentifier();
-        String siteName = "testSite" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C6292", "C6292");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -126,9 +126,9 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createFolderFromTemplateUsingWildcards()
     {
-        String userName = "testUser" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
         String userRole = "Coordinator";
-        String siteName = "testSite" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         String templateFolderName = "template1"+ DataUtil.getUniqueIdentifier();
         String folderName = "AFolder.Name";
         String illegalCharacters = "\'* \" < > \\ / . ? : |'";

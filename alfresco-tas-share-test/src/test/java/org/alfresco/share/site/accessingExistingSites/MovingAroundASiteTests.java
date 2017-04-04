@@ -27,7 +27,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     @Autowired
     AddSiteUsersPage addSiteUsersPage;
 
-    private String user = "User1" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("User1%s", DataUtil.getUniqueIdentifier());
     private String siteName;
 
     @BeforeClass(alwaysRun = true)
@@ -41,7 +41,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultAreas()
     {
-        siteName = "Site-C3034-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("Site-C3034-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
 
         LOG.info("STEP 1: Go to the created site." + siteName + "and verify the default areas available.");
@@ -67,7 +67,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addAdditionalFeatures()
     {
-        siteName = "Site-C3035-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("Site-C3035-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         LOG.info("STEP 1: Add the other available pages to the site, in the following order (using 'Customize site' feature)");
         customizeSite.navigate(siteName);
@@ -125,7 +125,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteFeaturesAreAvailableOnAnyPageFromTheSite()
     {
-        siteName = "Site-C3036-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("Site-C3036-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteDashboard.navigate(siteName);
         LOG.info("STEP 1: Click on 'Document Library' link.");

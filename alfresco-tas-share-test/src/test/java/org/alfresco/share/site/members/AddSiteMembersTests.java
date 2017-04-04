@@ -33,24 +33,24 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private String siteName = "Site" + DataUtil.getUniqueIdentifier();
-    private String userManager1 = "aManager1" + DataUtil.getUniqueIdentifier();
-    private String userManager2 = "aManager2" + DataUtil.getUniqueIdentifier();
+    private String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
+    private String userManager1 = String.format("aManager1%s", DataUtil.getUniqueIdentifier());
+    private String userManager2 = String.format("aManager2%s", DataUtil.getUniqueIdentifier());
     private String manager2Name = "Manager2 fName lName";
-    private String userCollaborator = "aCollaborator" + DataUtil.getUniqueIdentifier();
+    private String userCollaborator = String.format("aCollaborator%s", DataUtil.getUniqueIdentifier());
     private String collaboratorName = "Collaborator fName lName";
-    private String userContributor = "aContributor" + DataUtil.getUniqueIdentifier();
+    private String userContributor = String.format("aContributor%s", DataUtil.getUniqueIdentifier());
     private String contributorName = "Contributor fName lName";
-    private String userConsumer = "aConsumer" + DataUtil.getUniqueIdentifier();
+    private String userConsumer = String.format("aConsumer%s", DataUtil.getUniqueIdentifier());
     private String consumerName = "Consumer fName lName";
-    private String sameRoleUserA = "sameRoleUserA" + DataUtil.getUniqueIdentifier();
-    private String sameRoleUserB = "sameRoleUserB" + DataUtil.getUniqueIdentifier();
-    private String sameRoleUserC = "sameRoleUserC" + DataUtil.getUniqueIdentifier();
-    private String differentRoleUserA = "differentRoleUserA" + DataUtil.getUniqueIdentifier();
-    private String differentRoleUserB = "differentRoleUserB" + DataUtil.getUniqueIdentifier();
-    private String differentRoleUserC = "differentRoleUserC" + DataUtil.getUniqueIdentifier();
-    private String differentRoleUserD = "differentRoleUserD" + DataUtil.getUniqueIdentifier();
-    private String removeUser = "removeUser" + DataUtil.getUniqueIdentifier();
+    private String sameRoleUserA = String.format("sameRoleUserA%s", DataUtil.getUniqueIdentifier());
+    private String sameRoleUserB = String.format("sameRoleUserB%s", DataUtil.getUniqueIdentifier());
+    private String sameRoleUserC = String.format("sameRoleUserC%s", DataUtil.getUniqueIdentifier());
+    private String differentRoleUserA = String.format("differentRoleUserA%s", DataUtil.getUniqueIdentifier());
+    private String differentRoleUserB = String.format("differentRoleUserB%s", DataUtil.getUniqueIdentifier());
+    private String differentRoleUserC = String.format("differentRoleUserC%s", DataUtil.getUniqueIdentifier());
+    private String differentRoleUserD = String.format("differentRoleUserD%s", DataUtil.getUniqueIdentifier());
+    private String removeUser = String.format("removeUser%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

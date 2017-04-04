@@ -65,10 +65,10 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Autowired
     ChangeContentTypeDialog changeContentTypeDialog;
 
-    private String userName = "ModelManagerUser" + DataUtil.getUniqueIdentifier();
-    private String description = "C42568SiteDescription" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C42568SiteName" + DataUtil.getUniqueIdentifier();
-    private String fileName = "C42568TestFile" + DataUtil.getUniqueIdentifier();
+    private String userName = String.format("ModelManagerUser%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("C42568SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("C42568SiteName%s", DataUtil.getUniqueIdentifier());
+    private String fileName = String.format("C42568TestFile%s", DataUtil.getUniqueIdentifier());
     private String fileContent = "C42568 content";
 
     @BeforeClass(alwaysRun = true)
@@ -108,10 +108,10 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createModel()
     {
-        String nameSpace = "C42565Namespace" + DataUtil.getUniqueIdentifier();
-        String prefix = "C42565" + DataUtil.getUniqueIdentifier();
-        String name = "C42565Name" + DataUtil.getUniqueIdentifier();
-        String creator = "C42565Creator" + DataUtil.getUniqueIdentifier();
+        String nameSpace = String.format("C42565Namespace%s", DataUtil.getUniqueIdentifier());
+        String prefix = String.format("C42565%s", DataUtil.getUniqueIdentifier());
+        String name = String.format("C42565Name%s", DataUtil.getUniqueIdentifier());
+        String creator = String.format("C42565Creator%s", DataUtil.getUniqueIdentifier());
         String description = "C42565 this is a test model";
 
         LOG.info("Step 1: Navigate to Model Manager page");
@@ -158,9 +158,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void activateModel()
     {
         // Preconditions
-        String name = "C9516testModel" + DataUtil.getUniqueIdentifier();
-        String nameSpace = "C9516nameSpace" + DataUtil.getUniqueIdentifier();
-        String prefix = "C9516" + DataUtil.getUniqueIdentifier();
+        String name = String.format("C9516testModel%s", DataUtil.getUniqueIdentifier());
+        String nameSpace = String.format("C9516nameSpace%s", DataUtil.getUniqueIdentifier());
+        String prefix = String.format("C9516%s", DataUtil.getUniqueIdentifier());
 
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
@@ -189,13 +189,13 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void editModel()
     {
         // Preconditions
-        String name = "C9517testModel" + DataUtil.getUniqueIdentifier();
-        String nameSpace = "C9517nameSpace" + DataUtil.getUniqueIdentifier();
-        String prefix = "C9517" + DataUtil.getUniqueIdentifier();
-        String editedNamespace = "C9517editedNamespace" + DataUtil.getUniqueIdentifier();
-        String editedPrefix = "C9517editedPrefix" + DataUtil.getUniqueIdentifier();
-        String editedCreator = "EditedCreator" + DataUtil.getUniqueIdentifier();
-        String editedDescription = "edited Description C9517" + DataUtil.getUniqueIdentifier();
+        String name = String.format("C9517testModel%s", DataUtil.getUniqueIdentifier());
+        String nameSpace = String.format("C9517nameSpace%s", DataUtil.getUniqueIdentifier());
+        String prefix = String.format("C9517%s", DataUtil.getUniqueIdentifier());
+        String editedNamespace = String.format("C9517editedNamespace%s", DataUtil.getUniqueIdentifier());
+        String editedPrefix = String.format("C9517editedPrefix%s", DataUtil.getUniqueIdentifier());
+        String editedCreator = String.format("EditedCreator%s", DataUtil.getUniqueIdentifier());
+        String editedDescription = String.format("edited Description C9517%s", DataUtil.getUniqueIdentifier());
 
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
@@ -233,9 +233,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void deleteModel()
     {
         // Preconditions
-        String name = "C9518testModel" + DataUtil.getUniqueIdentifier();
-        String nameSpace = "C9518nameSpace" + DataUtil.getUniqueIdentifier();
-        String prefix = "C9518" + DataUtil.getUniqueIdentifier();
+        String name = String.format("C9518testModel%s", DataUtil.getUniqueIdentifier());
+        String nameSpace = String.format("C9518nameSpace%s", DataUtil.getUniqueIdentifier());
+        String prefix = String.format("C9518%s", DataUtil.getUniqueIdentifier());
         String expectedDialogText = "Are you sure you want to delete model '" + name
                 + "'? All custom types, aspects and properties in the model will also be deleted.";
         modelManagerPage.navigate();
@@ -273,9 +273,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void checkAvailableActionsForActiveModel()
     {
         // Preconditions
-        String name = "C9520testModel" + DataUtil.getUniqueIdentifier();
-        String nameSpace = "C9520nameSpace" + DataUtil.getUniqueIdentifier();
-        String prefix = "C9520" + DataUtil.getUniqueIdentifier();
+        String name = String.format("C9520testModel%s", DataUtil.getUniqueIdentifier());
+        String nameSpace = String.format("C9520nameSpace%s", DataUtil.getUniqueIdentifier());
+        String prefix = String.format("C9520%s", DataUtil.getUniqueIdentifier());
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
         createModelDialogPage.sendNamespaceText(nameSpace);
@@ -300,9 +300,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void deactivateModel()
     {
         // Preconditions
-        String name = "C9521testModel" + DataUtil.getUniqueIdentifier();
-        String nameSpace = "C9521nameSpace" + DataUtil.getUniqueIdentifier();
-        String prefix = "C9521" + DataUtil.getUniqueIdentifier();
+        String name = String.format("C9521testModel%s", DataUtil.getUniqueIdentifier());
+        String nameSpace = String.format("C9521nameSpace%s", DataUtil.getUniqueIdentifier());
+        String prefix = String.format("C9521%s", DataUtil.getUniqueIdentifier());
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
         createModelDialogPage.sendNamespaceText(nameSpace);
@@ -328,9 +328,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void exportModel()
     {
         // Preconditions
-        String name = "C9517testModel" + DataUtil.getUniqueIdentifier();
-        String nameSpace = "C9517nameSpace" + DataUtil.getUniqueIdentifier();
-        String prefix = "C9517" + DataUtil.getUniqueIdentifier();
+        String name = String.format("C9517testModel%s", DataUtil.getUniqueIdentifier());
+        String nameSpace = String.format("C9517nameSpace%s", DataUtil.getUniqueIdentifier());
+        String prefix = String.format("C9517%s", DataUtil.getUniqueIdentifier());
 
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
@@ -381,9 +381,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void createCustomType()
     {
         // Preconditions
-        String name = "C42566testModel" + DataUtil.getUniqueIdentifier();
-        String nameSpace = "C42566nameSpace" + DataUtil.getUniqueIdentifier();
-        String prefix = "C42566" + DataUtil.getUniqueIdentifier();
+        String name = String.format("C42566testModel%s", DataUtil.getUniqueIdentifier());
+        String nameSpace = String.format("C42566nameSpace%s", DataUtil.getUniqueIdentifier());
+        String prefix = String.format("C42566%s", DataUtil.getUniqueIdentifier());
         String customTypeName = "TestCustomTypeName";
         String displayLabel = "CustomTypeLabel";
         String description = "Custom type description";
@@ -423,9 +423,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void createAspect()
     {
         // Preconditions
-        String name = "C42567testModel" + DataUtil.getUniqueIdentifier();
-        String nameSpace = "C42567nameSpace" + DataUtil.getUniqueIdentifier();
-        String prefix = "C42567" + DataUtil.getUniqueIdentifier();
+        String name = String.format("C42567testModel%s", DataUtil.getUniqueIdentifier());
+        String nameSpace = String.format("C42567nameSpace%s", DataUtil.getUniqueIdentifier());
+        String prefix = String.format("C42567%s", DataUtil.getUniqueIdentifier());
         String aspectName = "TestAspectName";
         String displayLabel = "aspectNameLabel";
         String description = "Aspect description";

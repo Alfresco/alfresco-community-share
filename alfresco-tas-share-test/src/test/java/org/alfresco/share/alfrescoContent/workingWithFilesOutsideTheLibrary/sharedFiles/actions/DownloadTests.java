@@ -21,7 +21,7 @@ public class DownloadTests  extends ContextAwareWebTest
 
     @Autowired private DocumentCommon documentCommon;
 
-    private final String user = "C8024TestUser" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C8024TestUser%s", DataUtil.getUniqueIdentifier());
     private final String fileNameC8024 = "C8024 file2";
     private final String folderNameC8027 = "folderNameC80272";
     private final String fileContent = "test content";

@@ -25,10 +25,10 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private final String testUser = "user" + DataUtil.getUniqueIdentifier();
+    private final String testUser = String.format("user%s", DataUtil.getUniqueIdentifier());
     private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private final String folderName = "locateFolder" + DataUtil.getUniqueIdentifier();
-    private final String docName = "locateDoc" + DataUtil.getUniqueIdentifier();
+    private final String folderName = String.format("locateFolder%s", DataUtil.getUniqueIdentifier());
+    private final String docName = String.format("locateDoc%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

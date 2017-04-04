@@ -31,18 +31,18 @@ public class SharingFilesTests extends ContextAwareWebTest
     
     @Autowired private EnvProperties envProperties;
 
-    private final String user = "C7095User" + DataUtil.getUniqueIdentifier();
-    private final String description = "C7095SiteDescription" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "C7095SiteName" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C7095User%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C7095SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C7095SiteName%s", DataUtil.getUniqueIdentifier());
     private final String fileNameC7095 = "C7095title";
     private final String fileContent = "content";
     private final String fileNameC7096 = "file C7076";
     private final String fielNameC7097 = "File C7097";
     private final String fileNameC7099 = "File C7099";
-    private final String fileNameC7649 = "fileC7649" + DataUtil.getUniqueIdentifier();
+    private final String fileNameC7649 = String.format("fileC7649%s", DataUtil.getUniqueIdentifier());
     private final String folderName = "C7093 folder";
-    private final String siteNameC7093 = "C7093" + DataUtil.getUniqueIdentifier();
-    private final String siteNameC7649 = "siteNameC7649" + DataUtil.getUniqueIdentifier();
+    private final String siteNameC7093 = String.format("C7093%s", DataUtil.getUniqueIdentifier());
+    private final String siteNameC7649 = String.format("siteNameC7649%s", DataUtil.getUniqueIdentifier());
     private String sharedUrl;
     private String windowToSwitchToAlfresco;
     private String windowToCloseGPlus;

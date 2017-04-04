@@ -47,11 +47,11 @@ public class CreateNewTaskTests extends ContextAwareWebTest
     UserDashboardPage userDashboardPage;
 
     private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
-    private String user2 = "User2" + DataUtil.getUniqueIdentifier();
+    private String user2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
     private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private String docName = "docName" + DataUtil.getUniqueIdentifier();
-    private String docName1 = "docName1" + DataUtil.getUniqueIdentifier();
-    private String docContent = "docContent" + DataUtil.getUniqueIdentifier();
+    private String docName = String.format("docName%s", DataUtil.getUniqueIdentifier());
+    private String docName1 = String.format("docName1%s", DataUtil.getUniqueIdentifier());
+    private String docContent = String.format("docContent%s", DataUtil.getUniqueIdentifier());
     private String startWorkflowAction = "Start Workflow";
 
     @BeforeClass(alwaysRun = true)

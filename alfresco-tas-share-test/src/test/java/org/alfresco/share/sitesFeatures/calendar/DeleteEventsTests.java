@@ -43,8 +43,8 @@ public class DeleteEventsTests extends ContextAwareWebTest
     @Autowired
     SiteCalendarDashlet siteCalendarDashlet;
 
-    private String user1 = "user1-" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("user1%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("SiteName%s", DataUtil.getUniqueIdentifier());
     private Date startDate = new Date();
     private String startHour = "2:00 PM";
     private String endHour = "4:00 PM";
@@ -66,7 +66,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void deleteEventMonthView()
     {
         // precondition
-        eventName = "testEvent-C3174-" + DataUtil.getUniqueIdentifier();
+        eventName = String.format("testEvent-C3174-%s", DataUtil.getUniqueIdentifier());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Month' view.");
@@ -96,7 +96,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void cancelDeletingEventMonthView()
     {
         // precondition
-        eventName = "testEvent-C5400-" + DataUtil.getUniqueIdentifier();
+        eventName = String.format("testEvent-C5400-%s", DataUtil.getUniqueIdentifier());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Month' view.");
@@ -129,7 +129,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void deleteEventDayView()
     {
         // precondition
-        eventName = "testEvent-C5415-" + DataUtil.getUniqueIdentifier();
+        eventName = String.format("testEvent-C5415-%s", DataUtil.getUniqueIdentifier());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Day' view.");
@@ -160,7 +160,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void cancelDeletingEventDayView()
     {
         // precondition
-        eventName = "testEvent-C5416-" + DataUtil.getUniqueIdentifier();
+        eventName = String.format("testEvent-C5416-%s", DataUtil.getUniqueIdentifier());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Day' view.");
@@ -194,7 +194,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void deleteEventWeekView()
     {
         // precondition
-        eventName = "testEvent-C5417-" + DataUtil.getUniqueIdentifier();
+        eventName = String.format("testEvent-C5417-%s", DataUtil.getUniqueIdentifier());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Week' view.");
@@ -225,7 +225,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void cancelDeletingEventWeekView()
     {
         // precondition
-        eventName = "testEvent-C5418-" + DataUtil.getUniqueIdentifier();
+        eventName = String.format("testEvent-C5418-%s", DataUtil.getUniqueIdentifier());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Week' view.");
@@ -259,7 +259,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void deleteEventByClickingOnTheEventAgendaView()
     {
         // precondition
-        eventName = "testEvent-C5419-" + DataUtil.getUniqueIdentifier();
+        eventName = String.format("testEvent-C5419-%s", DataUtil.getUniqueIdentifier());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Agenda' view.");
@@ -290,7 +290,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void cancelDeletingEventByClickingOnTheEventAgendaView()
     {
         // precondition
-        eventName = "testEvent-C5420-" + DataUtil.getUniqueIdentifier();
+        eventName = String.format("testEvent-C5420-%s", DataUtil.getUniqueIdentifier());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Agenda' view.");
@@ -324,7 +324,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void deleteEventByClickingDeleteIconAgendaView()
     {
         // precondition
-        eventName = "testEvent-C6080-" + DataUtil.getUniqueIdentifier();
+        eventName = String.format("testEvent-C6080-%s", DataUtil.getUniqueIdentifier());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
         calendarPage.navigate(siteName);
         calendarPage.clickAgendaButton();
@@ -348,7 +348,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void cancelDeletingEventByClickingDeleteIconAgendaView()
     {
         // precondition
-        eventName = "testEvent-C6084-" + DataUtil.getUniqueIdentifier();
+        eventName = String.format("testEvent-C6084-%s", DataUtil.getUniqueIdentifier());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
         calendarPage.navigate(siteName);
         calendarPage.clickAgendaButton();

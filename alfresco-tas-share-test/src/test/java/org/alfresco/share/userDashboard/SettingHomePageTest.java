@@ -73,9 +73,9 @@ public class SettingHomePageTest extends ContextAwareWebTest
     public void useCurrentPage()
     {
         String folderName = "TestFolder";
-        String userName1 = "User1" + DataUtil.getUniqueIdentifier();
-        String userName2 = "User2" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String userName2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
         siteService.create(userName1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
@@ -246,8 +246,8 @@ public class SettingHomePageTest extends ContextAwareWebTest
     public void useMyDashboard()
     {
         String folderName = "TestFolder";
-        String userName = "User1" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName);

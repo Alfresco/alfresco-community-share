@@ -37,8 +37,8 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private String user = "user-" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("SiteName%s", DataUtil.getUniqueIdentifier());
     private DateTime today = new DateTime();
     private DateTime tomorrow = today.plusDays(1);
     private DateTime dayAfterTomorrow = today.plusDays(2);

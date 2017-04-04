@@ -32,9 +32,9 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
     @Autowired
     BlogPostListPage blogPage;
 
-    private String user = "C3155User" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C3155SiteName" + DataUtil.getUniqueIdentifier();
-    private String description = "C3155SiteDescription" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("C3155User%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("C3155SiteName%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("C3155SiteDescription%s", DataUtil.getUniqueIdentifier());
     private String newBlogName = "newBlog";
     private String blogTitle = "C5527" + "blogTitle2";
     private String blogTitle1 = "C5527" +"blogTitle1 first blog";

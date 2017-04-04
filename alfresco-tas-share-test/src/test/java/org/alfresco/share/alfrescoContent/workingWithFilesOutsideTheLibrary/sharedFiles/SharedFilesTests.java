@@ -33,7 +33,7 @@ public class SharedFilesTests extends ContextAwareWebTest
 
     @Autowired private DeleteDialog deleteDialog;
 
-    private final String docName = "Doc-C7661-" + DataUtil.getUniqueIdentifier();
+    private final String docName = String.format("Doc-C7661-%s", DataUtil.getUniqueIdentifier());
     private final String path = "Shared/";
 
     @BeforeClass(alwaysRun = true)

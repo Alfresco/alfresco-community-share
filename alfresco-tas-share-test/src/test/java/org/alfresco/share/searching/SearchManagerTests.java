@@ -57,17 +57,17 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Autowired
     ConfirmDeletionDialog confirmDeletionDialog;
 
-    private String user1 = "user1" + DataUtil.getUniqueIdentifier();
-    private String user2 = "testUser2" + DataUtil.getUniqueIdentifier();
-    private String user3 = "testUser3" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("user1%s", DataUtil.getUniqueIdentifier());
+    private String user2 = String.format("testUser2%s", DataUtil.getUniqueIdentifier());
+    private String user3 = String.format("testUser3%s", DataUtil.getUniqueIdentifier());
     private String modifier1 = "firstName1 lastName1";
     private String modifier2 = "firstName2 lastName2";
     private String modifier3 = "firstName3 lastName3";
     private String groupName = "ALFRESCO_SEARCH_ADMINISTRATORS";
-    private String site1 = "Site1" + DataUtil.getUniqueIdentifier();
-    private String site2 = "Site2" + DataUtil.getUniqueIdentifier();
-    private String site3 = "Site3" + DataUtil.getUniqueIdentifier();
-    private String documentName = "Doc" + DataUtil.getUniqueIdentifier();
+    private String site1 = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+    private String site2 = String.format("Site2%s", DataUtil.getUniqueIdentifier());
+    private String site3 = String.format("Site3%s", DataUtil.getUniqueIdentifier());
+    private String documentName = String.format("Doc%s", DataUtil.getUniqueIdentifier());
     private String filterId;
     private String filterName;
 
@@ -147,8 +147,8 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void createNewSearchFilter()
     {
-        filterId = "filter.site" + DataUtil.getUniqueIdentifier();
-        filterName = "Site" + DataUtil.getUniqueIdentifier();
+        filterId = String.format("filter.site%s", DataUtil.getUniqueIdentifier());
+        filterName = String.format("Site%s", DataUtil.getUniqueIdentifier());
 
         searchManagerPage.navigate();
 
@@ -203,8 +203,8 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyFilterAvailabilityProperty()
     {
-        filterId = "tag-filter" + DataUtil.getUniqueIdentifier();
-        filterName = "tagFilter" + DataUtil.getUniqueIdentifier();
+        filterId = String.format("tag-filter%s", DataUtil.getUniqueIdentifier());
+        filterName = String.format("tagFilter%s", DataUtil.getUniqueIdentifier());
 
         searchManagerPage.navigate();
 
@@ -364,8 +364,8 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void createNewSearchFilterWithoutSaving()
     {
-        filterId = "close-filter" + DataUtil.getUniqueIdentifier();
-        filterName = "close.filter" + DataUtil.getUniqueIdentifier();
+        filterId = String.format("close-filter%s", DataUtil.getUniqueIdentifier());
+        filterName = String.format("close.filter%s", DataUtil.getUniqueIdentifier());
 
         searchManagerPage.navigate();
 
@@ -388,8 +388,8 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void cancelCreatingNewSearchFilter()
     {
-        filterId = "cancel-filter" + DataUtil.getUniqueIdentifier();
-        filterName = "cancel.filter" + DataUtil.getUniqueIdentifier();
+        filterId = String.format("cancel-filter%s", DataUtil.getUniqueIdentifier());
+        filterName = String.format("cancel.filter%s", DataUtil.getUniqueIdentifier());
 
         searchManagerPage.navigate();
 
@@ -412,8 +412,8 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void modifyExistingSearchFilter()
     {
-        filterId = "filterC6284" + DataUtil.getUniqueIdentifier();
-        filterName = "testFilterC6284" + DataUtil.getUniqueIdentifier();
+        filterId = String.format("filterC6284%s", DataUtil.getUniqueIdentifier());
+        filterName = String.format("testFilterC6284%s", DataUtil.getUniqueIdentifier());
         String newFilterName = "newFilterC6284";
 
         searchManagerPage.navigate();
@@ -474,8 +474,8 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void modifySearchFilterWithoutSaving()
     {
-        filterId = "filterC6314" + DataUtil.getUniqueIdentifier();
-        filterName = "testFilterC6314" + DataUtil.getUniqueIdentifier();
+        filterId = String.format("filterC6314%s", DataUtil.getUniqueIdentifier());
+        filterName = String.format("testFilterC6314%s", DataUtil.getUniqueIdentifier());
         String newFilterName = "newFilterC6314";
 
         searchManagerPage.navigate();
@@ -534,8 +534,8 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void cancelModifyingExistingSearchFilter()
     {
-        filterId = "filterC6299" + DataUtil.getUniqueIdentifier();
-        filterName = "testFilterC6299" + DataUtil.getUniqueIdentifier();
+        filterId = String.format("filterC6299%s", DataUtil.getUniqueIdentifier());
+        filterName = String.format("testFilterC6299%s", DataUtil.getUniqueIdentifier());
         String newFilterName = "newFilterC6299";
 
         searchManagerPage.navigate();
@@ -633,8 +633,8 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void modifySearchFilterName()
     {
-        filterId = "filterC6311" + DataUtil.getUniqueIdentifier();
-        filterName = "testFilterC6311" + DataUtil.getUniqueIdentifier();
+        filterId = String.format("filterC6311%s", DataUtil.getUniqueIdentifier());
+        filterName = String.format("testFilterC6311%s", DataUtil.getUniqueIdentifier());
         String newFilterName = "newFilterC6311";
 
         searchManagerPage.navigate();
@@ -656,8 +656,8 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void cancelModifyingSearchFilterName()
     {
-        filterId = "filterC6312" + DataUtil.getUniqueIdentifier();
-        filterName = "testFilterC6312" + DataUtil.getUniqueIdentifier();
+        filterId = String.format("filterC6312%s", DataUtil.getUniqueIdentifier());
+        filterName = String.format("testFilterC6312%s", DataUtil.getUniqueIdentifier());
         String newFilterName = "newFilterC6312";
 
         searchManagerPage.navigate();
@@ -679,8 +679,8 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void deleteSearchFilter()
     {
-        filterId = "filterC6303" + DataUtil.getUniqueIdentifier();
-        filterName = "testFilterC6303" + DataUtil.getUniqueIdentifier();
+        filterId = String.format("filterC6303%s", DataUtil.getUniqueIdentifier());
+        filterName = String.format("testFilterC6303%s", DataUtil.getUniqueIdentifier());
         String defaultFilter = "filter_creator";
 
         searchManagerPage.navigate();
@@ -710,8 +710,8 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void cancelDeletingSearchFilter()
     {
-        filterId = "filterC6305" + DataUtil.getUniqueIdentifier();
-        filterName = "testFilterC6305" + DataUtil.getUniqueIdentifier();
+        filterId = String.format("filterC6305%s", DataUtil.getUniqueIdentifier());
+        filterName = String.format("testFilterC6305%s", DataUtil.getUniqueIdentifier());
 
         searchManagerPage.navigate();
 

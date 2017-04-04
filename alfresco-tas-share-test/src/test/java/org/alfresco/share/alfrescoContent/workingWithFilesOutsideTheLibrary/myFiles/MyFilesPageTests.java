@@ -23,10 +23,10 @@ public class MyFilesPageTests extends ContextAwareWebTest
 
     @Autowired private DocumentsFilters filters;
 
-    private final String user = "C7659User" + DataUtil.getUniqueIdentifier();
-    private final String nonAdminFile = "nonAdminDoc" + DataUtil.getUniqueIdentifier();
-    private final String adminFile = "adminDoc" + DataUtil.getUniqueIdentifier();
-    private final String tag = "testTag" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C7659User%s", DataUtil.getUniqueIdentifier());
+    private final String nonAdminFile = String.format("nonAdminDoc%s", DataUtil.getUniqueIdentifier());
+    private final String adminFile = String.format("adminDoc%s", DataUtil.getUniqueIdentifier());
+    private final String tag = String.format("testTag%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

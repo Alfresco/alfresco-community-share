@@ -35,9 +35,9 @@ public class RepositoryTests extends ContextAwareWebTest
     
     @Autowired private RepositoryPage repositoryPage;
 
-    private final String user = "C8154TestUser" + DataUtil.getUniqueIdentifier();
-    private final String description = "C8154SiteDescription" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "1C8154SiteName" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C8154TestUser%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C8154SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("1C8154SiteName%s", DataUtil.getUniqueIdentifier());
     private final String fileName1 = "C8154 file1";
     private final String fileName2 = "C8154 file2";
     private final String folderName = "folderNameSite1";

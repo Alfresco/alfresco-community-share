@@ -30,8 +30,8 @@ public class EditEventsTests extends ContextAwareWebTest
     @Autowired
     EditEventDialog editEventDialog;
 
-    private String user = "user-" + DataUtil.getUniqueIdentifier();
-    private String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("SiteName%s", DataUtil.getUniqueIdentifier());
     private DateTime startDate =  new DateTime();
     private DateTime endDate = startDate.plusDays(3);
     private DateTime tomorrow = startDate.plusDays(1);

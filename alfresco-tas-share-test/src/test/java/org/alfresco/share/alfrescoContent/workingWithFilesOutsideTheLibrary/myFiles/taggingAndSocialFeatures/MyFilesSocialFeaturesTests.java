@@ -43,7 +43,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesLikeFile()
     {
-        String user = "user" + DataUtil.getUniqueIdentifier();
+        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
@@ -68,7 +68,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesLikeFolder()
     {
-        String user = "user" + DataUtil.getUniqueIdentifier();
+        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
@@ -97,7 +97,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUnlikeFile()
     {
-        String user = "user" + DataUtil.getUniqueIdentifier();
+        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
@@ -124,7 +124,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUnlikeFolder()
     {
-        String user = "user" + DataUtil.getUniqueIdentifier();
+        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
@@ -155,8 +155,8 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesAddCommentToFile()
     {
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        String comment = "Test comment" + DataUtil.getUniqueIdentifier();
+        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+        String comment = String.format("Test comment%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
@@ -184,8 +184,8 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesAddCommentToFolder()
     {
-        String user = "user" + DataUtil.getUniqueIdentifier();
-        String comment = "Test comment" + DataUtil.getUniqueIdentifier();
+        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+        String comment = String.format("Test comment%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");

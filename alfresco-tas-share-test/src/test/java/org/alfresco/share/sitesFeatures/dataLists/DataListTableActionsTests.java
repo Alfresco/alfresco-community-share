@@ -38,7 +38,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        userName = "User" + DataUtil.getUniqueIdentifier();
+        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
     }
@@ -48,8 +48,8 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     {
         LOG.info("Preconditions for Data List Table Actions test");
         siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        description = "description" + DataUtil.getUniqueIdentifier();
-        contactList = "ContactList" + DataUtil.getUniqueIdentifier();
+        description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        contactList = String.format("ContactList%s", DataUtil.getUniqueIdentifier());
 
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);

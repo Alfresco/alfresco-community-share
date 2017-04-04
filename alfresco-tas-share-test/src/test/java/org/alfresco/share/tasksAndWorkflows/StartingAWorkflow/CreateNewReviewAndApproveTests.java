@@ -50,13 +50,13 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     @Autowired
     SelectGroupAssigneeToWorkflowPopUp selectGroupAssigneeToWorkflowPopUp;
 
-    private String user1 = "User1" + DataUtil.getUniqueIdentifier();
-    private String user2 = "User2" + DataUtil.getUniqueIdentifier();
-    private String user3 = "User3" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+    private String user2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
+    private String user3 = String.format("User3%s", DataUtil.getUniqueIdentifier());
     private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private String docName = "docName" + DataUtil.getUniqueIdentifier();
-    private String docContent = "docContent" + DataUtil.getUniqueIdentifier();
-    private String group = "testGroup" + DataUtil.getUniqueIdentifier();
+    private String docName = String.format("docName%s", DataUtil.getUniqueIdentifier());
+    private String docContent = String.format("docContent%s", DataUtil.getUniqueIdentifier());
+    private String group = String.format("testGroup%s", DataUtil.getUniqueIdentifier());
     private String startWorkflowAction = "Start Workflow";
     private Alert alert;
     @BeforeClass(alwaysRun = true)

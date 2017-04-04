@@ -29,9 +29,9 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
     
     @Autowired private ContentAspects contentAspects;
 
-    private final String user = "C5920User" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "C5920SiteName" + DataUtil.getUniqueIdentifier();
-    private final String description = "C5920SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C5920User%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C5920SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C5920SiteDescription%s", DataUtil.getUniqueIdentifier());
     private final String docName = "File-C5920";
     private final String folderName = "testFolder";
     private final double longitude = 47.1585;

@@ -39,7 +39,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     @Autowired
     LinkDetailsViewPage linkDetailsViewPage;
 
-    private String user = "user-" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("user%s", DataUtil.getUniqueIdentifier());
     private String siteName;
     private String linkTitle = "google";
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
@@ -55,7 +55,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletHelpNotification()
     {
-        siteName = "SiteName-C5525-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("SiteName-C5525-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_LINKS, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
 
@@ -81,7 +81,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletCreateLink()
     {
-        siteName = "SiteName-C5534-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("SiteName-C5534-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_LINKS, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         siteDashboard.navigate(siteName);
@@ -118,7 +118,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletDetailsButton()
     {
-        siteName = "SiteName-C5804-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("SiteName-C5804-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_LINKS, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         sitePagesService.createLink(user, password, siteName, linkTitle, "www.google.com", "Search engine", false, Collections.singletonList("tag1"));

@@ -24,10 +24,10 @@ public class MyFilesTests extends ContextAwareWebTest
     
     @Autowired private Toolbar toolbar;
     
-    private final String user = "C7648TestUser" + DataUtil.getUniqueIdentifier();
-    private final String user1 = "C7648TestUser1" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "C7658SiteName"+DataUtil.getUniqueIdentifier();
-    private final String description ="C7658SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C7648TestUser%s", DataUtil.getUniqueIdentifier());
+    private final String user1 = String.format("C7648TestUser1%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C7658SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C7658SiteDescription%s", DataUtil.getUniqueIdentifier());
     private final String C7648name ="C7648 name";
     private final String C7648title = "C7648 title";
     private final String C7648content = "C7648 content";

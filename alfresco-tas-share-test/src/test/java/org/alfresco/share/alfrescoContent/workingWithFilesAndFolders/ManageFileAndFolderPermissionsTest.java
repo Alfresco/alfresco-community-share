@@ -25,8 +25,8 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     @Autowired private ManagePermissionsPage managePermissionsPage;
 
     private final String docContent = "content of the file.";
-    private final String testUser1 = "testUser1" + DataUtil.getUniqueIdentifier();
-    private final String testUser2 = "testUser2" + DataUtil.getUniqueIdentifier();
+    private final String testUser1 = String.format("testUser1%s", DataUtil.getUniqueIdentifier());
+    private final String testUser2 = String.format("testUser2%s", DataUtil.getUniqueIdentifier());
     private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     private final String testFileName = "testDoc.txt";
     private final String testFolderName = "testFolder";

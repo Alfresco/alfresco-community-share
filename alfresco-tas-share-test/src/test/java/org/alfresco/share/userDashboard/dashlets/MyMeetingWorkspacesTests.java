@@ -28,7 +28,7 @@ public class MyMeetingWorkspacesTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userName = "User1" + DataUtil.getUniqueIdentifier();
+        userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.addDashlet(userName, password, DashboardCustomization.UserDashlet.MY_MEETING_WORKSPACES, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(userName, password);

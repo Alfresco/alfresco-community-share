@@ -51,12 +51,12 @@ public class UserProfileTests extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    private String userName = "UserProfileUser" + DataUtil.getUniqueIdentifier();
-    private String c9416User = "C9416user" + DataUtil.getUniqueIdentifier();
-    private String c9417User = "C9417user" + DataUtil.getUniqueIdentifier();
-    private String c9431User = "c9431user" + DataUtil.getUniqueIdentifier();
-    private String c9427User = "c9427user" + DataUtil.getUniqueIdentifier();
-    private String c9426User = "c9426user" + DataUtil.getUniqueIdentifier();
+    private String userName = String.format("UserProfileUser%s", DataUtil.getUniqueIdentifier());
+    private String c9416User = String.format("C9416user%s", DataUtil.getUniqueIdentifier());
+    private String c9417User = String.format("C9417user%s", DataUtil.getUniqueIdentifier());
+    private String c9431User = String.format("c9431user%s", DataUtil.getUniqueIdentifier());
+    private String c9427User = String.format("c9427user%s", DataUtil.getUniqueIdentifier());
+    private String c9426User = String.format("c9426user%s", DataUtil.getUniqueIdentifier());
     private String authenticationError;
 
     @BeforeClass(alwaysRun = true)

@@ -41,7 +41,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userName = "User" + DataUtil.getUniqueIdentifier();
+        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
@@ -54,7 +54,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
     public void editingAMandatoryFieldOfAListItem()
     {      
         LOG.info("Preconditions: Create a second user");
-        String userTest = "User" + DataUtil.getUniqueIdentifier();
+        String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         
         LOG.info("Preconditions: Create a 'test.xlsx' file");

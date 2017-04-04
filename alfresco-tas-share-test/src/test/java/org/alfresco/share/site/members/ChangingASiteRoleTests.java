@@ -47,10 +47,10 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlySiteManagerIsAbleToChangeRoles()
     {
-        userManager = "Manager-C2835-" + DataUtil.getUniqueIdentifier();
-        userTest = "User2-C2835-" + DataUtil.getUniqueIdentifier();
-        siteName = "Site-C2835-" + DataUtil.getUniqueIdentifier();
-        groupName = "Group-C2835-" + DataUtil.getUniqueIdentifier();
+        userManager = String.format("Manager-C2835-%s", DataUtil.getUniqueIdentifier());
+        userTest = String.format("User2-C2835-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C2835-%s", DataUtil.getUniqueIdentifier());
+        groupName = String.format("Group-C2835-%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
@@ -93,10 +93,10 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeRoleForAGroup()
     {
-        userManager = "Manager-C2836-" + DataUtil.getUniqueIdentifier();
-        userTest = "User2-C2836-" + DataUtil.getUniqueIdentifier();
-        siteName = "site-C2836-" + DataUtil.getUniqueIdentifier();
-        groupName = "Group-C2836-" + DataUtil.getUniqueIdentifier();
+        userManager = String.format("Manager-C2836-%s", DataUtil.getUniqueIdentifier());
+        userTest = String.format("User2-C2836-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("site-C2836-%s", DataUtil.getUniqueIdentifier());
+        groupName = String.format("Group-C2836-%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
@@ -134,10 +134,10 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeRoleForAnUser()
     {
-        userManager = "Manager-C2837-" + DataUtil.getUniqueIdentifier();
-        userTest = "User2-C2837-" + DataUtil.getUniqueIdentifier();
-        siteName = "site-C2837-" + DataUtil.getUniqueIdentifier();
-        groupName = "Group" + DataUtil.getUniqueIdentifier();
+        userManager = String.format("Manager-C2837-%s", DataUtil.getUniqueIdentifier());
+        userTest = String.format("User2-C2837-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("site-C2837-%s", DataUtil.getUniqueIdentifier());
+        groupName = String.format("Group%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);

@@ -35,7 +35,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void changeDefaultDashlets()
     {
-        String userName = "user2853-" + DataUtil.getUniqueIdentifier() + domain;
+        String userName = String.format("user2853-%s%s",DataUtil.getUniqueIdentifier(), domain);
         userService.create(adminUser, adminPassword, userName, password, userName, "C2853", "lname");
 
         LOG.info("Step 1 - Click 'Customize Dashboard' on the dashboard banner");

@@ -54,12 +54,12 @@ public class JoiningSiteTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private String user1 = "testUser1" + DataUtil.getUniqueIdentifier();
-    private String user2 = "testUser2" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("testUser1%s", DataUtil.getUniqueIdentifier());
+    private String user2 = String.format("testUser2%s", DataUtil.getUniqueIdentifier());
     private String user2FirstName = "user2_firstName";
     private String user2LastName = "user2_lastName";
     private String siteName;
-    private String description = "Description" + DataUtil.getUniqueIdentifier();
+    private String description = String.format("description%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -73,7 +73,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     public void joinPublicSiteFromSiteFinderPage()
     {
         //precondition
-        siteName = "SiteName-C2823-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("SiteName-C2823-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
@@ -110,7 +110,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     public void joinPublicSiteFromSiteDashboardPage()
     {
         //precondition
-        siteName = "SiteName-C3053-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("SiteName-C3053-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user2, password);
 
@@ -143,7 +143,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     public void requestToJoinModeratedSiteFromSiteFinderPage()
     {
         //precondition
-        siteName = "SiteName-C2831-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("SiteName-C2831-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.MODERATED);
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
@@ -204,7 +204,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     public void requestToJoinModeratedSiteFromSiteDashboardPage()
     {
         //precondition
-        siteName = "SiteName-C3059-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("SiteName-C3059-%s", DataUtil.getUniqueIdentifier());
         String dialogMessage = String.format(language.translate("requestToJoin.dialogMessage"), siteName);
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.MODERATED);
         setupAuthenticatedSession(user2, password);
@@ -276,7 +276,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     public void cancelRequestToJoinModeratedSite()
     {
         //precondition
-        siteName = "SiteName-C2833-" + DataUtil.getUniqueIdentifier();
+        siteName = String.format("SiteName-C2833-%s", DataUtil.getUniqueIdentifier());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.MODERATED);
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();

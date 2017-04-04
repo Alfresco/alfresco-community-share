@@ -154,7 +154,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
 
         // preconditions
         List<String> members;
-        uniqueIdentifier = "C2884-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = String.format("C2884-%s", DataUtil.getUniqueIdentifier());
         String siteManager = "manager" + uniqueIdentifier;
         String siteCollaborator = "collaborator" + uniqueIdentifier;
         String siteConsumer = "consumer" + uniqueIdentifier;
@@ -245,7 +245,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         LOG.info("Starting C2885");
 
         // preconditions
-        uniqueIdentifier = "C2885-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = String.format("C2885-%s", DataUtil.getUniqueIdentifier());
         String siteManager = "manager" + uniqueIdentifier;
         String siteCollaborator = "collaborator" + uniqueIdentifier;
         String siteConsumer = "consumer" + uniqueIdentifier;

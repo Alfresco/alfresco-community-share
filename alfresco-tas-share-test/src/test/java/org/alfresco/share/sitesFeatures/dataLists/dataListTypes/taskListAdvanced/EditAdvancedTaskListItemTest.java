@@ -33,10 +33,10 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
     @Autowired
     EditItemPopUp editItemPopUp;
     
-    String userName = "User-" + DataUtil.getUniqueIdentifier();
-    String userAssignee = "UserA-" + DataUtil.getUniqueIdentifier();
-    String siteName = "SiteName-" + DataUtil.getUniqueIdentifier();
-    String listName = "Advanced task item name" + DataUtil.getUniqueIdentifier();
+    String userName = String.format("User-%s", DataUtil.getUniqueIdentifier());
+    String userAssignee = String.format("UserA-%s", DataUtil.getUniqueIdentifier());
+    String siteName = String.format("SiteName-%s", DataUtil.getUniqueIdentifier());
+    String listName = String.format("Advanced task item name%s", DataUtil.getUniqueIdentifier());
     String itemTitle = "Advanced task item title";
     String itemDescription = "Advanced task item description";
     String itemComment = "Advanced task item comment";

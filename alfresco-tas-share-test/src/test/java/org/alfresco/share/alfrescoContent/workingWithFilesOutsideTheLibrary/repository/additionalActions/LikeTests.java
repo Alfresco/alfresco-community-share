@@ -19,7 +19,7 @@ public class LikeTests extends ContextAwareWebTest
     @Autowired private SocialFeatures socialFeatures;
 
 
-    private final String user = "C8301TestUser" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C8301TestUser%s", DataUtil.getUniqueIdentifier());
     private final String fileNameC8301 = "C8301 file";
     private final String fileNameC8303 = "C8303 file";
     private final String fileContent = "test file content";

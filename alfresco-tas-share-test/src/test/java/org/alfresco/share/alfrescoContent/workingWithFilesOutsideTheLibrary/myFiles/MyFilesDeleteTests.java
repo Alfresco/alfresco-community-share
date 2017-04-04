@@ -19,8 +19,8 @@ import static org.testng.Assert.*;
  */
 public class MyFilesDeleteTests extends ContextAwareWebTest
 {
-    private final String user = "user" + DataUtil.getUniqueIdentifier();
-    private final String testFile = "testFile" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+    private final String testFile = String.format("testFile%s", DataUtil.getUniqueIdentifier());
     private final String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
     private final String myFilesPath = "User Homes/" + user;
     @Autowired

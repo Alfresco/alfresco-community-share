@@ -29,9 +29,9 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
     @Autowired
     BlogPromptWindow commentWindow;
 
-    private String user = "C6011User" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C6011SiteName" + DataUtil.getUniqueIdentifier();
-    private String description = "C6011SiteDescription" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("C6011User%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("C6011SiteName%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("C6011SiteDescription%s", DataUtil.getUniqueIdentifier());
     private String blogPostContentText = "C6011 post content text";
     private List<String> tags = Collections.singletonList("tagc6011");
     private String blogPostTitleC6011 = "C6011 blog post title";

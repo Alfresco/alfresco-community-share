@@ -15,8 +15,8 @@ import org.testng.annotations.Test;
 
 public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
 {
-    private final String user = "testUser" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "testSiteGoogleDocs" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("testSiteGoogleDocs%s", DataUtil.getUniqueIdentifier());
     private final String content = "testcontent";
     private final String documentTitle = "testDocument";
     private final String spreadsheetTitle = "testSpreadsheet";

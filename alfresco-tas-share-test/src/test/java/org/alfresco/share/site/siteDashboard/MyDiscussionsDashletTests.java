@@ -25,7 +25,7 @@ public class MyDiscussionsDashletTests extends ContextAwareWebTest
     @Autowired
     MyDiscussionsDashlet myDiscussionsDashlet;
 
-    private String userName = "User" + DataUtil.getUniqueIdentifier();
+    private String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
     private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
     
     @BeforeClass(alwaysRun = true)

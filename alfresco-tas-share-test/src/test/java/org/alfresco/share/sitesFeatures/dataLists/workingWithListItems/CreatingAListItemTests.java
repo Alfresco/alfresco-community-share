@@ -36,7 +36,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        userName = "User" + DataUtil.getUniqueIdentifier();
+        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
     }
@@ -184,7 +184,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     {       
         LOG.info("Preconditions: Create a new Issue List, a second user and a 'xlsx' file");
         String issueName = "issue" + System.currentTimeMillis();
-        String userTest = "User" + DataUtil.getUniqueIdentifier();
+        String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         contentService.createFolder(userName, password, folderName, siteName);
@@ -272,7 +272,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     public void createNewAdvancedTaskListItem()
     {       
         LOG.info("Preconditions: Create a new Advanced Task List, a second user and a 'test.xlsx' file");
-        String userTest = "User" + DataUtil.getUniqueIdentifier();
+        String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
         String advancedTaskName = "advanced" + System.currentTimeMillis();
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
@@ -303,7 +303,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     public void createNewSimpleTaskListItem()
     {       
         LOG.info("Preconditions: Create a new Simple Task List");
-        String userTest = "User" + DataUtil.getUniqueIdentifier();
+        String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
         String simpleTaskName = "simple" + System.currentTimeMillis();
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
@@ -334,7 +334,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     public void createNewToDoListItem()
     {       
         LOG.info("Preconditions: Create a new To Do List, a second user and a 'test.xlsx' file");
-        String userTest = "User" + DataUtil.getUniqueIdentifier();
+        String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
         String toDoName = "toDo" + System.currentTimeMillis();
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
@@ -368,7 +368,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         LOG.info("This test fails due to: 'https://issues.alfresco.com/jira/browse/ACE-4226?jql=text%20~%20%22visitor%20feedback%22' issue");
         
         LOG.info("Preconditions: Create a new Visitor Feedback List and a 'test.xlsx' file");
-        String userTest = "User" + DataUtil.getUniqueIdentifier();
+        String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
         String visitorName = "toDo" + System.currentTimeMillis();
         String folderName = "testFolder";
         String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;

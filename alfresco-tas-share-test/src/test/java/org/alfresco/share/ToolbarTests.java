@@ -98,8 +98,8 @@ public class ToolbarTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyAlfrescoToolbarItems()
     {
-        String userName = "User1" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -141,8 +141,8 @@ public class ToolbarTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void theToolbarIsAlwaysAvailableAtTheTopOfThePage()
     {
-        String userName = "User1" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -167,8 +167,8 @@ public class ToolbarTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void adminToolsAreAvailableOnlyForSystemAdministrators()
     {
-        String userName1 = "User1" + DataUtil.getUniqueIdentifier();
-        String userName2 = "User2" + DataUtil.getUniqueIdentifier();
+        String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String userName2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
         groupService.addUserToGroup(adminUser, adminPassword, "ALFRESCO_ADMINISTRATORS", userName1);
@@ -209,8 +209,8 @@ public class ToolbarTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyTheLinksFromTheUserMenu()
     {
-        String userName = "User1" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -256,8 +256,8 @@ public class ToolbarTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyTheLinksFromTasksMenu()
     {
-        String userName = "User1" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -275,10 +275,10 @@ public class ToolbarTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyTheLinksFromSitesMenu()
     {
-        String userName = "User1" + DataUtil.getUniqueIdentifier();
-        String siteName1 = "Site1" + DataUtil.getUniqueIdentifier();
-        String siteName2 = "Site2" + DataUtil.getUniqueIdentifier();
-        String siteName3 = "Site3" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String siteName1 = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+        String siteName2 = String.format("Site2%s", DataUtil.getUniqueIdentifier());
+        String siteName3 = String.format("Site3%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName1, "description", Site.Visibility.PUBLIC);
         siteService.setFavorite(userName, password, siteName1);
@@ -333,8 +333,8 @@ public class ToolbarTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void verifyTheLinksFromAlfrescoToolbar()
     {
-        String userName = "User1" + DataUtil.getUniqueIdentifier();
-        String siteName = "Site1" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         groupService.addUserToGroup(adminUser, adminPassword, "ALFRESCO_ADMINISTRATORS", userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
@@ -373,8 +373,8 @@ public class ToolbarTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void siteManagerIsAvailableOnlyForSiteAdministrators()
     {
-        String userName1 = "User1" + DataUtil.getUniqueIdentifier();
-        String userName2 = "User2" + DataUtil.getUniqueIdentifier();
+        String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String userName2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
         groupService.addUserToGroup(adminUser, adminPassword, "SITE_ADMINISTRATORS", userName1);

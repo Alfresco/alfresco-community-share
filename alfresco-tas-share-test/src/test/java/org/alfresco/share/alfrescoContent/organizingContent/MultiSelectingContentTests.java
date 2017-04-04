@@ -32,8 +32,8 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
 
     @Autowired private DeleteDialog deleteDialog;
 
-    private final String userName = "profileUser-" + DataUtil.getUniqueIdentifier();
-    private final String description = "Description-" + DataUtil.getUniqueIdentifier();
+    private final String userName = String.format("profileUser-%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("Description-%s", DataUtil.getUniqueIdentifier());
     private final String fileContent = "content of the file.";
 
     @BeforeClass(alwaysRun = true)
@@ -48,7 +48,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     public void selectItemsByCheckbox()
     {
         String random = DataUtil.getUniqueIdentifier();
-        String siteName = "C7546-site-" + random;
+        String siteName = String.format("C7546-site-%s", random);
         String folderName1 = "C7546-folder1-" + random;
         String folderName2 = "C7546-folder2-" + random;
         String docName = "C7546-document-" + random;
@@ -82,7 +82,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     public void selectItemsByMenu()
     {
         String random = DataUtil.getUniqueIdentifier();
-        String siteName = "C7548-site-" + random;
+        String siteName = String.format("C7548-site-%s", random);
         String folderName1 = "C7548-folder1-" + random;
         String folderName2 = "C7548-folder2-" + random;
         String textFile = "C7548-textDocument-" + random;
@@ -173,7 +173,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     public void selectMultipleDocumentsStartWorkflow()
     {
         String random = DataUtil.getUniqueIdentifier();
-        String siteName = "C8410-site-" + random;
+        String siteName = String.format("C8410-site-%s", random);
         String folderName1 = "C8410-folder1-" + random;
         String folderName2 = "C8410-folder2-" + random;
         String textFile = "C8410-textDocument-" + random;
@@ -218,7 +218,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     public void selectedItemsDelete()
     {
         String random = DataUtil.getUniqueIdentifier();
-        String siteName = "C8410-site-" + random;
+        String siteName = String.format("C8410-site-%s", random);
         String folderName1 = "C8410-folder1-" + random;
         String textFile = "C8410-textDocument-" + random;
         String htmlFile = "C8410-htmlFile-" + random;

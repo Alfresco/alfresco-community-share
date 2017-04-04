@@ -22,9 +22,9 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
 
     @Autowired private AspectsForm aspectsForm;
 
-    private String userName = "User" + DataUtil.getUniqueIdentifier();
+    private String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
     private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private String fileName = "testFile" + DataUtil.getUniqueIdentifier();
+    private String fileName = String.format("testFile%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

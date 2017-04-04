@@ -82,7 +82,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyAdvancedSearchPage()
     {
-        String userName = "User1" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
         advancedSearchPage.navigate();

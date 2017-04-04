@@ -25,7 +25,7 @@ public class CommentTests extends ContextAwareWebTest
     
     @Autowired private DocumentDetailsPage documentDetails;
 
-    private final String user = "C8305TestUser" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C8305TestUser%s", DataUtil.getUniqueIdentifier());
     private final String fileNameC8305 = "C8305 file";
     private final String path = "User Homes/" + user;
     private final String fileContent = "test file content";

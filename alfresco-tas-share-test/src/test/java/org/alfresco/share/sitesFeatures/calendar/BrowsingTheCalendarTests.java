@@ -31,9 +31,9 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     @Autowired
     CalendarUtility calendarUtility;
 
-    private String user = "C3155User" + DataUtil.getUniqueIdentifier();
-    private String siteName = "C3155SiteName" + DataUtil.getUniqueIdentifier();
-    private String description = "C3155SiteDescription" + DataUtil.getUniqueIdentifier();
+    private String user = String.format("C3155User%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("C3155SiteName%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("C3155SiteDescription%s", DataUtil.getUniqueIdentifier());
     private DateTime today = new DateTime();
     private DateTime yesterday = today.minusDays(1);
     private DateTime tomorrow = today.plusDays(1);

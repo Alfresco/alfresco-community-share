@@ -36,13 +36,13 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     @Autowired private Notification notification;
 
     private final String folderTemplateName = "Software Engineering Project";
-    private final String fileTemplateName = "fileTemplate" + DataUtil.getUniqueIdentifier();
+    private final String fileTemplateName = String.format("fileTemplate%s", DataUtil.getUniqueIdentifier());
     private final String title = "googleDoc title";
     private final String googleDocName = "googleDoc title.docx";
     private final String googleDocSpreadsheet = "googleDoc title.xlsx";
     private final String googleDocPresentation = "googleDoc title.pptx";
     private final String docContent = "googleDoccontent";
-    private final String user = "user" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("user%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void createPrecondition()

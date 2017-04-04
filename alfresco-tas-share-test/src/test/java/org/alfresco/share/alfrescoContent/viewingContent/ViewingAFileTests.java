@@ -27,8 +27,8 @@ public class ViewingAFileTests extends ContextAwareWebTest
     private UserDashboardPage userDashboard;
     
     private final String user = "C9917User1489451372540";
-    private final String siteName = "C9917SiteName" + DataUtil.getUniqueIdentifier();
-    private final String description = "C9917SiteDescription" + DataUtil.getUniqueIdentifier();
+    private final String siteName = String.format("C9917SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C9917SiteDescription%s", DataUtil.getUniqueIdentifier());
     private final String docName = "File-C9917";
     private final DateTime currentDate = new DateTime();
   

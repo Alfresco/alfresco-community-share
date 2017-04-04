@@ -21,12 +21,12 @@ public class UserProfileSitesTests extends ContextAwareWebTest
     @Autowired
     SiteDashboardPage siteDashboard;
 
-    private String userName1 = "User1" + DataUtil.getUniqueIdentifier();
-    private String userName2 = "User2" + DataUtil.getUniqueIdentifier();
-    private String siteName1 = "Site1" + DataUtil.getUniqueIdentifier();
-    private String siteName2 = "Site2" + DataUtil.getUniqueIdentifier();
-    private String siteName3 = "Site3" + DataUtil.getUniqueIdentifier();
-    private String siteName4 = "Site4" + DataUtil.getUniqueIdentifier();
+    private String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+    private String userName2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
+    private String siteName1 = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+    private String siteName2 = String.format("Site2%s", DataUtil.getUniqueIdentifier());
+    private String siteName3 = String.format("Site3%s", DataUtil.getUniqueIdentifier());
+    private String siteName4 = String.format("Site4%s", DataUtil.getUniqueIdentifier());
     private String role = "SiteConsumer";
 
     @BeforeClass(alwaysRun = true)

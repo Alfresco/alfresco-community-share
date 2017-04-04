@@ -45,11 +45,11 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     @Autowired
     AspectsForm aspects;
 
-    private String fileName = "testFile" + DataUtil.getUniqueIdentifier();
+    private String fileName = String.format("testFile%s", DataUtil.getUniqueIdentifier());
     private String uploadFileName = "testFile1";
     private String docContent = "testContent";
-    private String userName1 = "User1" + DataUtil.getUniqueIdentifier();
-    private String userName2 = "User1" + DataUtil.getUniqueIdentifier();
+    private String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+    private String userName2 = String.format("User1%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -63,7 +63,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteContentDashletSimpleView()
     {
-        String siteName = "Site" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
@@ -110,7 +110,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     public void noDocumentsAdded()
 
     {
-        String siteName = "Site" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
@@ -148,7 +148,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     public void favoriteItem() throws Exception
 
     {
-        String siteName = "Site" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard, click on Detailed View for Site Content dashlet");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
@@ -174,7 +174,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     public void likeUnlikeItem()
 
     {
-        String siteName = "Site" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
@@ -199,7 +199,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
 
     {
 
-        String siteName = "Site" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
         LOG.info("Preconditions: create site, add another user to site, add document to site, login to Share, navigate to site's dashboard");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
         contentService.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
@@ -246,7 +246,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     public void addCommentOnItem()
     {
 
-        String siteName = "Site" + DataUtil.getUniqueIdentifier();
+        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
         contentService.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);

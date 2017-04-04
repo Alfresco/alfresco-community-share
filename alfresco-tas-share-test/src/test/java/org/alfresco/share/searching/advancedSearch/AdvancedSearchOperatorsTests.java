@@ -37,8 +37,8 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    private String user1 = "user1" + DataUtil.getUniqueIdentifier();
-    private String site1 = "Site1" + DataUtil.getUniqueIdentifier();
+    private String user1 = String.format("user1%s", DataUtil.getUniqueIdentifier());
+    private String site1 = String.format("Site1%s", DataUtil.getUniqueIdentifier());
     private String docC7210 = site1+"docC7210";
     private String docC7210_content = "C7210 C7210 C7210";
     private String docC5991 = "11123";

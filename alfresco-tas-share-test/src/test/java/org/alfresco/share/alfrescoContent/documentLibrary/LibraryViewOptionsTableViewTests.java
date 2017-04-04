@@ -19,9 +19,9 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
 
     @Autowired private TableView tableView;
 
-    private final String user = "C2266User" + DataUtil.getUniqueIdentifier();
-    private final String description = "C2266SiteDescription" + DataUtil.getUniqueIdentifier();
-    private final String siteName = "C2266SiteName" + DataUtil.getUniqueIdentifier();
+    private final String user = String.format("C2266User%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("C2266SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C2266SiteName%s", DataUtil.getUniqueIdentifier());
     private final String docName = "testFile1";
     private final String docContent = "C2266 content";
     private final String folderName = "C2266 test folder";

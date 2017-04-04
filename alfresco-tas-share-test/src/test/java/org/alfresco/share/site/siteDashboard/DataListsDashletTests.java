@@ -31,8 +31,8 @@ public class DataListsDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletNoListCreated()
     {
-        String userName = "user5568-" + DataUtil.getUniqueIdentifier();
-        String siteName = "C5568" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("user5568-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("C5568%s", DataUtil.getUniqueIdentifier());
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C5568", "C5568");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -61,10 +61,10 @@ public class DataListsDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletTwoListsCreated()
     {
-        String userName = "userC5569-" + DataUtil.getUniqueIdentifier();
-        String siteName = "C5569" + DataUtil.getUniqueIdentifier();
-        String eventListName = "C5569" + DataUtil.getUniqueIdentifier();
-        String todoListName = "C5569" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("userC5569-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("C5569%s", DataUtil.getUniqueIdentifier());
+        String eventListName = String.format("C5569%s", DataUtil.getUniqueIdentifier());
+        String todoListName = String.format("C5569%s", DataUtil.getUniqueIdentifier());
         String description = "C5569Test";
         int numberOfLists = 2;
 
@@ -103,8 +103,8 @@ public class DataListsDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletCreateDataList()
     {
-        String userName = "userC5570-" + DataUtil.getUniqueIdentifier();
-        String siteName = "C5570" + DataUtil.getUniqueIdentifier();
+        String userName = String.format("userC5570-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("C5570%s", DataUtil.getUniqueIdentifier());
         String listTitle = "Contact List";
         String listDescription = "Contacts";
 
@@ -156,9 +156,9 @@ public class DataListsDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletUserWithConsumerRole()
     {
-        String userNameSiteManager = "userC5571-" + DataUtil.getUniqueIdentifier();
-        String userNameSiteConsumer = "userC5571Consumer-" + DataUtil.getUniqueIdentifier();
-        String siteName = "C5571" + DataUtil.getUniqueIdentifier();
+        String userNameSiteManager = String.format("userC5571-%s", DataUtil.getUniqueIdentifier());
+        String userNameSiteConsumer = String.format("userC5571Consumer-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("C5571%s", DataUtil.getUniqueIdentifier());
         String listName = "ContactList";
         String description = "C5571Test";
 

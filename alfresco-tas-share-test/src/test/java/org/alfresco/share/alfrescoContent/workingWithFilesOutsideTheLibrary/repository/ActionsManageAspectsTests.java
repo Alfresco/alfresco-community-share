@@ -25,9 +25,9 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        nonAdminUser = "nonAdminUser" + DataUtil.getUniqueIdentifier();
-        folderInRepoMainPath = "testFolderInRepoMainPath" + DataUtil.getUniqueIdentifier();
-        folderInRepoUserHomes = "folderInRepoUserHomes" + DataUtil.getUniqueIdentifier();
+        nonAdminUser = String.format("nonAdminUser%s", DataUtil.getUniqueIdentifier());
+        folderInRepoMainPath = String.format("testFolderInRepoMainPath%s", DataUtil.getUniqueIdentifier());
+        folderInRepoUserHomes = String.format("folderInRepoUserHomes%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, nonAdminUser, password, nonAdminUser + domain, nonAdminUser, nonAdminUser);
         contentService.createFolderInRepository(adminUser, adminPassword, folderInRepoMainPath, null);
         contentService.createFolderInRepository(nonAdminUser, password, folderInRepoUserHomes, "User Homes/" + nonAdminUser);
