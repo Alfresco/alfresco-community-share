@@ -30,25 +30,22 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     @Autowired
     DataUtil dataUtil;
     
-    private String userName;
-    private String siteName;
+    private final String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+    private final String folderName = String.format("Folder%s", DataUtil.getUniqueIdentifier());
+    private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
 
     @BeforeClass(alwaysRun = true)
-    public void createUser()
+    public void setupTest()
     {
-        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        contentService.createFolder(userName, password, folderName, siteName);
+        contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         setupAuthenticatedSession(userName, password);
     }
 
-    @BeforeMethod(alwaysRun = true)
-    public void setupTest()
-    {
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
-    }
-    
     @TestRail(id = "C6374")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void provideAllRequiredInfoAndCancel()
@@ -151,11 +148,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     {       
         LOG.info("Preconditions: Create a new Event List and a 'pptx' file");
         String eventName = "event" + System.currentTimeMillis();
-        String folderName = "testFolder";
-        String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.EVENT_LIST, eventName, "event list description");
-        contentService.createFolder(userName, password, folderName, siteName);
-        contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickEventListItem(eventName);
@@ -180,10 +173,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         LOG.info("Preconditions: Create a new Issue List, a second user and a 'xlsx' file");
         String issueName = "issue" + System.currentTimeMillis();
         String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
-        String folderName = "testFolder";
-        String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
-        contentService.createFolder(userName, password, folderName, siteName);
-        contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.ISSUE_LIST, issueName, "issue list description");
 
@@ -209,11 +198,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     {       
         LOG.info("Preconditions: Create a new Location List and a 'test.xlsx' file");
         String taskName = "location" + System.currentTimeMillis();
-        String folderName = "testFolder";
-        String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.LOCATION_LIST, taskName, "location list description");
-        contentService.createFolder(userName, password, folderName, siteName);
-        contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickLocationListItem(taskName);
@@ -237,11 +222,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     {       
         LOG.info("Preconditions: Create a new Meeting Agenda List and a 'test.xlsx' file");
         String meetingName = "meeting" + System.currentTimeMillis();
-        String folderName = "testFolder";
-        String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.MEETING_AGENDA, meetingName, "location list description");
-        contentService.createFolder(userName, password, folderName, siteName);
-        contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickMeetingAgendaListItem(meetingName);
@@ -266,12 +247,8 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         LOG.info("Preconditions: Create a new Advanced Task List, a second user and a 'test.xlsx' file");
         String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
         String advancedTaskName = "advanced" + System.currentTimeMillis();
-        String folderName = "testFolder";
-        String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.TASKS_ADVANCED, advancedTaskName, "advanced task list description");
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
-        contentService.createFolder(userName, password, folderName, siteName);
-        contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickAdvancedTaskListItem(advancedTaskName);
@@ -296,12 +273,8 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         LOG.info("Preconditions: Create a new Simple Task List");
         String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
         String simpleTaskName = "simple" + System.currentTimeMillis();
-        String folderName = "testFolder";
-        String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.TASKS_SIMPLE, simpleTaskName, "simple task list description");
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
-        contentService.createFolder(userName, password, folderName, siteName);
-        contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickSimpleTaskListItem(simpleTaskName);
@@ -326,12 +299,8 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         LOG.info("Preconditions: Create a new To Do List, a second user and a 'test.xlsx' file");
         String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
         String toDoName = "toDo" + System.currentTimeMillis();
-        String folderName = "testFolder";
-        String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.TODO_LIST, toDoName, "To Do list description");
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
-        contentService.createFolder(userName, password, folderName, siteName);
-        contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickToDoListItem(toDoName);
@@ -353,18 +322,12 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     @TestRail(id = "C6386")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewVisitorFeedbackListItem()
-    {      
-        LOG.info("This test fails due to: 'https://issues.alfresco.com/jira/browse/ACE-4226?jql=text%20~%20%22visitor%20feedback%22' issue");
-        
+    {
         LOG.info("Preconditions: Create a new Visitor Feedback List and a 'test.xlsx' file");
         String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
         String visitorName = "toDo" + System.currentTimeMillis();
-        String folderName = "testFolder";
-        String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.TODO_LIST, visitorName, "Visitor Feedback list description");
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
-        contentService.createFolder(userName, password, folderName, siteName);
-        contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickVisitorFeedbackListItem(visitorName);
@@ -379,6 +342,5 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         LOG.info("Step 3: Click the 'Save' button.");
         createNewItemPopUp.clickSave();
         Assert.assertEquals(dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("test@test.com", "Test feedback", "test", "test comment", "2", "Test User", "www.test.com")), true, "The data list was not created.");
-
     }
 }

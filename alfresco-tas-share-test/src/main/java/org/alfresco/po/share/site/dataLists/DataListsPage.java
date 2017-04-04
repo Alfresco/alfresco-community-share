@@ -32,18 +32,22 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     @RenderWebElement
     @FindBy(css = "div.datalists div.filter")
     protected WebElement dataListsSection;
-    
+
+    @RenderWebElement
+    @FindBy(className = "datagrid")
+    protected WebElement dataListsBody;
+
     @RenderWebElement
     @FindBy(css = "button[id*='newListButton']")
     protected WebElement newListButton;
 
-    @FindBy(css = "div[id*='datalists'] span[class='edit']")
+    @FindBy(css = ".filter-link>.edit")
     protected WebElement editListButton;
     
     @FindBy(css = "span[class='edit-disabled']")
     protected WebElement editButtonDisabled;
     
-    @FindBy(css = "div[id*='datalists'] span[class='delete']")
+    @FindBy(css = ".filter-link>.delete")
     protected WebElement deleteListButton;
     
     @FindBy(css = "div[class='no-lists']")
@@ -170,14 +174,12 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public boolean isEditButtonDisplayedForList(String listName)
     {
         browser.mouseOver(getDataListElement(listName));
-        browser.waitUntilElementVisible(editListButton);
         return browser.isElementDisplayed(editListButton);
     }
     
     public boolean isDeleteButtonDisplayedForList(String listName)
     {
         browser.mouseOver(getDataListElement(listName));
-        browser.waitUntilElementVisible(deleteListButton);
         return browser.isElementDisplayed(deleteListButton);
     }
     

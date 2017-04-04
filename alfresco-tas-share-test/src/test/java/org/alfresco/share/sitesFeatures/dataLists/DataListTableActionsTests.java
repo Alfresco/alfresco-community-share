@@ -29,17 +29,18 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     @Autowired
     ContactListSelectedContent contactListSelectedContent;
 
-    private String userName;
-    private String siteName;
-    private String description;
+    private final String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("description%s", DataUtil.getUniqueIdentifier());
     private String contactList;
-    String contactListName = "contact" + System.currentTimeMillis();
 
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
+
         setupAuthenticatedSession(userName, password);
     }
 
@@ -47,30 +48,21 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     public void createSite()
     {
         LOG.info("Preconditions for Data List Table Actions test");
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        description = String.format("description%s", DataUtil.getUniqueIdentifier());
+
         contactList = String.format("ContactList%s", DataUtil.getUniqueIdentifier());
-
-        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
-
         dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.CONTACT_LIST, contactList, description);
         dataListsService.addContactListItem(userName, password, siteName, contactList, "FirstName", "LastName", "E-mail", "Company", "JobTitle", "PhoneOffice",
                 "PhoneMobile", "Notes");
-
-        setupAuthenticatedSession(userName, password);
 
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(contactList);
         getBrowser().waitInSeconds(2);
         contactListSelectedContent.setBrowser(getBrowser());
-
     }
 
     @TestRail(id = "C6864")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void duplicateAction()
-
     {
         LOG.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
 
@@ -100,7 +92,6 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteAction()
     {
-
         LOG.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
 
         Assert.assertTrue(manageContactListItems.isEditActionDisplayed(), "Edit action is not displayed");
@@ -125,9 +116,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     @TestRail(id = "C6867")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editAction()
-
     {
-
         LOG.info("Step 1: Hover over the new item and verify Edit, Duplicate, Delete actions are visible");
 
         Assert.assertTrue(manageContactListItems.isEditActionDisplayed(), "Edit action is not displayed");

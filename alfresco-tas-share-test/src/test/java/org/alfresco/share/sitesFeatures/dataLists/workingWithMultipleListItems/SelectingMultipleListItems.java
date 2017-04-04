@@ -46,7 +46,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
     public void setup(String id) {
 
         LOG.info("Preconditions for test " + id);
-        String.format(uniqueIdentifier = "-" + id + "-%s", DataUtil.getUniqueIdentifier());
+        uniqueIdentifier = String.format("-%s-%s", id, DataUtil.getUniqueIdentifier());
         siteName = "siteName" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;
         contactList = "ContactList" + uniqueIdentifier;

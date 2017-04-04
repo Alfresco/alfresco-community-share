@@ -21,7 +21,11 @@ public class ListItemSelectedContent extends NoListItemSelectedContent
 
     @RenderWebElement
     @FindBy(css = "h2[id$='default-title']")
-    private List<WebElement> listTitle;
+    private WebElement listTitle;
+
+    @RenderWebElement
+    @FindBy(css = "div[id$='default-paginatorBottom']")
+    private WebElement paginatorBottom;
 
     private By successfullyCreatedMessage = By.cssSelector("div[id='message_c'] span[class='message']");
     private By previousNavigationLinkLocator = By.cssSelector("[class*='pg-previous']");
