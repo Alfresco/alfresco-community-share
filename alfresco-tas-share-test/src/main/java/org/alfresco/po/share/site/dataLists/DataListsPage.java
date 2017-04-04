@@ -26,6 +26,9 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     @Autowired
     EditItemPopUp editItemPopUp;
 
+    @Autowired
+    CreateNewItemPopUp createNewItemPopUp;
+
     @RenderWebElement
     @FindBy(css = "div.datalists div.filter")
     protected WebElement dataListsSection;
@@ -233,8 +236,9 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         return (EditItemPopUp) editItemPopUp.renderedPage();
     }
 
-    public void clickNewItemButton()
+    public CreateNewItemPopUp clickNewItemButton()
     {
         browser.waitUntilElementVisible(By.cssSelector("div[class$='new-row'] span span button[id$='_default-newRowButton-button']")).click();
+        return (CreateNewItemPopUp) createNewItemPopUp.renderedPage();
     }
 }
