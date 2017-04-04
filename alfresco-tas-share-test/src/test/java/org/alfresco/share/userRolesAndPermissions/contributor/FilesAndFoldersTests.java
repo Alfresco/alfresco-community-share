@@ -149,6 +149,7 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
     public void renameItemAddedBySelf()
     {
         String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
+        String newFileName = "newFileName";
 
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
@@ -163,11 +164,12 @@ public class FilesAndFoldersTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 
         LOG.info("Step3: Fill in the input field with a new name and click 'Save' button");
-        documentLibraryPage.typeContentName("newFileName");
+        documentLibraryPage.typeContentName(newFileName);
         documentLibraryPage.clickButtonFromRenameContent("Save");
         getBrowser().waitInSeconds(2);
-        assertTrue(documentLibraryPage.isContentNameDisplayed("newFileName"), fileName + " name updated to: " + "newFileName");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(newFileName), fileName + " name updated to: " + newFileName);
         assertFalse(documentLibraryPage.isContentNameInputField(), "File is input field.");
+        contentService.deleteDocument(adminUser, adminPassword, siteName, newFileName);
     }
 
     @TestRail(id = "C8790")
