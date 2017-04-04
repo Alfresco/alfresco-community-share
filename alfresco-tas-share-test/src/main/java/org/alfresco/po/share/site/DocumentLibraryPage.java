@@ -657,6 +657,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         int nrOfTimes = 0;
         while(counter<5)
         {
+        	browser.waitUntilElementClickable(browser.findFirstElementWithValue(contentItemsList, content));
             mouseOverContentItem(content);
             while (!browser.isElementDisplayed(renameIcon) && nrOfTimes < 5)
             {
@@ -685,6 +686,11 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public boolean isContentNameInputField()
     {
+    	int nrOfTimes = 0;
+        while (!browser.isElementDisplayed(contentNameInputField) && nrOfTimes < 5)
+        {
+        	nrOfTimes++ ;
+        }
         return browser.isElementDisplayed(contentNameInputField);
     }
 
