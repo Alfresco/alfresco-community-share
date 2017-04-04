@@ -4,7 +4,6 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
-import org.alfresco.po.share.site.blog.CreateBlogPostPage;
 import org.alfresco.po.share.site.blog.EditBlogPostPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -24,9 +23,6 @@ public class EditingABlogPostTests extends ContextAwareWebTest
 {
     @Autowired
     BlogPostListPage blogPage;
-
-    @Autowired
-    CreateBlogPostPage createBlogPost;
 
     @Autowired
     BlogPostViewPage blogPostView;
