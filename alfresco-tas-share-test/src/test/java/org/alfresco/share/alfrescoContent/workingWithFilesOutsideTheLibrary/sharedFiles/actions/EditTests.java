@@ -5,6 +5,7 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
+import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
@@ -44,6 +45,9 @@ public class EditTests extends ContextAwareWebTest
     @Autowired
     private SelectDialog selectDialog;
 
+    @Autowired
+    private UploadContent uploadContent;
+
     private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
     private final String user = "User" + uniqueIdentifier;
     private final String path = "Shared";
@@ -57,7 +61,7 @@ public class EditTests extends ContextAwareWebTest
     private final String updatedTitle = "Updated Title" + uniqueIdentifier;
     private final String updatedDescription = "Updated Description";
     private final String tagName = "tag" + uniqueIdentifier;
-    private final String googleDocName = "googleDoc" + uniqueIdentifier;
+    private final String googleDocName = uniqueIdentifier + "googleDoc.docx";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -191,14 +195,15 @@ public class EditTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editFileInGoogleDocs() throws Exception
     {
+        String googleDocPath = testDataFolder + googleDocName;
         String editedInGoogleDocsTitle = uniqueIdentifier + "editedTestFile.docx";
         String editedInGoogleDocsContent = "Edited";
 
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to Shared Files page; upload a .docx file");
-        contentService.createDocumentInRepository(user, password, path, CMISUtil.DocumentType.MSWORD, googleDocName, "");
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
+        uploadContent.uploadContent(googleDocPath);
 
         LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
         sharedFilesPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs™", googleDocsCommon);
