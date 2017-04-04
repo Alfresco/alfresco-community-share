@@ -61,22 +61,23 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void manageAspectsApplyChanges()
     {
-        LOG.info("Preconditions: Navigate to Document Details page for the test file");
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickOnFile(fileName);
+    LOG.info("Preconditions: Navigate to Document Details page for the test file");
+    documentLibraryPage.navigate(siteName);
+    documentLibraryPage.clickOnFile(fileName);
 
-        LOG.info("Step1: Click Actions -> Manage Aspects option");
-        documentDetailsPage.clickManageAspects();
+    LOG.info("Step1: Click Actions -> Manage Aspects option");
+    documentDetailsPage.clickManageAspects();
 
-        LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
-        aspectsForm.addAspect("Classifiable");
-        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
-        Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
+    LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
+    aspectsForm.addAspect("Audio");
+    Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Audio"), "Aspect is not added to 'Currently Selected' list");
+    Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Audio"), "Aspect is present on 'Available to Add' list");
 
-        LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
-        aspectsForm.clickApplyChangesButton(documentDetailsPage);
-        documentDetailsPage.clickManageAspects();
-        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
-        Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
-    }
+    LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
+    aspectsForm.clickApplyChangesButton(documentDetailsPage);
+    Assert.assertTrue(documentDetailsPage.isAspectDisplayed("Audio"), "Audio aspect is added");
+    documentDetailsPage.clickManageAspects();
+    Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Audio"), "Aspect is not added to 'Currently Selected' list");
+    Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Audio"), "Aspect is present on 'Available to Add' list");
+}
 }
