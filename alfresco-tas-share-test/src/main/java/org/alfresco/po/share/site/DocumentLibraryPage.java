@@ -679,6 +679,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public void clickRenameIcon()
     {
         browser.waitUntilElementClickable(renameIcon, 40).click();
+        browser.waitUntilElementVisible(contentNameInputField);
     }
 
     /**
@@ -686,11 +687,6 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public boolean isContentNameInputField()
     {
-    	int nrOfTimes = 0;
-        while (!browser.isElementDisplayed(contentNameInputField) && nrOfTimes < 5)
-        {
-        	nrOfTimes++ ;
-        }
         return browser.isElementDisplayed(contentNameInputField);
     }
 
