@@ -52,8 +52,8 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     public void createSite()
     {
         siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
-        wikiPageContent = "WikiContent" + DataUtil.getUniqueIdentifier();
+        wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
+        wikiPageContent = String.format("WikiContent%s", DataUtil.getUniqueIdentifier());
 
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.WIKI, null);

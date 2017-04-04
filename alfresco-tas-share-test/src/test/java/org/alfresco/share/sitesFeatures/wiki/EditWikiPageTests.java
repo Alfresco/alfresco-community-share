@@ -43,16 +43,21 @@ public class EditWikiPageTests extends ContextAwareWebTest
 
     private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private String siteName;
-    private String wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
+    private String wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
     private String wikiNewContent = "New content";
     private String wikiInitialContent = "Initial content";
     private String tagName = "tag" + DataUtil.getUniqueIdentifier();
     private List<String> tags = new ArrayList<>();
+    private final String image = "newavatar.jpg";
+    private final String siteNameC5545 = String.format("siteNameC5545%s", DataUtil.getUniqueIdentifier());
 
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);
+        siteService.create(testUser, password, domain, siteNameC5545, siteNameC5545, Site.Visibility.PUBLIC);
+        contentService.uploadFileInSite(testUser, password, siteNameC5545, testDataFolder + image);
+
         setupAuthenticatedSession(testUser, password);
         tags.add(tagName);
     }
@@ -61,21 +66,21 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editWikiPageFromPageView()
     {
-        wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
+        wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: create site and wiki page");
         siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
-        sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Initial content", null);
+        sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, wikiInitialContent, null);
         wikiListPage.navigate(siteName);
 
         LOG.info("STEP 1: Click on 'Edit' wiki page link");
         wikiListPage.clickPageName(wikiPageTitle);
         wikiMainPage.clickEditPageLink();
 
-        String curentContent = editWikiPage.getWikiPageContent();
-        Assert.assertEquals(curentContent, wikiInitialContent, "Wrong wiki content!, expected " + wikiInitialContent + " but found " + curentContent);
+        String currentContent = editWikiPage.getWikiPageContent();
+        Assert.assertEquals(currentContent, wikiInitialContent, "Wrong wiki content!, expected " + wikiInitialContent + " but found " + currentContent);
 
         LOG.info("STEP 2: Clear wiki page content and add another one and a tag ");
         editWikiPage.clearWikiPageContent();
@@ -93,7 +98,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editWikiPageFromWikiPageList()
     {
-        wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
+        wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: create site and wiki page");
         siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
@@ -123,7 +128,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEditingWikiPage()
     {
-        wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
+        wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
 
         LOG.info("Preconditions: create site and wiki page");
         siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
@@ -144,29 +149,17 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyInsertLibraryImageFeature()
     {
-        wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
-        String image = "newavatar.jpg";
-
+        wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
         LOG.info("Preconditions: create site and wiki page, upload image in document library");
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        contentService.uploadFileInSite(testUser, password, siteName, testDataFolder + image);
-        siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
-        sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Content", null);
-        wikiListPage.navigate(siteName);
+        siteService.addPageToSite(testUser, password, siteNameC5545, Page.WIKI, null);
+        sitePagesService.createWiki(testUser, password, siteNameC5545, wikiPageTitle, "Content", null);
+        wikiListPage.navigate(siteNameC5545);
 
         LOG.info("STEP 1: Click on edit wiki page");
         wikiListPage.clickEdit(wikiPageTitle);
 
         LOG.info("STEP 2: Click 'Insert Library Image' button");
         editWikiPage.clickInsertLibraryImage();
-        int i = 0;
-        while (!editWikiPage.isImageDisplayed(image) && i < 5)
-        {
-            editWikiPage.clickInsertLibraryImage();
-            i++;
-        }
-
         Assert.assertTrue(editWikiPage.islibraryImagesTitlebarDisplayed(), "Missing library images title bar!");
         Assert.assertTrue(editWikiPage.isImageDisplayed(image), "Missing image thumbnail.");
 
@@ -183,7 +176,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyInsertDocumentLibraryFeature()
     {
-        wikiPageTitle = "WikiPage" + DataUtil.getUniqueIdentifier();
+        wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
         String docName = "testDoc.txt";
 
         LOG.info("Preconditions: create site and wiki page, upload document in document library");

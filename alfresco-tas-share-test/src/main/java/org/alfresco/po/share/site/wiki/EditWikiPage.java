@@ -77,7 +77,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
     public WikiMainPage saveWikiContent(String content)
     {
-        browser.switchTo().frame((WebElement) browser.waitUntilElementVisible(wikiPageContent));
+        browser.switchTo().frame(browser.waitUntilElementVisible(wikiPageContent));
         WebElement editable = browser.switchTo().activeElement();
         editable.sendKeys(content);
         browser.switchTo().defaultContent();
@@ -91,7 +91,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
     public WikiMainPage cancelWikiContent(String content)
     {
-        browser.switchTo().frame((WebElement) browser.waitUntilElementVisible(wikiPageContent));
+        browser.switchTo().frame(browser.waitUntilElementVisible(wikiPageContent));
         WebElement editable = browser.switchTo().activeElement();
         editable.sendKeys(content);
         browser.switchTo().defaultContent();
@@ -106,7 +106,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     public void clearWikiPageContent()
     {
         browser.refresh();
-        browser.switchTo().frame((WebElement) browser.waitUntilElementVisible(wikiPageContent));
+        browser.switchTo().frame(browser.waitUntilElementVisible(wikiPageContent));
         WebElement editable = browser.switchTo().activeElement();
         editable.clear();
         browser.switchTo().defaultContent();
@@ -129,7 +129,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
 
     public String getWikiPageContent()
     {
-        browser.switchTo().frame((WebElement) browser.waitUntilElementVisible(wikiPageContent));
+        browser.switchTo().frame(browser.waitUntilElementVisible(wikiPageContent));
         WebElement editable = browser.switchTo().activeElement();
         return editable.getText();
     }
@@ -194,7 +194,6 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
 
     public boolean isImageDisplayed(String imageName)
-
     {
         String image = StringUtils.deleteWhitespace(imageLink + imageName + "')]");
         return browser.isElementDisplayed(browser.waitUntilElementVisible(By.xpath(image)));
@@ -205,17 +204,15 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
      */
 
     public void clickOnImage(String imageName)
-
     {
         String image = StringUtils.deleteWhitespace(imageLink + imageName + "')]");
         browser.waitUntilElementVisible(By.xpath(image)).click();
     }
 
     public String getIframeSourceCode()
-
     {
         browser.switchTo().defaultContent();
-        browser.switchTo().frame((WebElement) browser.findElement(wikiPageContent));
+        browser.switchTo().frame(browser.findElement(wikiPageContent));
         browser.switchTo().activeElement();
         return browser.getPageSource();
     }
