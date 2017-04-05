@@ -97,7 +97,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(aspectsForm.isCancelButtonDisplayed(), "'Cancel' button displayed");
         Assert.assertTrue(aspectsForm.isCloseButtonDisplayed(), "'Close' button displayed");
 
-        LOG.info("Step2: Click 'Add' button next to 'System Smart Folder' template and verify it moves to moves to 'Currently Selected'");
+        LOG.info("Step2: Click 'Add' button next to 'System Smart Folder' template and verify it moves to 'Currently Selected'");
         aspectsForm.addAspect("System Smart Folder");
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
@@ -154,7 +154,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         LOG.info("Step3: Hover over folder, click More -> Manage Aspects");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
 
-        LOG.info("Step4: Click 'Add' button next to 'System Smart Folder' template and verify it moves to moves to 'Currently Selected'");
+        LOG.info("Step4: Click 'Add' button next to 'System Smart Folder' template and verify it moves to 'Currently Selected'");
         aspectsForm.addAspect("System Smart Folder");
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("System Smart Folder"), "Aspect added to 'Currently Selected' list");
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");
@@ -214,7 +214,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         LOG.info("Step1: Click Actions -> Manage Aspects and verify Manage Aspects form");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
 
-        LOG.info("Step2: Click 'Add' button next to 'System Smart Folder' template and verify it moves to moves to 'Currently Selected'");
+        LOG.info("Step2: Click 'Add' button next to 'Custom Smart Folder' template and verify it moves to 'Currently Selected'");
         aspectsForm.addAspect("Custom Smart Folder");
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Custom Smart Folder"), "Aspect added to 'Currently Selected' list");
         Assert.assertTrue(aspectsForm.areRemoveButtonsDisplayed(), "Remove button displayed for the selected aspect");

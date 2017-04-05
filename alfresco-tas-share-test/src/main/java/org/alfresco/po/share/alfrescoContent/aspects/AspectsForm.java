@@ -9,6 +9,7 @@ import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -136,6 +137,7 @@ public class AspectsForm extends ShareDialog
         {
             WebElement availableAspect = browser.findFirstElementWithValue(availableAspectsList, aspectName);
             Parameter.checkIsMandotary("Available aspect", availableAspect);
+            browser.executeJavaScript("arguments[0].scrollIntoView(true);", availableAspect);
             availableAspect.findElement(addButtonsList).click();
         }
         catch (NoSuchElementException noSuchElementExp)
