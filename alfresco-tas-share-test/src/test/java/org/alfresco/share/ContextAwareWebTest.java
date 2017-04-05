@@ -120,8 +120,8 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         getBrowser().closeWindowAndSwitchBack();
     }
 
-//    @Override public String getPageObjectRootPackage()
-//    {
-//        return "org/alfresco/po/share";
-//    }
+    @Override public String getPageObjectRootPackage()
+    {
+        return "org/alfresco/po/share";
+    }
 }
