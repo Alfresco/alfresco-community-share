@@ -182,6 +182,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
      */
     public HtmlPage clickOnItemNameFromActivityList(final String name, HtmlPage pageToBeRendered)
     {
+        browser.scrollIntoView(selectActivityDocument(name));
         browser.waitUntilElementClickable(selectActivityDocument(name)).click();
         return pageToBeRendered.renderedPage();
     }

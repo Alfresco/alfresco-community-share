@@ -162,7 +162,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
     {
         WebElement pageElem = browser.findElement(By.cssSelector(page.getCustomizeCssLocator()));
         pageElem.click();
-        browser.scroolToElement(currentSitePagesArea);
+        browser.scrollToElement(currentSitePagesArea);
         browser.dragAndDrop(pageElem, currentSitePagesArea);
     }
 

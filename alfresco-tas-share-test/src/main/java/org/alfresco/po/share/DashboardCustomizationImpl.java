@@ -231,7 +231,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
 		} catch (TimeoutException te) {
 			throw new PageOperationException(strDashlet + " not found in Add Dashlets list");
 		}
-		browser.scroolToElement(webDashlet);
+		browser.scrollToElement(webDashlet);
 		webDashlet.click();
 		String columns = availableColumns.getAttribute("class");
 		int noOfColumns = Integer.valueOf(columns.substring(columns.length() - 1));

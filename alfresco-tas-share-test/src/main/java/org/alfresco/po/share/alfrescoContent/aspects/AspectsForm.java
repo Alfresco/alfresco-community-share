@@ -137,7 +137,7 @@ public class AspectsForm extends ShareDialog
         {
             WebElement availableAspect = browser.findFirstElementWithValue(availableAspectsList, aspectName);
             Parameter.checkIsMandotary("Available aspect", availableAspect);
-            browser.executeJavaScript("arguments[0].scrollIntoView(true);", availableAspect);
+            browser.scrollIntoView(availableAspect);
             availableAspect.findElement(addButtonsList).click();
         }
         catch (NoSuchElementException noSuchElementExp)
