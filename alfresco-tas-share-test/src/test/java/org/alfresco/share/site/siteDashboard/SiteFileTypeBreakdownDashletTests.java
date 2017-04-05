@@ -28,26 +28,34 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     @Autowired
     SiteFileTypeBreakdownDashlet siteFileTypeBreakdownDashlet;
 
-    private String user = String.format("user%s", DataUtil.getUniqueIdentifier());
-    private String siteName;
+    private final String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+    private final String siteNameC5783 = String.format("SiteName-C5783-%s", DataUtil.getUniqueIdentifier());
+    private final String siteNameC5785 = String.format("SiteName-C5785-%s", DataUtil.getUniqueIdentifier());
+    private final String fileName = "File-C5785";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+
+        siteService.create(user, password, domain, siteNameC5785, siteNameC5785, Site.Visibility.PUBLIC);
+        siteService.addDashlet(user, password, siteNameC5785, DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
+        contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + fileName+".docx");
+        contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + fileName+".txt");
+        contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + "newavatar.jpg");
+        contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + "newavatar.bmp");
+
+        siteService.create(user, password, domain, siteNameC5783, siteNameC5783, Site.Visibility.PUBLIC);
+        siteService.addDashlet(user, password, siteNameC5783, DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
+        setupAuthenticatedSession(user, password);
     }
 
     @TestRail(id = "C5783")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void noFilesAvailableInTheSiteLibrary()
+    public void checkSiteFileTypeBreakdownDashletWithNoFiles()
     {
-        siteName = String.format("SiteName-C5783-%s", DataUtil.getUniqueIdentifier());
-        siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
-        setupAuthenticatedSession(user, password);
-
         LOG.info("STEP 1:Check the dashlet title for Site File Type Breakdown.");
-        siteDashboard.navigate(siteName);
+        siteDashboard.navigate(siteNameC5783);
         assertEquals(siteFileTypeBreakdownDashlet.getDashletMessage(), "No data found", "The text: 'No data found' is displayed.");
     }
 
@@ -55,18 +63,8 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void multipleFileTypesAvailableInTheSiteLibrary()
     {
-        String fileName = "File-C5785";
-        siteName = String.format("SiteName-C5785-%s", DataUtil.getUniqueIdentifier());
-        siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
-        siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
-        contentService.uploadFileInSite(user, password, siteName, testDataFolder + fileName+".docx");
-        contentService.uploadFileInSite(user, password, siteName, testDataFolder + fileName+".txt");
-        contentService.uploadFileInSite(user, password, siteName, testDataFolder + "newavatar.jpg");
-        contentService.uploadFileInSite(user, password, siteName, testDataFolder + "newavatar.bmp");
-        setupAuthenticatedSession(user, password);
-
-        siteDashboard.navigate(siteName);
-        getBrowser().refresh();
+        siteDashboard.navigate(siteNameC5785);
+        siteDashboard.refresh();
 
         LOG.info("STEP 1: Check the content displayed by the Site File Type Breakdown dashlet.");
         assertEquals(siteFileTypeBreakdownDashlet.getNumberOfPieChartSlices(), 4, "In Site's library there are only 4 file types.");
