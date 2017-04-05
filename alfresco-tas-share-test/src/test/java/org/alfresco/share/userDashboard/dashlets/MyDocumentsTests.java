@@ -2,7 +2,6 @@ package org.alfresco.share.userDashboard.dashlets;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
-import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet.DocumentView;
@@ -33,9 +32,6 @@ public class MyDocumentsTests extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    @Autowired
-    LoginPage loginPage;
-
     private String userName1;
     private String siteName1;
 
@@ -55,16 +51,14 @@ public class MyDocumentsTests extends ContextAwareWebTest
     {
         LOG.info("STEP 1 - Create document then update its content");
         String userName2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
-        userService.create(adminUser, adminPassword, userName2, password, userName1 + domain, userName1, userName1);
+        userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
         String file = "TestDoc";
         Assert.assertFalse(contentService.createDocument(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, file).getId().isEmpty());
         contentService.updateDocumentContent(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(10));
         contentService.updateDocumentContent(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(20));
         contentAction.likeContent(userName2, password, siteName1, file);
-        loginPage.navigate();
-        loginPage.login(userName1, password);
+        setupAuthenticatedSession(userName1, password);
         myDocumentsDashlet.waitForDocument();
-        userDashboardPage.navigate(userName1);
 
         LOG.info("STEP 2 - Check document title and small thumbnail");
         Assert.assertEquals(myDocumentsDashlet.getDocumentsLinks().get(0), file, "Document name is not correct");
@@ -93,7 +87,6 @@ public class MyDocumentsTests extends ContextAwareWebTest
         Assert.assertTrue(myDocumentsDashlet.isLargeThumbnailDisplayed(file), "Large thumbnail is not displayed");
 
         mySitesDashlet.accessSite(siteName1);
-        getBrowser().navigate().back();
         userDashboardPage.navigate(userName1);
 
         LOG.info("STEP 6 - Check favorite icon on document details page");
@@ -127,9 +120,6 @@ public class MyDocumentsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void filterDocuments()
     {
-        loginPage.navigate();
-        loginPage.login(userName1, password);
-
         LOG.info("STEP 1 - Create 3 documents, one is checked out for edit and one is favorite");
         String file1 = String.format("File1%s", DataUtil.getUniqueIdentifier());
         String file2 = String.format("File2%s", DataUtil.getUniqueIdentifier());
@@ -142,7 +132,6 @@ public class MyDocumentsTests extends ContextAwareWebTest
         contentAction.setFileAsFavorite(userName1, password, siteName1, file3);
 
         setupAuthenticatedSession(userName1, password);
-        userDashboardPage.navigate(userName1);
         myDocumentsDashlet.waitForDocument();
 
         LOG.info("STEP 2 - Filter Editing documents, check that only file2 is listed, " + file2);
