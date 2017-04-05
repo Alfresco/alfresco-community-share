@@ -1,12 +1,10 @@
 package org.alfresco.po.share.dashlet;
 
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -20,9 +18,6 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 {
     @Autowired
     DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    UserProfilePage userProfile;
 
     @RenderWebElement
     @FindBy(css = "div.dashlet.docsummary")
@@ -46,25 +41,17 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     @FindBy(css = "[id$='default-filters']")
     private WebElement defaultFilterButton;
 
-    @FindBy(xpath = "//a[@title = 'Add document to favorites']")
-    private WebElement addToFavoritesLink;
-
-    @FindBy(xpath = "//a[@title = 'Remove document from favorites']")
-    private WebElement removeFromFavoritesLink;
-
-    @FindBy(xpath = "//a[@title = 'Like this document']")
-    private WebElement likeDocument;
-
-    @FindBy(xpath = "//a[@title = 'Unlike']")
-    private WebElement unlikeDocument;
-
-    private By numberOfLikes = By.xpath("//span[contains(@class, 'likes-count')]");
-
-    private By documentsList = By.cssSelector("h3.filename > a");
+    private By addToFavoritesLink = By.cssSelector("a[title = 'Add document to favorites']");
+    private By removeFromFavoritesLink = By.cssSelector("a[title = 'Remove document from favorites']");
+    private By like = By.cssSelector("a[title = 'Like this document']");
+    private By unlike = By.cssSelector("a[title = 'Unlike']");
+    private By commentLink = By.cssSelector("a.comment");
+    private By numberOfLikes = By.cssSelector("span.likes-count");
+    private By documentsList = By.cssSelector("tbody.yui-dt-data tr");
 
     protected By docDetails = By.xpath("../following-sibling::*[1][@class='detail']/span[1]");
-    protected String smallThumbnailIcon = "//img[contains(@src, '/share/res/components/images/filetypes/generic-file-32.png')][contains(@title,'";
-    protected String bigThumbnailIcon = "//img[contains(@src, '/content/thumbnails/doclib?c=queue&ph=true')][contains(@title,'";
+    protected String smallThumbnailIcon = "//img[contains(@src, '/share/res/components/images/filetypes/generic-file-32.png')][contains(@title,'%s')]";
+    protected String bigThumbnailIcon = "//img[contains(@src, '/content/thumbnails/doclib?c=queue&ph=true')][contains(@title,'%s')]";
 
     @Override
     protected String getDashletTitle()
@@ -86,10 +73,9 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public boolean isSmallThumbnailDisplayed(String fileName)
     {
-        String smallThumbnail1 = smallThumbnailIcon + fileName + "')]";
-        String smallThumbnail = StringUtils.deleteWhitespace(smallThumbnail1);
+        String smallThumbnail = StringUtils.deleteWhitespace(String.format(smallThumbnailIcon, fileName));
 
-        browser.waitUntilElementVisible(By.xpath(smallThumbnail));
+        browser.waitUntilElementIsDisplayedWithRetry(By.xpath(smallThumbnail), 5);
         return browser.isElementDisplayed(By.xpath(smallThumbnail));
     }
 
@@ -99,8 +85,8 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public boolean isBigThumbnailDisplayed(String fileName)
     {
-        String bigThumbnail = bigThumbnailIcon + fileName + "')]";
-        browser.waitUntilElementVisible(By.xpath(bigThumbnail));
+        String bigThumbnail = StringUtils.deleteWhitespace(String.format(bigThumbnailIcon, fileName));
+        browser.waitUntilElementIsDisplayedWithRetry(By.xpath(bigThumbnail), 5);
         return browser.isElementDisplayed(By.xpath(bigThumbnail));
     }
 
@@ -123,7 +109,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public WebElement getFileLink(final String fileName)
     {
-        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("h3.filename > a"), 5);
+        browser.waitUntilElementIsDisplayedWithRetry(documentsList, 5);
         return browser.findFirstElementWithValue(documentsLinksList, fileName);
     }
 
@@ -172,7 +158,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
      */
     public DocumentDetailsPage clickBigThumbnailForFile(String fileName)
     {
-        String bigThumbnail = bigThumbnailIcon + fileName + "')]";
+        String bigThumbnail =StringUtils.deleteWhitespace(String.format(bigThumbnailIcon, fileName));
         browser.findElement(By.xpath(bigThumbnail)).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
@@ -183,10 +169,10 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public void mouseHoverSmallThumbail(String fileName)
     {
-        String smallThumbnail1 = smallThumbnailIcon + fileName + "')]";
-        String smallThumbnail = StringUtils.deleteWhitespace(smallThumbnail1);
+        String smallThumbnail = StringUtils.deleteWhitespace(String.format(smallThumbnailIcon, fileName));
 
         browser.mouseOver(browser.findElement(By.xpath(smallThumbnail)));
+        browser.waitUntilElementVisible(By.cssSelector(".bd>img"));
     }
 
     /**
@@ -220,10 +206,6 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public boolean isFileDescription(String fileName, String description)
     {
-
-        // *[contains(text(), 'editedDescription')]
-
-        // By fileDescription = By.xpath("//span[contains(@class, 'likes-count')]");
         By fileDescription = By.xpath("// *[contains(text(), '" + description + "')]");
 
         return selectItem(fileName).findElement(fileDescription) != null;
@@ -272,87 +254,70 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         detailedViewButton.click();
     }
 
-    public boolean isDocumentFavorited() throws Exception
+    public void addFileToFavorites(String fileName)
     {
-        try
+        selectItem(fileName).findElement(addToFavoritesLink).click();
+        int counter = 0;
+        while(!isFileAddedToFavorites(fileName) && counter < 5)
         {
-            browser.findElement(By.xpath("//a[@title = 'Remove document from favorites']"));
-            return true;
-
+            browser.waitInSeconds(1);
         }
-        catch (NoSuchElementException e)
-        {
-
-            return false;
-        }
-
     }
 
-    public boolean isDocumentRemovedFromFavorites() throws Exception
+    public void removeFileFromFavorites(String fileName)
     {
-        try
+        selectItem(fileName).findElement(removeFromFavoritesLink).click();
+        int counter = 0;
+        while(!isAddToFavoritesLinkDisplayed(fileName) && counter < 5)
         {
-            browser.findElement(By.xpath("//a[@title = 'Add document to favorites']"));
-            return true;
-
+            browser.waitInSeconds(1);
         }
-        catch (NoSuchElementException e)
-        {
-
-            return false;
-        }
-
-    }
-
-    public void clickOnFavoriteLink()
-    {
-        browser.waitUntilElementVisible(addToFavoritesLink);
-        addToFavoritesLink.click();
-        browser.waitInSeconds(1);
-    }
-
-    public void removeFromFavoritesLink()
-    {
-        browser.waitUntilElementVisible(removeFromFavoritesLink);
-        removeFromFavoritesLink.click();
-        browser.waitInSeconds(1);
     }
 
     public void likeFile(String fileName)
     {
-        selectItem(fileName).findElement(By.xpath("//a[@title = 'Like this document']")).click();
-        browser.waitUntilElementVisible(By.xpath("//a[@title = 'Unlike']"));
+        selectItem(fileName).findElement(like).click();
+        int counter = 0;
+        while(!isUnlikeLinkDisplayed(fileName) && counter < 5)
+        {
+            browser.waitInSeconds(1);
+        }
     }
 
     public void unlikeFile(String fileName)
     {
-        selectItem(fileName).findElement(By.xpath("//a[@title = 'Unlike']")).click();
-        browser.waitUntilElementVisible(By.xpath("//a[@title = 'Like this document']"));
+        selectItem(fileName).findElement(unlike).click();
+        int counter = 0;
+        while(!isLikeButtonDisplayed(fileName) && counter < 5)
+        {
+            browser.waitInSeconds(1);
+        }
     }
 
     public boolean isLikeButtonDisplayed(String fileName)
     {
-        return selectItem(fileName).findElement(By.xpath("//a[@title = 'Like this document']")) != null;
+        return browser.isElementDisplayed(selectItem(fileName), like);
     }
 
     public boolean isUnlikeLinkDisplayed(String fileName)
     {
-        return selectItem(fileName).findElement(By.xpath("//a[@title = 'Unlike']")) != null;
+        return browser.isElementDisplayed(selectItem(fileName), unlike);
     }
 
     public boolean isAddToFavoritesLinkDisplayed(String fileName)
     {
-        return selectItem(fileName).findElement(By.xpath("//a[@title = 'Add document to favorites']")) != null;
+        return browser.isElementDisplayed(selectItem(fileName), addToFavoritesLink);
     }
 
     public boolean isCommentLinkDisplayed(String fileName)
     {
-        return selectItem(fileName).findElement(By.xpath("//*[contains(text(), 'Comment')]")) != null;
+        return browser.isElementDisplayed(selectItem(fileName), commentLink);
     }
     
-    public void clickCommentLink(String fileName)
+    public DocumentDetailsPage clickCommentLink(String fileName)
     {
-        selectItem(fileName).findElement(By.xpath("//*[contains(text(), 'Comment')]")).click();
+        selectItem(fileName).findElement(commentLink).click();
+        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
     public boolean isFileVersionDisplayed(String fileName, String fileVersion)
@@ -360,9 +325,9 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         return selectItem(fileName).findElement(By.xpath("//*[contains(text(), '" + fileVersion + "')]")) != null;
     }
 
-    public boolean isRemoveFromFavoritesLinkDisplayed(String fileName)
+    public boolean isFileAddedToFavorites(String fileName)
     {
-        return selectItem(fileName).findElement(By.xpath("//a[@title = 'Remove document from favorites']")) != null;
+        return browser.isElementDisplayed(selectItem(fileName), removeFromFavoritesLink);
     }
 
     public int getNumberOfLikes(String fileName)
@@ -370,9 +335,8 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         return Integer.parseInt(selectItem(fileName).findElement(numberOfLikes).getText());
     }
 
-    public boolean isDocumentSizedisplayed(String fileName, String size)
+    public boolean isDocumentSizeDisplayed(String fileName, String size)
     {
-
         String documentSize = "//*[contains(text(), '" + size + "')]";
         return selectItem(fileName).findElement(By.xpath(documentSize)) != null;
     }
