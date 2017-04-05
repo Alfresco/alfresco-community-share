@@ -67,14 +67,12 @@ public class EditTagDialog extends ShareDialog
      */
     public TagManagerPage renameTag(String updatedTag)
     {
-    	browser.waitUntilElementClickable(editTagInputField, 10);
-        browser.waitUntilElementClickable(okButton, 10);
         editTagInputField.clear();
         editTagInputField.sendKeys(updatedTag);
-        browser.waitInSeconds(1);
         okButton.click();
+        browser.waitInSeconds(10); //due to "Tag updated - edited tags may disappear temporarily from search results while re-indexing occurs."
         
-        return tagManagerPage;
+        return (TagManagerPage) tagManagerPage.renderedPage();
    
     }
 }

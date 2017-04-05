@@ -12,9 +12,10 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
+import java.util.Arrays;
 
 import static org.testng.Assert.*;
 
@@ -42,26 +43,25 @@ public class TagManagerTests extends ContextAwareWebTest
     private final String siteDescription = "site Description " + uniqueIdentifier;
     private final String content = "content" + uniqueIdentifier;
     private final String updatedTag = "updated" + uniqueIdentifier;
-    private String fileName;
-    private String tag;
+    private final String fileName = "file-" + uniqueIdentifier;
+    private final String tag1 = "tag1" + uniqueIdentifier;
+    private final String tag2 = "tag2" + uniqueIdentifier;
+    private final String tag3 = "tag3" + uniqueIdentifier;
 
     @BeforeClass(alwaysRun = true)
     public void setupClass()
     {
-        String name = "name";
-        userService.create(adminUser, adminPassword, user, password, domain, name, user);
-        userService.create(adminUser, adminPassword, userAdmin, password, domain, name, userAdmin);
+        userService.create(adminUser, adminPassword, user, password, domain, user, user);
+        userService.create(adminUser, adminPassword, userAdmin, password, domain, userAdmin, userAdmin);
         groupService.addUserToGroup(adminUser, adminPassword, "ALFRESCO_ADMINISTRATORS", userAdmin);
         siteService.create(user, password, domain, site, siteDescription, Site.Visibility.PUBLIC);
+        contentService.createDocument(user, password, site, CMISUtil.DocumentType.TEXT_PLAIN, fileName, content);
+        contentAction.addMultipleTags(user, password, site, fileName, Arrays.asList(tag1, tag2, tag3));
     }
 
-    private void preconditionsTest(String id)
+    @BeforeMethod(alwaysRun = true)
+    private void preconditionsTest()
     {
-        fileName = "file-" + id + "-" + uniqueIdentifier;
-        tag = id + "-" + uniqueIdentifier;
-        contentService.createDocument(user, password, site, CMISUtil.DocumentType.TEXT_PLAIN, fileName, content);
-        contentAction.addSingleTag(user, password, site, fileName, tag);
-
         setupAuthenticatedSession(userAdmin, password);
         tagManagerPage.navigate();
         assertEquals(tagManagerPage.getRelativePath(), "share/page/console/admin-console/tag-management", "Displayed url=");
@@ -71,11 +71,9 @@ public class TagManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void renamingTag()
     {
-        preconditionsTest("c9383");
-
         LOG.info("STEP1: Click 'Edit tag' for content");
-        assertEquals(tagManagerPage.clickEditTagIcon(tag), "'Edit tag' icon clicked for " + tag, "Result on click edit tag icon=");
-        assertTrue(tagManagerPage.isEditTagDialogDisplayed(), "'Edit Tag' dialog is displayed for " + fileName + " -> tag " + tag);
+        assertEquals(tagManagerPage.clickEditTagIcon(tag1), "'Edit tag' icon clicked for " + tag1, "Result on click edit tag icon=");
+        assertTrue(tagManagerPage.isEditTagDialogDisplayed(), "'Edit Tag' dialog is displayed for " + fileName + " -> tag " + tag1);
 
         LOG.info("STEP2: Type tag in dialog, and click 'Ok' button");
         editTagDialog.renameTag(updatedTag);
@@ -85,15 +83,13 @@ public class TagManagerTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(site);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
-        assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(updatedTag).toString(), fileName + " 's tags=");
+        assertTrue(documentLibraryPage.getTags(fileName).contains(updatedTag), "Tags found =" + documentLibraryPage.getTags(fileName));
     }
 
     @TestRail(id = "C9385")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyTagManagerPage()
     {
-        preconditionsTest("c9385");
-
         LOG.info("STEP1: Verify 'Tag Manager' page");
         assertTrue(tagManagerPage.isSearchButtonDisplayed(), "'Search' button is displayed.");
         assertTrue(tagManagerPage.isSearchInputFieldDisplayed(), "'Search' input field is displayed.");
@@ -101,8 +97,8 @@ public class TagManagerTests extends ContextAwareWebTest
         assertEquals(tagManagerPage.getTableHead(), language.translate("tagManager.tableHead"), "Tags List section-> Table head=");
 
         LOG.info("STEP2: Click \"edit tag\" icon for any content");
-        assertEquals(tagManagerPage.clickEditTagIcon(tag), "'Edit tag' icon clicked for " + tag, "Result on click edit tag icon=");
-        assertTrue(tagManagerPage.isEditTagDialogDisplayed(), "'Edit Tag' input field is displayed for " + fileName + " -> tag " + tag);
+        assertEquals(tagManagerPage.clickEditTagIcon(tag2), "'Edit tag' icon clicked for " + tag2, "Result on click edit tag icon=");
+        assertTrue(tagManagerPage.isEditTagDialogDisplayed(), "'Edit Tag' input field is displayed for " + fileName + " -> tag " + tag2);
         assertEquals(tagManagerPage.getRenameLabel(), language.translate("editTag.renameLabel"), "'Edit Tag' dialog: rename label=");
         assertTrue(tagManagerPage.isOkButtonDisplayed(), "'Edit Tag' dialog: Ok button is displayed.");
         assertTrue(tagManagerPage.isCancelButtonDisplayed(), "'Edit Tag' dialog: Cancel button is displayed.");
@@ -113,16 +109,14 @@ public class TagManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteTag()
     {
-        preconditionsTest("c9388");
-
         LOG.info("STEP1: Hover any tag and click \"Delete\" button");
-        assertEquals(tagManagerPage.clickDeleteTagIcon(tag), "'Delete tag' icon clicked for " + tag, "Result on click Delete tag icon=");
-        assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), tag), "'Delete Tag' dialog message=");
+        assertEquals(tagManagerPage.clickDeleteTagIcon(tag3), "'Delete tag' icon clicked for " + tag3, "Result on click Delete tag icon=");
+        assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), tag3), "'Delete Tag' dialog message=");
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete Tag' dialog: Delete button is displayed.");
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Delete Tag' dialog: Cancel button is displayed.");
 
         LOG.info("STEP2: Click 'Delete' button");
         deleteDialog.clickDelete();
-        assertFalse(tagManagerPage.isTagDisplayed(tag), tag + " is displayed.");
+        assertFalse(tagManagerPage.isTagDisplayed(tag3), tag3 + " is displayed.");
     }
 }

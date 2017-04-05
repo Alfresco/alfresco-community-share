@@ -53,7 +53,7 @@ public class TagManagerPage extends AdminToolsPage {
 	private WebElement currentPage;
 
 	@RenderWebElement
-	@FindBy(css = ".yui-dt-data tr")
+	@FindAll(@FindBy(css = ".yui-dt-data tr"))
 	private List<WebElement> tagsList;
 
 	@RenderWebElement
@@ -90,7 +90,6 @@ public class TagManagerPage extends AdminToolsPage {
 
 	private String cellsFromColumn = ".yui-dt-data tr td:nth-child(%s)";
 
-	private final By rowSelector = By.cssSelector("tr[class*='yui-dt-rec']");
 	private final By editIconSelector = By.cssSelector("a[id*='edit']");
 	private final By deleteIconSelector = By.cssSelector("a[id*='delete']");
 	private final By tagSelector = By.cssSelector("b");
@@ -110,7 +109,6 @@ public class TagManagerPage extends AdminToolsPage {
 	 * @return message if tag is displayed (icon clicked) or not
 	 */
 	public String clickEditTagIcon(String tag) {
-		browser.waitUntilElementIsDisplayedWithRetry(tagSelector, 3);
 		if (isTagDisplayed(tag)) {
 			browser.waitUntilElementVisible(rowElement.findElement(editIconSelector)).click();
 			editTagDialog.renderedPage();
@@ -132,42 +130,39 @@ public class TagManagerPage extends AdminToolsPage {
 	 */
     public boolean isTagDisplayed(String tag)
     {
+	    browser.waitUntilElementIsDisplayedWithRetry(tagSelector, 3);
         LOG.info("Check that tag is displayed: " + tag);
 
         int counter = 0;
         rowElement = null;
-        browser.refresh();
-        this.renderedPage();
 
         while (counter <= pagesList.size())
         {
-            LOG.info(String.format("Looking for tag '%s' on page number #%s", tag, counter+1));
             counter++;
             searchTagInTable(tag);
-            clickNextPage();
             if (rowElement != null)
                 return true;
+	        clickNextPage();
         }
         return false;
     }
 	
 	private void searchTagInTable(String tag){
-		List<WebElement> rowsList = browser.waitUntilElementsVisible(rowSelector);
-		for (WebElement row : rowsList) {
+		LOG.info(String.format("Looking for tag '%s' on page number #%s", tag, currentPage.getText()));
+		for (WebElement row : tagsList) {
 			WebElement tagElement = row.findElement(tagSelector);
 			if (tagElement.getText().equals(tag)) {
-				browser.mouseOver(tagElement);
 				rowElement = row;
+				browser.mouseOver(tagElement);
 				break;
 			}
 		}
 	}
 	
-	private void clickNextPage(){
-		if (!currentPage.getText().equals(Integer.toString(pagesList.size()))) {
+	private TagManagerPage clickNextPage(){
+		if (!currentPage.getText().equals(Integer.toString(pagesList.size())))
 			nextLink.click();
-			browser.waitInSeconds(2);
-		}
+		return (TagManagerPage) this.renderedPage();
 	}
 
 	
