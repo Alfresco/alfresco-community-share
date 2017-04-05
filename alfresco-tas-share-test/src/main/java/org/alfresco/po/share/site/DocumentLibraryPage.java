@@ -143,12 +143,6 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     @FindAll(@FindBy(css = ".documentDroppable .ygtvlabel"))
     private List<WebElement> explorerPanelDocumentsList;
 
-    @FindAll(@FindBy(css = ".filename a"))
-    private List<WebElement> contentItemsList;
-
-    @FindBy(css = ".filename span[class='insitu-edit']")
-    private WebElement renameIcon;
-
    	@FindAll(@FindBy(css = "[class*='data'] tr img"))
    	private WebElement fileImage;
 
@@ -162,6 +156,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         return browser.findElement(By.xpath("//div[contains(@class, 'alf-filmstrip-nav-item-thumbnail')]//div[text()='" + contentName + "']"));
     }
 
+    private By renameIcon = By.cssSelector(".filename span[class='insitu-edit']");
     private By uploadNewVersion = By.cssSelector("a[title='Upload New Version']");
     private By moreMenuSelector = By.cssSelector("div[id*='onActionShowMore'] a span");
     public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
@@ -170,8 +165,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private By inlineEditTagsSelector = By.cssSelector(".inlineTagEditTag span");
     private By removeTagIconSelector = By.cssSelector(".inlineTagEditTag img[src*='delete-item-off']");
 
-    private By folderNameSelector = By.cssSelector(".filter-change:nth-child(1)");
-    private By fileNameSelector = By.cssSelector(".filename [href*='document-details']");
+    private By contentNameSelector = By.cssSelector(".filename a");
     private By checkBoxSelector = By.cssSelector("tbody[class='yui-dt-data'] input[id*='checkbox']");
     private By favoriteLink = By.className("favourite-action");
     private By actionsSet = By.cssSelector(".action-set a span");
@@ -311,7 +305,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public DocumentLibraryPage clickOnFolderName(String folderName)
     {
-        selectDocumentLibraryItemRow(folderName).findElement(folderNameSelector).click();
+        selectDocumentLibraryItemRow(folderName).findElement(contentNameSelector).click();
         browser.waitUntilElementContainsText(breadcumbCurrentFolder, folderName);
         return (DocumentLibraryPage) this.renderedPage();
     }
@@ -319,14 +313,15 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     /**
      * Mouse over a content name link
      *
-     * @param contentItemName content item's name link to be hovered
+     * @param contentItem content item's name link to be hovered
      */
-    public void mouseOverContentItem(String contentItemName)
+    public void mouseOverContentItem(String contentItem)
     {
-        LOG.info(String.format("Mouse over item: %s", contentItemName));
-        WebElement contentItem = browser.findFirstElementWithValue(contentItemsList, contentItemName);
-        if(contentItem != null)
-            browser.mouseOver(contentItem);
+        WebElement contentItemElement = selectDocumentLibraryItemRow(contentItem);
+        Parameter.checkIsMandotary("Content item", contentItemElement);
+        WebElement contentItemName = contentItemElement.findElement(contentNameSelector);
+        browser.mouseOver(contentItemName);
+        browser.waitUntilElementHasAttribute(contentItemElement, "class", "yui-dt-highlighted");
     }
 
     /**
@@ -347,30 +342,8 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public DocumentDetailsPage clickOnFile(String file)
     {
-        selectDocumentLibraryItemRow(file).findElement(fileNameSelector).click();
+        selectDocumentLibraryItemRow(file).findElement(contentNameSelector).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
-    }
-
-    /**
-     * Mouse over any file from Document Library
-     *
-     * @param fileName file name link to be hovered
-     */
-    public void mouseOverFileName(String fileName)
-    {
-        // try
-        // {
-        browser.mouseOver(selectDocumentLibraryItemRow(fileName).findElement(fileNameSelector));
-        // }
-        // catch (TimeoutException | NoSuchElementException | NullPointerException e)
-        // {
-        // LOG.error("Action not found:" + e);
-        // while (counter8 < 3)
-        // {
-        // counter8++;
-        // mouseOverFileName(fileName);
-        // }
-        // }
     }
 
     /**
@@ -383,7 +356,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         {
             try
             {
-                mouseOverFileName(fileName);
+                mouseOverContentItem(fileName);
                 clickMoreMenu(fileName);
                 selectDocumentLibraryItemRow(fileName).findElement(uploadNewVersion).click();
             }
@@ -653,32 +626,24 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public boolean isRenameIconDisplayed(String content)
     {
-        int counter = 0;
         int nrOfTimes = 0;
-        while(counter<5)
+        mouseOverContentItem(content);
+        while (!browser.isElementDisplayed(selectDocumentLibraryItemRow(content), renameIcon) && nrOfTimes < 3)
         {
-        	browser.waitUntilElementClickable(browser.findFirstElementWithValue(contentItemsList, content));
             mouseOverContentItem(content);
-            while (!browser.isElementDisplayed(renameIcon) && nrOfTimes < 5)
-            {
-            	nrOfTimes++ ;
-            }
-            if (browser.isElementDisplayed(renameIcon))
-            {
-            	return true;
-            }
-            refresh();
-            counter++;
+            nrOfTimes++ ;
         }
-        return browser.isElementDisplayed(renameIcon);
+        return browser.isElementDisplayed(selectDocumentLibraryItemRow(content), renameIcon);
     }
 
     /**
      * Click on 'Rename' icon from the right of content name
      */
-    public void clickRenameIcon()
+    public void clickRenameIcon(String contentName)
     {
-        browser.waitUntilElementClickable(renameIcon, 40).click();
+        WebElement renameIconElement = selectDocumentLibraryItemRow(contentName).findElement(renameIcon);
+        Parameter.checkIsMandotary("Rename icon", renameIconElement);
+        renameIconElement.click();
         browser.waitUntilElementVisible(contentNameInputField);
     }
 

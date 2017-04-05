@@ -74,7 +74,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("STEP4: Mouse over file's name link");
-        documentLibraryPage.mouseOverFileName(docName);
+        documentLibraryPage.mouseOverContentItem(docName);
         assertFalse(documentLibraryPage.isMoreMenuDisplayed(docName), docName + " - 'More' menu is displayed.");
 
         cleanupAuthenticatedSession();
@@ -176,7 +176,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("STEP4: Mouse over file's name link");
-        documentLibraryPage.mouseOverFileName(docName);
+        documentLibraryPage.mouseOverContentItem(docName);
         assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), docName + " - 'More' menu is displayed. ");
 
         cleanupAuthenticatedSession();

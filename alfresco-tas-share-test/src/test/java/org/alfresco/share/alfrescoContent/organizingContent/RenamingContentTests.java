@@ -47,7 +47,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isRenameIconDisplayed(docName), "'Rename' icon is displayed.");
 
         LOG.info("STEP2: Click on \"Rename\" icon");
-        documentLibraryPage.clickRenameIcon();
+        documentLibraryPage.clickRenameIcon(docName);
         assertTrue(documentLibraryPage.isContentNameInputField(), "File name is text input field.");
         assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 
@@ -73,7 +73,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isRenameIconDisplayed(folderName), "'Rename' icon is displayed.");
 
         LOG.info("STEP2: Click on \"Rename\" icon");
-        documentLibraryPage.clickRenameIcon();
+        documentLibraryPage.clickRenameIcon(folderName);
         assertTrue(documentLibraryPage.isContentNameInputField(), "Folder name is text input field.");
         assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 
@@ -99,7 +99,7 @@ public class RenamingContentTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isRenameIconDisplayed(docName), "'Rename' icon is displayed.");
 
         LOG.info("STEP2: Click on \"Rename\" icon");
-        documentLibraryPage.clickRenameIcon();
+        documentLibraryPage.clickRenameIcon(docName);
         assertTrue(documentLibraryPage.isContentNameInputField(), "File name is text input field.");
         assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 

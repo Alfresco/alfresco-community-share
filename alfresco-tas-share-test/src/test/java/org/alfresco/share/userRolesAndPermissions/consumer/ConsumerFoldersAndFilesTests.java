@@ -47,7 +47,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     @Autowired
     SiteUsersPage siteUsersPage;
 
-    private String user = String.format("ConsumerUser%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("Consumer%s", DataUtil.getUniqueIdentifier());
     private String user8865 = String.format("user8865%s", DataUtil.getUniqueIdentifier());
     private String description = String.format("ConsumerDescription%s", DataUtil.getUniqueIdentifier());
     private String siteName = String.format("ConsumerSite%s", DataUtil.getUniqueIdentifier());

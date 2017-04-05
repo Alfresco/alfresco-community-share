@@ -53,7 +53,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileName), fileName + " is not available in Repository");
         
         LOG.info("Step 1: Hover over the file you want to delete and press More, select Delete Document");
-        repositoryPage.mouseOverFileName(fileName);
+        repositoryPage.mouseOverContentItem(fileName);
         repositoryPage.clickOnAction(fileName, "Delete Document");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), fileName), "Delete dialog message= ");
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete' button is not displayed.");
@@ -125,7 +125,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         repositoryPage.navigate();
         
         LOG.info("Step 1: Mouse over file name and check that the More and the  Delete Document options are available");
-        repositoryPage.mouseOverFileName(fileNameC13749);
+        repositoryPage.mouseOverContentItem(fileNameC13749);
         Assert.assertTrue(repositoryPage.isMoreMenuDisplayed(fileNameC13749), "'More' menu displayed for " + fileNameC13749);
         Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC13749, "Delete Document"));
         

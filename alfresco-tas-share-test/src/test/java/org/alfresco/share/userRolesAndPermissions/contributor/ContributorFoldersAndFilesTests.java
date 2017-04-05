@@ -159,7 +159,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isRenameIconDisplayed(fileName), "'Rename' icon displayed.");
 
         LOG.info("Step2: Click on 'Rename' icon");
-        documentLibraryPage.clickRenameIcon();
+        documentLibraryPage.clickRenameIcon(fileName);
         assertTrue(documentLibraryPage.isContentNameInputField(), "File name is text input field.");
         assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 

@@ -141,7 +141,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileC8884, "Download"));
 
         LOG.info("Step 2: Click download button");
-        documentLibraryPage.mouseOverFileName(fileC8884);
+        documentLibraryPage.mouseOverContentItem(fileC8884);
         documentLibraryPage.clickDownloadForItem(fileC8884);
 
         download.acceptAlertIfDisplayed();
@@ -175,7 +175,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over test file and confirm that Upload New Version action is not available");
 
-        documentLibraryPage.mouseOverFileName(fileC8887);
+        documentLibraryPage.mouseOverContentItem(fileC8887);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8887), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8887, "Upload New Version"),
                 "Upload New Version is available for user with Consumer role");
@@ -196,7 +196,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Mouse over fileC8888 and check that Upload New Version option is not available");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.mouseOverFileName(fileC8888);
+        documentLibraryPage.mouseOverContentItem(fileC8888);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8888), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8888, "Upload New Version"),
                 "Upload New Version is available for user with Consumer role");
@@ -209,7 +209,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Mouse over fileC8890 and confirm that edit in Microsoft Office is not available");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.mouseOverFileName(fileC8890);
+        documentLibraryPage.mouseOverContentItem(fileC8890);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8890), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8890, "Edit in Microsoft Office™"),
                 "Edit in Microsoft Office™ is available for user with Consumer role");
@@ -222,7 +222,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: mouse over fileC8892 and confirm that Edit in Alfresco option is not available");
-        documentLibraryPage.mouseOverFileName(fileC8892);
+        documentLibraryPage.mouseOverContentItem(fileC8892);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8892), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8892, "Edit in Alfresco"),
                 "Edit in Alfresco is available for user with Consumer role");
@@ -235,7 +235,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: mouse over fileC8892 and confirm that Edit Offline option is not available");
-        documentLibraryPage.mouseOverFileName(fileC8894);
+        documentLibraryPage.mouseOverContentItem(fileC8894);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8894), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8894, "Edit Offline"),
                 "Edit Offline is available for user with Consumer role");
@@ -248,7 +248,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: mouse over fileC8892 and confirm that Edit Offline option is not available");
-        documentLibraryPage.mouseOverFileName(fileC8905);
+        documentLibraryPage.mouseOverContentItem(fileC8905);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8905), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8905, "Edit in Google Docs™"),
                 "Edit in Google Docs™ is available for user with Consumer role");
@@ -269,7 +269,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Mouse over fileC8902 and Check that user with Consumer role does not have access to Cancel editing locked by other user. ");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.mouseOverFileName(fileC8902);
+        documentLibraryPage.mouseOverContentItem(fileC8902);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8902), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8902, "Cancel Editing"),
                 "Cancel Editing is available for user with Consumer role");
@@ -331,7 +331,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Mouse over fileC8906 and confirm that Start Workflow option is available");
-        documentLibraryPage.mouseOverFileName(fileC8906);
+        documentLibraryPage.mouseOverContentItem(fileC8906);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileC8906, "Start Workflow"));
 
         LOG.info("Step 2: Click Start Workflow.");

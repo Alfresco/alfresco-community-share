@@ -52,7 +52,7 @@ public class SharedFilesTests extends ContextAwareWebTest
     public void verifyShareButton()
     {
         LOG.info("STEP1: Hover over a file and click on the \"Share\" button.");
-        sharedFilesPage.mouseOverFileName(docName);
+        sharedFilesPage.mouseOverContentItem(docName);
         assertTrue(socialFeatures.checkShareButtonAvailability(), "Share button is displayed.");
         socialFeatures.clickShareButton(docName);
         assertTrue(socialFeatures.isPublicLinkInputFieldDisplayed(), "Public link input field is displayed.");

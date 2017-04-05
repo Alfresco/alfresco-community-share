@@ -451,7 +451,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         googleDocsCommon.switchToGoogleDocsWindowandAndEditContent(editedTitle, editedContent);
 
         LOG.info("Step 5: Mouse over testFile name and check available actions.");
-        documentLibraryPage.mouseOverFileName(fileNameC8953);
+        documentLibraryPage.mouseOverContentItem(fileNameC8953);
 
         LOG.info("Step 6: Click Check In Google");
         googleDocsCommon.checkInGoogleDoc(fileNameC8953);
@@ -503,7 +503,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         googleDocsCommon.switchToGoogleDocsWindowandAndEditContent(editedTitle1, editedContent1);
 
         LOG.info("Step 5: Mouse over testFile name and check available actions.");
-        documentLibraryPage.mouseOverFileName(fileNameC8954);
+        documentLibraryPage.mouseOverContentItem(fileNameC8954);
 
         LOG.info("Step 6: Click Check In Google Doc™.");
         googleDocsCommon.checkInGoogleDoc(fileNameC8954);

@@ -67,7 +67,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Autowired
     ManagePermissionsPage managePermissionsPage;
 
-    private String user = String.format("UserC%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("Collaborator%s", DataUtil.getUniqueIdentifier());
     private String siteName = String.format("SiteC%s", DataUtil.getUniqueIdentifier());
     private String siteName1 = String.format("SiteC1%s", DataUtil.getUniqueIdentifier());
     private final String deletePath = String.format("Sites/%s/documentLibrary", siteName);
@@ -257,7 +257,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isRenameIconDisplayed(folderName), "'Rename' icon is not displayed.");
 
         LOG.info("Step 2: Click on 'Rename' icon.");
-        documentLibraryPage.clickRenameIcon();
+        documentLibraryPage.clickRenameIcon(folderName);
         assertTrue(documentLibraryPage.isContentNameInputField(), "Folder name is text input field.");
         assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 
@@ -285,7 +285,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isRenameIconDisplayed(folderName), "'Rename' icon is not displayed.");
 
         LOG.info("Step 2: Click on 'Rename' icon.");
-        documentLibraryPage.clickRenameIcon();
+        documentLibraryPage.clickRenameIcon(folderName);
         assertTrue(documentLibraryPage.isContentNameInputField(), "Folder name is text input field.");
         assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
 

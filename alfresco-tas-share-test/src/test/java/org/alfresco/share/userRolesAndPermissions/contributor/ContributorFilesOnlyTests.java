@@ -729,6 +729,5 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentDetailsPage.clickOkOnRevertPopup();
         Assert.assertEquals(documentDetailsPage.getContentText(), "original content", "New version's content");
         Assert.assertTrue(documentDetailsPage.isNewVersionAvailable("1.2"), "New minor version created");
-        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
     }
 }

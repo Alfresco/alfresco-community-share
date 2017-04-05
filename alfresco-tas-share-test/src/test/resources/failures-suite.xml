@@ -31,8 +31,8 @@
 			<class name="org.alfresco.share.alfrescoPowerUsers.SearchManagerTests"/>
 			<class name="org.alfresco.share.sitesFeatures.dataLists.CreateDataListsTests"/>
 			<class name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.CreatingAListItemTests"/>
-			<class name="org.alfresco.share.userRolesAndPermissions.contributor.FilesOnlyTests"/>
-			<class name="org.alfresco.share.userRolesAndPermissions.contributor.FoldersOnlyTests"/>
+			<class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFilesOnlyTests"/>
+			<class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFoldersOnlyTests"/>
 			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.UploadTests"/>
 			<class name="org.alfresco.share.sitesFeatures.wiki.BrowsingWikiPagesTests"/>
 			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions.CommentTests"/>
@@ -56,10 +56,10 @@
 			<class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.UpdateFileWithContentFromComputerTests"/>
 			<class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.EditingFilesInAlfrescoTests"/>
 			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.EditTests"/>
-			<class name="org.alfresco.share.userRolesAndPermissions.collaborator.CollaboratorFilesOnly"/>
-			<class name="org.alfresco.share.userRolesAndPermissions.contributor.FilesAndFoldersTests"/>
+			<class name="org.alfresco.share.userRolesAndPermissions.collaborator.CollaboratorFilesOnlyTests"/>
+			<class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFoldersAndFilesTests"/>
 			<class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.CreateTests"/>
-			<class name="org.alfresco.share.userRolesAndPermissions.consumer.FilesOnlyTests"/>
+			<class name="org.alfresco.share.userRolesAndPermissions.consumer.ConsumerFilesOnlyTests"/>
 		</classes>
 	</test>
 

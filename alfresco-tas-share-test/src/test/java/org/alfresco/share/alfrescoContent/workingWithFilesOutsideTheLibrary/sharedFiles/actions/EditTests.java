@@ -249,7 +249,7 @@ public class EditTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
 
         LOG.info("STEP1: Hover over the file");
-        sharedFilesPage.mouseOverFileName(docName3);
+        sharedFilesPage.mouseOverContentItem(docName3);
         getBrowser().waitInSeconds(4);
         assertFalse(sharedFilesPage.isMoreMenuDisplayed(docName3), "More menu displayed.");
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName3, language.translate("documentLibrary.contentActions.editInGoogleDocs")),

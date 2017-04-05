@@ -92,7 +92,7 @@ public class DownloadingContentTests extends ContextAwareWebTest
         LOG.info("Starting test C7080");
 
         LOG.info("Step 1: Hover file and click 'Download' button");
-        documentLibraryPage.mouseOverFileName(docName);
+        documentLibraryPage.mouseOverContentItem(docName);
         documentLibraryPage.clickDownloadForItem(docName);
 
         if (documentCommon.isAlertPresent())
