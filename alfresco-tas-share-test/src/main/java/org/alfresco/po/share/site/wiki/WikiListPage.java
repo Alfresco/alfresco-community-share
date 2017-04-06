@@ -273,7 +273,7 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      * @return
      */
     public boolean isWikiPageDisplayed(String wikiPageName) {
-        return browser.findElement(By.xpath("//a[text()='" + wikiPageName + "']")).isDisplayed();
+        return browser.isElementDisplayed(browser.findElement(By.xpath("//a[text()='" + wikiPageName + "']")));
     }
 
     public void clickShowAllTags() {

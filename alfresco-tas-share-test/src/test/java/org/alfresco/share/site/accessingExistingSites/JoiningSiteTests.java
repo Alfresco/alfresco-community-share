@@ -171,7 +171,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
         LOG.info("STEP 3: Logout and login to Share as " + user1 + ". Open 'My Tasks' page.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user1, password);
-        myTasksPage.navigateByMenuBar();
+        myTasksPage.navigate();
         assertTrue(myTasksPage.checkTaskWasFound(siteName), "'Request to join " + siteName + " site' task is expected to be displayed in 'Active Tasks'.");
 
         LOG.info("STEP 4: Click on 'Request to join " + siteName + " site' task.");

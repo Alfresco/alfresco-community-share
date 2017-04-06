@@ -172,7 +172,6 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 
         LOG.info("STEP2: In the \"Comments\" area of Document Details page write a comment and press \"Add Comment\" button");
         documentDetailsPage.addComment(comment);
-        getBrowser().waitInSeconds(3);
         assertEquals(documentDetailsPage.getCommentContent(), comment, "Comment=");
 
         LOG.info("STEP3: Navigate to My Files page.");
@@ -201,7 +200,6 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over a document and press \"Comment\"");
         social.clickCommentLink(folderName);
-        getBrowser().waitInSeconds(4);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page=");
 
         LOG.info("STEP2: In the \"Comments\" area of Document Details page write a comment and press \"Add Comment\" button");

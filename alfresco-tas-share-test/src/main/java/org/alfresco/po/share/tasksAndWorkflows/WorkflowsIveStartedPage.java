@@ -24,9 +24,6 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
     WorkflowDetailsPage workflowDetailsPage;
 
     @RenderWebElement
-    @FindBy(id = "HEADER_TITLE")
-    private Link workflowsIveStartedTitle;
-
     @FindBy(css = "[id$='default-startWorkflow-button-button']")
     private WebElement startWorkflow;
 
@@ -48,6 +45,7 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
     @FindBy(css = "div[id*='_workflow-type-filter'] div h2")
     private WebElement workflowTypeFilter;
 
+    @RenderWebElement
     @FindBy(css = "div[class*='workflow-list-bar'] div h2")
     private WebElement activeWorkflows;
 
@@ -73,7 +71,7 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
     @Override
     public String getRelativePath()
     {
-        return "share/page/my-workflows#filter=workflows|active";
+        return "share/page/my-workflows";
     }
 
     public boolean isStartWorkflowDisplayed()

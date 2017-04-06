@@ -159,7 +159,6 @@ public class DocumentLibraryTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click on testFolder.");
         documentLibraryPage.clickOnFolderName(folderNameC6938);
-//        getBrowser().waitUntilElementClickable(documentLibraryPage.subfolderDocListTree(folderNameC6938), 10L);
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFileC6938), testFileC6938 + " is displayed in " + folderNameC6938);
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFile1C6938), testFile1C6938 + " is displayed in " + folderNameC6938);
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFile2C6938), testFile2C6938 + " is displayed in " + folderNameC6938);

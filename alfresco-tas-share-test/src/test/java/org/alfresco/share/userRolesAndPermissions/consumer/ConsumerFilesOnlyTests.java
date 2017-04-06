@@ -411,7 +411,6 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 4: Navigate to DocumentLibrary and click on fileC8908");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(fileC8909);
-        documentDetailsPage.renderedPage();
 
         LOG.info("Step 5: Previous version (1.0) is available in Version History sections. Press Download");
         Assert.assertEquals(documentDetailsPage.getFileVersion(), "1.1", "Latest version is not 1.1");
@@ -470,7 +469,6 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 4: Login with admin account and check-in document");
         setupAuthenticatedSession(adminUser, adminPassword);
         documentLibraryPage.navigate(siteName);
-        getBrowser().waitInSeconds(2);
         googleDocsCommon.checkInGoogleDoc("Untitled Document.docx");
         getBrowser().waitInSeconds(3);
         cleanupAuthenticatedSession();

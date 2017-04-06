@@ -52,11 +52,11 @@ public class AddAndEditCommentsToAFileTest extends ContextAwareWebTest
         siteDashboardPage.navigate(siteName);
         siteDashboardPage.clickDocumentLibrary();
         Assert.assertTrue(documentDetailsPage.isDocumentLibraryOpened(siteName), "Document Library is not opened!");
-        Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName), "Folder is not displayed!");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Folder is not displayed!");
 
         LOG.info("STEP 2: Click on folder name then on file name");
         documentLibraryPage.clickOnFolderName(folderName);
-        Assert.assertTrue(documentDetailsPage.getDocumentLibraryFilesList().contains(docName), "Document is not displayed!");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is not displayed!");
         documentLibraryPage.clickOnFile(docName);
 
         LOG.info("STEP 3: Click on 'Add Comment' and type a comment. Add 11 such comments");

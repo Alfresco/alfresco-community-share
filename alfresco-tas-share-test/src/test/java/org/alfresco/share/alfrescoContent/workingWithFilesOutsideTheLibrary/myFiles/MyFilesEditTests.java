@@ -158,13 +158,12 @@ private final String user = String.format("user%s", DataUtil.getUniqueIdentifier
 
         LOG.info("Step3: Click Save button");
         editInAlfrescoPage.clickButton("Save");
-        getBrowser().waitInSeconds(4);
 
         LOG.info("Step4: Verify the new title for the document");
-        Assert.assertTrue(docsCommon.isDocumentNameUpdated(editedDocName), "Document name is not updated");
+        Assert.assertTrue(myFilesPage.isContentNameDisplayed(editedDocName), "Document name is not updated");
 
         LOG.info("Step5: Click on document title to open the document's details page");
-        docsCommon.clickOnUpdatedName(editedDocName);
+        myFilesPage.clickOnFile(editedDocName);
 
         LOG.info("Step6: Verify the document's content");
         Assert.assertEquals(detailsPage.getContentText(), editedContent);

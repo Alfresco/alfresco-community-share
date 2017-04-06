@@ -134,7 +134,6 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isFileFavorite(fileName), "The gray star and text 'Favorite' replaced by a golden star");
 
         LOG.info("Step3: Navigate to 'My Favorites' and check favorite items list.");
-        getBrowser().waitInSeconds(3);
         documentLibraryPage.clickDocumentsFilterOption(DocumentsFilters.Favorites.title);
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentsFilters.Favorites.header, "My Favorites documents displayed.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), "File displayed in My favorites list!");
@@ -166,7 +165,6 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step3: Fill in the input field with a new name and click 'Save' button");
         documentLibraryPage.typeContentName(newFileName);
         documentLibraryPage.clickButtonFromRenameContent("Save");
-        getBrowser().waitInSeconds(2);
         assertTrue(documentLibraryPage.isContentNameDisplayed(newFileName), fileName + " name updated to: " + newFileName);
         assertFalse(documentLibraryPage.isContentNameInputField(), "File is input field.");
         contentService.deleteDocument(adminUser, adminPassword, siteName, newFileName);

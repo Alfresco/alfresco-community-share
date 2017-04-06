@@ -55,7 +55,6 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click on a folder (e.g. testFolder) and then hover over a file in the document library (e.g. testFile) .");
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(1);
         List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™");
         Assert.assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
         Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");

@@ -144,7 +144,6 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
         addEventDialog.selectEndDateFromCalendarPicker(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear());
         addEventDialog.typeInEndTimeInput("5:25 PM");
         addEventDialog.clickSaveButton();
-        getBrowser().waitInSeconds(2);
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is created and displayed on the 'Calendar' page.");
         assertEquals(calendarPage.getEventStartTimeFromCalendar(currentEventName), "2:30pm", "Event starting time is the one filled at creation.");
 

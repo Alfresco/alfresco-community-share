@@ -27,10 +27,6 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     ViewTaskPage viewTaskPage;
 
     @RenderWebElement
-    @FindBy(id = "HEADER_TITLE")
-    private Link myTasksTitle;
-
-    @RenderWebElement
     @FindBy(css = "h2[id$='default-filterTitle']")
     private WebElement activeTasksBar;
 
@@ -52,6 +48,7 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     @FindBy(css = "div[id*='_priority-filter'] div h2")
     private WebElement priorityFilter;
 
+    @RenderWebElement
     @FindBy(css = "div[id*='_assignee-filter'] div h2")
     private WebElement assigneeFilter;
 
@@ -73,7 +70,7 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     @Override
     public String getRelativePath()
     {
-        return "share/page/my-tasks#filter=workflows|active";
+        return "share/page/my-tasks";
     }
 
     /**
@@ -98,25 +95,25 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
         return selectTask(taskName) != null;
     }
 
-    public HtmlPage clickEditTask(String taskName)
+    public EditTaskPage clickEditTask(String taskName)
     {
         WebElement selectedTask = selectTask(taskName);
         browser.mouseOver(selectedTask);
         selectedTask.findElement(editTaskLink).click();
-        return editTaskPage.renderedPage();
+        return (EditTaskPage) editTaskPage.renderedPage();
     }
 
-    public HtmlPage clickCompletedTasks()
+    public MyTasksPage clickCompletedTasks()
     {
         completedTasksButton.click();
-        return this.renderedPage();
+        return (MyTasksPage) this.renderedPage();
     }
 
-    public HtmlPage clickViewTask(String taskName)
+    public ViewTaskPage clickViewTask(String taskName)
     {
         browser.mouseOver(selectTask(taskName));
         selectTask(String.format(completeTaskName, taskName)).findElement(viewTaskLink).click();
-        return viewTaskPage.renderedPage();
+        return (ViewTaskPage) viewTaskPage.renderedPage();
     }
 
     public boolean isStartWorkflowDisplayed()

@@ -50,8 +50,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'Workflows I've Started' option.");
-        workflowsIveStartedPage.navigateByMenuBar();
-        getBrowser().waitInSeconds(5);
+        workflowsIveStartedPage.navigate();
 
         LOG.info("STEP 2: From 'Workflows I've Started' page click on the title of the workflow and verify details.");
         workflowsIveStartedPage.clickOnWorkflowTitle(workflowName);

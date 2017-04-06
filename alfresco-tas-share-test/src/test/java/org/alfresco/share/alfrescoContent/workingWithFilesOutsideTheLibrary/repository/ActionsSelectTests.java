@@ -91,7 +91,6 @@ public class ActionsSelectTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(user);
-        getBrowser().waitInSeconds(2);
         LOG.info("Step 1: On My Files page click Select and select Folders option.");
         menuBar.clickSelectMenu();
         menuBar.clickSelectOption("Folders");

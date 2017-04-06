@@ -327,8 +327,6 @@ public class AddEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 7: Click 'Save' button.");
         addEventDialog.clickSaveButton();
-        calendarPage.refresh();
-        calendarPage.renderedPage();
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is created and displayed on the 'Calendar' page.");
 
         LOG.info("STEP 8: Verify 'Tags' section.");

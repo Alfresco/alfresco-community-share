@@ -87,7 +87,6 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
 
         LOG.info("Step1: Hover over the folder created by other user and verify 'Manage Aspects' action is missing");
         sharedFilesPage.mouseOverContentItem(folderName);
-        getBrowser().waitInSeconds(1);
         Assert.assertFalse(sharedFilesPage.isMoreMenuDisplayed(folderName), "'More' menu not displayed for " + folderName);
         Assert.assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(folderName, "Manage Aspects"));
     }

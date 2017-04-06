@@ -113,7 +113,6 @@ public class ActionsEditTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(editFileUsr);
-        getBrowser().waitInSeconds(2);
 
         LOG.info("Step 1: Hover over the test file and click 'Edit Properties' action");
 
@@ -158,7 +157,6 @@ public class ActionsEditTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(editFolderUsr);
-        getBrowser().waitInSeconds(2);
 
         LOG.info("Step 1: Hover over folder and click 'Edit Properties'");
         repositoryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editFilePropertiesDialog);
@@ -212,14 +210,11 @@ public class ActionsEditTests extends ContextAwareWebTest
         LOG.info("Step3: Click Save button");
         editInAlfrescoPage.clickButton("Save");
 
-        getBrowser().waitInSeconds(4);
-
         LOG.info("Step4: Verify the new title for the document");
-        Assert.assertTrue(docsCommon.isDocumentNameUpdated(editedFileName), "Document name is not updated");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(editedFileName), "Document name is not updated");
 
         LOG.info("Step5: Click on document title to open the document's details page");
-        docsCommon.clickOnUpdatedName(editedFileName);
-        getBrowser().waitInSeconds(7);
+        repositoryPage.clickOnFile(editedFileName);
 
         LOG.info("Step6: Verify the document's content");
         Assert.assertEquals(detailsPage.getContentText(), editedContent);

@@ -213,7 +213,6 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
 
         LOG.info("STEP1: Verify locally set permissions for the file.");
         documentLibraryPage.clickDocumentLibraryItemAction(testFileName, "Manage Permissions", managePermissionsPage);
-        getBrowser().waitInSeconds(5);
         assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
         assertTrue(managePermissionsPage.getRole(testUser2).equals("Site Contributor"), String.format("User [%s] has incorrect role.", testUser2));
 
@@ -227,7 +226,6 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
 
         LOG.info("STEP4: Navigate to Manage Permissions page for the folder.");
         documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, "Manage Permissions", managePermissionsPage);
-        getBrowser().waitInSeconds(5);
 
         LOG.info("STEP5: Verify locally set permissions.");
         assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
@@ -241,7 +239,6 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         LOG.info("STEP7: Click Save button and then return to Manage Permissions page for the folder.");
         managePermissionsPage.clickButton("Save");
         documentLibraryPage.clickDocumentLibraryItemAction(testFolderName, "Manage Permissions", managePermissionsPage);
-        getBrowser().waitInSeconds(5);
         assertEquals(managePermissionsPage.getTitle(), "Manage Permissions: " + testFolderName, "Manage Permissions: " + testFolderName + " title displayed.");
         assertFalse(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is added in permissions.", testUser2));
 
@@ -275,7 +272,6 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
 
         LOG.info("STEP3: Return to Manage Permissions for the file and verify changes are not saved.");
         documentLibraryPage.clickDocumentLibraryItemAction(testFileName, "Manage Permissions", managePermissionsPage);
-        getBrowser().waitInSeconds(5);
         assertEquals(managePermissionsPage.getTitle(), "Manage Permissions: " + testFileName, "Manage Permissions: " + testFileName + " title displayed.");
         assertFalse(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
         managePermissionsPage.clickButton("Cancel");

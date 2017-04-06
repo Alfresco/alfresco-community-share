@@ -673,14 +673,10 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      *
      * @param buttonName to be clicked (Save/Cancel)
      */
-    public void clickButtonFromRenameContent(String buttonName)
+    public DocumentLibraryPage clickButtonFromRenameContent(String buttonName)
     {
-        for (WebElement button : buttonsFromRenameContent)
-        {
-            if (button.getText().equals(buttonName))
-                button.click();
-        }
-        browser.waitInSeconds(4);
+        browser.findFirstElementWithValue(buttonsFromRenameContent, buttonName).click();
+        return (DocumentLibraryPage) this.renderedPage();
     }
 
     /**

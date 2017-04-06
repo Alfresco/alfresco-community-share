@@ -105,7 +105,6 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         
         LOG.info("Step 1: Mouse over file name and check that the More and the Delete Document option is not available");
         repositoryPage.mouseOverContentItem(fileNameC13749);
-        getBrowser().waitInSeconds(2);
         Assert.assertFalse(repositoryPage.isMoreMenuDisplayed(fileNameC13749), "'More' menu displayed for " + fileNameC13749);
         Assert.assertFalse(repositoryPage.isActionAvailableForLibraryItem(fileNameC13749, "Delete Document"));
         

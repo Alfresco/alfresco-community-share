@@ -56,7 +56,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(listName);
-        getBrowser().waitInSeconds(3);
         
         LOG.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
@@ -80,7 +79,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(listName);
-        getBrowser().waitInSeconds(3);
         
         LOG.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
@@ -104,7 +102,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(listName);
-        getBrowser().waitInSeconds(3);
         
         LOG.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
@@ -128,7 +125,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickEventAgendaListItem(agendaName);
-        getBrowser().waitInSeconds(3);
         
         LOG.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
@@ -152,7 +148,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickEventListItem(eventName);
-        getBrowser().waitInSeconds(3);
         
         LOG.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
@@ -178,7 +173,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
 
         dataListsPage.navigate(siteName);
         dataListsPage.clickIssueListItem(issueName);
-        getBrowser().waitInSeconds(3);
         
         LOG.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
@@ -202,7 +196,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickLocationListItem(taskName);
-        getBrowser().waitInSeconds(3);
         
         LOG.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
@@ -226,7 +219,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickMeetingAgendaListItem(meetingName);
-        getBrowser().waitInSeconds(3);
         
         LOG.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
@@ -252,7 +244,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickAdvancedTaskListItem(advancedTaskName);
-        getBrowser().waitInSeconds(3);
         
         LOG.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
@@ -278,7 +269,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickSimpleTaskListItem(simpleTaskName);
-        getBrowser().waitInSeconds(3);
         
         LOG.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
@@ -304,7 +294,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickToDoListItem(toDoName);
-        getBrowser().waitInSeconds(3);
         
         LOG.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();
@@ -331,7 +320,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         
         dataListsPage.navigate(siteName);
         dataListsPage.clickVisitorFeedbackListItem(visitorName);
-        getBrowser().waitInSeconds(3);
         
         LOG.info("Step 1: Click the 'New Item' button");
         dataListsPage.clickNewItemButton();

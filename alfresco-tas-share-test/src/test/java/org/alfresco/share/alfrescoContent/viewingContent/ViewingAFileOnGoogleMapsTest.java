@@ -61,7 +61,6 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
         
         LOG.info("Step 2: Click on folder and then hover a file that has the Geolocation Metadata available icon.");
         documentLibraryPage.clickOnFolderName(folderName);
-        getBrowser().waitInSeconds(1);
         Assert.assertTrue(documentLibraryPage.isGeolocationMetadataIconDisplayed(), "Geolocation Metadata icon is not displayed");
         List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™", "View on Google Maps");
         Assert.assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");

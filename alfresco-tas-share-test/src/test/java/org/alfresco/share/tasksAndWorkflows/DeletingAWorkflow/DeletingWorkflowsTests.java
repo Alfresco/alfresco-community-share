@@ -44,9 +44,7 @@ public class DeletingWorkflowsTests  extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
 
         LOG.info("STEP 1: From 'Tasks' dropdown click 'Workflows I've Started' option.");
-        workflowsIveStartedPage.navigateByMenuBar();
-        // getBrowser().waitInSeconds(5);
-        workflowsIveStartedPage.renderedPage();
+        workflowsIveStartedPage.navigate();
         List<String> workflows = workflowsIveStartedPage.getActiveWorkflows();
         Assert.assertFalse(workflows.contains(workflowName), String.format("Workflow: %s is not completed.", workflowName));
 
@@ -64,9 +62,7 @@ public class DeletingWorkflowsTests  extends ContextAwareWebTest
         Assert.assertFalse(workflows.contains(workflowName), String.format("Workflow: %s is not deleted.", workflowName));
 
         LOG.info("STEP 4: Verify the deleted workflow is not present in 'My Tasks' page.");
-        myTasksPage.navigateByMenuBar();
-        // getBrowser().waitInSeconds(5);
-        myTasksPage.renderedPage();
+        myTasksPage.navigate();
         myTasksPage.clickCompletedTasks();
         getBrowser().waitInSeconds(2);
         Assert.assertFalse(myTasksPage.checkTaskWasFound(workflowName), String.format("Workflow: %s is found in 'My Tasks' page.", workflowName));

@@ -19,9 +19,6 @@ public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
     @Autowired
     TaskDetailsPage taskDetailsPage;
 
-    @Autowired
-    EditTaskPage editTaskPage;
-
     @RenderWebElement
     @FindBy(css = "div[class$='workflow-details-header'] h1")
     private WebElement workflowDetailsHeader;

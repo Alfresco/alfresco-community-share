@@ -171,7 +171,6 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         LOG.info("Logging in as user 1 and navigate to wiki list page for site");
         setupAuthenticatedSession(userName1, password);
         wikiListPage.navigate(siteName);
-        getBrowser().waitInSeconds(7);
 
         LOG.info("STEP1: Click \"My Pages\" from Pages section");
         wikiListPage.clickMyPagesFilter();

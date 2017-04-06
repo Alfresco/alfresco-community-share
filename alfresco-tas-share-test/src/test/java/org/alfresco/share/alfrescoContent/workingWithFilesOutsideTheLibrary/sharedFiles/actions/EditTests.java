@@ -230,10 +230,10 @@ public class EditTests extends ContextAwareWebTest
         sharedFilesPage.renderedPage();
 
         LOG.info("Step7: Verify document's title");
-        assertTrue(googleDocsCommon.isDocumentNameUpdated(editedInGoogleDocsTitle), "Name of the document is updated with " + editedInGoogleDocsTitle);
+        assertTrue(sharedFilesPage.isContentNameDisplayed(editedInGoogleDocsTitle), "Name of the document is updated with " + editedInGoogleDocsTitle);
 
         LOG.info("Steps8: Click on the document title and verify it's preview");
-        googleDocsCommon.clickOnUpdatedName(editedInGoogleDocsTitle);
+        sharedFilesPage.clickOnFile(editedInGoogleDocsTitle);
         assertTrue(documentDetailsPage.getContentText().replaceAll("\\s+", "").contains("Edited"),
                 String.format("Document: %s has incorrect contents.", editedInGoogleDocsTitle));
 
@@ -250,7 +250,6 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the file");
         sharedFilesPage.mouseOverContentItem(docName3);
-        getBrowser().waitInSeconds(4);
         assertFalse(sharedFilesPage.isMoreMenuDisplayed(docName3), "More menu displayed.");
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName3, language.translate("documentLibrary.contentActions.editInGoogleDocs")),
                 language.translate("documentLibrary.contentActions.editInGoogleDocs") + " option is displayed for " + docName3);

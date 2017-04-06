@@ -99,7 +99,6 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Verify the user has access to View the file details page");
         documentDetailsPage.clickDocumentsLink();
-        getBrowser().waitInSeconds(3);
         documentLibraryPage.clickOnFile(fileC8761);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "User is not on the Document Details page");
     }
@@ -307,7 +306,6 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user8865, password);
         documentLibraryPage.navigate(site8865);
-        getBrowser().waitInSeconds(4);
         uploadContent.uploadContent(filePath8865);
         getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileC8865collaborator), String.format("File %s was not uploaded", fileC8865collaborator));
@@ -317,7 +315,6 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Change the current role to 'Consumer'");
         siteUsersPage.navigate(site8865);
-        getBrowser().waitInSeconds(2);
         assertTrue(siteUsersPage.isASiteMember(user8865 + " " + user8865));
         assertEquals(siteUsersPage.getRole(user8865), "Collaborator ▾", user8865 + " has role=");
         siteUsersPage.changeRoleForMember("Consumer", user8865);

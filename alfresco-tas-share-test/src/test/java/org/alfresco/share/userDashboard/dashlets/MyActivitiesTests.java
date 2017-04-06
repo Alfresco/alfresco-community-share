@@ -194,7 +194,6 @@ public class MyActivitiesTests extends ContextAwareWebTest
 
         createObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
         setupAuthenticatedSession(userName, password);
-        getBrowser().waitInSeconds(15);
         userDashboardPage.navigate(userName);
 
         LOG.info("STEP 1-Verify type icon for every activity");
@@ -289,7 +288,6 @@ public class MyActivitiesTests extends ContextAwareWebTest
         createObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
         updateObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
         setupAuthenticatedSession(userName, password);
-        getBrowser().waitInSeconds(15);
         userDashboardPage.navigate(userName);
 
         LOG.info("STEP 1-Verify type icon for every activity");
@@ -373,7 +371,6 @@ public class MyActivitiesTests extends ContextAwareWebTest
         createObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
         deleteObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
         setupAuthenticatedSession(userName, password);
-        getBrowser().waitInSeconds(15);
         userDashboardPage.navigate(userName);
 
         LOG.info("STEP 1-Verify type icon for every activity");
