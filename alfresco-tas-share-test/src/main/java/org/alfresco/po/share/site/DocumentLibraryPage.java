@@ -628,7 +628,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         int nrOfTimes = 0;
         mouseOverContentItem(content);
-        while (!browser.isElementDisplayed(selectDocumentLibraryItemRow(content), renameIcon) && nrOfTimes < 3)
+        while (!browser.isElementDisplayed(selectDocumentLibraryItemRow(content), renameIcon) && nrOfTimes < 5)
         {
             mouseOverContentItem(content);
             nrOfTimes++ ;
