@@ -49,6 +49,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     private By commentLink = By.cssSelector("a.comment");
     private By numberOfLikes = By.cssSelector("span.likes-count");
     private By documentsList = By.cssSelector("tbody.yui-dt-data tr");
+    private By documentVersion = By.cssSelector("span.document-version");
 
     protected By docDetails = By.xpath("../following-sibling::*[1][@class='detail']/span[1]");
     protected String smallThumbnailIcon = "//img[contains(@src, '/share/res/components/images/filetypes/generic-file-32.png')][contains(@title,'%s')]";
@@ -326,7 +327,10 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public boolean isFileVersionDisplayed(String fileName, String fileVersion)
     {
-        return browser.isElementDisplayed(selectItem(fileName), By.xpath("//*[contains(text(), '" + fileVersion + "')]"));
+        browser.mouseOver(selectItem(fileName));
+        if(browser.isElementDisplayed(selectItem(fileName), documentVersion))
+            return selectItem(fileName).findElement(documentVersion).getText().equals(fileVersion);
+        return false;
     }
 
     public boolean isFileAddedToFavorites(String fileName)
