@@ -3,6 +3,7 @@ package org.alfresco.po.share.dashlet;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.common.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -207,7 +208,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     public boolean isFileDescription(String fileName, String description)
     {
         By fileDescription = By.xpath("// *[contains(text(), '" + description + "')]");
-
+        Parameter.checkIsMandotary("File", selectItem(fileName));
         return selectItem(fileName).findElement(fileDescription) != null;
     }
 
@@ -238,15 +239,13 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     }
 
     public boolean isSimpleViewButtonPresent()
-
     {
-        return simpleViewButton.isDisplayed();
+        return browser.isElementDisplayed(simpleViewButton);
     }
 
     public boolean isDetailedViewButtonPresent()
-
     {
-        return detailedViewButton.isDisplayed();
+        return browser.isElementDisplayed(detailedViewButton);
     }
 
     public void clickDetailedViewButton()
@@ -256,6 +255,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public void addFileToFavorites(String fileName)
     {
+        Parameter.checkIsMandotary("File", selectItem(fileName));
         selectItem(fileName).findElement(addToFavoritesLink).click();
         int counter = 0;
         while(!isFileAddedToFavorites(fileName) && counter < 5)
@@ -266,6 +266,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public void removeFileFromFavorites(String fileName)
     {
+        Parameter.checkIsMandotary("File", selectItem(fileName));
         selectItem(fileName).findElement(removeFromFavoritesLink).click();
         int counter = 0;
         while(!isAddToFavoritesLinkDisplayed(fileName) && counter < 5)
@@ -276,6 +277,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public void likeFile(String fileName)
     {
+        Parameter.checkIsMandotary("File", selectItem(fileName));
         selectItem(fileName).findElement(like).click();
         int counter = 0;
         while(!isUnlikeLinkDisplayed(fileName) && counter < 5)
@@ -286,6 +288,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public void unlikeFile(String fileName)
     {
+        Parameter.checkIsMandotary("File", selectItem(fileName));
         selectItem(fileName).findElement(unlike).click();
         int counter = 0;
         while(!isLikeButtonDisplayed(fileName) && counter < 5)
@@ -316,13 +319,14 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     
     public DocumentDetailsPage clickCommentLink(String fileName)
     {
+        Parameter.checkIsMandotary("File", selectItem(fileName));
         selectItem(fileName).findElement(commentLink).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
     public boolean isFileVersionDisplayed(String fileName, String fileVersion)
     {
-        return selectItem(fileName).findElement(By.xpath("//*[contains(text(), '" + fileVersion + "')]")) != null;
+        return browser.isElementDisplayed(selectItem(fileName), By.xpath("//*[contains(text(), '" + fileVersion + "')]"));
     }
 
     public boolean isFileAddedToFavorites(String fileName)
@@ -332,18 +336,19 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public int getNumberOfLikes(String fileName)
     {
+        Parameter.checkIsMandotary("File", selectItem(fileName));
         return Integer.parseInt(selectItem(fileName).findElement(numberOfLikes).getText());
     }
 
     public boolean isDocumentSizeDisplayed(String fileName, String size)
     {
         String documentSize = "//*[contains(text(), '" + size + "')]";
-        return selectItem(fileName).findElement(By.xpath(documentSize)) != null;
+        return browser.isElementDisplayed(selectItem(fileName), By.xpath(documentSize));
     }
 
     public WebElement selectItem(String document)
     {
-        browser.waitUntilElementIsDisplayedWithRetry(documentsList, 3);
+        browser.waitUntilElementIsDisplayedWithRetry(documentsList, 6);
         List<WebElement> itemsList = browser.findElements(documentsList);
         return browser.findFirstElementWithValue(itemsList, document);
     }
