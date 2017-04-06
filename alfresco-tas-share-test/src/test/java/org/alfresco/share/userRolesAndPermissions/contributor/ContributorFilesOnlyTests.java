@@ -628,22 +628,19 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     public void locateFile()
     {
         String fileName = String.format("fileName%s", DataUtil.getUniqueIdentifier());
-
+        String siteNameC8935 = String.format("SiteC8932%s", DataUtil.getUniqueIdentifier());
         LOG.info(
                 "Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
-        contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        siteService.create(adminUser, adminPassword, domain, siteNameC8935, description, Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, userContributor, siteNameC8935, "SiteContributor");
+        contentService.createDocument(userContributor, password, siteNameC8935, DocumentType.TEXT_PLAIN, fileName, fileContent);
         setupAuthenticatedSession(userContributor, password);
-        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.navigate(siteNameC8935);
 
         LOG.info("Step1: In Documents Library, go to Documents sections and select Recently Added.");
         documentLibraryPage.clickDocumentsFilterOption(DocumentLibraryPage.DocumentsFilters.RecentlyAdded.title);
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentLibraryPage.DocumentsFilters.RecentlyAdded.header,
                 "Recently added documents are displayed.");
-        if(!documentLibraryPage.isContentNameDisplayed(fileName))
-        {
-            documentLibraryPage.refresh();
-            documentLibraryPage.renderedPage();
-        }
 
         LOG.info("Step2: Hover over test file and click 'Locate File'.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Locate File", documentLibraryPage);
@@ -652,7 +649,6 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), "User is redirected to location of the created document.");
        // On 5.2, the file it's checked
        // assertTrue(documentLibraryPage.isContentSelected(fileName), "Document is checked.");
-        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 
     @TestRail(id = "C8936")

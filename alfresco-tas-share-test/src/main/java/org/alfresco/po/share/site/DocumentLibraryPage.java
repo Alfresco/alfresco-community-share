@@ -555,7 +555,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public HtmlPage clickDocumentLibraryItemAction(String contentItem, String action, HtmlPage page)
     {
         WebElement libraryItem = selectDocumentLibraryItemRow(contentItem);
-        Parameter.checkIsMandotary("Library item", libraryItem);
+        Parameter.checkIsMandotary(String.format("Library item %s", contentItem), libraryItem);
 
         mouseOverContentItem(contentItem);
         List<WebElement> availableActions = libraryItem.findElements(By.cssSelector(".action-set>div>a"));
