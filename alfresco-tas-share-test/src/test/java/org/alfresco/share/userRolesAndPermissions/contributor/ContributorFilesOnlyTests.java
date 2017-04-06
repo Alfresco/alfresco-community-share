@@ -319,6 +319,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Steps7: Click test file title link to open details page and check content.");
         documentLibraryPage.clickOnFile(newVersionFileName);
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFileName));
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
     }
 
     @TestRail(id = "C8922")
@@ -383,7 +384,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Steps9: Verify the file content is correct");
         Assert.assertTrue(documentDetailsPage.getContentText().replaceAll("\\s+", "").contains("Edited"), "File preview correctly displayed");
-
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/GDTitle.docx", deletePath));
     }
 
     @TestRail(id = "C8926")
@@ -405,7 +406,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(googleDocName, "Edit in Google Docs"),
                 "Edit in Google Docs available for Contributor user");
-
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, googleDocName));
     }
 
     @TestRail(id = "C8928")
@@ -461,6 +462,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.refresh();
         documentLibraryPage.renderedPage();
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(fileName), "Document appears to be locked");
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 
     @TestRail(id = "C8930")
@@ -691,6 +693,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         download.acceptAlertIfDisplayed();
         getBrowser().waitInSeconds(2);
         Assert.assertTrue(download.isFileInDirectory(fileName, null), "The file was not found in the specified location");
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
     }
 
     @TestRail(id = "C8937")
@@ -729,5 +732,6 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentDetailsPage.clickOkOnRevertPopup();
         Assert.assertEquals(documentDetailsPage.getContentText(), "original content", "New version's content");
         Assert.assertTrue(documentDetailsPage.isNewVersionAvailable("1.2"), "New minor version created");
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 }
