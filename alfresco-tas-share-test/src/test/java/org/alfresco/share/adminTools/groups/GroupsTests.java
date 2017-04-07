@@ -1,5 +1,7 @@
 package org.alfresco.share.adminTools.groups;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.site.members.AddSiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteGroupsPage;
@@ -14,11 +16,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Razvan.Dorobantu
@@ -42,6 +39,7 @@ public class GroupsTests extends ContextAwareWebTest
     private final String C9465group = "_C9465group" + uniqueIdentifier;
     private final String C9469group = "_C9469group" + uniqueIdentifier;
     private final String C9471group = "_C9471group" + uniqueIdentifier;
+    private final String C9471group1 = "_C9471groupS" + uniqueIdentifier;
     private final String C9460group = "_C9460group" + uniqueIdentifier;
     private final String C9465groupEdited = "_C9465Edited";
     private final String C9465EditedName = C9465groupEdited + " (" + C9465group + ")";
@@ -56,6 +54,7 @@ public class GroupsTests extends ContextAwareWebTest
         groupService.createGroup(adminUser, adminPassword, C9462group);
         groupService.createGroup(adminUser, adminPassword, C9465group);
         groupService.createGroup(adminUser, adminPassword, C9471group);
+        groupService.createGroup(adminUser, adminPassword, C9471group1);
         groupService.createGroup(adminUser, adminPassword, C9460group);
 
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -76,17 +75,14 @@ public class GroupsTests extends ContextAwareWebTest
     {
         groupsPage.navigate();
         groupsPage.clickBrowseButton();
-
-        List<String> groupList = groupsPage.getFirstColumnGroupsList();
-        Assert.assertTrue(groupList.contains(C9462group));
-
+        
+        groupsPage.checkGroupIsInList(C9462group);
+ 
         LOG.info("Step 1: Delete the group created in Precondition.");
         groupsPage.deleteGroup(C9462group, true);
-        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify the group is no longer present in the groups list.");
-        groupList = groupsPage.getFirstColumnGroupsList();
-        Assert.assertFalse(groupList.contains(C9462group));
+        groupsPage.checkGroupIsRemoved(C9462group);
     }
 
     @TestRail(id = "C9465")
@@ -96,16 +92,14 @@ public class GroupsTests extends ContextAwareWebTest
         groupsPage.navigate();
         assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
         groupsPage.clickBrowseButton();
-        List<String> groupList = groupsPage.getFirstColumnGroupsList();
-        Assert.assertTrue(groupList.contains(C9465group));
+        groupsPage.checkGroupIsInList(C9465group);
 
         LOG.info("Step 1: Edit the group created in Precondition.");
         groupsPage.editGroup(C9465group, C9465groupEdited, true);
-        getBrowser().waitInSeconds(4);
 
         LOG.info("Step 2: Verify the edited group is present in the groups list.");
-        groupList = groupsPage.getFirstColumnGroupsList();
-        Assert.assertTrue(groupList.contains(C9465EditedName));
+        groupsPage.checkGroupIsInList(C9465EditedName);
+        groupsPage.checkGroupIsRemoved(C9465group);
     }
 
     @TestRail(id = "C9469")
@@ -113,15 +107,13 @@ public class GroupsTests extends ContextAwareWebTest
     public void createGroup()
     {
         groupsPage.navigate();
-
+        groupsPage.clickBrowseButton();
+        
         LOG.info("Step1: Create a group from Admin Tools page.");
         groupsPage.createNewGroup(C9469group, true);
-        getBrowser().waitInSeconds(2);
-        getBrowser().refresh();
 
         LOG.info("Step 2: Verify the group is present in the groups list.");
-        List<String> groupList = groupsPage.getFirstColumnGroupsList();
-        assertTrue(groupList.contains(C9469group));
+        groupsPage.checkGroupIsInList(C9462group);;
     }
 
     @TestRail(id = "C9471")
@@ -133,10 +125,15 @@ public class GroupsTests extends ContextAwareWebTest
         LOG.info("Step 2: Search for the group created in Precondition.");
         groupsPage.writeInSearchInput(C9471group);
         groupsPage.clickSearchButton();
-        getBrowser().waitInSeconds(5);
 
         LOG.info("Step 3: Verify the group is present in the search result list.");
         Assert.assertTrue(groupsPage.isGroupPresentInSearchResult(C9471group));
+        Assert.assertEquals(groupsPage.getSeachBarText(), String.format("Search for \"%s\" found 1 results.",C9471group));
+    
+        groupsPage.writeInSearchInput("*" + uniqueIdentifier);
+        groupsPage.clickSearchButton();
+        Assert.assertTrue(groupsPage.isGroupPresentInSearchResult(C9471group));
+        Assert.assertTrue(groupsPage.isGroupPresentInSearchResult(C9471group1));
     }
 
     @TestRail(id = "C9460")
@@ -161,6 +158,7 @@ public class GroupsTests extends ContextAwareWebTest
         groupsPage.navigate();
         assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
         groupsPage.clickBrowseButton();
-        assertTrue(groupsPage.isItemDisplayedInSpecifiedColumn(C9460group, 1), C9460group + " is displayed in first column.");
+        
+        groupsPage.checkGroupIsInList(C9460group);        
     }
 }

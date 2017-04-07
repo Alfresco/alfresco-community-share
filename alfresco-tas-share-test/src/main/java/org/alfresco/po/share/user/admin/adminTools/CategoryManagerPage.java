@@ -3,21 +3,14 @@ package org.alfresco.po.share.user.admin.adminTools;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
-
-/**
- * @author Razvan.Dorobantu
- */
 @PageObject
 public class CategoryManagerPage extends AdminToolsPage
 {
     @RenderWebElement
-    @FindBy(xpath = "//div[@class='title' and text()='Category Manager']")
+    @FindBy(css = "div[id$=default-category-manager]")
     private WebElement categoryManagerDiv;
 
     @FindBy(xpath = "//span[contains(@id, 'labelel') and text()='Category Root']")
@@ -35,13 +28,13 @@ public class CategoryManagerPage extends AdminToolsPage
     @FindBy(xpath = "//span[contains(@id, 'labelel') and text()='Tags']")
     private WebElement tags;
 
-    @FindBy(xpath = "//label[text() = 'Category name:']/../input")
+    @FindBy(css = "div#userInput input[id*=alf-id]")
     private WebElement addCategoryNameInput;
 
-    @FindBy(xpath = "//div[text() = 'Add Category']/../div/span[@class = 'button-group']//button[text() = 'OK']")
+    @FindBy(xpath = "//div[@id='userInput']//button[text()='OK']")
     private WebElement addCategoryNameOKButton;
 
-    @FindBy(xpath = "//div[text() = 'Add Category']/../div/span[@class = 'button-group']//button[text() = 'Cancel']")
+    @FindBy(xpath = "//div[@id='userInput']//button[text()='Cancel']")
     private WebElement addCategoryNameCancelButton;
 
     @FindBy(xpath = "//div[text() = 'Delete Category']/../div/span[@class = 'button-group']//button[text() = 'Delete']")
@@ -59,123 +52,74 @@ public class CategoryManagerPage extends AdminToolsPage
     @FindBy(xpath = "//form[@class = 'insitu-edit' and @style = 'display: inline;']/a[text() = 'Cancel']")
     private WebElement editCategoryCancelButton;
 
-    private By addCategoryButton = By.cssSelector("span[title='Add Category']");
-    private By editCategoryButton = By.cssSelector("span[title='Edit Category']");
-    private By deleteCategoryButton = By.cssSelector("span[title='Delete Category']");
+    private By addCategoryButton = By.cssSelector("span[class*=insitu-add]");
+    
+    private By editCategoryButton = By.cssSelector("span.insitu-edit-category");
+    
+    private By deleteCategoryButton = By.cssSelector("span.insitu-delete-category");
+    
+    private String categoryLocator = "//span[contains(@id, 'labelel') and text()='%s']";
 
     @Override
     public String getRelativePath() {return "share/page/console/admin-console/category-manager";}
 
     public void addCategory(String categoryName)
     {
-        int counter = 1;
-        while (counter < 3)
-        {
-            try
-            {
-                browser.mouseOver(categoryRoot);
-                browser.waitInSeconds(2);
-                List<WebElement> addButtons = browser.findElements(addCategoryButton);
-                for (WebElement visibleAddButton : addButtons)
-                    if (visibleAddButton.getAttribute("style").contains("visible"))
-                    {
-                        visibleAddButton.click();
-                        break;
-                    }
-                addCategoryNameInput.clear();
-                addCategoryNameInput.sendKeys(categoryName);
-                addCategoryNameOKButton.click();
-                browser.waitInSeconds(6);
-                break;
-            }
-            catch (NoSuchElementException | TimeoutException e)
-            {
-                counter++;
-                browser.refresh();
-                browser.waitInSeconds(6);
-            }
-        }
+        browser.mouseOver(categoryRoot);
+        browser.waitInSeconds(2);
+        browser.findFirstDisplayedElement(addCategoryButton).click();
+
+        browser.waitUntilElementVisible(addCategoryNameInput);
+        addCategoryNameInput.sendKeys(categoryName);
+        addCategoryNameOKButton.click();
+        renderedPage();
     }
 
     public void deleteCategory(String categoryName)
     {
-        int counter = 1;
-        while (counter < 3)
-        {
-            try
-            {
-                browser.mouseOver(browser.findElement(By.xpath(String.format("//span[contains(@id, 'labelel') and text()='%s']", categoryName))));
-                browser.waitInSeconds(2);
-                List<WebElement> deleteButtons = browser.findElements(deleteCategoryButton);
-                for (WebElement visibleDeleteButton : deleteButtons)
-                    if (visibleDeleteButton.getAttribute("style").contains("visible"))
-                    {
-                        visibleDeleteButton.click();
-                        break;
-                    }
-                browser.waitInSeconds(2);
-                deleteCategoryOKButton.click();
-                browser.waitInSeconds(5);
-                break;
-            }
-            catch (NoSuchElementException | TimeoutException e)
-            {
-                counter++;
-                browser.refresh();
-                browser.waitInSeconds(6);
-            }
-        }
+        mouseOverOnCategory(categoryName);
+        
+        browser.findFirstDisplayedElement(deleteCategoryButton).click();
+        browser.waitUntilElementVisible(deleteCategoryOKButton);
+        deleteCategoryOKButton.click();
+        renderedPage();
     }
 
     public void editCategory(String categoryName, String newCategoryName)
     {
-        int counter = 1;
-        while (counter < 3)
-        {
-            try
-            {
-                browser.mouseOver(browser.findElement(By.xpath(String.format("//span[contains(@id, 'labelel') and text()='%s']", categoryName))));
-                browser.waitInSeconds(2);
-                List<WebElement> editButtons = browser.findElements(editCategoryButton);
-                for (WebElement visibleEditButton : editButtons)
-                    if (visibleEditButton.getAttribute("style").contains("visible"))
-                    {
-                        visibleEditButton.click();
-                        break;
-                    }
-                browser.waitInSeconds(2);
-                editCategoryNameInput.clear();
-                browser.waitInSeconds(2);
-                editCategoryNameInput.sendKeys(newCategoryName);
-                editCategorySaveButton.click();
-                browser.waitInSeconds(5);
-                break;
-            }
-            catch (NoSuchElementException | TimeoutException e)
-            {
-                counter++;
-                browser.refresh();
-                browser.waitInSeconds(6);
-            }
-        }
+        mouseOverOnCategory(categoryName);
+        browser.findFirstDisplayedElement(editCategoryButton).click();
+        
+        browser.waitUntilElementVisible(editCategoryNameInput);
+        editCategoryNameInput.sendKeys(newCategoryName);
+        editCategorySaveButton.click();
+        renderedPage();
     }
 
+    private void mouseOverOnCategory(String categoryName)
+    {
+        By categoryBy = By.xpath(String.format(categoryLocator, categoryName));
+        
+        browser.waitUntilElementIsDisplayedWithRetry(categoryBy, 1);
+        WebElement elem = categoryManagerDiv.findElement(categoryBy);
+        browser.mouseOver(elem);       
+        browser.waitInSeconds(2);
+    }
+    
     public boolean isCategoryDisplayed(String categoryName)
     {
-        By category = By.xpath(String.format("//span[contains(@id, 'labelel') and text()='%s']", categoryName));
-        int counter = 1;
-        while (counter < 4)
-        {
-            if (!browser.isElementDisplayed(category))
-            {
-                counter++;
-                browser.refresh();
-            }
-            else { break; }
-        }
+        By category = By.xpath(String.format(categoryLocator, categoryName));
+        browser.waitUntilElementIsDisplayedWithRetry(category, 1);
         return browser.isElementDisplayed(category);
     }
-
+    
+    public boolean isCategoryNotDisplayed(String categoryName)
+    {
+        By category = By.xpath(String.format("//span[contains(@id, 'labelel') and text()='%s']", categoryName));
+        browser.waitUntilElementDisappearsWithRetry(category, 1);
+        return !browser.isElementDisplayed(category);
+    }
+    
     public boolean isCategoryRootLinkDisplayed() { return categoryRoot.isDisplayed(); }
 
     public boolean isRegionsLinkDisplayed() { return regions.isDisplayed(); }

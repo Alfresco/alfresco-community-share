@@ -1,18 +1,17 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.testng.Assert;
 
 /**
  * @author Razvan.Dorobantu
@@ -45,9 +44,16 @@ public class GroupsPage extends AdminToolsPage
     @RenderWebElement
     @FindBy(css = "button[id*='browse']")
     private WebElement browseButton;
-
+    
+    @RenderWebElement
+    @FindBy (css = "div[id*=default-search-bar-text]")
+    private WebElement searchBar;
+    
     @FindAll(@FindBy(css = "div[id*='breadcrumb'] span[class*='groups'] span[class*='item-text']"))
     private List<WebElement> breadcrumbList;
+
+    @FindAll(@FindBy(css = "span[class*='groups-item-group'] span[class*=item-text]"))
+    private WebElement breadcrumb;
 
     @FindBy(css = "ul[class*='carousel'] li:nth-of-type(2) span[class*='newgroup']")
     private WebElement newSubGroupButton;
@@ -84,17 +90,24 @@ public class GroupsPage extends AdminToolsPage
 
     @FindBy(css = "input[id*='create-displayname']")
     private WebElement groupDisplayNameInput;
-
+    
+    @FindBy (css = "span.groups-newgroup-button")
+    private WebElement newGroupButton;
+    
     private By groupEditDisplayNameInput = By.cssSelector("input[id$='default-update-displayname']");
-    private By newGroupButton = By.cssSelector("span[title='New Group']");
-    private By createGroupOKButton = By.cssSelector("button[id*='creategroup-ok']");
-    private By cancelCreateGroupButton = By.cssSelector("button[id*='creategroup-cancel']");
+
+    @FindBy (css = "button[id*='creategroup-ok']")
+    private WebElement createGroupOKButton;
+
+    @FindBy (css = "button[id*='creategroup-cancel']")
+    private WebElement cancelCreateGroupButton;
+
     private By createAndCreateAnotherGroupButton = By.cssSelector("button[id*='creategroup-another']");
     private By deleteGroupOKButton = By.cssSelector("button[id$='_default-remove-button-button']");
     private By deleteGroupCancelButton = By.cssSelector("button[id$='_default-cancel-button-button']");
     private By updateGroupOKButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");
     private By updateGroupCancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
-    
+
     @Override
     public String getRelativePath()
     {
@@ -113,40 +126,34 @@ public class GroupsPage extends AdminToolsPage
 
     public void clickSearchButton()
     {
-        browser.waitUntilElementClickable(searchButton, 5).click();
+        searchButton.click();
     }
 
     public void clickBrowseButton()
     {
-        browser.waitUntilElementClickable(browseButton, 5).click();
+        browser.waitUntilElementClickable(browseButton, properties.getImplicitWait()).click();
         browser.waitUntilElementVisible(By.cssSelector(".yui-columnbrowser-column-body"));
     }
 
     /**
      * @return List of breadcrumb path text items
      */
-    public ArrayList<String> getBreadcrumb()
+    public String getBreadcrumbText()
     {
-        this.renderedPage();
-        ArrayList<String> breadcrumbTextList = new ArrayList<>();
-        for (WebElement breadcrumbItem : breadcrumbList)
-        {
-            breadcrumbTextList.add(breadcrumbItem.getText());
-        }
-        return breadcrumbTextList;
+        return breadcrumb.getText();
     }
 
     public boolean isGroupPresentInSearchResult(String groupName)
     {
-        return browser.isElementDisplayed(By.xpath(String.format("//tbody/tr/td/div[text()='%s']", groupName)));
+        By groupBy = By.xpath(String.format("//td[contains(@class,'yui-dt-col-displayName')]/div[text()='%s']",groupName));
+        browser.waitUntilElementsVisible(groupBy);
+        return browser.isElementDisplayed(groupBy);
     }
 
     public void writeInSearchInput(String searchItem)
     {
         searchInput.clear();
-        browser.waitInSeconds(2);
         searchInput.sendKeys(searchItem);
-        browser.waitInSeconds(2);
     }
 
     public void checkShowSystemGroupsCheckbox()
@@ -163,18 +170,19 @@ public class GroupsPage extends AdminToolsPage
     {
         this.renderedPage();
         boolean displayed = false;
-        List<String> firstColumn = getFirstColumnGroupsList();
-        List<String> secondColumn = getSecondColumnItemsList();
-
-        switch (columnNumber)
-        {
-            case 1:
-                displayed = firstColumn.contains(itemName);
-                break;
-            case 2:
-                displayed = secondColumn.contains(itemName);
-                break;
-        }
+        /*
+         * List<String> firstColumn = getFirstColumnGroupsList();
+         * List<String> secondColumn = getSecondColumnItemsList();
+         * switch (columnNumber)
+         * {
+         * case 1:
+         * displayed = firstColumn.contains(itemName);
+         * break;
+         * case 2:
+         * displayed = secondColumn.contains(itemName);
+         * break;
+         * }Ø
+         */
 
         return displayed;
     }
@@ -182,30 +190,18 @@ public class GroupsPage extends AdminToolsPage
     /**
      * @return list of groups from first column
      */
-    public List<String> getFirstColumnGroupsList()
+    public void checkGroupIsInList(String name)
     {
-        int refreshCount = 1;
-        List<String> groupList = new ArrayList<>();
-        List<WebElement> listOfGroups = new ArrayList<>();
-        while (refreshCount <= 5)
-        {
-            try
-            {
-                listOfGroups = browser.waitUntilElementsVisible(By.cssSelector("div a[class*='columnbrowser-item groups-item-group'] span[class$='item-label']"));
-                break;
-            }
-            catch (TimeoutException | NoSuchElementException e)
-            {
-                browser.refresh();
-                //browser.waitInSeconds(6);
-                refreshCount++;
-            }
-        }
-        for (WebElement eachGroup : listOfGroups)
-        {
-            groupList.add(eachGroup.getText());
-        }
-        return groupList;
+        WebElement element = getItemGroup(name);
+        Assert.assertNotNull(element, String.format("%s group is displayed.", name));
+    }
+
+    public WebElement getItemGroup(String name)
+    {
+        By groupBy = By.xpath(String.format("//div[@class='yui-columnbrowser-column-body']//span[contains(@class,'item-label') and text()='%s']", name));
+        if (browser.isElementDisplayed(groupBy))
+            return browser.findElement(groupBy);
+        return null;
     }
 
     /**
@@ -230,11 +226,8 @@ public class GroupsPage extends AdminToolsPage
      */
     public void clickItemFromList(String itemName)
     {
-        for (WebElement item : itemsList)
-        {
-            if (item.getText().equals(itemName))
-                item.click();
-        }
+        WebElement item = getItemGroup(itemName);
+        item.click();
     }
 
     /**
@@ -254,7 +247,8 @@ public class GroupsPage extends AdminToolsPage
 
     private void clickNewGroupButton()
     {
-        browser.waitUntilElementClickable(newGroupButton, 5).click();
+        browser.waitUntilElementVisible(newGroupButton);
+        newGroupButton.click();
     }
 
     /**
@@ -350,7 +344,6 @@ public class GroupsPage extends AdminToolsPage
         browser.waitUntilElementVisible(groupIdentifierInput);
         groupIdentifierInput.clear();
         groupIdentifierInput.sendKeys(identifierName);
-        browser.waitInSeconds(1);
     }
 
     public boolean isDisplayNameInputFieldDisplayed()
@@ -361,9 +354,8 @@ public class GroupsPage extends AdminToolsPage
     public void typeGroupDisplayName(String identifierName)
     {
         groupDisplayNameInput.clear();
-        browser.waitInSeconds(2);
         groupDisplayNameInput.sendKeys(identifierName);
-        browser.waitInSeconds(2);
+
     }
 
     public boolean isCreateNewGroupButtonDisplayed()
@@ -373,7 +365,8 @@ public class GroupsPage extends AdminToolsPage
 
     public void clickCreateGroupButton()
     {
-        browser.waitUntilElementClickable(createGroupOKButton, 5).click();
+        browser.waitUntilElementVisible(createGroupOKButton);
+        createGroupOKButton.click();
         this.renderedPage();
     }
 
@@ -394,7 +387,6 @@ public class GroupsPage extends AdminToolsPage
 
     public void createNewGroup(String groupName, boolean areYouSure)
     {
-        clickBrowseButton();
         clickNewGroupButton();
         typeGroupIdentifier(groupName);
         typeGroupDisplayName(groupName);
@@ -410,38 +402,54 @@ public class GroupsPage extends AdminToolsPage
 
     public void deleteGroup(String groupName, boolean areYouSure)
     {
-        By deleteGroupButton = By.xpath(String.format("//span[contains(@class,'item-label') and text()='%s']/..//span[@title='Delete Group']", groupName));
-        browser.mouseOver(browser.findFirstElementWithValue(
-                browser.waitUntilElementsVisible(By.cssSelector("div a[class*='columnbrowser-item groups-item-group'] span[class$='item-label']")), groupName));
+        WebElement element = getItemGroup(groupName);
+        browser.mouseOver(element);
+
+        By deleteGroupButton = By.xpath(String.format("//a[@class='yui-columnbrowser-item groups-item-group yui-columnbrowser-item-active']//span[@class='groups-delete-button']", groupName));
         browser.waitUntilElementVisible(deleteGroupButton).click();
-        browser.waitInSeconds(3);
+
+        browser.waitUntilElementVisible(deleteGroupOKButton);
         if (areYouSure)
         {
-            browser.findFirstDisplayedElement(deleteGroupOKButton).click();
+            browser.findElement(deleteGroupOKButton).click();
         }
         else
         {
-            browser.findFirstDisplayedElement(deleteGroupCancelButton).click();
+            browser.findElement(deleteGroupCancelButton).click();
         }
+    }
+
+    public void checkGroupIsRemoved(String name)
+    {
+        By groupBy = By.xpath(String.format("//div[@class='yui-columnbrowser-column-body']//span[contains(@class,'item-label') and text()='%s']", name));
+        browser.waitUntilElementDisappears(groupBy, properties.getImplicitWait());
+        
+        Assert.assertFalse(browser.isElementDisplayed(groupBy), String.format("%s group is removed ", name));
     }
 
     public void editGroup(String groupName, String newName, boolean areYouSure)
     {
-        By editGroupButton = By.xpath(String.format("//span[contains(@class,'item-label') and text()='%s']/..//span[@title='Edit Group']", groupName));
-        browser.mouseOver(browser.findFirstElementWithValue(
-                browser.findElements(By.cssSelector("div a[class*='columnbrowser-item groups-item-group'] span[class$='item-label']")), groupName));
-        browser.waitUntilElementClickable(editGroupButton, 4).click();
+        WebElement element = getItemGroup(groupName);
+        browser.mouseOver(element);
+
+        By editGroupButton = By.xpath(String.format("//a[@class='yui-columnbrowser-item groups-item-group yui-columnbrowser-item-active']//span[@class='groups-update-button']", groupName));
+        browser.waitUntilElementVisible(editGroupButton).click();
+
         WebElement groupEditDisplayNameInputElement = browser.waitUntilElementVisible(groupEditDisplayNameInput);
         groupEditDisplayNameInputElement.clear();
-        browser.waitInSeconds(1);
         groupEditDisplayNameInputElement.sendKeys(newName);
         if (areYouSure)
         {
-            browser.waitUntilElementClickable(updateGroupOKButton, 4).click();
+            browser.findElement(updateGroupOKButton).click();
         }
         else
         {
-            browser.waitUntilElementClickable(updateGroupCancelButton, 4).click();
+            browser.findElement(updateGroupCancelButton).click();
         }
+    }
+    
+    public String getSeachBarText()
+    {
+        return searchBar.getText();
     }
 }
