@@ -22,6 +22,9 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 {
     @Autowired
     EditTaskPage editTaskPage;
+
+    @Autowired
+    StartWorkflowPage startWorkflowPage;
     
     @RenderWebElement
     @FindBy(css = "div.dashlet.my-tasks")
@@ -79,7 +82,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
     public StartWorkflowPage clickOnStartWorkFlowLink()
     {
         startWorkFlowLink.click();
-        return new StartWorkflowPage();
+        return (StartWorkflowPage) startWorkflowPage.renderedPage();
     }
 
     /**

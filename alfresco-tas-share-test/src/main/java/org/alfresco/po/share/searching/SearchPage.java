@@ -7,6 +7,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,11 @@ import java.util.List;
  * @author Laura.Capsa
  */
 @PageObject
-public class SearchPage extends SharePage<SearchPage> implements AccessibleByMenuBar {
+public class SearchPage extends SharePage<SearchPage> implements AccessibleByMenuBar
+{
+	@Autowired
+	SearchManagerPage searchManagerPage;
+
 	@FindBy(id = "FCTSRCH_RESULTS_COUNT_LABEL")
 	private WebElement numberOfResultsLabel;
 
@@ -351,7 +356,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
 	public SearchManagerPage clickSearchManagerLink() {
 		searchManager.click();
-		return new SearchManagerPage();
+		return (SearchManagerPage) searchManagerPage.renderedPage();
 	}
 
 	/**

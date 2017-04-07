@@ -293,7 +293,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
                 //carry on
             }
         }
-        return new ManagePermissionsPage();
+        return (ManagePermissionsPage) this.renderedPage();
     }
 
     /**

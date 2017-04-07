@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 
@@ -19,6 +20,15 @@ import java.util.List;
 @PageObject
 public class TopicViewPage extends SiteCommon<TopicViewPage>
 {
+    @Autowired
+    EditTopicPage editTopicPage;
+
+    @Autowired
+    DeleteDialog deleteDialog;
+
+    @Autowired
+    TopicListPage topicListPage;
+
     /* Top Buttons */
     @FindBy(css = ".backLink>a")
     private Link discussionsTopicListLink;
@@ -212,7 +222,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public EditTopicPage editTopic()
     {
         editLink.click();
-        return new EditTopicPage();
+        return (EditTopicPage) editTopicPage.renderedPage();
     }
 
     /**
@@ -223,7 +233,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public DeleteDialog deleteTopic()
     {
         deleteLink.click();
-        return new DeleteDialog();
+        return (DeleteDialog) deleteDialog.renderedPage();
     }
 
     /**
@@ -234,7 +244,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public TopicListPage clickDiscussionsTopicListLink()
     {
         discussionsTopicListLink.click();
-        return new TopicListPage();
+        return (TopicListPage) topicListPage.renderedPage();
     }
 
     /**

@@ -9,6 +9,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 
@@ -17,6 +18,15 @@ import java.util.List;
 @PageObject
 public class TopicListPage extends SiteCommon<TopicListPage>
 {
+    @Autowired
+    TopicViewPage topicViewPage;
+
+    @Autowired
+    DeleteDialog deleteDialog;
+
+    @Autowired
+    EditTopicPage editTopicPage;
+
     @RenderWebElement
     @FindBy(css = ".topiclist")
     private WebElement discussionsContainer;
@@ -112,7 +122,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     public TopicViewPage clickTopicTitle(String topicTitle)
     {
         getTopicElement(topicTitle).findElement(title).click();
-        return new TopicViewPage();
+        return (TopicViewPage) topicViewPage.renderedPage();
     }
 
     /**
@@ -179,7 +189,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     public TopicViewPage readTopic(String topicTitle)
     {
         getTopicElement(topicTitle).findElement(readTopic).click();
-        return new TopicViewPage();
+        return (TopicViewPage) topicViewPage.renderedPage();
     }
 
     /**
@@ -191,7 +201,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     public TopicViewPage viewTopic(String topicTitle)
     {
         getTopicElement(topicTitle).findElement(viewTopic).click();
-        return new TopicViewPage();
+        return (TopicViewPage) topicViewPage.renderedPage();
     }
 
     /**
@@ -203,7 +213,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     public EditTopicPage editTopic(String topicTitle)
     {
         getTopicElement(topicTitle).findElement(editTopic).click();
-        return new EditTopicPage();
+        return (EditTopicPage) editTopicPage.renderedPage();
     }
 
     /**
@@ -214,7 +224,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     public DeleteDialog deleteTopic(String topicTitle)
     {
         getTopicElement(topicTitle).findElement(deleteTopic).click();
-        return new DeleteDialog();
+        return (DeleteDialog) deleteDialog.renderedPage();
     }
 
     /**

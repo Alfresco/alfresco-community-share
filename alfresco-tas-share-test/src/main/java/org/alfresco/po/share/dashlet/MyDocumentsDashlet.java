@@ -478,7 +478,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     {
         selectDocumentDetailsRow(documentName).findElement(By.cssSelector("h3.filename > a")).click();
         browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[class='node-social']"), 5);
-        return new DocumentDetailsPage();
+        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
     /**

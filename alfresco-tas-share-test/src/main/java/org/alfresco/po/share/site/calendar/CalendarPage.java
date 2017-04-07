@@ -27,6 +27,12 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     @Autowired
     EventInformationDialog eventInformationDialog;
 
+    @Autowired
+    DeleteDialog deleteDialog;
+
+    @Autowired
+    EditEventDialog editEventDialog;
+
     @RenderWebElement
     @FindBy(css = "button[id$='default-addEvent-button-button']")
     private Button addEventButton;
@@ -486,7 +492,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         WebElement eventElement = browser.findFirstElementWithValue(agendaEventsName, eventName);
         browser.mouseOver(eventElement);
         eventElement.findElement(deleteIcon).click();
-        return new DeleteDialog();
+        return (DeleteDialog) deleteDialog.renderedPage();
     }
 
     /**
@@ -500,7 +506,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         WebElement eventElement = browser.findFirstElementWithValue(agendaEventsName, eventName);
         browser.mouseOver(eventElement);
         eventElement.findElement(editIcon).click();
-        return new EditEventDialog();
+        return (EditEventDialog) editEventDialog.renderedPage();
     }
 
     /**
@@ -514,7 +520,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         WebElement eventElement = browser.findFirstElementWithValue(agendaEventsName, eventName);
         browser.mouseOver(eventElement);
         eventElement.findElement(infoIcon).click();
-        return new EventInformationDialog();
+        return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
     /**

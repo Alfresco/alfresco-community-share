@@ -95,7 +95,7 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     public DocumentLibraryPage clickDocumentLibrary()
     {
         documentLibrary.click();
-        return new DocumentLibraryPage();
+        return (DocumentLibraryPage) new DocumentLibraryPage().renderedPage();
     }
 
     /**
@@ -111,7 +111,7 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     public AddSiteUsersPage clickAddUsersIcon()
     {
         addUser.click();
-        return new AddSiteUsersPage();
+        return (AddSiteUsersPage) new AddSiteUsersPage().renderedPage();
     }
 
     @SuppressWarnings("unchecked")
@@ -129,7 +129,7 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     public MyFilesPage clickMyFilesLink()
     {
         myFilesButton.click();
-        return new MyFilesPage();
+        return (MyFilesPage) new MyFilesPage().renderedPage();
     }
 
     /**
@@ -140,6 +140,6 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     public RepositoryPage clickRepositoryLink()
     {
         repositoryButton.click();
-        return new RepositoryPage();
+        return (RepositoryPage) new RepositoryPage().renderedPage();
     }
 }
