@@ -6,11 +6,14 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 
 @PageObject
 public class SiteUsersPage extends SiteMembersPage
 {
+    @Autowired
+    UserProfilePage userProfilePage;
 
     @FindBy(css = "a[id*='invitePeople']")
     private WebElement addUsers;
@@ -109,6 +112,6 @@ public class SiteUsersPage extends SiteMembersPage
     public UserProfilePage clickUser(String userName)
     {
         browser.findFirstDisplayedElement(By.xpath("//td//a[normalize-space(text())='" + userName + "']")).click();
-        return new UserProfilePage();
+        return (UserProfilePage) userProfilePage.renderedPage();
     }
 }

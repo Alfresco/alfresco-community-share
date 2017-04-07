@@ -10,6 +10,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ import java.util.List;
 @PageObject
 public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 {
+    @Autowired
+    SiteGroupsPage siteGroupsPage;
+
     @RenderWebElement
     @FindBy(css = "div[class='finder-wrapper']")
     protected WebElement groupFinderWrapper;
@@ -153,7 +157,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
     {
         backToSiteGroups.click();
 
-        return new SiteGroupsPage();
+        return (SiteGroupsPage) siteGroupsPage.renderedPage();
     }
 
     /**
