@@ -79,7 +79,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group0);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group0));
-        assertEquals(groupsPage.getBreadcrumb(), expectedList, "Groups breadcrumb path=");
+        assertEquals(groupsPage.getBreadcrumbText(), expectedList, "Groups breadcrumb path=");
         expectedList.clear();
 
         LOG.info("STEP1: Click 'New Subgroup' button from second column's header");
@@ -117,7 +117,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group1);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group1));
-        assertEquals(groupsPage.getBreadcrumb(), expectedList, "Groups breadcrumb path=");
+        assertEquals(groupsPage.getBreadcrumbText(), expectedList, "Groups breadcrumb path=");
         expectedList.clear();
 
         LOG.info("STEP1: Click 'Add Group' button from second column's header");
@@ -158,7 +158,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group2);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group2));
-        assertEquals(groupsPage.getBreadcrumb(), expectedList, "Groups breadcrumb path=");
+        assertEquals(groupsPage.getBreadcrumbText(), expectedList, "Groups breadcrumb path=");
         expectedList.clear();
 
         LOG.info("STEP1: Click 'Add Group' button from second column's header");
@@ -195,7 +195,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.clickItemFromList(group3);
         String user = name + " " + userModelAdmin + " (" + userModelAdmin + ")";
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group3));
-        assertEquals(groupsPage.getBreadcrumb(), expectedList, "Groups breadcrumb path=");
+        assertEquals(groupsPage.getBreadcrumbText(), expectedList, "Groups breadcrumb path=");
         expectedList.clear();
 
         LOG.info("STEP1: Click 'Remove User' button for the user, from second column's header");
@@ -224,7 +224,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group3);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group3));
-        assertEquals(groupsPage.getBreadcrumb(), expectedList, "Groups breadcrumb path=");
+        assertEquals(groupsPage.getBreadcrumbText(), expectedList, "Groups breadcrumb path=");
         expectedList.clear();
 
         LOG.info("STEP1: Click 'Delete Group' button for the subgroup from second column's header");
