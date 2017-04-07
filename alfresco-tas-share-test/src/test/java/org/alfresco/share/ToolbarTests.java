@@ -225,9 +225,8 @@ public class ToolbarTests extends ContextAwareWebTest
 
         LOG.info("STEP 3 - Click on the \"User menu\" -> \"Help\" link");
         toolbarUserMenu.clickHelp();
-
-        getBrowser().waitInSeconds(5);
-        getBrowser().switchWindow();
+        
+        getBrowser().switchWindow(1);
         
         Assert.assertEquals(getBrowser().getTitle(), language.translate("alfrescoDocumentation.pageTitle"), "Page title");
         getBrowser().closeWindowAndSwitchBack();

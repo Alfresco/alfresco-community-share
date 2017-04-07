@@ -1,6 +1,9 @@
 package org.alfresco.share.adminTools.categoryManager;
 
+import java.util.Arrays;
+
 import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -11,8 +14,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-
 /**
  * @author Razvan.Dorobantu
  */
@@ -20,6 +21,9 @@ public class CategoryManagerTests extends ContextAwareWebTest
 {
     @Autowired
     CategoryManagerPage categoryManagerPage;
+
+    @Autowired
+    UserService userService;
 
     String category9295 = String.format("categoryC9295%s", DataUtil.getUniqueIdentifier());
     String category9301 = String.format("categoryC9301%s", DataUtil.getUniqueIdentifier());
@@ -29,11 +33,9 @@ public class CategoryManagerTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void beforeClass()
     {
-        setupAuthenticatedSession(adminUser, adminPassword);
-        categoryManagerPage.navigate();
-        categoryManagerPage.addCategory(category9301);
-        categoryManagerPage.addCategory(category9298);
-        cleanupAuthenticatedSession();
+        userService.createRootCategory(adminUser, adminPassword, category9301);
+        userService.createRootCategory(adminUser, adminPassword, category9298);
+
         setupAuthenticatedSession(adminUser, adminPassword);
         categoryManagerPage.navigate();
     }
@@ -41,9 +43,9 @@ public class CategoryManagerTests extends ContextAwareWebTest
     @AfterClass
     public void afterClassDeleteAddedCategories()
     {
-        for (String categoryName : Arrays.asList(category9295, category9298, categoryEdited, category9301))
-            if (categoryManagerPage.isCategoryDisplayed(categoryName))
-                categoryManagerPage.deleteCategory(categoryName);
+        for (String categoryName : Arrays.asList(category9295, categoryEdited))
+            if( userService.categoryExists(adminUser, adminPassword, categoryName))
+                userService.deleteCategory(adminUser, adminPassword, categoryName);
         cleanupAuthenticatedSession();
     }
 
@@ -52,6 +54,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
     public void verifyCategoryManagerPage()
     {
         LOG.info("Step 1: Verify if the 'Category Manager' page has the specific links displayed.");
+
         Assert.assertTrue(categoryManagerPage.isCategoryRootLinkDisplayed(), "Category Root link is displayed.");
         Assert.assertTrue(categoryManagerPage.isLanguagesLinkDisplayed(), "Languages link is displayed.");
         Assert.assertTrue(categoryManagerPage.isRegionsLinkDisplayed(), "Regions link is displayed.");
@@ -65,10 +68,9 @@ public class CategoryManagerTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Add a new category in the 'Category Manager' page.");
         categoryManagerPage.addCategory(category9295);
-        getBrowser().waitInSeconds(5); getBrowser().refresh();
 
         LOG.info("Step 2: Verify the category is added in the 'Category Manager' page.");
-        Assert.assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category displayed" );
+        Assert.assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category displayed");
     }
 
     @TestRail(id = "C9301")
@@ -79,7 +81,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
         categoryManagerPage.deleteCategory(category9301);
 
         LOG.info("Step 2: Verify the delete category is no longer present in the 'Category Manager' page.");
-        Assert.assertFalse(categoryManagerPage.isCategoryDisplayed(category9301));
+        Assert.assertTrue(categoryManagerPage.isCategoryNotDisplayed(category9301));
     }
 
     @TestRail(id = "C9298")
@@ -90,10 +92,9 @@ public class CategoryManagerTests extends ContextAwareWebTest
         categoryManagerPage.editCategory(category9298, categoryEdited);
 
         LOG.info("Step 2: Verify the edited category is displayed in the 'Category Manager' page.");
+
         Assert.assertTrue(categoryManagerPage.isCategoryDisplayed(categoryEdited));
-        Assert.assertFalse(categoryManagerPage.isCategoryDisplayed(category9298));
+        Assert.assertTrue(categoryManagerPage.isCategoryNotDisplayed(category9298));
 
     }
-
-
 }

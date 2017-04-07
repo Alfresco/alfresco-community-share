@@ -96,7 +96,6 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click on " + siteName + "'s name link. Click on 'Site Members' link.");
         siteUsersPage.navigate(siteName);
-        getBrowser().waitInSeconds(5);
         assertTrue(siteUsersPage.isASiteMember(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteName);
         assertTrue(siteUsersPage.isRoleSelected("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
 
@@ -117,19 +116,16 @@ public class JoiningSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open " + siteName + " dashboard  and click 'Site configuration options' -> 'Join Site'.");
         siteDashboardPage.navigate(siteName);
         siteDashboardPage.clickSiteConfiguration();
-        getBrowser().waitInSeconds(1);
         siteDashboardPage.clickOptionInSiteConfigurationDropDown("Join Site", siteDashboardPage);
-        getBrowser().waitInSeconds(3);
-
+        
         LOG.info("STEP 2: Click on 'Site Members' link.");
         siteUsersPage.navigate(siteName);
-        getBrowser().waitInSeconds(5);
         assertTrue(siteUsersPage.isASiteMember(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteName);
         assertTrue(siteUsersPage.isRoleSelected("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
 
         LOG.info("STEP 3: Click again on 'Site Configuration Options' icon.");
         siteDashboardPage.clickSiteConfiguration();
-        getBrowser().waitInSeconds(1);
+        getBrowser().waitInSeconds(2);
         assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
         assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Join Site"), "'Join Site' action should be available in the 'Site Configuration Options' drop-down menu.");
 
@@ -157,7 +153,6 @@ public class JoiningSiteTests extends ContextAwareWebTest
         try
         {
             siteFinderPage.clickSiteButton(siteName, "Request to Join");
-            getBrowser().waitInSeconds(1);
             assertEquals(notification.getDisplayedNotification(), "Successfully requested to join site " + siteName);
             assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Cancel Request"), "'Cancel Request' button appears in place of 'Request to Join' button for " + siteName);
         }
@@ -176,18 +171,14 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click on 'Request to join " + siteName + " site' task.");
         myTasksPage.clickEditTask(siteName);
-        getBrowser().waitInSeconds(3);
-
+        
         LOG.info("STEP 5: Click on 'Approve' button.");
         editTaskPage.approve("Approve", myTasksPage);
-        getBrowser().waitInSeconds(3);
         myTasksPage.clickCompletedTasks();
-        getBrowser().waitInSeconds(3);
         assertTrue(myTasksPage.checkTaskWasFound(siteName), "'Request to join " + siteName + " site' task is expected to be displayed in 'Completed Tasks'.");
 
         LOG.info("STEP 6: Open 'Site Members' page for " + siteName + ".");
         siteUsersPage.navigate(siteName);
-        getBrowser().waitInSeconds(5);
         assertTrue(siteUsersPage.isASiteMember(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteName);
         assertTrue(siteUsersPage.isRoleSelected("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
 
@@ -220,7 +211,6 @@ public class JoiningSiteTests extends ContextAwareWebTest
         try
         {
             siteDashboardPage.clickOptionInSiteConfigurationDropDown("Request to Join", requestSentDialog);
-            getBrowser().waitInSeconds(5);
             assertEquals(requestSentDialog.getDialogTitle(), "Request Sent", "'Request Sent' pop-up is displayed.");
             assertEquals(requestSentDialog.getDialogMessage(), dialogMessage, "'Request Sent' pop-up has the expected message.");
 
@@ -254,7 +244,6 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 9: Open 'Site Members' page for " + siteName + ".");
         siteUsersPage.navigate(siteName);
-        getBrowser().waitInSeconds(5);
         assertTrue(siteUsersPage.isASiteMember(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteName);
         assertTrue(siteUsersPage.isRoleSelected("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
 
@@ -283,7 +272,6 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Enter site name (" + siteName + ") in textbox and click on 'Search' button.");
         siteFinderPage.searchSite(siteName);
-        getBrowser().waitInSeconds(4);
         assertTrue(siteFinderPage.checkSiteWasFound(siteName), "Site is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed for " + siteName);
 
@@ -291,7 +279,6 @@ public class JoiningSiteTests extends ContextAwareWebTest
         try
         {
             siteFinderPage.clickSiteButton(siteName, "Request to Join");
-            getBrowser().waitInSeconds(1);
             assertEquals(notification.getDisplayedNotification(), "Successfully requested to join site " + siteName);
             assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Cancel Request"), "'Cancel Request' button appears in place of 'Request to Join' button for " + siteName);
         }

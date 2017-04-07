@@ -347,7 +347,6 @@ public class ModelManagerTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on Export action");
         modelManagerPage.clickOnAction("Export", export);
         export.checkIfAlertIsPresentAndIfTrueAcceptAlert();
-        getBrowser().waitInSeconds(3);
         Assert.assertTrue(export.isFileInDirectory(name, ".zip"), "The file was not found in the specified location");
     }
 
