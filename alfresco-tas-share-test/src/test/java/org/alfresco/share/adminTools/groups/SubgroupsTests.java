@@ -75,11 +75,12 @@ public class SubgroupsTests extends ContextAwareWebTest
 
         groupsPage.navigate();
         assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
+        
         groupsPage.writeInSearchInput(group0);
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group0);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group0));
-        assertEquals(groupsPage.getBreadcrumbText(), expectedList, "Groups breadcrumb path=");
+        assertEquals(groupsPage.getBreadcrumb(), expectedList, "Groups breadcrumb path=");
         expectedList.clear();
 
         LOG.info("STEP1: Click 'New Subgroup' button from second column's header");
@@ -87,6 +88,8 @@ public class SubgroupsTests extends ContextAwareWebTest
         assertEquals(groupsPage.getNewGroupTitle(), language.translate("adminTools.groups.newGroupPanelTitle"), "'New Group' title=");
         assertTrue(groupsPage.isIdentifierInputFieldDisplayed(), "Properties: 'Identifier' input field is displayed.");
         assertTrue(groupsPage.isDisplayNameInputFieldDisplayed(), "Properties: 'Display Name' input field is displayed.");
+        
+        expectedList = new ArrayList<>(singletonList(group0));
         expectedList = new ArrayList<>(Arrays.asList(language.translate("adminTools.groups.newGroupProperties.identifier"),
                 language.translate("adminTools.groups.newGroupProperties.displayName")));
         assertEquals(groupsPage.getNewGroupPropertiesLabels(), expectedList, "New Group -> Properties form labels=");
@@ -112,12 +115,12 @@ public class SubgroupsTests extends ContextAwareWebTest
     public void addGroup()
     {
         groupsPage.navigate();
-        assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
+
         groupsPage.writeInSearchInput(group1);
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group1);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group1));
-        assertEquals(groupsPage.getBreadcrumbText(), expectedList, "Groups breadcrumb path=");
+        assertEquals(groupsPage.getBreadcrumb(), expectedList, "Groups breadcrumb path=");
         expectedList.clear();
 
         LOG.info("STEP1: Click 'Add Group' button from second column's header");
@@ -158,7 +161,8 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group2);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group2));
-        assertEquals(groupsPage.getBreadcrumbText(), expectedList, "Groups breadcrumb path=");
+        assertEquals(groupsPage.getBreadcrumb(), expectedList, "Groups breadcrumb path=");
+
         expectedList.clear();
 
         LOG.info("STEP1: Click 'Add Group' button from second column's header");
@@ -195,7 +199,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.clickItemFromList(group3);
         String user = name + " " + userModelAdmin + " (" + userModelAdmin + ")";
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group3));
-        assertEquals(groupsPage.getBreadcrumbText(), expectedList, "Groups breadcrumb path=");
+        assertEquals(groupsPage.getBreadcrumb(), expectedList, "Groups breadcrumb path=");
         expectedList.clear();
 
         LOG.info("STEP1: Click 'Remove User' button for the user, from second column's header");
@@ -224,7 +228,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group3);
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group3));
-        assertEquals(groupsPage.getBreadcrumbText(), expectedList, "Groups breadcrumb path=");
+        assertEquals(groupsPage.getBreadcrumb(), expectedList, "Groups breadcrumb path=");
         expectedList.clear();
 
         LOG.info("STEP1: Click 'Delete Group' button for the subgroup from second column's header");
