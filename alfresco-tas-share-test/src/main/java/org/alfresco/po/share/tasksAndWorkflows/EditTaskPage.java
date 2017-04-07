@@ -135,7 +135,7 @@ public class EditTaskPage extends SharePage<EditTaskPage>
     public <T> SharePage clickOnSaveButton(SharePage<T> page)
     {
         browser.findElement(saveButton).click();
-        return page;
+        return (SharePage) page.renderedPage();
     }
 
     public boolean isStatusOptionPresent(TaskStatus status)
