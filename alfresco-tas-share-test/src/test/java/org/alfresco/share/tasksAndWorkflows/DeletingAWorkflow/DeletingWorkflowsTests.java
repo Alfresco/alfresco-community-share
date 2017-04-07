@@ -50,21 +50,17 @@ public class DeletingWorkflowsTests  extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click on 'Completed' option from the left side panel");
         workflowsIveStartedPage.clickCompletedFilter();
-        getBrowser().waitInSeconds(2);
         workflows = workflowsIveStartedPage.getActiveWorkflows();
         Assert.assertTrue(workflows.contains(workflowName), String.format("Workflow: %s is completed.", workflowName));
 
         LOG.info("STEP 3: Click on 'Delete Workflow' option.");
         workflowsIveStartedPage.clickDeleteWorkflow(workflowName, true);
-        getBrowser().waitInSeconds(2); getBrowser().refresh();
-        workflowsIveStartedPage.renderedPage();
         workflows = workflowsIveStartedPage.getActiveWorkflows();
         Assert.assertFalse(workflows.contains(workflowName), String.format("Workflow: %s is not deleted.", workflowName));
 
         LOG.info("STEP 4: Verify the deleted workflow is not present in 'My Tasks' page.");
         myTasksPage.navigate();
         myTasksPage.clickCompletedTasks();
-        getBrowser().waitInSeconds(2);
         Assert.assertFalse(myTasksPage.checkTaskWasFound(workflowName), String.format("Workflow: %s is found in 'My Tasks' page.", workflowName));
     }
 }

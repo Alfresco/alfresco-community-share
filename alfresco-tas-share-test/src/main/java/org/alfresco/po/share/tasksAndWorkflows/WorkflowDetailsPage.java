@@ -23,6 +23,10 @@ public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
     @FindBy(css = "div[class$='workflow-details-header'] h1")
     private WebElement workflowDetailsHeader;
 
+    @RenderWebElement
+    @FindBy(css = "div[id*='workflow-details'].form-fields")
+    private WebElement workflowDetailsBody;
+
     @FindBy(css = "span[id$='_default-startedBy'] a")
     private WebElement startedByUser;
 
@@ -31,6 +35,7 @@ public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
     @FindBy(css = "span[id$='_default-due']")
     private WebElement dueDate;
 
+    @RenderWebElement
     @FindBy(css = "span[id$='_default-priority']")
     private WebElement priority;
 
@@ -75,9 +80,9 @@ public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
 
     public String getMessage() { return message.getText(); }
 
-    public HtmlPage clickTaskDetailsButton()
+    public TaskDetailsPage clickTaskDetailsButton()
     {
         browser.findElement(taskDetailsButton).click();
-        return taskDetailsPage.renderedPage();
+        return (TaskDetailsPage) taskDetailsPage.renderedPage();
     }
 }

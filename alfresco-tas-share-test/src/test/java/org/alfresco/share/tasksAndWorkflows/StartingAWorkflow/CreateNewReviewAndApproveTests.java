@@ -5,15 +5,11 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
-import org.alfresco.po.share.tasksAndWorkflows.SelectAssigneeToWorkflowPopUp;
-import org.alfresco.po.share.tasksAndWorkflows.SelectAssigneesToWorkflowPopUp;
-import org.alfresco.po.share.tasksAndWorkflows.SelectGroupAssigneeToWorkflowPopUp;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
-import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -33,9 +29,6 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     StartWorkflowPage startWorkflowPage;
 
     @Autowired
-    SelectAssigneeToWorkflowPopUp selectAssigneeToWorkflowPopUp;
-
-    @Autowired
     SelectPopUpPage selectPopUpPage;
 
     @Autowired
@@ -43,12 +36,6 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
 
     @Autowired
     UserDashboardPage userDashboardPage;
-
-    @Autowired
-    SelectAssigneesToWorkflowPopUp selectAssigneesToWorkflowPopUp;
-
-    @Autowired
-    SelectGroupAssigneeToWorkflowPopUp selectGroupAssigneeToWorkflowPopUp;
 
     private String user1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
     private String user2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
@@ -58,7 +45,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     private String docContent = String.format("docContent%s", DataUtil.getUniqueIdentifier());
     private String group = String.format("testGroup%s", DataUtil.getUniqueIdentifier());
     private String startWorkflowAction = "Start Workflow";
-    private Alert alert;
+
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
@@ -73,7 +60,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8351")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void createNewReviewAndApproveSingleReviewer()
     {
         LOG.info("Precondition");
@@ -84,27 +71,18 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
-        startWorkflowPage.selectAWorkflow();
-
         LOG.info("STEP 3: Select the workflow 'Review And Approve (single reviewer)' from the drop-down list.");
-        getBrowser().waitInSeconds(4);
-        startWorkflowPage.selectWorkflowToStartFromDropdownList("Review And Approve (single reviewer)");
+        startWorkflowPage.selectAWorkflow("Review And Approve (single reviewer)");
 
         LOG.info("STEP 4: Add message, select a Due date, priority, assign it to you and click Start Workflow");
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
-        startWorkflowPage.clickOnDatePickerIcon();
-        startWorkflowPage.selectCurrentDate();
+        startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectAssigneeButton();
-        selectAssigneeToWorkflowPopUp.searchUser(user2);
+        startWorkflowPage.clickOnSelectButton();
+        selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
-        selectAssigneeToWorkflowPopUp.clickOkButton();
+        selectPopUpPage.clickOkButton();
         startWorkflowPage.clickStartWorkflow();
-        if(startWorkflowPage.isAlertPresent())
-        {
-            getBrowser().handleModalDialogAcceptingAlert();
-        }
-        documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as user2.");
@@ -115,7 +93,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8349")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void createNewReviewAndApproveOneOrMoreReviewers()
     {
         LOG.info("Precondition");
@@ -126,31 +104,20 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
-        getBrowser().waitInSeconds(4);
-        startWorkflowPage.selectAWorkflow();
-
         LOG.info("STEP 3: Select the workflow 'Review and Approve (one or more reviewers)' from the drop-down list.");
-        getBrowser().waitInSeconds(4);
-        startWorkflowPage.selectWorkflowToStartFromDropdownList("Review and Approve (one or more reviewers)");
+        startWorkflowPage.selectAWorkflow("Review and Approve (one or more reviewers)");
 
         LOG.info("STEP 4: Add message, select a Due date, priority, assign it to a user different then you and click Start Workflow");
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
-        startWorkflowPage.clickOnDatePickerIcon();
-        startWorkflowPage.selectCurrentDate();
+        startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectAssigneesButton();
-        selectAssigneesToWorkflowPopUp.searchUser(user2);
+        startWorkflowPage.clickOnSelectButton();
+        selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
-        selectAssigneesToWorkflowPopUp.clearSearchField();
-        selectAssigneesToWorkflowPopUp.searchUser(user3);
+        selectPopUpPage.search(user3);
         selectPopUpPage.clickAddIcon("firstName3 lastName3 (" + user3 + ")");
-        selectAssigneesToWorkflowPopUp.clickOkButton();
+        selectPopUpPage.clickOkButton();
         startWorkflowPage.clickStartWorkflow();
-        if(startWorkflowPage.isAlertPresent())
-        {
-            getBrowser().handleModalDialogAcceptingAlert();
-        }
-        documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as user2.");
@@ -169,7 +136,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8348")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void createNewReviewAndApproveGroupReview()
     {
         LOG.info("Precondition");
@@ -180,28 +147,18 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
-        getBrowser().waitInSeconds(4);
-        startWorkflowPage.selectAWorkflow();
-
         LOG.info("STEP 3: Select the workflow 'Review and Approve (group review)' from the drop-down list.");
-        getBrowser().waitInSeconds(4);
-        startWorkflowPage.selectWorkflowToStartFromDropdownList("Review and Approve (group review)");
+        startWorkflowPage.selectAWorkflow("Review and Approve (group review)");
 
         LOG.info("STEP 4: Add message, select a Due date, priority, assign to a group and click Start Workflow");
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
-        startWorkflowPage.clickOnDatePickerIcon();
-        startWorkflowPage.selectCurrentDate();
+        startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectGroupAssigneeButton();
-        selectGroupAssigneeToWorkflowPopUp.searchGroup(group);
+        startWorkflowPage.clickOnSelectButton();
+        selectPopUpPage.search(group);
         selectPopUpPage.clickAddIcon(group);
-        selectGroupAssigneeToWorkflowPopUp.clickOkButton();
+        selectPopUpPage.clickOkButton();
         startWorkflowPage.clickStartWorkflow();
-        if (startWorkflowPage.isAlertPresent())
-        {
-            getBrowser().handleModalDialogAcceptingAlert();
-        }
-        documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Navigate to User Dashboard.");
@@ -210,7 +167,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8350")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void createNewReviewAndApprovePooledReview()
     {
         LOG.info("Precondition");
@@ -221,28 +178,18 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
-        startWorkflowPage.selectAWorkflow();
-
         LOG.info("STEP 3: Select the workflow 'Review and Approve (pooled review)' from the drop-down list.");
-        getBrowser().waitInSeconds(4);
-        startWorkflowPage.selectWorkflowToStartFromDropdownList("Review and Approve (pooled review)");
+        startWorkflowPage.selectAWorkflow("Review and Approve (pooled review)");
 
         LOG.info("STEP 4: Add message, select a Due date, priority, assign to a group and click Start Workflow");
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
-        startWorkflowPage.clickOnDatePickerIcon();
-        startWorkflowPage.selectCurrentDate();
+        startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectGroupAssigneeButton();
-        selectGroupAssigneeToWorkflowPopUp.searchGroup(group);
+        startWorkflowPage.clickOnSelectButton();
+        selectPopUpPage.search(group);
         selectPopUpPage.clickAddIcon(group);
-        selectGroupAssigneeToWorkflowPopUp.clickOkButton();
+        selectPopUpPage.clickOkButton();
         startWorkflowPage.clickStartWorkflow();
-        getBrowser().waitInSeconds(6);
-        if (startWorkflowPage.isAlertPresent())
-        {
-            getBrowser().handleModalDialogAcceptingAlert();
-        }
-        documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Navigate to User Dashboard.");

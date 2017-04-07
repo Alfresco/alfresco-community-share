@@ -21,6 +21,7 @@ public class EditTaskPage extends SharePage<EditTaskPage>
     @FindBy(css = "div.task-edit-header h1")
     private WebElement taskEditHeader;
 
+    @RenderWebElement
     @FindBy(css = "textarea[id$='bpm_comment']")
     private WebElement commentTextArea;
     

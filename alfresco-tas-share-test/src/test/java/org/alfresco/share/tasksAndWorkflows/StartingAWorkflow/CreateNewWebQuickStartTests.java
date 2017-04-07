@@ -5,7 +5,6 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
-import org.alfresco.po.share.tasksAndWorkflows.SelectAssigneeToWorkflowPopUp;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -29,9 +28,6 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
 
     @Autowired
     StartWorkflowPage startWorkflowPage;
-
-    @Autowired
-    SelectAssigneeToWorkflowPopUp selectAssigneeToWorkflowPopUp;
 
     @Autowired
     SelectPopUpPage selectPopUpPage;
@@ -58,7 +54,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         contentService.createDocument(user1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
     }
 
-    @Bug(id = "MNT-17015")
+    @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail(id = "C8352")
     @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewWebQuickStartReviewAndPublishSectionStructure()
@@ -71,20 +67,17 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
-        startWorkflowPage.selectAWorkflow();
-
         LOG.info("STEP 3: Select the workflow 'Web Quick Start: Review & Publish Section Structure' from the drop-down list.");
-        startWorkflowPage.selectWorkflowToStartFromDropdownList("Web Quick Start: Review & Publish Section Structure");
+        startWorkflowPage.selectAWorkflow("Web Quick Start: Review & Publish Section Structure");
 
         LOG.info("STEP 4: Add message, select a Due date, priority, assign it to you and click Start Workflow");
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
-        startWorkflowPage.clickOnDatePickerIcon();
-        startWorkflowPage.selectCurrentDate();
+        startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectAssigneeButton();
-        selectAssigneeToWorkflowPopUp.searchUser(user2);
+        startWorkflowPage.clickOnSelectButton();
+        selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
-        selectAssigneeToWorkflowPopUp.clickOkButton();
+        selectPopUpPage.clickOkButton();
         startWorkflowPage.clickStartWorkflow();
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
@@ -97,7 +90,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Bug(id = "MNT-17015")
+    @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail(id = "C8353")
     @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewWebQuickStartReviewAndPublishWebAssets()
@@ -110,20 +103,17 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
-        startWorkflowPage.selectAWorkflow();
-
         LOG.info("STEP 3: Select the workflow 'Web Quick Start: Review & Publish Web Assets' from the drop-down list.");
-        startWorkflowPage.selectWorkflowToStartFromDropdownList("Web Quick Start: Review & Publish Web Assets");
+        startWorkflowPage.selectAWorkflow("Web Quick Start: Review & Publish Web Assets");
 
         LOG.info("STEP 4: Add message, select a Due date, priority, assign it to you and click Start Workflow");
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
-        startWorkflowPage.clickOnDatePickerIcon();
-        startWorkflowPage.selectCurrentDate();
+        startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectAssigneeButton();
-        selectAssigneeToWorkflowPopUp.searchUser(user2);
+        startWorkflowPage.clickOnSelectButton();
+        selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
-        selectAssigneeToWorkflowPopUp.clickOkButton();
+        selectPopUpPage.clickOkButton();
         startWorkflowPage.clickStartWorkflow();
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 

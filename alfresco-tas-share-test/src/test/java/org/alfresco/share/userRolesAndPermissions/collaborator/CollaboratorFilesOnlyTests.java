@@ -11,7 +11,6 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAl
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
-import org.alfresco.po.share.tasksAndWorkflows.SelectAssigneeToWorkflowPopUp;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowDetailsPage;
 import org.alfresco.po.share.toolbar.ToolbarTasksMenu;
@@ -55,8 +54,6 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     @Autowired private StartWorkflowPage startWorkflowPage;
 
     @Autowired private SelectPopUpPage selectPopUpPage;
-
-    @Autowired private SelectAssigneeToWorkflowPopUp selectAssigneeToWorkflowPopUp;
 
     @Autowired private ToolbarTasksMenu toolbarTasksMenu;
 
@@ -318,7 +315,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         getBrowser().waitUntilElementDisappears(googleDocsCommon.confirmationPopup, 15L);
     }
 
-    @Bug(id = "MNT-17015")
+    @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail(id = "C8962")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorStartWorkflow()
@@ -333,18 +330,16 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8962, "Start Workflow", startWorkflowPage);
 
         LOG.info("Step 3: From the Select Workflow drop-down select New Task Workflow.");
-        startWorkflowPage.selectAWorkflow();
-        startWorkflowPage.selectWorkflowToStartFromDropdownList("New Task");
+        startWorkflowPage.selectAWorkflow("New Task");
 
         LOG.info("Step 4: On the new task workflow form provide the inputs and click on Start Workflow button.");
         startWorkflowPage.addWorkflowDescription("test workflow");
-        startWorkflowPage.clickOnDatePickerIcon();
-        startWorkflowPage.selectCurrentDate();
+        startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("Medium");
-        startWorkflowPage.clickOnSelectAssigneeButton();
-        selectAssigneeToWorkflowPopUp.searchUser(user);
+        startWorkflowPage.clickOnSelectButton();
+        selectPopUpPage.search(user);
         selectPopUpPage.clickAddIcon("(" + user + ")");
-        selectAssigneeToWorkflowPopUp.clickOkButton();
+        selectPopUpPage.clickOkButton();
         startWorkflowPage.clickStartWorkflow();
 
         LOG.info("Step 5: Go to Toolbar and click Tasks/ My Tasks.");
@@ -355,7 +350,6 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 6: Check and confirm that the Task created at step 4 with details. ");
         myTasksPage.refresh();
         myTasksPage.clickViewWorkflow("test workflow");
-        workflowDetailsPage.renderedPage();
         Assert.assertTrue(workflowDetailsPage.getWorkflowDetailsHeader().contains("test workflow"));
         Assert.assertTrue(workflowDetailsPage.getPriority().contains("Medium"));
         Assert.assertTrue(workflowDetailsPage.getStartedByUser().contains(user));

@@ -7,6 +7,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Link;
@@ -27,7 +28,11 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
     @FindBy(css = "[id$='default-startWorkflow-button-button']")
     private WebElement startWorkflow;
 
-    @FindBy(css = "div[id$='_default-workflows'] tr[class*='yui-dt-rec']")
+    @RenderWebElement
+    @FindBy(css = ".alfresco-datatable.workflows")
+    private WebElement workflowBody;
+
+    @FindAll(@FindBy(css = "div[id$='_default-workflows'] tr[class*='yui-dt-rec']"))
     protected List<WebElement> workflowRowList;
 
     @FindBy(css = "div[id*='_all-filter'] div h2")
@@ -102,7 +107,7 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
         return browser.findFirstElementWithValue(workflowRowList, workflowName);
     }
 
-    public void clickCancelWorkflow(String workflowName, boolean areYouSure)
+    public WorkflowsIveStartedPage clickCancelWorkflow(String workflowName, boolean areYouSure)
     {
         WebElement selectedTask = selectWorkflow(workflowName);
         browser.mouseOver(selectedTask);
@@ -112,14 +117,18 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
             browser.findElement(cancelWorkflowYesButton).click();
         }
         else browser.findElement(cancelWorkflowNoButton).click();
+        browser.refresh();
+        return (WorkflowsIveStartedPage) this.renderedPage();
     }
 
     public void clickCompletedFilter()
     {
         browser.findElement(completedFilter).click();
+        this.renderedPage();
+        browser.waitUntilElementContainsText(activeWorkflows, "Completed Workflows");
     }
 
-    public void clickDeleteWorkflow(String workflowName, boolean areYouSure)
+    public WorkflowsIveStartedPage clickDeleteWorkflow(String workflowName, boolean areYouSure)
     {
         WebElement selectedTask = selectWorkflow(workflowName);
         browser.mouseOver(selectedTask);
@@ -129,6 +138,8 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
             browser.findElement(deleteWorkflowYesButton).click();
         }
         else browser.findElement(deleteWorkflowNoButton).click();
+        browser.refresh();
+        return (WorkflowsIveStartedPage) this.renderedPage();
     }
 
     public WorkflowDetailsPage clickViewHistory(String workflowName)

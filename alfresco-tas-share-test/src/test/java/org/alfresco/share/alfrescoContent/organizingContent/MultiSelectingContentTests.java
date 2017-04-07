@@ -206,8 +206,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         assertEquals(startWorkflowPage.getPageTitle(), "Alfresco » Start Workflow", "Page displayed=");
 
         LOG.info("STEP3: Select 'New Task' option from 'Workflow:' dropdown");
-        assertTrue(startWorkflowPage.selectAWorkflow(), "Workflow page is displayed.");
-        startWorkflowPage.selectWorkflowToStartFromDropdownList("New Task");
+        startWorkflowPage.selectAWorkflow("New Task");
         startWorkflowPage.renderedPage();
         ArrayList<String> expectedItemsList = new ArrayList<>(Arrays.asList(htmlFile, textFile, xmlFile));
         assertEquals(startWorkflowPage.getItemsList(), expectedItemsList.toString(), "Start Workflow Page- 'Items' list=");

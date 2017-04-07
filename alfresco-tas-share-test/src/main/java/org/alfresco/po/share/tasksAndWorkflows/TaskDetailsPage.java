@@ -25,6 +25,10 @@ public class TaskDetailsPage extends SharePage<TaskDetailsPage>
     @FindBy(css = "div[class$='task-details-header'] h1")
     private WebElement taskDetailsHeader;
 
+    @RenderWebElement
+    @FindBy(css = "div[id*='task-details'].form-fields")
+    private WebElement taskDetailsBody;
+
     @FindBy(css = "span[id$='_default_prop_taskOwner'] a")
     private WebElement owner;
 
@@ -61,9 +65,9 @@ public class TaskDetailsPage extends SharePage<TaskDetailsPage>
         return workflowDetailsPage.renderedPage();
     }
 
-    public HtmlPage clickEditButton()
+    public EditTaskPage clickEditButton()
     {
         browser.findElement(editButton).click();
-        return editTaskPage.renderedPage();
+        return (EditTaskPage) editTaskPage.renderedPage();
     }
 }

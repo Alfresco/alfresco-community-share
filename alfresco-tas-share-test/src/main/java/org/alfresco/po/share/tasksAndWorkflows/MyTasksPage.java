@@ -26,9 +26,16 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     @Autowired
     ViewTaskPage viewTaskPage;
 
+    @Autowired
+    WorkflowDetailsPage workflowDetailsPage;
+
     @RenderWebElement
     @FindBy(css = "h2[id$='default-filterTitle']")
     private WebElement activeTasksBar;
+
+    @RenderWebElement
+    @FindBy(css = ".alfresco-datatable.tasks")
+    private WebElement tasksBody;
 
     @FindBy(css = "div[id$='default-tasks'] tr[class*='yui-dt-rec']")
     protected List<WebElement> taskRowList;
@@ -103,10 +110,11 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
         return (EditTaskPage) editTaskPage.renderedPage();
     }
 
-    public MyTasksPage clickCompletedTasks()
+    public void clickCompletedTasks()
     {
         completedTasksButton.click();
-        return (MyTasksPage) this.renderedPage();
+        this.renderedPage();
+        browser.waitUntilElementContainsText(activeTasksBar, "Completed Tasks");
     }
 
     public ViewTaskPage clickViewTask(String taskName)
@@ -126,7 +134,7 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
         WebElement selectedTask = selectTask(taskName);
         browser.mouseOver(selectedTask);
         selectedTask.findElement(viewWorkflowLink).click();
-        return new WorkflowDetailsPage();
+        return (WorkflowDetailsPage) workflowDetailsPage.renderedPage();
     }
 
     public boolean isEditTaskOptionDisplayed(String taskName)

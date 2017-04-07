@@ -82,7 +82,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Verify the details are correct.");
         Assert.assertTrue(workflowDetailsPage.getWorkflowDetailsHeader().contains(workflowName));
-        Assert.assertTrue(workflowDetailsPage.getPriority().contains("Medium"));
+        Assert.assertTrue(workflowDetailsPage.getPriority().contains("Medium"), "Priority is: " + workflowDetailsPage.getPriority());
         Assert.assertTrue(workflowDetailsPage.getStartedByUser().contains(testUser));
         Assert.assertTrue(workflowDetailsPage.getMessage().contains(workflowName));
         Assert.assertTrue(workflowDetailsPage.getAssignedToUser().contains(user2));

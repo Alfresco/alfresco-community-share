@@ -617,8 +617,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Start Workflow", startWorkflowPage);
 
         LOG.info("Steps3: From the Select Workflow drop-down select New Task Workflow.");
-        startWorkflowPage.selectAWorkflow();
-        startWorkflowPage.selectWorkflowToStartFromDropdownList("New Task");
+        startWorkflowPage.selectAWorkflow("New Task");
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Start Workflow", "Displayed page=");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }

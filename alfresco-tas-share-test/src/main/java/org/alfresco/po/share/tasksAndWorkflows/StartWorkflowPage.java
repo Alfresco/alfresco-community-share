@@ -1,10 +1,13 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.joda.time.DateTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
@@ -27,21 +30,15 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     @Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired
-    SelectAssigneeToWorkflowPopUp selectAssigneeToWorkflowPopUp;
-
-    @Autowired
-    SelectAssigneesToWorkflowPopUp selectAssigneesToWorkflowPopUp;
-
-    @Autowired
-    SelectGroupAssigneeToWorkflowPopUp selectGroupAssigneeToWorkflowPopUp;
+    @Autowired SelectPopUpPage selectPopUpPage;
 
     @Autowired
     UserDashboardPage userDashboardPage;
 
     @Autowired
     SelectAssigneePopUp selectAssigneePopUp;
-    
+
+    @RenderWebElement
     @FindBy(css = "button[id*='default-workflow-definition']")
     private WebElement startWorkflowButton;
 
@@ -53,6 +50,9 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     @FindBy(css = "textarea[id*=workflowDescription]")
     private WebElement workflowDescriptionTextarea;
+
+    @FindBy(css = "input[id*='workflowDueDate-cntrl-date']")
+    private WebElement workflowDueDate;
 
     @FindBy(css = ".datepicker-icon")
     private WebElement datePickerIcon;
@@ -66,23 +66,23 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     @FindAll(@FindBy(css = "[id*=workflowPriority] option"))
     private List<WebElement> workflowPrioritiesList;
 
-    @FindBy(css = "[id*=assignee-cntrl-itemGroupActions] button")
-    private WebElement selectButton;
+//    @FindBy(css = "[id*=assignee-cntrl-itemGroupActions] button")
+//    private WebElement selectButton;
 
-    @FindAll(@FindBy(css = "[id*=workflowDueDate-cntrl_cell] a"))
-    private List<WebElement> calendarDates;
+    @FindBy(css = "td.today>a")
+    private WebElement calendarToday;
 
     @FindBy(css = "button[id*='form-submit']")
     private WebElement submitWorkflow;
 
     @FindBy(css = ".form-field h3 a")
     private List<WebElement> itemsList;
+//
+//    @FindBy(css = "[id*=assignees-cntrl-itemGroupActions] button")
+//    private WebElement selectAssigneesButton;
 
-    @FindBy(css = "[id*=assignees-cntrl-itemGroupActions] button")
-    private WebElement selectAssigneesButton;
+    private By selectAssigneeButton = By.xpath("//div[@class='object-finder']//*[@class = 'show-picker']//button[text()='Select']");
 
-    @FindBy(css = "[id*=groupAssignee-cntrl-itemGroupActions] button")
-    private WebElement selectGroupAssigneeButton;
 
     @FindBy(css = "[id*=form-cancel-button]")
     private WebElement cancelStartWorkflow;
@@ -99,83 +99,45 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         return String.format("share/page/site/%s/start-workflow", getCurrentSiteName());
     }
 
-    public boolean selectAWorkflow()
+    public void selectAWorkflow(String workflow)
     {
         startWorkflowButton.click();
-        return workflowMenu.isDisplayed();
-    }
-
-    public void selectWorkflowToStartFromDropdownList(String workflow)
-    {
-        browser.waitInSeconds(1);
-        try
-        {
-            browser.selectOptionFromFilterOptionsList(workflow, dropdownOptions);
-            browser.waitInSeconds(2);
-            assertTrue(startWorkflowButton.getText().contains(workflow), "Incorrect workflow selected");
-        }
-        catch (NoSuchElementException nse)
-        {
-            LOG.error("Workflow option not present" + nse.getMessage());
-            throw new PageOperationException(workflow + " option not present.");
-        }
+        browser.waitUntilElementVisible(workflowMenu);
+        browser.selectOptionFromFilterOptionsList(workflow, dropdownOptions);
+        browser.waitUntilElementContainsText(startWorkflowButton, workflow);
     }
 
     public void addWorkflowDescription(String workflowDescription)
     {
-        browser.waitUntilElementsVisible(By.cssSelector("textarea[id*=workflowDescription]"));
+        browser.waitUntilElementVisible(By.cssSelector("textarea[id*=workflowDescription]"));
         workflowDescriptionTextarea.click();
         workflowDescriptionTextarea.sendKeys(workflowDescription);
     }
 
-    public boolean clickOnDatePickerIcon()
+    public void selectCurrentDateFromDatePicker()
     {
-        datePickerIcon.click();
-        browser.waitInSeconds(1);
-        return chooseWorkflowDate.isDisplayed();
+        browser.waitUntilElementClickable(datePickerIcon).click();
+        browser.waitUntilElementHasAttribute(chooseWorkflowDate, "style", "display: block");
+        browser.mouseOver(calendarToday);
+        calendarToday.click();
+        browser.waitUntilElementHasAttribute(chooseWorkflowDate, "style", "display: none");
     }
 
     public void selectWorkflowPriority(String priority)
     {
-        try
-        {
-            browser.selectOptionFromFilterOptionsList(priority, workflowPrioritiesList);
-            browser.waitInSeconds(1);
-            assertTrue(workflowPriority.getText().contains(priority), "Incorrect priority selected");
-        }
-        catch (NoSuchElementException nse)
-        {
-            LOG.error("Priority option not present" + nse.getMessage());
-            throw new PageOperationException(priority + " option not present.");
-        }
+        browser.selectOptionFromFilterOptionsList(priority, workflowPrioritiesList);
+        browser.waitUntilElementHasAttribute(browser.findElement(By.xpath("//*[contains(@id, 'workflowPriority')]//option[text()='"+priority+"']")), "selected", "true");
     }
 
-    public SelectAssigneeToWorkflowPopUp clickOnSelectAssigneeButton()
+    public DocumentLibraryPage clickStartWorkflow()
     {
-        selectButton.click();
-        return (SelectAssigneeToWorkflowPopUp) selectAssigneeToWorkflowPopUp.renderedPage();
-    }
-
-    public void selectCurrentDate()
-    {
-        DateFormat dateFormat = new SimpleDateFormat("d");
-        Date currentDate = new Date();
-
-        String today = dateFormat.format(currentDate);
-        for (WebElement date : calendarDates)
-        {
-            if (date.getText().equals(today))
-            {
-                browser.mouseOver(date);
-                date.click();
-            }
-        }
-        browser.waitInSeconds(1);
-    }
-
-    public void clickStartWorkflow()
-    {
-        submitWorkflow.click();
+        //workaround for "MNT-17015"
+        browser.clickJS(submitWorkflow);
+        if(browser.isElementDisplayed(submitWorkflow))
+            browser.clickJS(submitWorkflow);
+        dismissErrorPopup();
+        browser.clickJS(submitWorkflow);
+        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
     /**
@@ -191,21 +153,19 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         return itemsTextList.toString();
     }
 
-    public SelectAssigneesToWorkflowPopUp clickOnSelectAssigneesButton()
+    public SelectPopUpPage clickOnSelectButton()
     {
-        selectAssigneesButton.click();
-        return (SelectAssigneesToWorkflowPopUp) selectAssigneesToWorkflowPopUp.renderedPage();
-    }
-
-    public SelectGroupAssigneeToWorkflowPopUp clickOnSelectGroupAssigneeButton()
-    {
-        selectGroupAssigneeButton.click();
-        return (SelectGroupAssigneeToWorkflowPopUp) selectGroupAssigneeToWorkflowPopUp.renderedPage();
+        WebElement selectElement = browser.waitUntilElementVisible(selectAssigneeButton);
+        browser.waitUntilElementClickable(selectElement).click();
+        return (SelectPopUpPage) selectPopUpPage.renderedPage();
     }
 
     public DocumentLibraryPage cancelStartWorkflow()
     {
-        cancelStartWorkflow.click();
+        //workaround for "MNT-17015"
+        browser.clickJS(cancelStartWorkflow);
+        if(browser.isElementDisplayed(cancelStartWorkflow))
+            cancelStartWorkflow.click();
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
@@ -244,5 +204,11 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         {
         return false;
         }
+    }
+
+    private void dismissErrorPopup()
+    {
+        if(browser.isElementDisplayed(By.xpath("//div[@id='prompt_h' and text()='Workflow could not be started']")))
+            browser.findElement(By.cssSelector("div#prompt button")).click();
     }
 }
