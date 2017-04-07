@@ -130,6 +130,8 @@ public class TagManagerPage extends AdminToolsPage {
 	 */
     public boolean isTagDisplayed(String tag)
     {
+	    browser.refresh();
+	    this.renderedPage();
 	    browser.waitUntilElementIsDisplayedWithRetry(tagSelector, 3);
         LOG.info("Check that tag is displayed: " + tag);
 
