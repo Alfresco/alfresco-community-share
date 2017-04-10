@@ -71,7 +71,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Month' view.");
         calendarPage.navigate(siteName);
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName));
+        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -101,7 +101,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Month' view.");
         calendarPage.navigate(siteName);
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName));
+        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -135,7 +135,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Day' view.");
         calendarPage.navigate(siteName);
         calendarPage.clickDayButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName));
+        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -166,7 +166,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Day' view.");
         calendarPage.navigate(siteName);
         calendarPage.clickDayButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName));
+        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -200,7 +200,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Week' view.");
         calendarPage.navigate(siteName);
         calendarPage.clickWeekButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName));
+        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -231,7 +231,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Week' view.");
         calendarPage.navigate(siteName);
         calendarPage.clickWeekButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName));
+        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);

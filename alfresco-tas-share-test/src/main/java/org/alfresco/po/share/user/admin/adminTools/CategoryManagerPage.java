@@ -100,7 +100,7 @@ public class CategoryManagerPage extends AdminToolsPage
     {
         By categoryBy = By.xpath(String.format(categoryLocator, categoryName));
         
-        browser.waitUntilElementIsDisplayedWithRetry(categoryBy, 1);
+        browser.waitUntilElementIsDisplayedWithRetry(categoryBy, ((int) properties.getImplicitWait()));
         WebElement elem = categoryManagerDiv.findElement(categoryBy);
         browser.mouseOver(elem);       
         browser.waitInSeconds(2);
@@ -109,7 +109,7 @@ public class CategoryManagerPage extends AdminToolsPage
     public boolean isCategoryDisplayed(String categoryName)
     {
         By category = By.xpath(String.format(categoryLocator, categoryName));
-        browser.waitUntilElementIsDisplayedWithRetry(category, 1);
+        browser.waitUntilElementIsDisplayedWithRetry(category, ((int) properties.getImplicitWait()));
         return browser.isElementDisplayed(category);
     }
     

@@ -76,7 +76,7 @@ public class ViewEventTests extends ContextAwareWebTest
         calendarPage.navigate(siteName);
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Day' view.");
         calendarPage.clickDayButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName));
+        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -96,7 +96,7 @@ public class ViewEventTests extends ContextAwareWebTest
         calendarPage.navigate(siteName);
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Week' view.");
         calendarPage.clickWeekButton();
-        assertTrue(calendarPage.isEventPresentInCalendar(eventName));
+        assertTrue(calendarPage.isEventPresentInCalendar(eventName), String.format("%s event is displayed in calendar", eventName));
 
         LOG.info("STEP 2: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);

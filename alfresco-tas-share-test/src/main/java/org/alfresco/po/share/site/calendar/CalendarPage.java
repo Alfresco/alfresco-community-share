@@ -165,7 +165,14 @@ public class CalendarPage extends SiteCommon<CalendarPage>
      */
     public boolean isEventPresentInCalendar(String event)
     {
-        return selectEvent(event) != null;
+        try
+        {
+            return selectEvent(event) != null;
+        }
+        catch (StaleElementReferenceException se)
+        {
+            return isEventPresentInCalendar(event);
+        }
     }
 
     /**
@@ -176,15 +183,21 @@ public class CalendarPage extends SiteCommon<CalendarPage>
      */
     public EventInformationDialog clickOnEvent(String event)
     {
-        if (isEventPresentInCalendar(event))
+        try
         {
-            selectEvent(event).findElement(By.xpath("ancestor::a")).click();
+            if (isEventPresentInCalendar(event))
+            {
+                selectEvent(event).findElement(By.xpath("ancestor::a")).click();
+            }
+            else
+            {
+                throw new NoSuchElementException("Unable to locate expected event.");
+            }
         }
-        else
+        catch (StaleElementReferenceException se)
         {
-            throw new NoSuchElementException("Unable to locate expected event.");
+            clickOnEvent(event);
         }
-
         return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
