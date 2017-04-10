@@ -67,9 +67,6 @@ public class GroupsPage extends AdminToolsPage
     @FindBy(css = ".yui-columnbrowser-item-selected")
     private List<WebElement> selectedItemsList;
 
-    @FindAll(@FindBy(css = "span[class*='item-label']"))
-    private List<WebElement> itemsList;
-
     @FindAll(@FindBy(css = "ul[class*='carousel'] li:nth-of-type(2) span[class*='label']"))
     private List<WebElement> secondColumnItemsList;
 
@@ -102,6 +99,7 @@ public class GroupsPage extends AdminToolsPage
     @FindBy(css = "button[id*='creategroup-cancel']")
     private WebElement cancelCreateGroupButton;
 
+    private By groupBy = By.cssSelector("div.yui-columnbrowser-column-body span[class*=item-label]");
     private By createAndCreateAnotherGroupButton = By.cssSelector("button[id*='creategroup-another']");
     private By deleteGroupOKButton = By.cssSelector("button[id$='_default-remove-button-button']");
     private By deleteGroupCancelButton = By.cssSelector("button[id$='_default-cancel-button-button']");
@@ -203,10 +201,8 @@ public class GroupsPage extends AdminToolsPage
 
     public WebElement getItemGroup(String name)
     {
-        By groupBy = By.xpath(String.format("//div[@class='yui-columnbrowser-column-body']//span[contains(@class,'item-label') and text()='%s']", name));
-        if (browser.isElementDisplayed(groupBy))
-            return browser.findElement(groupBy);
-        return null;
+        List<WebElement> groups = browser.waitUntilElementsVisible(groupBy);
+        return browser.findFirstElementWithValue(groups, name);
     }
 
     /**
@@ -372,7 +368,6 @@ public class GroupsPage extends AdminToolsPage
     {
         browser.waitUntilElementVisible(createGroupOKButton);
         createGroupOKButton.click();
-        this.renderedPage();
     }
 
     public boolean isCreateAndCreateAnotherGroupButtonDisplayed()
