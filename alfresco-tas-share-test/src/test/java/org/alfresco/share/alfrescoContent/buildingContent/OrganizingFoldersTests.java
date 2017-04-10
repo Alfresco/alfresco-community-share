@@ -1,7 +1,6 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -26,8 +25,6 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
     @Autowired private NewContentDialog newContentDialog;
-
-    @Autowired private CreateContent createContent;
 
     private final String uniqueId = DataUtil.getUniqueIdentifier();
     private final String userName = "User-" + uniqueId;
@@ -97,7 +94,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Click on the 'Create a folder' link");
         documentLibraryPage.clickCreateButton();
-        createContent.clickCreateFolderOption();
+        documentLibraryPage.clickFolderLink();
         assertTrue(newContentDialog.isNameFieldDisplayed(), "'Name' field displayed.");
         assertTrue(newContentDialog.isMandatoryIndicatorDisplayed(), "'Name' mandatory field.");
         assertTrue(newContentDialog.isTitleFieldDisplayed(), "'Title' field displayed.");
@@ -127,7 +124,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Click on the 'Create a folder' link");
         documentLibraryPage.clickCreateButton();
-        createContent.clickCreateFolderOption();
+        documentLibraryPage.clickFolderLink();
         assertTrue(newContentDialog.isSaveButtonDisplayed(), "'Save' button is displayed.");
 
         LOG.info("STEP2: Fill in 'Name' field and click 'Cancel'");
@@ -157,7 +154,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Click on the 'Create a folder' link");
         documentLibraryPage.clickCreateButton();
-        createContent.clickCreateFolderOption();
+        documentLibraryPage.clickFolderLink();
         assertTrue(newContentDialog.isSaveButtonDisplayed(), "'Save' button is displayed.");
 
         LOG.info("STEP3: Fill in Name field and click 'Save' button");
@@ -186,8 +183,8 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.getCurrentUrl().contains(folderName2), folderName2 + " opened.");
         ArrayList<String> breadcrumbExpected3 = new ArrayList<>(Arrays.asList("Documents", folderName1, folderName2));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected3.toString(), "Document Library breadcrumb=");
-        assertEquals(documentLibraryPage.getFoldersList().toString(), "[]", "Folders displayed in " + folderName2);
-        assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Files displayed in " + folderName2);
+        assertEquals(documentLibraryPage.getFoldersList().size(), 0, "Folders displayed in " + folderName2);
+        assertEquals(documentLibraryPage.getFilesList().size(), 0, "Files displayed in " + folderName2);
 
         LOG.info("STEP7: Click on 'Documents' link from breadcrumb path");
         documentLibraryPage.clickFolderFromBreadcrumb("Documents");

@@ -25,6 +25,9 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private UploadFileDialog uploadDialog;
 
     @Autowired
+    private NewContentDialog newContentDialog;
+
+    @Autowired
     DocumentDetailsPage documentDetailsPage;
 
     @FindAll(@FindBy(css = "a.filter-link"))
@@ -385,8 +388,8 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public NewContentDialog clickFolderLink()
     {
-        browser.waitUntilElementClickable(folderLink, 60).click();
-        return new NewContentDialog();
+        browser.waitUntilElementClickable(folderLink, 30).click();
+        return (NewContentDialog) newContentDialog.renderedPage();
     }
 
     /**

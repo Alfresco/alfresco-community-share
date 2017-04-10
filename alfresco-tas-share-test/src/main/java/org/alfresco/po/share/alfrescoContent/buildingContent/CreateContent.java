@@ -369,14 +369,6 @@ public class CreateContent extends SiteCommon<CreateContent>
     }
 
     /**
-     * Click on "Folder" link from "Create..." menu
-     */
-    public void clickCreateFolderOption()
-    {
-        createFolderLink.click();
-    }
-
-    /**
      * Method to click on create Document from Template
      */
     public void clickCreateFromTemplateButton(String btnName)

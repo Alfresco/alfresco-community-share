@@ -385,7 +385,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickCreateButton();
-        createContent.clickCreateFolderOption();
+        documentLibraryPage.clickFolderLink();
         newContentDialog.fillInDetails("file2" + identifier, "", "file1" + identifier);
         newContentDialog.clickSaveButton();
         documentLibraryPage.navigate(siteName);

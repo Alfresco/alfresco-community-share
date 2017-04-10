@@ -19,6 +19,9 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
     @Autowired
     Toolbar toolbar;
 
+    @Autowired
+    SearchPage searchPage;
+
     @RenderWebElement
     @FindBy(css = "input[id$='default-search-text']")
     private TextInput keywordsSearchField;
@@ -83,7 +86,7 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
     public SearchPage click1stSearch()
     {
         searchButton1.click();
-        return new SearchPage();
+        return (SearchPage) searchPage.renderedPage();
     }
 
     public void typeKeywords(String keyword)
