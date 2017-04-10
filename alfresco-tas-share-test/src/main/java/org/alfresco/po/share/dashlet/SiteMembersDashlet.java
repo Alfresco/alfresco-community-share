@@ -6,6 +6,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -13,7 +14,11 @@ import java.util.List;
  * @author Laura.Capsa
  */
 @PageObject
-public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet> {
+public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
+{
+    @Autowired
+    AddSiteUsersPage addSiteUsersPage;
+
     @RenderWebElement
     @FindBy(css = "div[class*='colleagues']")
     protected WebElement dashletContainer;
@@ -116,7 +121,7 @@ public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet> {
     public AddSiteUsersPage addSiteUsers()
     {
         addUsersLink.click();
-        return (AddSiteUsersPage) new AddSiteUsersPage().renderedPage();
+        return (AddSiteUsersPage) addSiteUsersPage.renderedPage();
     }
 
     public String getMemberRole(String member)
