@@ -55,7 +55,6 @@ public class DocumentLibraryTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click on Document Library link.");
         sitePage.clickDocumentLibrary();
-        System.out.println(documentLibraryPage.getPageTitle());
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library");
     }
 

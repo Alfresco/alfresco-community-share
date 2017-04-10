@@ -153,6 +153,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     private WebElement selectEvent(String event)
     {
+        browser.waitUntilElementIsDisplayedWithRetry(eventsList);
         return browser.findFirstElementWithValue(browser.waitUntilElementsVisible(eventsList), event);
     }
 
@@ -164,14 +165,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
      */
     public boolean isEventPresentInCalendar(String event)
     {
-        try
-        {
-            return selectEvent(event) != null;
-        }
-        catch (StaleElementReferenceException se)
-        {
-            return isEventPresentInCalendar(event);
-        }
+        return selectEvent(event) != null;
     }
 
     /**
@@ -182,21 +176,15 @@ public class CalendarPage extends SiteCommon<CalendarPage>
      */
     public EventInformationDialog clickOnEvent(String event)
     {
-        try
+        if (isEventPresentInCalendar(event))
         {
-            if (isEventPresentInCalendar(event))
-            {
-                selectEvent(event).findElement(By.xpath("ancestor::a")).click();
-            }
-            else
-            {
-                throw new NoSuchElementException("Unable to locate expected event.");
-            }
+            selectEvent(event).findElement(By.xpath("ancestor::a")).click();
         }
-        catch (StaleElementReferenceException se)
+        else
         {
-            clickOnEvent(event);
+            throw new NoSuchElementException("Unable to locate expected event.");
         }
+
         return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
@@ -208,7 +196,6 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public AddEventDialog clickAddEventButton()
     {
         addEventButton.click();
-        browser.waitInSeconds(2);
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 
@@ -322,7 +309,6 @@ public class CalendarPage extends SiteCommon<CalendarPage>
      */
     public AddEventDialog clickOnTheCalendarWeekView()
     {
-
         browser.findFirstDisplayedElement(By.cssSelector(".fc-view-agendaWeek .fc-agenda-slots .fc-widget-content")).click();
         return (AddEventDialog) addEventDialog.renderedPage();
     }
@@ -346,14 +332,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
      */
     public boolean isAllDayEvent(String event)
     {
-        try
-        {
-            return selectEvent(event).findElements(By.xpath("../*")).size() == 1;
-        }
-        catch (StaleElementReferenceException se)
-        {
-            return isAllDayEvent(event);
-        }
+        return selectEvent(event).findElements(By.xpath("../*")).size() == 1;
     }
 
     /**

@@ -96,7 +96,6 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     public DocumentLibraryPage clickDocumentLibrary()
     {
         documentLibrary.click();
-        LOG.info("Navigate to Document Library");
         return new DocumentLibraryPage();
     }
 
