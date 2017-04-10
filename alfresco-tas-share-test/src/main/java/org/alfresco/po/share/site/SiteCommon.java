@@ -13,18 +13,6 @@ import ru.yandex.qatools.htmlelements.element.Link;
 
 public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    MyFilesPage myFilesPage;
-
-    @Autowired
-    RepositoryPage repositoryPage;
-
-    @Autowired
-    AddSiteUsersPage addSiteUsersPage;
-
     private String currentSiteName;
 
     @FindBy(css = "img.alf-user-icon")
@@ -108,7 +96,8 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     public DocumentLibraryPage clickDocumentLibrary()
     {
         documentLibrary.click();
-        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
+        LOG.info("Navigate to Document Library");
+        return new DocumentLibraryPage();
     }
 
     /**
@@ -124,7 +113,7 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     public AddSiteUsersPage clickAddUsersIcon()
     {
         addUser.click();
-        return (AddSiteUsersPage) addSiteUsersPage.renderedPage();
+        return new AddSiteUsersPage();
     }
 
     @SuppressWarnings("unchecked")
@@ -142,7 +131,7 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     public MyFilesPage clickMyFilesLink()
     {
         myFilesButton.click();
-        return (MyFilesPage) myFilesPage.renderedPage();
+        return new MyFilesPage();
     }
 
     /**
@@ -153,6 +142,6 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     public RepositoryPage clickRepositoryLink()
     {
         repositoryButton.click();
-        return (RepositoryPage) repositoryPage.renderedPage();
+        return new RepositoryPage();
     }
 }
