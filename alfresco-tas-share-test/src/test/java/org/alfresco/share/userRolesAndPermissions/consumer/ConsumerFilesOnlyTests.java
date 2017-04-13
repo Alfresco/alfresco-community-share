@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -91,7 +92,11 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         contentService.createDocument(adminUser, adminPassword, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileC8907, testContent);
         contentService.createDocument(adminUser, adminPassword, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileC8908, testContent);
         contentService.createDocument(adminUser, adminPassword, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileC8909, testContent);
+    }
 
+    @BeforeMethod(alwaysRun = true)
+    public void authenticateConsumer()
+    {
         setupAuthenticatedSession(user, password);
     }
 
@@ -123,7 +128,6 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertEquals(documentLibraryPage.getUploadButtonStatusDisabled(), "true", "The Upload button is not disabled");
 
         LOG.info("Step 2: Click on the Upload button.");
-        getBrowser().waitUntilElementVisible(documentLibraryPage.getUploadButton());
         documentLibraryPage.clickUpload();
         Assert.assertFalse(uploadContent.isUploadFilesToDialogDisplayed(), "Upload files dialog is displayed");
     }
@@ -433,27 +437,10 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         getBrowser().waitUntilElementDisappears(createContent.message, 60L);
         // getBrowser().waitInSeconds(5);
         googleDocsCommon.clickOkButtonOnTheAuthPopup();
-
-        String currentWindow = getBrowser().getWindowHandle();
-
-        for (String winHandle : getBrowser().getWindowHandles())
-        {
-            getBrowser().switchTo().window(winHandle);
-        }
-
+        getBrowser().switchWindow(1);
         googleDocsCommon.editGoogleDocsContent("testC8898");
         getBrowser().waitInSeconds(5);
-
-        getBrowser().close();
-
-        getBrowser().switchTo().window(currentWindow);
-
-        /*
-         * getBrowser().getWindowHandles();
-         * getBrowser().switchWindow();
-         * googleDocsCommon.editGoogleDocsContent("testC8898");
-         * getBrowser().closeWindowAndSwitchBack();
-         */
+        getBrowser().closeWindowAndSwitchBack();
 
         documentLibraryPage.navigate(siteName);
         assertTrue(documentLibraryPage.isContentNameDisplayed("Untitled Document.docx"));
@@ -469,8 +456,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 4: Login with admin account and check-in document");
         setupAuthenticatedSession(adminUser, adminPassword);
         documentLibraryPage.navigate(siteName);
-        googleDocsCommon.checkInGoogleDoc("Untitled Document.docx");
-        getBrowser().waitInSeconds(3);
+        documentLibraryPage.clickDocumentLibraryItemAction("Untitled Document.docx", "Check In Google Doc™", documentLibraryPage);
         cleanupAuthenticatedSession();
         LOG.info("Step 5: Login with user with consumer role and check available options");
         setupAuthenticatedSession(user, password);
