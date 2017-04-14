@@ -434,12 +434,9 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
-        getBrowser().waitUntilElementDisappears(createContent.message, 60L);
-        // getBrowser().waitInSeconds(5);
         googleDocsCommon.clickOkButtonOnTheAuthPopup();
         getBrowser().switchWindow(1);
         googleDocsCommon.editGoogleDocsContent("testC8898");
-        getBrowser().waitInSeconds(5);
         getBrowser().closeWindowAndSwitchBack();
 
         documentLibraryPage.navigate(siteName);
