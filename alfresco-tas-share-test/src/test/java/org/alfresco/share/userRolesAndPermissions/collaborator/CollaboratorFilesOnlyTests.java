@@ -460,12 +460,12 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), false);
 
         LOG.info("Step 8: Check the testFile status and confirm that file has been unlocked.");
-        Assert.assertEquals(googleDocsCommon.checkLockedLAbelIsDisplayed(), false);
+        Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(editedTitle), "Locked label displayed");
         Assert.assertEquals(googleDocsCommon.checkGoogleDriveIconIsDisplayed(), false);
-        Assert.assertTrue(googleDocsCommon.isDocumentNameUpdated(editedTitle), "Name of the document was not updated");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(editedTitle), "Name of the document was not updated");
 
         LOG.info("Step 9: Click on the testFile name to preview document.");
-        googleDocsCommon.clickOnUpdatedName(editedTitle);
+        documentLibraryPage.clickOnFile(editedTitle);
 
         LOG.info("Step 10: Check the testFile content.");
         Assert.assertTrue(documentDetailsPage.getContentText().contains(editedContent));
@@ -485,7 +485,6 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         googleDocsCommon.loginToGoogleDocs();
         documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8954, "Edit in Google Docs™", googleDocsCommon);
         googleDocsCommon.clickOkButton();
-        googleDocsCommon.renderedPage();
 
         LOG.info("Step 3: Check the testFile status in Document Library.");
         getBrowser().waitUntilElementVisible(googleDocsCommon.lockedIcon);
@@ -501,23 +500,21 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Step 6: Click Check In Google Doc™.");
         googleDocsCommon.checkInGoogleDoc(fileNameC8954);
-        getBrowser().waitUntilElementDisappears(By.xpath("//span[contains(text(), 'Check In Google Doc™')]"), 5L);
         getBrowser().waitUntilElementVisible(By.xpath("//div[contains(text(), 'Version Information')]"));
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), true);
 
         LOG.info("Step 7: Click Ok on the Version Information window.");
         googleDocsCommon.clickOkButton();
-        googleDocsCommon.renderedPage();
         getBrowser().waitUntilElementDisappears(By.xpath("//span[contains(text(), 'Checking In Google Doc™...')]"), 5L);
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), false);
 
         LOG.info("Step 8: Check the testFile status and confirm that file has been unlocked.");
-        Assert.assertEquals(googleDocsCommon.checkLockedLAbelIsDisplayed(), false);
+        Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(editedTitle1), "Locked label displayed");
         Assert.assertEquals(googleDocsCommon.checkGoogleDriveIconIsDisplayed(), false);
-        Assert.assertTrue(googleDocsCommon.isDocumentNameUpdated(editedTitle1), "Name of the document was not updated");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(editedTitle1), "Name of the document was not updated");
 
         LOG.info("Step 9: Click on the testFile name to preview document.");
-        googleDocsCommon.clickOnUpdatedName(editedTitle1);
+        documentLibraryPage.clickOnFile(editedTitle1);
 
         LOG.info("Step 10: Check the testFile content.");
         Assert.assertTrue(documentDetailsPage.getContentText().contains(editedContent));

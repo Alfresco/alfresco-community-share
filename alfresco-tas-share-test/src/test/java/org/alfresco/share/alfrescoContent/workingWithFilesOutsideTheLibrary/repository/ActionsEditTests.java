@@ -255,7 +255,6 @@ public class ActionsEditTests extends ContextAwareWebTest
 
         LOG.info("Step6: Click Check In Google Doc™ and verify Version Information pop-up is displayed");
         docsCommon.checkInGoogleDoc(fileName);
-        getBrowser().waitInSeconds(5);
         Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), true);
 
         LOG.info("Step7: Click OK button on Version Information and verify the pop-up is closed");
@@ -264,10 +263,10 @@ public class ActionsEditTests extends ContextAwareWebTest
         Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), false);
 
         LOG.info("Step8: Verify the title for the document is changed");
-        Assert.assertTrue(docsCommon.isDocumentNameUpdated(editedTitle), "Name of the document was not updated");
+        Assert.assertTrue(repositoryPage.isContentNameDisplayed(editedTitle), "Name of the document was not updated");
 
         LOG.info("Steps9, 10: Click on the document title and verify it's preview");
-        docsCommon.clickOnUpdatedName(editedTitle);
+        repositoryPage.clickOnFile(editedTitle);
         Assert.assertTrue(detailsPage.getContentText().contains(editedContent));
 
         cleanupAuthenticatedSession();

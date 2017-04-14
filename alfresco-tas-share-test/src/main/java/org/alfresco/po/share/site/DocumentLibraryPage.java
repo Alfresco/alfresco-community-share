@@ -221,7 +221,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public UploadFileDialog clickUpload()
     {
-        uploadButton.click();
+        browser.waitUntilElementVisible(uploadButton).click();
         return (UploadFileDialog) uploadDialog.renderedPage();
 
     }
@@ -836,13 +836,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         List<WebElement> tagsList = browser.findElements(inlineEditTagsSelector);
 
-        for (WebElement aTagsList : tagsList)
-        {
-            if (aTagsList.getText().equals(tagName))
-            {
-                aTagsList.click();
-            }
-        }
+        browser.findFirstElementWithExactValue(tagsList, tagName).click();
         browser.waitUntilElementVisible(tagToBeEdited);
         tagToBeEdited.clear();
         browser.waitInSeconds(1);
@@ -1097,30 +1091,22 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public boolean isFavoriteLinkPresent(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(favoriteLink).isDisplayed();
+        return browser.isElementDisplayed(selectDocumentLibraryItemRow(fileName), favoriteLink);
     }
 
     public boolean isLikeButtonDisplayed(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(likeButton).isDisplayed();
+        return browser.isElementDisplayed(selectDocumentLibraryItemRow(fileName), likeButton);
     }
 
     public boolean isCommentButtonDisplayed(String fileName)
     {
-        try
-        {
-            return selectDocumentLibraryItemRow(fileName).findElement(commentButton).isDisplayed();
-        }
-        catch (NoSuchElementException e)
-        {
-            // continue
-        }
-        return false;
+        return browser.isElementDisplayed(selectDocumentLibraryItemRow(fileName), commentButton);
     }
 
     public boolean isShareButtonDisplayed(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(By.cssSelector("a[class='quickshare-action']")).isDisplayed();
+        return browser.isElementDisplayed(selectDocumentLibraryItemRow(fileName), By.cssSelector("a[class='quickshare-action']"));
     }
 
     public String getOptionsSetDefaultViewText(String text)
@@ -1207,17 +1193,11 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public void clickCreateButtonWithoutWait()
     {
-        browser.waitUntilElementVisible(createButton);
-        createButton.click();
+        browser.waitUntilElementVisible(createButton).click();
     }
 
     public boolean checkEditTagIsNotDisplayed()
     {
         return browser.isElementDisplayed(By.cssSelector("td .detail span[class='insitu-edit']:first-child"));
-    }
-
-    public WebElement getUploadButton()
-    {
-        return uploadButton;
     }
 }

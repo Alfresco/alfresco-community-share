@@ -180,7 +180,6 @@ private final String user = String.format("user%s", DataUtil.getUniqueIdentifier
         contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.MSWORD, googleDocName, "some content");
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
         myFilesPage.navigate();
-        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocName), String.format("Document %s is not present", googleDocName));
 
         LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
@@ -209,10 +208,10 @@ private final String user = String.format("user%s", DataUtil.getUniqueIdentifier
         Assert.assertEquals(docsCommon.isVersionInformationPopupDisplayed(), false);
 
         LOG.info("Step8: Verify the title for the document is changed");
-        Assert.assertTrue(docsCommon.isDocumentNameUpdated(editedTitle), "Name of the document was not updated");
+        Assert.assertTrue(myFilesPage.isContentNameDisplayed(editedTitle), "Name of the document was not updated");
 
         LOG.info("Steps9, 10: Click on the document title and verify it's preview");
-        docsCommon.clickOnUpdatedName(editedTitle);
+        myFilesPage.clickOnFile(editedTitle);
         Assert.assertTrue(detailsPage.getContentText().contains(editedContent));
     }
 }

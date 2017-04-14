@@ -1,7 +1,6 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -28,9 +27,6 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
     @Autowired private DocumentDetailsPage documentDetailsPage;
 
     @Autowired private GoogleDocsCommon googleDocsCommon;
-
-    @Autowired
-    CreateContent createContent;
 
     @Autowired UploadContent uploadContent;
 
@@ -78,19 +74,15 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
 
         LOG.info("Step7: Click OK button on Version Information and verify the pop-up is closed");
         googleDocsCommon.clickOkButton();
-        Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), false, "Version Information pop-up displayed");
+        Assert.assertFalse(googleDocsCommon.isVersionInformationPopupDisplayed(), "Version Information pop-up displayed");
 
         LOG.info("Step8: Verify the title for the document is changed");
-        Assert.assertTrue(googleDocsCommon.isDocumentNameUpdated(editedInGoogleDocsTitle), "Name of the document updated");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(editedInGoogleDocsTitle), "Name of the document updated");
 
         LOG.info("Steps9, 10: Click on the document title and verify it's preview");
-        googleDocsCommon.clickOnUpdatedName(editedInGoogleDocsTitle);
-        documentDetailsPage.renderedPage();
+        documentLibraryPage.clickOnFile(editedInGoogleDocsTitle);
         Assert.assertTrue(documentDetailsPage.getContentText().replaceAll("\\s+", "").contains("Edited"),
                 String.format("Document: %s has contents.", editedInGoogleDocsTitle));
-
-        getBrowser().cleanUpAuthenticatedSession();
-
     }
 
 }

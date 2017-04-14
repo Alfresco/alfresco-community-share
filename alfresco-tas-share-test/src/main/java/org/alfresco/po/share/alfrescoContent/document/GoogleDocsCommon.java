@@ -4,14 +4,10 @@ import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
 public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 {
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-
     @FindBy(id = "prompt_h")
     private WebElement promptAuthorizeWithGoogleDocs;
 
@@ -21,16 +17,16 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     @FindBy(xpath = "//*[contains(text(), 'OK')]")
     protected WebElement okButtonOnVersionPopup;
 
-    @FindBy(xpath = ".//*[@id='Email']")
+    @FindBy(id = "Email")
     protected WebElement googleDocsEmail;
 
-    @FindBy(xpath = ".//*[@id='next']")
+    @FindBy(id = "next")
     protected WebElement submitEmail;
 
-    @FindBy(xpath = ".//*[@id='Passwd']")
+    @FindBy(id = "Passwd")
     protected WebElement googleDocsPassword;
 
-    @FindBy(xpath = ".//*[@id='signIn']")
+    @FindBy(id = "signIn")
     protected WebElement signInToGoogleDocsButton;
 
     @FindBy(xpath = "//*[contains(text(), 'Yes')]")
@@ -57,13 +53,13 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     @FindBy(xpath = "//div[contains(text(), 'Version Information')]")
     protected WebElement versionInformationPopup;
 
-    @FindBy(xpath = ".//*[@id='docs-file-menu']")
+    @FindBy(id = "docs-file-menu")
     protected WebElement fileLinkGoogleDocs;
 
-    @FindBy(xpath = "//div[@id='insertLinkButton']")
+    @FindBy(id = "insertLinkButton")
     protected WebElement addLinkInGoogleDoc;
 
-    @FindBy(xpath = "//div[@id='t-insert-link']")
+    @FindBy(id = "t-insert-link")
     protected WebElement addLinkInGoogleSheet;
 
     @FindBy(xpath = "//input[contains(@class, 'docs-link-insertlinkbubble-text jfk-textinput label-input-label')]")
@@ -84,7 +80,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     @FindBy(xpath = "//div[contains(@class, 'docs-link-insertlinkbubble-buttonbar')]/div")
     protected WebElement applyButtonGoogleSheets;
 
-    @FindBy(xpath = ".//*[@id='reauthEmail']")
+    @FindBy(id = "reauthEmail")
     protected WebElement reauthEmail;
 
     public By confirmationPopup = By.cssSelector("span.wait");
@@ -109,7 +105,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
         if (isReauthEmailDisplayed())
         {
-            googleDocsPassword.sendKeys(googleDocsTestPassword);
+            browser.waitUntilElementVisible(googleDocsPassword).sendKeys(googleDocsTestPassword);
             signInToGoogleDocsButton.click();
         }
 
@@ -117,7 +113,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         {
             googleDocsEmail.sendKeys(googleDocsTestEmail);
             submitEmail.click();
-            googleDocsPassword.sendKeys(googleDocsTestPassword);
+            browser.waitUntilElementVisible(googleDocsPassword).sendKeys(googleDocsTestPassword);
             signInToGoogleDocsButton.click();
         }
         browser.waitInSeconds(1);
@@ -133,108 +129,43 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     public void switchToGoogleDocsWindowandAndEditContent(String title, String content)
     {
-        String currentWindow = browser.getWindowHandle();
-
-        for (String winHandle : browser.getWindowHandles())
-        {
-            browser.switchTo().window(winHandle);
-        }
-
+        browser.switchWindow(1);
         changeGoogleDocsTitle(title);
         editGoogleDocsContent(content);
-        browser.close();
-        browser.switchTo().window(currentWindow);
+        browser.closeWindowAndSwitchBack();
     }
 
     public void switchToGoogleSheetsWindowandAndEditContent(String title, String content)
     {
-        String currentWindow = browser.getWindowHandle();
-
-        for (String winHandle : browser.getWindowHandles())
-        {
-            browser.switchTo().window(winHandle);
-        }
-
+        browser.switchWindow(1);
         changeGoogleDocsTitle(title);
         editGoogleSheetsContent(content);
-        browser.close();
-        browser.switchTo().window(currentWindow);
+        browser.closeWindowAndSwitchBack();
     }
 
     public void switchToGooglePresentationsAndEditContent(String title)
     {
-        String currentWindow = browser.getWindowHandle();
-
-        for (String winHandle : browser.getWindowHandles())
-        {
-            browser.switchTo().window(winHandle);
-        }
-
+        browser.switchWindow(1);
         changeGoogleDocsTitle(title);
-        browser.close();
-        browser.switchTo().window(currentWindow);
+        browser.closeWindowAndSwitchBack();
 
     }
 
     public void editGoogleDocsContent(String content)
     {
-        int counter = 1;
-        int retryRefreshCount = 5;
-        while (counter <= retryRefreshCount)
-        {
-            try
-            {
-                String js = "arguments[0].style.height='auto'; arguments[0].style.visibility='visible';";
-                ((JavascriptExecutor) browser).executeScript(js, addLinkInGoogleDoc);
-                addLinkInGoogleDoc.click();
-                browser.waitInSeconds(4);
-                if (inputTextForLinkInGoogleDoc.isDisplayed() && inputLinkInGoogleDoc.isDisplayed())
-                {
-                    inputTextForLinkInGoogleDoc.sendKeys(content);
-                    browser.waitInSeconds(2);
-                    inputLinkInGoogleDoc.sendKeys("test");
-                    break;
-                }
-            }
-            catch (NoSuchElementException e)
-            {
-                LOG.info("Wait for element after refresh: " + counter);
-                browser.refresh();
-                counter++;
-            }
-        }
-        applyButtonGoogleDoc.click();
-        browser.waitInSeconds(4);
+        browser.waitUntilElementClickable(addLinkInGoogleDoc).click();
+        browser.waitUntilElementVisible(inputTextForLinkInGoogleDoc).sendKeys(content);
+        browser.waitUntilElementVisible(inputLinkInGoogleDoc).sendKeys("test");
+        browser.waitUntilElementClickable(applyButtonGoogleDoc).click();
+        browser.waitInSeconds(3);
     }
 
     public void editGoogleSheetsContent(String content)
     {
-        int counter = 1;
-        int retryRefreshCount = 5;
-        while (counter <= retryRefreshCount)
-        {
-            try
-            {
-                String js = "arguments[0].style.height='auto'; arguments[0].style.visibility='visible';";
-                ((JavascriptExecutor) browser).executeScript(js, addLinkInGoogleSheet);
-                addLinkInGoogleSheet.click();
-                browser.waitInSeconds(4);
-                if (inputLinkInGoogleSheets.isDisplayed() && inputLinkInGoogleSheets.isDisplayed())
-                {
-                    inputTextForLinkInGoogleSheet.sendKeys(content);
-                    browser.waitInSeconds(2);
-                    inputLinkInGoogleSheets.sendKeys("test");
-                    break;
-                }
-            }
-            catch (NoSuchElementException e)
-            {
-                LOG.info("Wait for element after refresh: " + counter);
-                browser.refresh();
-                counter++;
-            }
-        }
-        applyButtonGoogleSheets.click();
+        browser.waitUntilElementClickable(addLinkInGoogleSheet).click();
+        browser.waitUntilElementVisible(inputTextForLinkInGoogleSheet).sendKeys(content);
+        browser.waitUntilElementVisible(inputLinkInGoogleSheets).sendKeys("test");
+        browser.waitUntilElementClickable(applyButtonGoogleSheets).click();
         browser.waitInSeconds(3);
     }
 
@@ -244,7 +175,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         googleDocsTitle.clear();
         googleDocsTitle.sendKeys(newGoogleDocsTitle);
         googleDocsTitle.sendKeys(Keys.ENTER);
-
     }
 
     /**
@@ -254,10 +184,8 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
      */
 
     public boolean isLockedIconDisplayed()
-
     {
-
-        return lockedIcon.isDisplayed();
+        return browser.isElementDisplayed(lockedIcon);
     }
 
     /**
@@ -269,11 +197,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     public boolean isLockedDocumentMessageDisplayed()
     {
         return lockedDocumentMessage.isDisplayed();
-    }
-
-    public boolean checkLockedLAbelIsDisplayed() throws Exception
-    {
-        return browser.isElementDisplayed(By.xpath("//div[contains(text(), 'This document is locked by you')]"));
     }
 
     /**
@@ -303,45 +226,9 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         browser.waitInSeconds(10);
     }
 
-    public boolean isDocumentNameUpdated(String updatedName)
-
-    {
-
-        String fileName = "//a[contains(text(), '" + updatedName + "')]";
-
-        WebElement fileNameLink = browser.findElement(By.xpath(fileName));
-
-        return fileNameLink.isDisplayed();
-
-    }
-
-    public DocumentDetailsPage clickOnUpdatedName(String updatedName)
-
-    {
-        String docName = "//a[contains(text(), '" + updatedName + "')]";
-
-        WebElement docNameLink = browser.findElement(By.xpath(docName));
-
-        docNameLink.click();
-
-        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
-
-    }
-
     public boolean isVersionInformationPopupDisplayed() throws Exception
     {
-        try
-        {
-            browser.findElement(By.xpath("//div[contains(text(), 'Version Information')]"));
-            return true;
-
-        }
-        catch (NoSuchElementException e)
-        {
-
-            return false;
-        }
-
+        return browser.isElementDisplayed(By.xpath("//div[contains(text(), 'Version Information')]"));
     }
 
     @Override
@@ -400,24 +287,19 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         }
         catch (NoSuchElementException e)
         {
-
             return false;
         }
 
     }
 
     public boolean isReauthEmailDisplayed()
-
     {
-
         return browser.isElementDisplayed(reauthEmail);
     }
 
     public String getConfirmationPopUpMessage()
     {
-
         return browser.findElement(confirmationPopup).getText();
-
     }
 
 }
