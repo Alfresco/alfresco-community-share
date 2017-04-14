@@ -46,7 +46,6 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the tag from the folder");
         documentLibraryPage.mouseOverTags(fileName);
-        getBrowser().waitInSeconds(2);
         assertTrue(documentLibraryPage.isEditTagIconDisplayed(fileName), fileName + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tags\" icon");

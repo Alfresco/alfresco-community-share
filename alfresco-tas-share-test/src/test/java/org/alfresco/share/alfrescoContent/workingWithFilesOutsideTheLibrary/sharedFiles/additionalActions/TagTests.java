@@ -185,7 +185,6 @@ public class TagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the tag from " + docName3);
         sharedFilesPage.mouseOverTags(docName3);
-        getBrowser().waitInSeconds(3);
         assertTrue(sharedFilesPage.isEditTagIconDisplayed(docName3), docName3 + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tags\" icon");

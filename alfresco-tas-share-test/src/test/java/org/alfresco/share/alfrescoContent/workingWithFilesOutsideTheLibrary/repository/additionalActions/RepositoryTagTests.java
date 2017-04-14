@@ -89,7 +89,6 @@ public class RepositoryTagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from the folder");
         repositoryPage.mouseOverNoTags(folderName);
-        getBrowser().waitInSeconds(2);
         assertTrue(repositoryPage.isEditTagIconDisplayed(folderName), folderName + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -156,13 +155,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8290), fileNameC8278 + " is not available in Repository");
 
         LOG.info("STEP1: Hover over the tag(s) from the content");
-        repositoryPage.mouseOverTags(fileNameC8290);
-        getBrowser().waitInSeconds(2);
-        assertTrue(repositoryPage.isEditTagIconDisplayed(fileNameC8290), fileNameC8290 + " -> 'Edit Tag' icon is displayed.");
-
         LOG.info("STEP2: Click \"Edit Tag\" icon");
         repositoryPage.mouseOverTags(fileNameC8290);
-        getBrowser().waitInSeconds(2);
         repositoryPage.clickEditTagIcon(fileNameC8290);
         assertTrue(repositoryPage.isEditTagInputFieldDisplayed(), fileNameC8290 + " -> 'Edit Tag' text input field is displayed.");
 
@@ -192,7 +186,6 @@ public class RepositoryTagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the tag from " + fileNameC8291);
         repositoryPage.mouseOverTags(fileNameC8291);
-        getBrowser().waitInSeconds(2);
         assertTrue(repositoryPage.isEditTagIconDisplayed(fileNameC8291), fileNameC8291 + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tags\" icon");
@@ -223,7 +216,6 @@ public class RepositoryTagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the text \"No Tags\" from " + fileNameC8300);
         repositoryPage.mouseOverNoTags(fileNameC8300);
-        getBrowser().waitInSeconds(2);
         assertTrue(repositoryPage.isEditTagIconDisplayed(fileNameC8300), fileNameC8300 + " -> \"Edit Tag\" icon is displayed");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");

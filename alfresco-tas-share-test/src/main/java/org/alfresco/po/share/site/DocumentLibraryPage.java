@@ -872,14 +872,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         WebElement tagElement = contentElement.findElement(contentTagsSelector);
         Parameter.checkIsMandotary("Tag selector", tagElement);
         browser.mouseOver(tagElement);
-        try
-        {
-            browser.waitUntilElementVisible(contentElement.findElement(editTagSelector));
-        }
-        catch (NoSuchElementException e)
-        {
-            // no log needed due to negative cases.
-        }
+        browser.waitUntilElementVisible(contentElement.findElement(editTagSelector));
     }
 
     /**
@@ -894,15 +887,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         WebElement tagElement = contentElement.findElement(noTagsSelector);
         Parameter.checkIsMandotary("Tag selector", tagElement);
         browser.mouseOver(tagElement);
-        try
-        {
-            browser.waitUntilElementVisible(contentElement.findElement(editTagSelector));
-        }
-        catch (NoSuchElementException e)
-        {
-            // no log needed due to negative cases.
-        }
-
+        browser.waitUntilElementVisible(contentElement.findElement(editTagSelector));
     }
 
     public boolean isEditTagInputFieldDisplayed()

@@ -58,7 +58,6 @@ public class EditTagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the tag(s) from the content");
         documentLibraryPage.mouseOverTags(fileName);
-        getBrowser().waitInSeconds(3);
         assertTrue(documentLibraryPage.isEditTagIconDisplayed(fileName), fileName + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
@@ -96,7 +95,6 @@ public class EditTagTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the tag(s) from the content");
         documentLibraryPage.mouseOverTags(folderName);
-        getBrowser().waitInSeconds(3);
         assertTrue(documentLibraryPage.isEditTagIconDisplayed(folderName), folderName + " -> 'Edit Tag' icon is displayed.");
 
         LOG.info("STEP2: Click \"Edit Tag\" icon");
