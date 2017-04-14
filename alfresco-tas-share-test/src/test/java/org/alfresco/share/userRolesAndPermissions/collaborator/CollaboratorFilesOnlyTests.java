@@ -3,10 +3,10 @@ package org.alfresco.share.userRolesAndPermissions.collaborator;
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
-import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
+import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
@@ -18,15 +18,12 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.io.File;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -45,8 +42,6 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
     @Autowired private UploadContent uploadContent;
 
-    @Autowired private DocumentCommon documentCommon;
-
     @Autowired private EditInAlfrescoPage editInAlfrescoPage;
 
     @Autowired private GoogleDocsCommon googleDocsCommon;
@@ -60,6 +55,8 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     @Autowired private WorkflowDetailsPage workflowDetailsPage;
 
     @Autowired private MyTasksPage myTasksPage;
+
+    @Autowired private Download download;
 
     // Upload
     private final String testFile = DataUtil.getUniqueIdentifier() + "-testFile-C8939-.txt";
@@ -81,7 +78,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     private final String editedTitle1 = "editedTitle1";
     private final String editedContent1 = "edited content in Google Docs1";
     // Create
-    private final String user = String.format("UserC%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("Collaborator%s", DataUtil.getUniqueIdentifier());
     private final String siteName = String.format("SiteC%s", DataUtil.getUniqueIdentifier());
     private final String siteName2 = String.format("SiteC2%s", DataUtil.getUniqueIdentifier());
     // Download
@@ -93,7 +90,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     // Upload New Version by self
     private final String fileNameC8942 = String.format("C8942 file%s", DataUtil.getUniqueIdentifier());
     // Upload New Version by other user
-    private final String user2 = String.format("UserC%s", DataUtil.getUniqueIdentifier());
+    private final String user2 = String.format("Collaborator2%s", DataUtil.getUniqueIdentifier());
     private final String fileNameC8943 = String.format("C8943 file%s", DataUtil.getUniqueIdentifier());
     // Edit Inline by self
     private final String fileNameC8947 = String.format("C8947 file%s", DataUtil.getUniqueIdentifier());
@@ -107,28 +104,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     private final String fileNameC8957 = String.format("C8957 file%s", DataUtil.getUniqueIdentifier());
     // Start Workflow
     private final String fileNameC8962 = String.format("C8962 file%s", DataUtil.getUniqueIdentifier());
-
-    private boolean isFileInDirectory(String fileName, String extension)
-    {
-        File downloadDirectory = new File(srcRoot + "testdata");
-        File[] directoryContent = downloadDirectory.listFiles();
-
-        for (File aDirectoryContent : directoryContent)
-        {
-            if (extension == null)
-            {
-                if (aDirectoryContent.getName().equals(fileName))
-                    return true;
-            }
-            else
-            {
-                if (aDirectoryContent.getName().equals(fileName + extension))
-                    return true;
-            }
-        }
-
-        return false;
-    }
+    private final String deletePath = String.format("Sites/%s/documentLibrary", siteName);
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -175,6 +151,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Title:"), "C8938test", "\"C8938test\" is not the file title for the file in preview");
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Description:"), "C8938test",
                 "\"C8938test\" is not the file description for the file in preview");
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/C8938test", deletePath));
     }
 
     @TestRail(id = "C8939")
@@ -189,7 +166,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Choose the testFile to upload and confirm Upload.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFile), String.format("File [%s] is displayed", testFile));
-        assertTrue(documentLibraryPage.isContentNameDisplayed(testFile), String.format("File [%s] is displayed", testFile));
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, testFile));
     }
 
     @TestRail(id = "C8940")
@@ -204,13 +181,8 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 2: Click the Download Button. Check the file was saved locally");
         documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8940, "Download", documentLibraryPage);
 
-        if (documentCommon.isAlertPresent())
-        {
-            Alert alert = getBrowser().switchTo().alert();
-            LOG.info(alert.getText());
-            alert.accept();
-        }
-        Assert.assertTrue(isFileInDirectory(fileNameC8940, null), "The file was not found in the specified location");
+        download.acceptAlertIfDisplayed();
+        Assert.assertTrue(download.isFileInDirectory(fileNameC8940, null), "The file was not found in the specified location");
     }
 
     @TestRail(id = "C8941")
@@ -242,17 +214,15 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 3: Edit content and save changes.");
         editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName, updatedContent, updatedTitle, updatedDescription);
         editInAlfrescoPage.clickButton("Save");
-        documentLibraryPage.renderedPage();
         documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("Step4: Click on testFile to open file and check content.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(updatedDocName));
         documentLibraryPage.clickOnFile(updatedDocName);
-        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
         assertEquals(documentDetailsPage.getContentText(), updatedContent);
         assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedTitle), "Updated title is not displayed");
         assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedDescription), "Updated description is not displayed");
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, updatedDocName));
     }
 
     @TestRail(id = "C8948")
@@ -273,15 +243,14 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         editInAlfrescoPage.renderedPage();
         editInAlfrescoPage.clickButton("Save");
         documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
 
         LOG.info("Step4: Click on testFile to open file and check content.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(updatedDocName1));
         documentLibraryPage.clickOnFile(updatedDocName1);
-        assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
         assertEquals(documentDetailsPage.getContentText(), updatedContent1);
         assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedTitle1), "Updated title is not displayed");
         assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedDescription1), "Updated description is not displayed");
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, updatedDocName1));
     }
 
     @TestRail(id = "C8957")
@@ -312,7 +281,8 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8957, "Cancel Editing in Google Docs™", documentLibraryPage);
         googleDocsCommon.confirmFormatUpgrade();
         Assert.assertEquals(googleDocsCommon.getConfirmationPopUpMessage(), "Cancel Editing in Google Docs™", "Cancel Editing in Google Doc is not found.");
-        getBrowser().waitUntilElementDisappears(googleDocsCommon.confirmationPopup, 15L);
+        getBrowser().switchWindow(1);
+        getBrowser().closeWindowAndSwitchBack();
     }
 
     @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
@@ -355,6 +325,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(workflowDetailsPage.getStartedByUser().contains(user));
         Assert.assertTrue(workflowDetailsPage.getMessage().contains("test workflow"));
         Assert.assertTrue(workflowDetailsPage.getAssignedToUser().contains(user));
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileNameC8962));
     }
 
     @TestRail(id = "C8942")
@@ -386,6 +357,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFile));
         assertEquals(documentDetailsPage.getFileVersion(), "2.0", String.format("Version of %s is wrong.", newVersionFile));
         assertEquals(documentDetailsPage.getFileName(), newVersionFile, String.format("Name of %s is wrong.", newVersionFile));
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFile));
     }
 
     @TestRail(id = "C8943")
@@ -417,6 +389,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFile2));
         assertEquals(documentDetailsPage.getFileVersion(), "2.0", String.format("Version of %s is wrong.", newVersionFile2));
         assertEquals(documentDetailsPage.getFileName(), newVersionFile2, String.format("Name of %s is wrong.", newVersionFile2));
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFile2));
     }
 
     @TestRail(id = "C8953")
@@ -433,7 +406,6 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         googleDocsCommon.loginToGoogleDocs();
         documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8953, "Edit in Google Docs™", googleDocsCommon);
         googleDocsCommon.clickOkButton();
-        googleDocsCommon.renderedPage();
 
         LOG.info("Step 3: Check the testFile status in Document Library.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(googleDocsCommon.lockedIcon);
@@ -455,7 +427,6 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
         LOG.info("Step 7: Click Ok on the Version Information window.");
         googleDocsCommon.clickOkButton();
-        googleDocsCommon.renderedPage();
         getBrowser().waitUntilElementDisappears(By.xpath("//span[contains(text(), 'Checking In Google Doc™...')]"), 9L);
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), false);
 
