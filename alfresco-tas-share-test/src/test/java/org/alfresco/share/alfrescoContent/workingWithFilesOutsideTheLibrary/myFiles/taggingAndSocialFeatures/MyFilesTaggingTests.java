@@ -43,9 +43,23 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     private SelectDialog selectDialog;
 
     @BeforeClass(alwaysRun = true)
-    public void createUser()
+    public void precondition()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+
+        contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7873, "some content");
+        contentAction.addSingleTag(user, password, myFilesPath + "/" + testFileC7873, tagName);
+        contentService.createFolderInRepository(user, password, folderNameC7873, myFilesPath);
+        contentAction.addSingleTag(user, password, myFilesPath + "/" + folderNameC7873, tagName2);
+        contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7885, "some content");
+        contentAction.addSingleTag(user, password, myFilesPath + "/" + testFileC7885, tagName);
+        contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7886, "some content");
+        contentAction.addSingleTag(user, password, myFilesPath + "/" + testFileC7886, tagName);
+        contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7895, "some content");
+        contentAction.addSingleTag(user, password, myFilesPath + "/" + testFileC7895, tagName);
+        contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7861, "some content");
+        contentService.createFolderInRepository(user, password, folderNameC7862, myFilesPath);
+
         setupAuthenticatedSession(user, password);
     }
 
@@ -53,7 +67,6 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesCreateFileTag()
     {
-	    contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7861, "some content");
         myFilesPage.navigate();
         LOG.info("STEP1: Hover over the text \"No Tags\" from the file.");
         myFilesPage.mouseOverNoTags(testFileC7861);
@@ -74,7 +87,6 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesCreateFolderTag()
     {
-	    contentService.createFolderInRepository(user, password, folderNameC7862, myFilesPath);
         myFilesPage.navigate();
         LOG.info("STEP1: Hover over the text \"No Tags\" from the folder.");
         myFilesPage.mouseOverNoTags(folderNameC7862);
@@ -96,11 +108,6 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesAddExistingTag()
     {
-	    contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7873, "some content");
-	    contentAction.addSingleTag(user, password, myFilesPath + "/" + testFileC7873, tagName);
-	    contentService.createFolderInRepository(user, password, folderNameC7873, myFilesPath);
-	    contentAction.addSingleTag(user, password, myFilesPath + "/" + folderNameC7873, tagName2);
-
         myFilesPage.navigate();
 
         LOG.info("STEP1: Click \"Edit Properties\" option");
@@ -133,9 +140,6 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesEditTagFile()
     {
-	    contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7885, "some content");
-	    contentAction.addSingleTag(user, password, myFilesPath + "/" + testFileC7885, tagName);
-
         myFilesPage.navigate();
         LOG.info("STEP1: Hover over the tag(s) from the content");
         myFilesPage.mouseOverTags(testFileC7885);
@@ -158,9 +162,6 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesRemoveTag()
     {
-	    contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7886, "some content");
-	    contentAction.addSingleTag(user, password, myFilesPath + "/" + testFileC7886, tagName);
-
         myFilesPage.navigate();
         LOG.info("STEP1: Hover over the tag from the folder");
         myFilesPage.mouseOverTags(testFileC7886);
@@ -184,8 +185,6 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesUpdateTag()
     {
-	    contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, testFileC7895, "some content");
-	    contentAction.addSingleTag(user, password, myFilesPath + "/" + testFileC7895, tagName);
         myFilesPage.navigate();
         LOG.info("STEP1: Hover over the tag from the file.");
         myFilesPage.mouseOverTags(testFileC7895);
