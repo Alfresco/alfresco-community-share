@@ -130,9 +130,7 @@ public class TagManagerPage extends AdminToolsPage {
 	 */
     public boolean isTagDisplayed(String tag)
     {
-	    browser.refresh();
-	    this.renderedPage();
-	    browser.waitUntilElementIsDisplayedWithRetry(tagSelector, 3);
+	    browser.waitUntilElementIsDisplayedWithRetry(tagSelector, 10);
         LOG.info("Check that tag is displayed: " + tag);
 
         int counter = 0;
@@ -226,69 +224,20 @@ public class TagManagerPage extends AdminToolsPage {
 
 
 	/**
-	 * Search by a specific tag name - with results.
+	 * Search by a specific tag name
 	 *
 	 * @param tagName
 	 *            - tag name
-	 * @param columnIndex
-	 *            - column index
 	 */
-	public void searchTagWithResults(String tagName, String columnIndex) {
+	public boolean searchTag(String tagName) {
+		int counter = 0;
 		search(tagName);
-		waitUntilTagIsDisplayed(tagName, columnIndex);
-		List<String> allTags = getAllTagsTextFromColumn(columnIndex);
-		Assert.assertTrue(allTags.toString().contains((tagName)));
-	}
-
-	public String getNotFoungTagMessage() {
-		return noFoundMessage.getText();
-	}
-
-	/**
-	 * Search by a specific tag name - without results.
-	 *
-	 * @param tagName
-	 *            - tag name
-	 * @param columnIndex
-	 *            - column index
-	 */
-	public void searchTagWithoutResults(String tagName, String columnIndex) {
-		search(tagName);
-		Assert.assertEquals(getNotFoungTagMessage(), "No tag found");
-		List<String> allTags = getAllTagsTextFromColumn(columnIndex);
-		Assert.assertTrue(allTags.isEmpty());
-	}
-
-	/**
-	 * Delete a specific tag.
-	 *
-	 * @param tagName
-	 *            - tag name
-	 * @param columnIndex
-	 *            - column index
-	 */
-	public void deleteTag(String tagName, String columnIndex) {
-		deleteDialog.deleteButton.click();
-		browser.waitInSeconds(4);
-		browser.refresh();
-		searchTagWithoutResults(tagName, columnIndex);
-	}
-
-	private List<WebElement> getCellsFromColumn(String columnId) {
-		return browser.findElements(By.cssSelector(String.format(cellsFromColumn, columnId)));
-	}
-
-	private List<String> getAllTagsTextFromColumn(String columnIndex) {
-		try {
-			List<WebElement> allItems = getCellsFromColumn(columnIndex);
-			List<String> allItemsText = new ArrayList<>();
-			for (WebElement item : allItems) {
-				allItemsText.add(item.getText());
-			}
-			return allItemsText;
-		} catch (Exception e) {
-			return null;
+		while(!isTagDisplayed(tagName) && counter < 3)
+		{
+			search(tagName);
+			counter++;
 		}
+		return isTagDisplayed(tagName);
 	}
 
 	private void search(String tagName) {
@@ -298,19 +247,4 @@ public class TagManagerPage extends AdminToolsPage {
 		browser.waitInSeconds(2);
 	}
 
-	private void waitUntilTagIsDisplayed(String tagName, String columnIndex) {
-		int counter = 0;
-		try {
-			while (getAllTagsTextFromColumn(columnIndex).isEmpty()) {
-				searchButton.click();
-				browser.waitInSeconds(2);
-				if (counter == 3) {
-					break;
-				}
-				counter++;
-			}
-		} catch (Exception e) {
-			System.err.println("Tag:" + tagName + "was not found in table.");
-		}
-	}
 }
