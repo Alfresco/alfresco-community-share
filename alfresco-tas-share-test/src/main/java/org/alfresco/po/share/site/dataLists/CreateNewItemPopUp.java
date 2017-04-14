@@ -1,8 +1,8 @@
 package org.alfresco.po.share.site.dataLists;
 
 import org.alfresco.po.share.ShareDialog;
-import org.alfresco.po.share.site.AssignedToUserPopUp;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
+import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -23,13 +23,7 @@ public class CreateNewItemPopUp extends ShareDialog
     SelectDocumentPopupPage selectDocumentPopupPage;
 
     @Autowired
-    AssignedToUserPopUp assignedToUserPopUp;
-
-    @Autowired
-    AssignUserToAdvancedTaskPopUpPage assignUserToAdvancedTaskPopUpPage;
-
-    @Autowired
-    AssignUserToToDoListPopUpPage assignUserToToDoListPopUpPage;
+    SelectPopUpPage selectPopUpPage;
 
     @RenderWebElement
     @FindBy(css = "button[id$='submit-button']")
@@ -577,10 +571,10 @@ public class CreateNewItemPopUp extends ShareDialog
         if (userName != null)
         {
             browser.findElement(By.cssSelector(selectAssignedToButtonLocator)).click();
-            // assignedToUserPopUp.renderedPage();
-            assignedToUserPopUp.searchUser(userName);
-            assignedToUserPopUp.clickAddIcon(userName);
-            assignedToUserPopUp.clickOkButton();
+            selectPopUpPage.renderedPage();
+            selectPopUpPage.search(userName);
+            selectPopUpPage.clickAddIcon(userName);
+            selectPopUpPage.clickOkButton();
         }
     }
 
@@ -589,10 +583,10 @@ public class CreateNewItemPopUp extends ShareDialog
         if (userName != null)
         {
             browser.findElement(By.cssSelector(selectAssignedToButtonLocator)).click();
-            assignUserToAdvancedTaskPopUpPage.renderedPage();
-            assignUserToAdvancedTaskPopUpPage.searchUser(userName);
-            assignUserToAdvancedTaskPopUpPage.clickAddIcon(userName);
-            assignUserToAdvancedTaskPopUpPage.clickOkButton();
+            selectPopUpPage.renderedPage();
+            selectPopUpPage.search(userName);
+            selectPopUpPage.clickAddIcon(userName);
+            selectPopUpPage.clickOkButton();
         }
     }
 
@@ -601,10 +595,10 @@ public class CreateNewItemPopUp extends ShareDialog
         if (userName != null)
         {
             browser.findElement(By.cssSelector(selectAssignedToButtonLocator)).click();
-            assignUserToToDoListPopUpPage.renderedPage();
-            assignUserToToDoListPopUpPage.searchUser(userName);
-            assignUserToToDoListPopUpPage.clickAddIcon(userName);
-            assignUserToToDoListPopUpPage.clickOkButton();
+            selectPopUpPage.renderedPage();
+            selectPopUpPage.search(userName);
+            selectPopUpPage.clickAddIcon(userName);
+            selectPopUpPage.clickOkButton();
         }
     }
 
