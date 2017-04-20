@@ -153,7 +153,8 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     public void editGoogleDocsContent(String content)
     {
-        browser.waitUntilElementClickable(addLinkInGoogleDoc).click();
+        browser.waitUntilWebElementIsDisplayedWithRetry(addLinkInGoogleDoc, 5);
+        addLinkInGoogleDoc.click();
         browser.waitUntilElementVisible(inputTextForLinkInGoogleDoc).sendKeys(content);
         browser.waitUntilElementVisible(inputLinkInGoogleDoc).sendKeys("test");
         browser.waitUntilElementClickable(applyButtonGoogleDoc).click();
@@ -162,7 +163,8 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     public void editGoogleSheetsContent(String content)
     {
-        browser.waitUntilElementClickable(addLinkInGoogleSheet).click();
+        browser.waitUntilWebElementIsDisplayedWithRetry(addLinkInGoogleSheet, 5);
+        addLinkInGoogleSheet.click();
         browser.waitUntilElementVisible(inputTextForLinkInGoogleSheet).sendKeys(content);
         browser.waitUntilElementVisible(inputLinkInGoogleSheets).sendKeys("test");
         browser.waitUntilElementClickable(applyButtonGoogleSheets).click();
