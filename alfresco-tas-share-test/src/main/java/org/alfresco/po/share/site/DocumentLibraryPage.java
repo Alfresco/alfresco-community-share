@@ -958,11 +958,10 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public String switchToNewWindowAngGetContent()
     {
-        for (String winHandle : browser.getWindowHandles())
-        {
-            browser.switchTo().window(winHandle);
-        }
-        return browser.findElement(By.xpath("//body")).getText();
+        browser.switchWindow(1);
+        String content = browser.findElement(By.xpath("//body")).getText();
+        browser.closeWindowAndSwitchBack();
+        return content;
     }
 
     /**
