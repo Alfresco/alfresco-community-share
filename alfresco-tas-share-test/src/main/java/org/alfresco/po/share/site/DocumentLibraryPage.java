@@ -19,7 +19,7 @@ import java.util.List;
 
 @Primary
 @PageObject
-public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
+public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 {
     @Autowired
     private UploadFileDialog uploadDialog;
@@ -61,7 +61,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     @FindBy(css = "div[id$='default-options-menu'] span")
     private List<WebElement> optionsList;
-    
+
     private By optionsMenuDropDown = By.cssSelector("div[id*='default-options-menu'].visible");
     private By displayedOptionsListBy = By.xpath("//div[contains(@id, 'default-options-menu')]//li[not(contains(@class, 'hidden'))]");
 
@@ -71,7 +71,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     @FindBy(xpath = "//span[contains(text(), 'More...')]")
     protected WebElement moreLink;
-    
+
     @FindBy(css = ".hideFolders")
     protected WebElement hideFoldersMenuOption;
 
@@ -146,8 +146,8 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     @FindAll(@FindBy(css = ".documentDroppable .ygtvlabel"))
     private List<WebElement> explorerPanelDocumentsList;
 
-   	@FindAll(@FindBy(css = "[class*='data'] tr img"))
-   	private WebElement fileImage;
+    @FindAll(@FindBy(css = "[class*='data'] tr img"))
+    private WebElement fileImage;
 
     private WebElement selectViewInOptions(String viewName)
     {
@@ -218,6 +218,16 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         WebElement webElement = selectDocumentLibraryItemRow(contentName);
         return browser.isElementDisplayed(webElement);
     }
+    
+    /**
+     * Verify presence of content with exact value for it's name
+     */
+    public boolean isContentWithExactValuePresent(String content)
+    {
+        this.renderedPage();
+        WebElement webElement = selectDocLibItemWithExactValue(content);
+        return browser.isElementDisplayed(webElement);
+    }
 
     public UploadFileDialog clickUpload()
     {
@@ -265,16 +275,16 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         browser.selectOptionFromFilterOptionsList(view, optionsList);
         return (DocumentLibraryPage) this.renderedPage();
     }
-    
+
     public List<String> getAllOptionsText()
     {
-    	List<String> optionsText = new ArrayList<>();
-    	List<WebElement> options = browser.findElements(displayedOptionsListBy);
-    	for(WebElement option : options)
-    	{
-    		optionsText.add(option.getText());
-    	}
-    	return optionsText;
+        List<String> optionsText = new ArrayList<>();
+        List<WebElement> options = browser.findElements(displayedOptionsListBy);
+        for (WebElement option : options)
+        {
+            optionsText.add(option.getText());
+        }
+        return optionsText;
     }
 
     /**
@@ -295,10 +305,21 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public WebElement selectDocumentLibraryItemRow(String documentItem)
     {
-    	browser.waitInSeconds(2);
+        browser.waitInSeconds(2);
         browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 6);
         List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
         return browser.findFirstElementWithValue(itemsList, documentItem);
+    }
+
+    /**
+     * Select document library item matching exact value of content name
+     */
+
+    public WebElement selectDocLibItemWithExactValue(String item)
+    {
+        browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 2);
+        List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
+        return browser.findFirstElementWithExactValue(itemsList, item);
     }
 
     /**
@@ -481,7 +502,8 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         {
             WebElement moreMenu = selectDocumentLibraryItemRow(libraryItem).findElement(moreMenuSelector);
             browser.waitUntilElementClickable(moreMenu, 30).click();
-            browser.waitUntilElementVisible(browser.findElement(By.xpath("//div[contains(@id, 'default-actions-yui') and not(@class='hidden')]/div[contains(@class,'action-set')]")));
+            browser.waitUntilElementVisible(
+                    browser.findElement(By.xpath("//div[contains(@id, 'default-actions-yui') and not(@class='hidden')]/div[contains(@class,'action-set')]")));
         }
     }
 
@@ -520,7 +542,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         List<WebElement> availableActions = getAvailableActions(libraryItem);
         boolean found = true;
-        for(String action: actions)
+        for (String action : actions)
         {
             if (browser.findFirstElementWithValue(availableActions, action) == null)
             {
@@ -535,7 +557,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         List<WebElement> availableActions = getAvailableActions(libraryItem);
         boolean notFound = true;
-        for(String action: actions)
+        for (String action : actions)
         {
             if (browser.findFirstElementWithValue(availableActions, action) != null)
             {
@@ -567,9 +589,11 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         {
             LOG.info(String.format("Click on '%s' action.", action));
             actionElement.click();
-        } else {
+        }
+        else
+        {
             actionElement = browser.findFirstElementWithValue(availableActions, "More...");
-            if(actionElement != null)
+            if (actionElement != null)
             {
                 LOG.info("Click on 'More...'");
                 actionElement.click();
@@ -634,7 +658,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         while (!browser.isElementDisplayed(selectDocumentLibraryItemRow(content), renameIcon) && nrOfTimes < 5)
         {
             mouseOverContentItem(content);
-            nrOfTimes++ ;
+            nrOfTimes++;
         }
         return browser.isElementDisplayed(selectDocumentLibraryItemRow(content), renameIcon);
     }
@@ -689,7 +713,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public boolean verifyButtonsFromRenameContent(String... expectedButtons)
     {
         List<String> buttonNames = new ArrayList<>();
-        for(WebElement buttonFromRenameContent: buttonsFromRenameContent)
+        for (WebElement buttonFromRenameContent : buttonsFromRenameContent)
             buttonNames.add(buttonFromRenameContent.getText());
         return DataUtil.areListsEquals(buttonNames, expectedButtons);
     }
@@ -1096,7 +1120,7 @@ public class  DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public String getOptionsSetDefaultViewText(String text)
     {
-    	browser.waitUntilElementIsDisplayedWithRetry(optionsMenuDropDown);
+        browser.waitUntilElementIsDisplayedWithRetry(optionsMenuDropDown);
         browser.waitUntilElementContainsText(setDefaultView, text);
         return setDefaultView.getText();
     }

@@ -11,6 +11,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -34,6 +35,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
 
     private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
     private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+    private String siteName1 = "siteName1" + DataUtil.getUniqueIdentifier();
     private final String zipFile = "archiveC7409.zip";
     private final String fileName = "fileC7409";
     private final String acpFile = "archiveC7410.acp";
@@ -44,8 +46,10 @@ public class UnzippingContentTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName1, siteName1, Site.Visibility.PUBLIC);
         contentService.uploadFileInSite(testUser, password, siteName, testDataFolder + zipFile);
         contentService.uploadFileInSite(testUser, password, siteName, testDataFolder + acpFile);
+        contentService.uploadFileInSite(testUser, password, siteName1, testDataFolder + acpFile);
         setupAuthenticatedSession(testUser, password);
     }
 
@@ -107,5 +111,31 @@ public class UnzippingContentTests extends ContextAwareWebTest
         siteDashboardPage.navigate(siteName);
         assertTrue(siteContentDashlet.isFileLinkPresent(fileName1), "Content of unzipped archive is displayed, e.g: testFile");
         assertTrue(siteContentDashlet.getDocDetails(fileName1).contains(siteName), "Timestamp and site name are the ones set when folder was unzipped");
+    }
+    
+    @TestRail(id = "C202869")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    public void cancelUnzipAcpFile()
+    {
+        String acpFolderName = acpFile.substring(0, acpFile.indexOf("."));
+
+        LOG.info("Preconditions: Log into Alfresco Share as a user created in preconditions and go to acp document details page");
+        documentLibraryPage.navigate(siteName1);
+        documentLibraryPage.clickOnFile(acpFile);
+
+        LOG.info("STEP1: Verify Unzip to… option is displayed under Document Actions");
+        assertTrue(documentDetailsPage.isActionAvailable("Unzip to..."), "Unzip to... option available");
+
+        LOG.info("STEP2: Click on Unzip to… option under Document Actions and verify Unzip dialogue is displayed");
+        documentDetailsPage.clickDocumentActionsOption("Unzip to...");
+        assertEquals(unzipToDialog.getDialogTitle(), "Unzip " + acpFile + " to...", "'Unzip to....' dialog is displayed");
+
+        LOG.info("STEP3: Select the destination and click on Cancel button. Verify that selected destination does not contain any content of the acp file");
+        unzipToDialog.clickSite(siteName1);
+        unzipToDialog.clickButtton("Cancel");
+        documentLibraryPage.navigate(siteName1);
+
+        Assert.assertFalse(documentLibraryPage.isContentWithExactValuePresent(acpFolderName), "A folder with archive name present in Documents list.");
+
     }
 }
