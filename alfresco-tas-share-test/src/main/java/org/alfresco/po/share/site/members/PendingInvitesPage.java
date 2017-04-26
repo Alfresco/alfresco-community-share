@@ -7,6 +7,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @PageObject
 public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
 {
@@ -103,5 +106,19 @@ public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
     public String getInvitationUserRole(String firstName)
     {
         return selectPendingInvitationRow(firstName).findElement(invitationUserRole).getText();
+    }
+
+    /**
+     * @return list of users from 'Pending Requests' section
+     */
+    public ArrayList<String> getPendingRequests()
+    {
+        ArrayList<String> pendingUsersText = new ArrayList<>();
+        List<WebElement> users = browser.findDisplayedElementsFromLocator(By.cssSelector(".to-invitee .attr-value"));
+        for (WebElement user : users)
+        {
+            pendingUsersText.add(user.getText());
+        }
+        return pendingUsersText;
     }
 }
