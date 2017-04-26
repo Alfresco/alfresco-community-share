@@ -160,6 +160,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     }
 
     private By renameIcon = By.cssSelector(".filename span[class='insitu-edit']");
+    private By linkToFolderLocator = By.cssSelector(".filename [href*='FdocumentLibrary']");
     private By uploadNewVersion = By.cssSelector("a[title='Upload New Version']");
     private By moreMenuSelector = By.cssSelector("div[id*='onActionShowMore'] a span");
     public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
@@ -218,7 +219,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         WebElement webElement = selectDocumentLibraryItemRow(contentName);
         return browser.isElementDisplayed(webElement);
     }
-    
+
     /**
      * Verify presence of content with exact value for it's name
      */
@@ -1192,6 +1193,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public String getUploadButtonStatusDisabled()
     {
         return uploadButton.getAttribute("disabled");
+    }
+
+    public void clickLinkToFolder(String folderName)
+    {
+        List<WebElement> linkToFolderList = browser.waitUntilElementsVisible(linkToFolderLocator);
+        browser.findFirstElementWithExactValue(linkToFolderList, folderName).click();
     }
 
     public boolean isCreateContentMenuDisplayed()
