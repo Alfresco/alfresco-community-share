@@ -32,7 +32,7 @@ public class SelectPopUpPage extends ShareDialog
     @FindAll(@FindBy(css = ".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] [class$='dt-data'] tr"))
     protected List<WebElement> resultsList;
 
-    private By addIcon = By.cssSelector("[class*=addIcon]");
+    private By addIcon = By.cssSelector(".yui-dialog[style*='visibility: visible'] [class*='addIcon']");
     private By removeIcon = By.cssSelector("[class*='removeIcon']");
 
     public WebElement selectDetailsRow(String item)
@@ -47,7 +47,7 @@ public class SelectPopUpPage extends ShareDialog
 
     public void clickAddIcon(String item)
     {
-        browser.waitUntilElementVisible(addIcon);
+        browser.waitUntilElementsVisible(resultsList);
         selectDetailsRow(item).findElement(addIcon).click();
     }
 
@@ -65,6 +65,14 @@ public class SelectPopUpPage extends ShareDialog
     {
         browser.waitUntilElementVisible(searchInput).clear();
         searchInput.sendKeys(searchText);
-        searchButton.click();
+        browser.waitUntilElementClickable(searchButton).click();
+        int counter = 0;
+        while(!browser.isElementDisplayed(addIcon) && counter < 2)
+        {
+            LOG.info("Search: " + counter);
+            searchButton.click();
+            browser.waitInSeconds(5);
+            counter++;
+        }
     }
 }
