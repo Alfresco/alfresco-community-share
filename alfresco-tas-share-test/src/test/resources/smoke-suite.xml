@@ -31,7 +31,7 @@
     <test name="EditRuleTest">
         <classes>
             <class
-                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules.EditRuleTest"/>
+                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules.EditRuleTests"/>
         </classes>
     </test>
     <test name="LinkingToDifferentRuleSet">

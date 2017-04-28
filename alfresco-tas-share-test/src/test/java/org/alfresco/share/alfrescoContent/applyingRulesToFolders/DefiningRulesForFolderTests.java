@@ -303,7 +303,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     {
         ruleName1 = "rule-C7245-" + random;
         folderName = "Folder-C7245-" + random;
-        fileName2 = "FileName2-C7245-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -326,41 +325,16 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();
         editRulesPage.renderedPage();
+        editRulesPage.clickDisableRuleCheckbox();
         editRulesPage.clickCreateButton();
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         editRulesPage.cleanupSelectedValues();
 
-        LOG.info("STEP2: Create a file in folder");
+        LOG.info("STEP2: Create a file in folder and verify if rule is applied");
         contentService.createDocumentInFolder(userName, password, siteName, folderName, CMISUtil.DocumentType.HTML, fileName, "docContent");
-
-        LOG.info("STEP3: Navigate to site document library");
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
-
-        LOG.info("STEP4: Navigate to Manage Rule page for folder1. Click 'Edit'");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
-        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
-        assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
-        ruleDetailsPage.renderedPage();
-        ruleDetailsPage.clickButton("edit");
-        assertEquals(editRulesPage.getRulePageHeader(), String.format(language.translate("rules.editPageHeader"), ruleName1), "Page header=");
-
-        LOG.info("STEP5: Click on 'Disable rule' \n" + "Click 'Save'");
-        editRulesPage.clickDisableRuleCheckbox();
-        editRulesPage.clickSaveButton();
-
-        LOG.info("STEP6: Create a file in folder");
-        contentService.createDocumentInFolder(userName, password, siteName, folderName, CMISUtil.DocumentType.HTML, fileName2, "docContent");
-
-        LOG.info("STEP7: Navigate to site Document Library");
-        documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-        assertFalse(documentLibraryPage.isContentNameDisplayed(fileName2), fileName2 + " displayed in Document Library");
-
-        documentLibraryPage.clickOnFolderName(folderName);
-        assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString(), "Document Library breadcrumb");
-        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName2), fileName2 + " displayed in " + folderName);
+        assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed in Document Library");
     }
 
     @TestRail(id = "C6621")

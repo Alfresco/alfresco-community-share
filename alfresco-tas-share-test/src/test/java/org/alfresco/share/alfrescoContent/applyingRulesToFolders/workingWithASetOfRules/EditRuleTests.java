@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
@@ -11,7 +12,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -19,33 +20,42 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 /**
  * @author Laura.Capsa
  */
-public class EditRuleTest extends ContextAwareWebTest
+public class EditRuleTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private ManageRulesPage manageRulesPage;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
 
-    @Autowired private EditRulesPage editRulesPage;
+    @Autowired
+    private EditRulesPage editRulesPage;
 
-    @Autowired private RuleDetailsPage ruleDetailsPage;
+    @Autowired
+    private RuleDetailsPage ruleDetailsPage;
 
-    @Autowired private SelectDestinationDialog selectDestinationDialog;
+    @Autowired
+    private SelectDestinationDialog selectDestinationDialog;
 
     private final String random = DataUtil.getUniqueIdentifier();
     private final String userName = "user-" + random;
     private final String siteName = "Site-" + random;
     private final String description = "description-" + random;
     private final String path = "Documents";
-    private final String ruleName = "rule-C7254-" + random;
-    private final String folderName = "Folder-C7254-" + random;
+    private String folderName, ruleName;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod()
     public void setupTest()
     {
+        String random = DataUtil.getUniqueIdentifier();
+        ruleName = "rule-" + random;
+        folderName = "folder-" + random;
+
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
 
@@ -78,8 +88,8 @@ public class EditRuleTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7254")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void editRule()
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void editRuleDetails()
     {
         String updatedRuleName = "updateRule-C7254-" + random;
         String updatedDescription = "Updated Rule description";
@@ -106,6 +116,30 @@ public class EditRuleTest extends ContextAwareWebTest
         assertEquals(ruleDetailsPage.getWhenCondition(), editRulesPage.getSelectedOptionFromDropdown().get(0), "'When' criteria section=");
         assertEquals(ruleDetailsPage.getIfAllCriteriaCondition(), editRulesPage.getSelectedOptionFromDropdown().get(1), "'If all criteria are met' section=");
         assertEquals(ruleDetailsPage.getPerformAction(), "Copy items to .../documentLibrary", "'Perform Action' section=");
+
+        editRulesPage.cleanupSelectedValues();
+    }
+
+    @TestRail(id = "C7258")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void disableRule()
+    {
+        String fileName = "fileC7258-" + random;
+
+        LOG.info("STEP1: Click 'Edit' button for rule");
+        ruleDetailsPage.clickButton("edit");
+        assertEquals(editRulesPage.getRulePageHeader(), String.format(language.translate("rules.editPageHeader"), ruleName), "Page header=");
+
+        LOG.info("STEP2: Check \"Disable rule\" checkbox.\n" + "Click \"Save\" button");
+        editRulesPage.clickDisableRuleCheckbox();
+        editRulesPage.clickSaveButton();
+        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
+
+        LOG.info("STEP3: Create a file in folder and verify if rule is applied");
+        contentService.createDocumentInFolder(userName, password, siteName, folderName, CMISUtil.DocumentType.HTML, fileName, "docContent");
+        documentLibraryPage.navigate(siteName);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
+        assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed in Document Library");
 
         editRulesPage.cleanupSelectedValues();
     }
