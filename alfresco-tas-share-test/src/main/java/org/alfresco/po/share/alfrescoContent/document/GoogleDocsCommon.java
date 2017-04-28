@@ -2,6 +2,7 @@ package org.alfresco.po.share.alfrescoContent.document;
 
 import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
@@ -17,16 +18,16 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     @FindBy(xpath = "//*[contains(text(), 'OK')]")
     protected WebElement okButtonOnVersionPopup;
 
-    @FindBy(id = "Email")
+    @FindBy(xpath = "//*[@id='identifierId']|//*[@id='Email']")
     protected WebElement googleDocsEmail;
 
-    @FindBy(id = "next")
+    @FindBy(xpath = "//*[@id='identifierNext']|//*[@id='next']")
     protected WebElement submitEmail;
 
-    @FindBy(id = "Passwd")
+    @FindBy(xpath = "//*[@name='password']|//*[@id='Passwd']")
     protected WebElement googleDocsPassword;
 
-    @FindBy(id = "signIn")
+    @FindBy(xpath = "//*[@id='passwordNext']|//*[@id='signIn']")
     protected WebElement signInToGoogleDocsButton;
 
     @FindBy(xpath = "//*[contains(text(), 'Yes')]")
@@ -80,7 +81,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     @FindBy(xpath = "//div[contains(@class, 'docs-link-insertlinkbubble-buttonbar')]/div")
     protected WebElement applyButtonGoogleSheets;
 
-    @FindBy(id = "reauthEmail")
+    @FindBy(xpath = "//*[@id='profileIdentifier']|//*[@id='reauthEmail']")
     protected WebElement reauthEmail;
 
     public By confirmationPopup = By.cssSelector("span.wait");
@@ -90,41 +91,36 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     public void clickOkButton()
     {
-        if (browser.isElementDisplayed(okButtonOnVersionPopup))
-        {
-            okButtonOnVersionPopup.click();
-            browser.waitInSeconds(10);
-        }
+        Parameter.checkIsMandotary("OK button on version popup", okButtonOnVersionPopup);
+        okButtonOnVersionPopup.click();
+        browser.waitInSeconds(10);
     }
 
     public void loginToGoogleDocs()
     {
         String currentWindow = browser.getCurrentUrl();
-
         browser.get(googleDocsLoginUrl);
 
-        if (isReauthEmailDisplayed())
+        if (browser.isElementDisplayed(reauthEmail))
         {
             browser.waitUntilElementVisible(googleDocsPassword).sendKeys(googleDocsTestPassword);
-            signInToGoogleDocsButton.click();
+            browser.waitUntilElementClickable(signInToGoogleDocsButton).click();
         }
-
         else
         {
-            googleDocsEmail.sendKeys(googleDocsTestEmail);
-            submitEmail.click();
+            browser.waitUntilElementVisible(googleDocsEmail).sendKeys(googleDocsTestEmail);
+            browser.waitUntilElementClickable(submitEmail).click();
             browser.waitUntilElementVisible(googleDocsPassword).sendKeys(googleDocsTestPassword);
-            signInToGoogleDocsButton.click();
+            browser.waitUntilElementClickable(signInToGoogleDocsButton).click();
         }
         browser.waitInSeconds(1);
         browser.get(currentWindow);
-
     }
 
     public void confirmFormatUpgrade()
     {
-        if (browser.isElementDisplayed(confirmFormatUpgrade))
-            confirmFormatUpgrade.click();
+        Parameter.checkIsMandotary("Yes button on format upgrade popup", confirmFormatUpgrade);
+        confirmFormatUpgrade.click();
     }
 
     public void switchToGoogleDocsWindowandAndEditContent(String title, String content)
@@ -153,7 +149,9 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     public void editGoogleDocsContent(String content)
     {
-        browser.waitUntilWebElementIsDisplayedWithRetry(addLinkInGoogleDoc, 5);
+//        String js = "arguments[0].style.height='auto'; arguments[0].style.visibility='visible';";
+//        browser.executeScript(js, addLinkInGoogleDoc);
+        browser.waitUntilWebElementIsDisplayedWithRetry(addLinkInGoogleDoc, 7);
         addLinkInGoogleDoc.click();
         browser.waitUntilElementVisible(inputTextForLinkInGoogleDoc).sendKeys(content);
         browser.waitUntilElementVisible(inputLinkInGoogleDoc).sendKeys("test");
@@ -163,7 +161,9 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     public void editGoogleSheetsContent(String content)
     {
-        browser.waitUntilWebElementIsDisplayedWithRetry(addLinkInGoogleSheet, 5);
+//        String js = "arguments[0].style.height='auto'; arguments[0].style.visibility='visible';";
+//        browser.executeScript(js, addLinkInGoogleSheet);
+        browser.waitUntilWebElementIsDisplayedWithRetry(addLinkInGoogleSheet, 7);
         addLinkInGoogleSheet.click();
         browser.waitUntilElementVisible(inputTextForLinkInGoogleSheet).sendKeys(content);
         browser.waitUntilElementVisible(inputLinkInGoogleSheets).sendKeys("test");
@@ -212,11 +212,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         return browser.isElementDisplayed(googleDriveIcon);
     }
 
-    public boolean checkGoogleDriveIconIsDisplayed() throws Exception
-    {
-        return browser.isElementDisplayed(By.xpath("//img[contains(@title,'status.googledrive')]')]"));
-    }
-
     public void checkInGoogleDoc(String file)
     {
         String fileLocator = "//a[contains(text(), '" + file + "')]";
@@ -230,7 +225,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     public boolean isVersionInformationPopupDisplayed() throws Exception
     {
-        return browser.isElementDisplayed(By.xpath("//div[contains(text(), 'Version Information')]"));
+        return browser.isElementDisplayed(versionInformationPopup);
     }
 
     @Override
@@ -281,22 +276,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     public boolean isOkButtonOnTheAuthorizeWithGoogleDocsPopupDisplayed() throws Exception
     {
-        try
-        {
-            browser.findElement(By.xpath("//button[contains(text(),'OK')]"));
-            return true;
-
-        }
-        catch (NoSuchElementException e)
-        {
-            return false;
-        }
-
-    }
-
-    public boolean isReauthEmailDisplayed()
-    {
-        return browser.isElementDisplayed(reauthEmail);
+        return browser.isElementDisplayed(By.xpath("//button[contains(text(),'OK')]"));
     }
 
     public String getConfirmationPopUpMessage()

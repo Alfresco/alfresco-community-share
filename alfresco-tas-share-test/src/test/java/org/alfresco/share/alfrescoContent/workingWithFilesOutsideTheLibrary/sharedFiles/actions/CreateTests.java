@@ -324,7 +324,7 @@ public class CreateTests extends ContextAwareWebTest
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocName));
         Assert.assertFalse(sharedFilesPage.isInfoBannerDisplayed(googleDocName), "Locked label displayed");
-        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed());
+        Assert.assertFalse(googleDocs.isGoogleDriveIconDisplayed());
 
         LOG.info("Step 5: Login with testUser2 and navigate to Shared Files page.");
         cleanupAuthenticatedSession();
@@ -364,7 +364,7 @@ public class CreateTests extends ContextAwareWebTest
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocSpreadsheet));
         Assert.assertFalse(sharedFilesPage.isInfoBannerDisplayed(googleDocSpreadsheet), "Locked label displayed");
-        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed());
+        Assert.assertFalse(googleDocs.isGoogleDriveIconDisplayed());
 
         LOG.info("Step 5: Login with testUser2 and navigate to Shared Files page.");
         cleanupAuthenticatedSession();
@@ -402,7 +402,7 @@ public class CreateTests extends ContextAwareWebTest
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocPresentation));
         Assert.assertFalse(sharedFilesPage.isInfoBannerDisplayed(googleDocPresentation), "Locked label displayed");
-        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed());
+        Assert.assertFalse(googleDocs.isGoogleDriveIconDisplayed());
 
         LOG.info("Step 4: Login with testUser2 and navigate to Shared Files page.");
         cleanupAuthenticatedSession();
