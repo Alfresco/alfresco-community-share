@@ -3,7 +3,7 @@
     <test name="BreakingTheLinkToARuleSet">
         <classes>
             <class
-                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.BreakingTheLinkToARuleSetTest"/>
+                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithLinkedRules.BreakingTheLinkToARuleSetTest"/>
         </classes>
     </test>
     <test name="DefiningRulesForFolderTests">
@@ -15,25 +15,25 @@
     <test name="DeleteRuleTest">
         <classes>
             <class
-                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.DeleteRuleTest"/>
+                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules.DeleteRuleTest"/>
         </classes>
     </test>
     <test name="EditRuleTest">
         <classes>
             <class
-                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.EditRuleTest"/>
+                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules.EditRuleTest"/>
         </classes>
     </test>
     <test name="LinkingToDifferentRuleSet">
         <classes>
             <class
-                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.LinkingToDifferentRuleSetTest"/>
+                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithLinkedRules.LinkingToDifferentRuleSetTest"/>
         </classes>
     </test>
     <test name="ManuallyRunningRulesTest">
         <classes>
             <class
-                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.ManuallyRunningRulesTest"/>
+                    name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules.ManuallyRunningRulesTest"/>
         </classes>
     </test>
     <test name="CreateFileFromTemplateTests">

@@ -1,4 +1,4 @@
-package org.alfresco.share.alfrescoContent.applyingRulesToFolders;
+package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithLinkedRules;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
@@ -92,13 +92,12 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7327")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void linkToRuleSet()
     {
         LOG.info("STEP1: Click on 'Link to Rule Set' link\n" + "Set path to 'Folder1'.\n" + "Click 'Link' button");
         manageRulesPage.clickLinkToRuleSet();
         selectDestinationDialog.clickPathFolder(folderName);
-        getBrowser().waitInSeconds(3);
         selectDestinationDialog.clickOkButton();
         linkedToRuleSetPage.renderedPage();
         linkedToRuleSetPage.setCurrentSiteName(siteName);
@@ -116,7 +115,5 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed");
-
-        cleanupAuthenticatedSession();
     }
 }

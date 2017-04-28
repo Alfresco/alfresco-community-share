@@ -29,21 +29,29 @@ import static org.testng.Assert.*;
  */
 public class DefiningRulesForFolderTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired
+    private EditInAlfrescoPage editInAlfrescoPage;
 
-    @Autowired private ManageRulesPage manageRulesPage;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
 
-    @Autowired private EditRulesPage editRulesPage;
+    @Autowired
+    private EditRulesPage editRulesPage;
 
-    @Autowired private RuleDetailsPage ruleDetailsPage;
+    @Autowired
+    private RuleDetailsPage ruleDetailsPage;
 
-    @Autowired private SelectDestinationDialog selectDestinationDialog;
+    @Autowired
+    private SelectDestinationDialog selectDestinationDialog;
 
-    @Autowired private DeleteDialog deleteDialog;
+    @Autowired
+    private DeleteDialog deleteDialog;
 
-    @Autowired private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
 
     private final String random = DataUtil.getUniqueIdentifier();
     private final String userName = "user-" + random;
@@ -62,7 +70,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6367")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyFolderRulesPage()
     {
         folderName = "Folder-C6367-" + random;
@@ -85,7 +93,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C12857")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyEditRulePageDropdownElements()
     {
         folderName = "Folder-C12857-" + random;
@@ -120,7 +128,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6372")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createRule()
     {
         ruleName1 = "rule-C6372-" + random;
@@ -158,12 +166,12 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(ruleDetailsPage.getWhenCondition(), editRulesPage.getSelectedOptionFromDropdown().get(0), "'When' criteria section=");
         assertEquals(ruleDetailsPage.getIfAllCriteriaCondition(), editRulesPage.getSelectedOptionFromDropdown().get(1), "'If all criteria are met' section=");
         assertEquals(ruleDetailsPage.getPerformAction(), "Copy items to .../documentLibrary", "'Perform Action' section=");
-        editRulesPage.cleanupSelectedValues();
 
+        editRulesPage.cleanupSelectedValues();
     }
 
     @TestRail(id = "C6622")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void itemsAreCreated()
     {
         ruleName1 = "rule-C6622-" + random;
@@ -210,7 +218,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7239")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createAndCreateAnother()
     {
         ruleName1 = "rule1-C7239-" + random;
@@ -260,7 +268,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7240")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelCreateRule()
     {
         ruleName1 = "rule-C7240-" + random;
@@ -290,7 +298,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7245")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void disableRule()
     {
         ruleName1 = "rule-C7245-" + random;
@@ -356,7 +364,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C6621")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createRuleItemsAreUpdated()
     {
         ruleName1 = "rule-C6621-" + random;
@@ -403,16 +411,13 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(editInAlfrescoPage.getPageTitle(), "Alfresco » Edit in Alfresco", "Displayed page=");
         editInAlfrescoPage.typeContent("Content updated!");
         editInAlfrescoPage.clickSaveButton();
-        // editInAlfrescoPage.clickSaveButton();
-
-        // editInAlfrescoPage.clickButton("Save");
         getBrowser().waitInSeconds(2);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
     }
 
     @TestRail(id = "C6623")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createRuleItemsAreDeleted()
     {
         ruleName1 = "rule-C6623-" + random;

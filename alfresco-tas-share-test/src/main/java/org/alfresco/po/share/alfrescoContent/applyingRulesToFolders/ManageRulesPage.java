@@ -5,6 +5,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,8 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 
     @FindBy(css = "span.folder-link a")
     private List<WebElement> breadcrumbList;
+
+    private By inheritRulesMessage = By.cssSelector("#message .bd");
 
     @Override
     public String getRelativePath()
@@ -118,6 +121,15 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
         if (browser.isElementDisplayed(inheritButton))
             return inheritButton.getText();
         return "'Inherit Rules' button isn't displayed.";
+    }
+
+    public ManageRulesPage clickInheritButton()
+    {
+        browser.waitUntilElementVisible(inheritButton).click();
+        browser.waitUntilElementVisible(inheritRulesMessage);
+        browser.waitUntilElementDisappears(inheritRulesMessage, 10);
+
+        return (ManageRulesPage) this.renderedPage();
     }
 
     public boolean isContentRuleDisplayed()
