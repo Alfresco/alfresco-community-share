@@ -4,7 +4,6 @@ import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
-import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -21,9 +20,6 @@ import static org.testng.Assert.*;
 public class DeleteTests extends ContextAwareWebTest
 {
     @Autowired private SharedFilesPage sharedFilesPage;
-
-    @Autowired
-    HeaderMenuBar headerMenuBar;
 
     @Autowired private DeleteDialog deleteDialog;
 
