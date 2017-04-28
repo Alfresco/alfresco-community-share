@@ -53,6 +53,9 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     @FindBy(css = ".disabled input")
     private WebElement disableRuleCheckbox;
 
+    @FindBy(css = "input[id*='default-applyToChildren']")
+    private WebElement ruleAppliesToSubfoldersCheckbox;
+
     private String dropdownSelector = "div[id*='%s'] select[class='config-name']";
     private By ifConditionCompareSelector = By.cssSelector("div[id*='ruleConfigIfCondition'] span[class*='compare-property'] select");
     private By copySelectButtonSelector = By.cssSelector("div[id*='ruleConfigAction'] .parameters button");
@@ -143,7 +146,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
 
     public void typeRuleDetails(String ruleName, String description, List<Integer> indexOfOptionFromDropdown)
     {
-    	this.renderedPage();
+        this.renderedPage();
         typeName(ruleName);
         typeDescription(description);
         selectOptionFromDropdown("ruleConfigType", indexOfOptionFromDropdown.get(0));
@@ -156,6 +159,11 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     public void clickDisableRuleCheckbox()
     {
         disableRuleCheckbox.click();
+    }
+
+    public void clickRulesAppliesToSubfoldersCheckbox()
+    {
+        browser.waitUntilElementVisible(ruleAppliesToSubfoldersCheckbox).click();
     }
 
     public RuleDetailsPage clickCreateButton()
