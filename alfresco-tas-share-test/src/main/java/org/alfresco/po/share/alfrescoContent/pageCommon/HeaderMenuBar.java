@@ -13,6 +13,7 @@ import java.util.List;
 @PageObject
 public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 {
+    @Autowired
     protected Language language;
 
     @FindBy(css = "button[id*='fileSelect']")
