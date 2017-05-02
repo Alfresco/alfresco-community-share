@@ -496,4 +496,57 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed. " + ruleName1 + " applied to subfolder " + folderName2);
     }
+
+    @TestRail(id = "C7285")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void checkoutToSite()
+    {
+        ruleName1 = "rule-C7285-" + random;
+        folderName = "Folder-C7285-" + random;
+        contentService.createFolder(userName, password, folderName, siteName);
+
+        documentLibraryPage.navigate(siteName);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
+
+        LOG.info("Precondition: Navigate to 'Create rule' page");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
+        manageRulesPage.clickCreateRules();
+        editRulesPage.setCurrentSiteName(siteName);
+        assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
+
+        LOG.info("STEP1: Type rule title, description and select value from each dropdown");
+        editRulesPage.typeName(ruleName1);
+        editRulesPage.typeDescription(description);
+        editRulesPage.selectOptionFromDropdown("ruleConfigType", 0);
+        editRulesPage.selectOptionFromDropdown("ruleConfigIfCondition", 0);
+        editRulesPage.selectOptionFromDropdown("ruleConfigAction", 5);
+        editRulesPage.clickCopySelectButton();
+        selectDestinationDialog.clickSite(siteName);
+        selectDestinationDialog.clickPathFolder("Documents");
+        selectDestinationDialog.clickOkButton();
+        editRulesPage.renderedPage();
+        editRulesPage.clickCreateButton();
+        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
+        ArrayList<String> expectedDescriptionDetails = new ArrayList<>(Arrays.asList("Active", "Run in background", "Rule applied to subfolders"));
+        assertEquals(ruleDetailsPage.getRuleTitle(), ruleName1, "Rule title=");
+        assertEquals(ruleDetailsPage.getDetailsList().toString(), expectedDescriptionDetails.toString(), "Description details=");
+        assertEquals(ruleDetailsPage.getWhenCondition(), editRulesPage.getSelectedOptionFromDropdown().get(0), "'When' criteria section=");
+        assertEquals(ruleDetailsPage.getIfAllCriteriaCondition(), editRulesPage.getSelectedOptionFromDropdown().get(1), "'If all criteria are met' section=");
+        assertEquals(ruleDetailsPage.getPerformAction(), "Checkout working copy to .../documentLibrary", "'Perform Action' section=");
+
+        LOG.info("STEP2: Create a file in the folder");
+        contentService.createDocumentInRepository(userName, password, "Sites/" + siteName + "/documentLibrary/" + folderName, CMISUtil.DocumentType.HTML,
+                fileName, "docContent");
+        documentLibraryPage.navigate(siteName);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " moved.");
+        assertTrue(documentLibraryPage.isInfoBannerDisplayed(fileName), "Document is locked.");
+
+        LOG.info("STEP3: Navigate to the folder");
+        documentLibraryPage.clickOnFolderName(folderName);
+        assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed in " + folderName);
+
+        editRulesPage.cleanupSelectedValues();
+    }
 }
