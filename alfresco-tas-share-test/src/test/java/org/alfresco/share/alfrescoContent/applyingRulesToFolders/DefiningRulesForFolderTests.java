@@ -56,16 +56,18 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     private final String random = DataUtil.getUniqueIdentifier();
     private final String userName = "user-" + random;
     private String siteName = "Site-" + random;
+    private String siteName2 = "Site2-" + random;
     private final String description = "description-" + random;
     private final String path = "Documents";
     private String fileName = "testDoc.txt";
-    private String folderName, ruleName1, ruleName2, fileName2;
+    private String folderName, ruleName1, ruleName2;
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName2, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
     }
 
@@ -522,7 +524,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         editRulesPage.selectOptionFromDropdown("ruleConfigIfCondition", 0);
         editRulesPage.selectOptionFromDropdown("ruleConfigAction", 5);
         editRulesPage.clickCopySelectButton();
-        selectDestinationDialog.clickSite(siteName);
+        selectDestinationDialog.clickSite(siteName2);
         selectDestinationDialog.clickPathFolder("Documents");
         selectDestinationDialog.clickOkButton();
         editRulesPage.renderedPage();
@@ -533,19 +535,21 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(ruleDetailsPage.getDetailsList().toString(), expectedDescriptionDetails.toString(), "Description details=");
         assertEquals(ruleDetailsPage.getWhenCondition(), editRulesPage.getSelectedOptionFromDropdown().get(0), "'When' criteria section=");
         assertEquals(ruleDetailsPage.getIfAllCriteriaCondition(), editRulesPage.getSelectedOptionFromDropdown().get(1), "'If all criteria are met' section=");
-        assertEquals(ruleDetailsPage.getPerformAction(), "Checkout working copy to .../documentLibrary", "'Perform Action' section=");
+        assertEquals(ruleDetailsPage.getPerformAction(), "Checkout working copy to .../documentLibrary in " + siteName2, "'Perform Action' section=");
 
-        LOG.info("STEP2: Create a file in the folder");
+        LOG.info("STEP2: Navigate to " + folderName + " . Create a file in the folder");
         contentService.createDocumentInRepository(userName, password, "Sites/" + siteName + "/documentLibrary/" + folderName, CMISUtil.DocumentType.HTML,
                 fileName, "docContent");
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
-        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " moved.");
-        assertTrue(documentLibraryPage.isInfoBannerDisplayed(fileName), "Document is locked.");
-
-        LOG.info("STEP3: Navigate to the folder");
         documentLibraryPage.clickOnFolderName(folderName);
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed in " + folderName);
+
+        LOG.info("STEP3: Navigate to " + siteName2);
+        documentLibraryPage.navigate(siteName2);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed in " + folderName);
+        assertTrue(documentLibraryPage.isInfoBannerDisplayed(fileName), "Document is locked.");
 
         editRulesPage.cleanupSelectedValues();
     }
@@ -575,7 +579,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         editRulesPage.selectOptionFromDropdown("ruleConfigIfCondition", 0);
         editRulesPage.selectOptionFromDropdown("ruleConfigAction", 3);
         editRulesPage.clickCopySelectButton();
-        selectDestinationDialog.clickSite(siteName);
+        selectDestinationDialog.clickSite(siteName2);
         selectDestinationDialog.clickPathFolder("Documents");
         selectDestinationDialog.clickOkButton();
         editRulesPage.renderedPage();
@@ -586,18 +590,20 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(ruleDetailsPage.getDetailsList().toString(), expectedDescriptionDetails.toString(), "Description details=");
         assertEquals(ruleDetailsPage.getWhenCondition(), editRulesPage.getSelectedOptionFromDropdown().get(0), "'When' criteria section=");
         assertEquals(ruleDetailsPage.getIfAllCriteriaCondition(), editRulesPage.getSelectedOptionFromDropdown().get(1), "'If all criteria are met' section=");
-        assertEquals(ruleDetailsPage.getPerformAction(), "Move items to .../documentLibrary", "'Perform Action' section=");
+        assertEquals(ruleDetailsPage.getPerformAction(), "Move items to .../documentLibrary in " + siteName2, "'Perform Action' section=");
 
         LOG.info("STEP2: Create a file in the folder");
         contentService.createDocumentInRepository(userName, password, "Sites/" + siteName + "/documentLibrary/" + folderName, CMISUtil.DocumentType.HTML,
                 fileName, "docContent");
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
-        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " moved.");
-
-        LOG.info("STEP3: Navigate to the folder");
         documentLibraryPage.clickOnFolderName(folderName);
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed in " + folderName);
+
+        LOG.info("STEP3: Navigate to the folder");
+        documentLibraryPage.navigate(siteName2);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " moved.");
 
         editRulesPage.cleanupSelectedValues();
     }
