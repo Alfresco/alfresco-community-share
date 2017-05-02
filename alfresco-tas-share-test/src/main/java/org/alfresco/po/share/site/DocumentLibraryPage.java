@@ -330,7 +330,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public DocumentLibraryPage clickOnFolderName(String folderName)
     {
-        selectDocumentLibraryItemRow(folderName).findElement(contentNameSelector).click();
+        WebElement folderElement = selectDocumentLibraryItemRow(folderName);
+        Parameter.checkIsMandotary("Folder", folderElement);
+        folderElement.findElement(contentNameSelector).click();
         browser.waitUntilElementContainsText(breadcumbCurrentFolder, folderName);
         return (DocumentLibraryPage) this.renderedPage();
     }
@@ -367,7 +369,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public DocumentDetailsPage clickOnFile(String file)
     {
-        selectDocumentLibraryItemRow(file).findElement(contentNameSelector).click();
+        WebElement fileElement = selectDocumentLibraryItemRow(file);
+        Parameter.checkIsMandotary("File", fileElement);
+        fileElement.findElement(contentNameSelector).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
