@@ -59,7 +59,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     private String siteName2 = "Site2-" + random;
     private final String description = "description-" + random;
     private final String path = "Documents";
-    private String fileName = "testDoc.txt";
+    private String fileName;
     private String folderName, ruleName1, ruleName2;
 
     @BeforeClass(alwaysRun = true)
@@ -76,6 +76,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     public void verifyFolderRulesPage()
     {
         folderName = "Folder-C6367-" + random;
+        fileName = "fileC6367";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -99,6 +100,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     public void verifyEditRulePageDropdownElements()
     {
         folderName = "Folder-C12857-" + random;
+        fileName = "fileC12857";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -135,6 +137,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     {
         ruleName1 = "rule-C6372-" + random;
         folderName = "Folder-C6372-" + random;
+        fileName = "fileC6372";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -178,7 +181,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     {
         ruleName1 = "rule-C6622-" + random;
         folderName = "Folder-C6622-" + random;
-        fileName = "testFile1.txt";
+        fileName = "fileC6622";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -226,6 +229,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         ruleName1 = "rule1-C7239-" + random;
         ruleName2 = "rule2-C7239-" + random;
         folderName = "Folder-C7239-" + random;
+        fileName = "fileC7239";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -275,6 +279,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     {
         ruleName1 = "rule-C7240-" + random;
         folderName = "Folder-C7240-" + random;
+        fileName = "fileC7240";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -305,6 +310,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     {
         ruleName1 = "rule-C7245-" + random;
         folderName = "Folder-C7245-" + random;
+        fileName = "fileC7245";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -344,8 +350,8 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     public void itemsAreUpdated()
     {
         ruleName1 = "rule-C6621-" + random;
-        folderName = "Folder-C6621-" + random;
-        fileName = "FileName-C6621-" + random;
+        folderName = "FolderC6621-" + random;
+        fileName = "FileC6621-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -384,7 +390,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFolderName(folderName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentActions.editInAlfresco"), editInAlfrescoPage);
-        assertEquals(editInAlfrescoPage.getPageTitle(), "Alfresco » Edit in Alfresco", "Displayed page=");
+        assertEquals(editInAlfrescoPage.getPageTitle(), "Alfresco » Edit in Alfresco Share", "Displayed page=");
         editInAlfrescoPage.typeContent("Content updated!");
         editInAlfrescoPage.clickSaveButton();
         getBrowser().waitInSeconds(2);
@@ -397,8 +403,8 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     public void itemsAreDeleted()
     {
         ruleName1 = "rule-C6623-" + random;
-        folderName = "Folder-C6623-" + random;
-        fileName = "FileName-C6623-" + random;
+        folderName = "FolderC6623-" + random;
+        fileName = "FileC6623-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -444,7 +450,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         LOG.info("STEP4: Navigate to 'Site1' document library");
         documentLibraryPage.navigate();
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-        assertEquals(documentLibraryPage.getFilesList().toString(), Arrays.asList(fileName).toString(), "Document Library files=");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed.");
 
         editRulesPage.cleanupSelectedValues();
     }
@@ -455,7 +461,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     {
         ruleName1 = "rule-C7246-" + random;
         folderName = "Folder-C7246-" + random;
-        fileName = "testFile1.txt";
+        fileName = "C7246File";
         String folderName2 = "Folder2-C7246-" + random;
         String pathToFolder2 = "Sites/" + siteName + "/documentlibrary/" + folderName;
 
@@ -514,7 +520,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     {
         ruleName1 = "rule-C202963-" + random;
         folderName = "Folder-C202963-" + random;
-        fileName = "testFile1.txt";
+        fileName = "C202963file";
         String folderName2 = "Folder2-C202963-" + random;
         String pathToFolder2 = "Sites/" + siteName + "/documentlibrary/" + folderName;
 
@@ -642,6 +648,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     {
         ruleName1 = "rule-C7285-" + random;
         folderName = "Folder-C7285-" + random;
+        fileName = "C7285file";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -695,8 +702,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void moveToSite()
     {
-        ruleName1 = "rule-C7285-" + random;
-        folderName = "Folder-C7285-" + random;
+        ruleName1 = "rule-C7284-" + random;
+        folderName = "Folder-C7284-" + random;
+        fileName = "C7284file";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -729,7 +737,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(ruleDetailsPage.getIfAllCriteriaCondition(), editRulesPage.getSelectedOptionFromDropdown().get(1), "'If all criteria are met' section=");
         assertEquals(ruleDetailsPage.getPerformAction(), "Move items to .../documentLibrary in " + siteName2, "'Perform Action' section=");
 
-        LOG.info("STEP2: Create a file in the folder");
+        LOG.info("STEP2: Create a file in " + folderName + " from " + siteName + "'s Document Library");
         contentService.createDocumentInRepository(userName, password, "Sites/" + siteName + "/documentLibrary/" + folderName, CMISUtil.DocumentType.HTML,
                 fileName, "docContent");
         documentLibraryPage.navigate(siteName);
@@ -737,7 +745,62 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFolderName(folderName);
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed in " + folderName);
 
-        LOG.info("STEP3: Navigate to the folder");
+        LOG.info("STEP3: Navigate to " + siteName2 + "'s Document Library");
+        documentLibraryPage.navigate(siteName2);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
+        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " moved.");
+
+        editRulesPage.cleanupSelectedValues();
+    }
+
+    @TestRail(id = "C7283")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void copyToSite()
+    {
+        ruleName1 = "rule-C7283-" + random;
+        folderName = "Folder-C7283-" + random;
+        fileName = "C7283file";
+        contentService.createFolder(userName, password, folderName, siteName);
+
+        documentLibraryPage.navigate(siteName);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
+
+        LOG.info("Precondition: Navigate to 'Create rule' page");
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
+        manageRulesPage.clickCreateRules();
+        editRulesPage.setCurrentSiteName(siteName);
+        assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
+
+        LOG.info("STEP1: Type rule title, description and select value from each dropdown");
+        editRulesPage.typeName(ruleName1);
+        editRulesPage.typeDescription(description);
+        editRulesPage.selectOptionFromDropdown("ruleConfigType", 0);
+        editRulesPage.selectOptionFromDropdown("ruleConfigIfCondition", 0);
+        editRulesPage.selectOptionFromDropdown("ruleConfigAction", 2);
+        editRulesPage.clickCopySelectButton();
+        selectDestinationDialog.clickSite(siteName2);
+        selectDestinationDialog.clickPathFolder("Documents");
+        selectDestinationDialog.clickOkButton();
+        editRulesPage.renderedPage();
+        editRulesPage.clickCreateButton();
+        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
+        ArrayList<String> expectedDescriptionDetails = new ArrayList<>(Arrays.asList("Active", "Run in background", "Rule applied to subfolders"));
+        assertEquals(ruleDetailsPage.getRuleTitle(), ruleName1, "Rule title=");
+        assertEquals(ruleDetailsPage.getDetailsList().toString(), expectedDescriptionDetails.toString(), "Description details=");
+        assertEquals(ruleDetailsPage.getWhenCondition(), editRulesPage.getSelectedOptionFromDropdown().get(0), "'When' criteria section=");
+        assertEquals(ruleDetailsPage.getIfAllCriteriaCondition(), editRulesPage.getSelectedOptionFromDropdown().get(1), "'If all criteria are met' section=");
+        assertEquals(ruleDetailsPage.getPerformAction(), "Copy items to .../documentLibrary in " + siteName2, "'Perform Action' section=");
+
+        LOG.info("STEP2: Create a file in " + folderName + " from " + siteName + "'s Document Library");
+        contentService.createDocumentInRepository(userName, password, "Sites/" + siteName + "/documentLibrary/" + folderName, CMISUtil.DocumentType.HTML,
+                fileName, "docContent");
+        documentLibraryPage.navigate(siteName);
+        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
+        documentLibraryPage.clickOnFolderName(folderName);
+        assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed in " + folderName);
+
+        LOG.info("STEP3: Navigate to " + siteName2 + "'s Document Library");
         documentLibraryPage.navigate(siteName2);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " moved.");
