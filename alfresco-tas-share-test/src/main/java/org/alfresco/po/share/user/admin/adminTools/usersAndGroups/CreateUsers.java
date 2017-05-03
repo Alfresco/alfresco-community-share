@@ -77,6 +77,9 @@ public class CreateUsers extends SharePage<CreateUsers>
     @FindBy(xpath = ".//*[@id='message']/div/span")
     private WebElement passwordsDontMatchNotification;
 
+    @FindBy(css = "div#prompt div.bd")
+    private WebElement userAlreadyExistsNotification;
+
     @FindAll(@FindBy(css = "span[id*='default_group']"))
     protected List<WebElement> addedGroupsList;
 
@@ -201,7 +204,7 @@ public class CreateUsers extends SharePage<CreateUsers>
     /**
      * Retrieves the user that matches the text from the search box
      *
-     * @param user String
+     * @param group String
      */
 
     public void removeGroup(final String group)
@@ -273,4 +276,9 @@ public class CreateUsers extends SharePage<CreateUsers>
         return defaultQuotaType.getText();
     }
 
+    public String getUserAlreadyExistsNotificationText()
+    {
+        browser.waitUntilElementVisible(userAlreadyExistsNotification);
+        return userAlreadyExistsNotification.getText();
+    }
 }

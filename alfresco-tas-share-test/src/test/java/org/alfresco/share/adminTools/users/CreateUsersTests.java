@@ -10,6 +10,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -28,6 +29,14 @@ public class CreateUsersTests extends ContextAwareWebTest
 
     @Autowired
     private LoginPage loginPage;
+    String userC9410 = "C9410TestUser" + DataUtil.getUniqueIdentifier();
+    String duplicateUserNotificationMessage = "We couldn't create the user because the username already exists.";
+
+    @BeforeClass(alwaysRun = true)
+    public void beforeClass()
+    {
+        userService.create(adminUser, adminPassword, userC9410, password, userC9410 + "@tests.com", userC9410, userC9410);
+    }
 
     @TestRail(id = "C9396")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
@@ -299,5 +308,32 @@ public class CreateUsersTests extends ContextAwareWebTest
         LOG.info("Step4: Verify buttons available on the page.");
         assertTrue(createUsers.areAllButtonsDisplayed(), "All buttons displayed");
 
+    }
+
+    @TestRail(id = "C9410")
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    public void createDuplicateUser()
+    {
+        logger.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
+        setupAuthenticatedSession(adminUser, adminPassword);
+        usersPage.navigate();
+
+        logger.info("Step1: Click 'New User' button.");
+        usersPage.clickNewUser();
+        createUsers.renderedPage();
+        logger.info("Step2: Fill in the Info for the new user");
+        createUsers.setFirstName(userC9410);
+        createUsers.setLastName(userC9410);
+        createUsers.setEmail(userC9410 + "@tests.com");
+        createUsers.setUsrName(userC9410);
+        createUsers.setPassword(password);
+        createUsers.setVerifyPassword(password);
+        createUsers.setQuota("1");
+
+        logger.info("Step3: Click 'Create User' button");
+        createUsers.clickCreateButton();
+
+        logger.info("Step4: Verify the user already exists notification is displayed.");
+        Assert.assertEquals(createUsers.getUserAlreadyExistsNotificationText(), duplicateUserNotificationMessage, "Notification is incorrect.");
     }
 }
