@@ -446,7 +446,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         deleteDialog.clickDelete();
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
-<<<<<<< HEAD
 
         LOG.info("STEP4: Navigate to 'Site1' document library");
         documentLibraryPage.navigate();
@@ -454,8 +453,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed.");
 
         editRulesPage.cleanupSelectedValues();
-=======
->>>>>>> c47b479e80539edf36382ef0a92a3694d76d3066
     }
 
     @TestRail(id = "C7246")
@@ -513,7 +510,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed. " + ruleName1 + " applied to subfolder " + folderName2);
-<<<<<<< HEAD
 
         editRulesPage.cleanupSelectedValues();
     }
@@ -644,8 +640,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed. " + ruleName1 + " applied to subfolder " + folderName2);
 
         editRulesPage.cleanupSelectedValues();
-=======
->>>>>>> c47b479e80539edf36382ef0a92a3694d76d3066
     }
 
     @TestRail(id = "C7285")
