@@ -40,9 +40,6 @@ public class UserProfileTests extends ContextAwareWebTest
     UserProfileAdminToolsPage userProfileAdminToolsPage;
 
     @Autowired
-    EditUserPage editUserPage;
-
-    @Autowired
     DeleteUserDialogPage deleteUserDialogPage;
 
     @Autowired
@@ -51,16 +48,20 @@ public class UserProfileTests extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
+    @Autowired
+    EditUserPage editUserPage;
+
     private String userName = String.format("UserProfileUser%s", DataUtil.getUniqueIdentifier());
     private String c9416User = String.format("C9416user%s", DataUtil.getUniqueIdentifier());
     private String c9417User = String.format("C9417user%s", DataUtil.getUniqueIdentifier());
     private String c9431User = String.format("c9431user%s", DataUtil.getUniqueIdentifier());
     private String c9427User = String.format("c9427user%s", DataUtil.getUniqueIdentifier());
     private String c9426User = String.format("c9426user%s", DataUtil.getUniqueIdentifier());
+    private String c9434User = "c9434user" + DataUtil.getUniqueIdentifier();
     private String authenticationError;
 
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
+    public void beforeClass()
     {
         authenticationError = language.translate("login.authError");
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
@@ -278,5 +279,31 @@ public class UserProfileTests extends ContextAwareWebTest
         getBrowser().waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[id$='get-started-panel-container']"));
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
         cleanupAuthenticatedSession();
+    }
+
+    @TestRail(id = "C9434")
+    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    public void removeGroupFromUserProfile()
+    {
+        String fullName = "c9434firstName" + " " + "c9434lastName";
+        String groupName = "EMAIL_CONTRIBUTORS";
+
+        LOG.info("Step1: Login as admin and add a user to a group.");
+        setupAuthenticatedSession(adminUser, adminPassword);
+        usersPage.navigate();
+        usersPage.searchUser(c9434User);
+        usersPage.clickUserLink(fullName);
+        userProfileAdminToolsPage.renderedPage();
+        userProfileAdminToolsPage.clickEditUserButton();
+        editUserPage.editGroupsField(groupName);
+        editUserPage.addGroup(groupName);
+        editUserPage.clickSaveChangesButton();
+        Assert.assertEquals(userProfileAdminToolsPage.getGroupsNames(), groupName, "Group is incorrect.");
+
+        LOG.info("Step 2: Remove the group.");
+        userProfileAdminToolsPage.clickEditUserButton();
+        editUserPage.removeGroup(groupName);
+        editUserPage.clickSaveChangesButton();
+        Assert.assertFalse(userProfileAdminToolsPage.getGroupsNames().contains(groupName), "Group was not removed.");
     }
 }

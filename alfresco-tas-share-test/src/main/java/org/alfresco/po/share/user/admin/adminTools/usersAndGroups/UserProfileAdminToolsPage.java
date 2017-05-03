@@ -59,6 +59,9 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
     @FindBy(css="span[id$='_default-view-enabled']")
     public WebElement accountStatus;
 
+    @FindBy(xpath = "//span[text()='Groups:']/../span[@class='field-value']")
+    public WebElement groupName;
+
     @Override
     public String getRelativePath()
     {
@@ -146,5 +149,10 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
     {
         browser.waitUntilWebElementIsDisplayedWithRetry(accountStatus, 6);
         return accountStatus.getText();
+    }
+
+    public String getGroupsNames()
+    {
+        return groupName.getText();
     }
 }

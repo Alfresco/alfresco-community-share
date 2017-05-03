@@ -3,6 +3,7 @@ package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -204,4 +205,15 @@ public class EditUserPage extends SharePage<EditUserPage>
         saveChangesButton.click();
         return (UserProfileAdminToolsPage) userProfileAdminToolsPage.renderedPage();
     }
+
+    public void addGroup(String groupName)
+    {
+        browser.waitUntilElementVisible(By.xpath(String.format("//td[contains(@class,'col-description')]//h3[@class='itemname' and text()='%s']//ancestor::tr//td[contains(@class,'col-actions')]//button[contains(text(),'Add')]",groupName))).click();
+    }
+
+    public void removeGroup(String groupName)
+    {
+        browser.waitUntilElementVisible(By.xpath(String.format("//span[@title='Remove Group' and text()='%s']", groupName))).click();
+    }
+
 }
