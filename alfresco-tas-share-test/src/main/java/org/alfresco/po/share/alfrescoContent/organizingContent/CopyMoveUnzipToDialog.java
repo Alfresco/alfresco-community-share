@@ -75,6 +75,7 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
      */
     public boolean isCreateLinkDisplayedInCopyToDialogFromSearchPage()
     {
+        browser.waitUntilElementVisible(createLinkButtonFromSearchPage);
         return browser.isElementDisplayed(createLinkButtonFromSearchPage);
     }
 

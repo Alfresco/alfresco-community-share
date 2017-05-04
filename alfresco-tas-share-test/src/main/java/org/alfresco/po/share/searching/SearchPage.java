@@ -25,10 +25,10 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     @FindBy(id = "FCTSRCH_RESULTS_COUNT_LABEL")
     private WebElement numberOfResultsLabel;
 
-    @FindBy(id = "SELECTED_ITEMS_MENU_text")
+    @FindBy(id = "SELECTED_ITEMS_MENU")
     private WebElement selectedItemsMenu;
 
-    @FindBy(id = "onActionCopyTo_text")
+    @FindBy(id = "onActionCopyTo")
     private WebElement copyToSelectedItemsOption;
 
     @FindBy(css = ".propertiesCell .nameAndTitleCell a .value")
@@ -124,7 +124,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     private void clickSelectedItemsMenu()
     {
-        selectedItemsMenu.click();
+        browser.waitUntilElementClickable(selectedItemsMenu, 3L).click();
         browser.waitUntilElementVisible(copyToSelectedItemsOption);
     }
 
