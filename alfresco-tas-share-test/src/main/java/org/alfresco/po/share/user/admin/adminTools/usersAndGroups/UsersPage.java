@@ -124,12 +124,13 @@ public class UsersPage extends AdminToolsPage
     /**
      * Retrieves the user's full name that matches the text from the search box
      *
-     * @param user full name String
+     * @param fullname full name String
      * @return
      * @return WebElement that matches the user's full name
      */
     public WebElement selectUserName(final String fullname)
     {
+        browser.waitUntilElementsVisible(usersNamesList);
         return browser.findFirstElementWithValue(usersNamesList, fullname);
 
     }
@@ -139,7 +140,8 @@ public class UsersPage extends AdminToolsPage
      */
     public AdminToolsUserProfile clickUserLink(String fullname)
     {
-        selectUserName(fullname).findElement(By.cssSelector("a")).click();
+        browser.waitUntilElementClickable(selectUserName(fullname).findElement(By.cssSelector("a"))).click();
+        //selectUserName(fullname).findElement(By.cssSelector("a")).click();
         return (AdminToolsUserProfile) adminToolsUserProfile.renderedPage();
     }
 

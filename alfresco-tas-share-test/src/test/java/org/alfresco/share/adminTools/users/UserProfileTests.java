@@ -212,10 +212,9 @@ public class UserProfileTests extends ContextAwareWebTest
         Assert.assertTrue(deleteUserDialogPage.isDeleteUserWindowDisplayed(), "Delete User window is not displayed");
         Assert.assertEquals(
                 deleteUserDialogPage.getDeleteUserWindowText(),
-                "Click Delete User to remove this user from Alfresco.\n" +
+                "Click Delete User to remove this user.\n" +
                         "\n" +
-                        "Deleting a user does not remove their permissions from the repository. These permissions will be reused if the user is recreated later. You can also disable the user account.",
-                "Delete User dialog text is not correct");
+                        "Deleting a user does not remove their permissions from the repository. These permissions will be reused if the user is recreated later. You can also disable the user account.");
 
         LOG.info("Step 2: Click the Delete button on the Delete User pop-up window");
         deleteUserDialogPage.clickButton("Delete", usersPage);
