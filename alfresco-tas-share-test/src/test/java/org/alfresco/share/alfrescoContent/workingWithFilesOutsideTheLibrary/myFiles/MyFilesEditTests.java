@@ -174,7 +174,7 @@ private final String user = String.format("user%s", DataUtil.getUniqueIdentifier
     }
 
     @TestRail(id = "C8227")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void myFilesEditFilesInGoogleDocs() throws Exception
     {
         contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.MSWORD, googleDocName, "some content");

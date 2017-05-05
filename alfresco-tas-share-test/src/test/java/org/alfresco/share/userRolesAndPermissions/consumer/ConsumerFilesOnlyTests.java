@@ -246,7 +246,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8905")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
 
     public void consumerEditInGoogleDocs()
     {
@@ -425,7 +425,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8898")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void consumerCheckoutToGoogleDocsFileCreateByOtherUser() throws Exception
     {
         googleDocsCommon.loginToGoogleDocs();

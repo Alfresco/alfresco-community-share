@@ -2,7 +2,6 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sha
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
@@ -297,7 +296,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7934")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void sharedFilesCreateGoogleDocsDocument() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
@@ -338,7 +337,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7935")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void sharedFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
@@ -379,7 +378,7 @@ public class CreateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7936")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void sharedFilesCreateGoogleDocsPresentation() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");

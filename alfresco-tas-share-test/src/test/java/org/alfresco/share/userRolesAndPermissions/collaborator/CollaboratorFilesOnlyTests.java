@@ -393,7 +393,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8953")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void collaboratorCheckOutGoogleDocBySelf() throws Exception
     {
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8953, fileContent);
@@ -443,7 +443,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8954")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void collaboratorCheckOutGoogleDocByOthers() throws Exception
     {
         contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8954, fileContent);

@@ -192,7 +192,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7994")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void editFileInGoogleDocs() throws Exception
     {
         String googleDocPath = testDataFolder + googleDocName;

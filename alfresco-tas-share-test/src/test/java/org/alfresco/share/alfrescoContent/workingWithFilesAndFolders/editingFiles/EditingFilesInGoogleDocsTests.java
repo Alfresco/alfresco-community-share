@@ -40,7 +40,7 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7056")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void editFilesInGoogleDocs() throws Exception
 
     {

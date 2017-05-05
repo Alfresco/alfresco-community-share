@@ -232,7 +232,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7693")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void myFilesCreateGoogleDocsDocument() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
@@ -261,7 +261,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7694")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void myFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
@@ -289,7 +289,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C7695")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void myFilesCreateGoogleDocsPresentation() throws Exception
     {
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");

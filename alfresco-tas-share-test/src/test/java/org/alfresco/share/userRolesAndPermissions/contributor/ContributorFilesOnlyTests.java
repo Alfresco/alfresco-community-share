@@ -13,12 +13,10 @@ import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
-import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -335,7 +333,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8925")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void checkInOutGoogleDocsCreatedBySelf() throws Exception
     {
         String googleDocPath = testDataFolder + "uploadedDoc.docx";
@@ -388,7 +386,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8926")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void editInGoogleDocForContentCreatedByOthers()
     {
         String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
@@ -410,7 +408,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8928")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void checkInGoogleDocForContentCreatedByOthers() throws Exception
     {
         String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
