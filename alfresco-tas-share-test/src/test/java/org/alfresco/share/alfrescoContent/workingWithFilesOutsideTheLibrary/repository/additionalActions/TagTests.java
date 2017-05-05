@@ -147,12 +147,9 @@ public class TagTests extends ContextAwareWebTest
         repositoryPage.clickOnFolderName(user);
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileNameC8290), fileNameC8278 + " is not available in Repository");
 
-        LOG.info("STEP1: Hover over the tag(s) from the content");
+        LOG.info("STEP1: Hover over the tag(s) from the content. STEP2: Click 'Edit Tag' icon");
         repositoryPage.mouseOverTags(fileNameC8290);
         assertTrue(repositoryPage.isEditTagIconDisplayed(fileNameC8290), fileNameC8290 + " -> 'Edit Tag' icon is displayed.");
-
-        LOG.info("STEP2: Click \"Edit Tag\" icon");
-        repositoryPage.mouseOverTags(fileNameC8290);
         repositoryPage.clickEditTagIcon(fileNameC8290);
         assertTrue(repositoryPage.isEditTagInputFieldDisplayed(), fileNameC8290 + " -> 'Edit Tag' text input field is displayed.");
 
