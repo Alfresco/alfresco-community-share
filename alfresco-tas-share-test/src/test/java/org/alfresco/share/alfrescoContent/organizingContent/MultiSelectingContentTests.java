@@ -62,19 +62,19 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Click on the folder checkbox");
         documentLibraryPage.clickCheckBox(folderName1);
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP2: Click again on the same folder's checkbox");
         documentLibraryPage.clickCheckBox(folderName1);
-        assertFalse(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP3: Click on text doc's checkbox");
         documentLibraryPage.clickCheckBox(docName);
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP4: Click on the folder2 checkbox");
         documentLibraryPage.clickCheckBox(folderName2);
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
     }
 
     @TestRail(id = "C7548")
@@ -105,7 +105,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content=");
         ArrayList<String> expectedContentList2 = new ArrayList<>(Arrays.asList(folderName1, folderName2));
         assertEquals(documentLibraryPage.verifyContentItemsNotSelected(expectedContentList2), expectedContentList2.toString(), "Content not selected=");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP2: Click 'Selected Items...'");
         headerMenuBar.clickSelectedItemsMenu();
@@ -121,7 +121,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedContentList3), expectedContentList3.toString(), "Selected content=");
         ArrayList<String> expectedContentList4 = new ArrayList<>(Arrays.asList(textFile, htmlFile, xmlFile));
         assertEquals(documentLibraryPage.verifyContentItemsNotSelected(expectedContentList4), expectedContentList4.toString(), "Content not selected=");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP4: Click 'Selected Items...'");
         headerMenuBar.clickSelectedItemsMenu();
@@ -135,7 +135,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         documentLibraryPage.clickCheckBox(textFile);
         ArrayList<String> expectedContentList5 = new ArrayList<>(Arrays.asList(folderName1, textFile));
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedContentList5), expectedContentList5.toString(), "Selected content=");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP6: Click 'Selected Items...' menu");
         headerMenuBar.clickSelectedItemsMenu();
@@ -151,21 +151,21 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedContentList6), expectedContentList6.toString(), "Selected content=");
         ArrayList<String> expectedContentList7 = new ArrayList<>(Arrays.asList(folderName1, textFile));
         assertEquals(documentLibraryPage.verifyContentItemsNotSelected(expectedContentList7), expectedContentList7.toString(), "Content not selected=");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP8: Click 'Select' button and choose 'None'");
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption("None");
         ArrayList<String> expectedContentList8 = new ArrayList<>(Arrays.asList(folderName1, folderName2, textFile, htmlFile, xmlFile));
         assertEquals(documentLibraryPage.verifyContentItemsNotSelected(expectedContentList8), expectedContentList8.toString(), "Content not selected=");
-        assertFalse(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP9: Click 'Select' button and choose 'All'");
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption("All");
         ArrayList<String> expectedContentList9 = new ArrayList<>(Arrays.asList(folderName1, folderName2, textFile, htmlFile, xmlFile));
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedContentList9), expectedContentList9.toString(), "Content not selected=");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
     }
 
     @TestRail(id = "C8410")
@@ -197,7 +197,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content=");
         ArrayList<String> expectedContentList2 = new ArrayList<>(Arrays.asList(folderName1, folderName2));
         assertEquals(documentLibraryPage.verifyContentItemsNotSelected(expectedContentList2), expectedContentList2.toString(), "Content not selected=");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP2: Click 'Selected Items...' menu and choose 'Start Workflow...' option");
         headerMenuBar.clickSelectedItemsMenu();
@@ -237,7 +237,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         headerMenuBar.clickSelectOption("All");
         ArrayList<String> expectedContentList1 = new ArrayList<>(Arrays.asList(folderName1, textFile, htmlFile, xmlFile));
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content=");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP2: Click 'Selected Items...' menu and choose 'Delete' option");
         headerMenuBar.clickSelectedItemsMenu();
@@ -251,7 +251,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         deleteDialog.clickCancel();
         ArrayList<String> expectedContentList3 = new ArrayList<>(Arrays.asList(folderName1, textFile, htmlFile, xmlFile));
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedContentList3), expectedContentList3.toString(), "Selected content=");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP4: Click 'Selected Items...' menu and choose 'Delete' option");
         headerMenuBar.clickSelectedItemsMenu();

@@ -107,12 +107,10 @@ public class ManageContactListItems extends ShareDialog
         phoneOffice.clear();
         phoneMobile.clear();
         notes.clear();
-
     }
 
     public void clickOnListLink(String dataListTitle)
     {
-
         String newDataListLink = dataListLink + dataListTitle + "']";
         String dataList = StringUtils.deleteWhitespace(newDataListLink);
         browser.findElement(By.cssSelector(dataList)).click();
@@ -130,20 +128,16 @@ public class ManageContactListItems extends ShareDialog
     }
 
     public void editContactItem(String editedFirstName, String editedLastName, String editedEmail, String editedCompany, String editedJob, String editedPhoneOffice, String editedPhoneMobile, String editedNotes)
-
     {
         clearItemDetails();
         fillInCreateItemForm(editedFirstName, editedLastName, editedEmail, editedCompany, editedJob, editedPhoneOffice, editedPhoneMobile, editedNotes);
         save.click();
-
     }
 
     public void clickEditAction()
-
     {
         browser.mouseOver(actions);
         editAction.click();
-
     }
 
     public void clickDeleteAction()
@@ -153,7 +147,6 @@ public class ManageContactListItems extends ShareDialog
     }
 
     public void clickDuplicateAction()
-
     {
         browser.mouseOver(actions);
         duplicateAction.click();
@@ -166,11 +159,9 @@ public class ManageContactListItems extends ShareDialog
      */
 
     public boolean isDeletePopUpDisplayed()
-
     {
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//div[text()='Delete Item']"));
-        return deletePopup.isDisplayed();
-
+        browser.waitUntilWebElementIsDisplayedWithRetry(deletePopup);
+        return browser.isElementDisplayed(deletePopup);
     }
 
     /**
@@ -180,10 +171,9 @@ public class ManageContactListItems extends ShareDialog
      */
 
     public boolean isDeletePopClosed()
-
     {
         browser.waitUntilElementDisappears(By.xpath("//div[text()='Delete Item']"), 10);
-        return deletePopup.isDisplayed();
+        return browser.isElementDisplayed(deletePopup);
 
     }
 
@@ -194,10 +184,9 @@ public class ManageContactListItems extends ShareDialog
      */
 
     public boolean isDeleteButtonDisplayedOnDeletePopup()
-
     {
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//div[text()='Delete Item']"));
-        return confirmDeleteAction.isDisplayed();
+        browser.waitUntilWebElementIsDisplayedWithRetry(deletePopup);
+        return browser.isElementDisplayed(confirmDeleteAction);
     }
 
     /**
@@ -207,18 +196,15 @@ public class ManageContactListItems extends ShareDialog
      */
 
     public boolean isCancelButtonDisplayedOnDeletePopup()
-
     {
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//button[text()='Cancel']"));
-        return cancelDeleteAction.isDisplayed();
+        browser.waitUntilWebElementIsDisplayedWithRetry(cancelDeleteAction);
+        return browser.isElementDisplayed(cancelDeleteAction);
     }
 
     public void confirmDeleteAction()
-
     {
         // browser.waitUntilElementVisible(By.xpath("//button[text()='Delete']"));
         confirmDeleteAction.click();
-
     }
 
     public void cancelDeleteAction()
@@ -234,10 +220,9 @@ public class ManageContactListItems extends ShareDialog
      */
 
     public boolean isDeleteActionDisplayed()
-
     {
         browser.mouseOver(actions);
-        return deleteAction.isDisplayed();
+        return browser.isElementDisplayed(deleteAction);
     }
 
     /**
@@ -247,10 +232,9 @@ public class ManageContactListItems extends ShareDialog
      */
 
     public boolean isEditActionDisplayed()
-
     {
         browser.mouseOver(actions);
-        return editAction.isDisplayed();
+        return browser.isElementDisplayed(editAction);
     }
 
     /**
@@ -260,10 +244,9 @@ public class ManageContactListItems extends ShareDialog
      */
 
     public boolean isDuplicateActionDisplayed()
-
     {
         browser.mouseOver(actions);
-        return duplicateAction.isDisplayed();
+        return browser.isElementDisplayed(duplicateAction);
     }
 
     /**
@@ -275,7 +258,7 @@ public class ManageContactListItems extends ShareDialog
     public boolean isDataListTableEmpty()
 
     {
-        return fileChecked.isDisplayed();
+        return browser.isElementDisplayed(fileChecked);
     }
 
     /**
@@ -286,9 +269,7 @@ public class ManageContactListItems extends ShareDialog
 
     public boolean isEditItemWindowDisplayed()
     {
-
-        return editItem.isDisplayed();
-
+        return browser.isElementDisplayed(editItem);
     }
 
     /**
@@ -298,15 +279,12 @@ public class ManageContactListItems extends ShareDialog
      */
 
     public boolean isNoListItemsDisplayed()
-
     {
-
-        browser.waitUntilElementIsDisplayedWithRetry(By.xpath("//div[text()='No list items']"));
-        return noListItems.isDisplayed();
+        browser.waitUntilWebElementIsDisplayedWithRetry(noListItems);
+        return browser.isElementDisplayed(noListItems);
     }
 
     public boolean areCorrectValuesDisplayedOnEditPopup(String firstName, String lastName, String email, String company, String jobTitle, String phoneOffice, String phoneMobile)
-
     {
 
         String FirstName = "input[value*='" + firstName + "']";

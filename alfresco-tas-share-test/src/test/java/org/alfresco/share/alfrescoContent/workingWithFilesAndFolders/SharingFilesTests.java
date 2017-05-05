@@ -68,7 +68,6 @@ public class SharingFilesTests extends ContextAwareWebTest
    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void shareWithFacebook()
     {
-
             setupAuthenticatedSession(user, password);
             documentLibraryPage.navigate(siteName);
 
@@ -215,7 +214,7 @@ public class SharingFilesTests extends ContextAwareWebTest
         LOG.info("Step1: Click Share icon on the file and verify a pop-up displaying the URL for the file is opened.");
 
         social.clickShareButton(fileNameC7649);
-        Assert.assertTrue(social.isShareUrlDisplayed(), "Shared Url is not diaplyed");
+        Assert.assertTrue(social.isShareUrlDisplayed(), "Shared Url is not displayed");
 
         LOG.info("Step2: Save the URL for the file and logout from Share");
         social.clickPublicLinkViewButton();

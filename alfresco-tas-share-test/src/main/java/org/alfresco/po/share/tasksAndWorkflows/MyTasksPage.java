@@ -141,46 +141,46 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     {
         WebElement selectedTask = selectTask(taskName);
         browser.mouseOver(selectedTask);
-        return selectedTask.findElement(editTaskLink).isDisplayed();
+        return browser.isElementDisplayed(selectedTask, editTaskLink);
     }
 
     public boolean isViewTaskOptionDisplayed(String taskName)
     {
         WebElement selectedTask = selectTask(taskName);
         browser.mouseOver(selectedTask);
-        return selectedTask.findElement(viewTaskLink).isDisplayed();
+        return browser.isElementDisplayed(selectedTask, viewTaskLink);
     }
 
     public boolean isViewWorkflowOptionDisplayed(String taskName)
     {
         WebElement selectedTask = selectTask(taskName);
         browser.mouseOver(selectedTask);
-        return selectedTask.findElement(viewWorkflowLink).isDisplayed();
+        return browser.isElementDisplayed(selectedTask, viewWorkflowLink);
     }
 
     public boolean isTasksFilterDisplayed()
     {
-        return tasksFilter.isDisplayed();
+        return browser.isElementDisplayed(tasksFilter);
     }
 
     public boolean isDueFilterDisplayed()
     {
-        return dueFilter.isDisplayed();
+        return browser.isElementDisplayed(dueFilter);
     }
 
     public boolean isPriorityFilterDisplayed()
     {
-        return priorityFilter.isDisplayed();
+        return browser.isElementDisplayed(priorityFilter);
     }
 
     public boolean isAssigneeFilterDisplayed()
     {
-        return assigneeFilter.isDisplayed();
+        return browser.isElementDisplayed(assigneeFilter);
     }
 
     public boolean isActiveTasksBarDisplayed()
     {
-        return activeTasksBar.isDisplayed();
+        return browser.isElementDisplayed(activeTasksBar);
     }
 
     public EditTaskPage clickOnTaskTitle(String taskName)

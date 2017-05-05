@@ -41,7 +41,7 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 
     public boolean isSelectButtonDisplayed()
     {
-        return selectMenu.isDisplayed();
+        return browser.isElementDisplayed(selectMenu);
     }
 
     public void clickSelectMenu()
@@ -69,14 +69,14 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
      *
      * @return true if menu is enabled
      */
-    public boolean isSelectedItemsMenuDisabled()
+    public boolean isSelectedItemsMenuEnabled()
     {
         return !browser.isElementDisplayed(selectedItemsMenuDisabled);
     }
 
     public boolean isSelectItemsMenuDisplayedDisabled()
     {
-        return selectedItemsMenuDisabled.isDisplayed();
+        return browser.isElementDisplayed(selectedItemsMenuDisabled);
     }
 
     public void clickSelectedItemsMenu()
@@ -92,17 +92,8 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
     public void clickSelectedItemsOption(String optionText)
     {
         browser.waitInSeconds(2);
-        if (optionText.equals(language.translate("documentLibrary.contentActions.startWorkflow")))
-            browser.findElement(By.cssSelector(".onActionAssignWorkflow")).click();
-        else
-        {
-            List<WebElement> selectedItemsOptionsList = browser.findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
-            for (WebElement option : selectedItemsOptionsList)
-            {
-                if (option.getText().equals(optionText))
-                    option.click();
-            }
-        }
+        List<WebElement> selectedItemsOptionsList = browser.findDisplayedElementsFromLocator(selectedItemsOptionsSelector);
+        browser.selectOptionFromFilterOptionsList(optionText, selectedItemsOptionsList);
     }
 
     /**

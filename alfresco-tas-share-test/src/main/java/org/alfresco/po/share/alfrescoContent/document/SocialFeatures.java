@@ -120,7 +120,7 @@ public class SocialFeatures extends DocumentLibraryPage
      */
     public boolean isLikeButtonEnabled(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(enabledLikeButton).isDisplayed();
+        return browser.isElementDisplayed(selectDocumentLibraryItemRow(fileName), enabledLikeButton);
     }
 
     /**
@@ -168,7 +168,7 @@ public class SocialFeatures extends DocumentLibraryPage
      */
     public boolean isShareButtonDisplayed(String contentName)
     {
-        return selectDocumentLibraryItemRow(contentName).findElement(shareButton).isDisplayed();
+        return browser.isElementDisplayed(selectDocumentLibraryItemRow(contentName), shareButton);
     }
 
     /**
@@ -184,7 +184,7 @@ public class SocialFeatures extends DocumentLibraryPage
      */
     public boolean isQuickshareWindowDisplayed()
     {
-        return browser.findElement(quickShareWindow).isDisplayed();
+        return browser.isElementDisplayed(quickShareWindow);
     }
 
     /**
@@ -192,7 +192,7 @@ public class SocialFeatures extends DocumentLibraryPage
      */
     public boolean isPublicLinkDisplayed()
     {
-        return publicLinkViewButton.isDisplayed();
+        return browser.isElementDisplayed(publicLinkViewButton);
     }
 
     /**
@@ -203,16 +203,6 @@ public class SocialFeatures extends DocumentLibraryPage
         shareFacebook.click();
     }
 
-    /**
-     * Method to switch to facebook, twitter, google+ page
-     */
-    public void switchToSecondWindow()
-    {
-        for (String winHandle : browser.getWindowHandles())
-        {
-            browser.switchTo().window(winHandle);
-        }
-    }
 
     public String getFacebookWindowTitle()
     {
@@ -229,7 +219,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public boolean isShareLinkDisplayedOnFacebook()
     {
-        return browser.findElement(By.xpath("//div[@class='mbs _6m6 _2cnj _5s6c']")).isDisplayed();
+        return browser.isElementDisplayed(By.xpath("//div[@class='mbs _6m6 _2cnj _5s6c']"));
     }
 
     /**
@@ -320,10 +310,8 @@ public class SocialFeatures extends DocumentLibraryPage
      * Method to click on PublicLinkViewButton
      */
     public void clickPublicLinkViewButton()
-
     {
         publicLinkViewButton.click();
-
     }
 
     /**
@@ -331,11 +319,9 @@ public class SocialFeatures extends DocumentLibraryPage
      */
 
     public boolean isLoginButtonOnSharedFilePage()
-
     {
         browser.waitUntilElementVisible(loginButtonOnSharedFilePage);
-        return loginButtonOnSharedFilePage.isDisplayed();
-
+        return browser.isElementDisplayed(loginButtonOnSharedFilePage);
     }
 
     /**
@@ -343,29 +329,20 @@ public class SocialFeatures extends DocumentLibraryPage
      */
 
     public boolean isDocumentDetailsButtonOnSharedFilePageDisplayed()
-
     {
         browser.waitUntilElementVisible(documentDetailsButtonOnSharedFilePage);
-        return documentDetailsButtonOnSharedFilePage.isDisplayed();
-
+        return browser.isElementDisplayed(documentDetailsButtonOnSharedFilePage);
     }
 
     public void clickLoginButtonOnSharedFilePage()
-
     {
-
         loginButtonOnSharedFilePage.click();
-
     }
 
     public DocumentDetailsPage clickDocumentDetailsButtonOnSharedFilePage()
-
     {
-
         documentDetailsButtonOnSharedFilePage.click();
-
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
-
     }
 
     /**
@@ -382,11 +359,8 @@ public class SocialFeatures extends DocumentLibraryPage
      */
 
     public boolean isShareUrlDisplayed()
-
     {
         browser.waitUntilElementVisible(sharedUrl);
-        return sharedUrl.isDisplayed();
-
+        return browser.isElementDisplayed(sharedUrl);
     }
-
 }

@@ -74,7 +74,7 @@ public class TableView extends SiteCommon<TableView>
      */
     public boolean isTableViewDisplayed()
     {
-        return tableInTableView.isDisplayed();
+        return browser.isElementDisplayed(tableInTableView);
     }
 
     /**
@@ -95,7 +95,7 @@ public class TableView extends SiteCommon<TableView>
      */
     public boolean isSelectedColumnDisplayed()
     {
-        return selectedColumnTitle.isDisplayed();
+        return browser.isElementDisplayed(selectedColumnTitle);
     }
 
     /**
@@ -105,7 +105,7 @@ public class TableView extends SiteCommon<TableView>
      */
     public boolean isStatusColumnDisplayed()
     {
-        return statusColumnTitle.isDisplayed();
+        return browser.isElementDisplayed(statusColumnTitle);
     }
 
     /**
@@ -115,7 +115,7 @@ public class TableView extends SiteCommon<TableView>
      */
     public boolean isThumbnailColumnDisplayed()
     {
-        return thumbnailColumnTitle.isDisplayed();
+        return browser.isElementDisplayed(thumbnailColumnTitle);
     }
 
     /**
@@ -125,7 +125,7 @@ public class TableView extends SiteCommon<TableView>
      */
     public boolean isNameColumnDisplayed()
     {
-        return nameColumnTitle.isDisplayed();
+        return browser.isElementDisplayed(nameColumnTitle);
     }
 
     /**
@@ -135,7 +135,7 @@ public class TableView extends SiteCommon<TableView>
      */
     public boolean isTitleColumnDisplayed()
     {
-        return titleColumnTitle.isDisplayed();
+        return browser.isElementDisplayed(titleColumnTitle);
     }
 
     /**
@@ -145,7 +145,7 @@ public class TableView extends SiteCommon<TableView>
      */
     public boolean isDescriptionColumnDisplayed()
     {
-        return descriptionColumnTitle.isDisplayed();
+        return browser.isElementDisplayed(descriptionColumnTitle);
     }
 
     /**
@@ -155,7 +155,7 @@ public class TableView extends SiteCommon<TableView>
      */
     public boolean isCreatorColumnDisplayed()
     {
-        return creatorColumnTitle.isDisplayed();
+        return browser.isElementDisplayed(creatorColumnTitle);
     }
 
     /**
@@ -165,7 +165,7 @@ public class TableView extends SiteCommon<TableView>
      */
     public boolean isCreatedColumnDisplayed()
     {
-        return createdColumnTitle.isDisplayed();
+        return browser.isElementDisplayed(createdColumnTitle);
     }
 
     /**
@@ -175,7 +175,7 @@ public class TableView extends SiteCommon<TableView>
      */
     public boolean isModifierColumnDisplayed()
     {
-        return modifierColumnTitle.isDisplayed();
+        return browser.isElementDisplayed(modifierColumnTitle);
     }
 
     /**
@@ -185,7 +185,7 @@ public class TableView extends SiteCommon<TableView>
      */
     public boolean isModifiedColumnDisplayed()
     {
-        return modifiedColumnTitle.isDisplayed();
+        return browser.isElementDisplayed(modifiedColumnTitle);
     }
 
     /**
@@ -195,6 +195,6 @@ public class TableView extends SiteCommon<TableView>
      */
     public boolean isActionsColumnDisplayed()
     {
-        return actionsColumnTitle.isDisplayed();
+        return browser.isElementDisplayed(actionsColumnTitle);
     }
 }

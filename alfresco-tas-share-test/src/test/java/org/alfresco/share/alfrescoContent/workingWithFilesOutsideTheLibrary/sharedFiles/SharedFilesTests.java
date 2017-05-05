@@ -2,11 +2,8 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sha
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
-import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
-import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -15,7 +12,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -23,15 +19,9 @@ import static org.testng.Assert.assertTrue;
  */
 public class SharedFilesTests extends ContextAwareWebTest
 {
-    @Autowired private HeaderMenuBar headerMenuBar;
-
     @Autowired private SharedFilesPage sharedFilesPage;
 
     @Autowired private SocialFeatures socialFeatures;
-
-    @Autowired private CreateContent createContent;
-
-    @Autowired private DeleteDialog deleteDialog;
 
     private final String docName = String.format("Doc-C7661-%s", DataUtil.getUniqueIdentifier());
     private final String path = "Shared/";
@@ -43,8 +33,6 @@ public class SharedFilesTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(adminUser, adminPassword);
         sharedFilesPage.navigate();
-        assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        sharedFilesPage.renderedPage();
     }
 
     @TestRail(id = "C7661")

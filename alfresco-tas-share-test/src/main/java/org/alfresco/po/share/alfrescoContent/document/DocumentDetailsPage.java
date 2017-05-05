@@ -314,7 +314,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     public boolean clickOnCommentDocument()
     {
         commentDocument.click();
-        return commentForm.isDisplayed();
+        return browser.isElementDisplayed(commentForm);
     }
 
     /**
@@ -347,7 +347,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     public boolean clickOnSharedLink()
     {
         shareDocument.click();
-        return sharePopUp.isDisplayed();
+        return browser.isElementDisplayed(sharePopUp);
     }
 
     public void clickOnEditGoogleDocs()
@@ -429,7 +429,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     public boolean clickOnSearchButton()
     {
         searchButton.click();
-        return searchDialog.isDisplayed();
+        return browser.isElementDisplayed(searchDialog);
     }
 
     public boolean isDocDetailsPageHeaderDisplayed()
@@ -651,22 +651,22 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public boolean isFilePropertiesDetailsDisplayed()
     {
-        return filePropertiesdetailsPanel.isDisplayed();
+        return browser.isElementDisplayed(filePropertiesdetailsPanel);
     }
 
     public boolean isFolderActionsPanelDisplayed()
     {
-        return folderActionsPanel.isDisplayed();
+        return browser.isElementDisplayed(folderActionsPanel);
     }
 
     public boolean isSocialFeaturesActionsPanelDisplayed()
     {
-        return socialFeaturesPanel.isDisplayed();
+        return browser.isElementDisplayed(socialFeaturesPanel);
     }
 
     public boolean isTagsFeaturePanelDisplayed()
     {
-        return tagsFeaturePanel.isDisplayed();
+        return browser.isElementDisplayed(tagsFeaturePanel);
     }
 
     public void clickOnFolderFromBreadrcumbTrail()
@@ -676,30 +676,14 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public boolean isDeleteButtonDisplayedForComment(String comment)
     {
-        try
-        {
-            browser.mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
-            return deleteCommentButton.isDisplayed();
-        }
-        catch (NoSuchElementException e)
-        {
-            // continue
-        }
-        return false;
+        browser.mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
+        return browser.isElementDisplayed(deleteCommentButton);
     }
 
     public boolean isEditButtonDisplayedForComment(String comment)
     {
-        try
-        {
-            browser.mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
-            return editCommentButton.isDisplayed();
-        }
-        catch (NoSuchElementException e)
-        {
-            // continue
-        }
-        return false;
+        browser.mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
+        return browser.isElementDisplayed(editCommentButton);
     }
 
     public void clickDeleteComment(String comment)
@@ -721,7 +705,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public boolean isDeleteCommentPromptDisplayed()
     {
-        return deleteCommentPrompt.isDisplayed();
+        return browser.isElementDisplayed(deleteCommentPrompt);
     }
 
     public String getNoCommentsText()
@@ -736,7 +720,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public boolean isEditCommentDisplayed()
     {
-        return editCommentBoxTitle.isDisplayed();
+        return browser.isElementDisplayed(editCommentBoxTitle);
     }
 
     public void clickOnSaveButtonEditComment()
@@ -820,13 +804,8 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public boolean isRestrictableValueUpdated(String hours)
     {
-
         String restrictable = "//span[contains(@class,'viewmode-value')] [contains(text(),'" + hours + "')]";
-
-        WebElement restrictableValue = browser.findElement(By.xpath(restrictable));
-
-        return restrictableValue.isDisplayed();
-
+        return browser.isElementDisplayed(By.xpath(restrictable));
     }
 
     public  boolean isAspectDisplayed(String aspectName)
@@ -880,7 +859,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      */
     public void addCommentToItem(String comment)
     {
-        if (CommentTextArea.isDisplayed())
+        if (browser.isElementDisplayed(CommentTextArea))
             CommentTextArea.sendKeys(comment);
 
         addCommentButton.click();

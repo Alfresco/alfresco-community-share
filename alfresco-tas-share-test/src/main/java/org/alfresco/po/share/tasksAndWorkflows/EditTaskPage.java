@@ -7,33 +7,23 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @PageObject
 public class EditTaskPage extends SharePage<EditTaskPage>
 {
-    @Autowired
-    MyTasksPage myTasksPage;
-
     @RenderWebElement
     @FindBy(css = "div.task-edit-header h1")
     private WebElement taskEditHeader;
 
-    @FindBy(css = "button[id*='claim']")
-    private WebElement claimButton;
-
-    @FindBy(css = "button[id*='release-button']")
-    private WebElement releaseToPoolButton;
-
     @RenderWebElement
     @FindBy(css = "textarea[id$='bpm_comment']")
     private WebElement commentTextArea;
-
+    
     @FindBy(css = "button[id$='approve-button']")
     private WebElement approveButton;
-
+    
     @FindBy(css = "button[id$='reject-button']")
     private WebElement rejectButton;
 
@@ -61,17 +51,19 @@ public class EditTaskPage extends SharePage<EditTaskPage>
 
     public enum TaskStatus
     {
-        NOT_STARTED("Not Yet Started"), IN_PROGRESS("In Progress"), ON_HOLD("On Hold"), CANCELLED("Cancelled"), COMPLETED("Completed");
+        NOT_STARTED("Not Yet Started"),
+        IN_PROGRESS("In Progress"),
+        ON_HOLD("On Hold"),
+        CANCELLED("Cancelled"),
+        COMPLETED("Completed");
 
         private String status;
 
-        TaskStatus(String status)
-        {
+        TaskStatus(String status) {
             this.status = status;
         }
 
-        public String getStatus()
-        {
+        public String getStatus() {
             return this.status;
         }
     }
@@ -81,14 +73,14 @@ public class EditTaskPage extends SharePage<EditTaskPage>
     {
         return "share/page/task-edit";
     }
-
+    
     public <T> SharePage approve(String comment, SharePage<T> page)
     {
         commentTextArea.sendKeys(comment);
         approveButton.click();
         return page;
     }
-
+    
     public <T> SharePage reject(String comment, SharePage<T> page)
     {
         commentTextArea.sendKeys(comment);
@@ -96,65 +88,32 @@ public class EditTaskPage extends SharePage<EditTaskPage>
         return page;
     }
 
-    public String getEditTaskHeader()
-    {
-        return taskEditHeader.getText();
-    }
+    public String getEditTaskHeader() { return taskEditHeader.getText(); }
 
     public String getComment()
     {
         return commentTextArea.getText();
     }
 
-    public String getMessage()
-    {
-        return message.getText();
-    }
+    public String getMessage() { return message.getText(); }
 
-    public String getOwner()
-    {
-        return owner.getText();
-    }
+    public String getOwner() { return owner.getText(); }
 
-    public String getPriority()
-    {
-        return priority.getText();
-    }
+    public String getPriority() { return priority.getText(); }
 
-    public boolean isIdentifierPresent()
-    {
-        return identifier.isDisplayed();
-    }
+    public boolean isIdentifierPresent() { return browser.isElementDisplayed(identifier); }
 
-    public boolean isDueDatePresent()
-    {
-        return dueDate.isDisplayed();
-    }
+    public boolean isDueDatePresent() { return browser.isElementDisplayed(dueDate); }
 
-    public boolean isSaveButtonPresent()
-    {
-        return browser.findElement(saveButton).isDisplayed();
-    }
+    public boolean isSaveButtonPresent() { return browser.isElementDisplayed(saveButton); }
 
-    public boolean isCancelButtonPresent()
-    {
-        return browser.findElement(cancelButton).isDisplayed();
-    }
+    public boolean isCancelButtonPresent() { return browser.isElementDisplayed(cancelButton); }
 
-    public boolean isTaskDoneButtonPresent()
-    {
-        return browser.findElement(taskDoneButton).isDisplayed();
-    }
+    public boolean isTaskDoneButtonPresent() { return browser.isElementDisplayed(taskDoneButton); }
 
-    public boolean isReassignButtonPresent()
-    {
-        return browser.findElement(reassignButton).isDisplayed();
-    }
+    public boolean isReassignButtonPresent() { return browser.isElementDisplayed(reassignButton); }
 
-    public boolean isAddItemsButtonPresent()
-    {
-        return browser.findElement(addItemsButton).isDisplayed();
-    }
+    public boolean isAddItemsButtonPresent() { return browser.isElementDisplayed(addItemsButton); }
 
     public void selectStatus(TaskStatus status)
     {
@@ -195,21 +154,5 @@ public class EditTaskPage extends SharePage<EditTaskPage>
             if (value.getAttribute("value").contains(status.getStatus()) && value.isSelected())
                 return true;
         return false;
-    }
-
-    public EditTaskPage clickClaimButton()
-    {
-        browser.waitUntilElementVisible(claimButton).click();
-        this.renderedPage();
-        browser.waitUntilWebElementIsDisplayedWithRetry(releaseToPoolButton);
-        return (EditTaskPage) this.renderedPage();
-    }
-
-    public EditTaskPage clickReleaseToPoolButton()
-    {
-        releaseToPoolButton.click();
-        this.renderedPage();
-        browser.waitUntilWebElementIsDisplayedWithRetry(claimButton);
-        return (EditTaskPage) this.renderedPage();
     }
 }

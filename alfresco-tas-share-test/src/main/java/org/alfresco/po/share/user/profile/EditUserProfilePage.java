@@ -9,7 +9,6 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.TextInput;
 
 import java.util.List;
 
@@ -27,48 +26,48 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
 
     @RenderWebElement
     @FindBy(css = "input[id$='input-firstName']")
-    private TextInput firstNameInput;
+    private WebElement firstNameInput;
     @RenderWebElement
     @FindBy(css = "input[id$='input-lastName']")
-    private TextInput lastNameInput;
+    private WebElement lastNameInput;
     @RenderWebElement
     @FindBy(css = "input[id$='input-jobtitle']")
-    private TextInput jobTitleInput;
+    private WebElement jobTitleInput;
     @RenderWebElement
     @FindBy(css = "input[id$='input-location']")
-    private TextInput locationInput;
+    private WebElement locationInput;
     @FindBy(css = "textarea[id$='input-bio']")
-    private TextInput summaryInput;
+    private WebElement summaryInput;
     @FindBy(css = "button[@id$='button-upload-button']")
-    private Button uploadAvatar;
+    private WebElement uploadAvatar;
     @FindBy(css = "input[id$='input-telephone']")
-    private TextInput telephoneInput;
+    private WebElement telephoneInput;
     @FindBy(css = "input[id$='input-mobile']")
-    private TextInput mobileInput;
+    private WebElement mobileInput;
     @FindBy(css = "input[id$='input-email']")
-    private TextInput emailInput;
+    private WebElement emailInput;
     @FindBy(css = "input[id$='input-skype']")
-    private TextInput skypeInput;
+    private WebElement skypeInput;
     @FindBy(css = "input[id$='input-instantmsg']")
-    private TextInput instantmsgInput;
+    private WebElement instantmsgInput;
     @FindBy(css = "input[id$='input-googleusername']")
-    private TextInput googleUserNameInput;
+    private WebElement googleUserNameInput;
     @FindBy(css = "input[id$='input-organization']")
-    private TextInput companyNameInput;
+    private WebElement companyNameInput;
     @FindBy(css = "input[id$='input-companyaddress1']")
-    private TextInput companyAddress1Input;
+    private WebElement companyAddress1Input;
     @FindBy(css = "input[id$='input-companyaddress2']")
-    private TextInput companyAddress2Input;
+    private WebElement companyAddress2Input;
     @FindBy(css = "input[id$='input-companyaddress3']")
-    private TextInput companyAddress3Input;
+    private WebElement companyAddress3Input;
     @FindBy(css = "input[id$='input-companypostcode']")
-    private TextInput companyPostCodeInput;
+    private WebElement companyPostCodeInput;
     @FindBy(css = "input[id$='input-companytelephone']")
-    private TextInput companyTelephoneInput;
+    private WebElement companyTelephoneInput;
     @FindBy(css = "input[id$='input-companyemail']")
-    private TextInput companyEmailInput;
+    private WebElement companyEmailInput;
     @FindBy(css = "input[id$='input-companyfax']")
-    private TextInput companyFaxInput;
+    private WebElement companyFaxInput;
     @FindBy(css = ".photoimg")
     private WebElement avatar;
 
@@ -98,7 +97,7 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
         return (EditUserProfilePage) renderedPage();
     }
 
-    private void typeUserDetail(TextInput input, String value)
+    private void typeUserDetail(WebElement input, String value)
     {
         input.clear();
         input.sendKeys(value);
@@ -142,97 +141,97 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
     
     public boolean isFirstNameDisplayed()
     {
-        return firstNameInput.isDisplayed();
+        return browser.isElementDisplayed(firstNameInput);
     }
     
     public boolean isLastNameDisplayed()
     {
-        return lastNameInput.isDisplayed();
+        return browser.isElementDisplayed(lastNameInput);
     }
     
     public boolean isJobTitleDisplayed()
     {
-        return jobTitleInput.isDisplayed();
+        return browser.isElementDisplayed(jobTitleInput);
     }
 
     public boolean isLocationDisplayed()
     {
-        return locationInput.isDisplayed();
+        return browser.isElementDisplayed(locationInput);
     }
     
     public boolean isSummaryDisplayed()
     {
-        return summaryInput.isDisplayed();
+        return browser.isElementDisplayed(summaryInput);
     }
     
     public boolean isTelephoneDisplayed()
     {
-        return telephoneInput.isDisplayed();
+        return browser.isElementDisplayed(telephoneInput);
     }
     
     public boolean isMobileDisplayed()
     {
-        return mobileInput.isDisplayed();
+        return browser.isElementDisplayed(mobileInput);
     }
     
     public boolean isEmailDisplayed()
     {
-        return emailInput.isDisplayed();
+        return browser.isElementDisplayed(emailInput);
     }
     
     public boolean isSkypeDisplayed()
     {
-        return skypeInput.isDisplayed();
+        return browser.isElementDisplayed(skypeInput);
     }
     
     public boolean isIMDisplayed()
     {
-        return instantmsgInput.isDisplayed();
+        return browser.isElementDisplayed(instantmsgInput);
     }
     
     public boolean isGoogleUserNameDisplayed()
     {
-        return googleUserNameInput.isDisplayed();
+        return browser.isElementDisplayed(googleUserNameInput);
     }
     
     public boolean isCompanyNameDisplayed()
     {
-        return companyNameInput.isDisplayed();
+        return browser.isElementDisplayed(companyNameInput);
     }
     
     public boolean isCompanyAddress1Displayed()
     {
-        return companyAddress1Input.isDisplayed();
+        return browser.isElementDisplayed(companyAddress1Input);
     }
     
     public boolean isCompanyAddress2Displayed()
     {
-        return companyAddress2Input.isDisplayed();
+        return browser.isElementDisplayed(companyAddress2Input);
     }
     
     public boolean isCompanyAddress3Displayed()
     {
-        return companyAddress3Input.isDisplayed();
+        return browser.isElementDisplayed(companyAddress3Input);
     }
     
     public boolean isCompanyPostCodeDisplayed()
     {
-        return companyPostCodeInput.isDisplayed();
+        return browser.isElementDisplayed(companyPostCodeInput);
     }
     
     public boolean isCompanyTelephoneDisplayed()
     {
-        return companyTelephoneInput.isDisplayed();
+        return browser.isElementDisplayed(companyTelephoneInput);
     }
     
     public boolean isCompanyFaxDisplayed()
     {
-        return companyFaxInput.isDisplayed();
+        return browser.isElementDisplayed(companyFaxInput);
     }
     
     public boolean isCompanyEmailDisplayed()
     {
-        return companyEmailInput.isDisplayed();
+        return browser.isElementDisplayed(companyEmailInput);
     }
 
     public void clickUseDefaultPhoto()

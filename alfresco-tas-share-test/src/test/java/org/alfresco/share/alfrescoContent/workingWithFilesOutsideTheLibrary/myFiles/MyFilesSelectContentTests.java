@@ -55,36 +55,36 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
         headerMenuBar.clickSelectOption("Documents");
         ArrayList<String> expectedContentList1 = new ArrayList<>(Collections.singletonList(testFile));
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is disabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is disabled.");
 
         LOG.info("STEP2: Click 'Select' button and choose 'Invert Selection' option");
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption("Invert Selection");
         assertEquals(myFilesPage.verifyContentItemsNotSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
-        Assert.assertFalse(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        Assert.assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP3: Click 'Select' button and choose 'All'");
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption("All");
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is disabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is disabled.");
 
         LOG.info("STEP4: Click 'Select' button and choose 'None'");
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption("None");
         assertEquals(myFilesPage.verifyContentItemsNotSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
-        Assert.assertFalse(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        Assert.assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP5: Click 'Select' button and choose 'Folders'");
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption("Folders");
         assertEquals(myFilesPage.verifyContentItemsNotSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
-        Assert.assertFalse(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        Assert.assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP6: Click on document checkbox");
         myFilesPage.clickCheckBox(testFile);
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
     }
 
     @TestRail(id = "C7683")
@@ -102,35 +102,35 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
         headerMenuBar.clickSelectOption("Folders");
         ArrayList<String> expectedContentList1 = new ArrayList<>(Collections.singletonList(folderName));
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is disabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is disabled.");
 
         LOG.info("STEP2: Click 'Select' button and choose 'Invert Selection' option");
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption("Invert Selection");
         assertEquals(myFilesPage.verifyContentItemsNotSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
-        Assert.assertFalse(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        Assert.assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP3: Click 'Select' button and choose 'All'");
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption("All");
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is disabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is disabled.");
 
         LOG.info("STEP4: Click 'Select' button and choose 'None'");
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption("None");
         assertEquals(myFilesPage.verifyContentItemsNotSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
-        Assert.assertFalse(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        Assert.assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP5: Click 'Select' button and choose 'Documents' option.");
         headerMenuBar.clickSelectMenu();
         headerMenuBar.clickSelectOption("Documents");
         assertEquals(myFilesPage.verifyContentItemsNotSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
-        Assert.assertFalse(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        Assert.assertFalse(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
 
         LOG.info("STEP6: Click on folder checkbox");
         myFilesPage.clickCheckBox(folderName);
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
-        assertTrue(headerMenuBar.isSelectedItemsMenuDisabled(), "'Selected Items...' menu is enabled.");
+        assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
     }
 }

@@ -1,7 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.aspects;
 
 import org.alfresco.po.share.ShareDialog;
-import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -9,18 +8,13 @@ import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @PageObject
 public class AspectsForm extends ShareDialog
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-
     @RenderWebElement
     @FindBy(css = "[id$='default-aspects-title']")
     protected WebElement aspectsFormTitle;
@@ -83,32 +77,32 @@ public class AspectsForm extends ShareDialog
 
     public boolean isAspectsFormTitleDisplayed()
     {
-        return aspectsFormTitle.isDisplayed();
+        return browser.isElementDisplayed(aspectsFormTitle);
     }
 
     public boolean isAvailableToAddPanelDisplayed()
     {
-        return availableToAddPanel.isDisplayed();
+        return browser.isElementDisplayed(availableToAddPanel);
     }
 
     public boolean isCurrentlySelectedPanel()
     {
-        return availableToAddPanel.isDisplayed();
+        return browser.isElementDisplayed(availableToAddPanel);
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        return cancelButton.isDisplayed();
+        return browser.isElementDisplayed(cancelButton);
     }
 
     public boolean isSaveButtonDisplayed()
     {
-        return saveButton.isDisplayed();
+        return browser.isElementDisplayed(saveButton);
     }
 
     public boolean isCloseButtonDisplayed()
     {
-        return closeButton.isDisplayed();
+        return browser.isElementDisplayed(closeButton);
     }
 
     public WebElement getAvailableAspects(final String aspectName)
