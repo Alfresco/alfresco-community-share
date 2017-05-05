@@ -42,6 +42,12 @@ public class EditTaskPage extends SharePage<EditTaskPage>
     @FindBy(xpath = "//span[@class = 'viewmode-label' and text() = 'Due:']")
     private WebElement dueDate;
 
+    @FindBy(css = "button[id*='claim']")
+    private WebElement claimButton;
+
+    @FindBy(css = "button[id*='release-button']")
+    private WebElement releaseToPoolButton;
+
     private By statusDropdown = By.cssSelector("select[title = 'Status']");
     private By saveButton = By.cssSelector("button[id$='form-submit-button']");
     private By reassignButton = By.cssSelector("button[id$='reassign-button']");
@@ -155,4 +161,22 @@ public class EditTaskPage extends SharePage<EditTaskPage>
                 return true;
         return false;
     }
+
+    public EditTaskPage clickClaimButton()
+    {
+        browser.waitUntilElementVisible(claimButton).click();
+        this.renderedPage();
+        browser.waitUntilWebElementIsDisplayedWithRetry(releaseToPoolButton);
+        return (EditTaskPage) this.renderedPage();
+    }
+
+
+    public EditTaskPage clickReleaseToPoolButton()
+    {
+        releaseToPoolButton.click();
+        this.renderedPage();
+        browser.waitUntilWebElementIsDisplayedWithRetry(claimButton);
+        return (EditTaskPage) this.renderedPage();
+    }
+
 }

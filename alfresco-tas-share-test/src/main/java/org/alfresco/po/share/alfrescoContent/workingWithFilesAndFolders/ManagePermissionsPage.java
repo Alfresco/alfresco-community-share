@@ -96,6 +96,9 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     @FindBy(css="td[class$='yui-dt-col-role'] button")
     private WebElement roleButton;
 
+    @FindBy(css ="div[id$='_default-directPermissions'] td[class='yui-dt-empty'] div")
+    private WebElement noPermissionsSet;
+
     private By searchResultsList = By.cssSelector("td[class$='yui-dt-col-fullName'] span");
 
     private By addButton = By.xpath("//button[text()='Add ']");
@@ -487,5 +490,23 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     public String getInheritedPermissions(String identifier)
     {
         return selectRowInheritedPermissions(identifier).getText();
+    }
+
+    public boolean isAddUsersGroupsWindowDisplayed()
+    {
+        browser.waitUntilElementVisible(addUserGroupWindow);
+        return browser.isElementDisplayed(addUserGroupWindow);
+    }
+
+    public void deleteUserFromPermissionsList(String identifier)
+    {
+        browser.mouseOver(selectRowLocallySetPermissions(identifier));
+        browser.waitUntilElementVisible(deleteButton).click();
+    }
+
+    public String getLocallySetPermissionsTextWhenNoUsersAreAdded()
+    {
+        browser.waitUntilElementVisible(noPermissionsSet);
+        return noPermissionsSet.getText();
     }
 }
