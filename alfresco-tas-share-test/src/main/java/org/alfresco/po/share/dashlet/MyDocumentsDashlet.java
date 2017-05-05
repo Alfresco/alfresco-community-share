@@ -271,6 +271,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
                 if (viewButton.getAttribute("title").equalsIgnoreCase(viewOption))
                 {
                     viewButton.click();
+                    break;
                 }
 
             browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div.dashlet.my-documents h3.filename > a"));

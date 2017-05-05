@@ -106,14 +106,8 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     }
 
     public DocumentLibraryPage clickButtonForFolder(String buttonName)
-
     {
-        for (WebElement aButtonsList : buttonsList)
-        {
-            if (aButtonsList.getText().equals(buttonName))
-                aButtonsList.click();
-        }
-
+        browser.selectOptionFromFilterOptionsList(buttonName, buttonsList);
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
