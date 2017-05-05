@@ -393,7 +393,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(editInAlfrescoPage.getPageTitle(), "Alfresco » Edit in Alfresco Share", "Displayed page=");
         editInAlfrescoPage.typeContent("Content updated!");
         editInAlfrescoPage.clickSaveButton();
-        getBrowser().waitInSeconds(2);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
     }
@@ -432,7 +431,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         editRulesPage.cleanupSelectedValues();
 
         LOG.info("STEP2: Create a file in folder");
-        getBrowser().waitInSeconds(2);
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFolderName(folderName);
         contentService.createDocumentInFolder(userName, password, siteName, folderName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "docContent");
@@ -570,7 +568,6 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(editInAlfrescoPage.getPageTitle(), "Alfresco » Edit in Alfresco Share", "Displayed page=");
         editInAlfrescoPage.typeContent("Content updated!");
         editInAlfrescoPage.clickSaveButton();
-        getBrowser().waitInSeconds(2);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed.");
 

@@ -67,7 +67,7 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
 
     /***
      * Fill in document details fields
-     * 
+     *
      * @param name
      * @param content
      * @param title
@@ -86,12 +86,14 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
         descriptionTextarea.clear();
         descriptionTextarea.sendKeys(description);
     }
-    
+
     /**
      * Method to click save button
      */
-    public void clickSaveButton()
+    public DocumentLibraryPage clickSaveButton()
     {
         saveButton.sendKeys(Keys.ENTER);
+
+        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 }
