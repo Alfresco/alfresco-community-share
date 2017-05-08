@@ -12,10 +12,12 @@ import org.openqa.selenium.WebElement;
  */
 public interface ControlObject
 {
-    public String getLabel();
+    String getLabel();
 
-    public WebElement getInput();
+    WebElement getInput();
 
-    public String getDescription();
+    String getDescription();
+
+    String getType();
    
 }

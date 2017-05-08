@@ -1,15 +1,16 @@
 package org.alfresco.po.adminconsole;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.utility.web.HtmlPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * As for SharePage, we have one for AdminConsole page
@@ -64,20 +65,95 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
         {
             String label = control.findElement(By.className("label")).getText();
             WebElement input = null;
-
             String description;
-            try
+            String type = control.getAttribute("class").split(" ")[1];
+
+            switch (type)
             {
-                input = control.findElement(By.xpath("span[@class='value']/input"));
-                description = control.findElement(By.className("description")).getText();
+                case "field":
+                    input = control.findElement(By.className("value"));
+                    break;
+                case "status":
+                    input = control.findElement(By.cssSelector(".value span"));
+                    break;
+                case "checkbox":
+                case "text":
+                    input = control.findElement(By.cssSelector(".value input"));
+                    break;
+                case "options":
+                    input = control.findElement(By.cssSelector(".value select"));
+                    break;
+                default:
+                    input = control.findElement(By.className("value"));
+                    break;
             }
-            catch (Exception e)
-            {
-                description = "";
-            }
-            pageControlObjects.add(new AdminConsoleObject(label, input, description));
+            description = browser.isElementDisplayed(control, By.className("description")) ? control.findElement(By.className("description")).getText() : "";
+
+            pageControlObjects.add(new AdminConsoleObject(label, input, description, type));
         }
         return pageControlObjects;
+    }
+
+    public ControlObject getPageField(String fieldLabel) throws Exception
+    {
+        for(ControlObject field: getPageFields())
+        {
+            if(field.getLabel().equals(fieldLabel))
+                return field;
+        } throw new Exception(String.format("Could not find admin console field with label %s", fieldLabel));
+    }
+
+
+
+    public String getFieldValue(String fieldLabel) throws Exception
+    {
+        WebElement input = getPageField(fieldLabel).getInput();
+        switch (getPageField(fieldLabel).getType())
+        {
+            case "field":
+            case "status":
+                return input.getText();
+            case "checkbox":
+                return input.isSelected() ? "checked" : "unchecked";
+            case "text":
+                return input.getAttribute("value");
+            case "options":
+                return input.findElement(By.cssSelector("option[selected='selected']")).getText();
+            default:
+                return input.getText();
+        }
+    }
+
+    public void checkField(String fieldLabel) throws Exception
+    {
+        try
+        {
+            getPageField(fieldLabel).getInput().click();
+        }
+        catch (NoSuchElementException noSuchElementExp)
+        {
+            LOG.error(String.format("Could not find admin console field with label %s", fieldLabel), noSuchElementExp);
+        }
+    }
+
+    public void typeValueInField(String value, String fieldLabel) throws Exception
+    {
+        try
+        {
+            WebElement input = getPageField(fieldLabel).getInput();
+            input.clear();
+            input.sendKeys(value);
+        }
+        catch (NoSuchElementException noSuchElementExp)
+        {
+            LOG.error(String.format("Could not find admin console field with label %s", fieldLabel), noSuchElementExp);
+        }
+    }
+
+    public void selectOptionFromField(String option, String fieldLabel) throws Exception
+    {
+        List<WebElement> optionsList = getPageField(fieldLabel).getInput().findElements(By.cssSelector("option"));
+        browser.selectOptionFromFilterOptionsList(option, optionsList);
     }
 
     public void printPageFields()

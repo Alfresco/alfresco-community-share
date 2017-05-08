@@ -15,12 +15,14 @@ public class AdminConsoleObject implements ControlObject
     private String label;
     private WebElement value;
     private String description;
+    private String type;
 
-    public AdminConsoleObject(String label, WebElement value, String description)
+    public AdminConsoleObject(String label, WebElement value, String description, String type)
     {
         this.label = label;
         this.value = value;
         this.description = description;
+        this.type = type;
     }
 
     @Override
@@ -66,6 +68,12 @@ public class AdminConsoleObject implements ControlObject
     public String getDescription()
     {
         return description;
+    }
+
+    @Override
+    public String getType()
+    {
+        return type;
     }
 
 }
