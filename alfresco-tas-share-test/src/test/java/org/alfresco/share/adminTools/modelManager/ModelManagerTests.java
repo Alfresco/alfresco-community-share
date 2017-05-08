@@ -236,8 +236,8 @@ public class ModelManagerTests extends ContextAwareWebTest
         String name = String.format("C9518testModel%s", DataUtil.getUniqueIdentifier());
         String nameSpace = String.format("C9518nameSpace%s", DataUtil.getUniqueIdentifier());
         String prefix = String.format("C9518%s", DataUtil.getUniqueIdentifier());
-        String expectedDialogText = "Are you sure you want to delete model '" + name
-                + "'? All custom types, aspects and properties in the model will also be deleted.";
+        String expectedDialogText = "Are you sure you want to delete model ''" + name
+                + "''? All custom types, aspects and properties in the model will also be deleted.";
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
         createModelDialogPage.sendNamespaceText(nameSpace);
