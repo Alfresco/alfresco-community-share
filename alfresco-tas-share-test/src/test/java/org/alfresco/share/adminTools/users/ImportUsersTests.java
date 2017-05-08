@@ -39,6 +39,7 @@ public class ImportUsersTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step1: Navigate to 'Admin Tools' and click 'Users' link on 'Tools' pane.");
+        adminTools.navigateByMenuBar();
         adminTools.navigateToNodeFromToolsPanel("Users", usersPage);
 
         LOG.info("Step2: Click 'Upload User CSV File' button. Select users CSV file and click 'Upload File'.");
