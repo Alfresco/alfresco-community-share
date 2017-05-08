@@ -1,12 +1,5 @@
 package org.alfresco.common;
 
-import org.alfresco.dataprep.UserService;
-import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
-import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.*;
-import org.alfresco.utility.web.common.Parameter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,13 +7,28 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.alfresco.dataprep.UserService;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.AdvancedTaskAgendaFields;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.ContactListFields;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.DropDownLists;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.EventAgendaFields;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.EventListFields;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.IssueFields;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.LocationFields;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.MeetingAgendaFields;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.SimpleTaskAgendaFields;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.ToDoAgendaFields;
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.VisitorAgendaFields;
+import org.alfresco.utility.web.common.Parameter;
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * Utility class for generating input data for tests
  * 
  * @author Cristina.Axinte
  */
 
-@Component
 public class DataUtil
 {
     public static String PASSWORD = "password";
