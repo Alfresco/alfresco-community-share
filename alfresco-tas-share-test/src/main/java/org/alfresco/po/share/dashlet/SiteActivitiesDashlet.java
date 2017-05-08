@@ -71,7 +71,7 @@ public class SiteActivitiesDashlet extends MyActivitiesDashlet
     {
         int counter = 0;
         boolean found = false;
-        while (!found && counter < 3)
+        while (!found && counter < 5)
         {
             for (WebElement link : activityLinks)
             {
