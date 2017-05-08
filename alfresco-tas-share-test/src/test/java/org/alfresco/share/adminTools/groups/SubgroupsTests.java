@@ -88,8 +88,6 @@ public class SubgroupsTests extends ContextAwareWebTest
         assertEquals(groupsPage.getNewGroupTitle(), language.translate("adminTools.groups.newGroupPanelTitle"), "'New Group' title=");
         assertTrue(groupsPage.isIdentifierInputFieldDisplayed(), "Properties: 'Identifier' input field is displayed.");
         assertTrue(groupsPage.isDisplayNameInputFieldDisplayed(), "Properties: 'Display Name' input field is displayed.");
-        
-        expectedList = new ArrayList<>(singletonList(group0));
         expectedList = new ArrayList<>(Arrays.asList(language.translate("adminTools.groups.newGroupProperties.identifier"),
                 language.translate("adminTools.groups.newGroupProperties.displayName")));
         assertEquals(groupsPage.getNewGroupPropertiesLabels(), expectedList, "New Group -> Properties form labels=");
@@ -215,7 +213,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         expectedList = new ArrayList<>(singletonList(group3));
         assertEquals(groupsPage.getSelectedItems(), expectedList, "Selected items=");
         expectedList.clear();
-        assertFalse(groupsPage.isItemDisplayedInSpecifiedColumn(user, 2), user + " is displayed for " + group3);
+        assertFalse(groupsPage.getSecondColumnItemsList().contains(user), user + " is displayed for " + group3);
     }
 
     @TestRail(id = "C42773")
@@ -250,11 +248,12 @@ public class SubgroupsTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Click 'Delete' button");
         deleteGroupDialog.clickDeleteButton();
+        assertFalse(groupsPage.getSecondColumnItemsList().contains(groupNameToDelete), groupNameToDelete + " is displayed for " + group3);
         groupsPage.writeInSearchInput(groupNameToDelete);
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(groupNameToDelete);
-        assertTrue(groupsPage.isItemDisplayedInSpecifiedColumn(groupNameToDelete, 1), groupNameToDelete + " is displayed in first column.");
-        assertFalse(groupsPage.isItemDisplayedInSpecifiedColumn(groupNameToDelete, 2), groupNameToDelete + " is displayed for " + group3);
+        groupsPage.checkGroupIsInList(groupNameToDelete);
+
     }
 
     @AfterClass

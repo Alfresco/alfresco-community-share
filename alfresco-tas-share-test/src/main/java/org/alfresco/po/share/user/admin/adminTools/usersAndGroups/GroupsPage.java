@@ -1,8 +1,5 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -12,6 +9,9 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Razvan.Dorobantu
@@ -45,7 +45,6 @@ public class GroupsPage extends AdminToolsPage
     @FindBy(css = "button[id*='browse']")
     private WebElement browseButton;
 
-    @RenderWebElement
     @FindBy(css = "div[id*=default-search-bar-text]")
     private WebElement searchBar;
 
@@ -162,32 +161,6 @@ public class GroupsPage extends AdminToolsPage
     public void checkShowSystemGroupsCheckbox()
     {
         showSystemGroupsCheckbox.click();
-    }
-
-    /**
-     * @param itemName whose presence to be checked
-     * @param columnNumber number of the column in which the itemName is verified. Possible values: 1, 2
-     * @return true if item is displayed
-     */
-    public boolean isItemDisplayedInSpecifiedColumn(String itemName, int columnNumber)
-    {
-        this.renderedPage();
-        boolean displayed = false;
-        /*
-         * List<String> firstColumn = getFirstColumnGroupsList();
-         * List<String> secondColumn = getSecondColumnItemsList();
-         * switch (columnNumber)
-         * {
-         * case 1:
-         * displayed = firstColumn.contains(itemName);
-         * break;
-         * case 2:
-         * displayed = secondColumn.contains(itemName);
-         * break;
-         * }Ø
-         */
-
-        return displayed;
     }
 
     /**
@@ -368,6 +341,7 @@ public class GroupsPage extends AdminToolsPage
     {
         browser.waitUntilElementVisible(createGroupOKButton);
         createGroupOKButton.click();
+        this.renderedPage();
     }
 
     public boolean isCreateAndCreateAnotherGroupButtonDisplayed()

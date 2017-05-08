@@ -128,7 +128,7 @@ public class GroupsTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Verify the group is present in the search result list.");
         Assert.assertTrue(groupsPage.isGroupPresentInSearchResult(C9471group));
-        Assert.assertEquals(groupsPage.getSeachBarText(), String.format("Search for \"%s\" found 1 results.",C9471group));
+        Assert.assertEquals(groupsPage.getSeachBarText(), String.format("Search for '%s' found 1 results.",C9471group));
     
         groupsPage.writeInSearchInput("*" + uniqueIdentifier);
         groupsPage.clickSearchButton();
