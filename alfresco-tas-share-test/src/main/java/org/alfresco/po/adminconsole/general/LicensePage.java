@@ -1,22 +1,22 @@
-package org.alfresco.po.alfresco.admin.repositoryservices;
+package org.alfresco.po.adminconsole.general;
 
-import org.alfresco.po.alfresco.admin.AdminConsolePage;
+import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageObject
-public class TransformationServicesPage extends AdminConsolePage<TransformationServicesPage>
+public class LicensePage extends AdminConsolePage<LicensePage>
 {
     @Override
     protected String relativePathToURL()
     {
-        return "alfresco/s/enterprise/admin/admin-subscriptions";
+        return "alfresco/s/enterprise/admin/admin-license";
     }
 
     @RenderWebElement
-    @FindBy(className = "intro")
+    @FindBy(className = "intro-tall")
     WebElement intro;
 
     @Override
@@ -30,5 +30,4 @@ public class TransformationServicesPage extends AdminConsolePage<TransformationS
     {
         return intro.getText();
     }
-
 }

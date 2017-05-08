@@ -1,6 +1,6 @@
-package org.alfresco.po.alfresco.admin.repositoryservices;
+package org.alfresco.po.adminconsole.repositoryservices;
 
-import org.alfresco.po.alfresco.admin.AdminConsolePage;
+import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;

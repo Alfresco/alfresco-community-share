@@ -1,4 +1,4 @@
-package org.alfresco.po.alfresco.admin;
+package org.alfresco.po.adminconsole;
 
 import ru.yandex.qatools.htmlelements.element.Link;
 

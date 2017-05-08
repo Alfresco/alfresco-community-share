@@ -1,18 +1,18 @@
-package org.alfresco.po.alfresco.admin.repositoryservices;
+package org.alfresco.po.adminconsole.repositoryservices;
 
-import org.alfresco.po.alfresco.admin.AdminConsolePage;
+import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageObject
-public class SubscriptionServicePage extends AdminConsolePage<SubscriptionServicePage>
+public class RepositoryServerClusteringPage extends AdminConsolePage<RepositoryServerClusteringPage>
 {
     @Override
     protected String relativePathToURL()
     {
-        return "alfresco/s/enterprise/admin/admin-transformations";
+        return "alfresco/s/enterprise/admin/admin-clustering";
     }
 
     @RenderWebElement

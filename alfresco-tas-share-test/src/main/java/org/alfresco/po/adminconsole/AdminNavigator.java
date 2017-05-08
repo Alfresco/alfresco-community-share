@@ -1,4 +1,4 @@
-package org.alfresco.po.alfresco.admin;
+package org.alfresco.po.adminconsole;
 
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;

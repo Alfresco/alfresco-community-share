@@ -1,32 +1,23 @@
-package org.alfresco.po.alfresco.admin.supporttools;
+package org.alfresco.po.adminconsole.repositoryservices;
 
-import org.alfresco.po.alfresco.admin.AdminConsolePage;
+import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageObject
-public class DownloadJMXDumpPage extends AdminConsolePage<DownloadJMXDumpPage>
+public class SubscriptionServicePage extends AdminConsolePage<SubscriptionServicePage>
 {
     @Override
     protected String relativePathToURL()
     {
-        return "alfresco/s/enterprise/admin/admin-supporttools";
+        return "alfresco/s/enterprise/admin/admin-transformations";
     }
 
     @RenderWebElement
     @FindBy(className = "intro")
     WebElement intro;
-
-    @RenderWebElement
-    @FindBy(css = "input[value='Export']")
-    WebElement export;
-
-    public void clickExport()
-    {
-        export.click();
-    }
 
     @Override
     public String getInfoPage()

@@ -1,6 +1,6 @@
-package org.alfresco.po.alfresco.admin.consoles;
+package org.alfresco.po.adminconsole.consoles;
 
-import org.alfresco.po.alfresco.admin.AdminConsolePage;
+import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

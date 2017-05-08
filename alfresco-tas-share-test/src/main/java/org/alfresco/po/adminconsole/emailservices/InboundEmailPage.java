@@ -1,6 +1,6 @@
-package org.alfresco.po.alfresco.admin.emailservices;
+package org.alfresco.po.adminconsole.emailservices;
 
-import org.alfresco.po.alfresco.admin.AdminConsolePage;
+import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
