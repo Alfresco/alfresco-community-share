@@ -10,7 +10,7 @@ node('tas-node-win') {
     		string(defaultValue: 'src/test/resources/share-po-runner-suite.xml' , description: '', name: 'SuiteXmlFile'),
     		booleanParam(defaultValue: false, description: '', name: 'RunTestsMarkedAsBugs'),
     		string(defaultValue: 'sanity', description: '', name: 'IncludeGroups'),
-    		string(defaultValue: 'GOOGLE_DOCS', description: '', name: 'ExcludeGroups'),
+    		string(defaultValue: 'google-docs', description: '', name: 'ExcludeGroups'),
     		booleanParam(defaultValue: false, description: 'Enable or Disable the ability of adding tests and TestRail', name: 'EnableTestRailIntegration'),
     		string(defaultValue: '5.2.N-${AlfrescoHost}', description: 'The name of the Test Run In TestRail (requires *EnableTestRailIntegration*)', name: 'TestRailTestRunName')
     		])
