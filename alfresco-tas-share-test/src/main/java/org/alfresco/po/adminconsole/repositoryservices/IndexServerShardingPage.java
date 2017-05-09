@@ -12,7 +12,7 @@ public class IndexServerShardingPage extends AdminConsolePage<IndexServerShardin
     @Override
     protected String relativePathToURL()
     {
-        return "alfresco/s/enterprise/admin/admin-processengines";
+        return "alfresco/s/enterprise/admin/admin-flocs";
     }
 
     @RenderWebElement
