@@ -12,7 +12,7 @@ public class ProcessEnginesPage extends AdminConsolePage<ProcessEnginesPage>
     @Override
     protected String relativePathToURL()
     {
-        return "alfresco/s/enterprise/admin/admin-flocs";
+        return "alfresco/s/enterprise/admin/admin-processengines";
     }
 
     @RenderWebElement

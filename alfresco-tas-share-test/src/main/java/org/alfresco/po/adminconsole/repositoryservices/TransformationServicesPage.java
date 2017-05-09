@@ -12,7 +12,7 @@ public class TransformationServicesPage extends AdminConsolePage<TransformationS
     @Override
     protected String relativePathToURL()
     {
-        return "alfresco/s/enterprise/admin/admin-subscriptions";
+        return "alfresco/s/enterprise/admin/admin-transformations";
     }
 
     @RenderWebElement
