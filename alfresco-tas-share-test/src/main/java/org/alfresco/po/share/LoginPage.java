@@ -34,7 +34,7 @@ public class LoginPage extends HtmlPage
     @FindBy(css = ".theme-company-logo")
     private Image alfrescoLogo;
 
-    @FindBy(css = ".copy")
+    @FindBy(css = ".login-copy")
     private TextBlock copyright;
 
     @FindBy(css = ".error")
