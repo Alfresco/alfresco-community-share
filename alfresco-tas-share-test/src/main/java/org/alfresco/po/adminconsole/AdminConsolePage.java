@@ -4,7 +4,6 @@ import org.alfresco.utility.web.HtmlPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +37,7 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
      * save all web elements that contains "control" keyword - these are custom web elements for admin Pages
      */
     @FindAll(@FindBy(css = "div[class~=control]"))
-    @CacheLookup
     List<WebElement> pageControls;
-
-    /*
-     * this will save in memory the AdminConsoleObject identified
-     */
-    protected List<ControlObject> pageControlObjects = new ArrayList<ControlObject>();
 
     @Override
     public AdminNavigator getNavigator()
@@ -61,6 +54,7 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
     @Override
     public List<ControlObject> getPageFields()
     {
+        List<ControlObject> pageControlObjects = new ArrayList<ControlObject>();
         for (WebElement control : pageControls)
         {
             String label = control.findElement(By.className("label")).getText();
@@ -103,8 +97,6 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
         } throw new Exception(String.format("Could not find admin console field with label %s", fieldLabel));
     }
 
-
-
     public String getFieldValue(String fieldLabel) throws Exception
     {
         WebElement input = getPageField(fieldLabel).getInput();
@@ -146,7 +138,7 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
         }
         catch (NoSuchElementException noSuchElementExp)
         {
-            LOG.error(String.format("Could not find admin console field with label %s", fieldLabel), noSuchElementExp);
+            LOG.error(String.format("Could not find admin console field with label [%s]", fieldLabel), noSuchElementExp);
         }
     }
 
