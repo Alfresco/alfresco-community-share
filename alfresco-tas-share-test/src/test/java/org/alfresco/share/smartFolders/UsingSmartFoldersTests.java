@@ -105,7 +105,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8649")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createFileInSmartFolder() throws Exception
     {
         LOG.info("Step5: Press Create button -> Google Docs Document");
@@ -129,7 +129,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8650")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void updateFileInSmartFolder() throws Exception
     {
         LOG.info("Step5: Press Create button -> Google Docs Document");
@@ -179,7 +179,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8664")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void checkFilesAreCorrectlyFilled() throws Exception
     {
         LOG.info("Step5: Press Create button -> Google Docs Document");
@@ -206,7 +206,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8647")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void checkAvailableActions() throws Exception
     {
         LOG.info("Step5: Verify that 'Create' button is available");

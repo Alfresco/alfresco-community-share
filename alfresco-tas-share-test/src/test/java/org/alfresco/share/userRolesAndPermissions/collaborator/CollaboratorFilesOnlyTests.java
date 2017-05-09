@@ -254,7 +254,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8957")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void collaboratorCancelEditingBySelf()
     {
         contentService.createDocument(user, password, siteName, DocumentType.MSWORD, fileNameC8957, fileContent);

@@ -566,7 +566,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8933")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void editInGoogleDocs() throws Exception
     {
         String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
