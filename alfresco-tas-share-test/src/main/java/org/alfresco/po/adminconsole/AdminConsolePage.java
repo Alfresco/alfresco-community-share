@@ -21,7 +21,8 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
     @SuppressWarnings("unchecked")
     public T navigate()
     {
-        browser.navigate().to(properties.getFullServerUrl() + "/" + relativePathToURL());
+        String baseUrl = String.format("%s://%s:%s@%s:%s", properties.getScheme(), properties.getAdminUser(), properties.getAdminPassword(), properties.getServer(), properties.getPort());
+        browser.navigate().to(baseUrl + "/" + relativePathToURL());
         navigator.setBrowser(browser);
         navigator.renderedPage();
         return (T) renderedPage();
@@ -38,6 +39,12 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
      */
     @FindAll(@FindBy(css = "div[class~=control]"))
     List<WebElement> pageControls;
+
+    @FindBy(css = ".submission.buttons>input[type='submit']")
+    WebElement saveButton;
+
+    @FindBy(css = ".submission.buttons>input.cancel")
+    WebElement cancelButton;
 
     @Override
     public AdminNavigator getNavigator()
@@ -156,4 +163,15 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
         }
     }
 
+    public T clickSaveButton()
+    {
+        browser.waitUntilElementClickable(saveButton).click();
+        return (T) renderedPage();
+    }
+
+    public T clickCancelButton()
+    {
+        browser.waitUntilElementClickable(cancelButton).click();
+        return (T) renderedPage();
+    }
 }
