@@ -57,7 +57,7 @@ public class UserProfileTests extends ContextAwareWebTest
     private String c9431User = String.format("c9431user%s", DataUtil.getUniqueIdentifier());
     private String c9427User = String.format("c9427user%s", DataUtil.getUniqueIdentifier());
     private String c9426User = String.format("c9426user%s", DataUtil.getUniqueIdentifier());
-    private String c9434User = "c9434user" + DataUtil.getUniqueIdentifier();
+    private String c9434User = String.format("c9434user" + DataUtil.getUniqueIdentifier());
     private String authenticationError;
 
     @BeforeClass(alwaysRun = true)
@@ -70,6 +70,7 @@ public class UserProfileTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, c9431User, password, c9431User + domain, "c9431firstName", "c9431lastName");
         userService.create(adminUser, adminPassword, c9427User, password, c9427User + domain, "c9427firstName", "c9427lastName");
         userService.create(adminUser, adminPassword, c9426User, password, c9426User + domain, "c9426firstName", "c9426lastName");
+        userService.create(adminUser, adminPassword, c9434User, password, c9434User + domain, "c9434firstName", "c9434lastName");
         setupAuthenticatedSession(adminUser, adminPassword);
     }
 

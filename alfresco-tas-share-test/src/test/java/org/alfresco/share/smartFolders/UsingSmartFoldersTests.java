@@ -60,7 +60,6 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         testFilePath = testDataFolder + testFileName;
         newVersionFilePath = testDataFolder + newVersionFileName;
         setupAuthenticatedSession(userName, password);
-        googleDocs.loginToGoogleDocs();
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -108,6 +107,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createFileInSmartFolder() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Step5: Press Create button -> Google Docs Document");
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
@@ -132,6 +132,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void updateFileInSmartFolder() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Step5: Press Create button -> Google Docs Document");
         documentLibraryPage.clickCreateButton();
         createContent.clickGoogleDocsDoc();
@@ -182,6 +183,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void checkFilesAreCorrectlyFilled() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Step5: Press Create button -> Google Docs Document");
 
         documentLibraryPage.clickCreateButton();
@@ -209,6 +211,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void checkAvailableActions() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Step5: Verify that 'Create' button is available");
         Assert.assertTrue(documentLibraryPage.isCreateButtonDisplayed(), "Create button displayed");
 

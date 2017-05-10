@@ -427,7 +427,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         createNewFilterPopup.clickSave();
         assertTrue(searchManagerPage.isFilterAvailable(filterId), "The new filter is displayed on 'Search Manager' page.");
         assertEquals(searchManagerPage.getFilterName(filterId), filterName, "Filter name is correct.");
-        assertEquals(searchManagerPage.getFilterProperty(filterId), "Site", "Filter property  has default value.");
+        assertEquals(searchManagerPage.getFilterProperty(filterId, "Site"), "Site", "Filter property  has default value.");
         assertEquals(searchManagerPage.getShowWithSearchResults(filterId), "Yes", "Filter Show  has default value.");
         assertEquals(searchManagerPage.getFilterAvailability(filterId), "Everywhere", "Filter availability has default value.");
 
@@ -452,7 +452,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         editFilterPopup.clickSave();
         assertTrue(searchManagerPage.isFilterAvailable(filterId), "The new filter is displayed on 'Search Manager' page.");
         assertEquals(searchManagerPage.getFilterName(filterId), newFilterName, "Filter name is changed.");
-        assertEquals(searchManagerPage.getFilterProperty(filterId), "Tag", "Filter property is changed.");
+        assertEquals(searchManagerPage.getFilterProperty(filterId, "Tag"), "Tag", "Filter property is changed.");
         assertEquals(searchManagerPage.getShowWithSearchResults(filterId), "No", "Filter Show is changed.");
         assertEquals(searchManagerPage.getFilterAvailability(filterId), "Selected sites", "Filter availability is changed.");
 
@@ -489,7 +489,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         createNewFilterPopup.clickSave();
         assertTrue(searchManagerPage.isFilterAvailable(filterId), "The new filter is displayed on 'Search Manager' page.");
         assertEquals(searchManagerPage.getFilterName(filterId), filterName, "Filter name is correct.");
-        assertEquals(searchManagerPage.getFilterProperty(filterId), "Site", "Filter property  has default value.");
+        assertEquals(searchManagerPage.getFilterProperty(filterId, "Site"), "Site", "Filter property  has default value.");
         assertEquals(searchManagerPage.getShowWithSearchResults(filterId), "Yes", "Filter Show  has default value.");
         assertEquals(searchManagerPage.getFilterAvailability(filterId), "Everywhere", "Filter availability has default value.");
 
@@ -514,7 +514,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         editFilterPopup.clickClose();
         assertTrue(searchManagerPage.isFilterAvailable(filterId), "The new filter is displayed on 'Search Manager' page.");
         assertEquals(searchManagerPage.getFilterName(filterId), filterName, "Filter name hasn't changed.");
-        assertEquals(searchManagerPage.getFilterProperty(filterId), "Site", "Filter property hasn't changed.");
+        assertEquals(searchManagerPage.getFilterProperty(filterId, "Site"), "Site", "Filter property hasn't changed.");
         assertEquals(searchManagerPage.getShowWithSearchResults(filterId), "Yes", "Filter Show hasn't changed.");
         assertEquals(searchManagerPage.getFilterAvailability(filterId), "Everywhere", "Filter availability hasn't changed.");
 
@@ -549,7 +549,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         createNewFilterPopup.clickSave();
         assertTrue(searchManagerPage.isFilterAvailable(filterId), "The new filter is displayed on 'Search Manager' page.");
         assertEquals(searchManagerPage.getFilterName(filterId), filterName, "Filter name is correct.");
-        assertEquals(searchManagerPage.getFilterProperty(filterId), "Site", "Filter property  has default value.");
+        assertEquals(searchManagerPage.getFilterProperty(filterId, "Site"), "Site", "Filter property  has default value.");
         assertEquals(searchManagerPage.getShowWithSearchResults(filterId), "Yes", "Filter Show  has default value.");
         assertEquals(searchManagerPage.getFilterAvailability(filterId), "Everywhere", "Filter availability has default value.");
 
@@ -574,7 +574,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         editFilterPopup.clickCancel();
         assertTrue(searchManagerPage.isFilterAvailable(filterId), "The new filter is displayed on 'Search Manager' page.");
         assertEquals(searchManagerPage.getFilterName(filterId), filterName, "Filter name hasn't changed.");
-        assertEquals(searchManagerPage.getFilterProperty(filterId), "Site", "Filter property hasn't changed.");
+        assertEquals(searchManagerPage.getFilterProperty(filterId,"Site"), "Site", "Filter property hasn't changed.");
         assertEquals(searchManagerPage.getShowWithSearchResults(filterId), "Yes", "Filter Show hasn't changed.");
         assertEquals(searchManagerPage.getFilterAvailability(filterId), "Everywhere", "Filter availability hasn't changed.");
 

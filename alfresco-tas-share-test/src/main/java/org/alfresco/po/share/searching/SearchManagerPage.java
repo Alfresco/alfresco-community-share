@@ -157,8 +157,9 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      * @param filterId
      * @return
      */
-    public String getFilterProperty(String filterId)
+    public String getFilterProperty(String filterId, String text)
     {
+        browser.waitUntilElementContainsText(getFilterById(filterId).findElement(FILTER_PROPERTY), text);
         return getFilterById(filterId).findElement(FILTER_PROPERTY).getText();
     }
 

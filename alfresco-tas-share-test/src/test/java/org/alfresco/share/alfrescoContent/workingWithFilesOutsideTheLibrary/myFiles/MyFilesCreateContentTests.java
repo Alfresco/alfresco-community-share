@@ -49,7 +49,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         contentService.createDocumentInRepository(adminUser, adminPassword, "Data Dictionary/Node Templates", CMISUtil.DocumentType.TEXT_PLAIN, fileTemplateName, "some content");
-        googleDocs.loginToGoogleDocs();
+
         setupAuthenticatedSession(user, password);
     }
 
@@ -235,6 +235,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void myFilesCreateGoogleDocsDocument() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
@@ -264,6 +265,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void myFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
@@ -292,6 +294,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void myFilesCreateGoogleDocsPresentation() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");

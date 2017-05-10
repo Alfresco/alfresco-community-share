@@ -33,7 +33,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, "Site used for Google Docs", Visibility.PUBLIC);
-        googleDocs.loginToGoogleDocs();
         setupAuthenticatedSession(user, password);
     }
 
@@ -41,6 +40,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createGoogleDocsDocument() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
 
         documentLibraryPage.navigate(siteName);
@@ -70,6 +70,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createGoogleDocsSpreadsheet() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
         documentLibraryPage.navigate(siteName);
 
@@ -97,6 +98,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createGoogleDocsPresentation() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
         documentLibraryPage.navigate(siteName);
 
