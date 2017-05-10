@@ -262,6 +262,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         while(!isFileAddedToFavorites(fileName) && counter < 5)
         {
             browser.waitInSeconds(1);
+            counter++;
         }
     }
 
@@ -273,6 +274,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         while(!isAddToFavoritesLinkDisplayed(fileName) && counter < 5)
         {
             browser.waitInSeconds(1);
+            counter++;
         }
     }
 
@@ -284,6 +286,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         while(!isUnlikeLinkDisplayed(fileName) && counter < 5)
         {
             browser.waitInSeconds(1);
+            counter++;
         }
     }
 
@@ -295,6 +298,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         while(!isLikeButtonDisplayed(fileName) && counter < 5)
         {
             browser.waitInSeconds(1);
+            counter++;
         }
     }
 
