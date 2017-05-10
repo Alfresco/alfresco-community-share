@@ -184,8 +184,6 @@ public class MyActivitiesTests extends ContextAwareWebTest
         wikiTitle = "Wiki" + uniqueIdentifier;
         Map<String, String> activitiesObjects = new HashMap<>();
         activitiesObjects.put("link", linkTitle);
-//        activitiesObjects.put("blog post", blogTitle);
-//        activitiesObjects.put("data list", datalistName);
         activitiesObjects.put("calendar event", eventName);
         activitiesObjects.put("discussion", discussionTitle);
         activitiesObjects.put("document", documentName);
@@ -218,19 +216,10 @@ public class MyActivitiesTests extends ContextAwareWebTest
             assertTrue(myActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity link: " + activity + " is present in My Activities dashlet.");
         }
 
-//         LOG.info("STEP 2-Click blog post's name link");
-//         myActivitiesDashlet.clickOnItemNameFromActivityList(blogTitle, blogPostPage);
-//         assertTrue(getBrowser().getCurrentUrl().endsWith("blog-postlist"), "'Blog' page is opened.");
-
          LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
-//         menuNavigationBar.goTo(userDashboardPage);
+
          myActivitiesDashlet.clickOnItemNameFromActivityList(eventName, calendarPage);
          assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
-
-//         LOG.info("STEP 4-Go back to User Dashboard. Click data list's name link");
-//         menuNavigationBar.goTo(userDashboardPage);
-//         myActivitiesDashlet.clickOnItemNameFromActivityList(datalistName);
-//        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
 
          LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
          userDashboardPage.navigateByMenuBar();
@@ -277,9 +266,6 @@ public class MyActivitiesTests extends ContextAwareWebTest
         wikiTitle = "Wiki" + uniqueIdentifier;
         Map<String, String> activitiesObjects = new HashMap<>();
         activitiesObjects.put("link", "New" + linkTitle);
-//        activitiesObjects.put("blog post", "New" + blogTitle);
-//        activitiesObjects.put("data list", "New" + datalistName);
-//        activitiesObjects.put("calendar event", eventName);
         activitiesObjects.put("discussion", "New" + discussionTitle);
         activitiesObjects.put("document", documentName);
         activitiesObjects.put("file", fileName);
@@ -300,20 +286,9 @@ public class MyActivitiesTests extends ContextAwareWebTest
             assertTrue(myActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity link: " + activity + " is present in My Activities dashlet.");
         }
 
-//         LOG.info("STEP 2-Click blog post's name link");
-//         myActivitiesDashlet.clickOnItemNameFromActivityList(blogTitle);
-//        blogPostPage.renderedPage();
-//         assertTrue(getBrowser().getCurrentUrl().endsWith("blog-postlist"), "'Blog' page is opened.");
-
          LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
-//         menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(eventName, calendarPage);
          assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
-
-//         LOG.info("STEP 4-Go back to User Dashboard. Click data list's name link");
-//         menuNavigationBar.goTo(userDashboardPage);
-//         myActivitiesDashlet.clickOnItemNameFromActivityList(datalistName);
-//        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
 
          LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
          userDashboardPage.navigateByMenuBar();
@@ -361,7 +336,6 @@ public class MyActivitiesTests extends ContextAwareWebTest
         Map<String, String> activitiesObjects = new HashMap<>();
         activitiesObjects.put("link", linkTitle);
         activitiesObjects.put("blog post", blogTitle);
-//        activitiesObjects.put("data list", datalistName);
         activitiesObjects.put("calendar event", eventName);
         activitiesObjects.put("discussion", discussionTitle);
         activitiesObjects.put("document", documentName);
@@ -391,11 +365,6 @@ public class MyActivitiesTests extends ContextAwareWebTest
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(eventName, calendarPage);
          assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
-
-//         LOG.info("STEP 4-Go back to User Dashboard. Click data list's name link");
-//         menuNavigationBar.goTo(userDashboardPage);
-//         myActivitiesDashlet.clickOnItemNameFromActivityList(datalistName);
-//        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
 
          LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
          menuNavigationBar.goTo(userDashboardPage);
