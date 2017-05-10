@@ -71,7 +71,6 @@ public class EditTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName2, "");
         contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName3, "");
         contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
-        googleDocsCommon.loginToGoogleDocs();
     }
 
     @TestRail(id = "C7953")
@@ -195,6 +194,7 @@ public class EditTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void editFileInGoogleDocs() throws Exception
     {
+        googleDocsCommon.loginToGoogleDocs();
         String googleDocPath = testDataFolder + googleDocName;
         String editedInGoogleDocsTitle = uniqueIdentifier + "editedTestFile.docx";
         String editedInGoogleDocsContent = "Edited";

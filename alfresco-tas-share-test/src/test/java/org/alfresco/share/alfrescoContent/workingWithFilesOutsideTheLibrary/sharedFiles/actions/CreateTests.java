@@ -51,7 +51,6 @@ public class CreateTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, user2);
-        googleDocs.loginToGoogleDocs();
     }
 
     @TestRail(id = "C7929")
@@ -299,6 +298,7 @@ public class CreateTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void sharedFilesCreateGoogleDocsDocument() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
@@ -340,6 +340,7 @@ public class CreateTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void sharedFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
@@ -381,6 +382,7 @@ public class CreateTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void sharedFilesCreateGoogleDocsPresentation() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Precondition: Login as user, authorize google docs and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
