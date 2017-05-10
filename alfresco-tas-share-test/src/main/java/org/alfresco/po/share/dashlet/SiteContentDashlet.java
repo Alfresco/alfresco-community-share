@@ -132,8 +132,8 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
             if (!found)
             {
-                browser.waitInSeconds(5);
                 browser.refresh();
+                browser.waitInSeconds(5);
                 counter++;
             }
         }
