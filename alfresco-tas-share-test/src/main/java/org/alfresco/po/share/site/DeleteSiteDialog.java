@@ -40,6 +40,7 @@ public class DeleteSiteDialog extends ShareDialog
 
     private By sitesManager_actions_delete = By.id("ALF_SITE_SERVICE_DIALOG_CONFIRMATION_label");
 
+    private By deleteSiteWindow = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG']");
     public boolean isPopupDisplayed()
     {
         browser.waitUntilElementClickable(delete, 50);
@@ -68,6 +69,7 @@ public class DeleteSiteDialog extends ShareDialog
 
     public String getConfirmMessageFromSitesManager()
     {
+        browser.waitUntilElementVisible(deleteSiteConfirmFromSitesManager);
         return deleteSiteConfirmFromSitesManager.getText();
     }
 
@@ -89,5 +91,6 @@ public class DeleteSiteDialog extends ShareDialog
     public void clickDeleteFromSitesManager()
     {
         browser.waitUntilElementClickable(sitesManager_actions_delete, 50).click();
+        browser.waitUntilElementDisappears(deleteSiteWindow, 5L);
     }
 }
