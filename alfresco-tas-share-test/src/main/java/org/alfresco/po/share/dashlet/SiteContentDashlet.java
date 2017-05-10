@@ -324,7 +324,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     
     public DocumentDetailsPage clickCommentLink(String fileName)
     {
-        Parameter.checkIsMandotary("File", selectItem(fileName));
+        //Parameter.checkIsMandotary("File", selectItem(fileName));
         selectItem(fileName).findElement(commentLink).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }

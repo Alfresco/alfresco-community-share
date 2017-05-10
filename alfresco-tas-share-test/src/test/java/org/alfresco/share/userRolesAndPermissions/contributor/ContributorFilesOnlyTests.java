@@ -57,7 +57,6 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, adminFile, fileContent);
-        docs.loginToGoogleDocs();
     }
 
     @TestRail(id = "C8910")
@@ -336,6 +335,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void checkInOutGoogleDocsCreatedBySelf() throws Exception
     {
+        docs.loginToGoogleDocs();
         String googleDocPath = testDataFolder + "uploadedDoc.docx";
 
         LOG.info(
@@ -389,6 +389,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void editInGoogleDocForContentCreatedByOthers()
     {
+        docs.loginToGoogleDocs();
         String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
         String googleDocPath = testDataFolder + googleDocName;
 
@@ -411,6 +412,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void checkInGoogleDocForContentCreatedByOthers() throws Exception
     {
+        docs.loginToGoogleDocs();
         String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
         String googleDocPath = testDataFolder + googleDocName;
 
@@ -569,6 +571,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void editInGoogleDocs() throws Exception
     {
+        docs.loginToGoogleDocs();
         String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
         String googleDocPath = testDataFolder + googleDocName;
         // String googleDocsPageName = googleDocName + " - Google Docs";
