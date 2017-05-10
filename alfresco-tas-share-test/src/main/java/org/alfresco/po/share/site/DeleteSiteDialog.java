@@ -26,7 +26,7 @@ public class DeleteSiteDialog extends ShareDialog
     @FindBy(css = "div[class='bd']")
     private WebElement deleteSiteConfirm;
 
-    @FindBy(css = ".dialog-body")
+    @FindBy(css = "div[id='ALF_SITE_SERVICE_DIALOG'] .dialog-body")
     private WebElement deleteSiteConfirmFromSitesManager;
 
     @FindBy(xpath = "(//button)[1]")
@@ -90,7 +90,7 @@ public class DeleteSiteDialog extends ShareDialog
      */
     public void clickDeleteFromSitesManager()
     {
-        browser.waitUntilElementClickable(sitesManager_actions_delete, 50).click();
-        browser.waitUntilElementDisappears(deleteSiteWindow, 5L);
+        browser.waitUntilElementClickable(sitesManager_actions_delete, 10).click();
+        browser.waitUntilElementDisappears(deleteSiteWindow, 10L);
     }
 }
