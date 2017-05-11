@@ -9,16 +9,40 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class ReplicationServicePage extends AdminConsolePage<ReplicationServicePage>
 {
+    @RenderWebElement
+    @FindBy(className = "intro")
+    WebElement intro;
+
+    public static final String REPLICATION_SERVICE_OBJECT = "Alfresco:Type=Configuration,Category=Replication,id1=default";
+    
+    public enum REPLICATION_SERVICE_LABELS {
+        REPLICATION_ENABLED ("Replication Enabled:", "replication.enabled"),
+        READ_ONLY_REPLICATION ("Read Only Replication:", "replication.transfer.readonly");
+        
+        private String label, jmxAttribute;
+
+        REPLICATION_SERVICE_LABELS(String label, String jmxAttribute)
+        {
+            this.label = label;
+            this.jmxAttribute = jmxAttribute;
+        }
+
+        public String getLabel()
+        {
+            return label;
+        }
+        public String getJmxAttribute()
+        {
+            return jmxAttribute;
+        }
+    }
+
     @Override
     protected String relativePathToURL()
     {
         return "alfresco/s/enterprise/admin/admin-replicationservice";
     }
-
-    @RenderWebElement
-    @FindBy(className = "intro")
-    WebElement intro;
-
+    
     @Override
     public String getInfoPage()
     {

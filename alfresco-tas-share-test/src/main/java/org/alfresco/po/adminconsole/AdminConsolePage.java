@@ -1,5 +1,8 @@
 package org.alfresco.po.adminconsole;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.utility.web.HtmlPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -7,9 +10,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * As for SharePage, we have one for AdminConsole page
@@ -33,6 +33,9 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
 
     @FindBy(tagName = "h1")
     WebElement header;
+    
+    @FindBy(className = "message")
+    WebElement message;
 
     /*
      * save all web elements that contains "control" keyword - these are custom web elements for admin Pages
@@ -58,6 +61,12 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
         return header.getText();
     }
 
+    @Override
+    public String getMessage()
+    {
+        return message.getText().trim();
+    }
+    
     @Override
     public List<ControlObject> getPageFields()
     {
