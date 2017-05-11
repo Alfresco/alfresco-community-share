@@ -15,39 +15,36 @@ public class ActivitiesFeedPage extends AdminConsolePage<ActivitiesFeedPage>
         return "alfresco/s/enterprise/admin/admin-activitiesfeed";
     }
 
+    public static final String ACTIVITIES_FEED_OBJECT = "Alfresco:Type=Configuration,Category=ActivitiesFeed,id1=default";
+
     @RenderWebElement
     @FindBy(className = "intro-tall")
     WebElement intro;
 
-    @FindBy(name = "Alfresco:Type=Configuration,Category=ActivitiesFeed,id1=default|activities.feed.notifier.cronExpression")
-    WebElement frequencycronexpression;
+    public enum ActivitiesFeedFields{
+        activityFeedEnabled("Activity Feed Enabled:", "activities.feed.notifier.enabled"),
+        frequencyCRONExpression("Frequency CRON Expression:", "activities.feed.notifier.cronExpression"),
+        maximumNumber("Maximum Number:", "activities.feed.max.size"),
+        maximumAge("Maximum Age (mins):", "activities.feed.max.ageMins");
 
-    @FindBy(name = "Alfresco:Type=Configuration,Category=ActivitiesFeed,id1=default|activities.feed.max.size")
-    WebElement maximumnumber;
+        private String label;
+        private String jmxAttribute;
 
-    @FindBy(name = "Alfresco:Type=Configuration,Category=ActivitiesFeed,id1=default|activities.feed.max.ageMins")
-    WebElement maximumage;
+        ActivitiesFeedFields(String label, String jmxAttribute)
+        {
+            this.label = label;
+            this.jmxAttribute = jmxAttribute;
+        }
 
-    public String getMaximumNumber()
-    {
-        return maximumnumber.getAttribute("value");
-    }
+        public String getLabel()
+        {
+            return label;
+        }
 
-    public void setMaximumNumber(String value)
-    {
-        this.maximumnumber.clear();
-        this.maximumnumber.sendKeys(value);
-    }
-
-    public String getMaximumAge()
-    {
-        return maximumage.getAttribute("value");
-    }
-
-    public void setMaximumAge(String maximumage)
-    {
-        this.maximumage.clear();
-        this.maximumage.sendKeys(maximumage);
+        public String getJMXAttribute()
+        {
+            return jmxAttribute;
+        }
     }
 
     @Override

@@ -19,6 +19,37 @@ public class ProcessEnginesPage extends AdminConsolePage<ProcessEnginesPage>
     @FindBy(className = "intro")
     WebElement intro;
 
+    @FindBy(css = ".column-full>a")
+    WebElement activitiWorkflowConsole;
+
+    public static final String PROCESS_ENGINES_OBJECT = "Alfresco:Name=WorkflowInformation";
+
+    public enum ProcessEnginesFields{
+        activitiWorkflowEnabled("Activiti Workflow Enabled:", "ActivitiEngineEnabled"),
+        processDefinitionsVisible("Process Definitions Visible:", "ActivitiWorkflowDefinitionsVisible"),
+        currentlyRunningProcessInstances("Currently Running Process Instances:", "NumberOfActivitiWorkflowInstances"),
+        currentlyRunningTaskInstances("Currently Running Task Instances:", "NumberOfActivitiTaskInstances"),
+        processDefinitionsDeployed("Process Definitions Deployed:", "NumberOfActivitiWorkflowDefinitionsDeployed");
+
+        private String label, jmxAttribute;
+
+        ProcessEnginesFields(String label, String jmxAttribute)
+        {
+            this.label = label;
+            this.jmxAttribute = jmxAttribute;
+        }
+
+        public String getLabel()
+        {
+            return label;
+        }
+
+        public String getJmxAttribute()
+        {
+            return jmxAttribute;
+        }
+    }
+
     @Override
     public String getInfoPage()
     {
@@ -31,4 +62,8 @@ public class ProcessEnginesPage extends AdminConsolePage<ProcessEnginesPage>
         return intro.getText();
     }
 
+    public void clickActivitiWorkflowConsole()
+    {
+        browser.waitUntilElementClickable(activitiWorkflowConsole).click();
+    }
 }
