@@ -15,6 +15,13 @@ public class UploadNewLicenseDialog extends AdminConsoleDialog
     private By uploadButton = By.id("ul-upload-button");
     private By resultLocator = By.id("ul-result");
 
+    public void selectLicense(String filePath)
+    {
+        browser.switchTo().frame(dialogFrame);
+        browser.waitUntilElementPresent(fileField).sendKeys(filePath);
+        browser.switchTo().defaultContent();
+    }
+
     public void uploadLicense(String filePath)
     {
         browser.switchTo().frame(dialogFrame);

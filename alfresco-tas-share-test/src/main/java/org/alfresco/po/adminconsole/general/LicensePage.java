@@ -24,6 +24,8 @@ public class LicensePage extends AdminConsolePage<LicensePage>
         return "alfresco/s/enterprise/admin/admin-license";
     }
 
+    public static final String LICENSE_OBJECT = "Alfresco:Name=License";
+
     @RenderWebElement
     @FindBy(className = "intro-tall")
     WebElement intro;
@@ -49,6 +51,42 @@ public class LicensePage extends AdminConsolePage<LicensePage>
     public String getIntroPage()
     {
         return intro.getText();
+    }
+
+    public enum LicenseFields{
+        license("License:", "Subject"),
+        licenseType("License Type:", "LicenseMode"),
+        issued("Issued:", "Issued"),
+        issuer("Issuer:", "Issuer"),
+        licenseHolder("License Holder:", "Holder"),
+        days("Days:", "Days"),
+        validUntil("Valid Until:", "ValidUntil"),
+        maxUsers("Max Users:", "MaxUsers"),
+        remainingDays("Remaining Days:", "RemainingDays"),
+        maxContentObjects("Max Content Objects:", "MaxDocs"),
+        users("Users:", "CurrentUsers"),
+        contentItems("Content Items:", "CurrentDocs"),
+        heartBeat("Heart Beat:", "HeartBeatDisabled"),
+        cloudSync("Cloud Sync:", "CloudSyncKeyAvailable"),
+        clusteringPermitted("Clustering Permitted:", "ClusterEnabled"),
+        encryptingPermitted("Encrypting Permitted:", "CryptodocEnabled");
+
+        private String label, jmxAttribute;
+
+        LicenseFields(String label, String jmxAttribute)
+        {
+            this.label = label;
+            this.jmxAttribute = jmxAttribute;
+        }
+
+        public String getLabel()
+        {
+            return label;
+        }
+        public String getJmxAttribute()
+        {
+            return jmxAttribute;
+        }
     }
 
     public UploadNewLicenseDialog clickUploadLicense()
