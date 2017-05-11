@@ -33,4 +33,10 @@ node('tas-node-win') {
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'target/reports', reportFiles: 'report.html', reportName: 'TSE Results'])
             }
     	}
+    	
+    stage('Deploy -snapshot-') {
+		sh 'mvn deploy -DskipTests'	
+	}
+	
+    	
 }
