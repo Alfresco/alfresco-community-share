@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @org.alfresco.utility.web.annotation.PageObject
 public class WelcomePanel extends org.alfresco.utility.web.HtmlPage
 {
-@Autowired
+    @Autowired
     HideWelcomePanelDialogue hideWelcomePanelDialogue;
 
     @org.alfresco.utility.web.annotation.RenderWebElement
@@ -73,10 +73,10 @@ public class WelcomePanel extends org.alfresco.utility.web.HtmlPage
      * Method used to click on Hide button
      */
 
-    public HtmlPage clickOnHideButton(HtmlPage page)
+    public HideWelcomePanelDialogue clickOnHideButton()
     {
         browser.waitUntilElementClickable(hideButton).click();
-        return (page).renderedPage();
+        return (HideWelcomePanelDialogue) hideWelcomePanelDialogue.renderedPage();
     }
 
 }

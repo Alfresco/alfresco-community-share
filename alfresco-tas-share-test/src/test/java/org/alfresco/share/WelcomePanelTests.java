@@ -67,7 +67,7 @@ public class WelcomePanelTests extends ContextAwareWebTest
         Assert.assertTrue(welcomePanel.isHideButtonDisplayed(), "Hide button displayed");
 
         logger.info("Step2: Click on the Hide button and verify Get Started Panel is not displayed anymore");
-        welcomePanel.clickOnHideButton(hideWelcomePanelDialogue);
+        welcomePanel.clickOnHideButton();
         hideWelcomePanelDialogue.confirmHideWelcomePanel();
         Assert.assertFalse(welcomePanel.isWelcomePanelDisplayed(), "Welcome panel displayed");
     }
@@ -83,7 +83,7 @@ public class WelcomePanelTests extends ContextAwareWebTest
         Assert.assertTrue(welcomePanel.isHideButtonDisplayed(), "Hide button displayed");
 
         logger.info("Step2: Click on the Hide button and verify Get Started Panel is not displayed anymore");
-        welcomePanel.clickOnHideButton(hideWelcomePanelDialogue);
+        welcomePanel.clickOnHideButton();
         hideWelcomePanelDialogue.confirmHideWelcomePanel();
         Assert.assertFalse(welcomePanel.isWelcomePanelDisplayed(), "Welcome panel displayed");
 
