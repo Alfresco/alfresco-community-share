@@ -208,6 +208,7 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
 		ManagedSiteRow manageSiteRow = loadSiteVisibilityOptionsForManagedSiteRow(siteName);
 
 		if (manageSiteRow != null) {
+			browser.waitUntilElementsVisible(manageSiteRow.getSiteVisibilityOptions());
 			for (WebElement siteVisibility : manageSiteRow.getSiteVisibilityOptions()) {
 				if (visibility.equals(siteVisibility.getText())) {
 					siteVisibility.click();

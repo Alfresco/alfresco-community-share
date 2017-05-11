@@ -202,7 +202,7 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public UserProfileAdminToolsPage clickSaveChangesButton()
     {
-        saveChangesButton.click();
+        getBrowser().waitUntilElementClickable(saveChangesButton, 5L).click();
         return (UserProfileAdminToolsPage) userProfileAdminToolsPage.renderedPage();
     }
 
