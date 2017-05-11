@@ -863,9 +863,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public void editTag(String contentName, String tagName, String newTagName)
     {
-        List<WebElement> tagsList = browser.findElements(inlineEditTagsSelector);
+        List<WebElement> tagsList = browser.waitUntilElementsVisible(inlineEditTagsSelector);
 
-        browser.findFirstElementWithExactValue(tagsList, tagName).click();
+        WebElement tagElement = browser.findFirstElementWithExactValue(tagsList, tagName);
+        Parameter.checkIsMandotary("Tag", tagElement);
+        tagElement.click();
         browser.waitUntilElementVisible(tagToBeEdited);
         tagToBeEdited.clear();
         browser.waitInSeconds(1);
