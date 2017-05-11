@@ -141,7 +141,7 @@ public class TagTests extends ContextAwareWebTest
 
     @TestRail(id = "C8086")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void editTag()
+    public void editTagForASharedFile()
     {
         LOG.info("STEP1: Hover over the tag(s) from the content");
         sharedFilesPage.mouseOverTags(folderName2);
