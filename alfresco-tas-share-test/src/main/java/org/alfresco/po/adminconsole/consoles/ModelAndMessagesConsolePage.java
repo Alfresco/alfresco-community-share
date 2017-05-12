@@ -3,7 +3,7 @@ package org.alfresco.po.adminconsole.consoles;
 import org.alfresco.utility.web.annotation.PageObject;
 
 @PageObject
-public class ModelAndMessagesConsolePage extends ConsolePage<TenantConsolePage>
+public class ModelAndMessagesConsolePage extends ConsolePage<ModelAndMessagesConsolePage>
 {
     @Override
     protected String relativePathToURL()
