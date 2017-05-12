@@ -20,9 +20,6 @@ import java.util.List;
 public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 {
     @Autowired
-    SiteDashboardPage siteDashboardPage;
-
-    @Autowired
     RenameSitePageDialog renameSiteDialog;
 
     @RenderWebElement
@@ -119,16 +116,14 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         return getPages(availableSitePagesArea);
     }
 
-    public SiteDashboardPage clickOk()
+    public void clickOk()
     {
         okButton.click();
-        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
-    public SiteDashboardPage clickCancel()
+    public void clickCancel()
     {
         cancelButton.click();
-        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
     /**

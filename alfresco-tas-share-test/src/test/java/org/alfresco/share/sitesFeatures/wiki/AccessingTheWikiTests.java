@@ -50,7 +50,6 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
         userName = "User" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;
 
-
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, DashboardCustomization.Page.WIKI, null);
@@ -82,7 +81,7 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
 
         LOG.info("Step 3 : Click 'Ok' button and verify that the wiki page has been renamed on site dashboard");
         customizeSitePage.clickOk();
-        getBrowser().waitInSeconds(2);
+        siteDashboardPage.navigate(siteName);
         Assert.assertEquals(siteDashboardPage.getPageDisplayName(SitePageType.WIKI), "newWiki", "'Wiki' page not correctly renamed on site dashboard");
 
         LOG.info("Step 4 : Click on 'newWiki' link and verify that 'Main Page' is opeend");
