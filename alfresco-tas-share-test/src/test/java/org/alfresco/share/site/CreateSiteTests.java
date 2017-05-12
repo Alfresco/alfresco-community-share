@@ -337,7 +337,7 @@ public class CreateSiteTests extends ContextAwareWebTest
        // assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Click \"Close\" button");
-        createSiteDialog.clickClose();
+        createSiteDialog.clickCloseXButton();
         assertFalse(createSiteDialog.isNameInputFieldDisplayed(), "Form is not closed.");
     }
 
@@ -365,7 +365,7 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Fill in \"URL Name\" field with an existing site name and click \"Save\" button");
         createSiteDialog.typeUrlName(testSiteName);
-        createSiteDialog.clickCreateButton(siteDashboardPage);
+        createSiteDialog.clickCreateButtonWithoutRenderer();
         assertEquals(createSiteDialog.getUrlErrorMessage(), language.translate("siteDetails.urlError"), "Create site: Existent url error message displayed-");
 
         LOG.info("STEP5: Click \"OK\" button.");

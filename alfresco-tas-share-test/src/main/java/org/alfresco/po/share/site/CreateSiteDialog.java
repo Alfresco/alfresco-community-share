@@ -91,7 +91,7 @@ public class CreateSiteDialog extends ShareDialog
     @FindBy(css ="span.dijitDialogCloseIcon")
     private WebElement closeXButton;
 
-    private By urlErrorMessage = By.cssSelector("div[id='prompt_c'] div[class='bd']");
+    private By urlErrorMessage = By.cssSelector("div[id='CREATE_SITE_FIELD_TITLE'] div.alfresco-forms-controls-BaseFormControl__warning-row__warning");
     private By urlErrorOkButton = By.cssSelector("div[class='ft'] button");
 
     @Autowired
@@ -156,7 +156,6 @@ public class CreateSiteDialog extends ShareDialog
 
     public String getUrlErrorMessage()
     {
-        browser.waitInSeconds(1);
         browser.waitUntilElementVisible(urlErrorMessage);
         return browser.findFirstDisplayedElement(urlErrorMessage).getText();
     }
@@ -296,6 +295,11 @@ public class CreateSiteDialog extends ShareDialog
     {
         createButton.click();
         return page.renderedPage();
+    }
+
+    public void clickCreateButtonWithoutRenderer()
+    {
+        createButton.click();
     }
 
     public void clickCancelButton()

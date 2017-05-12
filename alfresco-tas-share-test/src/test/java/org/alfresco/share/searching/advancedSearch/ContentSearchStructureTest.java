@@ -131,7 +131,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(phrase + " link"), phrase + " link is displayed");
     }
 
-    @Bug(id = "TBD")
+    @Bug(id = "ACE-5789")
     @TestRail(id = "C5970")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByMultipleWords()
@@ -230,7 +230,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(word3 + " " + word2 + " " + word1 + " link"), word3 + " " + word2 + " " + word1 + " link is displayed");
     }
 
-    @Bug(id = "TBD")
+    @Bug(id = "ACE-5789")
     @TestRail(id = "C5971")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByAnyWords()

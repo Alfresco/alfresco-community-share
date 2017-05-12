@@ -72,7 +72,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         assertEquals(topicViewPage.getTopicTitle(), topicTitle, "Title is displayed.");
         assertTrue(topicViewPage.getTopicPublished().startsWith("Created on: " + today),
                 "Topic was created today. Actual: [" + topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
-        assertTrue(topicViewPage.getTopicPublished().contains("Author : " + user1 + " lName1"), "The user who created the topic is User1.");
+        assertTrue(topicViewPage.getTopicPublished().contains("Author: " + user1 + " lName1"), "The user who created the topic is User1.");
         assertEquals(topicViewPage.getTopicContent(), topicContent, "Content is displayed.");
         assertEquals(topicViewPage.getTopicReplies(), "(0)", "Topic has 0 reply.");
         assertEquals(topicViewPage.getTopicTags(), "(None)", "Topic has 0 tags.");
@@ -104,7 +104,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         assertEquals(topicViewPage.getTopicTitle(), topicTitle, "Title is displayed.");
         assertTrue(topicViewPage.getTopicPublished().startsWith("Created on: " + today),
                 "Topic was created today. Actual: [" + topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
-        assertTrue(topicViewPage.getTopicPublished().contains("Author : " + user1 + " lName1"), "The user who created the topic is User1.");
+        assertTrue(topicViewPage.getTopicPublished().contains("Author: " + user1 + " lName1"), "The user who created the topic is User1.");
         assertEquals(topicViewPage.getTopicContent(), topicContent, "Content is displayed.");
         assertEquals(topicViewPage.getTopicReplies(), "(0)", "Topic has 0 reply.");
         assertEquals(topicViewPage.getTopicTags(), "(None)", "Topic has 0 tags.");
