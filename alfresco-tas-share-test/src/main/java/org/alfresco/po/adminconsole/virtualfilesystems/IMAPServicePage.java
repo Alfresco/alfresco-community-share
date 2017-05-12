@@ -16,8 +16,8 @@ public class IMAPServicePage extends AdminConsolePage<IMAPServicePage>
     public static final String IMAP_OBJECT = "Alfresco:Type=Configuration,Category=imap,id1=default";
     
     public enum ImapService {
-        imapServerEnabled("IMAP Server Enabled:", ""),
-        hostname("Hostname:",""),
+        imapServerEnabled("IMAP Server Enabled:", "imap.server.enabled"),
+        hostname("Hostname:","imap.server.host"),
         mailToDefault("Mail TO Default:","imap.mail.to.default"),
         mailFromDefault("Mail FROM Default:","imap.mail.from.default"),
         enableImap("Enable IMAP:","imap.server.imap.enabled"),
