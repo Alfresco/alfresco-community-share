@@ -3,7 +3,6 @@ package org.alfresco.share.searching.advancedSearch;
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.searching.SearchPage;
@@ -41,9 +40,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
 
     @Autowired
     NewContentDialog newContentDialog;
-
-    @Autowired
-    CreateContent createContent;
 
     @Autowired
     SiteDashboardPage siteDashboardPage;
