@@ -70,7 +70,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     private By viewsDropdownOptionsSelector = By.cssSelector("#DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP .dijitMenuItemLabel");
 
-    @FindBy(css = "div[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']")
+    @FindBy(css = "[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']")
     private List<WebElement> resultsGalleryViewList;
 
     @FindBy(css = ".dijitSliderIncrementIconH")
@@ -332,7 +332,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
      */
     public boolean isSearchResultsListInGalleryView()
     {
-        browser.waitUntilElementVisible(By.cssSelector("div[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']"));
+        browser.waitUntilElementVisible(By.cssSelector("[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']"));
         return resultsGalleryViewList.size() > 0;
     }
 
