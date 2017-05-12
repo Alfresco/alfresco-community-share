@@ -13,6 +13,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 public class CreateSiteTests extends ContextAwareWebTest
 {
@@ -46,25 +48,25 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.navigateByMenuBar();
 
         LOG.info("STEP2: Verify the available fields from \"Create Site\" form");
-        assertEquals(createSiteDialog.isTitleInputDisplayed(), true, "Name field is displayed.");
-        assertEquals(createSiteDialog.getTitleLabel(), language.translate("siteDetails.title"), "Name label-");
-        assertEquals(createSiteDialog.isTitleMandatory(), true, "Name is mandatory.");
+        assertEquals(createSiteDialog.isNameInputFieldDisplayed(), true, "Name field is not displayed.");
+        assertEquals(createSiteDialog.getNameFieldLabel(), language.translate("siteDetails.title"), "Name label-");
+        assertEquals(createSiteDialog.isTitleMandatory(), true, "Name is not mandatory.");
 
-        assertEquals(createSiteDialog.isUrlNameInputDisplayed(), true, "URL Name field is displayed.");
-        assertEquals(createSiteDialog.getUrlNameLabel(), language.translate("siteDetails.urlName"), "URL Name label is correct.");
-        assertEquals(createSiteDialog.getUrlNameDescriptionText(), language.translate("siteDetails.urlNameDescription"), "URL name description-");
-        assertEquals(createSiteDialog.isUrlNameMandatory(), true, "URL Name is mandatory.");
+        assertEquals(createSiteDialog.isSiteIDInputFieldDisplayed(), true, "URL Name field is displayed.");
+        assertEquals(createSiteDialog.getSiteIDFieldLabel(), language.translate("siteDetails.urlName"), "URL Name label is correct.");
+        assertEquals(createSiteDialog.getSiteIDDescriptionText(), language.translate("siteDetails.urlNameDescription"), "URL name description-");
+        assertEquals(createSiteDialog.isSiteIDMandatory(), true, "URL Name is mandatory.");
 
-        assertEquals(createSiteDialog.isDescriptionInputDisplayed(), true, "Description field is displayed");
+        assertEquals(createSiteDialog.isDescriptionInputFieldDisplayed(), true, "Description field is not displayed");
         assertEquals(createSiteDialog.getDescriptionLabel(), language.translate("siteDetails.description"), "Description label-");
 
         assertEquals(createSiteDialog.getVisibilityLabel(), language.translate("siteDetails.visibility"), "Visibility label-");
 
-        assertEquals(createSiteDialog.isPublicVisibilityRadioButtonDisplayed(), true, "Public option: radio button is displayed.");
+        assertEquals(createSiteDialog.isPublicVisibilityButtonDisplayed(), "PUBLIC", "Public option: radio button is displayed.");
 
-        assertEquals(createSiteDialog.isModeratedVisibilityRadioButtonDisplayed(), true, "Moderated option: radio button is displayed.");
+        assertEquals(createSiteDialog.isModeratedVisibilityButtonDisplayed(), "MODERATED", "Moderated option: radio button is displayed.");
 
-        assertEquals(createSiteDialog.isPrivateVisibilityRadioButtonDisplayed(), true, "Private option: radio button is displayed.");
+        assertEquals(createSiteDialog.isPrivateVisibilityButtonDisplayed(), "PRIVATE", "Private option: radio button is displayed.");
 
         LOG.info("STEP3: Verify the available \"Visibility\" options");
         assertEquals(createSiteDialog.getPublicVisibilityDescription(), language.translate("siteDetails.publicVisibilityDescription"),
@@ -75,8 +77,8 @@ public class CreateSiteTests extends ContextAwareWebTest
                 "Private option description-");
 
         LOG.info("STEP4: Verify the available buttons from \"Create Site\" form");
-        assertEquals(createSiteDialog.isSaveButtonDisplayed(), true, "Save button is displayed.");
-        assertEquals(createSiteDialog.isCancelButtonDisplayed(), true, "Cancel button is displayed.");
+        assertTrue(createSiteDialog.isCreateButtonDisplayed(), "Save button is displayed.");
+        assertTrue(createSiteDialog.isCancelButtonDisplayed(), "Cancel button is displayed.");
         assertEquals(createSiteDialog.isCloseButtonDisplayed(), true, "Close button is displayed.");
     }
 
@@ -91,16 +93,18 @@ public class CreateSiteTests extends ContextAwareWebTest
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
         createSiteDialog.navigateByMenuBar();
 
-        LOG.info("STEP2: Enter any \"Name\", \"URL Name\" and \"Description\" for the site");
-        createSiteDialog.typeDetails(siteName, description);
-        assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
+        LOG.info("STEP2: Enter  \"Name\", \"SiteID Name\" and \"Description\" for the site");
+        createSiteDialog.typeInNameInput(siteName);
+        createSiteDialog.typeInSiteID(siteName);
+        createSiteDialog.typeInDescription(description);
+       // assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Select \"Public\" visibility");
         createSiteDialog.selectPublicVisibility();
-        assertEquals(createSiteDialog.isPublicVisibilitySelected(), true, "Public visibility selected.");
+        assertTrue(createSiteDialog.isPublicVisibilityRadioButtonChecked(), "Public visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        createSiteDialog.clickSaveButton();
+        createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -120,13 +124,13 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.navigateByMenuBar();
 
         LOG.info("STEP2: Enter any \"Name\" for the site");
-        createSiteDialog.typeName(siteName);
-        getBrowser().waitInSeconds(2);
+        createSiteDialog.typeInNameInput(siteName);
+        //getBrowser().waitInSeconds(2);
         assertEquals(createSiteDialog.getNameInputText(), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Click \"Create\" button");
-        createSiteDialog.clickCreateButton();
-        getBrowser().waitInSeconds(8);
+        createSiteDialog.clickCreateButton(siteDashboardPage);
+        //getBrowser().waitInSeconds(8);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -147,15 +151,17 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.navigateByMenuBar();
 
         LOG.info("STEP2: Enter any \"Name\", \"URL Name\" and \"Description\" for the site");
-        createSiteDialog.typeDetails(siteName, description);
-        assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
+        createSiteDialog.typeInNameInput(siteName);
+        createSiteDialog.typeInSiteID(siteName);
+        createSiteDialog.typeInDescription(description);
+        //assertEquals(createSiteDialog.getTitleInputText(siteName), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Select \"Moderated\" visibility");
         createSiteDialog.selectModeratedVisibility();
-        assertEquals(createSiteDialog.isModeratedVisibilitySelected(), true, "Moderated visibility selected.");
+        assertTrue(createSiteDialog.isModeratedVisibilityRadioButtonChecked(), "Moderated visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        createSiteDialog.clickSaveButton();
+        createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -177,15 +183,17 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.navigateByMenuBar();
 
         LOG.info("STEP2: Enter any \"Name\", \"URL Name\" and \"Description\" for the site");
-        createSiteDialog.typeDetails(siteName, description);
-        assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
+        createSiteDialog.typeInNameInput(siteName);
+        createSiteDialog.typeInSiteID(siteName);
+        createSiteDialog.typeInDescription(description);
+        //assertEquals(createSiteDialog.getTitleInputText(siteName), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Select \"Private\" visibility");
         createSiteDialog.selectPrivateVisibility();
-        assertEquals(createSiteDialog.isPrivateVisibilitySelected(), true, "Private visibility selected.");
+        assertTrue(createSiteDialog.isPrivateVisibilityRadioButtonChecked(), "Private visibility selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        createSiteDialog.clickSaveButton();
+        createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -206,15 +214,17 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.navigateByMenuBar();
 
         LOG.info("STEP2: Enter any \"Name\", \"URL Name\" and \"Description\" for the site");
-        createSiteDialog.typeDetails(siteName, description);
-        assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
+        createSiteDialog.typeInNameInput(siteName);
+        //createSiteDialog.typeInSiteID(siteName);
+        createSiteDialog.typeInDescription(description);
+        //assertEquals(createSiteDialog.getTitleInputText(siteName), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Select \"Public\" visibility");
         createSiteDialog.selectPublicVisibility();
-        assertEquals(createSiteDialog.isPublicVisibilitySelected(), true, "Public visibility selected.");
+        assertTrue(createSiteDialog.isPublicVisibilityRadioButtonChecked(), "Public visibility selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        createSiteDialog.clickSaveButton();
+        createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -235,15 +245,17 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.navigateFromDashlet();
 
         LOG.info("STEP2: Enter any \"Name\", \"URL Name\" and \"Description\" for the site");
-        createSiteDialog.typeDetails(siteName, description);
-        assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
+        createSiteDialog.typeInNameInput(siteName);
+        createSiteDialog.typeInSiteID(siteName);
+        createSiteDialog.typeInDescription(description);
+        //assertEquals(createSiteDialog.getTitleInputText(siteName), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Select \"Moderated\" visibility");
         createSiteDialog.selectModeratedVisibility();
-        assertEquals(createSiteDialog.isModeratedVisibilitySelected(), true, "Moderated visibility selected.");
+        assertTrue(createSiteDialog.isModeratedVisibilityRadioButtonChecked(), "Moderated visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        createSiteDialog.clickSaveButton();
+        createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -264,15 +276,17 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.navigateFromDashlet();
 
         LOG.info("STEP2: Enter any \"Name\", \"URL Name\" and \"Description\" for the site");
-        createSiteDialog.typeDetails(siteName, description);
-        assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
+        createSiteDialog.typeInNameInput(siteName);
+        createSiteDialog.typeInSiteID(siteName);
+        createSiteDialog.typeInDescription(description);
+        //assertEquals(createSiteDialog.getTitleInputText(siteName), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Select \"Private\" visibility");
         createSiteDialog.selectPrivateVisibility();
-        assertEquals(createSiteDialog.isPrivateVisibilitySelected(), true, "Private visibility selected.");
+        assertTrue(createSiteDialog.isPrivateVisibilityRadioButtonChecked(), "Private visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        createSiteDialog.clickSaveButton();
+        createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboardPage.getRelativePath(), expectedRelativePath, "User is successfully redirected to the created site.");
@@ -293,14 +307,16 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.navigateByMenuBar();
 
         LOG.info("STEP2: Enter any \"Name\", \"URL Name\" and \"Description\" for the site");
-        createSiteDialog.typeDetails(siteName, description);
-        assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
+        createSiteDialog.typeInNameInput(siteName);
+        createSiteDialog.typeInSiteID(siteName);
+        createSiteDialog.typeInDescription(description);
+        //assertEquals(createSiteDialog.getTitleInputText(siteName), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Click \"Cancel\" button");
         createSiteDialog.clickCancelButton();
-        assertEquals(createSiteDialog.isTitleInputDisplayed(), false, "'Create site' form is closed.");
-        assertEquals(siteService.exists(siteName, user, password), false, "Site isn't created.");
-        assertEquals(createSiteDialog.getPageTitle(), "Alfresco » User Dashboard", "User is on Home page");
+        assertFalse(createSiteDialog.isNameInputFieldDisplayed(), "'Create site' form is not closed.");
+        assertFalse(siteService.exists(siteName, user, password), "Site isn't created.");
+        assertEquals(getBrowser().getTitle(), "Alfresco » User Dashboard", "User is on Home page");
     }
 
     @TestRail(id = "C2125")
@@ -315,12 +331,14 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.navigateByMenuBar();
 
         LOG.info("STEP2: Enter any \"Name\", \"URL Name\" and \"Description\" for the site");
-        createSiteDialog.typeDetails(siteName, description);
-        assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
+        createSiteDialog.typeInNameInput(siteName);
+        createSiteDialog.typeInSiteID(siteName);
+        createSiteDialog.typeInDescription(description);
+       // assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Click \"Close\" button");
         createSiteDialog.clickClose();
-        assertEquals(createSiteDialog.isTitleInputDisplayed(), false, "Form is closed.");
+        assertFalse(createSiteDialog.isNameInputFieldDisplayed(), "Form is not closed.");
     }
 
     @TestRail(id = "C2130")
@@ -335,9 +353,11 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.navigateByMenuBar();
 
         LOG.info("STEP2: Enter values for \"Name\" and \"Description\" fields");
-        createSiteDialog.typeDetails(siteName, description);
-        assertEquals(createSiteDialog.getTitleInputText(), siteName, "Site title is filled in-");
-        assertEquals(createSiteDialog.getUrlNameInputText(), siteName.toLowerCase(), "Url name filled in-");
+        createSiteDialog.typeInNameInput(siteName);
+        createSiteDialog.typeInSiteID(siteName);
+        createSiteDialog.typeInDescription(description);
+        //assertEquals(createSiteDialog.getTitleInputText(siteName), siteName, "Site title is filled in-");
+        //assertEquals(createSiteDialog.getUrlNameInputText(), siteName.toLowerCase(), "Url name filled in-");
 
         LOG.info("STEP3: Delete the pre-populated value from the \"URL Name\" field");
         createSiteDialog.clearUrlNameInput();
@@ -345,12 +365,12 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Fill in \"URL Name\" field with an existing site name and click \"Save\" button");
         createSiteDialog.typeUrlName(testSiteName);
-        createSiteDialog.clickSaveButton();
+        createSiteDialog.clickCreateButton(siteDashboardPage);
         assertEquals(createSiteDialog.getUrlErrorMessage(), language.translate("siteDetails.urlError"), "Create site: Existent url error message displayed-");
 
         LOG.info("STEP5: Click \"OK\" button.");
         createSiteDialog.clickOkFromErrorPopup();
-        assertEquals(createSiteDialog.isTitleInputDisplayed(), true, "Create site dialog is displayed.");
-        assertEquals(siteService.exists(siteName, user, password), false, "Site isn't created.");
+        assertTrue(createSiteDialog.isNameInputFieldDisplayed(), "Create site dialog is displayed.");
+        assertFalse(siteService.exists(siteName, user, password), "Site isn't created.");
     }
 }

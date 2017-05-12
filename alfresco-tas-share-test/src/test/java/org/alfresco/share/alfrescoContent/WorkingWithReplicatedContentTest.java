@@ -13,12 +13,9 @@ import org.alfresco.po.share.user.admin.CreateEditReplicationJobPage;
 import org.alfresco.po.share.user.admin.ReplicationJobsPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.share.ContextAwareWebTest;
-import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,8 +70,8 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         getBrowser().navigate().to(properties.getShare2Url());
         loginPage.login(adminUser, adminPassword);
         createSiteDialog.navigateByMenuBar();
-        createSiteDialog.typeDetails(site, "");
-        createSiteDialog.clickSaveButton();
+       // createSiteDialog.typeDetails(site, "");
+       // createSiteDialog.clickSaveButton();
         siteDashboardPage.renderedPage();
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
         documentLibraryPage.setCurrentSiteName(site);
@@ -99,8 +96,8 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         editPropertiesDialog.updateFolderDetailsForReplication(properties.getServer2Url(), properties.getServer2Port(), adminUser, adminPassword);
     }
 
-    @TestRail(id = "C7600")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled = false)
+   // @TestRail(id = "C7600")
+   // @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled = false)
     public void verifyContentAfterReplication()
     {
         String name = "C7600-jobName-" + uniqueIdentifier;
