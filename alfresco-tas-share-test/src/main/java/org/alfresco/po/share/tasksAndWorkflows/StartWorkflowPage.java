@@ -132,7 +132,8 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
             browser.handleModalDialogAcceptingAlert();
         }
         dismissErrorPopup();
-        browser.clickJS(submitWorkflow);
+        if(browser.isElementDisplayed(submitWorkflow))
+            browser.clickJS(submitWorkflow);
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
