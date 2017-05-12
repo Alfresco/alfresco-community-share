@@ -12,6 +12,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -130,6 +131,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(phrase + " link"), phrase + " link is displayed");
     }
 
+    @Bug(id = "TBD")
     @TestRail(id = "C5970")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByMultipleWords()
@@ -228,6 +230,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(word3 + " " + word2 + " " + word1 + " link"), word3 + " " + word2 + " " + word1 + " link is displayed");
     }
 
+    @Bug(id = "TBD")
     @TestRail(id = "C5971")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByAnyWords()
