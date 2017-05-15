@@ -3,6 +3,7 @@ package org.alfresco.po.share.site;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,44 +21,44 @@ public class EditSiteDetailsDialog extends ShareDialog
     @Autowired
     SiteDashboardPage siteDashboardPage;
 
-    @FindBy(css = "input[id$='instance-title']")
-    private TextInput titleInput;
+    @FindBy(css = "div[id='EDIT_SITE_FIELD_TITLE'] input[class$='dijitInputInner']")
+    private TextInput nameInput;
 
-    @FindBy(css = "label[for$='instance-title']")
-    private WebElement titleLabel;
+    @FindBy(css = "div[id='EDIT_SITE_FIELD_TITLE'] label.label")
+    private WebElement nameLabel;
 
-    @FindBy(css = "textarea[id$='instance-description']")
+    @FindBy(css = "div[id='EDIT_SITE_FIELD_DESCRIPTION'] textarea")
     private WebElement descriptionInput;
 
-    @FindBy(css = "label[for$='instance-description']")
+    @FindBy(css = "div[id='EDIT_SITE_FIELD_DESCRIPTION'] label.label")
     private WebElement descriptionLabel;
 
-    @FindBy(css = ".first>label[for$='instance-isPublic']")
+    @FindBy(css = "div[id='EDIT_SITE_FIELD_VISIBILITY'] label.label")
     private WebElement visibilityLabel;
 
-    @FindBy(css = "input[id$='instance-isPublic']")
+    @FindBy(css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] div[class*='dijitRadio'] input")
     private WebElement publicVisibilityRadioButton;
 
-    @FindBy(css = "span[id$='instance-public-help-text']")
+    @FindBy(css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] div.radio-button-label div")
     private WebElement publicVisibilityDescription;
 
-    @FindBy(css = "input[id$='instance-isModerated']")
+    @FindBy(css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] div[class*='dijitRadio'] input")
     private WebElement moderatedVisibilityRadioButton;
 
-    @FindBy(css = "span[id$='instance-moderated-help-text']")
+    @FindBy(css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] div.radio-button-label div")
     private WebElement moderatedVisibilityDescription;
 
-    @FindBy(css = "input[id$='instance-isPrivate']")
+    @FindBy(css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] div[class*='dijitRadio'] input")
     private WebElement privateVisibilityRadioButton;
 
-    @FindBy(css = "span[id$='instance-private-help-text']")
+    @FindBy(css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] div.radio-button-label div")
     private WebElement privateVisibilityDescription;
 
     @RenderWebElement
-    @FindBy(css = "span[id*='ok-button'] button")
-    private WebElement save;
+    @FindBy(id = "EDIT_SITE_DIALOG_OK_label")
+    private WebElement saveButton;
 
-    @FindBy(css = "span[id*='cancel-button'] button")
+    @FindBy(id = "EDIT_SITE_DIALOG_CANCEL_label")
     private Button cancel;
 
     @Autowired
@@ -78,26 +79,26 @@ public class EditSiteDetailsDialog extends ShareDialog
 
     public void typeDetails(String title, String description)
     {
-        titleInput.clear();
-        titleInput.sendKeys(title);
+        nameInput.clear();
+        nameInput.sendKeys(title);
 
         descriptionInput.clear();
         descriptionInput.sendKeys(description);
     }
 
-    public boolean isTitleInputDisplayed()
+    public boolean isNameInputDisplayed()
     {
-        return titleInput.isDisplayed();
+        return nameInput.isDisplayed();
     }
 
-    public String getTitleLabel()
+    public String getNameLabel()
     {
-        return titleLabel.getText();
+        return nameLabel.getText();
     }
 
     public String getTitleInputText()
     {
-        return titleInput.getText();
+        return nameInput.getText();
     }
 
     public boolean isDescriptionInputDisplayed()
@@ -117,12 +118,7 @@ public class EditSiteDetailsDialog extends ShareDialog
 
     public boolean isPublicVisibilityRadioButtonDisplayed()
     {
-        return browser.isElementDisplayed(publicVisibilityRadioButton);
-    }
-
-    public boolean isPublicVisibilitySelected()
-    {
-        return publicVisibilityRadioButton.isSelected();
+        return browser.isElementDisplayed(By.cssSelector("div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] div[class*='dijitRadio']"));
     }
 
     public String getPublicVisibilityDescription()
@@ -132,12 +128,7 @@ public class EditSiteDetailsDialog extends ShareDialog
 
     public boolean isModeratedVisibilityRadioButtonDisplayed()
     {
-        return browser.isElementDisplayed(moderatedVisibilityRadioButton);
-    }
-
-    public boolean isModeratedVisibilitySelected()
-    {
-        return moderatedVisibilityRadioButton.isSelected();
+        return browser.isElementDisplayed(By.cssSelector("div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] div[class*='dijitRadio']"));
     }
 
     public String getModeratedVisibilityDescription()
@@ -147,7 +138,7 @@ public class EditSiteDetailsDialog extends ShareDialog
 
     public boolean isPrivateVisibilityRadioButtonDisplayed()
     {
-        return browser.isElementDisplayed(privateVisibilityRadioButton);
+        return browser.isElementDisplayed(By.cssSelector("div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] div[class*='dijitRadio']"));
     }
 
     public boolean isPrivateVisibilitySelected()
@@ -160,16 +151,6 @@ public class EditSiteDetailsDialog extends ShareDialog
         return privateVisibilityDescription.getText();
     }
 
-    public void selectPublicVisibility()
-    {
-        publicVisibilityRadioButton.click();
-    }
-
-    public void selectModeratedVisibility()
-    {
-        moderatedVisibilityRadioButton.click();
-    }
-
     public void selectPrivateVisibility()
     {
         privateVisibilityRadioButton.click();
@@ -177,12 +158,12 @@ public class EditSiteDetailsDialog extends ShareDialog
 
     public boolean isSaveButtonDisplayed()
     {
-        return browser.isElementDisplayed(save);
+        return browser.isElementDisplayed(saveButton);
     }
 
     public void clickSaveButton()
     {
-        save.click();
+        saveButton.click();
     }
 
     public boolean isCancelButtonDisplayed()
