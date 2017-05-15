@@ -27,7 +27,7 @@ public class LoginPage extends HtmlPage
     private WebElement passwordInput;
 
     @RenderWebElement
-    @FindBy(css = "button[id*='default-submit']")
+    @FindBy(css = "button[id$='_default-submit-button']")
     private WebElement submit;
 
     @RenderWebElement
@@ -40,6 +40,26 @@ public class LoginPage extends HtmlPage
     @FindBy(css = ".error")
     private WebElement errorLogin;
 
+    @FindBy(css = ".login-tagline")
+    private WebElement newTrademark;
+
+    @FindBy(css = ".sticky-wrapper")
+    private WebElement stickyWrapper;
+
+    @FindBy(css = ".sticky-footer")
+    private WebElement stickyFooter;
+
+    @FindBy(css = ".sticky-push")
+    private WebElement stickyPush;
+
+    @FindBy(css = ".product-name")
+    private WebElement alfrescoShare;
+
+    @FindBy(css=".theme-trademark")
+    private WebElement trademark;
+
+    @FindBy(css="theme-company-logo.logo-ent")
+    private WebElement oldLogo;
     public String getRelativePath()
     {
         return "/page";
@@ -133,5 +153,95 @@ public class LoginPage extends HtmlPage
     public boolean isCopyrightDisplayed()
     {
         return copyright.isDisplayed();
+    }
+
+    /**
+     * Verify if alfresco logo is displayed
+     *
+     * @return true if displayed
+     */
+    public boolean isLogoDisplayed()
+    {
+        return alfrescoLogo.isDisplayed();
+    }
+
+    /**
+     * Verify if the old Alfresco logo is displayed
+     *
+     * @return true if displayed
+     */
+
+    public boolean isOldLogoDisplayed()
+    {
+     return getBrowser().isElementDisplayed(oldLogo);
+    }
+
+    /**
+     * Verify if alfresco 'make business flow' is displayed
+     *
+     * @return true if displayed
+     */
+    public boolean isMakeBusinessFlowDisplayed()
+    {
+        return newTrademark.isDisplayed();
+    }
+
+    /**
+     * Verify if 'Simple+Smart' is displayed
+     *
+     * @return true if displayed
+     */
+
+    public boolean isSimpleSmartDisplayed()
+    {
+       return getBrowser().isElementDisplayed(trademark);
+    }
+
+    public String[] getBackgroundColour()
+
+    {
+        String colourStickyWrapper = stickyWrapper.getCssValue("color");
+        String colourStickyFooter = stickyFooter.getCssValue("color");
+        String colourStickyPush = stickyPush.getCssValue("color");
+        String[] colours = new String[] { colourStickyWrapper, colourStickyFooter, colourStickyPush };
+
+        return colours;
+
+    }
+
+    public String getAlfrescoShareColour()
+
+    {
+        String colour = alfrescoShare.getCssValue("color");
+
+        return colour;
+
+    }
+
+    /**
+     * Get the text from the copyright
+     *
+     * @return String copyright text
+     */
+    public String getCopyRightText()
+    {
+        return copyright.getText();
+    }
+
+    public boolean isCopyRightYearCorrect(int year)
+
+    {
+        String copyRight = getCopyRightText();
+        String copyRightText = "© 2005-" + year + " Alfresco Software Inc. All rights reserved.";
+
+        return copyRight.contains(copyRightText);
+
+    }
+    public String getSignInButtonColor()
+
+    {
+        String color = submit.getCssValue("color").toString();
+        return color;
+
     }
 }
