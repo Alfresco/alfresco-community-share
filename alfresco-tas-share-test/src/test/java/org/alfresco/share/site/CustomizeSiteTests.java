@@ -54,6 +54,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
             customizeSite.navigate(siteName);
             customizeSite.selectTheme(theme);
             customizeSite.clickOk();
+            siteDashboard.renderedPage();
             if (theme.equals(Theme.APPLICATION_SET))
             {
                 continue;
@@ -84,6 +85,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
 
         LOG.info("Step 5 - Click 'Cancel' button.");
         customizeSite.clickCancel();
+        siteDashboard.renderedPage();
         Assert.assertFalse(siteContentDashlet.getDashletColor().equals(Theme.GREEN.dashletHexColor));
     }
 
@@ -184,6 +186,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         Assert.assertTrue(customizeSite.isPageAddedToCurrentPages(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not added");
         Assert.assertTrue(customizeSite.isPageAddedToCurrentPages(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText() + " is not added");
         customizeSite.clickOk();
+        siteDashboard.renderedPage();
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not added to site dashboard");
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText()
                 + " is not added to site dashboard");
@@ -199,6 +202,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
 
         LOG.info("Step 5 - Click 'Ok' button.");
         customizeSite.clickOk();
+        siteDashboard.renderedPage();
         Assert.assertFalse(siteDashboard.isPageAddedToDashboard(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not removed from site dashboard");
         Assert.assertFalse(siteDashboard.isPageAddedToDashboard(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText()
                 + " is not removed from site dashboard");
