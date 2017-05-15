@@ -62,6 +62,7 @@ public class AccessingCalendarTests extends ContextAwareWebTest
 
         LOG.info("Step 3 - Click OK to save changes");
         customizeSitePage.clickOk();
+        siteDashboardPage.navigate(siteName);
         assertEquals(siteDashboardPage.getPageDisplayName(SitePageType.CALENDER), "newCalendar", "Calendar display page name is modified.");
 
         LOG.info("Step 4 - Click on 'newCalendar' link.");

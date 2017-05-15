@@ -132,8 +132,8 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
             if (!found)
             {
-                browser.waitInSeconds(5);
                 browser.refresh();
+                browser.waitInSeconds(5);
                 counter++;
             }
         }
@@ -262,6 +262,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         while(!isFileAddedToFavorites(fileName) && counter < 5)
         {
             browser.waitInSeconds(1);
+            counter++;
         }
     }
 
@@ -273,6 +274,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         while(!isAddToFavoritesLinkDisplayed(fileName) && counter < 5)
         {
             browser.waitInSeconds(1);
+            counter++;
         }
     }
 
@@ -284,6 +286,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         while(!isUnlikeLinkDisplayed(fileName) && counter < 5)
         {
             browser.waitInSeconds(1);
+            counter++;
         }
     }
 
@@ -295,6 +298,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         while(!isLikeButtonDisplayed(fileName) && counter < 5)
         {
             browser.waitInSeconds(1);
+            counter++;
         }
     }
 
@@ -320,7 +324,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     
     public DocumentDetailsPage clickCommentLink(String fileName)
     {
-        Parameter.checkIsMandotary("File", selectItem(fileName));
+        //Parameter.checkIsMandotary("File", selectItem(fileName));
         selectItem(fileName).findElement(commentLink).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }

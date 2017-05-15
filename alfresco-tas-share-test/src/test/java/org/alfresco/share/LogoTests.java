@@ -24,7 +24,7 @@ public class LogoTests extends ContextAwareWebTest
     int year = Calendar.getInstance().get(Calendar.YEAR);
     
  //   private String copyRightText = "© 2005-" + year + " Alfresco Software Inc. All rights reserved. www.alfresco.com Legal and License";  
-    private String copyRightText = "© 2005-2016" + " Alfresco Software Inc. All rights reserved. www.alfresco.com Legal and License";
+    private String copyRightText = "© 2005-2017" + " Alfresco Software Inc. All rights reserved. www.alfresco.com Legal and License";
     
 
     @BeforeClass(alwaysRun = true)

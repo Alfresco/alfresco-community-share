@@ -40,6 +40,7 @@ public class SelectDestinationDialog extends ShareDialog
 
     public void clickOkButton()
     {
+        browser.waitUntilElementClickable(okButton, 5L);
         okButton.click();
     }
 
@@ -74,6 +75,7 @@ public class SelectDestinationDialog extends ShareDialog
      */
     public void clickSite(String siteName)
     {
+        browser.waitUntilElementsVisible(siteList);
         browser.findFirstElementWithValue(siteList, siteName).click();
         browser.waitInSeconds(2);
     }

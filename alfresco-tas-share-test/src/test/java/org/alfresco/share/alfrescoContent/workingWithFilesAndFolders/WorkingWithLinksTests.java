@@ -12,6 +12,7 @@ import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDi
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -106,7 +107,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42624")
-    @Test()
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyDisabledActionsForCreatedLink()
     {
         LOG.info("STEP1: Go to Document Library of the site");
@@ -129,7 +130,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42625")
-    @Test()
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
     public void linkToFileRedirectsToDocDetailsPage()
     {
         navigateToDocumentLibrary(siteName1);
@@ -155,7 +156,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42626")
-    @Test()
+    @Test(groups ={TestGroup.SANITY, TestGroup.CONTENT})
     public void linkToFolderRedirectsToFolderContentsPage()
     {
         navigateToDocumentLibrary(siteName1);
@@ -182,7 +183,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42627")
-    @Test()
+    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void linkToLockedDocRedirectsToOriginalDoc() throws Exception
     {
         logger.info("Precondition1: Login to Share/Google Docs and navigate to Document Library page for the test site; upload a .docx file");
@@ -214,7 +215,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42628")
-    @Test()
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
     public void linkToMultipleVersionsDocRedirectsToLastVersion()
     {
         navigateToDocumentLibrary(siteName1);
@@ -242,7 +243,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42629")
-    @Test()
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyDisplayedActionsForLinkToFile()
     {
         LOG.info("Precondition: For a file click 'Copy to' option");
@@ -272,7 +273,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42630")
-    @Test()
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyLocateLinkedItemRedirectsToOriginalDoc()
     {
         LOG.info("Precondition: For a file click 'Copy to' option");
@@ -297,7 +298,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42631")
-    @Test()
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyLocateLinkedItemRedirectsToFolder()
     {
         LOG.info("Precondition: For a file click 'Copy to' option");
@@ -322,7 +323,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42632")
-    @Test()
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
     public void deleteLinkRemovesLink()
     {
         LOG.info("Precondition: For a file click 'Copy to' option");

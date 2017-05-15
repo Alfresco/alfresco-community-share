@@ -80,6 +80,8 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
     @FindBy(css = "button[id$='default-range-button']")
     private Button daysRangeButton;
 
+    @FindAll(@FindBy(css ="div[id$='default-activityList']>div.activity"))
+    private List<WebElement> activitiesList;
     private By rssFeedButton = By.cssSelector("div[class='titleBarActionIcon rss']");
 
     private static By userActivitesList = By.cssSelector("ul.first-of-type>li>a");
@@ -397,6 +399,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
         boolean found = false;
         while(!found && counter < 3)
         {
+           // browser.waitUntilElementsVisible(activitiesList);
             List<ActivityLink> activityLinks = getActivities();
             for (ActivityLink link : activityLinks)
             {

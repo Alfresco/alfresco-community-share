@@ -3,7 +3,6 @@ package org.alfresco.share.searching.advancedSearch;
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.searching.SearchPage;
@@ -13,6 +12,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -41,9 +41,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
 
     @Autowired
     NewContentDialog newContentDialog;
-
-    @Autowired
-    CreateContent createContent;
 
     @Autowired
     SiteDashboardPage siteDashboardPage;
@@ -134,6 +131,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(phrase + " link"), phrase + " link is displayed");
     }
 
+    @Bug(id = "ACE-5789")
     @TestRail(id = "C5970")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByMultipleWords()
@@ -232,6 +230,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(word3 + " " + word2 + " " + word1 + " link"), word3 + " " + word2 + " " + word1 + " link is displayed");
     }
 
+    @Bug(id = "ACE-5789")
     @TestRail(id = "C5971")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByAnyWords()

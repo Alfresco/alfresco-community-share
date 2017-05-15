@@ -104,6 +104,7 @@ public class ModelManagerPage extends AdminToolsPage
 
     public WebElement selectRow (String modelName)
     {
+        browser.waitUntilElementVisible(modelsList);
         browser.waitUntilElementIsDisplayedWithRetry(modelsList, 6);
         List<WebElement> itemsList = browser.findElements(modelsList);
         return browser.findFirstElementWithValue(itemsList, modelName);

@@ -25,7 +25,7 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     @FindBy(css = "#ALF_COPY_MOVE_DIALOG span[class*='call-to-action']:first-child span[id*='alfresco_buttons_AlfButton']:first-child")
     private WebElement createLinkButtonFromSearchPage;
 
-    @FindBy(css = "button[id*='link']")
+    @FindBy(css = "button[id$='_default-copyMoveTo-link-button']")
     private WebElement createLinkButton;
 
     private By createLinkMessage = By.cssSelector("div[id*='message_c'] .bd .message");
@@ -47,8 +47,8 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
 
     public SharePage clickCreateLink(SharePage page)
     {
-        createLinkButton.click();
-        browser.waitUntilElementDisappears(createLinkMessage, 15);
+        browser.waitUntilElementVisible(createLinkButton).click();
+        getBrowser().waitUntilElementDisappears(createLinkMessage, 15);
 
         return (SharePage) page.renderedPage();
     }

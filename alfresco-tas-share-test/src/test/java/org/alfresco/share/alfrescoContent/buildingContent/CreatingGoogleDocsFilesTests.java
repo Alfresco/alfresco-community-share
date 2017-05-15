@@ -33,7 +33,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, "Site used for Google Docs", Visibility.PUBLIC);
-        googleDocs.loginToGoogleDocs();
         setupAuthenticatedSession(user, password);
     }
 
@@ -41,6 +40,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createGoogleDocsDocument() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
 
         documentLibraryPage.navigate(siteName);
@@ -62,7 +62,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore");
         googleDocs.checkInGoogleDoc("Untitled Document");
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(documentTitle), "Locked label displayed");
-        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed(), "Google Drive icon displayed");
+        Assert.assertFalse(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
 
     }
 
@@ -70,6 +70,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createGoogleDocsSpreadsheet() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
         documentLibraryPage.navigate(siteName);
 
@@ -90,13 +91,14 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore");
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet");
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(spreadsheetTitle), "Locked label displayed");
-        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed(), "Google Drive icon displayed");
+        Assert.assertFalse(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
     }
 
     @TestRail(id = "C6992")
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createGoogleDocsPresentation() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
         documentLibraryPage.navigate(siteName);
 
@@ -118,6 +120,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
 
         googleDocs.checkInGoogleDoc("Untitled Presentation");
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(presentationTitle), "Locked label displayed");
-        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed(), "Google Drive icon displayed");
+        Assert.assertFalse(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
     }
 }

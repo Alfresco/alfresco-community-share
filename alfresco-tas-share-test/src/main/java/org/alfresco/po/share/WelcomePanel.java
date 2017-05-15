@@ -1,11 +1,15 @@
 package org.alfresco.po.share;
 
+import org.alfresco.utility.web.HtmlPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @org.alfresco.utility.web.annotation.PageObject
 public class WelcomePanel extends org.alfresco.utility.web.HtmlPage
 {
+    @Autowired
+    HideWelcomePanelDialogue hideWelcomePanelDialogue;
 
     @org.alfresco.utility.web.annotation.RenderWebElement
     @FindBy(css = "[id$=get-started-panel-container]")
@@ -14,7 +18,7 @@ public class WelcomePanel extends org.alfresco.utility.web.HtmlPage
     @FindBy(css = ".welcome-info")
     private WebElement welcomeInfo;
 
-    @FindBy(css = "[id$=default-hide-button-button]")
+    @FindBy(css = "button[id$='_default-hide-button-button']")
     private WebElement hideButton;
 
     /**
@@ -69,10 +73,10 @@ public class WelcomePanel extends org.alfresco.utility.web.HtmlPage
      * Method used to click on Hide button
      */
 
-    public void clickOnHideButton()
+    public HideWelcomePanelDialogue clickOnHideButton()
     {
-        hideButton.click();
-
+        browser.waitUntilElementClickable(hideButton).click();
+        return (HideWelcomePanelDialogue) hideWelcomePanelDialogue.renderedPage();
     }
 
 }

@@ -225,6 +225,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
 
         LOG.info("Step 7 - Click OK");
         customizeSite.clickOk();
+        siteDashboard.renderedPage();
         Assert.assertTrue(siteDashboard.getPageDisplayName(SitePageType.WIKI).equals("Wiki-Edit"), "Wiki display page name is not modified");
     }
 }

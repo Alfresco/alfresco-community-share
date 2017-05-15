@@ -80,107 +80,107 @@ public class PreviewFileActionsSection extends DocumentCommon<PreviewFileActions
 
     public boolean isDocumentActionsBlockDisplayed()
     {
-        return documentActionsBlock.isDisplayed();
+        return browser.isElementDisplayed(documentActionsBlock);
     }
 
     public boolean isViewInBrowserDisplayed()
     {
-        return viewInBrowser.isDisplayed();
+        return browser.isElementDisplayed(viewInBrowser);
     }
 
     public boolean isEditInGoogleDocsDisplayed()
     {
-        return editInGoogleDocs.isDisplayed();
+        return browser.isElementDisplayed(editInGoogleDocs);
     }
 
     public boolean isEditInMicrosoftOfficeDisplayed()
     {
-        return editInMicrosoftOffice.isDisplayed();
+        return browser.isElementDisplayed(editInMicrosoftOffice);
     }
 
     public boolean isEditOfflineDisplayed()
     {
-        return editOffline.isDisplayed();
+        return browser.isElementDisplayed(editOffline);
     }
 
     public boolean isUploadNewVersionDisplayed()
     {
-        return uploadNewVersion.isDisplayed();
+        return browser.isElementDisplayed(uploadNewVersion);
     }
 
     public boolean isEditPropertiesDisplayed()
     {
-        return editProperties.isDisplayed();
+        return browser.isElementDisplayed(editProperties);
     }
 
     public boolean isMoveToDisplayed()
     {
-        return moveTo.isDisplayed();
+        return browser.isElementDisplayed(moveTo);
     }
 
     public boolean isCopyToDisplayed()
     {
-        return copyTo.isDisplayed();
+        return browser.isElementDisplayed(copyTo);
     }
 
     public boolean isDeleteDocumentDisplayed()
     {
-        return deleteDocument.isDisplayed();
+        return browser.isElementDisplayed(deleteDocument);
     }
 
     public boolean isStartWorkflowDisplayed()
     {
-        return startWorkflow.isDisplayed();
+        return browser.isElementDisplayed(startWorkflow);
     }
 
     public boolean isManagePermissionsDisplayed()
     {
-        return managePermissions.isDisplayed();
+        return browser.isElementDisplayed(managePermissions);
     }
 
     public boolean isBecomeOwnerDisplayed()
     {
-        return becomeOwner.isDisplayed();
+        return browser.isElementDisplayed(becomeOwner);
     }
 
     public boolean isManageAspectsDisplayed()
     {
-        return manageAspects.isDisplayed();
+        return browser.isElementDisplayed(manageAspects);
     }
 
     public boolean isChangeTypeDisplayed()
     {
-        return changeType.isDisplayed();
+        return browser.isElementDisplayed(changeType);
     }
 
     public boolean isTagsBlockDisplayed()
     {
-        return tagsBlock.isDisplayed();
+        return browser.isElementDisplayed(tagsBlock);
     }
 
     public boolean isShareBlockDisplayed()
     {
-        return shareBlock.isDisplayed();
+        return browser.isElementDisplayed(shareBlock);
     }
 
     public boolean isShareLinkDisplayed()
     {
-        return shareLink.isDisplayed();
+        return browser.isElementDisplayed(shareLink);
     }
 
     public boolean isPropertiesBlockDisplayed()
     {
-        return propertiesBlock.isDisplayed();
+        return browser.isElementDisplayed(propertiesBlock);
     }
 
     public boolean isWorkflowsBlockDisplayed()
     {
-        return workflowsBlock.isDisplayed();
+        return browser.isElementDisplayed(workflowsBlock);
     }
 
     public boolean isVersionHistoryBlockDisplayed()
 
     {
-        return versionHistory.isDisplayed();
+        return browser.isElementDisplayed(versionHistory);
     }
 }

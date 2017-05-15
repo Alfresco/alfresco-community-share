@@ -202,12 +202,13 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public UserProfileAdminToolsPage clickSaveChangesButton()
     {
-        saveChangesButton.click();
+        getBrowser().waitUntilElementClickable(saveChangesButton, 5L).click();
         return (UserProfileAdminToolsPage) userProfileAdminToolsPage.renderedPage();
     }
 
     public void addGroup(String groupName)
     {
+        searchGroupButton.click();
         browser.waitUntilElementVisible(By.xpath(String.format("//td[contains(@class,'col-description')]//h3[@class='itemname' and text()='%s']//ancestor::tr//td[contains(@class,'col-actions')]//button[contains(text(),'Add')]",groupName))).click();
     }
 

@@ -330,7 +330,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public DocumentLibraryPage clickOnFolderName(String folderName)
     {
-        selectDocumentLibraryItemRow(folderName).findElement(contentNameSelector).click();
+        WebElement folderElement = selectDocumentLibraryItemRow(folderName);
+        Parameter.checkIsMandotary("Folder", folderElement);
+        folderElement.findElement(contentNameSelector).click();
         browser.waitUntilElementContainsText(breadcumbCurrentFolder, folderName);
         return (DocumentLibraryPage) this.renderedPage();
     }
@@ -367,7 +369,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public DocumentDetailsPage clickOnFile(String file)
     {
-        selectDocumentLibraryItemRow(file).findElement(contentNameSelector).click();
+        WebElement fileElement = selectDocumentLibraryItemRow(file);
+        Parameter.checkIsMandotary("File", fileElement);
+        fileElement.findElement(contentNameSelector).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
@@ -859,9 +863,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public void editTag(String contentName, String tagName, String newTagName)
     {
-        List<WebElement> tagsList = browser.findElements(inlineEditTagsSelector);
+        List<WebElement> tagsList = browser.waitUntilElementsVisible(inlineEditTagsSelector);
 
-        browser.findFirstElementWithExactValue(tagsList, tagName).click();
+        WebElement tagElement = browser.findFirstElementWithExactValue(tagsList, tagName);
+        Parameter.checkIsMandotary("Tag", tagElement);
+        tagElement.click();
         browser.waitUntilElementVisible(tagToBeEdited);
         tagToBeEdited.clear();
         browser.waitInSeconds(1);

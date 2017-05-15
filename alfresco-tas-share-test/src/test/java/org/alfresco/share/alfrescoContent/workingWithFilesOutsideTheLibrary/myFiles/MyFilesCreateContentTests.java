@@ -49,7 +49,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         contentService.createDocumentInRepository(adminUser, adminPassword, "Data Dictionary/Node Templates", CMISUtil.DocumentType.TEXT_PLAIN, fileTemplateName, "some content");
-        googleDocs.loginToGoogleDocs();
+
         setupAuthenticatedSession(user, password);
     }
 
@@ -235,6 +235,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void myFilesCreateGoogleDocsDocument() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
@@ -256,7 +257,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Document");
         Assert.assertFalse(myFilesPage.isInfoBannerDisplayed(googleDocName), "Document is unlocked");
-        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed());
+        Assert.assertFalse(googleDocs.isGoogleDriveIconDisplayed());
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocName));
     }
 
@@ -264,6 +265,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void myFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
@@ -284,7 +286,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet");
         Assert.assertFalse(myFilesPage.isInfoBannerDisplayed(googleDocSpreadsheet), "Document is unlocked");
-        Assert.assertFalse(googleDocs.checkGoogleDriveIconIsDisplayed());
+        Assert.assertFalse(googleDocs.isGoogleDriveIconDisplayed());
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocSpreadsheet));
     }
 
@@ -292,6 +294,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
     public void myFilesCreateGoogleDocsPresentation() throws Exception
     {
+        googleDocs.loginToGoogleDocs();
         LOG.info("Precondition: Login as user, authorize google docs and navigate to My Files page.");
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
@@ -312,7 +315,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Presentation");
         Assert.assertFalse(myFilesPage.isInfoBannerDisplayed(googleDocPresentation), "Document is unlocked");
-        Assert.assertEquals(googleDocs.checkGoogleDriveIconIsDisplayed(), false);
+        Assert.assertEquals(googleDocs.isGoogleDriveIconDisplayed(), false);
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocPresentation));
     }
 }

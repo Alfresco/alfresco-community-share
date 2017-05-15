@@ -27,7 +27,7 @@ public class WelcomePanelTests extends ContextAwareWebTest
     @Autowired
     CustomizeUserDashboardPage customizeUserDashboard;
 
-    private String welcomeMessage = "GET STARTED\nTake a quick tour of Alfresco or learn about advanced features.";
+    private String welcomeMessage = "GET STARTED\nTake a quick tour of Alfresco Share or learn about advanced features.";
     private String userName1 = "User1" + DataUtil.getUniqueIdentifier();
     private String userName2 = "User2" + DataUtil.getUniqueIdentifier();
     private String userName3 = "User3" + DataUtil.getUniqueIdentifier();
@@ -63,7 +63,7 @@ public class WelcomePanelTests extends ContextAwareWebTest
         logger.info("Step1: Login to Share and verify Get Started panel");
         setupAuthenticatedSession(userName2, password);
         Assert.assertTrue(welcomePanel.isWelcomePanelDisplayed(), "Welcome panel displayed");
-        Assert.assertEquals(welcomeMessage, welcomePanel.getWelcomeMessage(), "Correct welcome message");
+        Assert.assertEquals(welcomePanel.getWelcomeMessage(),welcomeMessage, "Correct welcome message");
         Assert.assertTrue(welcomePanel.isHideButtonDisplayed(), "Hide button displayed");
 
         logger.info("Step2: Click on the Hide button and verify Get Started Panel is not displayed anymore");

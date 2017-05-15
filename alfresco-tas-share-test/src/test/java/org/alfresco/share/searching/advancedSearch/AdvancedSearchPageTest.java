@@ -8,6 +8,7 @@ import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -126,6 +127,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         Assert.assertFalse(advancedSearchPage.isModifierInputDisplayed(), "Modifier input is not displayed");
     }
 
+    @Bug(id = "ACE-5789")
     @TestRail(id = "C5891")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByKeyword()
@@ -184,6 +186,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         Assert.assertTrue(searchPage.isResultFound("test" + identifier + " topic 2"), "test" + identifier + " topic 2 is displayed");
     }
 
+    @Bug(id = "ACE-5789")
     @TestRail(id = "C5907")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByName()
@@ -219,6 +222,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         Assert.assertEquals(searchPage.getNumberOfResultsText(), language.translate("searchPage.noResultsFound"), "No results found");
     }
 
+    @Bug(id = "ACE-5789")
     @TestRail(id = "C5908")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByTitle()

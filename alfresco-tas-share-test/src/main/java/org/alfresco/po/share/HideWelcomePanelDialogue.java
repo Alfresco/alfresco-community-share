@@ -1,13 +1,14 @@
 package org.alfresco.po.share;
 
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @org.alfresco.utility.web.annotation.PageObject
-public class HideWelcomePanelDialogue extends DeleteDialog
+public class HideWelcomePanelDialogue extends ShareDialog
 {
-
+    @RenderWebElement
     @FindBy(xpath = "//*[text() = 'OK']")
     private WebElement okButton;
 
@@ -17,9 +18,9 @@ public class HideWelcomePanelDialogue extends DeleteDialog
 
     public void confirmHideWelcomePanel()
     {
+        browser.waitUntilElementVisible(okButton);
         okButton.click();
         browser.waitUntilElementDisappears(By.cssSelector("[id$=get-started-panel-container]"), 5);
-
     }
 
 }

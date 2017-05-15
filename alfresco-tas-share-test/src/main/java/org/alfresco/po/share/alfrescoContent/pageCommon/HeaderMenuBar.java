@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @PageObject
-
 public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
-
 {
     @Autowired
     protected Language language;
@@ -56,11 +54,7 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
      */
     public void clickSelectOption(String optionText)
     {
-        for (WebElement option : selectOptionsList)
-        {
-            if (option.getText().equals(optionText))
-                option.click();
-        }
+        browser.selectOptionFromFilterOptionsList(optionText, selectOptionsList);
         browser.waitInSeconds(1);
     }
 

@@ -64,6 +64,7 @@ public class AccessingLinkTests extends ContextAwareWebTest
 
         LOG.info("Step 3 : Click 'Ok' button");
         customizeSitePage.clickOk();
+        siteDashboardPage.navigate(siteName);
         Assert.assertEquals(siteDashboardPage.getPageDisplayName(SitePageType.LINKS), newLinksPageName, "Wrong 'Links' page name on site dashboard!");
 
         LOG.info("Step 4 : Click 'newLinks' link");

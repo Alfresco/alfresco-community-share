@@ -303,6 +303,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileName3, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName3 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        documentLibraryPage.selectDocumentLibraryItemRow(linkFile3);
         assertTrue(documentLibraryPage.isContentNameDisplayed(linkFile3),
                 linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
 
@@ -326,6 +327,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileName3, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName3 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        documentLibraryPage.selectDocumentLibraryItemRow(linkFile3);
         assertTrue(documentLibraryPage.isContentNameDisplayed(linkFile3),
                 linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
 

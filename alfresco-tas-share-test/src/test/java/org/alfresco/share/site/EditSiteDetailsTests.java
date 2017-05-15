@@ -13,6 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author Laura.Capsa
@@ -50,22 +51,22 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
         editSiteDetailsDialog.navigateToDialog(siteName);
 
         LOG.info("STEP2: Verify the items from 'Edit Site Details' form");
-        assertEquals(editSiteDetailsDialog.isTitleInputDisplayed(), true, "Name field is displayed");
-        assertEquals(editSiteDetailsDialog.getTitleLabel(), language.translate("siteDetails.title"), "Name label is correct");
+        assertTrue(editSiteDetailsDialog.isNameInputDisplayed(), "Name field is displayed");
+        assertEquals(editSiteDetailsDialog.getNameLabel(), language.translate("siteDetails.title"), "Name label is correct");
 
         assertEquals(editSiteDetailsDialog.isDescriptionInputDisplayed(), true, "Description field is displayed");
         assertEquals(editSiteDetailsDialog.getDescriptionLabel(), language.translate("siteDetails.description"), "Description label is correct");
 
         assertEquals(editSiteDetailsDialog.getVisibilityLabel(), language.translate("siteDetails.visibility"), "Visibility label is correct");
 
-        assertEquals(editSiteDetailsDialog.isPublicVisibilityRadioButtonDisplayed(), true, "Public option: radio button is displayed");
+        assertTrue(editSiteDetailsDialog.isPublicVisibilityRadioButtonDisplayed(), "Public option: radio button is displayed");
 
-        assertEquals(editSiteDetailsDialog.isModeratedVisibilityRadioButtonDisplayed(), true, "Moderated option: radio button is displayed");
+        assertTrue(editSiteDetailsDialog.isModeratedVisibilityRadioButtonDisplayed(), "Moderated option: radio button is displayed");
 
-        assertEquals(editSiteDetailsDialog.isPrivateVisibilityRadioButtonDisplayed(), true, "Private option: radio button is displayed");
+        assertTrue(editSiteDetailsDialog.isPrivateVisibilityRadioButtonDisplayed(), "Private option: radio button is displayed");
 
-        assertEquals(editSiteDetailsDialog.isSaveButtonDisplayed(), true, "Save button is displayed");
-        assertEquals(editSiteDetailsDialog.isCancelButtonDisplayed(), true, "Cancel button is displayed");
+        assertTrue(editSiteDetailsDialog.isSaveButtonDisplayed(), "Save button is displayed");
+        assertTrue(editSiteDetailsDialog.isCancelButtonDisplayed(), "Cancel button is displayed");
 
         LOG.info("STEP3: Verify the description for the visibility options");
         assertEquals(editSiteDetailsDialog.getPublicVisibilityDescription(), language.translate("siteDetails.publicVisibilityDescription"),

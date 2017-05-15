@@ -48,7 +48,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     protected List<WebElement> myfavoritesOptions;
 
     @FindBy(css = "div[class*='my-sites'] div span span a")
-    protected Link createSiteLink;
+    protected WebElement createSiteLink;
 
     @FindBy(css = "div[class*='my-sites'] div[class*='empty']")
     protected HtmlElement defaultSiteText;
@@ -91,7 +91,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     /**
      * Retrieves the link that match the site name.
      * 
-     * @param name identifier
+     * @param siteName identifier
      * @return {@link Link} that matches siteName
      */
     public WebElement selectSite(final String siteName)
@@ -110,7 +110,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     /**
      * Retrieves the link that match the site name.
      * 
-     * @param name identifier
+     * @param siteName identifier
      * @return {@link Link} that matches siteName
      */
     public WebElement selectSiteDetailsRow(final String siteName)
@@ -171,7 +171,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     /**
      * Select an option from "All" dropdown from My Sites Dashlets.
      * 
-     * @param type FavouriteType
+     * @param siteOption FavouriteType
      * @return HtmlPage
      */
     public MySitesDashlet selectOptionFromSiteFilters(String siteOption)
@@ -233,6 +233,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
      */
     public void clickCreateSiteButton()
     {
+        getBrowser().waitUntilElementVisible(createSiteLink);
         createSiteLink.click();
     }
 
