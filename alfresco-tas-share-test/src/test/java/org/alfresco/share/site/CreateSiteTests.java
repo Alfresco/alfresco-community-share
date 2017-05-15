@@ -369,8 +369,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(createSiteDialog.getUrlErrorMessage(), language.translate("siteDetails.urlError"), "Create site: Existent url error message displayed-");
 
         LOG.info("STEP5: Click \"OK\" button.");
-        createSiteDialog.clickOkFromErrorPopup();
-        assertTrue(createSiteDialog.isNameInputFieldDisplayed(), "Create site dialog is displayed.");
         assertFalse(siteService.exists(siteName, user, password), "Site isn't created.");
     }
 }
