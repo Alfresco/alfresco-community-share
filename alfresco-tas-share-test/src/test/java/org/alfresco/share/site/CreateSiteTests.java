@@ -79,7 +79,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         LOG.info("STEP4: Verify the available buttons from \"Create Site\" form");
         assertTrue(createSiteDialog.isCreateButtonDisplayed(), "Save button is displayed.");
         assertTrue(createSiteDialog.isCancelButtonDisplayed(), "Cancel button is displayed.");
-        assertEquals(createSiteDialog.isCloseButtonDisplayed(), true, "Close button is displayed.");
+        assertEquals(createSiteDialog.isCloseXButtonDisplayed(), true, "Close button is displayed.");
     }
 
     @TestRail(id = "C2104")

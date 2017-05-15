@@ -61,13 +61,13 @@ public class CreateSiteDialog extends ShareDialog
     @FindBy(css="div[id='CREATE_SITE_FIELD_VISIBILITY'] label")
     private WebElement visibilityLabel;
 
-    @FindBy(id = "CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0_BUTTON")
+    @FindBy(css ="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] input")
     private WebElement publicVisibilityRadioButton;
 
-    @FindBy(id="CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION1_BUTTON")
+    @FindBy(css="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] input")
     private WebElement moderatedVisibilityButton;
 
-    @FindBy(id ="CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION2_BUTTON")
+    @FindBy(css ="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] input")
     private WebElement privateVisibilityButton;
 
     @FindBy(css="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] .alfresco-forms-controls-RadioButtons__description")
@@ -193,30 +193,30 @@ public class CreateSiteDialog extends ShareDialog
 
     public String isPublicVisibilityButtonDisplayed()
     {
-       return browser.waitUntilElementVisible(publicVisibilityRadioButton).getAttribute("value").toString().trim();
+       return publicVisibilityRadioButton.getAttribute("value").toString().trim();
     }
 
     public String isModeratedVisibilityButtonDisplayed()
     {
-        return getBrowser().waitUntilElementVisible(moderatedVisibilityButton).getAttribute("value").toString().trim();
+        return moderatedVisibilityButton.getAttribute("value").toString().trim();
     }
 
     public String isPrivateVisibilityButtonDisplayed()
     {
-        return getBrowser().waitUntilElementVisible(privateVisibilityButton).getAttribute("value").toString().trim();
+        return privateVisibilityButton.getAttribute("value").toString().trim();
     }
 
     public String getPublicVisibilityDescription()
     {
-        return getBrowser().waitUntilElementVisible(publicVisibilityDescription).getTagName();
+        return getBrowser().waitUntilElementVisible(publicVisibilityDescription).getText();
     }
     public String getModeratedVisibilityDescription()
     {
-        return getBrowser().waitUntilElementVisible(moderatedVisibilityDescription).getTagName();
+        return getBrowser().waitUntilElementVisible(moderatedVisibilityDescription).getText();
     }
     public String getPrivateVisibilityDescription()
     {
-        return getBrowser().waitUntilElementVisible(privateVisibilityDescription).getTagName();
+        return getBrowser().waitUntilElementVisible(privateVisibilityDescription).getText();
     }
 
     public boolean isCreateButtonDisplayed()
@@ -306,5 +306,10 @@ public class CreateSiteDialog extends ShareDialog
     public void clickCloseXButton()
     {
         closeXButton.click();
+    }
+
+    public boolean isCloseXButtonDisplayed()
+    {
+        return getBrowser().isElementDisplayed(closeXButton);
     }
 }
