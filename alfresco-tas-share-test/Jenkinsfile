@@ -17,6 +17,7 @@ node('tas-node-win') {
     ])
 
 	stage('Checkout') {
+     	bat 'git config --global http.sslVerify false'
 		checkout scm
 	}
 
@@ -35,7 +36,7 @@ node('tas-node-win') {
     	}
     	
     stage('Deploy -snapshot-') {
-		sh 'mvn deploy -DskipTests'	
+		bat 'mvn deploy -DskipTests'	
 	}
 	
     	
