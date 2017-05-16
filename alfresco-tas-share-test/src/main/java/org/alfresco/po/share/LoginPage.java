@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
-
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
@@ -65,25 +64,21 @@ public class LoginPage extends HtmlPage
         return "/page";
     }
 
-    public void navigate()
-    {
+    public void navigate() {
         browser.navigate().to(properties.getShareUrl().toString());
         renderedPage();
     }
 
     /**
      * Type user name
-     * 
      * @param userName
      */
-    public void typeUserName(String userName)
-    {
+    public void typeUserName(String userName) {
         usernameInput.clear();
         usernameInput.sendKeys(userName);
     }
 
-    public void autoCompleteUsername(String startCharsUser)
-    {
+    public void autoCompleteUsername(String startCharsUser) {
         typeUserName(startCharsUser);
         browser.waitInSeconds(1);
         usernameInput.sendKeys(Keys.ARROW_DOWN);
@@ -92,11 +87,9 @@ public class LoginPage extends HtmlPage
 
     /**
      * Type password
-     * 
      * @param password to be filled in
      */
-    public void typePassword(String password)
-    {
+    public void typePassword(String password) {
         passwordInput.clear();
         passwordInput.sendKeys(password);
     }
@@ -111,14 +104,12 @@ public class LoginPage extends HtmlPage
 
     /**
      * Login on Share using login form
-     * 
      * @param username to be filled in
      * @param password to be filled in
      * @throws URISyntaxException
      * @throws MalformedURLException
      */
-    public void login(String username, String password)
-    {
+    public void login(String username, String password) {
         typeUserName(username);
         typePassword(password);
         clickLogin();        
@@ -126,18 +117,15 @@ public class LoginPage extends HtmlPage
 
     /**
      * Get the error when the login fails
-     * 
      * @return String error message
      */
-    public String getAuthenticationError()
-    {
+    public String getAuthenticationError() {
         browser.waitUntilWebElementIsDisplayedWithRetry(errorLogin);
         return errorLogin.getText();
     }
 
     /**
      * Verify if the login error is displayed
-     * 
      * @return true if displayed
      */
     public boolean isAuthenticationErrorDisplayed()
@@ -147,7 +135,6 @@ public class LoginPage extends HtmlPage
 
     /**
      * Verify if copyright is displayed
-     * 
      * @return true if displayed
      */
     public boolean isCopyrightDisplayed()
@@ -157,7 +144,6 @@ public class LoginPage extends HtmlPage
 
     /**
      * Verify if alfresco logo is displayed
-     *
      * @return true if displayed
      */
     public boolean isLogoDisplayed()
@@ -167,7 +153,6 @@ public class LoginPage extends HtmlPage
 
     /**
      * Verify if the old Alfresco logo is displayed
-     *
      * @return true if displayed
      */
 
@@ -178,7 +163,6 @@ public class LoginPage extends HtmlPage
 
     /**
      * Verify if alfresco 'make business flow' is displayed
-     *
      * @return true if displayed
      */
     public boolean isMakeBusinessFlowDisplayed()
@@ -188,7 +172,6 @@ public class LoginPage extends HtmlPage
 
     /**
      * Verify if 'Simple+Smart' is displayed
-     *
      * @return true if displayed
      */
 
@@ -197,30 +180,21 @@ public class LoginPage extends HtmlPage
        return getBrowser().isElementDisplayed(trademark);
     }
 
-    public String[] getBackgroundColour()
-
-    {
+    public String[] getBackgroundColour() {
         String colourStickyWrapper = stickyWrapper.getCssValue("color");
         String colourStickyFooter = stickyFooter.getCssValue("color");
         String colourStickyPush = stickyPush.getCssValue("color");
         String[] colours = new String[] { colourStickyWrapper, colourStickyFooter, colourStickyPush };
-
         return colours;
-
     }
 
-    public String getAlfrescoShareColour()
-
-    {
+    public String getAlfrescoShareColour() {
         String colour = alfrescoShare.getCssValue("color");
-
         return colour;
-
     }
 
     /**
      * Get the text from the copyright
-     *
      * @return String copyright text
      */
     public String getCopyRightText()
@@ -228,20 +202,7 @@ public class LoginPage extends HtmlPage
         return copyright.getText();
     }
 
-    public boolean isCopyRightYearCorrect(int year)
-
-    {
-        String copyRight = getCopyRightText();
-        String copyRightText = "© 2005-" + year + " Alfresco Software Inc. All rights reserved.";
-
-        return copyRight.contains(copyRightText);
-
-    }
-    public String getSignInButtonColor()
-
-    {
-        String color = submit.getCssValue("color").toString();
-        return color;
-
+    public String getSignInButtonColor() {
+        return submit.getCssValue("color").toString();
     }
 }
