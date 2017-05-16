@@ -3,6 +3,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -21,6 +22,7 @@ public class ActionsSelectTests extends ContextAwareWebTest
     
     @Autowired private HeaderMenuBar menuBar;
 
+    @Autowired private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
     private final String user = String.format("8163TestUser%s", DataUtil.getUniqueIdentifier());
     private final String fileName = "C8163 file";
     private final String fileContent ="8163 content";
@@ -123,6 +125,5 @@ public class ActionsSelectTests extends ContextAwareWebTest
         LOG.info("Step 6: Click on the checkbox next to the TestFolder.");
         repositoryPage.clickCheckBox(folderName);
         assertTrue(repositoryPage.isContentSelected(folderName), folderName + " is selected.");
-        
     }
 }

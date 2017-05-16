@@ -203,7 +203,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
 
         LOG.info("Step 6: Edit TestFile and save changes");
         repositoryPage.clickDocumentLibraryItemAction(fileNameC202776, "Edit in Alfresco", editInAlfrescoPage);
-        Assert.assertEquals(repositoryPage.getPageTitle(),"Alfresco » Edit in Alfresco", "User is not on Edit In Alfresco page" );
+        Assert.assertEquals(repositoryPage.getPageTitle(),"Alfresco » Edit in Alfresco Share", "User is not on Edit In Alfresco page" );
         editInAlfrescoPage.typeContent(updateContent);
         editInAlfrescoPage.clickSaveButton();
         repositoryPage.renderedPage();

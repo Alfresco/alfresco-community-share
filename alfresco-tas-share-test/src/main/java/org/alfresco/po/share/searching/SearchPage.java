@@ -100,10 +100,48 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     @FindAll(@FindBy(css = "span[id*='SELECTOR']"))
     private List<WebElement> checkboxList;
 
+    @FindBy(id = "SELECTED_LIST_ITEMS")
+    private WebElement selectedItemsList;
+
+    @FindAll(@FindBy(css = "#SELECTED_LIST_ITEMS_dropdown tr td[id*='text']"))
+    private List<WebElement> selectedItemsCheckboxOptions;
+
+    @FindBy(css = "span[id='SELECTED_ITEMS_MENU_text']")
+    private WebElement selectedItemsDropdown;
+
+    @FindAll(@FindBy(css = "#SELECTED_ITEMS_ACTIONS_GROUP tr td[id*='text']"))
+    private List<WebElement> selectedItemsOptions;
+
+    @FindBy(xpath = "//span[contains(@id,'AlfButton')]/span[contains(@id,'AlfButton') and text()='Copy']")
+    public WebElement copyButton;
+
+    @FindBy(xpath = "//span[contains(@id,'AlfButton')]/span[contains(@id,'AlfButton') and text()='Move']")
+    public WebElement moveButton;
+
+    @FindBy(xpath = "//span[@class='dijitTreeContent']/span[text()='Document Library']")
+    public WebElement copyDestinationDocLibrary;
+
+    @FindBy(css = "span#ALF_DELETE_CONTENT_DIALOG_CONFIRMATION")
+    public WebElement deleteDialogConfirm;
+
+    @FindBy(css = "span#ALF_DELETE_CONTENT_DIALOG_CANCELLATION")
+    public WebElement deleteDialogCancel;
+
+    @FindBy(css="div[id='SELECTED_LIST_ITEMS'] img")
+    private WebElement selectAllButton;
+
+    @FindBy(css="td[id='onActionCopyTo_text']")
+    private WebElement copyToAction;
+
     private int i;
     private List<WebElement> selectedCheckboxes;
     private By checkboxSelector = By.cssSelector("span[class*='selected']");
-
+    private By destinationOption = By.xpath("//div[contains(@class,'AlfVerticalMenuBar') and not(ancestor::div[@class='items'])]/div/div");
+    private By siteOption = By.xpath("//div[contains(@id,'SingleItemPicker')]/div[@class='items']/div/div/div");
+    private By descriptionHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_DESCRIPTION']/span/span[@class='value']/mark");
+    private By titleHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_TITLE']/span/span[@class='value']/mark");
+    private By nameHighlight = By.cssSelector("tr[id='FCTSRCH_SEARCH_RESULT'] td div span a span.value mark");
+    private By contentHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_CONTENT_SNIPPET']/span/span[@class='value']/mark");
     @Override
     public String getRelativePath()
     {
@@ -157,8 +195,9 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
             }
             else
             {
-                browser.refresh();
-                browser.waitUntilElementVisible(searchResult);
+               // browser.refresh();
+               // browser.waitUntilElementVisible(searchResult);
+                getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchResult, 6);
                 webElement = browser.findFirstElementWithExactValue(resultsDetailedViewList, query);
             }
         }
@@ -480,7 +519,124 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         {
             System.out.print("Position = " + i);
             checkboxList.get(i).click();
+            i++;
             selectedCheckboxes = browser.findDisplayedElementsFromLocator(checkboxSelector);
         }
+    }
+    public void clickSelectItemsListCheckbox()
+    {
+        selectedItemsList.click();
+        getBrowser().waitUntilElementsVisible(selectedItemsCheckboxOptions);
+    }
+    public boolean isSelectedItemsListOptionDisplayed(String optionName)
+    {
+        WebElement action = browser.findFirstElementWithExactValue(selectedItemsCheckboxOptions, optionName);
+        return browser.isElementDisplayed(action);
+    }
+    public void clickOptionFromSelectedItemsListCheckbox(String optionName)
+    {
+        if (isSelectedItemsListOptionDisplayed(optionName))
+        {
+            WebElement action = browser.findFirstElementWithExactValue(selectedItemsCheckboxOptions, optionName);
+            action.click();
+        }
+    }
+
+    public void clickSelectedItemsDropdown()
+    {
+        getBrowser().waitUntilElementClickable(selectedItemsDropdown, 2).click();
+    }
+
+    public boolean isSelectedItemsOptionDisplayed(String optionName)
+    {
+        getBrowser().waitUntilElementsVisible(selectedItemsOptions);
+        WebElement action = browser.findFirstElementWithExactValue(selectedItemsOptions, optionName);
+        return browser.isElementDisplayed(action);
+    }
+
+    public void clickCopyTo()
+    {
+        getBrowser().waitUntilElementClickable(copyToAction).click();
+    }
+    public void clickOptionFromSelectedItemsDropdown(String optionName)
+    {
+        if (isSelectedItemsOptionDisplayed(optionName))
+        {
+            WebElement action = browser.findFirstElementWithExactValue(selectedItemsOptions, optionName);
+            action.click();
+        }
+    }
+
+    public void copyOrMoveToSiteFromFacetedSearch(String destination, String siteName, String copyOrMove)
+    {
+     /*   List<WebElement> destinationOptions = browser.findElements(destinationOption);
+        for (WebElement eachDestination : destinationOptions)
+        {
+            if(eachDestination.getAttribute("title").equals(destination))
+            {
+                eachDestination.click();
+                break;
+            }
+
+        }
+        browser.waitInSeconds(5);
+        */
+        List<WebElement> siteOptions = browser.findElements(siteOption);
+        for (WebElement eachSite : siteOptions)
+        {
+            if(eachSite.getAttribute("title").equals(siteName))
+            {
+                eachSite.click();
+                break;
+            }
+
+        }
+        browser.waitInSeconds(3);
+        browser.waitUntilElementVisible(copyDestinationDocLibrary).click();
+        browser.waitInSeconds(2);
+        if (copyOrMove.equals("Copy"))
+            copyButton.click();
+        else if (copyOrMove.equals("Move"))
+            moveButton.click();
+    }
+
+    public boolean isALLItemsCheckboxChecked()
+    {
+        return browser.isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have all items selected. Click this icon to deselect all.']"));
+    }
+
+    public boolean isNoneItemsCheckboxChecked()
+    {
+        return browser.isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have no items selected. Click this icon to select all.']"));
+    }
+
+    public boolean isSelectedItemsDropdownEnabled()
+    {
+        return browser.isElementDisplayed(selectedItemsDropdown);
+    }
+
+    public void deleteDocuments(boolean areYouSure)
+    {
+        if (areYouSure)
+        {
+            while (browser.isElementDisplayed(deleteDialogConfirm))
+            {
+                deleteDialogConfirm.click();
+                browser.waitInSeconds(3);
+            }
+        }
+        else
+        {
+            while (browser.isElementDisplayed(deleteDialogCancel))
+            {
+                deleteDialogCancel.click();
+                browser.waitInSeconds(3);
+            }
+        }
+    }
+
+    public void clickSelectAll()
+    {
+        selectAllButton.click();
     }
 }
