@@ -194,7 +194,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         LOG.info("STEP3: Copy the selected files to destination site.");
         copyMoveUnzipToDialog.clickDestinationButton("All Sites");
         copyMoveUnzipToDialog.clickSite(siteForCopy);
-        copyMoveUnzipToDialog.clickPathFolder("documentLibrary");
+        copyMoveUnzipToDialog.clickDocumentLibrary();
         copyMoveUnzipToDialog.clickButtton("Copy");
         LOG.info("STEP7: Verify that the files have been copied");
         documentLibraryPage.navigate(siteForCopy);
@@ -216,7 +216,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         LOG.info("STEP3: Move the selected files to destination site.");
         copyMoveUnzipToDialog.clickDestinationButton("All Sites");
         copyMoveUnzipToDialog.clickSite(siteForMove);
-        copyMoveUnzipToDialog.clickPathFolder("documentLibrary");
+        copyMoveUnzipToDialog.clickDocumentLibrary();
         copyMoveUnzipToDialog.clickButtton("Move");
         LOG.info("STEP7: Verify that the files has been moved");
         documentLibraryPage.navigate(siteForMove);
@@ -268,18 +268,12 @@ public class FacetedSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C12831")
+    @TestRail(id = "C12832, C12831")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
-    public void stateOfCheckboxForNoSelectedItems(){
+    public void stateOfCheckbox(){
         LOG.info("STEP1: Observe that Selected Items' drop down menu is disabled; 'Check box' drop down menu is enabled");
         assertEquals(searchPage.getSelectedItemsState(), "true", "Selected Items menu is not disabled");
         assertTrue(searchPage.isNoneItemsCheckboxChecked());
-        cleanupAuthenticatedSession();
-    }
-
-    @TestRail(id = "C12832")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
-    public void stateOfCheckboxForSomeSelectedItems(){
         LOG.info("STEP1: Select 'ALL' option from the Select Items List checkbox.");
         searchPage.clickSelectAll();
         LOG.info("STEP2: Observe that Selected Items' drop down menu is enabled; 'Check box' drop down menu is enabled.");

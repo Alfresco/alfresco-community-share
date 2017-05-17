@@ -129,12 +129,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     private int i;
     private List<WebElement> selectedCheckboxes;
     private By checkboxSelector = By.cssSelector("span[class*='selected']");
-    private By destinationOption = By.xpath("//div[contains(@class,'AlfVerticalMenuBar') and not(ancestor::div[@class='items'])]/div/div");
-    private By siteOption = By.xpath("//div[contains(@id,'SingleItemPicker')]/div[@class='items']/div/div/div");
-    private By descriptionHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_DESCRIPTION']/span/span[@class='value']/mark");
-    private By titleHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_TITLE']/span/span[@class='value']/mark");
-    private By nameHighlight = By.cssSelector("tr[id='FCTSRCH_SEARCH_RESULT'] td div span a span.value mark");
-    private By contentHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_CONTENT_SNIPPET']/span/span[@class='value']/mark");
+
     @Override
     public String getRelativePath() {
         return "share/page/dp/ws/faceted-search#searchTerm=%s&scope=repo&sortField=Relevance";
@@ -179,8 +174,6 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
                 break;
             }
             else {
-               // browser.refresh();
-               // browser.waitUntilElementVisible(searchResult);
                 getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchResult, 6);
                 webElement = browser.findFirstElementWithExactValue(resultsDetailedViewList, query);
             }
@@ -461,10 +454,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
             selectedCheckboxes = browser.findDisplayedElementsFromLocator(checkboxSelector);
         }
     }
-    public void clickSelectItemsListCheckbox() {
-        selectedItemsList.click();
-        getBrowser().waitUntilElementsVisible(selectedItemsCheckboxOptions);
-    }
+
     public boolean isSelectedItemsListOptionDisplayed(String optionName) {
         WebElement action = browser.findFirstElementWithExactValue(selectedItemsCheckboxOptions, optionName);
         return browser.isElementDisplayed(action);

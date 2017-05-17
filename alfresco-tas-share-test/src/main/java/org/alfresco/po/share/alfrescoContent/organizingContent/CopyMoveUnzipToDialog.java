@@ -16,7 +16,7 @@ import java.util.List;
 @PageObject
 public class CopyMoveUnzipToDialog extends SelectDestinationDialog
 {
-    @FindAll(@FindBy(css = ".bdft button[id*='copyMoveTo']"))
+    @FindAll(@FindBy(css = "div[id='ALF_COPY_MOVE_DIALOG'] span[class*='alfresco-buttons-AlfButton']"))
     private List<WebElement> buttonsList;
 
     @FindBy(css = ".message")
