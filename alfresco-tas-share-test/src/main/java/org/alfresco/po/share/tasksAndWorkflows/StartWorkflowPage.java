@@ -4,6 +4,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.po.share.user.UserDashboardPage;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -121,7 +122,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         browser.waitUntilElementHasAttribute(browser.findElement(By.xpath("//*[contains(@id, 'workflowPriority')]//option[text()='"+priority+"']")), "selected", "true");
     }
 
-    public DocumentLibraryPage clickStartWorkflow()
+    public HtmlPage clickStartWorkflow(HtmlPage page)
     {
         //workaround for "MNT-17015"
         browser.clickJS(submitWorkflow);
@@ -134,7 +135,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         dismissErrorPopup();
         if(browser.isElementDisplayed(submitWorkflow))
             browser.clickJS(submitWorkflow);
-        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
+        return page.renderedPage();
     }
 
     /**

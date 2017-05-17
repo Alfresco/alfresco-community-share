@@ -78,7 +78,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow();
+        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as user2.");
@@ -114,7 +114,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow();
+        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as user2.");

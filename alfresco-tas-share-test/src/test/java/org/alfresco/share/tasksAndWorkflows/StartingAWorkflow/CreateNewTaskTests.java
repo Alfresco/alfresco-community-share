@@ -85,7 +85,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         selectPopUpPage.search(testUser);
         selectPopUpPage.clickAddIcon("firstName lastName (" + testUser + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow();
+        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
     }
 
@@ -113,7 +113,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow();
+        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as user2.");
@@ -179,7 +179,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         selectPopUpPage.search(testUser);
         selectPopUpPage.clickAddIcon("firstName lastName (" + testUser + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow();
+        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName1), "Missing start workflow icon for" + docName1);
     }

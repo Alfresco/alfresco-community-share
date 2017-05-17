@@ -310,7 +310,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         selectPopUpPage.search(user);
         selectPopUpPage.clickAddIcon("(" + user + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow();
+        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
 
         LOG.info("Step 5: Go to Toolbar and click Tasks/ My Tasks.");
         toolbarTasksMenu.clickMyTasks();

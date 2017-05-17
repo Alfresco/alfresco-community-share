@@ -61,8 +61,8 @@ public class SelectDestinationDialog extends ShareDialog
         {
             if (aDestinationList.getText().equals(buttonText))
                 aDestinationList.click();
-            if (buttonText.equals("Shared Files"))
-                browser.waitInSeconds(5);
+           // if (buttonText.equals("Shared Files"))
+              //  browser.waitInSeconds(5);
         }
         browser.waitInSeconds(1);
     }

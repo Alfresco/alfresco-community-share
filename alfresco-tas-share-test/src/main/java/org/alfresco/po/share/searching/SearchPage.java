@@ -112,15 +112,6 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     @FindAll(@FindBy(css = "#SELECTED_ITEMS_ACTIONS_GROUP tr td[id*='text']"))
     private List<WebElement> selectedItemsOptions;
 
-    @FindBy(xpath = "//span[contains(@id,'AlfButton')]/span[contains(@id,'AlfButton') and text()='Copy']")
-    public WebElement copyButton;
-
-    @FindBy(xpath = "//span[contains(@id,'AlfButton')]/span[contains(@id,'AlfButton') and text()='Move']")
-    public WebElement moveButton;
-
-    @FindBy(xpath = "//span[@class='dijitTreeContent']/span[text()='Document Library']")
-    public WebElement copyDestinationDocLibrary;
-
     @FindBy(css = "span#ALF_DELETE_CONTENT_DIALOG_CONFIRMATION")
     public WebElement deleteDialogConfirm;
 
@@ -133,6 +124,8 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     @FindBy(css="td[id='onActionCopyTo_text']")
     private WebElement copyToAction;
 
+    @FindBy(css ="DIV[ID='SELECTED_LIST_ITEMS'] span.alfresco-menus-AlfMenuBarPopup__arrow")
+    private WebElement selectedListItemsDropdownArrow;
     private int i;
     private List<WebElement> selectedCheckboxes;
     private By checkboxSelector = By.cssSelector("span[class*='selected']");
@@ -143,8 +136,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     private By nameHighlight = By.cssSelector("tr[id='FCTSRCH_SEARCH_RESULT'] td div span a span.value mark");
     private By contentHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_CONTENT_SNIPPET']/span/span[@class='value']/mark");
     @Override
-    public String getRelativePath()
-    {
+    public String getRelativePath() {
         return "share/page/dp/ws/faceted-search#searchTerm=%s&scope=repo&sortField=Relevance";
     }
 
@@ -160,41 +152,33 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         return numberOfResultsLabel.getText();
     }
 
-    private void clickSelectedItemsMenu()
-    {
+    private void clickSelectedItemsMenu() {
         browser.waitUntilElementClickable(selectedItemsMenu, 3L).click();
         browser.waitUntilElementVisible(copyToSelectedItemsOption);
     }
 
-    public void clickCopyToSelectedItemsOption()
-    {
+    public void clickCopyToSelectedItemsOption() {
         clickSelectedItemsMenu();
         copyToSelectedItemsOption.click();
     }
 
-    public boolean isResultFound(String query)
-    {
+    public boolean isResultFound(String query) {
         browser.waitInSeconds(5);
         WebElement webElement = browser.findFirstElementWithValue(resultsDetailedViewList, query);
-        if (webElement == null)
-        {
+        if (webElement == null) {
             browser.refresh();
             webElement = browser.findFirstElementWithValue(resultsDetailedViewList, query);
         }
         return webElement != null;
     }
 
-    public boolean isResultFoundWithRetry(String query)
-    {
+    public boolean isResultFoundWithRetry(String query) {
         WebElement webElement = browser.findFirstElementWithExactValue(resultsDetailedViewList, query);
-        for (int i = 0; i < 5; i++)
-        {
-            if (webElement != null)
-            {
+        for (int i = 0; i < 5; i++) {
+            if (webElement != null) {
                 break;
             }
-            else
-            {
+            else {
                // browser.refresh();
                // browser.waitUntilElementVisible(searchResult);
                 getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchResult, 6);
@@ -204,25 +188,20 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         return browser.isElementDisplayed(webElement);
     }
 
-    public void mouseOverResult(String query)
-    {
-        for (WebElement result : resultsDetailedViewList)
-        {
+    public void mouseOverResult(String query) {
+        for (WebElement result : resultsDetailedViewList) {
             if (result.getText().contains(query))
                 browser.mouseOver(result);
         }
     }
-
     /**
      * Verify filters in 'Filter By' section
      *
      * @return displayed filters
      */
-    public List<String> getFilterTypeList()
-    {
+    public List<String> getFilterTypeList() {
         List<String> filterList = new ArrayList<>();
-        for (WebElement aFilterTypeList : filterTypeList)
-        {
+        for (WebElement aFilterTypeList : filterTypeList) {
             filterList.add(aFilterTypeList.getText());
         }
         return filterList;
@@ -234,8 +213,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
      * @param filter
      * @return
      */
-    public boolean isFilterTypePresent(String filter)
-    {
+    public boolean isFilterTypePresent(String filter) {
         return browser.findFirstElementWithValue(filterTypeList, filter) != null;
     }
 
@@ -246,8 +224,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
      * @param filterOption
      * @return
      */
-    public boolean isFilterOptionDisplayed(String filterId, String filterOption)
-    {
+    public boolean isFilterOptionDisplayed(String filterId, String filterOption) {
         WebElement filterElement = browser.findElement(By.id("FCTSRCH_" + filterId));
         return browser.findFirstElementWithValue(filterElement.findElements(By.cssSelector(".filterLabel")), filterOption) != null;
     }
@@ -258,8 +235,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
      * @param filterOption
      * @return
      */
-    public String getFilterOptionHits(String filterOption)
-    {
+    public String getFilterOptionHits(String filterOption) {
         return browser.findFirstElementWithValue(allOptions, filterOption).findElement(By.xpath("following-sibling::*[1]")).getText();
     }
 
@@ -294,10 +270,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
      *
      * @return 'Search In' dropdown values
      */
-    public String getSearchInDropdownValues()
-    {
-        // WebElement dropdown =
-        // browser.waitUntilElementVisible(searchInDropdownSelector);
+    public String getSearchInDropdownValues() {
         List<WebElement> searchInDropdownOptions = browser.waitUntilElementsVisible(searchInDropdownOptionsSelector);
         if (!searchInDropdownOptions.get(searchInDropdownOptions.size() - 2).getText().equals("All Sites"))
             return "'All Sites' value not displayed";
@@ -312,22 +285,17 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
      * @param option
      * @return
      */
-    public SearchPage selectOptionFromSearchIn(String option)
-    {
+    public SearchPage selectOptionFromSearchIn(String option) {
         clickSearchInDropdown();
         List<WebElement> searchInDropdownOptions = browser.findDisplayedElementsFromLocator(searchInDropdownOptionsSelector);
-
-        for (WebElement optionSearchIn : searchInDropdownOptions)
-        {
+        for (WebElement optionSearchIn : searchInDropdownOptions) {
             if (optionSearchIn.getText().equals(option))
                 optionSearchIn.click();
         }
-
         return (SearchPage) this.renderedPage();
     }
 
-    public boolean isSortDropdownComplete()
-    {
+    public boolean isSortDropdownComplete() {
         if (sortOptions.size() == 12)
             if (sortOptions.get(0).getText().equals("Relevance") && sortOptions.get(1).getText().equals("Name") && sortOptions.get(2).getText().equals("Title")
                     && sortOptions.get(3).getText().equals("Description") && sortOptions.get(4).getText().equals("Author")
@@ -339,19 +307,16 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         return false;
     }
 
-    public void clickViewsDropdown()
-    {
+    public void clickViewsDropdown() {
         browser.waitInSeconds(3);
         viewsDropdown.click();
     }
 
-    public ArrayList<String> getViewsDropdownOptions()
-    {
+    public ArrayList<String> getViewsDropdownOptions() {
         browser.waitInSeconds(5);
         List<WebElement> viewsDropdownOptions = browser.findElements(viewsDropdownOptionsSelector);
         ArrayList<String> viewsOptionsText = new ArrayList<>();
-        for (WebElement viewsDropdownOption : viewsDropdownOptions)
-        {
+        for (WebElement viewsDropdownOption : viewsDropdownOptions) {
             viewsOptionsText.add(viewsDropdownOption.getText());
         }
         return viewsOptionsText;
@@ -360,8 +325,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     /**
      * Verify that results are displayed as Detailed View
      */
-    public boolean isSearchResultsListInDetailedView()
-    {
+    public boolean isSearchResultsListInDetailedView() {
         browser.waitUntilElementsVisible(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"));
         return resultsDetailedViewList.size() > 0;
     }
@@ -369,30 +333,26 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     /**
      * Verify that results are displayed as Gallery View
      */
-    public boolean isSearchResultsListInGalleryView()
-    {
+    public boolean isSearchResultsListInGalleryView() {
         browser.waitUntilElementVisible(By.cssSelector("[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']"));
         return resultsGalleryViewList.size() > 0;
     }
 
-    public SearchPage clickGalleryView()
-    {
+    public SearchPage clickGalleryView() {
         clickViewsDropdown();
         browser.waitInSeconds(2);
         browser.selectOptionFromFilterOptionsList("Gallery View", browser.findElements(viewsDropdownOptionsSelector));
         return (SearchPage) this.renderedPage();
     }
 
-    public SearchPage clickDetailedView()
-    {
+    public SearchPage clickDetailedView() {
         clickViewsDropdown();
         browser.waitInSeconds(2);
         browser.selectOptionFromFilterOptionsList("Detailed View", browser.findElements(viewsDropdownOptionsSelector));
         return (SearchPage) this.renderedPage();
     }
 
-    public boolean isSliderGalleryViewDisplayed()
-    {
+    public boolean isSliderGalleryViewDisplayed() {
         return (browser.isElementDisplayed(sliderGalleryView) && browser.isElementDisplayed(sliderIncrementIcon)
                 && browser.isElementDisplayed(sliderDecrementIcon));
     }
@@ -406,17 +366,12 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
      *            section from Filter By: creator, mimetype, modifier, created,
      *            content_size, modified
      */
-    public void clickFilterOption(String option, String filterBy)
-    {
+    public void clickFilterOption(String option, String filterBy) {
         By selector = By.cssSelector("div.alfresco-documentlibrary-AlfDocumentFilters[id$='" + filterBy + "'] .filterLabel");
         List<WebElement> filterOptionList = browser.findElements(selector);
-
         clickShowMore();
-
-        for (WebElement filterOption : filterOptionList)
-        {
-            if (filterOption.getText().equals(option))
-            {
+        for (WebElement filterOption : filterOptionList) {
+            if (filterOption.getText().equals(option)) {
                 filterOption.click();
                 browser.waitInSeconds(2);
                 break;
@@ -424,14 +379,11 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         }
     }
 
-    public boolean isSearchResultsAsExpected(List<String> expectedResults)
-    {
+    public boolean isSearchResultsAsExpected(List<String> expectedResults) {
         int counter = 0;
         if (resultsDetailedViewList.size() == expectedResults.size())
-            for (int i = 0; i < resultsDetailedViewList.size(); i++)
-            {
-                for (String expectedResult : expectedResults)
-                {
+            for (int i = 0; i < resultsDetailedViewList.size(); i++) {
+                for (String expectedResult : expectedResults) {
                     if (resultsDetailedViewList.get(i).getText().equals(expectedResult))
                         counter++;
                 }
@@ -441,14 +393,12 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         return false;
     }
 
-    public boolean isSearchManagerDisplayed()
-    {
+    public boolean isSearchManagerDisplayed() {
         browser.waitUntilWebElementIsDisplayedWithRetry(searchManager);
         return browser.isElementDisplayed(searchManager);
     }
 
-    public SearchManagerPage clickSearchManagerLink()
-    {
+    public SearchManagerPage clickSearchManagerLink() {
         searchManager.click();
         return (SearchManagerPage) searchManagerPage.renderedPage();
     }
@@ -456,11 +406,9 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     /**
      * Click on the visible Show More link
      */
-    public void clickShowMore()
-    {
+    public void clickShowMore() {
         if (showMore.size() > 0)
-            for (WebElement aShowMore : showMore)
-            {
+            for (WebElement aShowMore : showMore) {
                 if (aShowMore.isDisplayed())
                     aShowMore.click();
             }
@@ -469,86 +417,70 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     /**
      * Click on the visible Show Fewer link
      */
-    public void clickShowFewer()
-    {
+    public void clickShowFewer() {
         if (showLess.size() > 0)
-            for (WebElement showLes : showLess)
-            {
+            for (WebElement showLes : showLess) {
                 if (showLes.isDisplayed())
                     showLes.click();
             }
     }
 
-    public int getFilterTypePosition(String filter)
-    {
+    public int getFilterTypePosition(String filter) {
         return browser.findFirstElementWithValue(filterTypeList, filter)
                 .findElements(By.xpath("ancestor::div[contains(@id, 'FCTSRCH_filter_')]/preceding-sibling::*")).size() + 1;
     }
 
-    public boolean isActionsLinkDisplayed()
-    {
+    public boolean isActionsLinkDisplayed() {
         browser.waitInSeconds(2);
         return browser.isElementDisplayed(actionsLink);
     }
 
-    private void clickActionsMenuButton(String searchResult)
-    {
+    private void clickActionsMenuButton(String searchResult) {
         browser.mouseOver(browser.findFirstElementWithExactValue(resultsDetailedViewList, searchResult));
         browser.waitUntilElementVisible(actionsLink).click();
     }
 
-    private boolean isActionDisplayed(String searchResult, String optionName)
-    {
+    private boolean isActionDisplayed(String searchResult, String optionName) {
         clickActionsMenuButton(searchResult);
         WebElement action = browser.findFirstElementWithExactValue(actionsOptions, optionName);
         return browser.isElementDisplayed(action);
     }
 
-    public void clickOptionFromActionsMenu(String searchResult, String optionName)
-    {
-        if (isActionDisplayed(searchResult, optionName))
-        {
+    public void clickOptionFromActionsMenu(String searchResult, String optionName) {
+        if (isActionDisplayed(searchResult, optionName)) {
             WebElement action = browser.findFirstElementWithExactValue(actionsOptions, optionName);
             action.click();
         }
     }
 
-    public void clickCheckbox(String searchResult)
-    {
-        if (isResultFound(searchResult))
-        {
+    public void clickCheckbox(String searchResult) {
+        if (isResultFound(searchResult)) {
             System.out.print("Position = " + i);
             checkboxList.get(i).click();
             i++;
             selectedCheckboxes = browser.findDisplayedElementsFromLocator(checkboxSelector);
         }
     }
-    public void clickSelectItemsListCheckbox()
-    {
+    public void clickSelectItemsListCheckbox() {
         selectedItemsList.click();
         getBrowser().waitUntilElementsVisible(selectedItemsCheckboxOptions);
     }
-    public boolean isSelectedItemsListOptionDisplayed(String optionName)
-    {
+    public boolean isSelectedItemsListOptionDisplayed(String optionName) {
         WebElement action = browser.findFirstElementWithExactValue(selectedItemsCheckboxOptions, optionName);
         return browser.isElementDisplayed(action);
     }
-    public void clickOptionFromSelectedItemsListCheckbox(String optionName)
-    {
-        if (isSelectedItemsListOptionDisplayed(optionName))
-        {
+    public void clickOptionFromSelectedItemsListCheckbox(String optionName) {
+        if (isSelectedItemsListOptionDisplayed(optionName)) {
             WebElement action = browser.findFirstElementWithExactValue(selectedItemsCheckboxOptions, optionName);
             action.click();
         }
     }
 
-    public void clickSelectedItemsDropdown()
-    {
-        getBrowser().waitUntilElementClickable(selectedItemsDropdown, 2).click();
+    public void clickSelectedItemsDropdown() {
+        getBrowser().waitUntilElementClickable(selectedItemsDropdown, 5).click();
     }
 
-    public boolean isSelectedItemsOptionDisplayed(String optionName)
-    {
+    public boolean isSelectedItemsOptionDisplayed(String optionName) {
         getBrowser().waitUntilElementsVisible(selectedItemsOptions);
         WebElement action = browser.findFirstElementWithExactValue(selectedItemsOptions, optionName);
         return browser.isElementDisplayed(action);
@@ -558,77 +490,36 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     {
         getBrowser().waitUntilElementClickable(copyToAction).click();
     }
-    public void clickOptionFromSelectedItemsDropdown(String optionName)
-    {
-        if (isSelectedItemsOptionDisplayed(optionName))
-        {
+    public void clickOptionFromSelectedItemsDropdown(String optionName) {
+        if (isSelectedItemsOptionDisplayed(optionName)) {
             WebElement action = browser.findFirstElementWithExactValue(selectedItemsOptions, optionName);
             action.click();
         }
     }
 
-    public void copyOrMoveToSiteFromFacetedSearch(String destination, String siteName, String copyOrMove)
-    {
-     /*   List<WebElement> destinationOptions = browser.findElements(destinationOption);
-        for (WebElement eachDestination : destinationOptions)
-        {
-            if(eachDestination.getAttribute("title").equals(destination))
-            {
-                eachDestination.click();
-                break;
-            }
-
-        }
-        browser.waitInSeconds(5);
-        */
-        List<WebElement> siteOptions = browser.findElements(siteOption);
-        for (WebElement eachSite : siteOptions)
-        {
-            if(eachSite.getAttribute("title").equals(siteName))
-            {
-                eachSite.click();
-                break;
-            }
-
-        }
-        browser.waitInSeconds(3);
-        browser.waitUntilElementVisible(copyDestinationDocLibrary).click();
-        browser.waitInSeconds(2);
-        if (copyOrMove.equals("Copy"))
-            copyButton.click();
-        else if (copyOrMove.equals("Move"))
-            moveButton.click();
-    }
-
-    public boolean isALLItemsCheckboxChecked()
-    {
+    public boolean isALLItemsCheckboxChecked() {
         return browser.isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have all items selected. Click this icon to deselect all.']"));
     }
 
-    public boolean isNoneItemsCheckboxChecked()
-    {
+    public boolean isNoneItemsCheckboxChecked() {
         return browser.isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have no items selected. Click this icon to select all.']"));
     }
 
-    public boolean isSelectedItemsDropdownEnabled()
+    public String  getSelectedItemsState()
     {
-        return browser.isElementDisplayed(selectedItemsDropdown);
+        getBrowser().waitInSeconds(2);
+        return getBrowser().findElement(By.cssSelector("div[id='SELECTED_ITEMS_MENU']")).getAttribute("aria-disabled");
     }
 
-    public void deleteDocuments(boolean areYouSure)
-    {
-        if (areYouSure)
-        {
-            while (browser.isElementDisplayed(deleteDialogConfirm))
-            {
+    public void deleteDocuments(boolean areYouSure) {
+        if (areYouSure) {
+            while (browser.isElementDisplayed(deleteDialogConfirm)) {
                 deleteDialogConfirm.click();
                 browser.waitInSeconds(3);
             }
         }
-        else
-        {
-            while (browser.isElementDisplayed(deleteDialogCancel))
-            {
+        else {
+            while (browser.isElementDisplayed(deleteDialogCancel)) {
                 deleteDialogCancel.click();
                 browser.waitInSeconds(3);
             }
@@ -638,5 +529,10 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     public void clickSelectAll()
     {
         selectAllButton.click();
+    }
+
+    public void clickSelectedItemsListDropdownArrow()
+    {
+        getBrowser().waitUntilElementClickable(selectedListItemsDropdownArrow, 5).click();
     }
 }
