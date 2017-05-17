@@ -129,6 +129,10 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     private int i;
     private List<WebElement> selectedCheckboxes;
     private By checkboxSelector = By.cssSelector("span[class*='selected']");
+    private By nameHighlight = By.cssSelector("tr[id='FCTSRCH_SEARCH_RESULT'] td div span a span.value mark");
+    private By contentHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_CONTENT_SNIPPET']/span/span[@class='value']/mark");
+    private By descriptionHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_DESCRIPTION']/span/span[@class='value']/mark");
+    private By titleHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_TITLE']/span/span[@class='value']/mark");
 
     @Override
     public String getRelativePath() {
@@ -524,5 +528,26 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     public void clickSelectedItemsListDropdownArrow()
     {
         getBrowser().waitUntilElementClickable(selectedListItemsDropdownArrow, 5).click();
+    }
+
+    public boolean isNameHighlighted(String name) {
+        List<WebElement> allNameHighlights = browser.findElements(nameHighlight);
+        for (WebElement eachNameHighlight : allNameHighlights) {
+            if (eachNameHighlight.getText().equals(name))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean isContentHighlighted(String content) {
+        return browser.findElement(contentHighlight).getText().equals(content);
+    }
+
+    public boolean isDescriptionHighlighted(String description) {
+        return browser.findElement(descriptionHighlight).getText().equals(description);
+    }
+
+    public boolean isTitleHighlighted(String title) {
+        return browser.findElement(titleHighlight).getText().equals(title);
     }
 }
