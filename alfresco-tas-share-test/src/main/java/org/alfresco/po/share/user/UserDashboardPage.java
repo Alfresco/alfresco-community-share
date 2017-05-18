@@ -33,6 +33,12 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     @FindBy(css = "div[class*='grid columnSize']")
     private WebElement dashboardLayout;
 
+    @FindBy(xpath = "//img[@src='/share/res/components/images/alfresco-logo.svg']")
+    private WebElement alfrescoLogo;
+
+    @FindBy(xpath ="/share/res/components/images/alfresco-share-logo-enterprise.png']")
+    private WebElement oldAlfrescoLogo;
+
     @Override
     public String getRelativePath()
     {
@@ -129,4 +135,27 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     {
         return customizeUserDashboard;
     }
+
+    /**
+     * Verify if new alfresco logo is displayed on the page footer
+     *
+     * @return true if displayed, otherwise return false
+     */
+    public boolean isNewAlfrescoLogoDisplayed()
+
+    {
+          return browser.isElementDisplayed(alfrescoLogo);
+    }
+
+    /**
+     * Verify if old alfresco logo is displayed on the page footer
+     *
+     * @return true if displayed, otherwise return false
+     */
+    public boolean isOldAlfrescoLogoDisplayed()
+
+    {
+        return browser.isElementDisplayed(oldAlfrescoLogo);
+    }
+
 }

@@ -91,6 +91,15 @@ public class CreateSiteDialog extends ShareDialog
     @FindBy(css ="span.dijitDialogCloseIcon")
     private WebElement closeXButton;
 
+    @FindBy(css="div[id='CREATE_SITE_FIELD_PRESET'] label.label")
+    private WebElement typeLabel;
+
+    @FindBy(css="table[id='CREATE_SITE_FIELD_PRESET_CONTROL'] div[class$='dijitButtonText'] span")
+    private WebElement typeLabelValue;
+
+    @FindBy(css="div[id='CREATE_SITE_FIELD_TITLE'] div[class$='__warning-row'] div")
+    private WebElement nameFieldWarningMessage;
+
     private By urlErrorMessage = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] span.validation-message");
     private By urlErrorOkButton = By.cssSelector("div[class='ft'] button");
 
@@ -311,5 +320,25 @@ public class CreateSiteDialog extends ShareDialog
     public boolean isCloseXButtonDisplayed()
     {
         return getBrowser().isElementDisplayed(closeXButton);
+    }
+
+    public boolean isCreateSiteDialogDisplayed()
+    {
+        return getBrowser().isElementDisplayed(createSiteDialog);
+    }
+
+    public boolean isTypeLabelDisplayed()
+    {
+        return getBrowser().isElementDisplayed(typeLabel);
+    }
+
+    public String getTypeLabelValue()
+    {
+        return getBrowser().waitUntilElementVisible(typeLabelValue).getText();
+    }
+
+    public String getNameFieldWarningMessage()
+    {
+        return browser.waitUntilElementVisible(nameFieldWarningMessage).getText();
     }
 }

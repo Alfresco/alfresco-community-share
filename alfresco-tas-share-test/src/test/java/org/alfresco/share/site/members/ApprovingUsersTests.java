@@ -1,7 +1,6 @@
 package org.alfresco.share.site.members;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.common.UserData;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
@@ -19,9 +18,6 @@ import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class ApprovingUsersTests extends ContextAwareWebTest
 {
@@ -51,9 +47,6 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
     @Autowired
     private SiteDashboardPage siteDashboardPage;
-
-    @Autowired
-    DataUtil dataUtil;
 
     private String userManager;
     private String userTest;
@@ -272,14 +265,14 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertEquals(siteDashboardPage.getPageHeader(), siteName);
         Assert.assertEquals(siteDashboardPage.getSiteVisibility(), "Moderated");
     }
-
+/*
     @TestRail(id = "C2549")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlySiteManagersApproveRejectRequestToJoinSite()
     {
 
         LOG.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
-        List<UserData> usersData = dataUtil.createUsersWithRoles(Arrays.asList("SiteCollaborator", "SiteContributor", "SiteConsumer"), userManager, siteName);
+        //List<UserData> usersData = DataUtil.createUsersWithRoles(Arrays.asList("SiteCollaborator", "SiteContributor", "SiteConsumer"), userManager, siteName);
 
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         menuNavigationBar.goTo(siteFinderPage);
@@ -319,4 +312,5 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "Task is present in Active tasks");
 
     }
+    */
 }

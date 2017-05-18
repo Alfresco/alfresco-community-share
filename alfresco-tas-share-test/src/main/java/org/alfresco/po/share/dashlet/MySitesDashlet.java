@@ -129,14 +129,15 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
         try
         {
             Parameter.checkIsMandotary("Site name", siteName);
-            WebElement siteRow = selectSiteDetailsRow(siteName);
 
+            WebElement siteRow = getBrowser().waitUntilElementVisible(selectSiteDetailsRow(siteName));
             // If site is favourite, anchor does not contain any text. Checking
             // length of text rather than string 'Favourite' to support i18n.
             return !(siteRow.findElement(By.cssSelector("a[class^='favourite-action']")).getText().length() > 1);
         }
         catch (NoSuchElementException | TimeoutException e)
         {
+
         }
         return false;
     }
@@ -233,8 +234,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
      */
     public void clickCreateSiteButton()
     {
-        getBrowser().waitUntilElementVisible(createSiteLink);
-        createSiteLink.click();
+        getBrowser().waitUntilElementClickable(createSiteLink).click();
     }
 
     /**

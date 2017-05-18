@@ -34,7 +34,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest
         String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
         String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Navigate to the created site");
@@ -54,6 +54,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 5 - Click on the site.");
         toolbarSitesMenu.clickFavoriteSite(siteName);
+        siteDashboardPage.renderedPage();
         Assert.assertTrue(siteDashboardPage.isAlfrescoLogoDisplayed(), "Alfresco logo is displayed");
 
         LOG.info("STEP 6 - Go to User Dashboard page. Verify \"My Sites\" dashlet.");
@@ -70,7 +71,6 @@ public class FavoriteSiteTests extends ContextAwareWebTest
         String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
-        siteService.setFavorite(userName, password, siteName);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Navigate to the created site. Click \"Sites\" menu from Alfresco Toolbar");
