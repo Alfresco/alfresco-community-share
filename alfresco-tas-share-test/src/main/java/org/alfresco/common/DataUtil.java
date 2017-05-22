@@ -1,12 +1,9 @@
 package org.alfresco.common;
 
-import org.alfresco.dataprep.UserService;
 import org.alfresco.utility.web.common.Parameter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -19,14 +16,10 @@ import java.util.List;
 
 public class DataUtil
 {
-    public static String PASSWORD = "password";
-    
-    @Autowired
-    protected UserService userService;
-    
-    @Autowired
-    protected EnvProperties properties;
-
+    @Deprecated
+    /*
+    We should use {@link RandomData class method)}
+     */
     public static String getUniqueIdentifier()
     {
         return String.valueOf(System.currentTimeMillis());
@@ -44,19 +37,6 @@ public class DataUtil
             return false;
         }
         return Arrays.equals(actualList.toArray(), expectedList);
-    }
-    
-    public List<UserData> createUsersWithRoles(List<String> usersRoles, String userManager, String siteName)
-    {
-        List<UserData> users = new ArrayList<>();
-        for(String role : usersRoles)
-        {
-            UserData userData = new UserData("User" + role + DataUtil.getUniqueIdentifier() , role);
-            userService.create(properties.getAdminUser(), properties.getAdminPassword(), userData.getUserName(), DataUtil.PASSWORD, userData.getUserName() + "@tests.com", userData.getUserName(), userData.getUserName());
-            userService.createSiteMember(userManager, DataUtil.PASSWORD, userData.getUserName(), siteName, userData.getUserRole());
-            users.add(userData); 
-        }
-        return users;
     }
 
     public static long parseDate(String date, String dateFormats)
