@@ -5,6 +5,7 @@ import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -14,7 +15,6 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 import static org.testng.Assert.*;
 
@@ -36,8 +36,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     private String siteTag;
 
     @BeforeClass(alwaysRun = true)
-    public void setup()
-    {
+    public void setup() throws DataPreparationException {
         super.setup();
 
         uniqueIdentifier = DataUtil.getUniqueIdentifier();

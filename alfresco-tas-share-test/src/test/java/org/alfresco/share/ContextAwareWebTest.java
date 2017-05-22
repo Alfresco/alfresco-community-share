@@ -3,6 +3,7 @@ package org.alfresco.share;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.dataprep.*;
+import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.web.AbstractWebTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -56,8 +57,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     protected String mainWindow;
 
     @BeforeClass(alwaysRun = true)
-    public void setup()
-    {
+    public void setup() throws DataPreparationException {
         adminUser = properties.getAdminUser();
         adminPassword = properties.getAdminPassword();
         adminName = properties.getAdminName();

@@ -9,6 +9,7 @@ import org.alfresco.po.share.dashlet.WebViewDashlet;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -29,8 +30,7 @@ public class WebViewTests extends ContextAwareWebTest{
     private String userName;
     
     @BeforeClass(alwaysRun = true)
-    public void setup()
-    {
+    public void setup() throws DataPreparationException {
         super.setup();
         userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
