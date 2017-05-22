@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -46,8 +47,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
     private String user2CompleteName;
     private String user1CompleteName;
 
-    public void setup(String id, Site.Visibility visibility)
-    {
+    public void setup(String id, Site.Visibility visibility) throws DataPreparationException {
         super.setup();
 
         uniqueIdentifier = "-" + id + "-" + DataUtil.getUniqueIdentifier();
@@ -71,8 +71,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
 
     @TestRail(id = "C2882")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void removeSiteMemberFromPublicSiteTest()
-    {
+    public void removeSiteMemberFromPublicSiteTest() throws DataPreparationException {
         LOG.info("Starting test C2882");
         setup("C2882", Site.Visibility.PUBLIC);
         // preconditions
@@ -105,8 +104,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
 
     @TestRail(id = "C2883")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void removeSiteGroupTest()
-    {
+    public void removeSiteGroupTest() throws DataPreparationException {
 
         LOG.info("Starting test C2883");
 
@@ -312,8 +310,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
 
     @TestRail(id = "C2890")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void removeSiteMemberFromPrivateSiteTest()
-    {
+    public void removeSiteMemberFromPrivateSiteTest() throws DataPreparationException {
         LOG.info("Starting test C2890");
 
         // preconditions
@@ -351,8 +348,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
 
     @TestRail(id = "C2892")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void removeSiteMemberFromModeratedSiteTest()
-    {
+    public void removeSiteMemberFromModeratedSiteTest() throws DataPreparationException {
         LOG.info("Starting test C2892");
 
         // preconditions

@@ -1,7 +1,6 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
 import org.alfresco.common.DataUtil;
-import org.alfresco.common.UserData;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.share.site.CustomizeSitePage;
@@ -10,6 +9,11 @@ import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.constants.UserRole;
+import org.alfresco.utility.data.DataSite;
+import org.alfresco.utility.data.DataUser;
+import org.alfresco.utility.exception.DataPreparationException;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -19,14 +23,16 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AccessingDataListsComponentTests extends ContextAwareWebTest
 {
     @Autowired
-    DataUtil dataUtil;
-    
+    DataUser dataUser;
+
+    @Autowired
+    DataSite dataSite;
+
     @Autowired
     SiteDashboardPage siteDashboardPage;
     
@@ -40,15 +46,13 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     private String siteName;
     
     @BeforeClass(alwaysRun = true)
-    public void createUser()
-    {
+    public void createUser() {
         userName = String.format("User%s", DataUtil.getUniqueIdentifier());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
     }
 
     @BeforeMethod(alwaysRun = true)
-    public void precondition()
-    {
+    public void precondition() {
         siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
@@ -56,44 +60,54 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     
     @TestRail(id = "C5844")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void onlySiteManagerIsAbleToRenameDataListsFeatures()
-    {
-        setupAuthenticatedSession(userName, password);
-        siteDashboardPage.navigate(siteName);
-        
+    public void onlySiteManagerIsAbleToRenameDataListsFeatures() throws DataPreparationException {
         LOG.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
-        List<UserData> usersData = dataUtil.createUsersWithRoles(Arrays.asList("SiteCollaborator", "SiteContributor", "SiteConsumer"), userName, siteName);
-        
+        SiteModel testSite = dataSite.createPublicRandomSite();
+        dataUser.addUsersWithRolesToSite(testSite, UserRole.SiteCollaborator, UserRole.SiteConsumer, UserRole.SiteContributor);
         LOG.info("Step 1: Access 'Customize Site'");
+        setupAuthenticatedSession(userName, password);
+        siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.clickSiteConfiguration();
         siteDashboardPage.clickCustomizeSite();
         Assert.assertTrue(customizeSitePage.isPageAddedToCurrentPages(SitePageType.DATA_LISTS));
-        
         LOG.info("Step 2: Rename 'Data Lists' feature");
         customizeSitePage.renamePage(SitePageType.DATA_LISTS, "Test");
         Assert.assertTrue(customizeSitePage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "Data Lists wasn't rename correctly");
         customizeSitePage.clickOk();
-        
-        LOG.info("Step 3: Check the new name of the 'Data Lists' feature on the 'Site Dashboard'");
-        siteDashboardPage.navigate(siteName);
+        LOG.info("Step 3&4: Check the new name of the 'Data Lists' feature on the 'Site Dashboard'");
+        siteDashboardPage.navigate(testSite.getTitle());
         Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
         Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "Data Lists wasn't rename correctly");
-
-        for(UserData user: usersData)
-        {
-            LOG.info("Login as " + user.getUserRole());
-            cleanupAuthenticatedSession();
-            setupAuthenticatedSession(user.getUserName(), password);
-            
-            LOG.info("'Customize Site' is not accessible");
-            siteDashboardPage.navigate(siteName);
-            siteDashboardPage.clickSiteConfiguration();
-            Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
-            
-            LOG.info("Check the new name of the 'Data Lists' feature on the 'Site Dashboard'");
-            Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
-            Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");
-        } 
+        LOG.info("Step 5: Logout from the site manager account and login with the user account that has the Consumer role.");
+        cleanupAuthenticatedSession();
+        setupAuthenticatedSession(UserRole.SiteConsumer.getRoleId(), password);
+        LOG.info("Step 6: Access Test site and check the available Site Configuration Options.");
+        siteDashboardPage.navigate(testSite.getTitle());
+        siteDashboardPage.clickSiteConfiguration();
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
+        LOG.info("Step 7: Check the Data Lists feature name displayed on the Site Dashboard");
+        Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
+        Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");
+        LOG.info("Step 8: Logout from the site Consumer role user account and login with the user account that has the Collaborator role.");
+        cleanupAuthenticatedSession();
+        setupAuthenticatedSession(UserRole.SiteCollaborator.getRoleId(), password);
+        LOG.info("Step 9: Access Test site and check the available Site Configuration Options.");
+        siteDashboardPage.navigate(testSite.getTitle());
+        siteDashboardPage.clickSiteConfiguration();
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
+        LOG.info("Step 10: Check the Data Lists feature name displayed on the Site Dashboard");
+        Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
+        Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");
+        LOG.info("Step 11: Logout from the site Collaborator role user account and login with the user account that has the Contributor role.");
+        cleanupAuthenticatedSession();
+        setupAuthenticatedSession(UserRole.SiteContributor.getRoleId(), password);
+        LOG.info("Step 9: Access Test site and check the available Site Configuration Options.");
+        siteDashboardPage.navigate(testSite.getTitle());
+        siteDashboardPage.clickSiteConfiguration();
+        Assert.assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Customize Site"));
+        LOG.info("Step 10: Check the Data Lists feature name displayed on the Site Dashboard");
+        Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
+        Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");
     }
     
     @TestRail(id = "C5846")
