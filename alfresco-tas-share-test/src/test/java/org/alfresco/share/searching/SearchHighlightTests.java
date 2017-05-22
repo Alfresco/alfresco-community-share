@@ -11,6 +11,7 @@ import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.CreateBlogPostPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -103,7 +104,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42544")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchByName() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -117,7 +118,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42545")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchByTitle() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -131,7 +132,8 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42546")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
+
     public void highlightSearchByDescription() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -145,7 +147,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42547")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchByContent() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -159,7 +161,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42548")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchByNameOfBlog() {
         LOG.info("Step 1: Login with username and navigate to Blog page.");
         blogPage.navigate(siteName);
@@ -182,7 +184,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42550")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchByContentOnDifferentPage() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -199,7 +201,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42556")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchByPropertyName() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -213,7 +215,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42557")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchByPropertyTitle() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -227,7 +229,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42558")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchByPropertyDescription() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -250,7 +252,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42560")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchWithWildcards() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -291,7 +293,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42561")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchCMISStyleProperty(){
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -313,7 +315,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42562")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchWithConjunctions() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -343,7 +345,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42563")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchWithDisjunctions() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -369,7 +371,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42564")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchWithNegation() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
@@ -402,7 +404,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C42549")
-    @Test
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchByTermFoundInSiteName() {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
