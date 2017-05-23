@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.Notification;
@@ -10,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -36,13 +36,13 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     @Autowired private Notification notification;
 
     private final String folderTemplateName = "Software Engineering Project";
-    private final String fileTemplateName = String.format("fileTemplate%s", DataUtil.getUniqueIdentifier());
+    private final String fileTemplateName = String.format("fileTemplate%s", RandomData.getRandomAlphanumeric());
     private final String title = "googleDoc title";
     private final String googleDocName = "googleDoc title.docx";
     private final String googleDocSpreadsheet = "googleDoc title.xlsx";
     private final String googleDocPresentation = "googleDoc title.pptx";
     private final String docContent = "googleDoccontent";
-    private final String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void createPrecondition()

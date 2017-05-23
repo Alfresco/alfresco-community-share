@@ -1,12 +1,12 @@
 package org.alfresco.share.sitesFeatures.blog;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.BlogPromptWindow;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +29,9 @@ public class BlogPostAddCommentTests extends ContextAwareWebTest
     @Autowired
     BlogPromptWindow commentWindow;
 
-    private String user = String.format("C6011User%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("C6011SiteName%s", DataUtil.getUniqueIdentifier());
-    private String description = String.format("C6011SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("C6011User%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("C6011SiteName%s",RandomData.getRandomAlphanumeric());
+    private String description = String.format("C6011SiteDescription%s",RandomData.getRandomAlphanumeric());
     private String blogPostContentText = "C6011 post content text";
     private List<String> tags = Collections.singletonList("tagc6011");
     private String blogPostTitleC6011 = "C6011 blog post title";

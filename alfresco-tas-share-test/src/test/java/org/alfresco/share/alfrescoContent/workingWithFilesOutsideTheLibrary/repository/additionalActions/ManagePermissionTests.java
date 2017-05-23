@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAl
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -36,11 +36,11 @@ public class ManagePermissionTests extends ContextAwareWebTest
     @Autowired
     DeleteDocumentOrFolderDialog deleteDocumentOrFolderDialog;
 
-    private String userName = "0_0C202757User" + DataUtil.getUniqueIdentifier();
-    private String userC202758_1 = "C202758_1"+ DataUtil.getUniqueIdentifier();
-    private String userC202758_2 = "C202758_2"+ DataUtil.getUniqueIdentifier();
-    private String userC202762_1 = "C202762_1"+ DataUtil.getUniqueIdentifier();
-    private String userC202762_2 = "C202762_2"+ DataUtil.getUniqueIdentifier();
+    private String userName = "0_0C202757User" + RandomData.getRandomAlphanumeric();
+    private String userC202758_1 = "C202758_1"+ RandomData.getRandomAlphanumeric();
+    private String userC202758_2 = "C202758_2"+ RandomData.getRandomAlphanumeric();
+    private String userC202762_1 = "C202762_1"+ RandomData.getRandomAlphanumeric();
+    private String userC202762_2 = "C202762_2"+ RandomData.getRandomAlphanumeric();
     private String fname1= "FirstN1";
     private String lname1 = "LastN1";
     private String fname2= "FirstN2";
@@ -51,7 +51,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
     private String pathForFileC202762 = "0ManagePermissionsFolder";
     private String testDataFolder = srcRoot + "testdata" + File.separator;
     private String file = "Manage_permissions_test_file";
-    private String userC202776 = "C202759_1"+ DataUtil.getUniqueIdentifier();
+    private String userC202776 = "C202759_1"+ RandomData.getRandomAlphanumeric();
     private String folderC202776 = "C202776Folder";
     private String subFolderC202776 = "C202776Subfolder";
     private String pathfolderC202776 = "";

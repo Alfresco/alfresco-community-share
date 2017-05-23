@@ -1,11 +1,11 @@
 package org.alfresco.share;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.HideWelcomePanelDialogue;
 import org.alfresco.po.share.WelcomePanel;
 import org.alfresco.po.share.user.CustomizeUserDashboardPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -28,9 +28,9 @@ public class WelcomePanelTests extends ContextAwareWebTest
     CustomizeUserDashboardPage customizeUserDashboard;
 
     private String welcomeMessage = "GET STARTED\nTake a quick tour of Alfresco Share or learn about advanced features.";
-    private String userName1 = "User1" + DataUtil.getUniqueIdentifier();
-    private String userName2 = "User2" + DataUtil.getUniqueIdentifier();
-    private String userName3 = "User3" + DataUtil.getUniqueIdentifier();
+    private String userName1 = "User1" + RandomData.getRandomAlphanumeric();
+    private String userName2 = "User2" + RandomData.getRandomAlphanumeric();
+    private String userName3 = "User3" + RandomData.getRandomAlphanumeric();
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

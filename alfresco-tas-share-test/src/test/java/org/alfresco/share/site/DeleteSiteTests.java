@@ -1,6 +1,5 @@
 package org.alfresco.share.site;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.SiteFinderPage;
@@ -14,6 +13,7 @@ import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -61,10 +61,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsManagerFromSiteFinder()
     {
-        String user = String.format("userC2280%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("SiteNameC2280%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
-        String fileName = String.format("fileC2280-%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("userC2280%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("SiteNameC2280%s",RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s",RandomData.getRandomAlphanumeric());
+        String fileName = String.format("fileC2280-%s",RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
@@ -116,10 +116,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsContributorFromSiteFinder()
     {
-        String user1 = String.format("1UserC2281%s", DataUtil.getUniqueIdentifier());
-        String user2 = String.format("2UserC2281%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user1 = String.format("1UserC2281%s",RandomData.getRandomAlphanumeric());
+        String user2 = String.format("2UserC2281%s",RandomData.getRandomAlphanumeric());
+        String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s",RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
@@ -146,10 +146,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsCollaboratorFromSiteFinder()
     {
-        String user1 = String.format("1UserC2282%s", DataUtil.getUniqueIdentifier());
-        String user2 = String.format("2UserC2282%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user1 = String.format("1UserC2282%s",RandomData.getRandomAlphanumeric());
+        String user2 = String.format("2UserC2282%s",RandomData.getRandomAlphanumeric());
+        String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s",RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
@@ -176,10 +176,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsConsumerFromSiteFinder()
     {
-        String user1 = String.format("1UserC2283%s", DataUtil.getUniqueIdentifier());
-        String user2 = String.format("2UserC2283%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user1 = String.format("1UserC2283%s",RandomData.getRandomAlphanumeric());
+        String user2 = String.format("2UserC2283%s",RandomData.getRandomAlphanumeric());
+        String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s",RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
@@ -206,9 +206,9 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelDeleteSiteFromSiteFinder()
     {
-        String user = String.format("UserC2284%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("UserC2284%s",RandomData.getRandomAlphanumeric());
+        String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s",RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
@@ -254,10 +254,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsManagerFromDashlet()
     {
-        String user = String.format("UserC2286%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
-        String fileName = String.format("fileC2286-%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("UserC2286%s",RandomData.getRandomAlphanumeric());
+        String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s",RandomData.getRandomAlphanumeric());
+        String fileName = String.format("fileC2286-%s",RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
@@ -297,10 +297,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsContributorFromDashlet()
     {
-        String user1 = String.format("1UserC2287%s", DataUtil.getUniqueIdentifier());
-        String user2 = String.format("2UserC2287%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user1 = String.format("1UserC2287%s",RandomData.getRandomAlphanumeric());
+        String user2 = String.format("2UserC2287%s",RandomData.getRandomAlphanumeric());
+        String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s",RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
@@ -319,10 +319,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsCollaboratorFromDashlet()
     {
-        String user1 = String.format("1UserC2288%s", DataUtil.getUniqueIdentifier());
-        String user2 = String.format("2UserC2288%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user1 = String.format("1UserC2288%s",RandomData.getRandomAlphanumeric());
+        String user2 = String.format("2UserC2288%s",RandomData.getRandomAlphanumeric());
+        String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s",RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
@@ -341,10 +341,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsConsumerFromDashlet()
     {
-        String user1 = String.format("1UserC2289%s", DataUtil.getUniqueIdentifier());
-        String user2 = String.format("2UserC2289%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user1 = String.format("1UserC2289%s",RandomData.getRandomAlphanumeric());
+        String user2 = String.format("2UserC2289%s",RandomData.getRandomAlphanumeric());
+        String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s",RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
@@ -363,9 +363,9 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsAdminFromSiteManager()
     {
-        String user1 = String.format("userC2291%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("0-C2291-%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user1 = String.format("userC2291%s",RandomData.getRandomAlphanumeric());
+        String siteName = String.format("0-C2291-%s",RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s",RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
@@ -396,9 +396,9 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelDeleteSiteFromSitesManager()
     {
-        String user1 = String.format("UserC2292%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("0-C2292-%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user1 = String.format("UserC2292%s",RandomData.getRandomAlphanumeric());
+        String siteName = String.format("0-C2292-%s",RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s",RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);

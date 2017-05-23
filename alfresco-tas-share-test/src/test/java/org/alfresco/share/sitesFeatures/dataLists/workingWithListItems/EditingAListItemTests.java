@@ -1,7 +1,6 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
 import junit.framework.Assert;
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.Status;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
@@ -12,6 +11,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +41,8 @@ public class EditingAListItemTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
@@ -54,7 +54,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
     public void editingAMandatoryFieldOfAListItem()
     {      
         LOG.info("Preconditions: Create a second user");
-        String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
+        String userTest = String.format("userTest%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         
         LOG.info("Preconditions: Create a 'test.xlsx' file");

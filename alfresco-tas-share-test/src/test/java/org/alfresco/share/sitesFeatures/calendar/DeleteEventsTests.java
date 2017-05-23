@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.calendar;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
@@ -11,6 +10,7 @@ import org.alfresco.po.share.site.calendar.DeleteEventDialog;
 import org.alfresco.po.share.site.calendar.EventInformationDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -43,8 +43,8 @@ public class DeleteEventsTests extends ContextAwareWebTest
     @Autowired
     SiteCalendarDashlet siteCalendarDashlet;
 
-    private String user1 = String.format("user1%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("SiteName%s", DataUtil.getUniqueIdentifier());
+    private String user1 = String.format("user1%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
     private Date startDate = new Date();
     private String startHour = "2:00 PM";
     private String endHour = "4:00 PM";
@@ -66,7 +66,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void deleteEventMonthView()
     {
         // precondition
-        eventName = String.format("testEvent-C3174-%s", DataUtil.getUniqueIdentifier());
+        eventName = String.format("testEvent-C3174-%s", RandomData.getRandomAlphanumeric());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Month' view.");
@@ -96,7 +96,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void cancelDeletingEventMonthView()
     {
         // precondition
-        eventName = String.format("testEvent-C5400-%s", DataUtil.getUniqueIdentifier());
+        eventName = String.format("testEvent-C5400-%s", RandomData.getRandomAlphanumeric());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Month' view.");
@@ -129,7 +129,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void deleteEventDayView()
     {
         // precondition
-        eventName = String.format("testEvent-C5415-%s", DataUtil.getUniqueIdentifier());
+        eventName = String.format("testEvent-C5415-%s", RandomData.getRandomAlphanumeric());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Day' view.");
@@ -160,7 +160,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void cancelDeletingEventDayView()
     {
         // precondition
-        eventName = String.format("testEvent-C5416-%s", DataUtil.getUniqueIdentifier());
+        eventName = String.format("testEvent-C5416-%s", RandomData.getRandomAlphanumeric());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Day' view.");
@@ -194,7 +194,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void deleteEventWeekView()
     {
         // precondition
-        eventName = String.format("testEvent-C5417-%s", DataUtil.getUniqueIdentifier());
+        eventName = String.format("testEvent-C5417-%s", RandomData.getRandomAlphanumeric());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Week' view.");
@@ -225,7 +225,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void cancelDeletingEventWeekView()
     {
         // precondition
-        eventName = String.format("testEvent-C5418-%s", DataUtil.getUniqueIdentifier());
+        eventName = String.format("testEvent-C5418-%s", RandomData.getRandomAlphanumeric());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Week' view.");
@@ -259,7 +259,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void deleteEventByClickingOnTheEventAgendaView()
     {
         // precondition
-        eventName = String.format("testEvent-C5419-%s", DataUtil.getUniqueIdentifier());
+        eventName = String.format("testEvent-C5419-%s", RandomData.getRandomAlphanumeric());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Agenda' view.");
@@ -290,7 +290,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void cancelDeletingEventByClickingOnTheEventAgendaView()
     {
         // precondition
-        eventName = String.format("testEvent-C5420-%s", DataUtil.getUniqueIdentifier());
+        eventName = String.format("testEvent-C5420-%s", RandomData.getRandomAlphanumeric());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
 
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Agenda' view.");
@@ -324,7 +324,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void deleteEventByClickingDeleteIconAgendaView()
     {
         // precondition
-        eventName = String.format("testEvent-C6080-%s", DataUtil.getUniqueIdentifier());
+        eventName = String.format("testEvent-C6080-%s", RandomData.getRandomAlphanumeric());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
         calendarPage.navigate(siteName);
         calendarPage.clickAgendaButton();
@@ -348,7 +348,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     public void cancelDeletingEventByClickingDeleteIconAgendaView()
     {
         // precondition
-        eventName = String.format("testEvent-C6084-%s", DataUtil.getUniqueIdentifier());
+        eventName = String.format("testEvent-C6084-%s", RandomData.getRandomAlphanumeric());
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, "", "", startDate, startDate, startHour, endHour, false, "");
         calendarPage.navigate(siteName);
         calendarPage.clickAgendaButton();

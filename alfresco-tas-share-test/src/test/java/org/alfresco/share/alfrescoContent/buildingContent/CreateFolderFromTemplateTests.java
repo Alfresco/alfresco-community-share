@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -12,6 +11,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePe
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -46,8 +46,8 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createFolderFromTemplate()
     {
-        String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         String fileName = "system-overview.html";
         String breadcrumbPath = Arrays.asList("Documents", "Software Engineering Project", "Documentation", "Samples").toString();
 
@@ -98,8 +98,8 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelCreatingFolderFromTemplate()
     {
-        String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C6292", "C6292");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -126,10 +126,10 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void createFolderFromTemplateUsingWildcards()
     {
-        String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
         String userRole = "Coordinator";
-        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        String templateFolderName = "template1"+ DataUtil.getUniqueIdentifier();
+        String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+        String templateFolderName = "template1"+ RandomData.getRandomAlphanumeric();
         String folderName = "AFolder.Name";
         String illegalCharacters = "\'* \" < > \\ / . ? : |'";
         String folderPathInRepository = "Data Dictionary/Space Templates/";

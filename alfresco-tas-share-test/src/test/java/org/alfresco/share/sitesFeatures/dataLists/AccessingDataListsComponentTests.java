@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.share.site.CustomizeSitePage;
@@ -12,6 +11,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.data.DataSite;
 import org.alfresco.utility.data.DataUser;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -47,13 +47,13 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     
     @BeforeClass(alwaysRun = true)
     public void createUser() {
-        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+        userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void precondition() {
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
     }

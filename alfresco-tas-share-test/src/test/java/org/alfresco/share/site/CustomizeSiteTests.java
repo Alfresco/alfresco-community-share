@@ -1,6 +1,5 @@
 package org.alfresco.share.site;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.Theme;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
 import org.alfresco.po.share.site.CustomizeSitePage;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -35,8 +35,8 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeSiteTheme()
     {
-        String userName = "user2135-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = String.format("C2135%s", DataUtil.getUniqueIdentifier());
+        String userName = "user2135-" + RandomData.getRandomAlphanumeric() + domain;
+        String siteName = String.format("C2135%s", RandomData.getRandomAlphanumeric());
         LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2135", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -70,8 +70,8 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelChangeSiteTheme()
     {
-        String userName = "userC2148-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = String.format("C2148%s", DataUtil.getUniqueIdentifier());
+        String userName = "userC2148-" + RandomData.getRandomAlphanumeric() + domain;
+        String siteName = String.format("C2148%s", RandomData.getRandomAlphanumeric());
         LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2148", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -93,8 +93,8 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultCurrentAndAvailablePages()
     {
-        String userName = "user2156-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = String.format("C2156%s", DataUtil.getUniqueIdentifier());
+        String userName = "user2156-" + RandomData.getRandomAlphanumeric() + domain;
+        String siteName = String.format("C2156%s", RandomData.getRandomAlphanumeric());
         LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2156", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -131,8 +131,8 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addAvailablePagesToSite()
     {
-        String userName = "userC2164-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = String.format("C2164%s", DataUtil.getUniqueIdentifier());
+        String userName = "userC2164-" + RandomData.getRandomAlphanumeric() + domain;
+        String siteName = String.format("C2164%s", RandomData.getRandomAlphanumeric());
         LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2164", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -172,8 +172,8 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removePageFromSite()
     {
-        String userName = "userC2171-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = String.format("C2171%s", DataUtil.getUniqueIdentifier());
+        String userName = "userC2171-" + RandomData.getRandomAlphanumeric() + domain;
+        String siteName = String.format("C2171%s", RandomData.getRandomAlphanumeric());
         LOG.info("Step 1: Login to Share as any user.");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2171", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -212,8 +212,8 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void renamePage()
     {
-        String userName = "userC2173-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = String.format("C2173%s", DataUtil.getUniqueIdentifier());
+        String userName = "userC2173-" + RandomData.getRandomAlphanumeric() + domain;
+        String siteName = String.format("C2173%s", RandomData.getRandomAlphanumeric());
         LOG.info("Step 1: Login to Share as any user.");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2173", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);

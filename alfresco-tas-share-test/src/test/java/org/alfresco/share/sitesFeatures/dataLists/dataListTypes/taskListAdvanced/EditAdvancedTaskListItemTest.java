@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListAdvanced;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -33,10 +33,10 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
     @Autowired
     EditItemPopUp editItemPopUp;
     
-    String userName = String.format("User-%s", DataUtil.getUniqueIdentifier());
-    String userAssignee = String.format("UserA-%s", DataUtil.getUniqueIdentifier());
-    String siteName = String.format("SiteName-%s", DataUtil.getUniqueIdentifier());
-    String listName = String.format("Advanced task item name%s", DataUtil.getUniqueIdentifier());
+    String userName = String.format("User-%s", RandomData.getRandomAlphanumeric());
+    String userAssignee = String.format("UserA-%s", RandomData.getRandomAlphanumeric());
+    String siteName = String.format("SiteName-%s", RandomData.getRandomAlphanumeric());
+    String listName = String.format("Advanced task item name%s", RandomData.getRandomAlphanumeric());
     String itemTitle = "Advanced task item title";
     String itemDescription = "Advanced task item description";
     String itemComment = "Advanced task item comment";

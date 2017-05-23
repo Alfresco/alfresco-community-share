@@ -1,6 +1,5 @@
 package org.alfresco.share.adminTools.users;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
@@ -11,6 +10,7 @@ import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdm
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,13 +51,13 @@ public class UserProfileTests extends ContextAwareWebTest
     @Autowired
     EditUserPage editUserPage;
 
-    private String userName = String.format("UserProfileUser%s", DataUtil.getUniqueIdentifier());
-    private String c9416User = String.format("C9416user%s", DataUtil.getUniqueIdentifier());
-    private String c9417User = String.format("C9417user%s", DataUtil.getUniqueIdentifier());
-    private String c9431User = String.format("c9431user%s", DataUtil.getUniqueIdentifier());
-    private String c9427User = String.format("c9427user%s", DataUtil.getUniqueIdentifier());
-    private String c9426User = String.format("c9426user%s", DataUtil.getUniqueIdentifier());
-    private String c9434User = String.format("c9434user" + DataUtil.getUniqueIdentifier());
+    private String userName = String.format("UserProfileUser%s", RandomData.getRandomAlphanumeric());
+    private String c9416User = String.format("C9416user%s", RandomData.getRandomAlphanumeric());
+    private String c9417User = String.format("C9417user%s", RandomData.getRandomAlphanumeric());
+    private String c9431User = String.format("c9431user%s", RandomData.getRandomAlphanumeric());
+    private String c9427User = String.format("c9427user%s", RandomData.getRandomAlphanumeric());
+    private String c9426User = String.format("c9426user%s", RandomData.getRandomAlphanumeric());
+    private String c9434User = String.format("c9434user" + RandomData.getRandomAlphanumeric());
     private String authenticationError;
 
     @BeforeClass(alwaysRun = true)

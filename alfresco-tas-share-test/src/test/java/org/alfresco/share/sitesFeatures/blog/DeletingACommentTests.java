@@ -1,12 +1,12 @@
 package org.alfresco.share.sitesFeatures.blog;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -27,9 +27,9 @@ public class DeletingACommentTests extends ContextAwareWebTest
     
     @Autowired DeleteDialog deleteDialog;
 
-    private String user = String.format("C6063User%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("C6063SiteName%s", DataUtil.getUniqueIdentifier());
-    private String description = String.format("C6063SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("C6063User%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("C6063SiteName%s", RandomData.getRandomAlphanumeric());
+    private String description = String.format("C6063SiteDescription%s", RandomData.getRandomAlphanumeric());
     private String blogPostContentText = "C6063 post content text";
     private List<String> tags = Collections.singletonList("tagcC6063");
     private String blogPostTitleC6063 = "C6063 blog post title";

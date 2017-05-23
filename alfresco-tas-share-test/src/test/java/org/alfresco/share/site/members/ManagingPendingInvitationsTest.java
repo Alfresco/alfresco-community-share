@@ -6,6 +6,7 @@ import org.alfresco.po.share.site.members.PendingInvitesPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,11 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void pendingInvitesAreAvailableOnlyForSiteManagers()
     {
-        String userManager = String.format("User1%s", DataUtil.getUniqueIdentifier());
-        String userCollaborator = String.format("User2%s", DataUtil.getUniqueIdentifier());
-        String userContributor = String.format("User3%s", DataUtil.getUniqueIdentifier());
-        String userConsumer = String.format("User4%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+        String userManager = String.format("User1%s", RandomData.getRandomAlphanumeric());
+        String userCollaborator = String.format("User2%s", RandomData.getRandomAlphanumeric());
+        String userContributor = String.format("User3%s", RandomData.getRandomAlphanumeric());
+        String userConsumer = String.format("User4%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
         userService.create(adminUser, adminPassword, userCollaborator, password, userCollaborator + domain, userCollaborator, userCollaborator);
         userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
@@ -73,9 +74,9 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     public void searchForPendingInvites()
     {
         String userRole = "Contributor";
-        String userIdentifier = DataUtil.getUniqueIdentifier();
-        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+        String userIdentifier = RandomData.getRandomAlphanumeric();
+        String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -146,9 +147,9 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     public void verifyPendingInvitesPage()
     {
         String userRole = "Collaborator";
-        String userIdentifier = DataUtil.getUniqueIdentifier();
-        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+        String userIdentifier = RandomData.getRandomAlphanumeric();
+        String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -185,9 +186,9 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     public void verifyPendingInvitesForInternalUsers()
     {
         String userRole = "Consumer";
-        String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
-        String userName2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+        String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
+        String userName2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
         siteService.create(userName1, password, domain, siteName, "description", Site.Visibility.PUBLIC);

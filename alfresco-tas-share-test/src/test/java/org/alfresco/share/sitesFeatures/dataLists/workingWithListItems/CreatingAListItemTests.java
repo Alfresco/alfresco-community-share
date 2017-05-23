@@ -1,12 +1,12 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,9 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     @Autowired
     CreateNewItemPopUp createNewItemPopUp;
 
-    private final String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private final String folderName = String.format("Folder%s", DataUtil.getUniqueIdentifier());
+    private final String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    private final String folderName = String.format("Folder%s", RandomData.getRandomAlphanumeric());
     private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC6381" + File.separator;
 
     @BeforeClass(alwaysRun = true)
@@ -131,7 +131,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     public void createNewIssueListItem() {
         LOG.info("Preconditions: Create a new Issue List, a second user and a 'xlsx' file");
         String issueName = "issue" + System.currentTimeMillis();
-        String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
+        String userTest = String.format("userTest%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.ISSUE_LIST, issueName, "issue list description");
         dataListsPage.navigate(siteName);
@@ -183,7 +183,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewAdvancedTaskListItem() {
         LOG.info("Preconditions: Create a new Advanced Task List, a second user and a 'test.xlsx' file");
-        String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
+        String userTest = String.format("userTest%s", RandomData.getRandomAlphanumeric());
         String advancedTaskName = "advanced" + System.currentTimeMillis();
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.TASKS_ADVANCED, advancedTaskName, "advanced task list description");
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
@@ -202,7 +202,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewSimpleTaskListItem() {
         LOG.info("Preconditions: Create a new Simple Task List");
-        String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
+        String userTest = String.format("userTest%s", RandomData.getRandomAlphanumeric());
         String simpleTaskName = "simple" + System.currentTimeMillis();
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.TASKS_SIMPLE, simpleTaskName, "simple task list description");
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
@@ -221,7 +221,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewToDoListItem() {
         LOG.info("Preconditions: Create a new To Do List, a second user and a 'test.xlsx' file");
-        String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
+        String userTest = String.format("userTest%s", RandomData.getRandomAlphanumeric());
         String toDoName = "toDo" + System.currentTimeMillis();
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.TODO_LIST, toDoName, "To Do list description");
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
@@ -241,7 +241,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewVisitorFeedbackListItem() {
         LOG.info("Preconditions: Create a new Visitor Feedback List and a 'test.xlsx' file");
-        String userTest = String.format("userTest%s", DataUtil.getUniqueIdentifier());
+        String userTest = String.format("userTest%s", RandomData.getRandomAlphanumeric());
         String visitorName = "toDo" + System.currentTimeMillis();
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.TODO_LIST, visitorName, "Visitor Feedback list description");
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);

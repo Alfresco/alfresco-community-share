@@ -1,10 +1,10 @@
 package org.alfresco.share.adminTools.users;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
@@ -25,7 +25,7 @@ public class UserToolTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void accessingUsersTool()
     {
-        String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
         String groupName = "ALFRESCO_ADMINISTRATORS";
 
         LOG.info("Preconditions: User with administrator rights is created and logged into Share.");
@@ -61,7 +61,7 @@ public class UserToolTests extends ContextAwareWebTest
     public void searchingForUser()
     {
 
-        String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+        String uniqueIdentifier = RandomData.getRandomAlphanumeric();
         String userName1 = "C9392User" + uniqueIdentifier + "1";
         String userName2 = "C9392User" + uniqueIdentifier + "2";
         String groupName = "ALFRESCO_ADMINISTRATORS";

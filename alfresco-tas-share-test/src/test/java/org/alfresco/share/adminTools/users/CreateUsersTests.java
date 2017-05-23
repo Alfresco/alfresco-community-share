@@ -1,12 +1,12 @@
 package org.alfresco.share.adminTools.users;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.AdminToolsUserProfile;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.CreateUsers;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -47,7 +47,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void createUser()
 
     {
-        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -80,7 +80,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void createAndStartAnother()
 
     {
-        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -119,7 +119,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void managePassword()
 
     {
-        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         String message = "Password fields don't match.";
 
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
@@ -157,7 +157,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     public void addingUserToGroup()
 
     {
-        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         String group = "ALFRESCO_ADMINISTRATORS";
 
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
@@ -203,7 +203,7 @@ public class CreateUsersTests extends ContextAwareWebTest
 
     {
 
-        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         String authenticatinError = language.translate("login.authError");
 
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
@@ -245,7 +245,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addQuotaToUser()
     {
-        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         String quotaValue = "12345";
 
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");

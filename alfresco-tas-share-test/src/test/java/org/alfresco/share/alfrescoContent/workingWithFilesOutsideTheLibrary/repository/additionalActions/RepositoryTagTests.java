@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -27,7 +27,7 @@ public class RepositoryTagTests extends ContextAwareWebTest
 
     @Autowired private SelectDialog selectDialog;
 
-    private final String user = String.format("C8266TestUser%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C8266TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC8266 = "C8266 file";
     private final String fileNameC8290 = "C8290 file";
     private final String fileNameC8278 = "C8278 file";
@@ -36,10 +36,10 @@ public class RepositoryTagTests extends ContextAwareWebTest
     private final String fileContent = "test file content";
     private final String path = "User Homes/" + user;
     private final String folderName = "C8167 Folder";
-    private final String tagC8266 = String.format("tagNameFile-C8266-%s", DataUtil.getUniqueIdentifier());
-    private final String tagC8267 = String.format("tag-C8267%s", DataUtil.getUniqueIdentifier());
-    private final String tagC8278 = String.format("tag-C8278%s", DataUtil.getUniqueIdentifier());
-    private final String tagC8290 = String.format("tag-C8290%s", DataUtil.getUniqueIdentifier());
+    private final String tagC8266 = String.format("tagNameFile-C8266-%s", RandomData.getRandomAlphanumeric());
+    private final String tagC8267 = String.format("tag-C8267%s", RandomData.getRandomAlphanumeric());
+    private final String tagC8278 = String.format("tag-C8278%s", RandomData.getRandomAlphanumeric());
+    private final String tagC8290 = String.format("tag-C8290%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

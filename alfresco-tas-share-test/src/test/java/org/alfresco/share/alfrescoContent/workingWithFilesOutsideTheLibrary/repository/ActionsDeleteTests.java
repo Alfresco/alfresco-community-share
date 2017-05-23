@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -21,13 +21,13 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     @Autowired private DeleteDialog deleteDialog;
 
 
-    private final String user = String.format("C8308TestUser%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C8308TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileName = "C8308 file";
     private final String fileContent = "C8308 content";
     private final String path = "User Homes/" + user;
     private final String folderName = "C8308 Folder";
-    private final String fileNameC13749 = "C13749 file"+DataUtil.getUniqueIdentifier();
-    private final String folderNameC13751 = "C13751 Folder"+DataUtil.getUniqueIdentifier();
+    private final String fileNameC13749 = "C13749 file"+ RandomData.getRandomAlphanumeric();
+    private final String folderNameC13751 = "C13751 Folder"+RandomData.getRandomAlphanumeric();
     private final String path1 ="";
 
     @BeforeClass(alwaysRun = true)

@@ -1,10 +1,10 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -22,7 +22,7 @@ public class UploadingFilesTests extends ContextAwareWebTest
     @Autowired
     private UploadContent uploadContent;
 
-    private final String random = DataUtil.getUniqueIdentifier();
+    private final String random = RandomData.getRandomAlphanumeric();
 
     @TestRail(id = "C6970")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})

@@ -1,11 +1,11 @@
 package org.alfresco.share.site.members;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -38,7 +38,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerActionIsMissingForNonAdmins()
     {
         // preconditions
-        uniqueIdentifier = String.format("C2848-%s", DataUtil.getUniqueIdentifier());
+        uniqueIdentifier = String.format("C2848-%s",RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         user2 = "testUser2-" + uniqueIdentifier;
         siteName = "SiteName-" + uniqueIdentifier;
@@ -64,7 +64,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerActionWhenAdminIsSiteManager()
     {
         // preconditions
-        uniqueIdentifier = String.format("C2849-%s", DataUtil.getUniqueIdentifier());
+        uniqueIdentifier = String.format("C2849-%s", RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier + "-SiteName";
 
@@ -104,7 +104,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerUsingSiteConfigurationIcon()
     {
         // preconditions
-        uniqueIdentifier = String.format("C2850-%s", DataUtil.getUniqueIdentifier());
+        uniqueIdentifier = String.format("C2850-%s",RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = "SiteName-" + uniqueIdentifier;
 
@@ -156,7 +156,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerActionAvailableForAdmins()
     {
         // preconditions
-        uniqueIdentifier = String.format("0-C2852-%s", DataUtil.getUniqueIdentifier());
+        uniqueIdentifier = String.format("0-C2852-%s",RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
@@ -186,7 +186,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerFromSitesManagerAdminIsSiteMember()
     {
         // preconditions
-        uniqueIdentifier = String.format("0-C2854-%s", DataUtil.getUniqueIdentifier());
+        uniqueIdentifier = String.format("0-C2854-%s",RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
@@ -227,7 +227,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerActionAvailableForAdminNotSiteMember()
     {
         // preconditions
-        uniqueIdentifier = String.format("0-C2856-%s", DataUtil.getUniqueIdentifier());
+        uniqueIdentifier = String.format("0-C2856-%s",RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
@@ -258,7 +258,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     public void becomeSiteManagerFromSitesManagerAdminIsNotSiteMember()
     {
         // preconditions
-        uniqueIdentifier = String.format("0-C2861-%s", DataUtil.getUniqueIdentifier());
+        uniqueIdentifier = String.format("0-C2861-%s",RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 

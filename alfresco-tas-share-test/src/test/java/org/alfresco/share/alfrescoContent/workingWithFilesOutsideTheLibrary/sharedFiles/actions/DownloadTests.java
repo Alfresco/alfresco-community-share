@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class DownloadTests  extends ContextAwareWebTest
 
     @Autowired private DocumentCommon documentCommon;
 
-    private final String user = String.format("C8024TestUser%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C8024TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC8024 = "C8024 file2";
     private final String folderNameC8027 = "folderNameC80272";
     private final String fileContent = "test content";

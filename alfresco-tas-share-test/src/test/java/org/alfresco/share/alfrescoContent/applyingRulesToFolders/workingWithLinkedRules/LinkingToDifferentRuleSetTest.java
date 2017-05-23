@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithLinkedRules;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesP
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -41,7 +41,7 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
     @Autowired
     private SelectDestinationDialog selectDestinationDialog;
 
-    private final String random = DataUtil.getUniqueIdentifier();
+    private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "user-" + random;
     private final String siteName = "Site-" + random;
     private final String description = "description-" + random;

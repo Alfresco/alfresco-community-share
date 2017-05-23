@@ -1,10 +1,10 @@
 package org.alfresco.share.adminTools.nodeBrowser;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -21,9 +21,9 @@ public class NodeBrowserTests extends ContextAwareWebTest
     @Autowired
     NodeBrowserPage nodeBrowserPage;
 
-    private String description = String.format("nodeBrowserTests%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("nodeBrowserTests%s", DataUtil.getUniqueIdentifier());
-    private String fileName = String.format("nodeBrowserTests.xml%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("nodeBrowserTests%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("nodeBrowserTests%s", RandomData.getRandomAlphanumeric());
+    private String fileName = String.format("nodeBrowserTests.xml%s", RandomData.getRandomAlphanumeric());
     private String content = "nodeBrowserTestsContent";
     private String xpathSearchTerm = String.format("/app:company_home/st:sites/cm:%s/cm:documentLibrary/cm:%s",siteName,fileName);
     private String cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'",fileName);

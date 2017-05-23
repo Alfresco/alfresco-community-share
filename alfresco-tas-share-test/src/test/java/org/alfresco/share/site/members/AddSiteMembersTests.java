@@ -1,12 +1,12 @@
 package org.alfresco.share.site.members;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,24 +33,24 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
-    private String userManager1 = String.format("aManager1%s", DataUtil.getUniqueIdentifier());
-    private String userManager2 = String.format("aManager2%s", DataUtil.getUniqueIdentifier());
+    private String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
+    private String userManager1 = String.format("aManager1%s",RandomData.getRandomAlphanumeric());
+    private String userManager2 = String.format("aManager2%s",RandomData.getRandomAlphanumeric());
     private String manager2Name = "Manager2 fName lName";
-    private String userCollaborator = String.format("aCollaborator%s", DataUtil.getUniqueIdentifier());
+    private String userCollaborator = String.format("aCollaborator%s",RandomData.getRandomAlphanumeric());
     private String collaboratorName = "Collaborator fName lName";
-    private String userContributor = String.format("aContributor%s", DataUtil.getUniqueIdentifier());
+    private String userContributor = String.format("aContributor%s",RandomData.getRandomAlphanumeric());
     private String contributorName = "Contributor fName lName";
-    private String userConsumer = String.format("aConsumer%s", DataUtil.getUniqueIdentifier());
+    private String userConsumer = String.format("aConsumer%s",RandomData.getRandomAlphanumeric());
     private String consumerName = "Consumer fName lName";
-    private String sameRoleUserA = String.format("sameRoleUserA%s", DataUtil.getUniqueIdentifier());
-    private String sameRoleUserB = String.format("sameRoleUserB%s", DataUtil.getUniqueIdentifier());
-    private String sameRoleUserC = String.format("sameRoleUserC%s", DataUtil.getUniqueIdentifier());
-    private String differentRoleUserA = String.format("differentRoleUserA%s", DataUtil.getUniqueIdentifier());
-    private String differentRoleUserB = String.format("differentRoleUserB%s", DataUtil.getUniqueIdentifier());
-    private String differentRoleUserC = String.format("differentRoleUserC%s", DataUtil.getUniqueIdentifier());
-    private String differentRoleUserD = String.format("differentRoleUserD%s", DataUtil.getUniqueIdentifier());
-    private String removeUser = String.format("removeUser%s", DataUtil.getUniqueIdentifier());
+    private String sameRoleUserA = String.format("sameRoleUserA%s",RandomData.getRandomAlphanumeric());
+    private String sameRoleUserB = String.format("sameRoleUserB%s",RandomData.getRandomAlphanumeric());
+    private String sameRoleUserC = String.format("sameRoleUserC%s",RandomData.getRandomAlphanumeric());
+    private String differentRoleUserA = String.format("differentRoleUserA%s",RandomData.getRandomAlphanumeric());
+    private String differentRoleUserB = String.format("differentRoleUserB%s",RandomData.getRandomAlphanumeric());
+    private String differentRoleUserC = String.format("differentRoleUserC%s",RandomData.getRandomAlphanumeric());
+    private String differentRoleUserD = String.format("differentRoleUserD%s",RandomData.getRandomAlphanumeric());
+    private String removeUser = String.format("removeUser%s",RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

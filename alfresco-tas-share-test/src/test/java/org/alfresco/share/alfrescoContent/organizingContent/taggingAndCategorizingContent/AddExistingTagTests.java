@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -30,9 +30,9 @@ public class AddExistingTagTests extends ContextAwareWebTest
 
     @Autowired private SelectDialog selectDialog;
 
-    private final String userName = String.format("profileUser-%s", DataUtil.getUniqueIdentifier());
+    private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
-    private final String random = DataUtil.getUniqueIdentifier();
+    private final String random = RandomData.getRandomAlphanumeric();
     private final String siteName = "site-C7464-" + random;
     private final String fileName = "file-C7464-" + random;
     private final String folderName = "folder-C7464-" + random;

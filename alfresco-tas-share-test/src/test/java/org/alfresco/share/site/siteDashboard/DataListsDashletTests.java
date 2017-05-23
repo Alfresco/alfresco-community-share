@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.dataprep.DataListsService.DataList;
@@ -10,6 +9,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -31,8 +31,8 @@ public class DataListsDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletNoListCreated()
     {
-        String userName = String.format("user5568-%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("C5568%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("user5568-%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("C5568%s", RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C5568", "C5568");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
@@ -61,10 +61,10 @@ public class DataListsDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletTwoListsCreated()
     {
-        String userName = String.format("userC5569-%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("C5569%s", DataUtil.getUniqueIdentifier());
-        String eventListName = String.format("C5569%s", DataUtil.getUniqueIdentifier());
-        String todoListName = String.format("C5569%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("userC5569-%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("C5569%s", RandomData.getRandomAlphanumeric());
+        String eventListName = String.format("C5569%s", RandomData.getRandomAlphanumeric());
+        String todoListName = String.format("C5569%s", RandomData.getRandomAlphanumeric());
         String description = "C5569Test";
         int numberOfLists = 2;
 
@@ -103,8 +103,8 @@ public class DataListsDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletCreateDataList()
     {
-        String userName = String.format("userC5570-%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("C5570%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("userC5570-%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("C5570%s", RandomData.getRandomAlphanumeric());
         String listTitle = "Contact List";
         String listDescription = "Contacts";
 
@@ -156,9 +156,9 @@ public class DataListsDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletUserWithConsumerRole()
     {
-        String userNameSiteManager = String.format("userC5571-%s", DataUtil.getUniqueIdentifier());
-        String userNameSiteConsumer = String.format("userC5571Consumer-%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("C5571%s", DataUtil.getUniqueIdentifier());
+        String userNameSiteManager = String.format("userC5571-%s", RandomData.getRandomAlphanumeric());
+        String userNameSiteConsumer = String.format("userC5571Consumer-%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("C5571%s", RandomData.getRandomAlphanumeric());
         String listName = "ContactList";
         String description = "C5571Test";
 

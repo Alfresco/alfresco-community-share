@@ -1,6 +1,5 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
@@ -10,6 +9,7 @@ import org.alfresco.po.share.user.profile.EditUserProfilePage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -33,11 +33,11 @@ public class MyProfileTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void myLimitedProfileDashlet()
     {
-        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
-        String jobTitle = String.format("jobTitle%s", DataUtil.getUniqueIdentifier());
-        String telephone = String.format("0123456789%s", DataUtil.getUniqueIdentifier());
-        String skype = String.format("skype%s", DataUtil.getUniqueIdentifier());
-        String im = String.format("im%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
+        String jobTitle = String.format("jobTitle%s", RandomData.getRandomAlphanumeric());
+        String telephone = String.format("0123456789%s", RandomData.getRandomAlphanumeric());
+        String skype = String.format("skype%s", RandomData.getRandomAlphanumeric());
+        String im = String.format("im%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.addDashlet(userName, password, UserDashlet.MY_PROFILE, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
         setupAuthenticatedSession(userName, password);

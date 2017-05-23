@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -19,7 +19,7 @@ public class LikeTests extends ContextAwareWebTest
     @Autowired private SocialFeatures socialFeatures;
 
 
-    private final String user = String.format("C8301TestUser%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C8301TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC8301 = "C8301 file";
     private final String fileNameC8303 = "C8303 file";
     private final String fileContent = "test file content";

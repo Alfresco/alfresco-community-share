@@ -1,11 +1,11 @@
 package org.alfresco.share.site;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class CreateSiteTests extends ContextAwareWebTest
 {
@@ -29,8 +27,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    String user = String.format("user%s", DataUtil.getUniqueIdentifier());
-    String testSiteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+    String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+    String testSiteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -88,8 +86,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPublicSiteFromToolbar()
     {
-        String siteName = String.format("siteC2104-%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description-C2104-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("siteC2104-%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description-C2104-%s", RandomData.getRandomAlphanumeric());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
@@ -119,7 +117,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createSiteWithoutDescription()
     {
-        String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: \"Go to User's dashboard page - \"My sites\" dashlet.\n" + "Click \"Create site\".");
@@ -145,8 +143,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createModeratedSiteFromToolbar()
     {
-        String siteName = String.format("siteC2105-%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description-C2105-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("siteC2105-%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description-C2105-%s", RandomData.getRandomAlphanumeric());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
@@ -177,8 +175,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPrivateSiteFromToolbar()
     {
-        String siteName = String.format("siteC2106-%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description-C2106-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("siteC2106-%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description-C2106-%s", RandomData.getRandomAlphanumeric());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
@@ -208,8 +206,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPublicSiteFromDashlet()
     {
-        String siteName = String.format("siteC2107-%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description-C2107-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("siteC2107-%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description-C2107-%s", RandomData.getRandomAlphanumeric());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: \"Go to User's dashboard page - \"My sites\" dashlet.\n" + "Click \"Create site\".");
@@ -239,8 +237,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createModeratedSiteFromDashlet()
     {
-        String siteName = String.format("siteC2108-%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description-C2108-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("siteC2108-%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description-C2108-%s", RandomData.getRandomAlphanumeric());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: \"Go to User's dashboard page - \"My sites\" dashlet.\n" + "Click \"Create site\".");
@@ -270,8 +268,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPrivateSiteFromDashlet()
     {
-        String siteName = String.format("siteC2109-%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description-C2109-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("siteC2109-%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description-C2109-%s", RandomData.getRandomAlphanumeric());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: \"Go to User's dashboard page - \"My sites\" dashlet.\n" + "Click \"Create site\".");
@@ -301,8 +299,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelCreatingSite()
     {
-        String siteName = String.format("siteC2124-%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description-C2124-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("siteC2124-%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description-C2124-%s", RandomData.getRandomAlphanumeric());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
@@ -325,8 +323,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyCloseButton()
     {
-        String siteName = String.format("siteC2125-%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description-C2125-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("siteC2125-%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description-C2125-%s", RandomData.getRandomAlphanumeric());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
@@ -347,8 +345,8 @@ public class CreateSiteTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void urlNameAlreadyExists()
     {
-        String siteName = String.format("siteC2130-%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description-C2130-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("siteC2130-%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description-C2130-%s", RandomData.getRandomAlphanumeric());
         userDashboardPage.navigate(user);
 
         LOG.info("STEP1: Open the \"Sites\" menu on the toolbar and click on \"Create Site\"");
@@ -427,10 +425,10 @@ public class CreateSiteTests extends ContextAwareWebTest
 
     public void createSiteWithANameThatIsInUse()
     {
-        String siteName = "C14004SiteName"+ DataUtil.getUniqueIdentifier();
-        String siteID = DataUtil.getUniqueIdentifier();
+        String siteName = "C14004SiteName"+ RandomData.getRandomAlphanumeric();
+        String siteID = RandomData.getRandomAlphanumeric();
         String description = "description";
-        siteService.create(user, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         LOG.info("Precondition: User is logged into Share");
         userDashboardPage.navigate(user);
         siteDashboardPage.navigate(siteName);

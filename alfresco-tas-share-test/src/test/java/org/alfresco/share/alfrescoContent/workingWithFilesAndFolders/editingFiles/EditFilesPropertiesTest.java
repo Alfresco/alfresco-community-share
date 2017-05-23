@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -35,7 +35,7 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
     private void setup(String id)
     {
         LOG.info("Preconditions for test " + id);
-        uniqueIdentifier = "-" + id + "-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = "-" + id + "-" + RandomData.getRandomAlphanumeric();
         uniqueIdentifier = uniqueIdentifier.toLowerCase();
         siteName = "siteName" + uniqueIdentifier;
         userName = "User" + uniqueIdentifier;

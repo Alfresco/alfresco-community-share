@@ -1,11 +1,11 @@
 package org.alfresco.share.tasksAndWorkflows.EditAWorkflow;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.po.share.tasksAndWorkflows.*;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -36,14 +36,14 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
     @Autowired
     EditTaskPage editTaskPage;
 
-    private String workflowName = String.format("taskName%s", DataUtil.getUniqueIdentifier());
+    private String workflowName = String.format("taskName%s", RandomData.getRandomAlphanumeric());
 
     @TestRail(id = "C8463")
     @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void editWorkflow()
     {
         LOG.info("Precondition: Create user and a workflow.");
-        String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
         String comment = "C8463";
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
@@ -81,7 +81,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
     public void editTask()
     {
         LOG.info("Precondition: Create user and a workflow.");
-        String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
         String comment = "C8464";
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
@@ -109,7 +109,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
     public void verifyEditTaskForm()
     {
         LOG.info("Precondition: Create user and a workflow.");
-        String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
         setupAuthenticatedSession(testUser, password);

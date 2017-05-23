@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -38,9 +38,9 @@ public class SiteProfileDashletTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
-        userName2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
-        siteName1 = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+        userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
+        userName2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
+        siteName1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         role = "SiteManager";
         siteVisibility = "Public";
         siteDescription = "testDescription";

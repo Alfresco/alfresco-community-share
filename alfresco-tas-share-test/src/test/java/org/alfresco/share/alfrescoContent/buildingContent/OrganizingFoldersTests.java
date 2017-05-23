@@ -1,10 +1,10 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -26,7 +26,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
 
     @Autowired private NewContentDialog newContentDialog;
 
-    private final String uniqueId = DataUtil.getUniqueIdentifier();
+    private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String userName = "User-" + uniqueId;
     private final String description = "Description-" + uniqueId;
 

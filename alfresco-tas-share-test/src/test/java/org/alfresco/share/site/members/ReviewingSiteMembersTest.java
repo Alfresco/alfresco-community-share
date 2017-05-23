@@ -1,9 +1,9 @@
 package org.alfresco.share.site.members;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -22,10 +22,10 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
     @Autowired
     SiteUsersPage siteUsersPage;
 
-    private String user1 = String.format("testUser1%s", DataUtil.getUniqueIdentifier());
-    private String user2 = String.format("testUser2%s", DataUtil.getUniqueIdentifier());
-    private String user3 = String.format("testUser3%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+    private String user1 = String.format("testUser1%s", RandomData.getRandomAlphanumeric());
+    private String user2 = String.format("testUser2%s", RandomData.getRandomAlphanumeric());
+    private String user3 = String.format("testUser3%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

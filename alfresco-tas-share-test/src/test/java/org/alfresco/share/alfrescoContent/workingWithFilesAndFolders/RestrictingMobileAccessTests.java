@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -26,8 +26,8 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
 
     @Autowired private EditPropertiesPage editPropertiesPage;
 
-    private String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+    private String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private String fileName;
     private String fileContent = "testContent";
     private String helpMessage = "This field must contain a number.";
@@ -44,7 +44,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void addRestrictableAspect() throws Exception
     {
-        fileName = String.format("testFileC7111%s", DataUtil.getUniqueIdentifier());
+        fileName = String.format("testFileC7111%s", RandomData.getRandomAlphanumeric());
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         LOG.info("Preconditions: Navigate to Document Details page for the test file");
         documentLibraryPage.navigate(siteName);
@@ -68,7 +68,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void editRestrictableProperty()
     {
-        fileName = String.format("testFileC7111%s", DataUtil.getUniqueIdentifier());
+        fileName = String.format("testFileC7111%s", RandomData.getRandomAlphanumeric());
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentAspects.addAspect(userName, password, siteName, fileName, CMISUtil.DocumentAspect.RESTRICTABLE);
 
@@ -92,7 +92,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void removeRestrictableProperty() throws Exception
     {
-        fileName = String.format("testFileC7111%s", DataUtil.getUniqueIdentifier());
+        fileName = String.format("testFileC7111%s", RandomData.getRandomAlphanumeric());
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentAspects.addAspect(userName, password, siteName, fileName, CMISUtil.DocumentAspect.RESTRICTABLE);
 

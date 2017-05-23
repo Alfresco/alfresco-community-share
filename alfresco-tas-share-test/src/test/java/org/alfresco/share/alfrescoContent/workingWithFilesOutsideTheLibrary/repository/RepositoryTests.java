@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
@@ -10,6 +9,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -35,15 +35,15 @@ public class RepositoryTests extends ContextAwareWebTest
     
     @Autowired private RepositoryPage repositoryPage;
 
-    private final String user = String.format("C8154TestUser%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("C8154SiteDescription%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("1C8154SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C8154TestUser%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C8154SiteDescription%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("1C8154SiteName%s", RandomData.getRandomAlphanumeric());
     private final String fileName1 = "C8154 file1";
     private final String fileName2 = "C8154 file2";
     private final String folderName = "folderNameSite1";
     private final String folderName2 ="folderNameSite2";
     private final String fileContent = "test content";
-    private final String siteName2 = "2SecondTestSite"+ DataUtil.getUniqueIdentifier();
+    private final String siteName2 = "2SecondTestSite"+ RandomData.getRandomAlphanumeric();
     
 
     @BeforeClass(alwaysRun = true)

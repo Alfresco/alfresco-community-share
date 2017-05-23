@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -31,10 +31,10 @@ public class DocumentLibraryTests extends ContextAwareWebTest
 
     @Autowired private SiteDashboardPage sitePage;
 
-    private final String random = DataUtil.getUniqueIdentifier();
+    private final String random = RandomData.getRandomAlphanumeric();
     private final String user = "User" + random;
     private final String description = "SiteDescription" + random;
-    private final String siteName = String.format("C6907Site-%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C6907Site-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "C6936 Doc content";
 
     @BeforeClass(alwaysRun = true)

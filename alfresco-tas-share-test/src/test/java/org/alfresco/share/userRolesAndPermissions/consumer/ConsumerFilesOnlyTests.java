@@ -1,7 +1,6 @@
 
 package org.alfresco.share.userRolesAndPermissions.consumer;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -13,6 +12,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -50,9 +50,9 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     @Autowired
     Download download;
 
-    private String user = String.format("ConsumerUser%s", DataUtil.getUniqueIdentifier());
-    private String description = String.format("C8882SiteDescription%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("C8882SiteName%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("ConsumerUser%s", RandomData.getRandomAlphanumeric());
+    private String description = String.format("C8882SiteDescription%s",RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("C8882SiteName%s",RandomData.getRandomAlphanumeric());
     private String fileC8884 = "C8884 test file";
     private String fileC8885 = "C8885 test file";
     private String fileC8887 = "C8887 test file";

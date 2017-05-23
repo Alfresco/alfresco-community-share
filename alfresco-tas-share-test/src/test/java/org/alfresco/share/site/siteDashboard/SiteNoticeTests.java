@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.Dashlets;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.dashlet.SiteNoticeDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
@@ -35,7 +35,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
     public void setup(String id) throws DataPreparationException {
         super.setup();
 
-        uniqueIdentifier = String.format("-" + id + "-%s", DataUtil.getUniqueIdentifier());
+        uniqueIdentifier = String.format("-" + id + "-%s", RandomData.getRandomAlphanumeric());
         siteName = "siteName" + uniqueIdentifier;
         userName = "User" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;

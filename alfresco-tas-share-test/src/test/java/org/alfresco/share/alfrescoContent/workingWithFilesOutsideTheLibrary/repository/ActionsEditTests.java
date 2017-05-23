@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
@@ -13,6 +12,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -72,7 +72,7 @@ public class ActionsEditTests extends ContextAwareWebTest
 
     {
 
-        uniqueIdentifier = DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = RandomData.getRandomAlphanumeric();
         folderName = "testFolder" + uniqueIdentifier;
         editedFolderName = "UpdatedFolderName" + uniqueIdentifier;
         editedTitle = "Updated Title" + uniqueIdentifier;

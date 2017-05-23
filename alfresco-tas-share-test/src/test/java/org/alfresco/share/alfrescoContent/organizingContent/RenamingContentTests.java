@@ -1,10 +1,10 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -20,9 +20,9 @@ public class RenamingContentTests extends ContextAwareWebTest
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private final String userName = String.format("profileUser-%s", DataUtil.getUniqueIdentifier());
+    private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
-    private final String siteName = String.format("Site-%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("Site-%s",RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -36,7 +36,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void renameFileByEditIcon()
     {
-        String docName = String.format("Doc-C7419-%s", DataUtil.getUniqueIdentifier());
+        String docName = String.format("Doc-C7419-%s",RandomData.getRandomAlphanumeric());
         String newFileName = "newFileNameC7419";
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
@@ -63,7 +63,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     public void renameFolderByEditIcon()
     {
         String newFolderName = "new folder name C7420";
-        String folderName = String.format("Folder-C7420-%s", DataUtil.getUniqueIdentifier());
+        String folderName = String.format("Folder-C7420-%s",RandomData.getRandomAlphanumeric());
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -88,7 +88,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelRenamingContent()
     {
-        String docName = String.format("Doc-C7431-%s", DataUtil.getUniqueIdentifier());
+        String docName = String.format("Doc-C7431-%s",RandomData.getRandomAlphanumeric());
         String newFileName = "new file name C7431";
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 

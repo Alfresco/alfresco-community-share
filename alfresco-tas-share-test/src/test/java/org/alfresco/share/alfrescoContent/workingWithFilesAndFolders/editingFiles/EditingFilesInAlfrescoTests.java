@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAl
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -43,8 +43,8 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
     {
         LOG.info("Preconditions for Editing files in Google Docs tests");
 
-        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+        siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
 
         fileName = "testFile";
         fileContent = "testContent";

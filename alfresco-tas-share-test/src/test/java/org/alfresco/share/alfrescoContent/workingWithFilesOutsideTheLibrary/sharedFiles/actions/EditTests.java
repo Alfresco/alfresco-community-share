@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -11,6 +10,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAl
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -48,7 +48,7 @@ public class EditTests extends ContextAwareWebTest
     @Autowired
     private UploadContent uploadContent;
 
-    private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String user = "User" + uniqueIdentifier;
     private final String path = "Shared";
     private final String docName1 = "Doc-C7953-" + uniqueIdentifier;

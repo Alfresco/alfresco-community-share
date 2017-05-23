@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class ActionsSelectTests extends ContextAwareWebTest
     
     @Autowired private HeaderMenuBar menuBar;
 
-    private final String user = String.format("8163TestUser%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("8163TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileName = "C8163 file";
     private final String fileContent ="8163 content";
     private final String path = "User Homes/"+ user;

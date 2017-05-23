@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDi
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -38,7 +38,7 @@ public class UnzipContentTests extends ContextAwareWebTest
     @Autowired
     DeleteDialog deleteDialog;
 
-    private final String user = String.format("C8040TestUser%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C8040TestUser%s", RandomData.getRandomAlphanumeric());
     private final String path = "Shared";
     private final String zipFile = "archiveC8040.zip";
     private final String zipContent = "fileC8040";

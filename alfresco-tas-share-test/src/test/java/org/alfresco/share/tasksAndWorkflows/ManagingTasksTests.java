@@ -1,6 +1,5 @@
 package org.alfresco.share.tasksAndWorkflows;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.CMISUtil.Priority;
 import org.alfresco.dataprep.WorkflowService;
@@ -10,6 +9,7 @@ import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -42,13 +42,13 @@ public class ManagingTasksTests extends ContextAwareWebTest
     @Autowired
     SelectAssigneePopUp selectAssigneePopUp;
 
-    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
-    private String user2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private String docName = String.format("docName%s", DataUtil.getUniqueIdentifier());
-    private String docContent = String.format("docContent%s", DataUtil.getUniqueIdentifier());
+    private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
+    private String user2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    private String docName = String.format("docName%s", RandomData.getRandomAlphanumeric());
+    private String docContent = String.format("docContent%s", RandomData.getRandomAlphanumeric());
     private List<String> docs = new ArrayList<>();
-    private String taskName = String.format("taskName%s", DataUtil.getUniqueIdentifier());
+    private String taskName = String.format("taskName%s", RandomData.getRandomAlphanumeric());
     private String taskTypeAndStatus = "Task, In Progress";
 
     @BeforeClass(alwaysRun = true)

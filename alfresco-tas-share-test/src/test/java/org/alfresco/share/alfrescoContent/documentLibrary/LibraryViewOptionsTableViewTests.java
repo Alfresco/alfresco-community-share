@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.pageCommon.TableView;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -19,9 +19,9 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
 
     @Autowired private TableView tableView;
 
-    private final String user = String.format("C2266User%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("C2266SiteDescription%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("C2266SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C2266User%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C2266SiteDescription%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("C2266SiteName%s", RandomData.getRandomAlphanumeric());
     private final String docName = "testFile1";
     private final String docContent = "C2266 content";
     private final String folderName = "C2266 test folder";

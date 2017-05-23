@@ -45,7 +45,6 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
     @Autowired
     SiteUsersPage siteUsersPage;
 
-    private String userNameManager;
     private String testSiteName;
     private String testUserName;
     private String groupName;
@@ -53,15 +52,8 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void dataPreparation() throws Exception {
         UserModel manager = dataUser.createRandomTestUser();
-        UserModel testUser = dataUser.createRandomTestUser();
         SiteModel testSite =  dataSite.usingUser(manager).createPublicRandomSite();
-        dataUser.addUserToSite(testUser, testSite, UserRole.SiteManager);
-        GroupModel testGroup = dataGroup.createRandomGroup();
-        dataGroup.addUserToGroup(testGroup);
-        userNameManager=manager.getUsername();
         testSiteName = testSite.getTitle();
-        testUserName = testUser.getUsername();
-        groupName = testGroup.getDisplayName();
     }
 
     @TestRail(id = "C2835")
@@ -86,25 +78,28 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
 
     @TestRail(id = "C2836")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void changeRoleForAGroup()   {
-        setupAuthenticatedSession(testUserName, password);
-        LOG.info("Preconditions: Add the userTest in new created group. Add the group to site with 'Manager' role");
-        groupService.inviteGroupToSite(adminUser, adminPassword, testSiteName, groupName, "SiteManager");
+    public void changeRoleForAGroup() throws DataPreparationException {
+        UserModel testUser = dataUser.createRandomTestUser();
+        SiteModel testSite =  dataSite.usingUser(testUser).createPublicRandomSite();
+        GroupModel testGroup = dataGroup.usingUser(testUser).createRandomGroup();
+        dataGroup.addListOfUsersToGroup(testGroup, testUser);
+        setupAuthenticatedSession(testUser.getUsername(), password);
+        groupService.inviteGroupToSite(adminUser, adminPassword, testSite.getTitle(), testGroup.getDisplayName(), "SiteManager");
         LOG.info("Step 1: Open 'Site Members' page for the site");
-        siteUsersPage.navigate(testSiteName);
-        assertTrue(siteUsersPage.isASiteMember(testUserName + " FirstName LN-" + testUserName), testUserName+" is not a member of " + testSiteName);
-        assertEquals(siteUsersPage.getRole(testUserName), "Manager",  testUserName +" has role=");
+        siteUsersPage.navigate(testSite.getTitle());
+        assertTrue(siteUsersPage.isASiteMember(testUser.getUsername() + " FirstName LN-" + testUser.getUsername()), testUser.getUsername()+" is not a member of " + testSite.getTitle());
+        assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Manager",  testUser.getUsername() +" has role=");
         LOG.info("Step 2: Click on 'Groups' link");
         siteUsersPage.openSiteGroupsPage();
-        siteGroupsPage.typeSearchGroup(groupName);
+        siteGroupsPage.typeSearchGroup(testGroup.getDisplayName());
         siteGroupsPage.clickSearch();
-        assertTrue(siteGroupsPage.isASiteMember(groupName), "Expected group '" + groupName + "' is not present on the page.");
+        assertTrue(siteGroupsPage.isASiteMember(testGroup.getDisplayName()), "Expected group '" + testGroup.getDisplayName() + "' is not present on the page.");
         LOG.info("Step 3: Change the current role to 'Consumer'");
-        siteGroupsPage.changeRoleForMember("Consumer", groupName);
+        siteGroupsPage.changeRoleForMember("Consumer", testGroup.getDisplayName());
         LOG.info("Step 4: Click on 'Users' link and check the role of userTest has changed to 'Consumer'");
         siteGroupsPage.openSiteUsersPage();
-        assertTrue(siteUsersPage.isASiteMember(testUserName + " FirstName LN-" + testUserName));
-        assertEquals(siteUsersPage.getRole(testUserName), "Consumer", testUserName + " has role=");
+        assertTrue(siteUsersPage.isASiteMember(testUser.getUsername()  + " FirstName LN-" + testUser.getUsername() ));
+        assertEquals(siteUsersPage.getRole(testUser.getUsername() ), "Consumer", testUser.getUsername()  + " has role in " +testGroup.getDisplayName());
         cleanupAuthenticatedSession();
     }
 

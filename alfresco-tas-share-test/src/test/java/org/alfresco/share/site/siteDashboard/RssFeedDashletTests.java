@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.dashlet.RssFeedDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -23,8 +23,8 @@ public class RssFeedDashletTests extends ContextAwareWebTest
     @Autowired
     SiteDashboardPage siteDashboardPage;
 
-    private String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+    private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private int noOfFeeds = 10;
 
     @BeforeClass(alwaysRun = true)

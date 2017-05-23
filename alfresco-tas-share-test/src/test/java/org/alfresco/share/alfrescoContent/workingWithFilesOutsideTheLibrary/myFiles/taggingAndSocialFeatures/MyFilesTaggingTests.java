@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeClass;
@@ -23,16 +23,16 @@ import static org.testng.Assert.*;
  */
 public class MyFilesTaggingTests extends ContextAwareWebTest
 {
-    private final String testFileC7861 = DataUtil.getUniqueIdentifier() + "testFileC7861.txt";
-    private final String testFileC7873 = DataUtil.getUniqueIdentifier() + "testFileC7873.txt";
-    private final String testFileC7885 = DataUtil.getUniqueIdentifier() + "testFileC7885.txt";
-    private final String testFileC7886 = DataUtil.getUniqueIdentifier() + "testFileC7886.txt";
-    private final String testFileC7895 = DataUtil.getUniqueIdentifier() + "testFileC7895.txt";
-    private final String tagName = String.format("tag-%s", DataUtil.getUniqueIdentifier());
-    private final String tagName2 = String.format("tag2-%s", DataUtil.getUniqueIdentifier());
-    private final String folderNameC7862 = String.format("testFolderC7862%s", DataUtil.getUniqueIdentifier());
-    private final String folderNameC7873 = String.format("testFolderC7873%s", DataUtil.getUniqueIdentifier());
-	private String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+    private final String testFileC7861 = RandomData.getRandomAlphanumeric() + "testFileC7861.txt";
+    private final String testFileC7873 = RandomData.getRandomAlphanumeric() + "testFileC7873.txt";
+    private final String testFileC7885 = RandomData.getRandomAlphanumeric() + "testFileC7885.txt";
+    private final String testFileC7886 = RandomData.getRandomAlphanumeric() + "testFileC7886.txt";
+    private final String testFileC7895 = RandomData.getRandomAlphanumeric() + "testFileC7895.txt";
+    private final String tagName = String.format("tag-%s", RandomData.getRandomAlphanumeric());
+    private final String tagName2 = String.format("tag2-%s", RandomData.getRandomAlphanumeric());
+    private final String folderNameC7862 = String.format("testFolderC7862%s", RandomData.getRandomAlphanumeric());
+    private final String folderNameC7873 = String.format("testFolderC7873%s", RandomData.getRandomAlphanumeric());
+	private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
 	private final String myFilesPath = "User Homes/" + user;
 
     @Autowired

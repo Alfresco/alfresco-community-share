@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
@@ -32,7 +32,7 @@ public class UploadTests extends ContextAwareWebTest
 
     @Autowired private DeleteDialog deleteDialog;
 
-    private final String random = DataUtil.getUniqueIdentifier();
+    private final String random = RandomData.getRandomAlphanumeric();
     private final String user = "user1-" + random;
     private final String user2 = "user2-" + random;
     private final String path = "Shared";

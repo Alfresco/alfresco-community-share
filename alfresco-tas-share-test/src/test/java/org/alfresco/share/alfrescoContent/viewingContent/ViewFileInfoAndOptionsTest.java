@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +26,10 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
 
     @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+    private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
     private final String folderName = "testFolder";
-    private final String docName = String.format("testDoc%s", DataUtil.getUniqueIdentifier());
+    private final String docName = String.format("testDoc%s",RandomData.getRandomAlphanumeric());
     private final DateTime currentDate = new DateTime();
 
     @BeforeClass(alwaysRun = true)
