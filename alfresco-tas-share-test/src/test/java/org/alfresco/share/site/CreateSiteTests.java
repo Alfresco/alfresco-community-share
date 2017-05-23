@@ -430,7 +430,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         String siteName = "C14004SiteName"+ DataUtil.getUniqueIdentifier();
         String siteID = DataUtil.getUniqueIdentifier();
         String description = "description";
-        siteService.create(user, DataUtil.PASSWORD, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         LOG.info("Precondition: User is logged into Share");
         userDashboardPage.navigate(user);
         siteDashboardPage.navigate(siteName);
