@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.discussions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.site.discussion.DeleteTopicDialog;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.site.discussion.TopicListPage;
 import org.alfresco.po.share.site.discussion.TopicViewPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -35,8 +35,8 @@ public class DeleteTopicTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private String user1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+    private String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("Site1%s",RandomData.getRandomAlphanumeric());
     private String topic1Title = "Topic1";
     private String topic2Title = "Topic2";
     private String topicContent = "Some content";

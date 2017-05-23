@@ -1,11 +1,11 @@
 package org.alfresco.share.userProfile;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.ChangePasswordPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeClass;
@@ -24,7 +24,7 @@ public class ChangePasswordTest extends ContextAwareWebTest
     @Autowired
     private UserDashboardPage userDashboardPage;
 
-    private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String user = "user" + uniqueIdentifier;
     private final String newPasswordText = "newpassword" + uniqueIdentifier;
 

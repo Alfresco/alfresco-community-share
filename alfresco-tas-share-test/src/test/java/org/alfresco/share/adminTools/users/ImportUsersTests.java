@@ -1,11 +1,11 @@
 package org.alfresco.share.adminTools.users;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UploadResults;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
@@ -27,7 +27,7 @@ public class ImportUsersTests extends ContextAwareWebTest
     public void importUsers()
     {
 
-        String userName = String.format("userName%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
         String groupName = "ALFRESCO_ADMINISTRATORS";
         String file = "C9438.csv";
         String filePath = testDataFolder + file;

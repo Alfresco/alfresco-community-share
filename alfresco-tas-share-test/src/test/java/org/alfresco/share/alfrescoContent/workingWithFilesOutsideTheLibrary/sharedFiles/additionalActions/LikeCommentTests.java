@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.additionalActions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
@@ -27,7 +27,7 @@ public class LikeCommentTests extends ContextAwareWebTest
 
     @Autowired private SocialFeatures social;
 
-    private final String uniqueId = DataUtil.getUniqueIdentifier();
+    private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String user = "user" + uniqueId;
     private final String fileName1 = uniqueId + "testFile1.txt";
     private final String fileName2 = uniqueId + "testFile2.txt";

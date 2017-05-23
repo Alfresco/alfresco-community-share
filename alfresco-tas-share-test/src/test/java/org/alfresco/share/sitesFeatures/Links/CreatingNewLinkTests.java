@@ -1,12 +1,12 @@
 package org.alfresco.share.sitesFeatures.Links;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +30,12 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
     @Autowired
     LinkDetailsViewPage linkDetailsViewPage;
 
-    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+    private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName = "";
     private DateTime currentDate = new DateTime();
-    private String linkTitle = String.format("Link%s", DataUtil.getUniqueIdentifier());
+    private String linkTitle = String.format("Link%s", RandomData.getRandomAlphanumeric());
     private String linkURL = "https://www.google.com";
-    private String linkDescription = String.format("Link description%s", DataUtil.getUniqueIdentifier());
+    private String linkDescription = String.format("Link description%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -49,7 +49,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
     public void createExternalLink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
 
@@ -120,7 +120,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
     public void createInternalLink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
 
@@ -195,7 +195,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
     public void cancelCreatingNewLink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
 

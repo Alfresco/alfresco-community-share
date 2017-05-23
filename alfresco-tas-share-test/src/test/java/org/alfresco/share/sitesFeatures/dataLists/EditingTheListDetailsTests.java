@@ -1,7 +1,6 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
 import junit.framework.Assert;
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.share.site.dataLists.CreateDataListPopUp;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditListDetailsPopUp;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -34,14 +34,14 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+        userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void precondition()
     {
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         setupAuthenticatedSession(userName, password);
@@ -119,7 +119,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     {      
         
         LOG.info("Preconditions: Create a user with 'Collaborator' role");
-        String collaborator = String.format("Collaborator%s", DataUtil.getUniqueIdentifier());
+        String collaborator = String.format("Collaborator%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, collaborator, password, "collaborator@tests.com", "collaborator", "collaborator");
         userService.createSiteMember(userName, password, collaborator, siteName, "SiteCollaborator");
         setupAuthenticatedSession(collaborator, password);
@@ -151,7 +151,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     {      
         
         LOG.info("Preconditions: Create a user with 'Contributor' role");
-        String contributor = String.format("Contributor%s", DataUtil.getUniqueIdentifier());
+        String contributor = String.format("Contributor%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, contributor, password, "collaborator@tests.com", "collaborator", "collaborator");
         userService.createSiteMember(userName, password, contributor, siteName, "SiteContributor");
         setupAuthenticatedSession(contributor, password);
@@ -171,7 +171,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     {      
         
         LOG.info("Preconditions: Create a user with 'Consumer' role");
-        String consumer = String.format("Consumer%s", DataUtil.getUniqueIdentifier());
+        String consumer = String.format("Consumer%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, consumer, password, "collaborator@tests.com", "collaborator", "collaborator");
         userService.createSiteMember(userName, password, consumer, siteName, "SiteConsumer");
         setupAuthenticatedSession(consumer, password);
@@ -191,7 +191,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     {      
         
         LOG.info("Preconditions: Create a user with 'Collaborator' role and a list");
-        String contributor = String.format("Contributor%s", DataUtil.getUniqueIdentifier());
+        String contributor = String.format("Contributor%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, contributor, password, "Contributor@tests.com", "Contributor", "Contributor");
         userService.createSiteMember(userName, password, contributor, siteName, "SiteContributor");
         setupAuthenticatedSession(contributor, password);
@@ -228,7 +228,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     {      
         
         LOG.info("Preconditions: Create a user with 'Collaborator' role and a list");
-        String manager = String.format("Manager%s", DataUtil.getUniqueIdentifier());
+        String manager = String.format("Manager%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, manager, password, "manager@tests.com", "manager", "manager");
         userService.createSiteMember(userName, password, manager, siteName, "SiteManager");
         setupAuthenticatedSession(manager, password);

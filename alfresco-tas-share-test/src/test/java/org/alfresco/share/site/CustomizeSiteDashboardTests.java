@@ -1,6 +1,5 @@
 package org.alfresco.share.site;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.DashboardCustomizationImpl.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.site.CustomizeSiteDashboardPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -32,8 +32,8 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeSiteDashboardLayout()
     {
-        String userName = "user2198-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = String.format("C2198%s", DataUtil.getUniqueIdentifier());
+        String userName = "user2198-" + RandomData.getRandomAlphanumeric() + domain;
+        String siteName = String.format("C2198%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2198", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -118,8 +118,8 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addNewDashlet()
     {
-        String userName = "user2200-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = String.format("C2200%s", DataUtil.getUniqueIdentifier());
+        String userName = "user2200-" + RandomData.getRandomAlphanumeric() + domain;
+        String siteName = String.format("C2200%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2200", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
 
@@ -143,8 +143,8 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyCustomizeSiteDashboardPage()
     {
-        String userName = "user2202-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = String.format("C2202%s", DataUtil.getUniqueIdentifier());
+        String userName = "user2202-" + RandomData.getRandomAlphanumeric() + domain;
+        String siteName = String.format("C2202%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2202", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -191,8 +191,8 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void moveOrReorderDashlets()
     {
-        String userName = "user2203-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = String.format("C2203%s", DataUtil.getUniqueIdentifier());
+        String userName = "user2203-" + RandomData.getRandomAlphanumeric() + domain;
+        String siteName = String.format("C2203%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2203", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -219,8 +219,8 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultLayoutAndDashlets()
     {
-        String userName = "user2207-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = String.format("C2207%s", DataUtil.getUniqueIdentifier());
+        String userName = "user2207-" + RandomData.getRandomAlphanumeric() + domain;
+        String siteName = String.format("C2207%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2207", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -241,8 +241,8 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void resizeDashlet()
     {
-        String userName = "user2208-" + DataUtil.getUniqueIdentifier() + domain;
-        String siteName = String.format("C2208%s", DataUtil.getUniqueIdentifier());
+        String userName = "user2208-" + RandomData.getRandomAlphanumeric() + domain;
+        String siteName = String.format("C2208%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2208", "lname");
         siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);

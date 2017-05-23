@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +42,8 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest 
 
 	@BeforeMethod(alwaysRun = true)
 	public void setupTest() {
-		userName = String.format("User%s", DataUtil.getUniqueIdentifier());
-		siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+		userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+		siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
 		testFileName = "testFileC7074.txt";
 		fileContent = "Test Content C7074";
 		newVersionFileName = "EditedTestFileC7074.txt";

@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -22,11 +22,11 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
 
     @Autowired private DocumentDetailsPage documentDetailsPage;
     
-    private final String user = String.format("C7000User%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("C7000SiteDescription%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("C7000SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C7000User%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C7000SiteDescription%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("C7000SiteName%s", RandomData.getRandomAlphanumeric());
     private final String path = "Data Dictionary/Node Templates";
-    private final String docName ="template"+DataUtil.getUniqueIdentifier();
+    private final String docName ="template"+ RandomData.getRandomAlphanumeric();
     private final String docContent ="template content";
    
     @BeforeClass(alwaysRun = true)

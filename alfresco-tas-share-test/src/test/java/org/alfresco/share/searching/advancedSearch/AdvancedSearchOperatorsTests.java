@@ -1,6 +1,5 @@
 package org.alfresco.share.searching.advancedSearch;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
 import org.alfresco.po.share.searching.SearchPage;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +37,8 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    private String user1 = String.format("user1%s", DataUtil.getUniqueIdentifier());
-    private String site1 = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+    private String user1 = String.format("user1%s", RandomData.getRandomAlphanumeric());
+    private String site1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
     private String docC7210 = site1+"docC7210";
     private String docC7210_content = "C7210 C7210 C7210";
     private String docC5991 = "11123";

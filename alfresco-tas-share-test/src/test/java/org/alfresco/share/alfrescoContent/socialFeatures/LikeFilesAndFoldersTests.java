@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.socialFeatures;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -27,9 +27,9 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     
     @Autowired private SocialFeatures social;
     
-    private final String user = String.format("C7906User%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("C7906SiteDescription%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("C7906SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C7906User%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C7906SiteDescription%s",RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("C7906SiteName%s",RandomData.getRandomAlphanumeric());
     private final String fileNameC7906 = "C7906 title";
     private final String fileContentC7906 ="C7906 content";
     private final String folderNameC7907 ="C7907 folder name";

@@ -1,11 +1,11 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.SiteMembersDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -25,9 +25,9 @@ public class SiteMembersTest extends ContextAwareWebTest
     @Autowired
     SiteMembersDashlet siteMembersDashlet;
 
-    private String userName = String.format("profileUser%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("SiteName-C2799-%s", DataUtil.getUniqueIdentifier());
-    private String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+    private String userName = String.format("profileUser%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("SiteName-C2799-%s",RandomData.getRandomAlphanumeric());
+    private String description = String.format("description%s",RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

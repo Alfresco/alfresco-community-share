@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.dataLists.CreateDataListPopUp.DataListTypes;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -36,7 +36,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+        userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
     }
@@ -44,7 +44,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void createSite()
     {
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsPage.navigate(siteName);

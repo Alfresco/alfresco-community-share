@@ -1,10 +1,10 @@
 package org.alfresco.share.userRolesAndPermissions.consumer;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -27,7 +27,7 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
     @Autowired
     private DocumentsFilters documentsFilters;
 
-    private final String uniqueId = DataUtil.getUniqueIdentifier();
+    private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String user = "User-" + uniqueId;
     private final String site = "site-" + uniqueId;
     private final String name = "name";

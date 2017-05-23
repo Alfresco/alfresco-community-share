@@ -1,9 +1,9 @@
 package org.alfresco.share.searching.peopleFinder;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.PeopleFinderPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -18,7 +18,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByUsernameOrName()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         userService.create(adminUser, adminPassword, "test" + identifier, password, "test" + identifier + domain, "firstName" + identifier, "lastName" + identifier);
         userService.create(adminUser, adminPassword, "user1" + identifier, password, "user1" + identifier + domain, "test" + identifier, "lastName" + identifier);
         userService.create(adminUser, adminPassword, "user2" + identifier, password, "user2" + identifier + domain, "firstName" + identifier, "test" + identifier);
@@ -64,7 +64,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByFullUsername()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         userService.create(adminUser, adminPassword, "user1" + identifier, password, "user1" + identifier + domain, "firstName" + identifier, "lastName" + identifier);
         userService.create(adminUser, adminPassword, "user2" + identifier, password, "user2" + identifier + domain, "firstName" + identifier, "lastName" + identifier);
         setupAuthenticatedSession("user1" + identifier, password);
@@ -85,7 +85,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPartialUsername()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         userService.create(adminUser, adminPassword, "user" + identifier + "1", password, "user" + identifier + "1" + domain, "firstName" + identifier, "lastName" + identifier);
         userService.create(adminUser, adminPassword, "user" + identifier + "2", password, "user" + identifier + "2" + domain, "firstName" + identifier, "lastName" + identifier);
         setupAuthenticatedSession("user" + identifier + "1", password);
@@ -107,7 +107,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByFullName()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         userService.create(adminUser, adminPassword, "user1" + identifier, password, "user1" + identifier + domain, identifier, identifier);
         userService.create(adminUser, adminPassword, "user2" + identifier, password, "user2" + identifier + domain, "firstName" + identifier, "lastName" + identifier);
         setupAuthenticatedSession("user1" + identifier, password);
@@ -138,7 +138,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPartialName()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         userService.create(adminUser, adminPassword, "user" + identifier + "1", password, "user" + identifier + "1" + domain, "firstName" + identifier, "lastName" + identifier);
         userService.create(adminUser, adminPassword, "user" + identifier + "2", password, "user" + identifier + "2" + domain, "firstName" + identifier, "lastName" + identifier);
         setupAuthenticatedSession("user" + identifier + "1", password);

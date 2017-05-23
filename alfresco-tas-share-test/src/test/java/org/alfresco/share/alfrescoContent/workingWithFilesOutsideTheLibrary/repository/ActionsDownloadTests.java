@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
 
     @Autowired private DocumentCommon documentCommon;
 
-    private final String user = String.format("C8240TestUser%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C8240TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC8240 = "C8240 file";
     private final String folderNameC8243 = "folderNameC8243";
     private final String fileContent = "test content";

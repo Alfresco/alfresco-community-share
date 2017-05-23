@@ -1,10 +1,10 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -17,8 +17,8 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
 
     @Autowired private MyFilesPage myFilesPage;
 
-    private String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
-    private String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
+    private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+    private String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
     private String path = "User Homes/" + userName;
 
     @BeforeClass(alwaysRun = true)

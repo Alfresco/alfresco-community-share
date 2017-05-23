@@ -10,6 +10,7 @@ import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -42,7 +43,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void noActivitiesCreated()
     {
-        String uniqueIdentifier = String.format("-C2803-%s", DataUtil.getUniqueIdentifier());
+        String uniqueIdentifier = String.format("-C2803-%s", RandomData.getRandomAlphanumeric());
         String user = "profileUser" + uniqueIdentifier;
         String siteName = "Site" + uniqueIdentifier;
         String description = "Description" + uniqueIdentifier;
@@ -80,7 +81,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void dateFilter()
     {
-        String uniqueIdentifier = String.format("-C2809-%s", DataUtil.getUniqueIdentifier());
+        String uniqueIdentifier = String.format("-C2809-%s", RandomData.getRandomAlphanumeric());
         String user = "profileUser" + uniqueIdentifier;
         String siteName = "Site" + uniqueIdentifier;
         String description = "Description" + uniqueIdentifier;
@@ -123,9 +124,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
     public void activitiesDashletDisplaysGroupNameWhenLoggedInAsAdmin()
     {
-        String user = String.format("C12833User%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("C12833User%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s", RandomData.getRandomAlphanumeric());
         String groupName = "C12833Group";
         String managerRole = "Manager";
         String activity ="\""+ groupName+"\"" + " group added to site " + siteName + " with role " + managerRole;
@@ -158,9 +159,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void activitiesDashletDisplaysGroupNameWhenLoginWithOtherUserThanAdmin()
     {
-        String user = String.format("C12834User%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("C12834User%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s", RandomData.getRandomAlphanumeric());
         String groupName = "C12834Group";
         String managerRole = "Manager";
         String activity ="\""+ groupName+"\"" + " group added to site " + siteName + " with role " + managerRole;
@@ -193,9 +194,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
     public void groupNameIsDisplayedInGroupsTabSiteMembersGroup()
     {
-        String user = String.format("C12835User%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("C12835User%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s", RandomData.getRandomAlphanumeric());
         String groupName = "C12835Group";
         String groupId = "GROUP_"+ groupName;
         ArrayList<String> expectedGroupName = new ArrayList<>();
@@ -232,9 +233,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
     public void groupNameIsDisplayedInGroupsTabAddGroup()
     {
-        String user = String.format("C12836User%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("C12836User%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s", RandomData.getRandomAlphanumeric());
         String groupName = "C12836Group";
         String idLabelText ="ID:";
         String groupId = idLabelText +" GROUP_"+ groupName;
@@ -263,9 +264,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
     public void activitiesDashletDisplaysGroupNameWhenGroupsRoleIsChanged()
     {
-        String user = String.format("C12837User%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("C12837User%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s", RandomData.getRandomAlphanumeric());
         String groupName = "C12837Group";
         String groupId = "GROUP_"+ groupName;
         ArrayList<String> expectedGroupName = new ArrayList<>();
@@ -312,9 +313,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
     public void activitiesDashletDisplaysGroupNameWhenGroupIsRemovedFromSite()
     {
-        String user = String.format("C12838User%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("C12838User%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("description%s", RandomData.getRandomAlphanumeric());
         String groupName = "C12838Group";
         String groupId = "GROUP_"+ groupName;
         ArrayList<String> expectedGroupName = new ArrayList<>();

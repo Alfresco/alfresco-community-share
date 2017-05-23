@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -36,9 +36,9 @@ public class CreateTests extends ContextAwareWebTest
     private GoogleDocsCommon googleDocs;
 
     private final String folderTemplateName = "Software Engineering Project";
-    private final String fileTemplateName = DataUtil.getUniqueIdentifier() + "fileTemplate.txt";
-    private final String user = String.format("user%s", DataUtil.getUniqueIdentifier());
-    private final String user2 = String.format("user2-%s", DataUtil.getUniqueIdentifier());
+    private final String fileTemplateName = RandomData.getRandomAlphanumeric() + "fileTemplate.txt";
+    private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+    private final String user2 = String.format("user2-%s", RandomData.getRandomAlphanumeric());
 
     private final String title = "googleDocTitle";
     private final String googleDocName = "googleDocTitle.docx";

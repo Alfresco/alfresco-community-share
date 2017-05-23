@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
@@ -11,6 +10,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -40,13 +40,13 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     @Autowired
     SocialFeatures socialFeatures;
 
-    private final String fileName = String.format("testFile%s", DataUtil.getUniqueIdentifier());
-    private final String fileName2 = String.format("testFile2%s", DataUtil.getUniqueIdentifier());
+    private final String fileName = String.format("testFile%s",RandomData.getRandomAlphanumeric());
+    private final String fileName2 = String.format("testFile2%s", RandomData.getRandomAlphanumeric());
     private final String uploadFileName = "testFile1";
     private final String docContent = "testContent";
-    private final String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
-    private String userName2 = String.format("User1%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
+    private final String userName1 = String.format("User1%s",RandomData.getRandomAlphanumeric());
+    private String userName2 = String.format("User1%s",RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("Site%s",RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -95,7 +95,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void noDocumentsAdded()
     {
-        String siteName1 = String.format("Site%s", DataUtil.getUniqueIdentifier());
+        String siteName1 = String.format("Site%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
         siteService.create(userName1, userName1, domain, siteName1, "testDescription", Visibility.PUBLIC);

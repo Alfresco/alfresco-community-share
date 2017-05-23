@@ -1,10 +1,10 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -25,9 +25,9 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        nonAdminUser = String.format("nonAdminUser%s", DataUtil.getUniqueIdentifier());
-        folderInRepoMainPath = String.format("testFolderInRepoMainPath%s", DataUtil.getUniqueIdentifier());
-        folderInRepoUserHomes = String.format("folderInRepoUserHomes%s", DataUtil.getUniqueIdentifier());
+        nonAdminUser = String.format("nonAdminUser%s", RandomData.getRandomAlphanumeric());
+        folderInRepoMainPath = String.format("testFolderInRepoMainPath%s", RandomData.getRandomAlphanumeric());
+        folderInRepoUserHomes = String.format("folderInRepoUserHomes%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, nonAdminUser, password, nonAdminUser + domain, nonAdminUser, nonAdminUser);
         contentService.createFolderInRepository(adminUser, adminPassword, folderInRepoMainPath, null);
         contentService.createFolderInRepository(nonAdminUser, password, folderInRepoUserHomes, "User Homes/" + nonAdminUser);

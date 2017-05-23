@@ -1,6 +1,5 @@
 package org.alfresco.share.smartFolders;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.SmartFolders;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
@@ -12,6 +11,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -27,8 +27,8 @@ import static org.testng.Assert.assertEquals;
 
 public class UsingSmartFoldersTests extends ContextAwareWebTest
 {
-    private final String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
     private final String mainSmartFolder = "My content";
     private final String testFileName = "test.pdf";
     private final String newVersionFileName = "EditedTestFile8650.docx";
@@ -65,7 +65,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void createFolder()
     {
-        folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
         contentService.createFolder(userName, password, folderName, siteName);
         contentAspects.addAspect(userName, password, siteName, folderName, CMISUtil.DocumentAspect.SYSTEM_SMART_FOLDER);
 

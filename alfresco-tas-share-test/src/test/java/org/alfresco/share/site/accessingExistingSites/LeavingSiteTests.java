@@ -1,6 +1,5 @@
 package org.alfresco.share.site.accessingExistingSites;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.accessingExistingSites.LeaveSiteDialog;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -43,12 +43,12 @@ public class LeavingSiteTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private String user1 = String.format("testUser1%s", DataUtil.getUniqueIdentifier());
-    private String user2 = String.format("testUser2%s", DataUtil.getUniqueIdentifier());
-    private String firstName = String.format("fName%s", DataUtil.getUniqueIdentifier());
-    private String lastName = String.format("lName%s", DataUtil.getUniqueIdentifier());
+    private String user1 = String.format("testUser1%s", RandomData.getRandomAlphanumeric());
+    private String user2 = String.format("testUser2%s", RandomData.getRandomAlphanumeric());
+    private String firstName = String.format("fName%s", RandomData.getRandomAlphanumeric());
+    private String lastName = String.format("lName%s", RandomData.getRandomAlphanumeric());
     private String siteName;
-    private String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("description%s", RandomData.getRandomAlphanumeric());
     private String dialogTitle;
     private String dialogMessage;
 
@@ -64,7 +64,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     public void verifyLeaveSitePopup()
     {
         //precondition
-        siteName = String.format("SiteName-C2926-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C2926-%s", RandomData.getRandomAlphanumeric());
         dialogTitle = String.format(language.translate("leaveSite.dialogTitle"), siteName);
         dialogMessage = String.format(language.translate("leaveSite.dialogMessage"), siteName);
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
@@ -108,7 +108,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     public void cancelLeavingSiteUsingSiteConfigurationOptions()
     {
         //precondition
-        siteName = String.format("SiteName-C2927-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C2927-%s", RandomData.getRandomAlphanumeric());
         dialogTitle = String.format(language.translate("leaveSite.dialogTitle"), siteName);
         dialogMessage = String.format(language.translate("leaveSite.dialogMessage"), siteName);
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
@@ -158,7 +158,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     public void leaveSiteUsingSiteFinder()
     {
         //precondition
-        siteName = String.format("SiteName-C2928-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C2928-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
 
@@ -207,7 +207,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     public void leaveSiteUsingSiteConfigurationOptions()
     {
         //precondition
-        siteName = String.format("SiteName-C2930-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C2930-%s", RandomData.getRandomAlphanumeric());
         dialogTitle = String.format(language.translate("leaveSite.dialogTitle"), siteName);
         dialogMessage = String.format(language.translate("leaveSite.dialogMessage"), siteName);
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
@@ -255,7 +255,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     public void leaveSiteWithoutConfirmation()
     {
         //precondition
-        siteName = String.format("SiteName-C2931-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C2931-%s", RandomData.getRandomAlphanumeric());
         dialogTitle = String.format(language.translate("leaveSite.dialogTitle"), siteName);
         dialogMessage = String.format(language.translate("leaveSite.dialogMessage"), siteName);
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);

@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +69,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
     public void myFilesDownloadFileFromAlfresco()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
-        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("user%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();
@@ -94,7 +94,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
     public void downloadFolder()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
-        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("user%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();

@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -33,10 +33,10 @@ public class CopyingContentTests extends ContextAwareWebTest
 
     @Autowired private CopyMoveUnzipToDialog copyMoveToDialog;
 
-    private final String userName = String.format("profileUser1-%s", DataUtil.getUniqueIdentifier());
+    private final String userName = String.format("profileUser1-%s", RandomData.getRandomAlphanumeric());
     private final String firstName = "FirstName";
     private final String lastName = "LastName";
-    private final String description = String.format("Description-%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
     private final String copyAction = "Copy to...";
 
@@ -50,8 +50,8 @@ public class CopyingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void copyFileToSharedFiles()
     {
-        String siteName = String.format("Site-C7377-%s", DataUtil.getUniqueIdentifier());
-        String docName = String.format("Doc-C7377-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site-C7377-%s", RandomData.getRandomAlphanumeric());
+        String docName = String.format("Doc-C7377-%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
@@ -86,8 +86,8 @@ public class CopyingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelCopyFileToSharedFiles()
     {
-        String siteName = String.format("Site-C7378-%s", DataUtil.getUniqueIdentifier());
-        String docName = String.format("Doc-C7378-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("Site-C7378-%s", RandomData.getRandomAlphanumeric());
+        String docName = String.format("Doc-C7378-%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
 
@@ -120,10 +120,10 @@ public class CopyingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void copyFolderToPublicSite()
     {
-        String siteName1 = String.format("Site1-C7388-%s", DataUtil.getUniqueIdentifier());
-        String siteName2 = String.format("Site2-C7388-%s", DataUtil.getUniqueIdentifier());
-        String docName = String.format("TestDoc-C7388-%s", DataUtil.getUniqueIdentifier());
-        String folderName = String.format("Folder-C7388-%s", DataUtil.getUniqueIdentifier());
+        String siteName1 = String.format("Site1-C7388-%s", RandomData.getRandomAlphanumeric());
+        String siteName2 = String.format("Site2-C7388-%s", RandomData.getRandomAlphanumeric());
+        String docName = String.format("TestDoc-C7388-%s", RandomData.getRandomAlphanumeric());
+        String folderName = String.format("Folder-C7388-%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteName2, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);

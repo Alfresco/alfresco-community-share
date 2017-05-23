@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListSimple;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -34,9 +34,9 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
     @Autowired
     EditItemPopUp editItemPopUp;
 
-    String userName = String.format("User-%s", DataUtil.getUniqueIdentifier());
-    String siteName = String.format("SiteName%s", DataUtil.getUniqueIdentifier());
-    String taskListSimple = String.format("Simple task item name%s", DataUtil.getUniqueIdentifier());
+    String userName = String.format("User-%s", RandomData.getRandomAlphanumeric());
+    String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
+    String taskListSimple = String.format("Simple task item name%s", RandomData.getRandomAlphanumeric());
     String itemTitle = "Simple task item title";
     String itemDescription = "Simple task item description";
     String itemComment = "Simple task item comment";

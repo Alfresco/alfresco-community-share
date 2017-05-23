@@ -1,6 +1,5 @@
 package org.alfresco.share.site.members;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.site.members.PendingInvitesPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Role;
@@ -49,7 +49,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     @BeforeMethod
     public void setupTest()
     {
-        final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+        final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
         userName1 = "user1-" + uniqueIdentifier;
         userName2 = "user2-" + uniqueIdentifier;
         userName3 = "user3-" + uniqueIdentifier;
@@ -176,7 +176,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsSiteManager()
     {
-        String userName4 = "user4" + DataUtil.getUniqueIdentifier();
+        String userName4 = "user4" + RandomData.getRandomAlphanumeric();
         userService.create(adminUser, adminPassword, userName4, password, email, firstName, lastName + "4");
         userService.createSiteMember(userName1, password, userName4, site, Role.SiteManager.toString());
 

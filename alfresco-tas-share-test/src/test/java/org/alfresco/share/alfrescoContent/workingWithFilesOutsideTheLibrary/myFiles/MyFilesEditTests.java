@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
@@ -11,6 +10,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAl
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -24,16 +24,16 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesEditTests extends ContextAwareWebTest
 {
-private final String user = String.format("user%s", DataUtil.getUniqueIdentifier());
-    private final String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc";
-    private final String docNameC8186 = DataUtil.getUniqueIdentifier() + "testDocC8186";
-    private final String docNameC8212 = DataUtil.getUniqueIdentifier() + "testDocC8212";
-    private final String editedFolderName = String.format("editedFolderName%s", DataUtil.getUniqueIdentifier());
+private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+    private final String googleDocName = RandomData.getRandomAlphanumeric() + "googleDoc";
+    private final String docNameC8186 = RandomData.getRandomAlphanumeric() + "testDocC8186";
+    private final String docNameC8212 = RandomData.getRandomAlphanumeric() + "testDocC8212";
+    private final String editedFolderName = String.format("editedFolderName%s", RandomData.getRandomAlphanumeric());
     private final String editedTitle = "editedTitle";
     private final String editedContent = "edited content in Alfresco";
     private final String editedDescription = "edited description in Alfresco";;
-    private final String tag = String.format("editTag%s", DataUtil.getUniqueIdentifier());
-    private final String folderName = String.format("Folder%s", DataUtil.getUniqueIdentifier());
+    private final String tag = String.format("editTag%s", RandomData.getRandomAlphanumeric());
+    private final String folderName = String.format("Folder%s", RandomData.getRandomAlphanumeric());
     private final String myFilesPath = "User Homes/" + user;
     @Autowired
     private MyFilesPage myFilesPage;
@@ -62,7 +62,7 @@ private final String user = String.format("user%s", DataUtil.getUniqueIdentifier
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesEditFileProperties()
     {
-        editedDocName = String.format("editedDocName%s", DataUtil.getUniqueIdentifier());
+        editedDocName = String.format("editedDocName%s", RandomData.getRandomAlphanumeric());
         contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, docNameC8186, "some content");
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
         myFilesPage.navigate();
@@ -143,7 +143,7 @@ private final String user = String.format("user%s", DataUtil.getUniqueIdentifier
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesEditFileInAlfresco()
     {
-        editedDocName = String.format("editedDocName%s", DataUtil.getUniqueIdentifier());
+        editedDocName = String.format("editedDocName%s", RandomData.getRandomAlphanumeric());
         contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.TEXT_PLAIN, docNameC8212, "some content");
         LOG.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
         myFilesPage.navigate();

@@ -1,6 +1,5 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
@@ -10,6 +9,7 @@ import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +39,9 @@ public class MyDocumentsTests extends ContextAwareWebTest
     public void setupTest()
     {
         cleanupAuthenticatedSession();
-        userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
-        siteName1 = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+        siteName1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName1, password, domain, siteName1, "description", Visibility.PUBLIC);
     }
 
@@ -50,7 +50,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
     public void detailedView()
     {
         LOG.info("STEP 1 - Create document then update its content");
-        String userName2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
+        String userName2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
         String file = "TestDoc";
         Assert.assertFalse(contentService.createDocument(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, file).getId().isEmpty());
@@ -121,9 +121,9 @@ public class MyDocumentsTests extends ContextAwareWebTest
     public void filterDocuments()
     {
         LOG.info("STEP 1 - Create 3 documents, one is checked out for edit and one is favorite");
-        String file1 = String.format("File1%s", DataUtil.getUniqueIdentifier());
-        String file2 = String.format("File2%s", DataUtil.getUniqueIdentifier());
-        String file3 = String.format("File3%s", DataUtil.getUniqueIdentifier());
+        String file1 = String.format("File1%s", RandomData.getRandomAlphanumeric());
+        String file2 = String.format("File2%s", RandomData.getRandomAlphanumeric());
+        String file3 = String.format("File3%s", RandomData.getRandomAlphanumeric());
         contentService.createDocument(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file1, file1);
         contentService.createDocument(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file2, file2);
         contentService.createDocument(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file3, file3);

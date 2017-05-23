@@ -1,14 +1,12 @@
 package org.alfresco.share.adminTools.groups;
 
-import static org.testng.Assert.assertEquals;
-
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.site.members.AddSiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -16,6 +14,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Razvan.Dorobantu
@@ -34,7 +34,7 @@ public class GroupsTests extends ContextAwareWebTest
     @Autowired
     private AddSiteGroupsPage addSiteGroupsPage;
 
-    private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String C9462group = "_C9462group" + uniqueIdentifier;
     private final String C9465group = "_C9465group" + uniqueIdentifier;
     private final String C9469group = "_C9469group" + uniqueIdentifier;

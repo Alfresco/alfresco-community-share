@@ -1,11 +1,11 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.dashlet.SiteFileTypeBreakdownDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -28,9 +28,9 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     @Autowired
     SiteFileTypeBreakdownDashlet siteFileTypeBreakdownDashlet;
 
-    private final String user = String.format("user%s", DataUtil.getUniqueIdentifier());
-    private final String siteNameC5783 = String.format("SiteName-C5783-%s", DataUtil.getUniqueIdentifier());
-    private final String siteNameC5785 = String.format("SiteName-C5785-%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+    private final String siteNameC5783 = String.format("SiteName-C5783-%s", RandomData.getRandomAlphanumeric());
+    private final String siteNameC5785 = String.format("SiteName-C5785-%s", RandomData.getRandomAlphanumeric());
     private final String fileName = "File-C5785";
 
     @BeforeClass(alwaysRun = true)

@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -30,14 +30,14 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
     @Autowired private Notification notification;
 
-    private final String user = String.format("C8156User%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("C8156SiteDescription%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("C8156SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C8156User%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C8156SiteDescription%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("C8156SiteName%s", RandomData.getRandomAlphanumeric());
     private final String path = "Data Dictionary/Node Templates";
-    private final String docName = String.format("C8159template2%s", DataUtil.getUniqueIdentifier());
+    private final String docName = String.format("C8159template2%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "C8159 template content";
     private final String pathFolderTemplate = "Data Dictionary/Space Templates";
-    private final String folderName = String.format("C8158%s", DataUtil.getUniqueIdentifier());
+    private final String folderName = String.format("C8158%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
 

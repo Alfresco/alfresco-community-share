@@ -1,12 +1,12 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -29,7 +29,7 @@ public class DeletingAListItemTest extends ContextAwareWebTest
     @Autowired
     DeleteDialog deleteDialog;
 
-    String random = DataUtil.getUniqueIdentifier();
+    String random = RandomData.getRandomAlphanumeric();
     String userName = "User-" + random;
     String siteName = "SiteName-" + random;
     String contactListName = "contactList";

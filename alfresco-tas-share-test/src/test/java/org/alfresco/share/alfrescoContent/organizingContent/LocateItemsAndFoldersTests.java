@@ -1,10 +1,10 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.By;
@@ -25,10 +25,10 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private final String testUser = String.format("user%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private final String folderName = String.format("locateFolder%s", DataUtil.getUniqueIdentifier());
-    private final String docName = String.format("locateDoc%s", DataUtil.getUniqueIdentifier());
+    private final String testUser = String.format("user%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    private final String folderName = String.format("locateFolder%s", RandomData.getRandomAlphanumeric());
+    private final String docName = String.format("locateDoc%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

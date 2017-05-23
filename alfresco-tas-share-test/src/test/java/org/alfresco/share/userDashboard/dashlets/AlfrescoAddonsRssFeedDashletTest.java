@@ -1,6 +1,5 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
 import org.alfresco.po.share.dashlet.EnterFeedURLPopUp;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.dashlet.RssFeedDashlet;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -31,7 +31,7 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void verifyAlfrescoAddonsNewsFeedDashlet()
     {
-        String userName = String.format("C2168-%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("C2168-%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2793", "lname");
         userService.addDashlet(userName, password, UserDashlet.ADDONS_RSS_FEED, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
         setupAuthenticatedSession(userName, password);

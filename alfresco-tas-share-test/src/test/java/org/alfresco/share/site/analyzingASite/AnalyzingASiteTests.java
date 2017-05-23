@@ -1,6 +1,5 @@
 package org.alfresco.share.site.analyzingASite;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.dashlet.SiteContributorBreakdownDashlet;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.dashlet.SiteFileTypeBreakdownDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -32,12 +32,12 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
 
     @Autowired SiteContributorBreakdownDashlet siteContributorBreackdownDashlet;
 
-    private String user = String.format("user2233-%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("C2233%s", DataUtil.getUniqueIdentifier());
-    private String siteNameC2234 = String.format("C2234SiteName%s", DataUtil.getUniqueIdentifier());
-    private String user1C2234 = "C2234-1";//+ DataUtil.getUniqueIdentifier();
-    private String user2C2234 = "C2234-2";//+ DataUtil.getUniqueIdentifier();
-    private String user3C2234 = "C2234-3";//+ DataUtil.getUniqueIdentifier();
+    private String user = String.format("user2233-%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("C2233%s", RandomData.getRandomAlphanumeric());
+    private String siteNameC2234 = String.format("C2234SiteName%s", RandomData.getRandomAlphanumeric());
+    private String user1C2234 = "C2234-1";//+ RandomData.getRandomAlphanumeric();
+    private String user2C2234 = "C2234-2";//+ RandomData.getRandomAlphanumeric();
+    private String user3C2234 = "C2234-3";//+ RandomData.getRandomAlphanumeric();
     private String user4C2234 = "C2234-4";
     private String fileNameTxt1 = "txt file1";
     private String fileContentTxt1 = "Content for .txt file 1";
@@ -59,19 +59,19 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
     private String fileContentDocx1 = "Content for .docx file 1";
     private String picture = "Lighthouse";
 
-    private String fileName1User1 = "File1"+ DataUtil.getUniqueIdentifier();
-    private String fileName2User1 = "File2"+ DataUtil.getUniqueIdentifier();
-    private String fileName3User1 = "File3"+ DataUtil.getUniqueIdentifier();
+    private String fileName1User1 = "File1"+ RandomData.getRandomAlphanumeric();
+    private String fileName2User1 = "File2"+ RandomData.getRandomAlphanumeric();
+    private String fileName3User1 = "File3"+ RandomData.getRandomAlphanumeric();
     private String fileContentUser1 = "Content User 1";
-    private String fileName1User2 = "File1User2"+ DataUtil.getUniqueIdentifier();
-    private String fileName2User2 = "File2User2"+ DataUtil.getUniqueIdentifier();
-    private String fileName3User2 = "File3User2"+ DataUtil.getUniqueIdentifier();
+    private String fileName1User2 = "File1User2"+ RandomData.getRandomAlphanumeric();
+    private String fileName2User2 = "File2User2"+ RandomData.getRandomAlphanumeric();
+    private String fileName3User2 = "File3User2"+ RandomData.getRandomAlphanumeric();
     private String fileContentUser2 = "Content User 2";
-    private String fileName1User3 = "File1User3"+ DataUtil.getUniqueIdentifier();
+    private String fileName1User3 = "File1User3"+ RandomData.getRandomAlphanumeric();
     private String fileContentUser3 = "Content User 3";
     private String fileContentUser4 = "Content User 4";
-    private String fileName1User4 = "File1User4"+ DataUtil.getUniqueIdentifier();
-    private String fileName2User4 = "File2User4"+ DataUtil.getUniqueIdentifier();
+    private String fileName1User4 = "File1User4"+ RandomData.getRandomAlphanumeric();
+    private String fileName2User4 = "File2User4"+ RandomData.getRandomAlphanumeric();
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

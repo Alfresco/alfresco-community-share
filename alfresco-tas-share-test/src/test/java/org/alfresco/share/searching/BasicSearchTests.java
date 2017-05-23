@@ -1,6 +1,5 @@
 package org.alfresco.share.searching;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.searching.SearchPage;
@@ -10,6 +9,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     @Autowired
     CalendarUtility calendarUtility;
 
-    String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     String userName1 = "profileUser1-" + uniqueIdentifier;
     String userName2 = "profileUser2-" + uniqueIdentifier;
     String firstName = "FirstName";

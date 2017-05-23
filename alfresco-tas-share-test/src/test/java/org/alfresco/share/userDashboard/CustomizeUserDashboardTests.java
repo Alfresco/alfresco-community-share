@@ -1,6 +1,5 @@
 package org.alfresco.share.userDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.DashboardCustomizationImpl.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.user.CustomizeUserDashboardPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -35,7 +35,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void changeDefaultDashlets()
     {
-        String userName = String.format("user2853-%s%s",DataUtil.getUniqueIdentifier(), domain);
+        String userName = String.format("user2853-%s%s", RandomData.getRandomAlphanumeric(), domain);
         userService.create(adminUser, adminPassword, userName, password, userName, "C2853", "lname");
 
         LOG.info("Step 1 - Click 'Customize Dashboard' on the dashboard banner");
@@ -79,7 +79,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void changeDashboardLayout()
     {
-        String userName = "user2855-" + DataUtil.getUniqueIdentifier() + domain;
+        String userName = "user2855-" + RandomData.getRandomAlphanumeric() + domain;
         userService.create(adminUser, adminPassword, userName, password, userName, "C2855", "lname");
 
         LOG.info("Step 1 - Press 'Customize Dashboard' on the dashboard banner");
@@ -120,7 +120,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void expandNarrowDashlets()
     {
-        String userName = "user2855-" + DataUtil.getUniqueIdentifier() + domain;
+        String userName = "user2855-" + RandomData.getRandomAlphanumeric() + domain;
         userService.create(adminUser, adminPassword, userName, password, userName, "C2855", "lname");
 
         LOG.info("Step 1 - Press 'Customize Dashboard' on the dashboard banner");

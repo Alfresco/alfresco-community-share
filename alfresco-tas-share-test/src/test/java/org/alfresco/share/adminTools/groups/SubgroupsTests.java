@@ -1,9 +1,9 @@
 package org.alfresco.share.adminTools.groups;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.*;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
@@ -36,7 +36,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     @Autowired
     private AddUserDialog addUserDialog;
 
-    private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String name = "firstName";
     private final String userAdmin = "userAdmin" + uniqueIdentifier;
     private final String userModelAdmin = "userModelAdmin" + uniqueIdentifier;

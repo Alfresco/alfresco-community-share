@@ -1,6 +1,5 @@
 package org.alfresco.share.adminTools.modelManager;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
@@ -11,6 +10,7 @@ import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,10 +65,10 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Autowired
     ChangeContentTypeDialog changeContentTypeDialog;
 
-    private String userName = String.format("ModelManagerUser%s", DataUtil.getUniqueIdentifier());
-    private String description = String.format("C42568SiteDescription%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("C42568SiteName%s", DataUtil.getUniqueIdentifier());
-    private String fileName = String.format("C42568TestFile%s", DataUtil.getUniqueIdentifier());
+    private String userName = String.format("ModelManagerUser%s", RandomData.getRandomAlphanumeric());
+    private String description = String.format("C42568SiteDescription%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("C42568SiteName%s", RandomData.getRandomAlphanumeric());
+    private String fileName = String.format("C42568TestFile%s", RandomData.getRandomAlphanumeric());
     private String fileContent = "C42568 content";
 
     @BeforeClass(alwaysRun = true)
@@ -108,10 +108,10 @@ public class ModelManagerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createModel()
     {
-        String nameSpace = String.format("C42565Namespace%s", DataUtil.getUniqueIdentifier());
-        String prefix = String.format("C42565%s", DataUtil.getUniqueIdentifier());
-        String name = String.format("C42565Name%s", DataUtil.getUniqueIdentifier());
-        String creator = String.format("C42565Creator%s", DataUtil.getUniqueIdentifier());
+        String nameSpace = String.format("C42565Namespace%s", RandomData.getRandomAlphanumeric());
+        String prefix = String.format("C42565%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C42565Name%s", RandomData.getRandomAlphanumeric());
+        String creator = String.format("C42565Creator%s", RandomData.getRandomAlphanumeric());
         String description = "C42565 this is a test model";
 
         LOG.info("Step 1: Navigate to Model Manager page");
@@ -158,9 +158,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void activateModel()
     {
         // Preconditions
-        String name = String.format("C9516testModel%s", DataUtil.getUniqueIdentifier());
-        String nameSpace = String.format("C9516nameSpace%s", DataUtil.getUniqueIdentifier());
-        String prefix = String.format("C9516%s", DataUtil.getUniqueIdentifier());
+        String name = String.format("C9516testModel%s", RandomData.getRandomAlphanumeric());
+        String nameSpace = String.format("C9516nameSpace%s", RandomData.getRandomAlphanumeric());
+        String prefix = String.format("C9516%s", RandomData.getRandomAlphanumeric());
 
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
@@ -189,13 +189,13 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void editModel()
     {
         // Preconditions
-        String name = String.format("C9517testModel%s", DataUtil.getUniqueIdentifier());
-        String nameSpace = String.format("C9517nameSpace%s", DataUtil.getUniqueIdentifier());
-        String prefix = String.format("C9517%s", DataUtil.getUniqueIdentifier());
-        String editedNamespace = String.format("C9517editedNamespace%s", DataUtil.getUniqueIdentifier());
-        String editedPrefix = String.format("C9517editedPrefix%s", DataUtil.getUniqueIdentifier());
-        String editedCreator = String.format("EditedCreator%s", DataUtil.getUniqueIdentifier());
-        String editedDescription = String.format("edited Description C9517%s", DataUtil.getUniqueIdentifier());
+        String name = String.format("C9517testModel%s", RandomData.getRandomAlphanumeric());
+        String nameSpace = String.format("C9517nameSpace%s", RandomData.getRandomAlphanumeric());
+        String prefix = String.format("C9517%s", RandomData.getRandomAlphanumeric());
+        String editedNamespace = String.format("C9517editedNamespace%s", RandomData.getRandomAlphanumeric());
+        String editedPrefix = String.format("C9517editedPrefix%s", RandomData.getRandomAlphanumeric());
+        String editedCreator = String.format("EditedCreator%s", RandomData.getRandomAlphanumeric());
+        String editedDescription = String.format("edited Description C9517%s", RandomData.getRandomAlphanumeric());
 
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
@@ -233,9 +233,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void deleteModel()
     {
         // Preconditions
-        String name = String.format("C9518testModel%s", DataUtil.getUniqueIdentifier());
-        String nameSpace = String.format("C9518nameSpace%s", DataUtil.getUniqueIdentifier());
-        String prefix = String.format("C9518%s", DataUtil.getUniqueIdentifier());
+        String name = String.format("C9518testModel%s", RandomData.getRandomAlphanumeric());
+        String nameSpace = String.format("C9518nameSpace%s", RandomData.getRandomAlphanumeric());
+        String prefix = String.format("C9518%s", RandomData.getRandomAlphanumeric());
         String expectedDialogText = "Are you sure you want to delete model ''" + name
                 + "''? All custom types, aspects and properties in the model will also be deleted.";
         modelManagerPage.navigate();
@@ -273,9 +273,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void checkAvailableActionsForActiveModel()
     {
         // Preconditions
-        String name = String.format("C9520testModel%s", DataUtil.getUniqueIdentifier());
-        String nameSpace = String.format("C9520nameSpace%s", DataUtil.getUniqueIdentifier());
-        String prefix = String.format("C9520%s", DataUtil.getUniqueIdentifier());
+        String name = String.format("C9520testModel%s", RandomData.getRandomAlphanumeric());
+        String nameSpace = String.format("C9520nameSpace%s", RandomData.getRandomAlphanumeric());
+        String prefix = String.format("C9520%s", RandomData.getRandomAlphanumeric());
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
         createModelDialogPage.sendNamespaceText(nameSpace);
@@ -300,9 +300,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void deactivateModel()
     {
         // Preconditions
-        String name = String.format("C9521testModel%s", DataUtil.getUniqueIdentifier());
-        String nameSpace = String.format("C9521nameSpace%s", DataUtil.getUniqueIdentifier());
-        String prefix = String.format("C9521%s", DataUtil.getUniqueIdentifier());
+        String name = String.format("C9521testModel%s", RandomData.getRandomAlphanumeric());
+        String nameSpace = String.format("C9521nameSpace%s", RandomData.getRandomAlphanumeric());
+        String prefix = String.format("C9521%s", RandomData.getRandomAlphanumeric());
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
         createModelDialogPage.sendNamespaceText(nameSpace);
@@ -328,9 +328,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void exportModel()
     {
         // Preconditions
-        String name = String.format("C9517testModel%s", DataUtil.getUniqueIdentifier());
-        String nameSpace = String.format("C9517nameSpace%s", DataUtil.getUniqueIdentifier());
-        String prefix = String.format("C9517%s", DataUtil.getUniqueIdentifier());
+        String name = String.format("C9517testModel%s", RandomData.getRandomAlphanumeric());
+        String nameSpace = String.format("C9517nameSpace%s", RandomData.getRandomAlphanumeric());
+        String prefix = String.format("C9517%s", RandomData.getRandomAlphanumeric());
 
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
@@ -380,9 +380,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void createCustomType()
     {
         // Preconditions
-        String name = String.format("C42566testModel%s", DataUtil.getUniqueIdentifier());
-        String nameSpace = String.format("C42566nameSpace%s", DataUtil.getUniqueIdentifier());
-        String prefix = String.format("C42566%s", DataUtil.getUniqueIdentifier());
+        String name = String.format("C42566testModel%s", RandomData.getRandomAlphanumeric());
+        String nameSpace = String.format("C42566nameSpace%s", RandomData.getRandomAlphanumeric());
+        String prefix = String.format("C42566%s", RandomData.getRandomAlphanumeric());
         String customTypeName = "TestCustomTypeName";
         String displayLabel = "CustomTypeLabel";
         String description = "Custom type description";
@@ -422,9 +422,9 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void createAspect()
     {
         // Preconditions
-        String name = String.format("C42567testModel%s", DataUtil.getUniqueIdentifier());
-        String nameSpace = String.format("C42567nameSpace%s", DataUtil.getUniqueIdentifier());
-        String prefix = String.format("C42567%s", DataUtil.getUniqueIdentifier());
+        String name = String.format("C42567testModel%s", RandomData.getRandomAlphanumeric());
+        String nameSpace = String.format("C42567nameSpace%s", RandomData.getRandomAlphanumeric());
+        String prefix = String.format("C42567%s", RandomData.getRandomAlphanumeric());
         String aspectName = "TestAspectName";
         String displayLabel = "aspectNameLabel";
         String description = "Aspect description";

@@ -1,10 +1,10 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     public void setup() throws DataPreparationException {
         super.setup();
 
-        uniqueIdentifier = DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = RandomData.getRandomAlphanumeric();
         siteName = "siteName" + uniqueIdentifier;
         userName1 = "User1" + uniqueIdentifier;
         userName2 = "User2" + uniqueIdentifier;

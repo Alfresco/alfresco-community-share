@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.po.share.dashlet.ConfigureWebViewDashletPopUp;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.dashlet.WebViewDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +41,9 @@ public class WebViewDashletTests extends ContextAwareWebTest
          * Precondition
          */
         LOG.info("Create site C5449");
-        String user = String.format("C5449User%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("C5449SiteName%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("C5449SiteDescription%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("C5449User%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("C5449SiteName%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("C5449SiteDescription%s", RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");
         siteService.create(adminUser, adminPassword, user, siteName, description, Visibility.PUBLIC);
@@ -100,9 +100,9 @@ public class WebViewDashletTests extends ContextAwareWebTest
          * Precondition
          */
         LOG.info("Create site C5450");
-        String user = String.format("C5450User%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("C5450SiteName%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("C5450SiteDescription%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("C5450User%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("C5450SiteName%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("C5450SiteDescription%s", RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");
         siteService.create(adminUser, adminPassword, user, siteName, description, Visibility.PUBLIC);
@@ -138,9 +138,9 @@ public class WebViewDashletTests extends ContextAwareWebTest
         /**
          * Precondition
          */
-        String user = String.format("C5453User%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("C5453SiteName%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("C5453SiteDescription%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("C5453User%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("C5453SiteName%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("C5453SiteDescription%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("Create Site C5453");
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");
@@ -180,9 +180,9 @@ public class WebViewDashletTests extends ContextAwareWebTest
         /**
          * Precondition
          */
-        String user = String.format("C5459User%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("C5459SiteName%s", DataUtil.getUniqueIdentifier());
-        String description = String.format("C5459SiteDescription%s", DataUtil.getUniqueIdentifier());
+        String user = String.format("C5459User%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("C5459SiteName%s", RandomData.getRandomAlphanumeric());
+        String description = String.format("C5459SiteDescription%s", RandomData.getRandomAlphanumeric());
         
         LOG.info("Create Site C5459");
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");

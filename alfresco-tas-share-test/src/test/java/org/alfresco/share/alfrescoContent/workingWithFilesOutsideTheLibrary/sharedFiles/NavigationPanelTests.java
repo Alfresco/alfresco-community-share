@@ -1,10 +1,10 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
@@ -26,7 +26,7 @@ public class NavigationPanelTests extends ContextAwareWebTest
 
     @Autowired private SharedFilesPage sharedFilesPage;
 
-    private final String uniqueId = DataUtil.getUniqueIdentifier();
+    private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String folderName = "folder-C7928-" + uniqueId;
     private final String path = "Shared/";
     private final String tag = "tag-" + uniqueId;

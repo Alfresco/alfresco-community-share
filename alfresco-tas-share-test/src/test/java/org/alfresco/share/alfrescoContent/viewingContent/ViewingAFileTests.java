@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,8 @@ public class ViewingAFileTests extends ContextAwareWebTest
     private UserDashboardPage userDashboard;
     
     private final String user = "C9917User1489451372540";
-    private final String siteName = String.format("C9917SiteName%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("C9917SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String siteName = String.format("C9917SiteName%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C9917SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String docName = "File-C9917";
     private final DateTime currentDate = new DateTime();
   

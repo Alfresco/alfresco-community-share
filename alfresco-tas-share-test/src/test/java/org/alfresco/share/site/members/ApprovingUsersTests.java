@@ -1,6 +1,5 @@
 package org.alfresco.share.site.members;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
@@ -12,6 +11,7 @@ import org.alfresco.po.share.tasksAndWorkflows.ViewTaskPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -56,9 +56,9 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void createSite()
     {
-        userManager = String.format("User1%s", DataUtil.getUniqueIdentifier());
-        userTest = String.format("User2%s", DataUtil.getUniqueIdentifier());
-        siteName = String.format("Site%s", DataUtil.getUniqueIdentifier());
+        userManager = String.format("User1%s", RandomData.getRandomAlphanumeric());
+        userTest = String.format("User2%s", RandomData.getRandomAlphanumeric());
+        siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
         taskName = String.format("Request to join %s site", siteName);
 
         userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);

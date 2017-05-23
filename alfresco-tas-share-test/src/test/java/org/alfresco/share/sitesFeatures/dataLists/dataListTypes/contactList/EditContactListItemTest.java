@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.contactList;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.ContactListFields;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -31,8 +31,8 @@ public class EditContactListItemTest extends ContextAwareWebTest
     @Autowired
     EditItemPopUp editItemPopUp;
     
-    String userName = String.format("User-%s", DataUtil.getUniqueIdentifier());
-    String siteName = String.format("SiteName%s", DataUtil.getUniqueIdentifier());
+    String userName = String.format("User-%s", RandomData.getRandomAlphanumeric());
+    String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
     String contactListName = "contactList";
     String editedFirstName = "editedFirstName";
     String editedLastName = "editedLastName";

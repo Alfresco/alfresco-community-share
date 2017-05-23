@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -15,6 +14,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -61,7 +61,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     @Autowired
     private SearchPage searchPage;
 
-    private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String userName = "user" + uniqueIdentifier;
     private final String firstName = "user";
     private final String lastName = uniqueIdentifier;

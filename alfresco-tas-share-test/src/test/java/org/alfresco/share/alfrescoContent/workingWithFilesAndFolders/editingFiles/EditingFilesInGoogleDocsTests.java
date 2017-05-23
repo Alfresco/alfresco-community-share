@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -18,9 +18,9 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
 {
     private String userName;
     private String siteName;
-    String googleDocName = DataUtil.getUniqueIdentifier() + "googleDoc.docx";
+    String googleDocName = RandomData.getRandomAlphanumeric() + "googleDoc.docx";
     String googleDocPath = testDataFolder + googleDocName;
-    String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    String uniqueIdentifier = RandomData.getRandomAlphanumeric();
 
     @Autowired private DocumentLibraryPage documentLibraryPage;
 

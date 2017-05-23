@@ -1,11 +1,11 @@
 package org.alfresco.share.userProfile;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.user.profile.EditUserProfilePage;
 import org.alfresco.po.share.user.profile.MyProfileNavigation;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -26,7 +26,7 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
     @Autowired
     EditUserProfilePage editUserPage;
 
-    private String user = String.format("profileUser%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("profileUser%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

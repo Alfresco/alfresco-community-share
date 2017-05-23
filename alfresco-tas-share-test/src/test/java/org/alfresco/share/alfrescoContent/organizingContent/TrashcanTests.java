@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.EmptyTrashcanDialog;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.user.profile.UserTrashcanPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -34,7 +34,7 @@ public class TrashcanTests extends ContextAwareWebTest
 
     @Autowired private EmptyTrashcanDialog emptyTrashcanDialog;
 
-    private final String random = DataUtil.getUniqueIdentifier();
+    private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "profileUser-" + random;
     private final String description = "Description-" + random;
     private final String fileContent = "file content.";

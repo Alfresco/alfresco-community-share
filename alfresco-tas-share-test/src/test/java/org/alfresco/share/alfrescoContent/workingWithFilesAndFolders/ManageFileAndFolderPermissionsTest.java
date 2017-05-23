@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -25,9 +25,9 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     @Autowired private ManagePermissionsPage managePermissionsPage;
 
     private final String docContent = "content of the file.";
-    private final String testUser1 = String.format("testUser1%s", DataUtil.getUniqueIdentifier());
-    private final String testUser2 = String.format("testUser2%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+    private final String testUser1 = String.format("testUser1%s", RandomData.getRandomAlphanumeric());
+    private final String testUser2 = String.format("testUser2%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String testFileName = "testDoc.txt";
     private final String testFolderName = "testFolder";
 

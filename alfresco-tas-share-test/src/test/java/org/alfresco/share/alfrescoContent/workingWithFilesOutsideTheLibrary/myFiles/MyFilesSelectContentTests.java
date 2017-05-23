@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -23,8 +23,8 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesSelectContentTests extends ContextAwareWebTest
 {
-    private final String testFile = String.format("testFile%s", DataUtil.getUniqueIdentifier());
-    private final String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
+    private final String testFile = String.format("testFile%s", RandomData.getRandomAlphanumeric());
+    private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
     private String user;
     private String myFilesPath;
     @Autowired
@@ -35,7 +35,7 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void createUser()
     {
-        user = String.format("user%s", DataUtil.getUniqueIdentifier());
+        user = String.format("user%s", RandomData.getRandomAlphanumeric());
         myFilesPath = "User Homes/" + user;
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);

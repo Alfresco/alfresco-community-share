@@ -1,11 +1,11 @@
 package org.alfresco.share.searching;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -28,13 +28,13 @@ public class SiteFinderTests extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    String user1 = String.format("profileUser1-%s", DataUtil.getUniqueIdentifier());
-    String user2 = String.format("profileUser2-%s", DataUtil.getUniqueIdentifier());
+    String user1 = String.format("profileUser1-%s", RandomData.getRandomAlphanumeric());
+    String user2 = String.format("profileUser2-%s", RandomData.getRandomAlphanumeric());
     String userFirstName = "firstName";
     String user2LastName = "lastName2";
-    String siteName1 = String.format("SiteName1-%s", DataUtil.getUniqueIdentifier());
-    String siteName2 = String.format("SiteName2-%s", DataUtil.getUniqueIdentifier());
-    String description = String.format("Description-%s", DataUtil.getUniqueIdentifier());
+    String siteName1 = String.format("SiteName1-%s", RandomData.getRandomAlphanumeric());
+    String siteName2 = String.format("SiteName2-%s", RandomData.getRandomAlphanumeric());
+    String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

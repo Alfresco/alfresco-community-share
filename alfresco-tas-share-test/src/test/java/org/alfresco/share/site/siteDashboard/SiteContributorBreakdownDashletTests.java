@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.dashlet.SiteContributorBreakdownDashlet;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -32,12 +32,12 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
     @Autowired
     UserProfilePage userProfilePage;
 
-    private String userName1 = String.format("CUser1%s", DataUtil.getUniqueIdentifier());
-    private String userName2 = String.format("CUser2%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("CSiteName%s", DataUtil.getUniqueIdentifier());
-    private String fileName1User1 = String.format("File1User1%s", DataUtil.getUniqueIdentifier());
-    private String fileName2User1 = String.format("File2User1%s", DataUtil.getUniqueIdentifier());
-    private String fileName1User2 = String.format("File1User2%s", DataUtil.getUniqueIdentifier());
+    private String userName1 = String.format("CUser1%s", RandomData.getRandomAlphanumeric());
+    private String userName2 = String.format("CUser2%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("CSiteName%s", RandomData.getRandomAlphanumeric());
+    private String fileName1User1 = String.format("File1User1%s", RandomData.getRandomAlphanumeric());
+    private String fileName2User1 = String.format("File2User1%s", RandomData.getRandomAlphanumeric());
+    private String fileName1User2 = String.format("File1User2%s", RandomData.getRandomAlphanumeric());
     private String fileContent = "File content for site dashboard test";
 
     @BeforeClass(alwaysRun = true)

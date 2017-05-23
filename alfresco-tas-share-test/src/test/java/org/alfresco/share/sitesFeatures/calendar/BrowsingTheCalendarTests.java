@@ -1,12 +1,12 @@
 package org.alfresco.share.sitesFeatures.calendar;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.CalendarUtility;
 import org.alfresco.po.share.site.calendar.MiniCalendar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +31,9 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     @Autowired
     CalendarUtility calendarUtility;
 
-    private String user = String.format("C3155User%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("C3155SiteName%s", DataUtil.getUniqueIdentifier());
-    private String description = String.format("C3155SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("C3155User%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("C3155SiteName%s", RandomData.getRandomAlphanumeric());
+    private String description = String.format("C3155SiteDescription%s", RandomData.getRandomAlphanumeric());
     private DateTime today = new DateTime();
     private DateTime yesterday = today.minusDays(1);
     private DateTime tomorrow = today.plusDays(1);

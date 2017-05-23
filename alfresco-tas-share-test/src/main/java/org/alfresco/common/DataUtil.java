@@ -16,15 +16,6 @@ import java.util.List;
 
 public class DataUtil
 {
-    @Deprecated
-    /*
-    We should use {@link RandomData class method)}
-     */
-    public static String getUniqueIdentifier()
-    {
-        return String.valueOf(System.currentTimeMillis());
-    }
-    
     /**
      * Compare 2 list of objects
      */

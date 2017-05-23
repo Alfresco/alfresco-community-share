@@ -1,12 +1,12 @@
 package org.alfresco.share.searching.advancedSearch;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
@@ -83,7 +83,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyAdvancedSearchPage()
     {
-        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
         advancedSearchPage.navigate();
@@ -132,7 +132,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByKeyword()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -191,7 +191,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByName()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -227,7 +227,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByTitle()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -269,7 +269,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByDescription()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);

@@ -1,12 +1,12 @@
 package org.alfresco.share.adminTools.moduleBrowser;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.ModuleBrowserPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -31,7 +31,7 @@ public class ModuleBrowserTests extends ContextAwareWebTest
     @Autowired
     Toolbar toolbar;
 
-    private String userName = "C9498User"+DataUtil.getUniqueIdentifier();
+    private String userName = "C9498User"+ RandomData.getRandomAlphanumeric();
 
     @BeforeClass(alwaysRun = true)
 

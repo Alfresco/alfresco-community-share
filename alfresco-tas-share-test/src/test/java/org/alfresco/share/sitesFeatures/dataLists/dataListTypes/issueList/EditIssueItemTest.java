@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.dataLists.dataListTypes.issueList;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -32,7 +32,7 @@ public class EditIssueItemTest extends ContextAwareWebTest
     @Autowired
     EditItemPopUp editItemPopUp;
 
-    String random = DataUtil.getUniqueIdentifier();
+    String random = RandomData.getRandomAlphanumeric();
     String userName = "User-" + random;
     String userAssignee = "userAssignee-" + random;
     String siteName = "SiteName-" + random;

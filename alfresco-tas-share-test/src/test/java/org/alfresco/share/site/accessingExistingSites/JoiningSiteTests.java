@@ -1,6 +1,5 @@
 package org.alfresco.share.site.accessingExistingSites;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
@@ -12,6 +11,7 @@ import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -54,12 +54,12 @@ public class JoiningSiteTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private String user1 = String.format("testUser1%s", DataUtil.getUniqueIdentifier());
-    private String user2 = String.format("testUser2%s", DataUtil.getUniqueIdentifier());
+    private String user1 = String.format("testUser1%s", RandomData.getRandomAlphanumeric());
+    private String user2 = String.format("testUser2%s", RandomData.getRandomAlphanumeric());
     private String user2FirstName = "user2_firstName";
     private String user2LastName = "user2_lastName";
     private String siteName;
-    private String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+    private String description = String.format("description%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -73,7 +73,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     public void joinPublicSiteFromSiteFinderPage()
     {
         //precondition
-        siteName = String.format("SiteName-C2823-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C2823-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
@@ -109,7 +109,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     public void joinPublicSiteFromSiteDashboardPage()
     {
         //precondition
-        siteName = String.format("SiteName-C3053-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C3053-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user2, password);
 
@@ -139,7 +139,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     public void requestToJoinModeratedSiteFromSiteFinderPage()
     {
         //precondition
-        siteName = String.format("SiteName-C2831-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C2831-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.MODERATED);
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
@@ -195,7 +195,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     public void requestToJoinModeratedSiteFromSiteDashboardPage()
     {
         //precondition
-        siteName = String.format("SiteName-C3059-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C3059-%s", RandomData.getRandomAlphanumeric());
         String dialogMessage = String.format(language.translate("requestToJoin.dialogMessage"), siteName);
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.MODERATED);
         setupAuthenticatedSession(user2, password);
@@ -265,7 +265,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     public void cancelRequestToJoinModeratedSite()
     {
         //precondition
-        siteName = String.format("SiteName-C2833-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C2833-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.MODERATED);
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();

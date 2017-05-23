@@ -1,12 +1,12 @@
 package org.alfresco.share.sitesFeatures.Links;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.site.link.DeleteCommentPopUp;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -28,11 +28,11 @@ public class LinkCommentsTests extends ContextAwareWebTest
     @Autowired
     DeleteCommentPopUp deleteCommentPopUp;
 
-    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+    private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName = "";
-    private String linkTitle = String.format("Link%s", DataUtil.getUniqueIdentifier());
+    private String linkTitle = String.format("Link%s", RandomData.getRandomAlphanumeric());
     private String linkURL = "LinkURL.com";
-    private String linkDescription = String.format("Link description%s", DataUtil.getUniqueIdentifier());
+    private String linkDescription = String.format("Link description%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -46,7 +46,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     public void addingACommentToALink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
@@ -72,7 +72,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     public void cancelAddingACommentToALink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
@@ -98,7 +98,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
         String comment = "comment1";
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
@@ -127,7 +127,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
         String comment = "comment1";
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
@@ -153,7 +153,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
         String comment = "comment1";
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
@@ -179,7 +179,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
         String comment = "comment1";
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
