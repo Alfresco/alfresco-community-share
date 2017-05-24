@@ -67,7 +67,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         copyMoveToDialog.clickDestinationButton("Shared Files");
 
         LOG.info("STEP4: Click 'Copy' button");
-        copyMoveToDialog.clickButtton("Copy");
+        copyMoveToDialog.clickButton("Copy");
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
 
         LOG.info("STEP5: Verify displayed files from Documents");
@@ -103,7 +103,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         copyMoveToDialog.clickDestinationButton("Shared Files");
 
         LOG.info("STEP4: Click 'Cancel' button");
-        copyMoveToDialog.clickButtton("Cancel");
+        copyMoveToDialog.clickButton("Cancel");
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
 
         LOG.info("STEP5: Verify displayed files from Documents");
@@ -148,7 +148,7 @@ public class CopyingContentTests extends ContextAwareWebTest
         assertEquals(copyMoveToDialog.getPathList(), expectedPath.toString(), "Path");
 
         LOG.info("STEP6: Click 'Copy' button");
-        copyMoveToDialog.clickButtton("Copy");
+        copyMoveToDialog.clickButton("Copy");
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
 
         LOG.info("STEP7: Verify that the folder has been copied");

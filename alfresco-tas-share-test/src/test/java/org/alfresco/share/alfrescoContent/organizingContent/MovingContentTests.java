@@ -65,7 +65,7 @@ public class MovingContentTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickPathFolder(folderName);
 
         LOG.info("STEP4: Click 'Move' button");
-        copyMoveUnzipToDialog.clickButtton("Move");
+        copyMoveUnzipToDialog.clickButton("Move");
         documentLibraryPage.renderedPage();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Move to' dialog not displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName), docName + " displayed in Documents");
@@ -107,7 +107,7 @@ public class MovingContentTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Set the folder created in preconditions as path. Click 'Move' button.");
         copyMoveUnzipToDialog.clickPathFolder(folderName2);
-        copyMoveUnzipToDialog.clickButtton("Move");
+        copyMoveUnzipToDialog.clickButton("Move");
         documentLibraryPage.renderedPage();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Move to' dialog is displayed.");
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName1), folderName1 + " displayed in Documents.");
