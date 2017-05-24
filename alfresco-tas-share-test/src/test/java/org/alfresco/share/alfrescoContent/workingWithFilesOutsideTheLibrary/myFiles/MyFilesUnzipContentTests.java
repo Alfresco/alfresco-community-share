@@ -72,7 +72,7 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
         assertEquals(unzipToDialog.getPathList(), expectedDestinationPath.toString(), "Destionation set to=");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
-        unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
+        unzipToDialog.clickButton(language.translate("documentLibrary.contentActions.unzip"));
         myFilesPage.navigate();
         assertTrue(myFilesPage.isContentNameDisplayed(zipContent), zipFile + "'s content is displayed, " + zipContent);
     }
@@ -100,7 +100,7 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
         assertEquals(unzipToDialog.getPathList(), expectedDestinationPath.toString(), "Destionation set to=");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
-        unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
+        unzipToDialog.clickButton(language.translate("documentLibrary.contentActions.unzip"));
         myFilesPage.navigate();
         assertTrue(myFilesPage.isContentNameDisplayed(acpFile.substring(0, acpFile.indexOf("."))),
                 "A folder with archive name is present in Documents list.");

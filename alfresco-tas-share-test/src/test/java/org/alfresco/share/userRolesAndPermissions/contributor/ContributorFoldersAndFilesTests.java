@@ -260,7 +260,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         assertEquals(copyMoveToDialog.getPathList(), expectedPath.toString(), "Path");
 
         LOG.info("Step5: Click 'Copy' button");
-        copyMoveToDialog.clickButtton("Copy");
+        copyMoveToDialog.clickButton("Copy");
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog displayed");
 
         LOG.info("Step6: Verify displayed folder has been copied");
@@ -294,7 +294,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         copyMoveToDialog.clickPathFolder(folderName);
 
         LOG.info("Step7: Click 'Move' button. Verify the displayed files");
-        copyMoveToDialog.clickButtton("Move");
+        copyMoveToDialog.clickButton("Move");
         documentLibraryPage.renderedPage();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Move to' dialog not displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed in Documents");

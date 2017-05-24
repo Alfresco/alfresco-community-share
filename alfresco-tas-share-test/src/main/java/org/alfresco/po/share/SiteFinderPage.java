@@ -44,6 +44,9 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     @FindBy(css = "div[class='sitedescription']")
     private List<WebElement> siteDescriptionList;
 
+    @FindBy(css="td[class*='yui-dt-col-button'] button")
+    private WebElement cancelRequestButton;
+
     private By siteVisibility = By.cssSelector("span[class*='visibility']");
     private By siteNameLink = By.cssSelector("h3.sitename > a");
 
@@ -61,19 +64,11 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
         return (SiteFinderPage) renderedPage();
     }
 
-    public void searchSite(String site)
-    {
+    public void searchSite(String site) {
         searchField.clear();
         searchField.sendKeys(site);
-        int counter = 0;
-        do
-        {
-            LOG.info("Wait for element :" + counter);
-            searchButton.click();
-            this.renderedPage();
-            counter++;
-        }
-        while (!checkSiteWasFound(site) && counter <= 5);
+        searchButton.click();
+        this.renderedPage();
     }
 
     /**
@@ -95,6 +90,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
      */
     public WebElement selectSite(final String siteName)
     {
+        getBrowser().waitUntilElementsVisible(siteRowList);
         return browser.findFirstElementWithValue(siteRowList, siteName);
     }
 
@@ -132,11 +128,10 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
      * @param siteName String
      * @return HtmlPage
      */
-    public void clickSiteButton(String siteName, String buttonName)
-    {
+    public void clickSiteButton(String siteName, String buttonName) {
+        getBrowser().waitUntilElementsVisible(getTheButtonsForSite(siteName));
         for (WebElement button : getTheButtonsForSite(siteName))
-            if (button.getText().equals(buttonName))
-            {
+            if (button.getText().equals(buttonName)) {
                 browser.waitUntilElementClickable(button, 30).click();
                 browser.waitInSeconds(2);
                 break;
@@ -193,5 +188,14 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     public String getVisibilityLabel()
     {
         return browser.waitUntilElementVisible(siteVisibility).getText();
+    }
+
+    public String getButtonCancelRequestText(String textExpected) {
+        getBrowser().waitUntilElementContainsText(cancelRequestButton, textExpected);
+        return cancelRequestButton.getText();
+    }
+
+    public void clickRequestToJoinButton(String siteName) {
+        getBrowser().waitUntilElementClickable(By.cssSelector("td[class*='yui-dt-col-button'] button"), 6L).click();
     }
 }

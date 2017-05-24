@@ -22,7 +22,7 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     @FindBy(css = ".message")
     private WebElement message;
 
-    @FindBy(css = "#ALF_COPY_MOVE_DIALOG span[class*='call-to-action']:first-child span[id*='alfresco_buttons_AlfButton']:first-child")
+    @FindBy(css = "#ALF_COPY_MOVE_DIALOG span[class*='call-to-action']:first-child span[id*='alfresco_buttons_AlfButton']:first-child span[id$='label']")
     private WebElement createLinkButtonFromSearchPage;
 
     @FindBy(css = "button[id$='_default-copyMoveTo-link-button']")
@@ -35,21 +35,16 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
      *
      * @param buttonName name of the button to be clicked (e.g: Move, Cancel)
      */
-    public void clickButtton(String buttonName)
-    {
-        for (WebElement aButtonsList : buttonsList)
-        {
+    public void clickButton(String buttonName) {
+        for (WebElement aButtonsList : buttonsList) {
             if (aButtonsList.getText().equals(buttonName))
                 aButtonsList.click();
         }
-        browser.waitInSeconds(3);
     }
 
-    public SharePage clickCreateLink(SharePage page)
-    {
-        browser.waitUntilElementVisible(createLinkButton).click();
+    public SharePage clickCreateLink(SharePage page) {
+        browser.waitUntilElementClickable(createLinkButton, 5).click();
         getBrowser().waitUntilElementDisappears(createLinkMessage, 15);
-
         return (SharePage) page.renderedPage();
     }
 
@@ -59,10 +54,8 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
      * @param buttonName name of the button to be checked
      * @return true if buttonName is displayed
      */
-    public boolean isButtonDisplayed(String buttonName)
-    {
-        for (WebElement button : buttonsList)
-        {
+    public boolean isButtonDisplayed(String buttonName) {
+        for (WebElement button : buttonsList) {
             String text = button.getText();
             if (text.equals(buttonName))
                 return true;
@@ -70,17 +63,19 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         return false;
     }
 
+    public boolean isCreateLinkButtonDisplayed() {
+        return getBrowser().isElementDisplayed(createLinkButton);
+    }
+
     /**
      * @return true if 'Create Link' button is displayed in 'Copy to' dialog from Search Page -> Actions
      */
-    public boolean isCreateLinkDisplayedInCopyToDialogFromSearchPage()
-    {
+    public boolean isCreateLinkDisplayedInCopyToDialogFromSearchPage() {
         browser.waitUntilElementVisible(createLinkButtonFromSearchPage);
         return browser.isElementDisplayed(createLinkButtonFromSearchPage);
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         browser.waitUntilElementVisible(message);
         return message.getText();
     }

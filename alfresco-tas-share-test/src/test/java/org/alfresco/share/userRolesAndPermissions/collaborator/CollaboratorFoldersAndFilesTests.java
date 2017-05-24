@@ -326,7 +326,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickPathFolder(folderName2);
 
         LOG.info("Step 5: Click 'Move' button. Verify the displayed folders.");
-        copyMoveUnzipToDialog.clickButtton("Move");
+        copyMoveUnzipToDialog.clickButton("Move");
         documentLibraryPage.renderedPage();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "Move to dialog not displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents");
@@ -374,7 +374,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickPathFolder(folderName);
 
         LOG.info("Step 3: Click 'Copy' button");
-        copyMoveUnzipToDialog.clickButtton("Copy");
+        copyMoveUnzipToDialog.clickButton("Copy");
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
 
         LOG.info("Step 4: Verify displayed folders from Documents.");

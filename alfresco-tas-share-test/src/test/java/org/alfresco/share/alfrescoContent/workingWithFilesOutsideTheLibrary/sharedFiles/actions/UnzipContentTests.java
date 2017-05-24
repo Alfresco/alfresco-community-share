@@ -76,7 +76,7 @@ public class UnzipContentTests extends ContextAwareWebTest
         assertEquals(unzipToDialog.getPathFirstItem(), expectedDestionationPath, "Destination set to=");
         Assert.assertTrue(unzipToDialog.getPathList().contains(expectedDestionationPath), "Destination set to = ");
         LOG.info("STEP4: Click 'Unzip' button and navigate to Shared Files");
-        unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
+        unzipToDialog.clickButton(language.translate("documentLibrary.contentActions.unzip"));
         sharedFilesPage.navigate();
         assertTrue(sharedFilesPage.isContentNameDisplayed(zipContent), zipFile + "'s content is displayed, " + zipContent);
 
@@ -105,7 +105,7 @@ public class UnzipContentTests extends ContextAwareWebTest
         assertEquals(unzipToDialog.getPathFirstItem(), expectedDestinationPath, "Destionation set to=");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to Shared Files");
-        unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
+        unzipToDialog.clickButton(language.translate("documentLibrary.contentActions.unzip"));
         sharedFilesPage.navigate();
         assertTrue(sharedFilesPage.isContentNameDisplayed(acpFile.substring(0, acpFile.indexOf("."))),
                 "A folder with archive name is present in Documents list.");

@@ -46,8 +46,6 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
     SiteUsersPage siteUsersPage;
 
     private String testSiteName;
-    private String testUserName;
-    private String groupName;
 
     @BeforeClass(alwaysRun = true)
     public void dataPreparation() throws Exception {

@@ -191,7 +191,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         copyMoveToDialog.clickDestinationButton("Shared Files");
 
         LOG.info("STEP4: Click 'Copy' button");
-        copyMoveToDialog.clickButtton("Copy");
+        copyMoveToDialog.clickButton("Copy");
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
 
         LOG.info("STEP5: Verify displayed files from Documents");

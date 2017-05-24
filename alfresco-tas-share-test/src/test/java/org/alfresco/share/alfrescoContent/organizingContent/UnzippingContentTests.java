@@ -73,7 +73,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
 //        assertEquals(unzipToDialog.getPathList(), "[Documents]", "Path section is updated according to the path of the selected site, e.g: Documents");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to the previoulsy set folder from site's Document Library, e.g: Documents from testSite");
-        unzipToDialog.clickButtton("Unzip");
+        unzipToDialog.clickButton("Unzip");
         documentLibraryPage.navigate(siteName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(zipFile.substring(0, zipFile.indexOf("."))), "A folder with archive name is present in Documents list.");
 
@@ -103,7 +103,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
         assertEquals(unzipToDialog.getPathList(), "[Documents]", "Path section is updated according to the path of the selected site, e.g: Documents");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to the previously set folder from site's Document Library, e.g: Documents from testSite");
-        unzipToDialog.clickButtton("Unzip");
+        unzipToDialog.clickButton("Unzip");
         documentLibraryPage.navigate(siteName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(acpFile.substring(0, acpFile.indexOf("."))), "A folder with archive name is present in Documents list.");
 
@@ -132,7 +132,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Select the destination and click on Cancel button. Verify that selected destination does not contain any content of the acp file");
         unzipToDialog.clickSite(siteName1);
-        unzipToDialog.clickButtton("Cancel");
+        unzipToDialog.clickButton("Cancel");
         documentLibraryPage.navigate(siteName1);
 
         Assert.assertFalse(documentLibraryPage.isContentWithExactValuePresent(acpFolderName), "A folder with archive name present in Documents list.");
