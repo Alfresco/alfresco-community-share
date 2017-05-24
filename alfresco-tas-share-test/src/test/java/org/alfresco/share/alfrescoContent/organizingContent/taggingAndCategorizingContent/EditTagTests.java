@@ -65,7 +65,7 @@ public class EditTagTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isEditTagInputFieldDisplayed(), fileName + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Click on any tag and type a valid tag name");
-        documentLibraryPage.editTag(fileName, tagName.toLowerCase(), newTagName);
+        documentLibraryPage.editTag(tagName.toLowerCase(), newTagName);
 
         LOG.info("STEP4: Click \"Save\" link and verify the content tags");
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
@@ -102,7 +102,7 @@ public class EditTagTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isEditTagInputFieldDisplayed(), folderName + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Click on any tag and type a valid tag name");
-        documentLibraryPage.editTag(folderName, tagName.toLowerCase(), newTagName);
+        documentLibraryPage.editTag(tagName.toLowerCase(), newTagName);
 
         LOG.info("STEP4: Click \"Save\" link and verify the content tags");
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
