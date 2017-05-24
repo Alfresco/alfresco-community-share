@@ -53,7 +53,7 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isEditTagInputFieldDisplayed(), fileName + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Hover over the tag. Click 'Remove' icon. Click 'Save' link");
-        assertEquals(documentLibraryPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
+        documentLibraryPage.removeTag(tagName.toLowerCase());
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         getBrowser().waitInSeconds(3);
         assertTrue(documentLibraryPage.isNoTagsTextDisplayed(fileName), fileName + " -> " + tagName + " is removed.");

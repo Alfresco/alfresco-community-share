@@ -161,7 +161,7 @@ public class RepositoryTagTests extends ContextAwareWebTest
         assertTrue(repositoryPage.isEditTagInputFieldDisplayed(), fileNameC8290 + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Click on any tag and type a valid tag name");
-        repositoryPage.editTag(fileNameC8290, "testtag", tagC8290.toLowerCase());
+        repositoryPage.editTag("testtag", tagC8290.toLowerCase());
 
         LOG.info("STEP4: Click \"Save\" link and verify the content tags");
         repositoryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
@@ -226,7 +226,7 @@ public class RepositoryTagTests extends ContextAwareWebTest
         repositoryPage.typeTagName(tagC8300);
 
         LOG.info("STEP3: Click 'Remove' icon");
-        assertEquals(repositoryPage.removeTag(tagC8300.toLowerCase()), tagC8300.toLowerCase(), "Removed tag=");
+        repositoryPage.removeTag(tagC8300.toLowerCase());
 
         LOG.info("STEP4: Click 'Save' link");
         repositoryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));

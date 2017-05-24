@@ -857,11 +857,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     /**
      * For a content, click on any tag and type a valid tag name
      *
-     * @param contentName
      * @param tagName tag to be edited
      * @param newTagName new value for tag
      */
-    public void editTag(String contentName, String tagName, String newTagName)
+    public void editTag(String tagName, String newTagName)
     {
         List<WebElement> tagsList = browser.waitUntilElementsVisible(inlineEditTagsSelector);
 
@@ -1001,21 +1000,18 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      * @param tagName to be removed
      * @return name of removed tag
      */
-    public String removeTag(String tagName)
+    public void removeTag(String tagName)
     {
         List<WebElement> tagsList = browser.waitUntilElementsVisible(inlineEditTagsSelector);
         List<WebElement> removeIconList = browser.waitUntilElementsVisible(removeTagIconSelector);
 
         for (int i = 0; i < tagsList.size(); i++)
         {
-            if (tagsList.get(i).getText().equals(tagName))
+            if (tagsList.get(i).getText().toLowerCase().equals(tagName))
             {
                 removeIconList.get(i).click();
-                return tagName;
             }
         }
-
-        return tagName + " not found!";
     }
 
     /**
