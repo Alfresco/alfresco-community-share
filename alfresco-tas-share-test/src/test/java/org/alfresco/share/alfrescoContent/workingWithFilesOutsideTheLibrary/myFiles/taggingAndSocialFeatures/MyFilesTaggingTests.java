@@ -150,7 +150,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         assertTrue(myFilesPage.isEditTagInputFieldDisplayed(), testFileC7885 + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Click on any tag and type a valid tag name");
-        myFilesPage.editTag(testFileC7885, tagName.toLowerCase(), tagName2);
+        myFilesPage.editTag(tagName.toLowerCase(), tagName2);
 
         LOG.info("STEP4: Click \"Save\" link and verify the content tags");
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
@@ -172,7 +172,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         assertTrue(myFilesPage.isEditTagInputFieldDisplayed(), testFileC7886 + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Hover over the tag and click 'Remove' icon");
-        assertEquals(myFilesPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
+        myFilesPage.removeTag(tagName.toLowerCase());
 
         LOG.info("STEP4: Click 'Save' link");
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
@@ -195,7 +195,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         assertTrue(myFilesPage.isEditTagInputFieldDisplayed(), testFileC7895 + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Hover over the tag. Click 'Remove' icon. Click 'Save' link");
-        assertEquals(myFilesPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
+        myFilesPage.removeTag(tagName.toLowerCase());
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         assertTrue(myFilesPage.isNoTagsTextDisplayed(testFileC7895), testFileC7895 + " -> " + tagName + " is removed.");
 
