@@ -80,7 +80,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
     private final String folderC42631 = "C42631-" + uniqueIdentifier;
     private final String linkC42631 = "Link to " + folderC42631;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);

@@ -76,7 +76,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     private final String linkFile2 = "Link to " + fileName2;
     private final String linkFile3 = "Link to " + fileName3;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
@@ -206,7 +206,6 @@ public class CreateLinksTests extends ContextAwareWebTest
     @TestRail(id = "C42614")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyLinkIsCreatedAtDestination() {
-        documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: From Document actions, click on \"Copy to\" option");
         documentLibraryPage.mouseOverContentItem(fileName1);
         documentLibraryPage.clickDocumentLibraryItemAction(fileName1, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
