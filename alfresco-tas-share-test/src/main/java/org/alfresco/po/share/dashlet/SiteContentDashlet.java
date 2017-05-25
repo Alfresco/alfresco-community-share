@@ -317,14 +317,11 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         return browser.isElementDisplayed(selectItem(fileName), addToFavoritesLink);
     }
 
-    public boolean isCommentLinkDisplayed(String fileName)
-    {
+    public boolean isCommentLinkDisplayed(String fileName) {
         return browser.isElementDisplayed(selectItem(fileName), commentLink);
     }
     
-    public DocumentDetailsPage clickCommentLink(String fileName)
-    {
-        //Parameter.checkIsMandotary("File", selectItem(fileName));
+    public DocumentDetailsPage clickCommentLink(String fileName) {
         selectItem(fileName).findElement(commentLink).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }

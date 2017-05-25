@@ -320,12 +320,11 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     /**
      * Method used to enter and add comment
      */
-    public void addComment(String comment)
-    {
+    public void addComment(String comment) {
         browser.waitUntilElementClickable(commentContentIframe, 5L);
         browser.findElement(commentContentIframe).sendKeys(comment);
         addCommentButton.click();
-        browser.waitInSeconds(4);
+        getBrowser().waitUntilElementDisappears(By.cssSelector("span[class='message']"), 5L);
     }
 
     /**
