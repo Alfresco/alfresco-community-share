@@ -36,7 +36,7 @@ public class TagManagerTests extends ContextAwareWebTest
     @Autowired
     private EditTagDialog editTagDialog;
 
-    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
+    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric().toLowerCase();
     private final String user = "user-" + uniqueIdentifier;
     private final String userAdmin = "userAdmin-" + uniqueIdentifier;
     private final String site = "site-" + uniqueIdentifier;
