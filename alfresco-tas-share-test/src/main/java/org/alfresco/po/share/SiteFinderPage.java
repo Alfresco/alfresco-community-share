@@ -133,7 +133,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
         for (WebElement button : getTheButtonsForSite(siteName))
             if (button.getText().equals(buttonName)) {
                 browser.waitUntilElementClickable(button, 30).click();
-                browser.waitInSeconds(2);
+                browser.waitInSeconds(5);
                 break;
             }
     }

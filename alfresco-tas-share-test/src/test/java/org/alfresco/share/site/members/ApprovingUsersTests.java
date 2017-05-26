@@ -19,9 +19,11 @@ import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -60,236 +62,313 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     @Autowired
     DataSite dataSite;
 
-    private String userManager;
-    private String userTest;
-    private String siteName;
-    protected String taskName;
+    UserModel testUser;
+    UserModel managerUser;
+    UserModel collaboratorUser;
+    UserModel contributorUser;
+    UserModel consumerUser;
+    SiteModel moderatedSite;
 
-    @BeforeMethod(alwaysRun = true)
-    public void createSite() {
-        userManager = String.format("User1%s", RandomData.getRandomAlphanumeric());
-        userTest = String.format("User2%s", RandomData.getRandomAlphanumeric());
-        siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
-        taskName = String.format("Request to join %s site", siteName);
+    private String userManager = String.format("User1%s", RandomData.getRandomAlphanumeric());
+    private String userTest = String.format("User2%s", RandomData.getRandomAlphanumeric());
+    private String siteNameC2461 = "SiteC2461" + RandomData.getRandomAlphanumeric();
+    private String siteNameC2462 = "SiteC2462" + RandomData.getRandomAlphanumeric();
+    private String siteNameC2463 = "SiteC2463" + RandomData.getRandomAlphanumeric();
+    private String siteNameC2464 = "SiteC2464" + RandomData.getRandomAlphanumeric();
+    private String siteNameC2549 = "SiteC2549" + RandomData.getRandomAlphanumeric();
+    private String taskName;
+
+    @BeforeClass(alwaysRun = true)
+    public void setupTest() throws DataPreparationException
+    {
+        testUser = dataUser.createRandomTestUser();
+        managerUser = dataUser.createRandomTestUser();
+        collaboratorUser = dataUser.createRandomTestUser();
+        contributorUser = dataUser.createRandomTestUser();
+        consumerUser = dataUser.createRandomTestUser();
+        moderatedSite = dataSite.usingUser(managerUser).createModeratedRandomSite();
         userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
-        siteService.create(userManager, password, domain, siteName, siteName, Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2461, siteNameC2461, Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2462, siteNameC2461, Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2463, siteNameC2461, Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2464, siteNameC2461, Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2549, siteNameC2461, Visibility.MODERATED);
+        dataUser.addUserToSite(collaboratorUser, moderatedSite, UserRole.SiteCollaborator);
+        dataUser.addUserToSite(contributorUser, moderatedSite, UserRole.SiteContributor);
+        dataUser.addUserToSite(consumerUser, moderatedSite, UserRole.SiteConsumer);
+    }
+
+    @BeforeMethod
+    public void beforeMethod()
+    {
         setupAuthenticatedSession(userTest, password);
+        getBrowser().waitInSeconds(3);
+        siteFinderPage.navigate();
     }
 
     @TestRail(id = "C2461")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void approvingUsersUsingMyTasksPage() {
+    public void approvingUsersUsingMyTasksPage()
+    {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
-        siteFinderPage.navigate();
-        siteFinderPage.searchSite(siteName);
-        Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
-        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
+        taskName = String.format("Request to join %s site", siteNameC2461);
+        siteFinderPage.searchSite(siteNameC2461);
+        getBrowser().waitInSeconds(3);
+        Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2461));
+        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2461, "Request to Join"), "'Request to Join' button is expected to be displayed.");
+
         LOG.info("Step 2: Click 'Request to Join' button");
-        siteFinderPage.clickSiteButton(siteName, "Request to Join");
-        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
+        siteFinderPage.clickSiteButton(siteNameC2461, "Request to Join");
+        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2461, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
+
         LOG.info("Step 3: Login second user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userManager, password);
+
         LOG.info("Step 4: Go to 'My Tasks' page");
-        menuNavigationBar.goTo(myTasksPage);
-        Assert.assertTrue(myTasksPage.checkTaskWasFound(siteName));
+        myTasksPage.navigateByMenuBar();
+        Assert.assertTrue(myTasksPage.checkTaskWasFound(siteNameC2461));
+
         LOG.info("Step 5: Click 'Edit Task'");
-        myTasksPage.clickEditTask(siteName);
+        myTasksPage.clickEditTask(siteNameC2461);
+
         LOG.info("Step 6: Approve the task");
         editTaskPage.approve("Approve", myTasksPage);
-        Assert.assertFalse(myTasksPage.checkTaskWasFound(siteName));
+        Assert.assertFalse(myTasksPage.checkTaskWasFound(siteNameC2461));
+
         LOG.info("Step 7: Click on 'Completed' task");
         myTasksPage.clickCompletedTasks();
-        Assert.assertTrue(myTasksPage.checkTaskWasFound(siteName));
+        Assert.assertTrue(myTasksPage.checkTaskWasFound(siteNameC2461));
+
         LOG.info("Step 8: Click on 'View task' button");
-        myTasksPage.clickViewTask(siteName);
-        Assert.assertEquals(viewTaskPage.getRequestDetails(), "Details: Request to join " + siteName + " site (Review Invitation)");
-        Assert.assertEquals(viewTaskPage.getInviteTaskTitle(), "User " + userTest + " has requested to join the " + siteName + " Site.");
+        myTasksPage.clickViewTask(siteNameC2461);
+        Assert.assertEquals(viewTaskPage.getRequestDetails(), "Details: Request to join " + siteNameC2461 + " site (Review Invitation)");
+        Assert.assertEquals(viewTaskPage.getInviteTaskTitle(), "User " + userTest + " has requested to join the " + siteNameC2461 + " Site.");
+
         LOG.info("Step 9: Login first user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userTest, password);
+
         LOG.info("Step 10: Verify 'My sites' dashlet from user's dashboard page");
-        Assert.assertTrue(mySitesDashlet.isSitePresent(siteName));
-        mySitesDashlet.accessSite(siteName);
-        Assert.assertEquals(siteDashboardPage.getPageHeader(), siteName);
+        Assert.assertTrue(mySitesDashlet.isSitePresent(siteNameC2461));
+        mySitesDashlet.accessSite(siteNameC2461);
+        Assert.assertEquals(siteDashboardPage.getPageHeader(), siteNameC2461);
     }
 
     @TestRail(id = "C2462")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void approvingUsersUsingMyTasksDashlet() {
+    public void approvingUsersUsingMyTasksDashlet()
+    {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
-        siteFinderPage.navigate();
-        siteFinderPage.searchSite(siteName);
-        Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
-        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
+        taskName = String.format("Request to join %s site", siteNameC2462);
+        siteFinderPage.searchSite(siteNameC2462);
+        getBrowser().waitInSeconds(3);
+        Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2462));
+        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2462, "Request to Join"), "'Request to Join' button is expected to be displayed.");
+
         LOG.info("Step 2: Click 'Request to Join' button");
-        siteFinderPage.clickSiteButton(siteName, "Request to Join");
-        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
+        siteFinderPage.clickSiteButton(siteNameC2462, "Request to Join");
+        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2462, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
+
         LOG.info("Step 3: Login second user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userManager, password);
+
         LOG.info("Step 4: Verify 'My Tasks' dashlet");
         userDashboardPage.navigate(userManager);
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks", "My Tasks Dashlet title is not correct");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName));
+
         LOG.info("Step 5: Click 'Edit Task'");
         myTasksDashlet.clickEditTask(taskName);
+
         LOG.info("Step 6: Approve the task");
         editTaskPage.approve("Approve", myTasksDashlet);
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName));
+
         LOG.info("Step 7: Switch the filter to 'Completed tasks'");
         userDashboardPage.navigate(userManager);
         myTasksDashlet.selectOptionFromTaskFilters("Completed Tasks");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName));
+
         LOG.info("Step 8: Login first user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userTest, password);
+
         LOG.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");
-        Assert.assertTrue(mySitesDashlet.isSitePresent(siteName));
-        mySitesDashlet.accessSite(siteName);
-        Assert.assertEquals(siteDashboardPage.getPageHeader(), siteName);
+        Assert.assertTrue(mySitesDashlet.isSitePresent(siteNameC2462));
+        mySitesDashlet.accessSite(siteNameC2462);
+        Assert.assertEquals(siteDashboardPage.getPageHeader(), siteNameC2462);
     }
 
     @TestRail(id = "C2463")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void rejectingUsersUsingMyTasksPage() {
+    public void rejectingUsersUsingMyTasksPage()
+    {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
-        menuNavigationBar.goTo(siteFinderPage);
-        siteFinderPage.searchSite(siteName);
-        Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
-        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
+        siteFinderPage.searchSite(siteNameC2463);
+        getBrowser().waitInSeconds(3);
+        Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2463));
+        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2463, "Request to Join"), "'Request to Join' button is expected to be displayed.");
+
         LOG.info("Step 2: Click 'Request to Join' button");
-        siteFinderPage.clickSiteButton(siteName, "Request to Join");
-        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
+        siteFinderPage.clickSiteButton(siteNameC2463, "Request to Join");
+        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2463, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
+
         LOG.info("Step 3: Login second user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userManager, password);
+
         LOG.info("Step 4: Go to 'My Tasks' page");
         menuNavigationBar.goTo(myTasksPage);
-        Assert.assertTrue(myTasksPage.checkTaskWasFound(siteName));
+        Assert.assertTrue(myTasksPage.checkTaskWasFound(siteNameC2463));
+
         LOG.info("Step 5: Click 'Edit Task'");
-        myTasksPage.clickEditTask(siteName);
+        myTasksPage.clickEditTask(siteNameC2463);
+
         LOG.info("Step 6: Reject the task");
         editTaskPage.reject("Reject", myTasksPage);
-        Assert.assertFalse(myTasksPage.checkTaskWasFound(siteName));
+        Assert.assertFalse(myTasksPage.checkTaskWasFound(siteNameC2463));
+
         LOG.info("Step 7: Click on 'Completed' task");
         myTasksPage.clickCompletedTasks();
-        Assert.assertTrue(myTasksPage.checkTaskWasFound(siteName));
+        Assert.assertTrue(myTasksPage.checkTaskWasFound(siteNameC2463));
+
         LOG.info("Step 8: Login first user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userTest, password);
+
         LOG.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");
-        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName));
+        Assert.assertFalse(mySitesDashlet.isSitePresent(siteNameC2463));
+
         LOG.info("Step 10: Open 'Site Finder' page and search for 'moderatedSite'");
         menuNavigationBar.goTo(siteFinderPage);
-        siteFinderPage.searchSite(siteName);
-        Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
-        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
+        siteFinderPage.searchSite(siteNameC2463);
+        Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2463));
+        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2463, "Request to Join"), "'Request to Join' button is expected to be displayed.");
+
         LOG.info("Step 11: Click on the site");
-        siteFinderPage.accessSite(siteName);
-        Assert.assertEquals(siteDashboardPage.getPageHeader(), siteName);
+        siteFinderPage.accessSite(siteNameC2463);
+        Assert.assertEquals(siteDashboardPage.getPageHeader(), siteNameC2463);
         Assert.assertEquals(siteDashboardPage.getSiteVisibility(), "Moderated");
     }
 
     @TestRail(id = "C2464")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void rejectingUsersUsingMyTasksDashlet() {
+    public void rejectingUsersUsingMyTasksDashlet()
+    {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
-        menuNavigationBar.goTo(siteFinderPage);
-        siteFinderPage.searchSite(siteName);
-        Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
-        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
+        taskName = String.format("Request to join %s site", siteNameC2464);
+        siteFinderPage.searchSite(siteNameC2464);
+        getBrowser().waitInSeconds(3);
+        Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2464));
+        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2464, "Request to Join"), "'Request to Join' button is expected to be displayed.");
+
         LOG.info("Step 2: Click 'Request to Join' button");
-        siteFinderPage.clickSiteButton(siteName, "Request to Join");
-        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
+        siteFinderPage.clickSiteButton(siteNameC2464, "Request to Join");
+        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2464, "Cancel Request"), "'Cancel Request' button is expected to be displayed.");
+
         LOG.info("Step 3: Login second user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userManager, password);
+
         LOG.info("Step 4: Verify 'My Tasks' dashlet");
         userDashboardPage.navigate(userManager);
+        myTasksDashlet.selectOptionFromTaskFilters("Active Tasks");
+        getBrowser().waitInSeconds(3);
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks", "My Tasks Dashlet title is not correct");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Active tasks");
+
         LOG.info("Step 5: Click 'Edit Task'");
         myTasksDashlet.clickEditTask(taskName);
+
         LOG.info("Step 6: Reject the task");
         editTaskPage.reject("Reject", myTasksDashlet);
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "Task is present");
+
         LOG.info("Step 7: Switch the filter to 'Completed tasks'");
         myTasksDashlet.selectOptionFromTaskFilters("Completed Tasks");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Completed tasks");
+
         LOG.info("Step 8: Login first user");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userTest, password);
+
         LOG.info("Step 9: Verify 'My sites' dashlet from user's dashboard page");
-        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName));
+        Assert.assertFalse(mySitesDashlet.isSitePresent(siteNameC2464));
+
         LOG.info("Step 10: Open 'Site Finder' page and search for 'moderatedSite'");
         menuNavigationBar.goTo(siteFinderPage);
-        siteFinderPage.searchSite(siteName);
-        Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteName));
-        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Request to Join"), "'Request to Join' button is expected to be displayed.");
+        siteFinderPage.searchSite(siteNameC2464);
+        Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2464));
+        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2464, "Request to Join"), "'Request to Join' button is expected to be displayed.");
+
         LOG.info("Step 11: Click on the site");
-        siteFinderPage.accessSite(siteName);
-        Assert.assertEquals(siteDashboardPage.getPageHeader(), siteName);
+        siteFinderPage.accessSite(siteNameC2464);
+        Assert.assertEquals(siteDashboardPage.getPageHeader(), siteNameC2464);
         Assert.assertEquals(siteDashboardPage.getSiteVisibility(), "Moderated");
     }
 
     @TestRail(id = "C2549")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void onlySiteManagersApproveRejectRequestToJoinSite() throws DataPreparationException {
-        LOG.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
-        UserModel testUser = dataUser.createRandomTestUser();
-        UserModel managerUser = dataUser.createRandomTestUser();
-        UserModel collaboratorUser = dataUser.createRandomTestUser();
-        UserModel contributorUser = dataUser.createRandomTestUser();
-        UserModel consumerUser = dataUser.createRandomTestUser();
-        SiteModel moderatedSite = dataSite.usingUser(managerUser).createModeratedRandomSite();
-        dataUser.addUserToSite(collaboratorUser, moderatedSite, UserRole.SiteCollaborator);
-        dataUser.addUserToSite(contributorUser, moderatedSite, UserRole.SiteContributor);
-        dataUser.addUserToSite(consumerUser, moderatedSite, UserRole.SiteConsumer);
-        taskName = String.format("Request to join %s site", moderatedSite.getTitle());
+    public void onlySiteManagersApproveRejectRequestToJoinSite()
+    {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
-        setupAuthenticatedSession(testUser.getUsername(), password);
-        menuNavigationBar.goTo(siteFinderPage);
+        taskName = String.format("Request to join %s site", moderatedSite.getTitle());
         siteFinderPage.searchSite(moderatedSite.getTitle());
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(moderatedSite.getTitle()));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(moderatedSite.getTitle(), "Request to Join"), "'Request to Join' button is expected to be displayed.");
+
         LOG.info("Step 2: Click 'Request to Join' button");
-        siteFinderPage.clickRequestToJoinButton(siteName);
+        siteFinderPage.clickRequestToJoinButton(siteNameC2549);
         Assert.assertEquals(siteFinderPage.getButtonCancelRequestText("Cancel Request"), "Cancel Request", "Cancel Request button is not displayed");
         cleanupAuthenticatedSession();
+
         LOG.info("Step 3: Check My Tasks for consumer user");
         setupAuthenticatedSession(consumerUser.getUsername(), password);
+
         LOG.info("Verify 'My Tasks' dashlet");
         userDashboardPage.navigate(consumerUser.getUsername());
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Active tasks");
+
         LOG.info("Verify 'My Tasks' page");
         menuNavigationBar.goTo(myTasksPage);
         Assert.assertFalse(myTasksPage.checkTaskWasFound(moderatedSite.getTitle()), "Task is not present in Active tasks");
         cleanupAuthenticatedSession();
+
         LOG.info("Step 4: Check My Tasks for Collaborator User");
         setupAuthenticatedSession(collaboratorUser.getUsername(), password);
+
         LOG.info("Verify 'My Tasks' dashlet");
         userDashboardPage.navigate(collaboratorUser.getUsername());
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Active tasks");
+
         LOG.info("Verify 'My Tasks' page");
         menuNavigationBar.goTo(myTasksPage);
         Assert.assertFalse(myTasksPage.checkTaskWasFound(moderatedSite.getTitle()), "Task is not present in Active tasks");
         cleanupAuthenticatedSession();
+
         LOG.info("Step 5: Check My Tasks for Contributor user");
         setupAuthenticatedSession(contributorUser.getUsername(), password);
+
         LOG.info("Verify 'My Tasks' dashlet");
         userDashboardPage.navigate(contributorUser.getUsername());
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Active tasks");
+
         LOG.info("Verify 'My Tasks' page");
         menuNavigationBar.goTo(myTasksPage);
         Assert.assertFalse(myTasksPage.checkTaskWasFound(moderatedSite.getTitle()), "Task is not present in Active tasks");
         cleanupAuthenticatedSession();
+
         LOG.info("Step 6: Login as 'userManager'");
         setupAuthenticatedSession(managerUser.getUsername(), password);
+
         LOG.info("Step 7: Verify 'My Tasks' page");
         menuNavigationBar.goTo(myTasksPage);
         Assert.assertTrue(myTasksPage.checkTaskWasFound(moderatedSite.getTitle()), "Task is present in Active tasks");
+
         LOG.info("Step 8: Verify 'My Tasks' dashlet");
         userDashboardPage.navigate(managerUser.getUsername());
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "Task is present in Active tasks");
