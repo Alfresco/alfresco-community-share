@@ -174,9 +174,9 @@ public class SocialFeatures extends DocumentLibraryPage
     /**
      * Method to click the Share button
      */
-    public void clickShareButton(String contentName) {
+    public void clickShareButton(String contentName)
+    {
         selectDocumentLibraryItemRow(contentName).findElement(shareButton).click();
-        getBrowser().waitUntilElementClickable(quickShareWindow, 10L);
     }
 
     /**

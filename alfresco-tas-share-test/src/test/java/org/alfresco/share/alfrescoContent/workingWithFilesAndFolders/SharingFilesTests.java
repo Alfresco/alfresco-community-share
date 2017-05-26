@@ -48,7 +48,8 @@ public class SharingFilesTests extends ContextAwareWebTest
     private String windowToCloseGPlus;
 
     @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteNameC7093, description, Visibility.PUBLIC);
         siteService.create(user, password, domain, siteNameC7649, description, Visibility.PUBLIC);
@@ -59,20 +60,25 @@ public class SharingFilesTests extends ContextAwareWebTest
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC7099, fileContent);
         contentService.createDocument(user, password, siteNameC7649, DocumentType.TEXT_PLAIN, fileNameC7649, fileContent);
         contentService.createFolder(user, password, folderName, siteNameC7093);
+        //setupAuthenticatedSession(user, password);
     }
+
 
    @TestRail(id = "C7095")
    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void shareWithFacebook() {
+    public void shareWithFacebook()
+    {
             setupAuthenticatedSession(user, password);
             documentLibraryPage.navigate(siteName);
+
             LOG.info("Step 1: Check that the Share button is available and click Share");
             Assert.assertTrue(social.isShareButtonDisplayed(fileNameC7095), "The Share button is not displayed");
             Assert.assertEquals(social.getShareButtonTooltip(fileNameC7095), "Share document", "Share button tooltip is not correct");
             social.clickShareButton(fileNameC7095);
-            //getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
+            getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
             Assert.assertTrue(social.isQuickshareWindowDisplayed(), "Quickshare window is not displayed");
             Assert.assertTrue(social.isPublicLinkDisplayed(), "public link is not displayed");
+
             LOG.info("Step 2: Click Facebook icon");
             social.clickShareWithFacebook();
             getBrowser().switchWindow();
@@ -84,23 +90,30 @@ public class SharingFilesTests extends ContextAwareWebTest
             cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C7096")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void shareWithTwitter() {
+ @TestRail(id = "C7096")
+ @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    public void shareWithTwitter()
+    {
             setupAuthenticatedSession(user, password);
+            String currentWindow = getBrowser().getWindowHandle();
+            //documentLibraryPage.getRelativePath();
             documentLibraryPage.navigate(siteName);
             URL url2 = envProperties.getShareUrl();
-            String expectedLink = "File" + " " + fileNameC7096 + " " + "shared from Alfresco Content Services " + url2.toString().replace(":80/","/") + "/s";
+            String expectedLink = "File" + " " + fileNameC7096 + " " + "shared from Alfresco " + url2.toString().replace(":80/","/") + "/s";
             documentLibraryPage.getRelativePath();
+
             LOG.info("Step 1: Check that the Share button is available and click Share");
             Assert.assertTrue(social.isShareButtonDisplayed(fileNameC7096), "The Share button is not displayed");
             Assert.assertEquals(social.getShareButtonTooltip(fileNameC7096), "Share document", "Share button tooltip is not correct");
             social.clickShareButton(fileNameC7096);
+            getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
             Assert.assertTrue(social.isQuickshareWindowDisplayed(), "Quickshare window is not displayed");
             Assert.assertTrue(social.isPublicLinkDisplayed(), "public link is not displayed");
+
             LOG.info("Step 2: Click Twitter icon");
             social.clickTwitterIcon();
             getBrowser().waitInSeconds(5);
+            //Switch to new window opened
             getBrowser().switchWindow("https://twitter.com");
             Assert.assertEquals(social.getPageTitle(), "Share a link on Twitter", "User is not redirected to Twitter");
             Assert.assertEquals(social.getTwitterShareLink(), expectedLink, "Share link is not correct");
@@ -112,7 +125,10 @@ public class SharingFilesTests extends ContextAwareWebTest
   @Bug(id = "ACE-5768")
   @TestRail(id = "C7097")
   @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+
     public void shareWithGooglePlus() {
+
+    {
         try {
             setupAuthenticatedSession(user, password);
             documentLibraryPage.navigate(siteName);
@@ -125,8 +141,10 @@ public class SharingFilesTests extends ContextAwareWebTest
             getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
             Assert.assertTrue(social.isQuickshareWindowDisplayed(), "Quickshare window is not displayed");
             Assert.assertTrue(social.isPublicLinkDisplayed(), "public link is not displayed");
+
             LOG.info("Step 2: Click Google+ icon");
             social.clickGooglePlus();
+
             getBrowser().switchWindow();
             social.loginToGoogleAccount();
             windowToCloseGPlus = getBrowser().getWindowHandle();
@@ -136,26 +154,36 @@ public class SharingFilesTests extends ContextAwareWebTest
             getBrowser().closeWindowAndSwitchBack();
             cleanupAuthenticatedSession();
         }
-        finally {
+        finally
+        {
             getBrowser().closeWindowAndSwitchBackParametrized(windowToSwitchToAlfresco, windowToCloseGPlus);
         }
 
     }
+}
 
    @TestRail(id = "C7099")
    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void unshareDocument() {
-            LOG.info("Precondition: File is shared");
+    public void unshareDocument()
+    {
+        /**
+         * Precondition - File is shared
+         */
+
             cleanupAuthenticatedSession();
             setupAuthenticatedSession(user, password);
             documentLibraryPage.navigate(siteName);
             social.clickShareButton(fileNameC7099);
+
             LOG.info("Step 1: Mouse over Share icon and get the Share tooltip message");
             documentLibraryPage.navigate(siteName);
             Assert.assertEquals(social.getShareButtonTooltip(fileNameC7099), "This document is shared (click for more options)", "Tootltip message is not correct");
+
             LOG.info("Step 2: Click the Share icon");
             social.clickShareButton(fileNameC7099);
+            getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
             Assert.assertTrue(social.isQuickshareWindowDisplayed(), "Quickshare window is not displayed");
+
             LOG.info("Step 3: Click Unshare link");
             social.clickUnshareButton();
             Assert.assertEquals(social.getShareButtonTooltip(fileNameC7099), "Share document", "Share button tooltip is not correct");
@@ -164,7 +192,9 @@ public class SharingFilesTests extends ContextAwareWebTest
 
     @TestRail(id = "C7093")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void shareFolder() {
+    public void shareFolder()
+
+    {
         setupAuthenticatedSession(user,password);
         LOG.info("Step 1: Check that Share is not available for folders");
         documentLibraryPage.navigate(siteNameC7093);
@@ -174,30 +204,39 @@ public class SharingFilesTests extends ContextAwareWebTest
 
     @TestRail(id = "C7649")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void sharedFilesContentAvailability() {
+    public void sharedFilesContentAvailability()
+
+    {
         setupAuthenticatedSession(user, password);
         LOG.info("Preconditions: Navigate to Document Library ppage for the created site");
         documentLibraryPage.navigate(siteNameC7649);
+
         LOG.info("Step1: Click Share icon on the file and verify a pop-up displaying the URL for the file is opened.");
+
         social.clickShareButton(fileNameC7649);
         Assert.assertTrue(social.isShareUrlDisplayed(), "Shared Url is not displayed");
+
         LOG.info("Step2: Save the URL for the file and logout from Share");
         social.clickPublicLinkViewButton();
         sharedUrl = getBrowser().getCurrentUrl();
         getBrowser().cleanUpAuthenticatedSession();
+
         LOG.info("Step3: Access the saved URL and verify the file is successfully displayed and 'Login' button is availbale on the page");
         getBrowser().get(sharedUrl);
         Assert.assertEquals(social.getContentTextFromSharedFilePage(), fileContent);
         Assert.assertTrue(social.isLoginButtonOnSharedFilePage(), "Login button is not displayed");
+
         LOG.info("Step4: Click 'Login' button and login to Share");
         social.clickLoginButtonOnSharedFilePage();
         loginPage.typeUserName(user);
         loginPage.typePassword(password);
         loginPage.clickLogin();
+
         LOG.info("Step5: Access the URL for the shared file and verify it is successfully displayed and 'Document Details' button is available on the page");
         getBrowser().get(sharedUrl);
         Assert.assertEquals(social.getContentTextFromSharedFilePage(), fileContent);
         Assert.assertTrue(social.isDocumentDetailsButtonOnSharedFilePageDisplayed(), "Document Details button is not displayed");
+
         LOG.info("Step6: Click 'Document details' button and verify the document's details page with correct preview is displayed");
         social.clickDocumentDetailsButtonOnSharedFilePage();
         Assert.assertEquals(documentDetails.getContentText(), fileContent);
