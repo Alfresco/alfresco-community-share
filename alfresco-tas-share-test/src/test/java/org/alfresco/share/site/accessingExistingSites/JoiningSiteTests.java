@@ -116,7 +116,6 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         assertTrue(siteUsersPage.isRoleSelected("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
         LOG.info("STEP 3: Click again on 'Site Configuration Options' icon.");
         siteDashboardPage.clickSiteConfiguration();
-        getBrowser().waitInSeconds(2);
         assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
         assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Join Site"), "'Join Site' action should be available in the 'Site Configuration Options' drop-down menu.");
         LOG.info("STEP 4: Go to 'User Dashboard' page and verify 'My Sites' dashlet.");

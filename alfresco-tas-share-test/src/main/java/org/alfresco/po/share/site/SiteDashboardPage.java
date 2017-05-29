@@ -109,6 +109,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public boolean isOptionListedInSiteConfigurationDropDown(String option)
     {
         List<WebElement> siteConfigurationOptions = browser.findElements(By.cssSelector("div[style*='visible'] tr[id^='HEADER']>td[id$='text']"));
+        getBrowser().waitUntilElementsVisible(siteConfigurationOptions);
         for (WebElement siteConfigurationOption : siteConfigurationOptions)
         {
             if (siteConfigurationOption.getText().equals(option))
@@ -134,8 +135,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
                 break;
             }
         }
-
-//        return page.renderedPage();
+        getBrowser().waitUntilElementDisappears(By.cssSelector("span.message"));
     }
     
     /**
