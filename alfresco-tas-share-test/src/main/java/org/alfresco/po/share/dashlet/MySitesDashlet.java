@@ -29,6 +29,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     @FindBy(css = "div.dashlet.my-sites")
     protected HtmlElement dashletContainer;
 
+    @RenderWebElement
     @FindBy(css = "div[id$='default-sites']")
     protected HtmlElement sitesListContainer;
 
@@ -318,9 +319,9 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public void hoverSite(String siteName)
     {
-        Parameter.checkIsMandotary("Site name", siteName);
-        WebElement siteRow = selectSiteDetailsRow(siteName);
-        browser.mouseOver(siteRow);
+       Parameter.checkIsMandotary("Site name", siteName);
+       WebElement siteRow = selectSiteDetailsRow(siteName);
+       browser.mouseOver(siteRow);
     }
 
     public boolean isDeleteButtonDisplayed(String siteName)

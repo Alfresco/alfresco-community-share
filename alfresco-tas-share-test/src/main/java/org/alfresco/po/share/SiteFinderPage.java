@@ -7,6 +7,8 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -67,20 +69,35 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     public void searchSite(String site) {
         searchField.clear();
         searchField.sendKeys(site);
-        searchButton.click();
+        getBrowser().waitUntilElementClickable(searchButton).sendKeys(Keys.ENTER);
         this.renderedPage();
     }
 
+    public boolean isSiteFound(String siteName) {
+        return getBrowser().isElementDisplayed(selectSite(siteName));
+    }
     /**
      * Check if the site was found
      *
      * @param siteName String
      * @return true if the site was found, else return false
      */
-    public boolean checkSiteWasFound(String siteName)
-    {
-        return selectSite(siteName) != null;
+    public boolean checkSiteWasFound(String siteName) {
+        int counter = 0;
+        try{
+            return selectSite(siteName) !=null;
+            }
+        catch(TimeoutException e){
+            while(!isSiteFound(siteName)&&counter<3){
+                searchButton.click();
+                getBrowser().waitUntilElementIsVisibleWithRetry(By.cssSelector("div[id$='_default-sites'] tr[class^='yui-dt-rec']"), 3);
+                LOG.info("Site not found "+ e.getMessage().toString());
+                return selectSite(siteName) !=null;
+            }
+        }
+        return false;
     }
+
 
     /**
      * Retrieves the link that match the site name.
@@ -88,9 +105,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
      * @param siteName String
      * @return WebElement that match the site name
      */
-    public WebElement selectSite(final String siteName)
-    {
-        getBrowser().waitUntilElementsVisible(siteRowList);
+    public WebElement selectSite(final String siteName) {
         return browser.findFirstElementWithValue(siteRowList, siteName);
     }
 
@@ -100,8 +115,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
      * @param siteName
      * @return
      */
-    public List<WebElement> getTheButtonsForSite(String siteName)
-    {
+    public List<WebElement> getTheButtonsForSite(String siteName) {
         Parameter.checkIsMandotary("Site name", siteName);
         WebElement siteRow = selectSite(siteName);
         return siteRow.findElements(By.cssSelector("button"));
@@ -114,11 +128,12 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
      * @param buttonName String
      * @return true if button is displayed for site, false otherwise
      */
-    public boolean isButtonDisplayedForSite(String siteName, String buttonName)
-    {
-        for (WebElement button : getTheButtonsForSite(siteName))
+    public boolean isButtonDisplayedForSite(String siteName, String buttonName) {
+        browser.waitUntilElementsVisible(getTheButtonsForSite(siteName));
+        for (WebElement button : getTheButtonsForSite(siteName)) {
             if (button.getText().equals(buttonName))
                 return true;
+        }
         return false;
     }
 
