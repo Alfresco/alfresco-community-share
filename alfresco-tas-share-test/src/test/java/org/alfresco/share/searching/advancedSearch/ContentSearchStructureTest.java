@@ -49,6 +49,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     private DateTime today = new DateTime();
     private DateTime tomorrow = today.plusDays(1);
 
+    @Bug(id = "ACE-5789")
     @TestRail(id = "C5951")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByAWordOrPhraseAnywhereItExists()
