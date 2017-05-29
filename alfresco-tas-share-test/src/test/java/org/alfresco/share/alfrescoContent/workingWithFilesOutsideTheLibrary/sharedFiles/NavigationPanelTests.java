@@ -29,7 +29,7 @@ public class NavigationPanelTests extends ContextAwareWebTest
     private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String folderName = "folder-C7928-" + uniqueId;
     private final String path = "Shared/";
-    private final String tag = "tag-" + uniqueId;
+    private final String tag = "tag-" + uniqueId.toLowerCase();
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

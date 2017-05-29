@@ -519,15 +519,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public boolean isMoreMenuDisplayed(String contentName)
     {
-        try
-        {
-            WebElement element = selectDocumentLibraryItemRow(contentName).findElement(moreMenuSelector);
-            return browser.isElementDisplayed(element);
-        }
-        catch (TimeoutException | NoSuchElementException e)
-        {
-            return false;
-        }
+        return browser.isElementDisplayed(selectDocumentLibraryItemRow(contentName), moreMenuSelector);
     }
 
     private List<WebElement> getAvailableActions(String libraryItem)

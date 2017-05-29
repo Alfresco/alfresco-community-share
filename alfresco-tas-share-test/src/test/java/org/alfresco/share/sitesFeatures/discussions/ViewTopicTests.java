@@ -67,9 +67,9 @@ public class ViewTopicTests extends ContextAwareWebTest
         assertEquals(topicViewPage.getTopicTitle(), topicTitle, "Title is displayed.");
         assertTrue(topicViewPage.getTopicPublished().startsWith("Created on: " + today),
                 "Topic was created today. Actual: [" +topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
-        assertTrue(topicViewPage.getTopicPublished().contains("Author : " + user1 + " lName1"), "The user who created the topic is User1.");
-        assertTrue(topicViewPage.getTopicPublished().contains("Last reply by : " + user2 + " lName2"), "The user who last replied the topic is User2.");
-        assertTrue(topicViewPage.getTopicPublished().contains("Last reply on : " + today), "Last reply was today.");
+        assertTrue(topicViewPage.getTopicPublished().contains("Author: " + user1 + " lName1"), "The user who created the topic is User1.");
+        assertTrue(topicViewPage.getTopicPublished().contains("Last reply by: " + user2 + " lName2"), "The user who last replied the topic is User2.");
+        assertTrue(topicViewPage.getTopicPublished().contains("Last reply on: " + today), "Last reply was today.");
         assertEquals(topicViewPage.getTopicContent(), topicContent, "Content is displayed.");
         assertEquals(topicViewPage.getTopicReplies(), "(1)", "Topic has 1 reply.");
         assertEquals(topicViewPage.getTopicTags(), topicTag, "Tag is displayed.");
@@ -98,9 +98,9 @@ public class ViewTopicTests extends ContextAwareWebTest
         assertEquals(topicViewPage.getTopicTitle(), topicTitle, "Title is displayed.");
         assertTrue(topicViewPage.getTopicPublished().startsWith("Created on: " + today),
                 "Topic was created today. Actual: [" +topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
-        assertTrue(topicViewPage.getTopicPublished().contains("Author : " + user1 + " lName1"), "The user who created the topic is User1.");
-        assertTrue(topicViewPage.getTopicPublished().contains("Last reply by : " + user2 + " lName2"), "The user who last replied the topic is User2.");
-        assertTrue(topicViewPage.getTopicPublished().contains("Last reply on : " + today), "Last reply was today.");
+        assertTrue(topicViewPage.getTopicPublished().contains("Author: " + user1 + " lName1"), "The user who created the topic is User1.");
+        assertTrue(topicViewPage.getTopicPublished().contains("Last reply by: " + user2 + " lName2"), "The user who last replied the topic is User2.");
+        assertTrue(topicViewPage.getTopicPublished().contains("Last reply on: " + today), "Last reply was today.");
         assertEquals(topicViewPage.getTopicContent(), topicContent, "Content is displayed.");
         assertEquals(topicViewPage.getTopicReplies(), "(1)", "Topic has 1 reply.");
         assertEquals(topicViewPage.getTopicTags(), topicTag, "Tag is displayed.");
@@ -130,9 +130,9 @@ public class ViewTopicTests extends ContextAwareWebTest
         assertEquals(topicViewPage.getTopicTitle(), topicTitle, "Title is displayed.");
         assertTrue(topicViewPage.getTopicPublished().startsWith("Created on: " + today),
                 "Topic was created today. Actual: [" +topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
-        assertTrue(topicViewPage.getTopicPublished().contains("Author : " + user1 + " lName1"), "The user who created the topic is User1.");
-        assertTrue(topicViewPage.getTopicPublished().contains("Last reply by : " + user2 + " lName2"), "The user who last replied the topic is User2.");
-        assertTrue(topicViewPage.getTopicPublished().contains("Last reply on : " + today), "Last reply was today.");
+        assertTrue(topicViewPage.getTopicPublished().contains("Author: " + user1 + " lName1"), "The user who created the topic is User1.");
+        assertTrue(topicViewPage.getTopicPublished().contains("Last reply by: " + user2 + " lName2"), "The user who last replied the topic is User2.");
+        assertTrue(topicViewPage.getTopicPublished().contains("Last reply on: " + today), "Last reply was today.");
         assertEquals(topicViewPage.getTopicContent(), topicContent, "Content is displayed.");
         assertEquals(topicViewPage.getTopicReplies(), "(1)", "Topic has 1 reply.");
         assertEquals(topicViewPage.getTopicTags(), topicTag, "Tag is displayed.");
