@@ -90,16 +90,14 @@ public class SharingFilesTests extends ContextAwareWebTest
             cleanupAuthenticatedSession();
     }
 
- @TestRail(id = "C7096")
- @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+     @TestRail(id = "C7096")
+     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void shareWithTwitter()
     {
             setupAuthenticatedSession(user, password);
-            String currentWindow = getBrowser().getWindowHandle();
-            //documentLibraryPage.getRelativePath();
             documentLibraryPage.navigate(siteName);
             URL url2 = envProperties.getShareUrl();
-            String expectedLink = "File" + " " + fileNameC7096 + " " + "shared from Alfresco " + url2.toString().replace(":80/","/") + "/s";
+            String expectedLink = "File" + " " + fileNameC7096 + " " + "shared from Alfresco Content Services " + url2.toString().replace(":80/","/") + "/s";
             documentLibraryPage.getRelativePath();
 
             LOG.info("Step 1: Check that the Share button is available and click Share");

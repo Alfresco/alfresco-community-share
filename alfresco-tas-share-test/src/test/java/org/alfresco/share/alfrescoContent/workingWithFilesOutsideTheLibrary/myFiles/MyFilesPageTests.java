@@ -26,7 +26,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
     private final String user = String.format("C7659User%s", RandomData.getRandomAlphanumeric());
     private final String nonAdminFile = String.format("nonAdminDoc%s", RandomData.getRandomAlphanumeric());
     private final String adminFile = String.format("adminDoc%s", RandomData.getRandomAlphanumeric());
-    private final String tag = String.format("testTag%s", RandomData.getRandomAlphanumeric());
+    private final String tag = String.format("testTag%s", RandomData.getRandomAlphanumeric()).toLowerCase();
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
