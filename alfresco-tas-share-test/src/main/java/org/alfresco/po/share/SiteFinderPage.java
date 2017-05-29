@@ -92,6 +92,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
                 searchButton.click();
                 getBrowser().waitUntilElementIsVisibleWithRetry(By.cssSelector("div[id$='_default-sites'] tr[class^='yui-dt-rec']"), 3);
                 LOG.info("Site not found "+ e.getMessage().toString());
+                counter++;
                 return selectSite(siteName) !=null;
             }
         }
@@ -148,7 +149,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
         for (WebElement button : getTheButtonsForSite(siteName))
             if (button.getText().equals(buttonName)) {
                 browser.waitUntilElementClickable(button, 30).click();
-                browser.waitInSeconds(5);
+               // browser.waitInSeconds(5);
                 break;
             }
     }

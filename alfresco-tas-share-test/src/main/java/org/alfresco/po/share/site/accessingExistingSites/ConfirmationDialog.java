@@ -37,9 +37,8 @@ public abstract class ConfirmationDialog extends HtmlPage
     /**
      * Click on the OK button
      */
-    public void clickOKButton()
-    {
-        browser.waitUntilElementVisible(By.cssSelector("span[widgetid$='DIALOG_CONFIRM'] span")).click();
+    public void clickOKButton() {
+        browser.waitUntilElementClickable(By.cssSelector("span[widgetid$='DIALOG_CONFIRM'] span"), 5).click();
     }
 
     /**
