@@ -42,9 +42,6 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
     @FindBy(css = ".rules-list-container .title")
     private List<WebElement> rulesList;
 
-    @FindBy(css = "button[id*='edit']")
-    private WebElement editButton;
-
     @FindBy(css = ".rules-actions .yuimenuitemlabel")
     private List<WebElement> runRulesOptions;
 
@@ -126,7 +123,7 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
      */
     public void clickButton(String buttonId)
     {
-        browser.findElement(By.cssSelector(String.format(buttonSelector, buttonId))).click();
+        browser.waitUntilElementClickable(By.cssSelector(String.format(buttonSelector, buttonId)), properties.getExplicitWait()).click();
         if (buttonId.equals("edit"))
             editRulesPage.renderedPage();
         if (buttonId.equals("unlink"))

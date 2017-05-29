@@ -118,7 +118,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     public List<WebElement> getTheButtonsForSite(String siteName) {
         Parameter.checkIsMandotary("Site name", siteName);
         WebElement siteRow = selectSite(siteName);
-        return siteRow.findElements(By.cssSelector("button"));
+        return browser.waitUntilElementsVisible(siteRow.findElements(By.cssSelector("button")));
     }
 
     /**
