@@ -28,14 +28,14 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
     private DocumentsFilters documentsFilters;
 
     private final String uniqueId = RandomData.getRandomAlphanumeric();
-    private final String user = "User-" + uniqueId;
+    private final String user = "Consumer-" + uniqueId;
     private final String site = "site-" + uniqueId;
     private final String name = "name";
     private final String siteDescription = "Site Description";
     private final String folderName = "Folder-" + uniqueId;
     private final String subFolderName = "subFolder-" + uniqueId;
     private final String path = "Sites/" + site + "/documentLibrary/" + folderName;
-    private final String tag = "tag-" + uniqueId;
+    private final String tag = "tag-" + uniqueId.toLowerCase();
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -75,6 +75,8 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void manageRulesFolderCreatedByOther()
     {
+        documentLibraryPage.navigate(site);
+        documentLibraryPage.clickFolderFromExplorerPanel(folderName);
         LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
         assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, language.translate("documentLibrary.contentActions.manageRules")),
                 "'Manage Rules' option is displayed for " + subFolderName);
