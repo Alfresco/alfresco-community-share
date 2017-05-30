@@ -66,9 +66,8 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
     private final String linkC42625 = "Link to " + fileC42625;
     private final String folderC42626 = "C42626-" + uniqueIdentifier;
     private final String linkC42626 = "Link to " + folderC42626;
-    private final String googleDocC42627 = "googleDoc.docx";
-    private final String googleDocPath = testDataFolder + googleDocC42627;
-    private final String linkC42627 = "Link to " + googleDocC42627;
+    private final String fileNameC42627 = "C42627FileName";
+    private final String linkC42627 = "Link to " + fileNameC42627;
     private final String fileC42628 = "C42628-" + uniqueIdentifier;
     private final String newFileC42628 = "EditedFileC7074.txt";
     private final String linkC42628 = "Link to " + newFileC42628;
@@ -90,9 +89,9 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileC42628, content);
         contentService.createDocument(userName, password, siteName2, CMISUtil.DocumentType.TEXT_PLAIN, fileC42629, content);
         contentService.createDocument(userName, password, siteName2, CMISUtil.DocumentType.TEXT_PLAIN, fileC42630, content);
+        contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileNameC42627, content);
         contentService.createFolder(userName, password, folderC42626, siteName1);
         contentService.createFolder(userName, password, folderC42631, siteName2);
-        contentService.uploadFileInSite(userName, password, siteName1, googleDocPath);
         setupAuthenticatedSession(userName, password);
     }
 
@@ -160,22 +159,20 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
     }
 
     @TestRail(id = "C42627")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
-    public void linkToLockedDocRedirectsToOriginalDoc() throws Exception {
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void linkToLockedDocRedirectsToOriginalDoc() {
         logger.info("Precondition1: Login to Share/Google Docs and navigate to Document Library page for the test site; upload a .docx file");
-        googleDocsCommon.loginToGoogleDocs();
         setupAuthenticatedSession(userName, password);
         LOG.info("Precondition2: Go to Document Library of the site. Create link for document");
         documentLibraryPage.navigate(siteName1);
-        documentLibraryPage.mouseOverContentItem(googleDocC42627);
-        documentLibraryPage.clickDocumentLibraryItemAction(googleDocC42627, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
-        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + googleDocC42627 + " to...", "Displayed dialog=");
+        documentLibraryPage.mouseOverContentItem(fileNameC42627);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC42627, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
+        assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileNameC42627 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
         copyMoveUnzipToDialog.clickButton(language.translate("documentLibrary.contentActions.createLink"));
         LOG.info("STEP1: Lock the document, e.g: edit it Google Docs");
-        documentLibraryPage.clickDocumentLibraryItemAction(googleDocC42627, "Edit in Google Docs™", googleDocsCommon);
-        googleDocsCommon.clickOkButtonOnTheAuthPopup();
-        documentLibraryPage.renderedPage();
+        documentLibraryPage.navigate(siteName1);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC42627, "Edit Offline", documentLibraryPage);
         LOG.info("STEP2: Go to the location where the link was created");
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
@@ -183,7 +180,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         LOG.info("STEP3: Click on the link");
         documentLibraryPage.clickOnFile(linkC42627);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Displayed page=");
-        assertEquals(documentDetailsPage.getFileName(), googleDocC42627, "Document name=");
+        assertEquals(documentDetailsPage.getFileName(), fileNameC42627, "Document name=");
     }
 
     @TestRail(id = "C42628")
