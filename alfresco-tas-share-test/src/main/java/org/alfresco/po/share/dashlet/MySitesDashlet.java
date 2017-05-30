@@ -29,6 +29,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     @FindBy(css = "div.dashlet.my-sites")
     protected HtmlElement dashletContainer;
 
+    @RenderWebElement
     @FindBy(css = "div[id$='default-sites']")
     protected HtmlElement sitesListContainer;
 
@@ -53,6 +54,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     @FindBy(css = "div[class*='my-sites'] div[class*='empty']")
     protected HtmlElement defaultSiteText;
 
+    private By favoriteEnabled = By.cssSelector("span[class='item item-social'] a[class$='enabled']");
     private By deleteButton = By.cssSelector("a[class^='delete-site']");
 
     public enum SitesFilter
@@ -124,21 +126,10 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
      * @param siteName Site Name checked for is Favorite.
      * @return boolean
      */
-    public boolean isSiteFavourite(String siteName)
-    {
-        try
-        {
-            Parameter.checkIsMandotary("Site name", siteName);
-            WebElement siteRow = selectSiteDetailsRow(siteName);
-
-            // If site is favourite, anchor does not contain any text. Checking
-            // length of text rather than string 'Favourite' to support i18n.
-            return !(siteRow.findElement(By.cssSelector("a[class^='favourite-action']")).getText().length() > 1);
-        }
-        catch (NoSuchElementException | TimeoutException e)
-        {
-        }
-        return false;
+    public boolean isSiteFavorited(String siteName) {
+        Parameter.checkIsMandotary("Site name", siteName);
+        selectSiteDetailsRow(siteName);
+        return getBrowser().isElementDisplayed(favoriteEnabled);
     }
 
     /**
@@ -233,8 +224,7 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
      */
     public void clickCreateSiteButton()
     {
-        getBrowser().waitUntilElementVisible(createSiteLink);
-        createSiteLink.click();
+        getBrowser().waitUntilElementClickable(createSiteLink).click();
     }
 
     /**
@@ -329,9 +319,9 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
 
     public void hoverSite(String siteName)
     {
-        Parameter.checkIsMandotary("Site name", siteName);
-        WebElement siteRow = selectSiteDetailsRow(siteName);
-        browser.mouseOver(siteRow);
+       Parameter.checkIsMandotary("Site name", siteName);
+       WebElement siteRow = selectSiteDetailsRow(siteName);
+       browser.mouseOver(siteRow);
     }
 
     public boolean isDeleteButtonDisplayed(String siteName)

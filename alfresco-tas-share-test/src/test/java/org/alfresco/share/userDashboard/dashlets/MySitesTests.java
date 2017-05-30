@@ -1,12 +1,12 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.dashlet.MySitesDashlet.SitesFilter;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -31,7 +31,7 @@ public class MySitesTests extends ContextAwareWebTest
     public void createUser()
     {
         cleanupAuthenticatedSession();
-        userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
+        userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
     }
@@ -77,7 +77,7 @@ public class MySitesTests extends ContextAwareWebTest
     public void deleteSiteThenCancel()
     {
         LOG.info("STEP 1 - Create site, check that is available in user dashboard");
-        siteName1 = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+        siteName1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName1, "description", Visibility.PUBLIC);
         userDashboardPage.navigate(userName);
         Assert.assertEquals(mySitesDashlet.getSitesLinks().get(0).getText(), siteName1, "Existing site name is not correct");
@@ -99,13 +99,13 @@ public class MySitesTests extends ContextAwareWebTest
     public void filterSites()
     {
         LOG.info("STEP 1 - Create 3 sites, mark the first one as favourite");
-        siteName1 = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+        siteName1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName1, "description", Visibility.PUBLIC);
 
-        siteName2 = String.format("Site2%s", DataUtil.getUniqueIdentifier());
+        siteName2 = String.format("Site2%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName2, "description", Visibility.PUBLIC);
 
-        siteName3 = String.format("Site3%s", DataUtil.getUniqueIdentifier());
+        siteName3 = String.format("Site3%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName3, "description", Visibility.PUBLIC);
 
         userDashboardPage.navigate(userName);

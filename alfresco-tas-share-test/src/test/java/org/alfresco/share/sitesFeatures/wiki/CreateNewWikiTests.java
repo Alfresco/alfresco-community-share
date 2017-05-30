@@ -1,7 +1,6 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
 import junit.framework.Assert;
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.site.wiki.CreateWikiPage;
 import org.alfresco.po.share.site.wiki.WikiListPage;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -35,7 +35,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     @Autowired
     CreateWikiPage createWikiPage;
     
-    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+    private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName;
     private String wikiPageHeader = "Create Wiki Page";
     private String wikiPageTitle;
@@ -51,9 +51,9 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void createSite()
     {
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-        wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
-        wikiPageContent = String.format("WikiContent%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+        wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
+        wikiPageContent = String.format("WikiContent%s", RandomData.getRandomAlphanumeric());
 
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.WIKI, null);
@@ -109,7 +109,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createWikiPageFromWikiPageList()
     {
-        String tagName = String.format("tag%s", DataUtil.getUniqueIdentifier());
+        String tagName = String.format("tag%s", RandomData.getRandomAlphanumeric());
 
         // precondition
         wikiListPage.navigate(siteName);

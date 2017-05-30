@@ -1,6 +1,5 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.dashlet.SiteSearchDashlet;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -22,7 +22,7 @@ public class SiteSearchTest extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    private String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+    private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

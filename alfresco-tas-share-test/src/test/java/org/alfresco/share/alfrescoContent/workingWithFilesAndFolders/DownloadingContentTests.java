@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class DownloadingContentTests extends ContextAwareWebTest
     {
 
         LOG.info("Preconditions for test " + id);
-        uniqueIdentifier = "-" + id + "-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = "-" + id + "-" + RandomData.getRandomAlphanumeric();
         uniqueIdentifier = uniqueIdentifier.toLowerCase();
         siteName = "siteName" + uniqueIdentifier;
         userName = "User" + uniqueIdentifier;

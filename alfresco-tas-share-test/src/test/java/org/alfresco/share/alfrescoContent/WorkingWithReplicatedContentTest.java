@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -13,6 +12,7 @@ import org.alfresco.po.share.user.admin.CreateEditReplicationJobPage;
 import org.alfresco.po.share.user.admin.ReplicationJobsPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.utility.data.RandomData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
@@ -49,7 +49,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
 
     @Autowired private CreateEditReplicationJobPage createEditReplicationJobPage;
 
-    private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String site = "site-C7600-" + uniqueIdentifier;
     private final String folder = "C7600-folder";
     private final String document = "C7600-doc";

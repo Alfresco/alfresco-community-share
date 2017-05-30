@@ -1,6 +1,5 @@
 package org.alfresco.share.userRolesAndPermissions.contributor;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -44,8 +44,8 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     @Autowired
     private Notification notification;
 
-    private final String uniqueId = DataUtil.getUniqueIdentifier();
-    private final String user = "User-" + uniqueId;
+    private final String uniqueId = RandomData.getRandomAlphanumeric();
+    private final String user = "Contributor-" + uniqueId;
     private final String site = "site-" + uniqueId;
     private final String name = "name";
     private final String description = "Description";
@@ -54,7 +54,7 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     private final String folderName3 = "Folder3-" + uniqueId;
     private final String subFolderName = "subFolder-" + uniqueId;
     private final String path = "Sites/" + site + "/documentLibrary/" + folderName;
-    private final String tag = "tag-" + uniqueId;
+    private final String tag = "tag-" + uniqueId.toLowerCase();
     private final String title = "Title-" + uniqueId;
 
     @BeforeClass(alwaysRun = true)
@@ -136,6 +136,8 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void manageRulesFolderCreatedByOther()
     {
+        documentLibraryPage.navigate(site);
+        documentLibraryPage.clickFolderFromExplorerPanel(folderName);
         LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
         documentLibraryPage.clickMoreMenu(subFolderName);
         assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, language.translate("documentLibrary.contentActions.manageRules")),

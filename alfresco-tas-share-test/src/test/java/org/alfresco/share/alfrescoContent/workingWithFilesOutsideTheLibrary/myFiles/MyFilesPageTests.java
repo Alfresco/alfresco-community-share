@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -23,10 +23,10 @@ public class MyFilesPageTests extends ContextAwareWebTest
 
     @Autowired private DocumentsFilters filters;
 
-    private final String user = String.format("C7659User%s", DataUtil.getUniqueIdentifier());
-    private final String nonAdminFile = String.format("nonAdminDoc%s", DataUtil.getUniqueIdentifier());
-    private final String adminFile = String.format("adminDoc%s", DataUtil.getUniqueIdentifier());
-    private final String tag = String.format("testTag%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C7659User%s", RandomData.getRandomAlphanumeric());
+    private final String nonAdminFile = String.format("nonAdminDoc%s", RandomData.getRandomAlphanumeric());
+    private final String adminFile = String.format("adminDoc%s", RandomData.getRandomAlphanumeric());
+    private final String tag = String.format("testTag%s", RandomData.getRandomAlphanumeric()).toLowerCase();
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

@@ -1,11 +1,11 @@
 package org.alfresco.share.site;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.dashlet.SiteProfileDashlet;
 import org.alfresco.po.share.site.EditSiteDetailsDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -27,11 +27,11 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     @Autowired
     SiteProfileDashlet siteProfileDashlet;
 
-    private String user = String.format("profileUser%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private String description = String.format("description%s", DataUtil.getUniqueIdentifier());
-    private String newSiteName = String.format("New Site Name %s", DataUtil.getUniqueIdentifier());
-    private String newDescription = String.format("New description %s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("profileUser%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+    private String description = String.format("description%s",RandomData.getRandomAlphanumeric());
+    private String newSiteName = String.format("New Site Name %s",RandomData.getRandomAlphanumeric());
+    private String newDescription = String.format("New description %s",RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

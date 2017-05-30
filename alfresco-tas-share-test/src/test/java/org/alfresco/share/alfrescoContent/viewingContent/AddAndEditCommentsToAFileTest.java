@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -28,10 +28,10 @@ public class AddAndEditCommentsToAFileTest extends ContextAwareWebTest
     
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+    private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = "testFolder";
-    private final String docName = String.format("testDoc%s", DataUtil.getUniqueIdentifier());
+    private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

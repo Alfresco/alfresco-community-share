@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -30,12 +30,12 @@ public class DeletingContentTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private final String folderNameD = String.format("delFolder%s", DataUtil.getUniqueIdentifier());
-    private final String subFolder = String.format("delSubfolder%s", DataUtil.getUniqueIdentifier());
-    private final String folderNameC = String.format("cancelFolder%s", DataUtil.getUniqueIdentifier());
-    private final String docName = String.format("testDoc%s", DataUtil.getUniqueIdentifier());
+    private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    private final String folderNameD = String.format("delFolder%s", RandomData.getRandomAlphanumeric());
+    private final String subFolder = String.format("delSubfolder%s", RandomData.getRandomAlphanumeric());
+    private final String folderNameC = String.format("cancelFolder%s", RandomData.getRandomAlphanumeric());
+    private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
     private final String folderPathInRepository = "Sites/"+siteName+"/documentLibrary/";
 
     @BeforeClass(alwaysRun = true)

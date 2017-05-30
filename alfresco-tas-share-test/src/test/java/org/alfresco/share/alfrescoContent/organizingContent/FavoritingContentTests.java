@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage.DocumentsFilters;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -21,13 +21,13 @@ public class FavoritingContentTests extends ContextAwareWebTest
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
-    private final String siteName1 = String.format("siteC7501%s", DataUtil.getUniqueIdentifier());
-    private final String siteName2 = String.format("siteC7502%s", DataUtil.getUniqueIdentifier());
-    private final String siteName3 = String.format("siteC7503%s", DataUtil.getUniqueIdentifier());
-    private final String siteName4 = String.format("siteC7504%s", DataUtil.getUniqueIdentifier());
-    private final String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
-    private final String docName = String.format("testDoc%s", DataUtil.getUniqueIdentifier());
+    private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
+    private final String siteName1 = String.format("siteC7501%s", RandomData.getRandomAlphanumeric());
+    private final String siteName2 = String.format("siteC7502%s", RandomData.getRandomAlphanumeric());
+    private final String siteName3 = String.format("siteC7503%s", RandomData.getRandomAlphanumeric());
+    private final String siteName4 = String.format("siteC7504%s", RandomData.getRandomAlphanumeric());
+    private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
+    private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

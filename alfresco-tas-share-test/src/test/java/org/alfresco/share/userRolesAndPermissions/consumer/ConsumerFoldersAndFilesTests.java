@@ -1,6 +1,5 @@
 package org.alfresco.share.userRolesAndPermissions.consumer;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -11,6 +10,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -47,11 +47,11 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     @Autowired
     SiteUsersPage siteUsersPage;
 
-    private String user = String.format("Consumer%s", DataUtil.getUniqueIdentifier());
-    private String user8865 = String.format("user8865%s", DataUtil.getUniqueIdentifier());
-    private String description = String.format("ConsumerDescription%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("ConsumerSite%s", DataUtil.getUniqueIdentifier());
-    private String site8865 = String.format("site8865%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("Consumer%s", RandomData.getRandomAlphanumeric());
+    private String user8865 = String.format("user8865%s", RandomData.getRandomAlphanumeric());
+    private String description = String.format("ConsumerDescription%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("ConsumerSite%s", RandomData.getRandomAlphanumeric());
+    private String site8865 = String.format("site8865%s", RandomData.getRandomAlphanumeric());
     private String fileC8761 = "C8761 test file";
     private String fileC8762 = "C8762 test file";
     private String fileC8763 = "C8763 test file";
@@ -63,7 +63,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     private String folderC8761 = "C8761 folder";
     private String folderC8784 = "C8784 folder";
     String copyAction = "Copy to...";
-    String comment = String.format("Comment%s", DataUtil.getUniqueIdentifier());
+    String comment = String.format("Comment%s", RandomData.getRandomAlphanumeric());
     String filePath8865 = testDataFolder + fileC8865collaborator;
 
     @BeforeClass(alwaysRun = true)
@@ -191,7 +191,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         copyMoveToDialog.clickDestinationButton("Shared Files");
 
         LOG.info("STEP4: Click 'Copy' button");
-        copyMoveToDialog.clickButtton("Copy");
+        copyMoveToDialog.clickButton("Copy");
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
 
         LOG.info("STEP5: Verify displayed files from Documents");

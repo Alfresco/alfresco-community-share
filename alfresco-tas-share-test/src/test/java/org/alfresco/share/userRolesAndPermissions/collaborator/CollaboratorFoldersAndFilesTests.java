@@ -1,6 +1,5 @@
 package org.alfresco.share.userRolesAndPermissions.collaborator;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
@@ -16,6 +15,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage.DocumentsFilters;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -67,9 +67,9 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Autowired
     ManagePermissionsPage managePermissionsPage;
 
-    private String user = String.format("Collaborator%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("SiteC%s", DataUtil.getUniqueIdentifier());
-    private String siteName1 = String.format("SiteC1%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("Collaborator%s",RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("SiteC%s",RandomData.getRandomAlphanumeric());
+    private String siteName1 = String.format("SiteC1%s",RandomData.getRandomAlphanumeric());
     private final String deletePath = String.format("Sites/%s/documentLibrary", siteName);
     private String folderName;
 
@@ -88,7 +88,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorLikeUnlike()
     {
-        String testContentC8814 = String.format("FileC8814%s", DataUtil.getUniqueIdentifier());
+        String testContentC8814 = String.format("FileC8814%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, testContentC8814, "test content");
@@ -119,7 +119,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorFavoriteUnfavorite()
     {
-        String testContentC8815 = String.format("FileC8815%s", DataUtil.getUniqueIdentifier());
+        String testContentC8815 = String.format("FileC8815%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, testContentC8815, "test content");
@@ -157,11 +157,11 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorEditBasicDetailsBySelf()
     {
-        folderName = String.format("FolderC8818%s", DataUtil.getUniqueIdentifier());
-        String editTag = String.format("editTag%s", DataUtil.getUniqueIdentifier());
-        String editedName = String.format("editedName%s", DataUtil.getUniqueIdentifier());
-        String editedTitle = String.format("editedTitle%s", DataUtil.getUniqueIdentifier());
-        String editedDescription = String.format("editedDescription%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8818%s",RandomData.getRandomAlphanumeric());
+        String editTag = String.format("editTag%s",RandomData.getRandomAlphanumeric());
+        String editedName = String.format("editedName%s",RandomData.getRandomAlphanumeric());
+        String editedTitle = String.format("editedTitle%s",RandomData.getRandomAlphanumeric());
+        String editedDescription = String.format("editedDescription%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createFolder(user, password, folderName, siteName);
@@ -202,11 +202,11 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorEditBasicDetailsByOthers()
     {
-        folderName = String.format("FolderC8819%s", DataUtil.getUniqueIdentifier());
-        String editTag2 = String.format("editTag2%s", DataUtil.getUniqueIdentifier());
-        String editedName = String.format("editedName%s", DataUtil.getUniqueIdentifier());
-        String editedTitle = String.format("editedTitle%s", DataUtil.getUniqueIdentifier());
-        String editedDescription = String.format("editedDescription%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8819%s",RandomData.getRandomAlphanumeric());
+        String editTag2 = String.format("editTag2%s",RandomData.getRandomAlphanumeric());
+        String editedName = String.format("editedName%s",RandomData.getRandomAlphanumeric());
+        String editedTitle = String.format("editedTitle%s",RandomData.getRandomAlphanumeric());
+        String editedDescription = String.format("editedDescription%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
@@ -245,7 +245,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorRenameBySelf()
     {
-        folderName = String.format("FolderC8816%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8816%s",RandomData.getRandomAlphanumeric());
         String newFolderName = "newFolderNameC8816";
 
         LOG.info("Preconditions.");
@@ -273,7 +273,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorRenameByOthers()
     {
-        folderName = String.format("FolderC8817%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8817%s",RandomData.getRandomAlphanumeric());
         String newFolderName = "newFolderNameC8817";
 
         LOG.info("Preconditions.");
@@ -301,8 +301,8 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorMoveBySelf()
     {
-        folderName = String.format("Folder1C8823%s", DataUtil.getUniqueIdentifier());
-        String folderName2 = String.format("Folder2C8823%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("Folder1C8823%s",RandomData.getRandomAlphanumeric());
+        String folderName2 = String.format("Folder2C8823%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createFolder(user, password, folderName, siteName1);
@@ -326,7 +326,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickPathFolder(folderName2);
 
         LOG.info("Step 5: Click 'Move' button. Verify the displayed folders.");
-        copyMoveUnzipToDialog.clickButtton("Move");
+        copyMoveUnzipToDialog.clickButton("Move");
         documentLibraryPage.renderedPage();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "Move to dialog not displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents");
@@ -341,7 +341,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorMoveByOthers()
     {
-        folderName = String.format("FolderC8824%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8824%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
@@ -357,7 +357,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorCopyTo()
     {
-        folderName = String.format("FolderC8822%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8822%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createFolder(user, password, folderName, siteName);
@@ -374,7 +374,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickPathFolder(folderName);
 
         LOG.info("Step 3: Click 'Copy' button");
-        copyMoveUnzipToDialog.clickButtton("Copy");
+        copyMoveUnzipToDialog.clickButton("Copy");
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
 
         LOG.info("Step 4: Verify displayed folders from Documents.");
@@ -391,7 +391,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorDeleteBySelf()
     {
-        folderName = String.format("FolderC8822%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8822%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createFolder(user, password, folderName, siteName);
@@ -414,7 +414,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorDeleteByOthers()
     {
-        folderName = String.format("FolderC8822%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8822%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
@@ -431,7 +431,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorManagePermissionsBySelf()
     {
-        folderName = String.format("FolderC8827%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8827%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createFolder(user, password, folderName, siteName);
@@ -460,7 +460,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorManagePermissionsByOthers()
     {
-        folderName = String.format("FolderC8828%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8828%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
@@ -476,7 +476,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorManageAspectsBySelf()
     {
-        folderName = String.format("FolderC8829%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8829%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createFolder(user, password, folderName, siteName);
@@ -500,7 +500,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorManageAspectsByOthers()
     {
-        folderName = String.format("FolderC8830%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8830%s",RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
@@ -524,7 +524,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorAddComment()
     {
-        folderName = String.format("FolderC8834%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8834%s",RandomData.getRandomAlphanumeric());
         String comment = "Test comment for C8834";
 
         LOG.info("Preconditions.");
@@ -549,7 +549,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorEditCommentBySelf()
     {
-        folderName = String.format("FolderC8835%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8835%s", RandomData.getRandomAlphanumeric());
         String comment = "Test comment for C8835";
         String editedComment = "Test comment edited for C8835";
 
@@ -582,7 +582,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorEditCommentByOthers()
     {
-        folderName = String.format("FolderC8836%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8836%s",RandomData.getRandomAlphanumeric());
         String comment1 = "Test comment for C8836";
         String editedComment1 = "Test comment edited for C8836";
 
@@ -615,7 +615,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorDeleteCommentBySelf()
     {
-        folderName = String.format("FolderC8837%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8837%s",RandomData.getRandomAlphanumeric());
         String comment2 = "Test comment for C8837";
 
         LOG.info("Preconditions.");
@@ -643,7 +643,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorDeleteCommentByOthers()
     {
-        folderName = String.format("FolderC8838%s", DataUtil.getUniqueIdentifier());
+        folderName = String.format("FolderC8838%s",RandomData.getRandomAlphanumeric());
         String comment3 = "Test comment for C8838";
 
         LOG.info("Preconditions.");

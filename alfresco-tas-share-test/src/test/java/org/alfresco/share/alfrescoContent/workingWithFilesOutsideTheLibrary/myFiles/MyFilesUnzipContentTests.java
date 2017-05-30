@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDi
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -35,7 +35,7 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
 
     @Autowired private SiteDashboardPage sitePage;
 
-    private final String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     private final String zipFile = "archiveC7816.zip";
     private final String zipContent = "TestFileC7816";
     private final String zipFilePath = testDataFolder + zipFile;
@@ -72,7 +72,7 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
         assertEquals(unzipToDialog.getPathList(), expectedDestinationPath.toString(), "Destionation set to=");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
-        unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
+        unzipToDialog.clickButton(language.translate("documentLibrary.contentActions.unzip"));
         myFilesPage.navigate();
         assertTrue(myFilesPage.isContentNameDisplayed(zipContent), zipFile + "'s content is displayed, " + zipContent);
     }
@@ -100,7 +100,7 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
         assertEquals(unzipToDialog.getPathList(), expectedDestinationPath.toString(), "Destionation set to=");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
-        unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
+        unzipToDialog.clickButton(language.translate("documentLibrary.contentActions.unzip"));
         myFilesPage.navigate();
         assertTrue(myFilesPage.isContentNameDisplayed(acpFile.substring(0, acpFile.indexOf("."))),
                 "A folder with archive name is present in Documents list.");

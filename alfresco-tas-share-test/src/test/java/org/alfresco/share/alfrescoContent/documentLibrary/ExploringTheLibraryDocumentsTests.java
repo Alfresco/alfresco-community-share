@@ -1,10 +1,10 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -20,9 +20,9 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
 
     @Autowired private DocumentsFilters filters;
 
-    private final String user = String.format("C6320User%s", DataUtil.getUniqueIdentifier());
-    private final String user1 = String.format("C6322User%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("C6320SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C6320User%s", RandomData.getRandomAlphanumeric());
+    private final String user1 = String.format("C6322User%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C6320SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String docName = "File-6320-0";
     private final String docName1 = "File-6320-1";
     private final String docName2 = "File-6320-2";
@@ -39,7 +39,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void viewAllDocumentsInLibrary()
     {
-        String siteName = String.format("C6320SiteName%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("C6320SiteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
 
         LOG.info("Step 1: Go To Documents section and click All Documents link");
@@ -72,7 +72,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void viewImEditingFiles()
     {
-        String siteNameC6321 = String.format("C6321SiteName%s", DataUtil.getUniqueIdentifier());
+        String siteNameC6321 = String.format("C6321SiteName%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteNameC6321, description, Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
@@ -113,7 +113,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         String docName1 = "C10597-2";
         String docName2 = "C10597-3";
         String expectedBannerText = "This document is locked by "+ user + " "+user+".";
-        String siteName = String.format("C10597-site-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("C10597-site-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName + ".txt");
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName1 + ".txt");
@@ -148,7 +148,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         String docName1 = "C6325-2";
         String docName2 = "C6325-3";
 
-        String siteName = String.format("C6325-site-%s", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("C6325-site-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName + ".txt");
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName1 + ".txt");
@@ -182,7 +182,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void viewRecentlyAddedFiles()
     {
-        String siteNameC10598 = String.format("C10598-site%s", DataUtil.getUniqueIdentifier());
+        String siteNameC10598 = String.format("C10598-site%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteNameC10598, description, Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);

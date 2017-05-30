@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.discussions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.site.discussion.InsertImagePopUp;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.discussion.TopicListPage;
 import org.alfresco.po.share.site.discussion.TopicViewPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -43,8 +43,8 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
 
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
     String today = df.format(new Date());
-    private String user1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+    private String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
     private String topicTitle;
     private String topicContent = "Some content";
     private String topicReply = "Reply content";
@@ -63,7 +63,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createReplyToDiscussion()
     {
-        topicTitle = String.format("Topic1%s", DataUtil.getUniqueIdentifier());
+        topicTitle = String.format("Topic1%s", RandomData.getRandomAlphanumeric());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         topicListPage.navigate(siteName);
 
@@ -95,7 +95,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreatingReplyToDiscussion()
     {
-        topicTitle = String.format("Topic1%s", DataUtil.getUniqueIdentifier());
+        topicTitle = String.format("Topic1%s", RandomData.getRandomAlphanumeric());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         topicListPage.navigate(siteName);
 
@@ -126,7 +126,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         String linkUrl = "https://www.alfresco.com/";
         String linkText = "Alfresco site";
         String linkTitle = "Alfresco";
-        topicTitle = String.format("Topic1%s", DataUtil.getUniqueIdentifier());
+        topicTitle = String.format("Topic1%s", RandomData.getRandomAlphanumeric());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         topicListPage.navigate(siteName);
         topicListPage.clickTopicTitle(topicTitle);
@@ -159,7 +159,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     {
         String imageSource = "https://www.alfresco.com/sites/www.alfresco.com/files/alfresco-logo.png";
         String imageDescription = "Alfresco logo";
-        topicTitle = String.format("Topic1%s", DataUtil.getUniqueIdentifier());
+        topicTitle = String.format("Topic1%s", RandomData.getRandomAlphanumeric());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         topicListPage.navigate(siteName);
         topicListPage.clickTopicTitle(topicTitle);
@@ -189,7 +189,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void replyToAReply()
     {
-        topicTitle = String.format("Topic1%s", DataUtil.getUniqueIdentifier());
+        topicTitle = String.format("Topic1%s", RandomData.getRandomAlphanumeric());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         sitePagesService.replyToDiscussion(user1, password, siteName, topicTitle, topicReply);
         topicListPage.navigate(siteName);
@@ -220,7 +220,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editReplyAddedToTopic()
     {
-        topicTitle = String.format("Topic1%s", DataUtil.getUniqueIdentifier());
+        topicTitle = String.format("Topic1%s", RandomData.getRandomAlphanumeric());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         sitePagesService.replyToDiscussion(user1, password, siteName, topicTitle, topicReply);
         topicListPage.navigate(siteName);

@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.ContentAspects;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -29,9 +29,9 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
     
     @Autowired private ContentAspects contentAspects;
 
-    private final String user = String.format("C5920User%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("C5920SiteName%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("C5920SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C5920User%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("C5920SiteName%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C5920SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String docName = "File-C5920";
     private final String folderName = "testFolder";
     private final double longitude = 47.1585;

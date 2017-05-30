@@ -1,8 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
-import java.net.URL;
-
-import org.alfresco.common.DataUtil;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.LoginPage;
@@ -11,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,8 @@ import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.net.URL;
 
 public class SharingFilesTests extends ContextAwareWebTest
 {
@@ -31,18 +31,18 @@ public class SharingFilesTests extends ContextAwareWebTest
     
     @Autowired private EnvProperties envProperties;
 
-    private final String user = String.format("C7095User%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("C7095SiteDescription%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("C7095SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C7095User%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C7095SiteDescription%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("C7095SiteName%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC7095 = "C7095title";
     private final String fileContent = "content";
     private final String fileNameC7096 = "file C7076";
     private final String fielNameC7097 = "File C7097";
     private final String fileNameC7099 = "File C7099";
-    private final String fileNameC7649 = String.format("fileC7649%s", DataUtil.getUniqueIdentifier());
+    private final String fileNameC7649 = String.format("fileC7649%s", RandomData.getRandomAlphanumeric());
     private final String folderName = "C7093 folder";
-    private final String siteNameC7093 = String.format("C7093%s", DataUtil.getUniqueIdentifier());
-    private final String siteNameC7649 = String.format("siteNameC7649%s", DataUtil.getUniqueIdentifier());
+    private final String siteNameC7093 = String.format("C7093%s", RandomData.getRandomAlphanumeric());
+    private final String siteNameC7649 = String.format("siteNameC7649%s", RandomData.getRandomAlphanumeric());
     private String sharedUrl;
     private String windowToSwitchToAlfresco;
     private String windowToCloseGPlus;
@@ -90,16 +90,14 @@ public class SharingFilesTests extends ContextAwareWebTest
             cleanupAuthenticatedSession();
     }
 
- @TestRail(id = "C7096")
- @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+     @TestRail(id = "C7096")
+     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void shareWithTwitter()
     {
             setupAuthenticatedSession(user, password);
-            String currentWindow = getBrowser().getWindowHandle();
-            //documentLibraryPage.getRelativePath();
             documentLibraryPage.navigate(siteName);
             URL url2 = envProperties.getShareUrl();
-            String expectedLink = "File" + " " + fileNameC7096 + " " + "shared from Alfresco " + url2.toString().replace(":80/","/") + "/s";
+            String expectedLink = "File" + " " + fileNameC7096 + " " + "shared from Alfresco Content Services " + url2.toString().replace(":80/","/") + "/s";
             documentLibraryPage.getRelativePath();
 
             LOG.info("Step 1: Check that the Share button is available and click Share");

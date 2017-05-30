@@ -1,10 +1,10 @@
 package org.alfresco.share.userProfile;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.profile.UserSitesListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -21,12 +21,12 @@ public class UserProfileSitesTests extends ContextAwareWebTest
     @Autowired
     SiteDashboardPage siteDashboard;
 
-    private String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
-    private String userName2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
-    private String siteName1 = String.format("Site1%s", DataUtil.getUniqueIdentifier());
-    private String siteName2 = String.format("Site2%s", DataUtil.getUniqueIdentifier());
-    private String siteName3 = String.format("Site3%s", DataUtil.getUniqueIdentifier());
-    private String siteName4 = String.format("Site4%s", DataUtil.getUniqueIdentifier());
+    private String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
+    private String userName2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
+    private String siteName1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
+    private String siteName2 = String.format("Site2%s", RandomData.getRandomAlphanumeric());
+    private String siteName3 = String.format("Site3%s", RandomData.getRandomAlphanumeric());
+    private String siteName4 = String.format("Site4%s", RandomData.getRandomAlphanumeric());
     private String role = "SiteConsumer";
 
     @BeforeClass(alwaysRun = true)

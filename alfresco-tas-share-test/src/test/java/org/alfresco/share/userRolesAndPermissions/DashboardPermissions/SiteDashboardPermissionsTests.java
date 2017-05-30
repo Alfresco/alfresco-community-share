@@ -1,9 +1,9 @@
 package org.alfresco.share.userRolesAndPermissions.DashboardPermissions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -19,12 +19,12 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     @Autowired
     SiteDashboardPage siteDashboardPage;
 
-    private String userConsumer = String.format("C8723ConsumerUser%s", DataUtil.getUniqueIdentifier());
-    private String userContributor = "C8724ContributorUser"+DataUtil.getUniqueIdentifier();
-    private String userCollaborator = "C8725CollaboratorUser"+DataUtil.getUniqueIdentifier();
-    private String userSiteManager = "C8726SiteManagerUser"+DataUtil.getUniqueIdentifier();
-    private String description = String.format("C8723SiteDescription%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("C8723%s", DataUtil.getUniqueIdentifier());
+    private String userConsumer = String.format("C8723ConsumerUser%s", RandomData.getRandomAlphanumeric());
+    private String userContributor = "C8724ContributorUser"+RandomData.getRandomAlphanumeric();
+    private String userCollaborator = "C8725CollaboratorUser"+ RandomData.getRandomAlphanumeric();
+    private String userSiteManager = "C8726SiteManagerUser"+RandomData.getRandomAlphanumeric();
+    private String description = String.format("C8723SiteDescription%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("C8723%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

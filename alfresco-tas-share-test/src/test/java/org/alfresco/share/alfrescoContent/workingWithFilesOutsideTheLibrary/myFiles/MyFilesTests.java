@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -24,10 +24,10 @@ public class MyFilesTests extends ContextAwareWebTest
     
     @Autowired private Toolbar toolbar;
     
-    private final String user = String.format("C7648TestUser%s", DataUtil.getUniqueIdentifier());
-    private final String user1 = String.format("C7648TestUser1%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("C7658SiteName%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("C7658SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C7648TestUser%s", RandomData.getRandomAlphanumeric());
+    private final String user1 = String.format("C7648TestUser1%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("C7658SiteName%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C7658SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String C7648name ="C7648 name";
     private final String C7648title = "C7648 title";
     private final String C7648content = "C7648 content";

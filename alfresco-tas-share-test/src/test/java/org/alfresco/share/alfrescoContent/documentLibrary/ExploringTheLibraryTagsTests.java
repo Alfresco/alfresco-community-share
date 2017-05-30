@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.ContentAspects;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -23,9 +23,9 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
     @Autowired
     ContentAspects contentAspects;
 
-    private final String user = String.format("C6939User%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("C6939SiteDescription%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("C6939SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C6939User%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C6939SiteDescription%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("C6939SiteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = "testFolder";
     private final String docName = "testFile1";
     private final String docContent ="C6940 content";
@@ -62,7 +62,7 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
         //Preconditions
         String tagName1 = "tag1c6940";
         String tagName2 = "tag2c6940";
-        String siteName = String.format("C6940SiteName", DataUtil.getUniqueIdentifier());
+        String siteName = String.format("C6940SiteName", RandomData.getRandomAlphanumeric());
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
         contentService.createFolder(user, password, folderName, siteName);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, docName, docContent);

@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -15,8 +15,8 @@ import org.testng.annotations.Test;
 
 public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
 {
-    private final String user = String.format("testUser%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("testSiteGoogleDocs%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("testUser%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("testSiteGoogleDocs%s", RandomData.getRandomAlphanumeric());
     private final String content = "testcontent";
     private final String documentTitle = "testDocument";
     private final String spreadsheetTitle = "testSpreadsheet";

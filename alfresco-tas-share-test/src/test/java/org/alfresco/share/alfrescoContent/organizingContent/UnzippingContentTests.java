@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -33,9 +33,9 @@ public class UnzippingContentTests extends ContextAwareWebTest
 
     @Autowired private SiteContentDashlet siteContentDashlet;
 
-    private final String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private String siteName1 = "siteName1" + DataUtil.getUniqueIdentifier();
+    private final String testUser = String.format("testUser%s",RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+    private String siteName1 = "siteName1" + RandomData.getRandomAlphanumeric();
     private final String zipFile = "archiveC7409.zip";
     private final String fileName = "fileC7409";
     private final String acpFile = "archiveC7410.acp";
@@ -73,7 +73,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
 //        assertEquals(unzipToDialog.getPathList(), "[Documents]", "Path section is updated according to the path of the selected site, e.g: Documents");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to the previoulsy set folder from site's Document Library, e.g: Documents from testSite");
-        unzipToDialog.clickButtton("Unzip");
+        unzipToDialog.clickButton("Unzip");
         documentLibraryPage.navigate(siteName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(zipFile.substring(0, zipFile.indexOf("."))), "A folder with archive name is present in Documents list.");
 
@@ -103,7 +103,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
         assertEquals(unzipToDialog.getPathList(), "[Documents]", "Path section is updated according to the path of the selected site, e.g: Documents");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to the previously set folder from site's Document Library, e.g: Documents from testSite");
-        unzipToDialog.clickButtton("Unzip");
+        unzipToDialog.clickButton("Unzip");
         documentLibraryPage.navigate(siteName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(acpFile.substring(0, acpFile.indexOf("."))), "A folder with archive name is present in Documents list.");
 
@@ -132,7 +132,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Select the destination and click on Cancel button. Verify that selected destination does not contain any content of the acp file");
         unzipToDialog.clickSite(siteName1);
-        unzipToDialog.clickButtton("Cancel");
+        unzipToDialog.clickButton("Cancel");
         documentLibraryPage.navigate(siteName1);
 
         Assert.assertFalse(documentLibraryPage.isContentWithExactValuePresent(acpFolderName), "A folder with archive name present in Documents list.");

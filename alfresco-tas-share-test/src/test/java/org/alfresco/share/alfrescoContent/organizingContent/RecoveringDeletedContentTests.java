@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
@@ -10,6 +9,7 @@ import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.po.share.user.profile.UserTrashcanPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -40,14 +40,14 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
 
     private final String firstName = "FirstName";
     private final String lastName = "LastName";
-    private final String description = String.format("Description-%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
 
     @TestRail(id = "C7570")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void recoverDeletedDocument()
     {
-        String random = DataUtil.getUniqueIdentifier();
+        String random = RandomData.getRandomAlphanumeric();
         String userName = "profileUser-C7570-" + random;
         String siteName = "siteName-C7570-" + random;
         String fileName1 = "docName1-C7570-" + random;
@@ -107,7 +107,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void recoverDeletedFolder()
     {
-        String random = DataUtil.getUniqueIdentifier();
+        String random = RandomData.getRandomAlphanumeric();
         String userName = "profileUser-C7571-" + random;
         String siteName = "siteName-C7571-" + random;
         String folderName1 = "folderName1-C7571-" + random;

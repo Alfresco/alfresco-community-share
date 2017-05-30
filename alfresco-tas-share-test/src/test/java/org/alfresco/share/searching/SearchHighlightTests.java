@@ -1,6 +1,5 @@
 package org.alfresco.share.searching;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
@@ -11,6 +10,7 @@ import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.CreateBlogPostPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -48,7 +48,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     @Autowired
     CreateBlogPostPage createBlogPost;
 
-    String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     String userName = "highlightSearch-" + uniqueIdentifier;
     String firstName = "FirstName";
     String lastName = "LastName";
@@ -71,22 +71,22 @@ public class SearchHighlightTests extends ContextAwareWebTest
     String C42564file2 = "big C42564file";
     String C42549file = siteName;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void createPrecondition() {
         List<DashboardCustomization.Page> pagesToAdd = new ArrayList<DashboardCustomization.Page>();
         pagesToAdd.add(DashboardCustomization.Page.BLOG);
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42558file, C42558file);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42560file, docContent);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42560file2, docContent);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42562file1, docContent);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42562file2, docContent);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42564file1, docContent);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42564file2, docContent);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42549file, C42549file);
+        contentService.createDocument(userName,password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42558file, C42558file);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42560file, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42560file2, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42562file1, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42562file2, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42564file1, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42564file2, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42549file, C42549file);
         contentService.uploadFileInSite(userName, password, siteName, C42550testFilePath);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

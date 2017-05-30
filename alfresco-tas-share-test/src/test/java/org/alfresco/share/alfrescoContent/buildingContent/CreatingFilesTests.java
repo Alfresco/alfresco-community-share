@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -21,9 +21,9 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
     @Autowired private DocumentDetailsPage documentDetailsPage;
 
-    private final String user = String.format("C6976User%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("C6976SiteDescription%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("C6976SiteName%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C6976User%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C6976SiteDescription%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("C6976SiteName%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
 

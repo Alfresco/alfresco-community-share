@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.site.dataLists.ContactListSelectedContent;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.ManageContactListItems;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -29,9 +29,9 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     @Autowired
     ContactListSelectedContent contactListSelectedContent;
 
-    private final String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("description%s", DataUtil.getUniqueIdentifier());
+    private final String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+    private final String description = String.format("description%s",RandomData.getRandomAlphanumeric());
     private String contactList;
 
     @BeforeClass(alwaysRun = true)
@@ -49,7 +49,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     {
         LOG.info("Preconditions for Data List Table Actions test");
 
-        contactList = String.format("ContactList%s", DataUtil.getUniqueIdentifier());
+        contactList = String.format("ContactList%s",RandomData.getRandomAlphanumeric());
         dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.CONTACT_LIST, contactList, description);
         dataListsService.addContactListItem(userName, password, siteName, contactList, "FirstName", "LastName", "E-mail", "Company", "JobTitle", "PhoneOffice",
                 "PhoneMobile", "Notes");

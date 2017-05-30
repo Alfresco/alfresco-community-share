@@ -1,10 +1,10 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -22,9 +22,9 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
 
     @Autowired private SharedFilesPage sharedFilesPage;
 
-    private String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
-    private String folderName = String.format("testFolder%s", DataUtil.getUniqueIdentifier());
-    private String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+    private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+    private String folderName = String.format("testFolder%s",RandomData.getRandomAlphanumeric());
+    private String userName1 = String.format("User1%s",RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

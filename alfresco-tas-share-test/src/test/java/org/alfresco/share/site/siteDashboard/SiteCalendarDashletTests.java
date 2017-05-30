@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteCalendarDashlet;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +34,8 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
     @Autowired
     CalendarPage calendarPage;
 
-    private String user = String.format("user%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("SiteName%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
     private DateTime today =  new DateTime();
     private DateTime tomorrow = today.plusDays(1);
 

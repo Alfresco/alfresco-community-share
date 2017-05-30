@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.dashlet.WikiDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -29,12 +29,12 @@ public class WikiDashletTests extends ContextAwareWebTest
     @Autowired
     SelectWikiPagePopUp selectWikiPage;
 
-    private String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     private String siteName;
-    private String wikiPageTitle = String.format("C5433%s", DataUtil.getUniqueIdentifier());
-    private String wikiContent = String.format("C5433WikiContent%s", DataUtil.getUniqueIdentifier());
-    private String wikiPageTitle1 = String.format("C5553%s", DataUtil.getUniqueIdentifier());
-    private String wikiContent1 = String.format("C5553WikiContent%s", DataUtil.getUniqueIdentifier());
+    private String wikiPageTitle = String.format("C5433%s", RandomData.getRandomAlphanumeric());
+    private String wikiContent = String.format("C5433WikiContent%s", RandomData.getRandomAlphanumeric());
+    private String wikiPageTitle1 = String.format("C5553%s", RandomData.getRandomAlphanumeric());
+    private String wikiContent1 = String.format("C5553WikiContent%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -48,7 +48,7 @@ public class WikiDashletTests extends ContextAwareWebTest
     public void wikiDashletNoWikiPageCreated()
     {
         //precondition
-        siteName = String.format("Site-C5428-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C5428-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, SiteDashlet.WIKI, DashletLayout.THREE_COLUMNS, 3, 1);
 
@@ -88,7 +88,7 @@ public class WikiDashletTests extends ContextAwareWebTest
         /**
          * Precondition: Add Wiki page to Wiki
          */
-        siteName = String.format("Site-C5433-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C5433-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, SiteDashlet.WIKI, DashletLayout.THREE_COLUMNS, 3, 1);
         sitePagesService.createWiki(user, password, siteName, wikiPageTitle, wikiContent, null);
@@ -149,7 +149,7 @@ public class WikiDashletTests extends ContextAwareWebTest
         /**
          * Precondition: Add wiki pages to Wiki
          */
-        siteName = String.format("Site-C5553-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C5553-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user, password, domain, siteName, siteName, Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, SiteDashlet.WIKI, DashletLayout.THREE_COLUMNS, 3, 1);
         sitePagesService.createWiki(user, password, siteName, wikiPageTitle, wikiContent, null);

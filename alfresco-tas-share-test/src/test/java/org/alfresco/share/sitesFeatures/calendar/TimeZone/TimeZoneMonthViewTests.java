@@ -1,12 +1,12 @@
 package org.alfresco.share.sitesFeatures.calendar.TimeZone;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.calendar.AddEventDialog;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.EventInformationDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
     @Autowired
     EventInformationDialog eventInformationDialog;
 
-    private String random = DataUtil.getUniqueIdentifier();
+    private String random = RandomData.getRandomAlphanumeric();
     private String user = "user-" + random;
     private String siteName = "SiteName-" + random;
     private DateTime today = new DateTime();

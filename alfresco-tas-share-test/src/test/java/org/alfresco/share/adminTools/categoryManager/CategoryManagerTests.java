@@ -1,18 +1,18 @@
 package org.alfresco.share.adminTools.categoryManager;
 
-import java.util.Arrays;
-
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
 
 /**
  * @author Razvan.Dorobantu
@@ -25,10 +25,10 @@ public class CategoryManagerTests extends ContextAwareWebTest
     @Autowired
     UserService userService;
 
-    String category9295 = String.format("categoryC9295%s", DataUtil.getUniqueIdentifier());
-    String category9301 = String.format("categoryC9301%s", DataUtil.getUniqueIdentifier());
-    String category9298 = String.format("categoryC9298%s", DataUtil.getUniqueIdentifier());
-    String categoryEdited = String.format("categoryEdited%s", DataUtil.getUniqueIdentifier());
+    String category9295 = String.format("categoryC9295%s", RandomData.getRandomAlphanumeric());
+    String category9301 = String.format("categoryC9301%s", RandomData.getRandomAlphanumeric());
+    String category9298 = String.format("categoryC9298%s", RandomData.getRandomAlphanumeric());
+    String categoryEdited = String.format("categoryEdited%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass()

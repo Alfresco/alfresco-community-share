@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.po.share.dashlet.ConfigureSavedSearchDashletPopUp;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.dashlet.SavedSearchDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -28,8 +28,8 @@ public class SavedSearchDashletTests extends ContextAwareWebTest
     @Autowired
     ConfigureSavedSearchDashletPopUp configureSavedSearchPopUp;
 
-    private String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+    private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     
     @BeforeClass(alwaysRun = true)
     public void setupTest()

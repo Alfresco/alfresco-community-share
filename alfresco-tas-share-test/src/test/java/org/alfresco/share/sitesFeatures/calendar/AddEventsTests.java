@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.calendar;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
@@ -14,6 +13,7 @@ import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +49,10 @@ public class AddEventsTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private String user1 = String.format("user1-%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("SiteName-%s", DataUtil.getUniqueIdentifier());
-    private String siteName2 = String.format("SiteName-C5452%s", DataUtil.getUniqueIdentifier());
-    private String siteName3 = String.format("SiteName-C5465%s", DataUtil.getUniqueIdentifier());
+    private String user1 = String.format("user1-%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("SiteName-%s",RandomData.getRandomAlphanumeric());
+    private String siteName2 = String.format("SiteName-C5452%s",RandomData.getRandomAlphanumeric());
+    private String siteName3 = String.format("SiteName-C5465%s",RandomData.getRandomAlphanumeric());
     private DateTime today = new DateTime();
     private String eventTitle = "testEvent";
     private String defaultStartTime = "12:00 PM";
@@ -284,7 +284,7 @@ public class AddEventsTests extends ContextAwareWebTest
     public void addEventWithTags()
     {
         String currentEventName = eventTitle + "C5462";
-        String siteNameForEventWithTags = String.format("SiteName-%s", DataUtil.getUniqueIdentifier());
+        String siteNameForEventWithTags = String.format("SiteName-%s",RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteNameForEventWithTags, siteNameForEventWithTags, Site.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteNameForEventWithTags, Page.CALENDAR, null);
         calendarPage.navigate(siteNameForEventWithTags);

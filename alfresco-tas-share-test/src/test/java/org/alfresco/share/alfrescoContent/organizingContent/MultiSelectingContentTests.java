@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -32,8 +32,8 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
 
     @Autowired private DeleteDialog deleteDialog;
 
-    private final String userName = String.format("profileUser-%s", DataUtil.getUniqueIdentifier());
-    private final String description = String.format("Description-%s", DataUtil.getUniqueIdentifier());
+    private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
 
     @BeforeClass(alwaysRun = true)
@@ -47,7 +47,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectItemsByCheckbox()
     {
-        String random = DataUtil.getUniqueIdentifier();
+        String random = RandomData.getRandomAlphanumeric();
         String siteName = String.format("C7546-site-%s", random);
         String folderName1 = "C7546-folder1-" + random;
         String folderName2 = "C7546-folder2-" + random;
@@ -81,7 +81,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectItemsByMenu()
     {
-        String random = DataUtil.getUniqueIdentifier();
+        String random = RandomData.getRandomAlphanumeric();
         String siteName = String.format("C7548-site-%s", random);
         String folderName1 = "C7548-folder1-" + random;
         String folderName2 = "C7548-folder2-" + random;
@@ -172,7 +172,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectMultipleDocumentsStartWorkflow()
     {
-        String random = DataUtil.getUniqueIdentifier();
+        String random = RandomData.getRandomAlphanumeric();
         String siteName = String.format("C8410-site-%s", random);
         String folderName1 = "C8410-folder1-" + random;
         String folderName2 = "C8410-folder2-" + random;
@@ -216,7 +216,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectedItemsDelete()
     {
-        String random = DataUtil.getUniqueIdentifier();
+        String random = RandomData.getRandomAlphanumeric();
         String siteName = String.format("C8410-site-%s", random);
         String folderName1 = "C8410-folder1-" + random;
         String textFile = "C8410-textDocument-" + random;

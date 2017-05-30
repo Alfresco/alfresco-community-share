@@ -1,6 +1,5 @@
 package org.alfresco.share.tasksAndWorkflows.StartingAWorkflow;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +38,11 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    private String user1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
-    private String user2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
-    private String docName = String.format("docName-%s", DataUtil.getUniqueIdentifier());
-    private String docContent = String.format("docContent-%s", DataUtil.getUniqueIdentifier());
+    private String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
+    private String user2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    private String docName = String.format("docName-%s", RandomData.getRandomAlphanumeric());
+    private String docContent = String.format("docContent-%s", RandomData.getRandomAlphanumeric());
     private String startWorkflowAction = "Start Workflow";
 
     @BeforeClass(alwaysRun = true)

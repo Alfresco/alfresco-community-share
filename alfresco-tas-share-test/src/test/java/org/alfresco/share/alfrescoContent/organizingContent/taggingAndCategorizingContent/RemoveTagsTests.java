@@ -1,10 +1,10 @@
 package org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -21,7 +21,7 @@ public class RemoveTagsTests extends ContextAwareWebTest
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private final String random = DataUtil.getUniqueIdentifier();
+    private final String random = RandomData.getRandomAlphanumeric();
     private final String siteName1 = "site1-" + random;
     private final String siteName2 = "site2-" + random;
     private final String folderName = "folder-" + random;
@@ -62,7 +62,7 @@ public class RemoveTagsTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isEditTagInputFieldDisplayed(), folderName + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Hover over the tag and click the remove button");
-        assertEquals(documentLibraryPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
+        documentLibraryPage.removeTag(tagName.toLowerCase());
 
         LOG.info("STEP4: Click 'Save' link");
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
@@ -88,7 +88,7 @@ public class RemoveTagsTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isEditTagInputFieldDisplayed(), fileName + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Hover over the tag and click 'Remove' icon");
-        assertEquals(documentLibraryPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
+        documentLibraryPage.removeTag(tagName.toLowerCase());
         getBrowser().waitInSeconds(3);
 
         LOG.info("STEP4: Click 'Save' link");

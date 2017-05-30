@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoPowerUsers;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.searching.SearchManagerPage;
 import org.alfresco.po.share.searching.SearchPage;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -33,15 +33,15 @@ public class SearchManagerTests extends ContextAwareWebTest
     @Autowired
     Toolbar toolbar;
 
-    private String UserC8703 = String.format("UserC8703%s", DataUtil.getUniqueIdentifier());
-    private String userC8704 = String.format("UserC8704%s", DataUtil.getUniqueIdentifier());
-    private String userC8713 = String.format("UserC8713%s", DataUtil.getUniqueIdentifier());
+    private String UserC8703 = String.format("UserC8703%s", RandomData.getRandomAlphanumeric());
+    private String userC8704 = String.format("UserC8704%s",RandomData.getRandomAlphanumeric());
+    private String userC8713 = String.format("UserC8713%s",RandomData.getRandomAlphanumeric());
     private String modifier1 = "firstName1 lastName1";
     private String alfrescoAdminsGroupName = "ALFRESCO_ADMINISTRATORS";
     private String alfrescoSearchAdministrators = "ALFRESCO_SEARCH_ADMINISTRATORS";
-    private String siteC8703 = String.format("siteC8703%s", DataUtil.getUniqueIdentifier());
+    private String siteC8703 = String.format("siteC8703%s",RandomData.getRandomAlphanumeric());
     private String description = "siteC8703 description";
-    private String documentName = String.format("Doc%s", DataUtil.getUniqueIdentifier());
+    private String documentName = String.format("Doc%s",RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

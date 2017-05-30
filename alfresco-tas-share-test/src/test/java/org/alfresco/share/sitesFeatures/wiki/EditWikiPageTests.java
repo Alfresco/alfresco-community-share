@@ -1,11 +1,11 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
 import org.alfresco.po.share.site.wiki.*;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -41,15 +41,15 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @Autowired
     WikiPage wikiPage;
 
-    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+    private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName;
-    private String wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
+    private String wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
     private String wikiNewContent = "New content";
     private String wikiInitialContent = "Initial content";
-    private String tagName = String.format("tag%s", DataUtil.getUniqueIdentifier());
+    private String tagName = String.format("tag%s", RandomData.getRandomAlphanumeric()).toLowerCase();
     private List<String> tags = new ArrayList<>();
     private final String image = "newavatar.jpg";
-    private final String siteNameC5545 = String.format("siteNameC5545%s", DataUtil.getUniqueIdentifier());
+    private final String siteNameC5545 = String.format("siteNameC5545%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void createUser()
@@ -66,10 +66,10 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editWikiPageFromPageView()
     {
-        wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
+        wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions: create site and wiki page");
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, wikiInitialContent, null);
@@ -98,10 +98,10 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editWikiPageFromWikiPageList()
     {
-        wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
+        wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions: create site and wiki page");
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Content", tags);
@@ -128,10 +128,10 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEditingWikiPage()
     {
-        wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
+        wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions: create site and wiki page");
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Content", null);
@@ -149,7 +149,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyInsertLibraryImageFeature()
     {
-        wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
+        wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: create site and wiki page, upload image in document library");
         siteService.addPageToSite(testUser, password, siteNameC5545, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteNameC5545, wikiPageTitle, "Content", null);
@@ -176,11 +176,11 @@ public class EditWikiPageTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyInsertDocumentLibraryFeature()
     {
-        wikiPageTitle = String.format("WikiPage%s", DataUtil.getUniqueIdentifier());
+        wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
         String docName = "testDoc.txt";
 
         LOG.info("Preconditions: create site and wiki page, upload document in document library");
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Content", null);

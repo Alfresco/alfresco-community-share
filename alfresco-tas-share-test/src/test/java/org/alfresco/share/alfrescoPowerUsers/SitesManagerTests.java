@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoPowerUsers;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.po.share.SystemErrorPage;
 import org.alfresco.po.share.site.DeleteSiteDialog;
@@ -10,6 +9,7 @@ import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -47,7 +47,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Autowired
     private SystemErrorPage systemErrorPage;
 
-    private final String random = DataUtil.getUniqueIdentifier();
+    private final String random = RandomData.getRandomAlphanumeric();
     private final String name = "name";
     private final String user1 = "user1-" + random;
     private final String user2 = "user2-" + random;

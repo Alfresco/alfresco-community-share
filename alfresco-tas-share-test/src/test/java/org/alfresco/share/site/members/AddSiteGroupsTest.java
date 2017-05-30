@@ -1,6 +1,5 @@
 package org.alfresco.share.site.members;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.site.members.AddSiteGroupsPage;
@@ -10,6 +9,7 @@ import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +40,13 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private final String user1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
-    private final String user2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
-    private String user3 = String.format("User3%s", DataUtil.getUniqueIdentifier());
+    private final String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
+    private final String user2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
+    private String user3 = String.format("User3%s", RandomData.getRandomAlphanumeric());
     private String siteName;
-    private final String description = String.format("description%s", DataUtil.getUniqueIdentifier());
-    private final String group = String.format("aGroup%s", DataUtil.getUniqueIdentifier());
-    private final String group2 = String.format("aGroup2%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("description%s", RandomData.getRandomAlphanumeric());
+    private final String group = String.format("aGroup%s", RandomData.getRandomAlphanumeric());
+    private final String group2 = String.format("aGroup2%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -72,7 +72,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     public void addGroupWithManagerRole()
     {
         //precondition
-        siteName = String.format("Site-C2777-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C2777-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
@@ -108,7 +108,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     public void addGroupWithCollaboratorRole()
     {
         //precondition
-        siteName = String.format("Site-C2778-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C2778-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
@@ -143,7 +143,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     public void addGroupWithContributorRole()
     {
         //precondition
-        siteName = String.format("Site-C2779-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C2779-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
@@ -178,7 +178,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     public void addGroupWithConsumerRole()
     {
         //precondition
-        siteName = String.format("Site-C2780-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C2780-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
@@ -213,7 +213,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     public void verifyAddGroupsPage()
     {
         LOG.info("STEP 1 - Create valid user and site");
-        siteName = String.format("Site-C2784-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C2784-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
@@ -233,7 +233,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     public void returnToSiteGroupsPage()
     {
         LOG.info("STEP 1 - Create valid user and site");
-        siteName = String.format("Site-C2812-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C2812-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
@@ -248,7 +248,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     public void searchForGroups()
     {
         LOG.info("STEP 1 - Create valid user and site");
-        siteName = String.format("Site-C2785-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C2785-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
@@ -284,17 +284,17 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlySiteManagerCanAddGroups()
     {
-        String userManager = String.format("UserManager%s", DataUtil.getUniqueIdentifier());
-        String userCollaborator = String.format("UserCollaborator%s", DataUtil.getUniqueIdentifier());
-        String userContributor = String.format("UserContributor%s", DataUtil.getUniqueIdentifier());
-        String userConsumer = String.format("UserConsumer%s", DataUtil.getUniqueIdentifier());
-        String groupManager = String.format("GroupManager%s", DataUtil.getUniqueIdentifier());
-        String groupCollaborator = String.format("GroupCollaborator%s", DataUtil.getUniqueIdentifier());
-        String groupContributor = String.format("GroupContributor%s", DataUtil.getUniqueIdentifier());
-        String groupConsumer = String.format("GroupConsumer%s", DataUtil.getUniqueIdentifier());
+        String userManager = String.format("UserManager%s", RandomData.getRandomAlphanumeric());
+        String userCollaborator = String.format("UserCollaborator%s", RandomData.getRandomAlphanumeric());
+        String userContributor = String.format("UserContributor%s", RandomData.getRandomAlphanumeric());
+        String userConsumer = String.format("UserConsumer%s", RandomData.getRandomAlphanumeric());
+        String groupManager = String.format("GroupManager%s", RandomData.getRandomAlphanumeric());
+        String groupCollaborator = String.format("GroupCollaborator%s", RandomData.getRandomAlphanumeric());
+        String groupContributor = String.format("GroupContributor%s", RandomData.getRandomAlphanumeric());
+        String groupConsumer = String.format("GroupConsumer%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("STEP 1 - Create 4 users and one site which is added by userManager");
-        siteName = String.format("Site-C2786-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C2786-%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userManager, password, userManager + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, userCollaborator, password, userCollaborator + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, "firstName", "lastName");
@@ -346,7 +346,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     public void groupMembersAreAddedToUsersList()
     {
         LOG.info("STEP 1 - Create 3 users and one site. Login with user1");
-        siteName = String.format("Site-C2846-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("Site-C2846-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 

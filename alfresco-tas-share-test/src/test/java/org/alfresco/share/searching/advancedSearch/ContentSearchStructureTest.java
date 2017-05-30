@@ -11,6 +11,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
@@ -48,11 +49,12 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     private DateTime today = new DateTime();
     private DateTime tomorrow = today.plusDays(1);
 
+    @Bug(id = "ACE-5789")
     @TestRail(id = "C5951")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByAWordOrPhraseAnywhereItExists()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
         String word = "word" + identifier;
@@ -136,8 +138,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByMultipleWords()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
-        String identifier1 = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
+        String identifier1 = RandomData.getRandomAlphanumeric();
         String identifier2 = String.valueOf(Long.parseLong(identifier1) + 1);
         String identifier3 = String.valueOf(Long.parseLong(identifier2) + 1);
         String word1 = "word" + identifier1;
@@ -235,8 +237,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByAnyWords()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
-        String identifier1 = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
+        String identifier1 = RandomData.getRandomAlphanumeric();
         String identifier2 = String.valueOf(Long.parseLong(identifier1) + 1);
         String identifier3 = String.valueOf(Long.parseLong(identifier2) + 1);
         String word1 = "word" + identifier1;
@@ -294,7 +296,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyTitle()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
 
@@ -326,7 +328,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyName()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
 
@@ -365,7 +367,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyDescription()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
         List<DashboardCustomization.Page> sitePages = new ArrayList<>();
@@ -402,7 +404,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyCreated()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
 
@@ -446,7 +448,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyModified()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
 
@@ -489,7 +491,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyCreator()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
 
@@ -530,7 +532,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyModifier()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
 
@@ -571,7 +573,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyText()
     {
-        String identifier = DataUtil.getUniqueIdentifier();
+        String identifier = RandomData.getRandomAlphanumeric();
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
         String word = "word" + identifier;

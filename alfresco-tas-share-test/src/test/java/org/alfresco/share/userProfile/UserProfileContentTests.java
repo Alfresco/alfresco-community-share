@@ -1,9 +1,9 @@
 package org.alfresco.share.userProfile;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.user.profile.UserContentPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -16,7 +16,7 @@ public class UserProfileContentTests extends ContextAwareWebTest
     @Autowired
     UserContentPage userContentPage;
 
-    private String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
+    private String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String RecentlyAddedLabelText;
     private String NoAddedContentMessageText;
     private String RecentlyModifiedLabelText;

@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
 import org.alfresco.po.share.dashlet.ImagePreviewDashlet;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeClass;
@@ -35,15 +35,15 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     @Autowired
     Download download;
 
-    private String siteName1 = String.format("Site1-%s", DataUtil.getUniqueIdentifier());
-    private String siteName2 = String.format("Site2-%s", DataUtil.getUniqueIdentifier());
-    private String siteName3 = String.format("Site3-%s", DataUtil.getUniqueIdentifier());
+    private String siteName1 = String.format("Site1-%s", RandomData.getRandomAlphanumeric());
+    private String siteName2 = String.format("Site2-%s", RandomData.getRandomAlphanumeric());
+    private String siteName3 = String.format("Site3-%s", RandomData.getRandomAlphanumeric());
     private final String fileName = "newavatar.jpg";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName3, siteName3, PUBLIC);
         contentService.uploadFileInSite(userName, password, siteName3, testDataFolder + fileName);

@@ -1,12 +1,12 @@
 package org.alfresco.share.sitesFeatures.blog;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
 import org.alfresco.po.share.site.blog.CreateBlogPostPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
@@ -14,7 +14,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 public class CreatingABlogPostTests extends ContextAwareWebTest
@@ -28,9 +27,9 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
     @Autowired
     BlogPostListPage blogPostList;
 
-    private String user = String.format("C5533User%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("C5533SiteName%s", DataUtil.getUniqueIdentifier());
-    private String description = String.format("C5533SiteDescription%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("C5533User%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("C5533SiteName%s", RandomData.getRandomAlphanumeric());
+    private String description = String.format("C5533SiteDescription%s", RandomData.getRandomAlphanumeric());
     private String blogPostTitle = "Post1 Title";
     private String blogPostContentText = "first post content text";
     private String Tag = "tag1";

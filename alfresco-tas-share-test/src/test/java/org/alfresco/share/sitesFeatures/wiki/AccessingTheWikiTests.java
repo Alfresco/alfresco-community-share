@@ -1,7 +1,6 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -10,6 +9,8 @@ import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -42,10 +43,10 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
     private String siteName;
     private String description;
 
-    public void setup(String id) {
+    public void setup(String id) throws DataPreparationException {
         super.setup();
 
-        uniqueIdentifier = String.format("-" + id + "-%s", DataUtil.getUniqueIdentifier());
+        uniqueIdentifier = String.format("-" + id + "-%s", RandomData.getRandomAlphanumeric());
         siteName = "siteName" + uniqueIdentifier;
         userName = "User" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;
@@ -59,7 +60,7 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
 
     @TestRail(id = "C5493")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void accessWikiMainPageTest() {
+    public void accessWikiMainPageTest() throws DataPreparationException {
 
         LOG.info("Starting test C5493");
         setup("C5493");
@@ -91,7 +92,7 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
 
     @TestRail(id = "C5494")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void accessWikiPageListTest() {
+    public void accessWikiPageListTest() throws DataPreparationException {
 
         List<String> siteTitles = new ArrayList<>();
         siteTitles.add("Page1");

@@ -1,6 +1,5 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.DataListsService.DataList;
@@ -21,6 +20,7 @@ import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,7 +133,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     public void noActivitiesCreated()
     {
         // preconditions
-        String uniqueIdentifier = String.format("-C2111%s", DataUtil.getUniqueIdentifier());
+        String uniqueIdentifier = String.format("-C2111%s", RandomData.getRandomAlphanumeric());
         userName = "User-" + uniqueIdentifier;
         siteName = "Site-" + uniqueIdentifier;
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -171,7 +171,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     public void someActivitiesCreated()
     {
         // preconditions
-        String uniqueIdentifier = String.format("-C2112%s", DataUtil.getUniqueIdentifier());
+        String uniqueIdentifier = String.format("-C2112%s", RandomData.getRandomAlphanumeric());
         userName = "User" + uniqueIdentifier;
         siteName = "Site" + uniqueIdentifier;
         linkTitle = "Link" + uniqueIdentifier;
@@ -253,7 +253,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     public void someActivitiesUpdated()
     {
         // preconditions
-        String uniqueIdentifier = String.format("-C2113%s", DataUtil.getUniqueIdentifier());
+        String uniqueIdentifier = String.format("-C2113%s", RandomData.getRandomAlphanumeric());
         userName = "User" + uniqueIdentifier;
         siteName = "Site" + uniqueIdentifier;
         linkTitle = "Link" + uniqueIdentifier;
@@ -322,7 +322,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     public void someActivitiesDeleted()
     {
         // preconditions
-        String uniqueIdentifier = String.format("-C2114%s", DataUtil.getUniqueIdentifier());
+        String uniqueIdentifier = String.format("-C2114%s", RandomData.getRandomAlphanumeric());
         userName = "User" + uniqueIdentifier;
         siteName = "Site" + uniqueIdentifier;
         linkTitle = "Link" + uniqueIdentifier;
@@ -396,7 +396,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void checkUsersFilter()
     {
-        String uniqueIdentifier = String.format("-C2117%s", DataUtil.getUniqueIdentifier());
+        String uniqueIdentifier = String.format("-C2117%s", RandomData.getRandomAlphanumeric());
         userName = "User" + uniqueIdentifier;
         userNameB = "UserB" + uniqueIdentifier;
         siteName = "Site" + uniqueIdentifier;

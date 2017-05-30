@@ -1,6 +1,5 @@
 package org.alfresco.share.userRolesAndPermissions.collaborator;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -16,6 +15,7 @@ import org.alfresco.po.share.tasksAndWorkflows.WorkflowDetailsPage;
 import org.alfresco.po.share.toolbar.ToolbarTasksMenu;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.By;
@@ -59,17 +59,17 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     @Autowired private Download download;
 
     // Upload
-    private final String testFile = DataUtil.getUniqueIdentifier() + "-testFile-C8939-.txt";
+    private final String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8939-.txt";
     private final String testFilePath = testDataFolder + testFile;
-    private final String newVersionFile = DataUtil.getUniqueIdentifier() + "-NewFile-C8942" + ".txt";
+    private final String newVersionFile = RandomData.getRandomAlphanumeric() + "-NewFile-C8942" + ".txt";
     private final String newVersionFilePath = testDataFolder + newVersionFile;
-    private final String newVersionFile2 = DataUtil.getUniqueIdentifier() + "-NewFile-C8943" + ".txt";
+    private final String newVersionFile2 = RandomData.getRandomAlphanumeric() + "-NewFile-C8943" + ".txt";
     private final String newVersionFilePath2 = testDataFolder + newVersionFile2;
-    private final String updatedDocName = String.format("UpdatedDocName-C8947-%s", DataUtil.getUniqueIdentifier());
+    private final String updatedDocName = String.format("UpdatedDocName-C8947-%s",RandomData.getRandomAlphanumeric());
     private final String updatedContent = "edited in Alfresco test content C8947";
     private final String updatedTitle = "updated title C8947";
     private final String updatedDescription = "updated description C8947";
-    private final String updatedDocName1 = String.format("UpdatedDocName-C8948-%s", DataUtil.getUniqueIdentifier());
+    private final String updatedDocName1 = String.format("UpdatedDocName-C8948-%s",RandomData.getRandomAlphanumeric());
     private final String updatedContent1 = "edited in Alfresco test content C8948";
     private final String updatedTitle1 = "updated title C8948";
     private final String updatedDescription1 = "updated description C8948";
@@ -78,32 +78,32 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     private final String editedTitle1 = "editedTitle1";
     private final String editedContent1 = "edited content in Google Docs1";
     // Create
-    private final String user = String.format("Collaborator%s", DataUtil.getUniqueIdentifier());
-    private final String siteName = String.format("SiteC%s", DataUtil.getUniqueIdentifier());
-    private final String siteName2 = String.format("SiteC2%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("Collaborator%s",RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("SiteC%s",RandomData.getRandomAlphanumeric());
+    private final String siteName2 = String.format("SiteC2%s",RandomData.getRandomAlphanumeric());
     // Download
     private String path = "Shared";
-    private final String fileNameC8940 = String.format("C8940 file%s", DataUtil.getUniqueIdentifier());
-    private final String fileContent = String.format("test content%s", DataUtil.getUniqueIdentifier());
+    private final String fileNameC8940 = String.format("C8940 file%s",RandomData.getRandomAlphanumeric());
+    private final String fileContent = String.format("test content%s",RandomData.getRandomAlphanumeric());
     // View in Browser
-    private final String fileNameC8941 = String.format("C8941 file%s", DataUtil.getUniqueIdentifier());
+    private final String fileNameC8941 = String.format("C8941 file%s",RandomData.getRandomAlphanumeric());
     // Upload New Version by self
-    private final String fileNameC8942 = String.format("C8942 file%s", DataUtil.getUniqueIdentifier());
+    private final String fileNameC8942 = String.format("C8942 file%s",RandomData.getRandomAlphanumeric());
     // Upload New Version by other user
-    private final String user2 = String.format("Collaborator2%s", DataUtil.getUniqueIdentifier());
-    private final String fileNameC8943 = String.format("C8943 file%s", DataUtil.getUniqueIdentifier());
+    private final String user2 = String.format("Collaborator2%s",RandomData.getRandomAlphanumeric());
+    private final String fileNameC8943 = String.format("C8943 file%s",RandomData.getRandomAlphanumeric());
     // Edit Inline by self
-    private final String fileNameC8947 = String.format("C8947 file%s", DataUtil.getUniqueIdentifier());
+    private final String fileNameC8947 = String.format("C8947 file%s",RandomData.getRandomAlphanumeric());
     // Edit Inline by others
-    private final String fileNameC8948 = String.format("C8948 file%s", DataUtil.getUniqueIdentifier());
+    private final String fileNameC8948 = String.format("C8948 file%s",RandomData.getRandomAlphanumeric());
     // Check Out Google Docs By Self
-    private final String fileNameC8953 = String.format("C8953 file%s", DataUtil.getUniqueIdentifier());
+    private final String fileNameC8953 = String.format("C8953 file%s",RandomData.getRandomAlphanumeric());
     // Check out Google Docs By Others
-    private final String fileNameC8954 = String.format("C8954 file%s", DataUtil.getUniqueIdentifier());
+    private final String fileNameC8954 = String.format("C8954 file%s",RandomData.getRandomAlphanumeric());
     // Cancel editing locked by self
-    private final String fileNameC8957 = String.format("C8957 file%s", DataUtil.getUniqueIdentifier());
+    private final String fileNameC8957 = String.format("C8957 file%s",RandomData.getRandomAlphanumeric());
     // Start Workflow
-    private final String fileNameC8962 = String.format("C8962 file%s", DataUtil.getUniqueIdentifier());
+    private final String fileNameC8962 = String.format("C8962 file%s",RandomData.getRandomAlphanumeric());
     private final String deletePath = String.format("Sites/%s/documentLibrary", siteName);
 
     @BeforeClass(alwaysRun = true)

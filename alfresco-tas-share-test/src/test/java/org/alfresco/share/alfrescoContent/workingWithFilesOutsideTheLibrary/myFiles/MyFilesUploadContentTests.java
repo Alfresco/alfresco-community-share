@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -29,8 +29,8 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUploadDocument()
     {
-        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
-        String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
+        String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+        String testFile =  RandomData.getRandomAlphanumeric() + "testFile.txt";
         String testFilePath = testDataFolder + testFile;
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
@@ -50,9 +50,9 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUpdateDocumentNewVersion()
     {
-        String user = String.format("user%s", DataUtil.getUniqueIdentifier());
-        String testFile =  DataUtil.getUniqueIdentifier() + "testFile.txt";
-        String newVersionFile =  DataUtil.getUniqueIdentifier() + "newVersionFile.txt";
+        String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+        String testFile =  RandomData.getRandomAlphanumeric() + "testFile.txt";
+        String newVersionFile =  RandomData.getRandomAlphanumeric() + "newVersionFile.txt";
         String testFilePath = testDataFolder + testFile;
         String newVersionFilePath = testDataFolder + newVersionFile;
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);

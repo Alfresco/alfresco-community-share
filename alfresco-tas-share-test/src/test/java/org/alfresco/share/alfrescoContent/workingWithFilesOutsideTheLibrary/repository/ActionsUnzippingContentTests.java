@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeClass;
@@ -25,7 +25,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
 
     @Autowired private DocumentDetailsPage documentDetailsPage;
   
-    private final String user = String.format("C8256TestUser%s", DataUtil.getUniqueIdentifier());
+    private final String user = String.format("C8256TestUser%s", RandomData.getRandomAlphanumeric());
     private final String zipFile = "testFileC8256.zip";
     private final String zipContent = "testFile1";
     private final String acpFile = "archiveC8257.acp";
@@ -62,7 +62,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
         assertEquals(unzipToDialog.getPathList(), expectedDestionationPath.toString(), "Destionation set to=");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
-        unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
+        unzipToDialog.clickButton(language.translate("documentLibrary.contentActions.unzip"));
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(user);
@@ -92,7 +92,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
         assertEquals(unzipToDialog.getPathList(), expectedDestionationPath.toString(), "Destionation set to=");
 
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
-        unzipToDialog.clickButtton(language.translate("documentLibrary.contentActions.unzip"));
+        unzipToDialog.clickButton(language.translate("documentLibrary.contentActions.unzip"));
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(user);

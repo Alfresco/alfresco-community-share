@@ -1,6 +1,5 @@
 package org.alfresco.share.searching.facetedSearch;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
@@ -15,6 +14,7 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.UserTrashcanPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -22,9 +22,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 /**
  * @author Razvan.Dorobantu
@@ -64,7 +62,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     @Autowired
     CopyMoveUnzipToDialog copyMoveUnzipToDialog;
 
-    String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     String userName = "facetedUser-" + uniqueIdentifier;
     String firstName = "FirstName";
     String lastName = "LastName";
@@ -81,18 +79,18 @@ public class FacetedSearchTests extends ContextAwareWebTest
     String docContent = "content of file.";
     String searchTerm = "FacetedDoc";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupTest() {
-        userService.create(adminUser, adminPassword, userName, DataUtil.PASSWORD, userName + domain, firstName, lastName);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteName, description, Site.Visibility.PUBLIC);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteForCopy, description, Site.Visibility.PUBLIC);
-        siteService.create(userName, DataUtil.PASSWORD, domain, siteForMove, description, Site.Visibility.PUBLIC);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName1, docContent);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName2, docContent);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName3, docContent);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docForMove, docContent);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docForDelete, docContent);
-        contentService.createDocument(userName, DataUtil.PASSWORD, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docWorkflow, docContent);
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteForCopy, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteForMove, description, Site.Visibility.PUBLIC);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName1, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName2, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName3, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docForMove, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docForDelete, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docWorkflow, docContent);
     }
 
     @BeforeMethod
@@ -195,7 +193,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickDestinationButton("All Sites");
         copyMoveUnzipToDialog.clickSite(siteForCopy);
         copyMoveUnzipToDialog.clickDocumentLibrary();
-        copyMoveUnzipToDialog.clickButtton("Copy");
+        copyMoveUnzipToDialog.clickButton("Copy");
         LOG.info("STEP7: Verify that the files have been copied");
         documentLibraryPage.navigate(siteForCopy);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName1));
@@ -217,7 +215,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickDestinationButton("All Sites");
         copyMoveUnzipToDialog.clickSite(siteForMove);
         copyMoveUnzipToDialog.clickDocumentLibrary();
-        copyMoveUnzipToDialog.clickButtton("Move");
+        copyMoveUnzipToDialog.clickButton("Move");
         LOG.info("STEP7: Verify that the files has been moved");
         documentLibraryPage.navigate(siteForMove);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docForMove));

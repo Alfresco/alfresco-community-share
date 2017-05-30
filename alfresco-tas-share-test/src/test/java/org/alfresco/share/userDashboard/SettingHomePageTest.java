@@ -1,6 +1,5 @@
 package org.alfresco.share.userDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.PeopleFinderPage;
 import org.alfresco.po.share.SiteFinderPage;
@@ -17,6 +16,7 @@ import org.alfresco.po.share.user.profile.ChangePasswordPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -73,9 +73,9 @@ public class SettingHomePageTest extends ContextAwareWebTest
     public void useCurrentPage()
     {
         String folderName = "TestFolder";
-        String userName1 = String.format("User1%s", DataUtil.getUniqueIdentifier());
-        String userName2 = String.format("User2%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+        String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
+        String userName2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
         siteService.create(userName1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
@@ -246,8 +246,8 @@ public class SettingHomePageTest extends ContextAwareWebTest
     public void useMyDashboard()
     {
         String folderName = "TestFolder";
-        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName);

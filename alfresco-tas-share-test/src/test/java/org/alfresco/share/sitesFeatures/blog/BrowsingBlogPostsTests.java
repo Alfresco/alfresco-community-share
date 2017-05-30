@@ -1,10 +1,10 @@
 package org.alfresco.share.sitesFeatures.blog;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,10 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     @Autowired
     BlogPostListPage blogPage;
 
-    private String user1 = String.format("C6001User1%s", DataUtil.getUniqueIdentifier());
-    private String user2 = String.format("C6001User2%s", DataUtil.getUniqueIdentifier());
-    private String siteName = String.format("C6001SiteName%s", DataUtil.getUniqueIdentifier());
-    private String description = String.format("C6001SiteDescription-%s", DataUtil.getUniqueIdentifier());
+    private String user1 = String.format("C6001User1%s", RandomData.getRandomAlphanumeric());
+    private String user2 = String.format("C6001User2%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("C6001SiteName%s", RandomData.getRandomAlphanumeric());
+    private String description = String.format("C6001SiteDescription-%s", RandomData.getRandomAlphanumeric());
     private String blogTitleUser1Published = "C6001-" + "blogTitle published post User 1";
     private String blogTitleUser1Draft = "C6001-" + "blogTitle draft User 1";
     private String blogTitleUser2Published = "C6001-" + "User2 Blog title Published";

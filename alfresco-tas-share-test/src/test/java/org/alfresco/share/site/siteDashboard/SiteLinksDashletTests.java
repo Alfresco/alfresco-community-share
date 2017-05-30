@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteLinksDashlet;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -39,7 +39,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     @Autowired
     LinkDetailsViewPage linkDetailsViewPage;
 
-    private String user = String.format("user%s", DataUtil.getUniqueIdentifier());
+    private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     private String siteName;
     private String linkTitle = "google";
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
@@ -55,7 +55,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletHelpNotification()
     {
-        siteName = String.format("SiteName-C5525-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C5525-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_LINKS, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
 
@@ -81,7 +81,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletCreateLink()
     {
-        siteName = String.format("SiteName-C5534-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C5534-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_LINKS, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         siteDashboard.navigate(siteName);
@@ -118,7 +118,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletDetailsButton()
     {
-        siteName = String.format("SiteName-C5804-%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("SiteName-C5804-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_LINKS, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         sitePagesService.createLink(user, password, siteName, linkTitle, "www.google.com", "Search engine", false, Collections.singletonList("tag1"));

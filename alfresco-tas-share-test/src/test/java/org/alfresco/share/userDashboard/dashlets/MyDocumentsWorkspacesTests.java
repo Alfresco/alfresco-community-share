@@ -1,12 +1,12 @@
 package org.alfresco.share.userDashboard.dashlets;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet.DocumentsFilter;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,8 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void noDocumentsAdded()
     {
-        String userName = String.format("User1%s", DataUtil.getUniqueIdentifier());
-        String siteName = String.format("Site1%s", DataUtil.getUniqueIdentifier());
+        String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
+        String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);

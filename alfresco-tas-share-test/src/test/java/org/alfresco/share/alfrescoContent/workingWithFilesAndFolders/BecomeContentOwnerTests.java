@@ -1,12 +1,12 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.BecomeContentOwnerDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -27,14 +27,14 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
 
     private final String firstName = "FirstName";
     private final String lastName = "LastName";
-    private final String description = String.format("Description-%s", DataUtil.getUniqueIdentifier());
+    private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
 
     @TestRail(id = "C7152")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void becomeFileOwner()
     {
-        String random = DataUtil.getUniqueIdentifier();
+        String random = RandomData.getRandomAlphanumeric();
         String userSiteManager = "user-SiteManager-C7152-" + random;
         String userManager = "userManager-C7152-" + random;
         String userContributor = "userContributor-C7152-" + random;
@@ -84,7 +84,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void becomeFolderOwner()
     {
-        String random = DataUtil.getUniqueIdentifier();
+        String random = RandomData.getRandomAlphanumeric();
         String userSiteManager = "user-SiteManager-C7153-" + random;
         String userManager = "userManager-C7153-" + random;
         String userContributor = "userContributor-C7153-" + random;
@@ -137,7 +137,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void cancelBecomeOwner()
     {
-        String random = DataUtil.getUniqueIdentifier();
+        String random = RandomData.getRandomAlphanumeric();
         String userSiteManager = "user-SiteManager-C7154-" + random;
         String userManager = "userManager-C7154-" + random;
         String userContributor = "userContributor-C7154-" + random;

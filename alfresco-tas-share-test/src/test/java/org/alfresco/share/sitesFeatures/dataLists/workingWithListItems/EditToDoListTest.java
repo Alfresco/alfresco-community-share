@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
@@ -9,6 +8,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class EditToDoListTest extends ContextAwareWebTest
     @Autowired
     EditItemPopUp editItemPopUp;
 
-    private String random = DataUtil.getUniqueIdentifier();
+    private String random = RandomData.getRandomAlphanumeric();
     private String todoListName = "To Do list" + random;
     private String itemTitle = "item Title" + random;
     private String dataListDescription = "test datalist";

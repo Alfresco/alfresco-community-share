@@ -1,6 +1,5 @@
 package org.alfresco.share.adminTools;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -8,6 +7,7 @@ import org.alfresco.po.share.user.admin.adminTools.EditTagDialog;
 import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -36,7 +36,7 @@ public class TagManagerTests extends ContextAwareWebTest
     @Autowired
     private EditTagDialog editTagDialog;
 
-    private final String uniqueIdentifier = DataUtil.getUniqueIdentifier();
+    private final String uniqueIdentifier = RandomData.getRandomAlphanumeric().toLowerCase();
     private final String user = "user-" + uniqueIdentifier;
     private final String userAdmin = "userAdmin-" + uniqueIdentifier;
     private final String site = "site-" + uniqueIdentifier;

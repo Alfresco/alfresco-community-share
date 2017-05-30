@@ -1,10 +1,10 @@
 package org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -22,14 +22,14 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
 {
     @Autowired private DocumentLibraryPage documentLibraryPage;
 
-    private final String userName = String.format("profileUser-%s", DataUtil.getUniqueIdentifier());
+    private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
 
     @TestRail(id = "C7444")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void updateTags()
     {
-        String random = DataUtil.getUniqueIdentifier();
+        String random = RandomData.getRandomAlphanumeric();
         String siteName = "site-C7444-" + random;
         String fileName = "file-C7444-" + random;
         String tagName = "tagName-C7444-" + random;
@@ -53,7 +53,7 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isEditTagInputFieldDisplayed(), fileName + " -> 'Edit Tag' text input field is displayed.");
 
         LOG.info("STEP3: Hover over the tag. Click 'Remove' icon. Click 'Save' link");
-        assertEquals(documentLibraryPage.removeTag(tagName.toLowerCase()), tagName.toLowerCase(), "Removed ");
+        documentLibraryPage.removeTag(tagName.toLowerCase());
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         getBrowser().waitInSeconds(3);
         assertTrue(documentLibraryPage.isNoTagsTextDisplayed(fileName), fileName + " -> " + tagName + " is removed.");

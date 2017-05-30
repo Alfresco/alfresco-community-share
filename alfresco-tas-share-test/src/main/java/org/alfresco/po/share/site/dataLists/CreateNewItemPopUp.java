@@ -12,6 +12,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 
+import java.util.List;
+
 @Primary
 @PageObject
 public class CreateNewItemPopUp extends ShareDialog
@@ -637,4 +639,101 @@ public class CreateNewItemPopUp extends ShareDialog
         closeButton.click();
         return (DataListsPage) dataListsPage.renderedPage();
     }
+
+    public void fillCreateNewContactItem(List<String> fieldsValue) {
+        int i=0;
+        for(ContactListFields field : ContactListFields.values()) {
+            addContent(field.toString(), fieldsValue.get(i));
+            i++;
+        }
+    }
+
+    public void fillCreateNewEventAgendaItem(List<String> fieldsValue) {
+        int i=0;
+        for(EventAgendaFields field : EventAgendaFields.values()) {
+            addContent(field.toString(), fieldsValue.get(i));
+            i++;
+        }
+    }
+
+    public void fillCreateNewEventItem(List<String> fieldsValue, String folder, String file) {
+        int i=0;
+        for(EventListFields field : EventListFields.values()) {
+            addContent(field.toString(), fieldsValue.get(i));
+            i++;
+        }
+        addAttachments(folder, file);
+    }
+
+    public void fillCreateNewIssueItem(List<String> fieldsValue, String folder, String file, String userName, String status, String priority) {
+        int i=0;
+        for(IssueFields field : IssueFields.values()) {
+            addContent(field.toString(), fieldsValue.get(i));
+            i++;
+        }
+        addAttachments(folder, file);
+        addAssignedTo(userName);
+        selectDropDownItem(status, DropDownLists.issueStatus.toString());
+        selectDropDownItem(priority, DropDownLists.issuePriority.toString());
+    }
+
+    public void fillCreateNewLocationItem(List<String> fieldsValue, String folder, String file) {
+        int i=0;
+        for(LocationFields field : LocationFields.values()) {
+            addContent(field.toString(), fieldsValue.get(i));
+            i++;
+        }
+        addAttachments(folder, file);
+    }
+
+    public void fillCreateNewMeetingAgendaItem(List<String> fieldsValue, String folder, String file) {
+        int i=0;
+        for(MeetingAgendaFields field : MeetingAgendaFields.values()) {
+            addContent(field.toString(), fieldsValue.get(i));
+            i++;
+        }
+        addAttachments(folder, file);
+    }
+
+    public void fillCreateNewAdvancedTaskItem(List<String> fieldsValue, String folder, String file, String userName, String status, String priority) {
+        int i=0;
+        for(AdvancedTaskAgendaFields field : AdvancedTaskAgendaFields.values()) {
+            addContent(field.toString(), fieldsValue.get(i));
+            i++;
+        }
+        addAttachments(folder, file);
+        addAssignedToAdvancedTask(userName);
+        selectDropDownItem(status, DropDownLists.taskStatus.toString());
+        selectDropDownItem(priority, DropDownLists.taskPriority.toString());
+    }
+
+    public void fillCreateNewSimpleTaskItem(List<String> fieldsValue, String status, String priority) {
+        int i=0;
+        for(SimpleTaskAgendaFields field : SimpleTaskAgendaFields.values()) {
+            addContent(field.toString(), fieldsValue.get(i));
+            i++;
+        }
+        selectDropDownItem(status, DropDownLists.simpletaskStatus.toString());
+        selectDropDownItem(priority, DropDownLists.simpletaskPriority.toString());
+    }
+
+    public void fillCreateNewToDoItem(List<String> fieldsValue, String folder, String file, String userName, String status) {
+        int i=0;
+        for(ToDoAgendaFields field : ToDoAgendaFields.values()) {
+            addContent(field.toString(), fieldsValue.get(i));
+            i++;
+        }
+        addAttachments(folder, file);
+        addAssignedToToDo(userName);
+        selectDropDownItem(status, DropDownLists.todoStatus.toString());
+    }
+
+    public void fillCreateNewVisitorItem(List<String> fieldsValue) {
+        int i=0;
+        for(VisitorAgendaFields field : VisitorAgendaFields.values()) {
+            addContent(field.toString(), fieldsValue.get(i));
+            i++;
+        }
+    }
+
 }

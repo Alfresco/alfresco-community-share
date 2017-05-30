@@ -1,6 +1,5 @@
 package org.alfresco.share.smartFolders;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.SmartFolders;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -13,6 +12,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -53,10 +53,10 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     @Autowired
     SelectDialog selectDialog;
 
-    private String userName = String.format("User%s", DataUtil.getUniqueIdentifier());
-    private String siteNameC8665 = String.format("SiteNameC8665%s", DataUtil.getUniqueIdentifier());
-    private String siteNameC8666 = String.format("SiteNameC8666%s", DataUtil.getUniqueIdentifier());
-    private String siteNameC8668 = String.format("SiteNameC8668%s", DataUtil.getUniqueIdentifier());
+    private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+    private String siteNameC8665 = String.format("SiteNameC8665%s",RandomData.getRandomAlphanumeric());
+    private String siteNameC8666 = String.format("SiteNameC8666%s",RandomData.getRandomAlphanumeric());
+    private String siteNameC8668 = String.format("SiteNameC8668%s",RandomData.getRandomAlphanumeric());
     private String fileName1 = "testFile1";
     private String fileName2 = "testFile2";
     private String fileName3 = "testFile3";

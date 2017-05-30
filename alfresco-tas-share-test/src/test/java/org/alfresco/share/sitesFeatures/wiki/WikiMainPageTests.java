@@ -1,11 +1,11 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.site.wiki.EditWikiPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -25,7 +25,7 @@ public class WikiMainPageTests extends ContextAwareWebTest
     @Autowired
     EditWikiPage editWikiPage;
 
-    private String testUser = String.format("testUser%s", DataUtil.getUniqueIdentifier());
+    private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName;
     private String wikiPageContent = "content";
 
@@ -41,7 +41,7 @@ public class WikiMainPageTests extends ContextAwareWebTest
     public void createWikiMainPage()
     {
         // precondition
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         wikiPage.navigate(siteName);
@@ -60,7 +60,7 @@ public class WikiMainPageTests extends ContextAwareWebTest
     public void cancelCreationOfWikiMainPage()
     {
         // precondition
-        siteName = String.format("siteName%s", DataUtil.getUniqueIdentifier());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         wikiPage.navigate(siteName);

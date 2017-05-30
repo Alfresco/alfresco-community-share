@@ -1,6 +1,5 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
@@ -9,9 +8,11 @@ import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsP
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -42,28 +43,30 @@ public class EditRuleTests extends ContextAwareWebTest
     @Autowired
     private SelectDestinationDialog selectDestinationDialog;
 
-    private final String random = DataUtil.getUniqueIdentifier();
+    private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "user-" + random;
     private final String siteName = "Site-" + random;
     private final String description = "description-" + random;
     private final String path = "Documents";
     private String folderName, ruleName;
 
-    @BeforeMethod()
+    @BeforeClass(alwaysRun = true)
+    public void createUserAndSite()
+    {
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        setupAuthenticatedSession(userName, password);
+    }
+
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        String random = DataUtil.getUniqueIdentifier();
+        String random = RandomData.getRandomAlphanumeric();
         ruleName = "rule-" + random;
         folderName = "folder-" + random;
 
-        userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
-        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-
         contentService.createFolder(userName, password, folderName, siteName);
-
-        setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
 
         LOG.info("Navigate to Manage Rule page for folder");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
@@ -138,7 +141,6 @@ public class EditRuleTests extends ContextAwareWebTest
         LOG.info("STEP3: Create a file in folder and verify if rule is applied");
         contentService.createDocumentInFolder(userName, password, siteName, folderName, CMISUtil.DocumentType.HTML, fileName, "docContent");
         documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed in Document Library");
 
         editRulesPage.cleanupSelectedValues();

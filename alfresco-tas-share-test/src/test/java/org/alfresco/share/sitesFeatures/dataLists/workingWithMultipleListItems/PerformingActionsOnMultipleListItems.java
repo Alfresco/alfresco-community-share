@@ -1,12 +1,12 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithMultipleListItems;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.site.dataLists.ContactListSelectedContent;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUser()
     {
-        userName = String.format("User%s", DataUtil.getUniqueIdentifier());
+        userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
     }
@@ -49,7 +49,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
     public void setup(String id) {
 
         LOG.info("Preconditions for test " + id);
-        uniqueIdentifier = "-" + id + "-" + DataUtil.getUniqueIdentifier();
+        uniqueIdentifier = "-" + id + "-" + RandomData.getRandomAlphanumeric();
         siteName = "siteName" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;
         contactList = "ContactList" + uniqueIdentifier;

@@ -1,12 +1,12 @@
 package org.alfresco.share.sitesFeatures.calendar;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.site.calendar.AddEventDialog;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -31,7 +31,7 @@ public class TagsTests extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    private String random = DataUtil.getUniqueIdentifier();
+    private String random = RandomData.getRandomAlphanumeric();
     private String user1 = "user1-" + random;
     private String siteName = "SiteName-" + random;
     private Date currentDate = new Date();

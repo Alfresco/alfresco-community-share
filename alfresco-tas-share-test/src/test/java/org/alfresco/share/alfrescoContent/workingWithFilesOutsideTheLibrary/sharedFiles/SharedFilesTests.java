@@ -1,11 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
@@ -23,7 +23,7 @@ public class SharedFilesTests extends ContextAwareWebTest
 
     @Autowired private SocialFeatures socialFeatures;
 
-    private final String docName = String.format("Doc-C7661-%s", DataUtil.getUniqueIdentifier());
+    private final String docName = String.format("Doc-C7661-%s", RandomData.getRandomAlphanumeric());
     private final String path = "Shared/";
 
     @BeforeClass(alwaysRun = true)

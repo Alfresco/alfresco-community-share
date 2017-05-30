@@ -1,6 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.Dashlets;
@@ -8,6 +7,8 @@ import org.alfresco.po.share.dashlet.SiteNoticeDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,10 @@ public class SiteNoticeTests extends ContextAwareWebTest
     private String siteName;
     private String description;
 
-    public void setup(String id)
-    {
+    public void setup(String id) throws DataPreparationException {
         super.setup();
 
-        uniqueIdentifier = String.format("-" + id + "-%s", DataUtil.getUniqueIdentifier());
+        uniqueIdentifier = String.format("-" + id + "-%s", RandomData.getRandomAlphanumeric());
         siteName = "siteName" + uniqueIdentifier;
         userName = "User" + uniqueIdentifier;
         description = "description" + uniqueIdentifier;
@@ -50,8 +50,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
 
     @TestRail(id = "C5556")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void addSiteNoticeDashlet()
-    {
+    public void addSiteNoticeDashlet() throws DataPreparationException {
 
         LOG.info("Starting C5556");
 
@@ -63,8 +62,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
 
     @TestRail(id = "C5557")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void noticeDashletActions()
-    {
+    public void noticeDashletActions() throws DataPreparationException {
         LOG.info("Starting C5557");
 
         String helpMessage = "This dashlet displays a custom message on the dashboard, specified by the site manager";
@@ -86,8 +84,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
 
     @TestRail(id = "C5558")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void customizeDashlet()
-    {
+    public void customizeDashlet() throws DataPreparationException {
         LOG.info("Starting C5558");
 
         setup("C5558");
@@ -108,8 +105,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
 
     @TestRail(id = "C5559")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void customizeDashletCancel()
-    {
+    public void customizeDashletCancel() throws DataPreparationException {
 
         LOG.info("Starting C5559");
 
