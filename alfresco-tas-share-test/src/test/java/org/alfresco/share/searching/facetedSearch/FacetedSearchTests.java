@@ -131,6 +131,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         searchPage.clickSelectAll();
         searchPage.clickGalleryView();
         assertTrue(searchPage.isALLItemsCheckboxChecked());
+        searchPage.clickDetailedView();
         cleanupAuthenticatedSession();
     }
 
@@ -259,6 +260,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         searchPage.clickOptionFromSelectedItemsDropdown("Delete");
         searchPage.deleteDocuments(true);
         LOG.info("STEP3: Verify that the file has been deleted.");
+        toolbar.search(docForDelete);
         assertFalse(searchPage.isResultFound(docForDelete), docForDelete + " is still found by search");
         LOG.info("STEP4: Verify that the deleted file is present in Trashcan.");
         userTrashcanPage.navigate(userName);

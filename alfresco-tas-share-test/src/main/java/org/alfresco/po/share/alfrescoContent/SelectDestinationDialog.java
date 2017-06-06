@@ -63,12 +63,15 @@ public class SelectDestinationDialog extends ShareDialog
         getBrowser().waitUntilElementsVisible(destinationList);
         for (WebElement aDestinationList : destinationList)
         {
-            if (aDestinationList.getText().equals(buttonText))
-                aDestinationList.click();
-            if (buttonText.equals("Shared Files"))
-                browser.waitInSeconds(5);
+            if (aDestinationList.getText().equals(buttonText)) {
+                getBrowser().waitUntilElementClickable(aDestinationList).click();
+                break;
+            }
+          if (buttonText.equals("Shared Files")) {
+                getBrowser().waitUntilElementsVisible(By.cssSelector("span[id^='alfresco_navigation_PathTree']"));
+            }
         }
-        browser.waitInSeconds(1);
+        //browser.waitInSeconds(1);
     }
 
     /**
