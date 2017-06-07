@@ -344,7 +344,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     public SearchPage clickDetailedView() {
         clickViewsDropdown();
-        browser.waitInSeconds(2);
+        getBrowser().waitUntilElementsVisible(viewsDropdownOptionsSelector);
         browser.selectOptionFromFilterOptionsList("Detailed View", browser.findElements(viewsDropdownOptionsSelector));
         return (SearchPage) this.renderedPage();
     }
@@ -482,7 +482,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     public void clickCopyTo()
     {
-        getBrowser().waitUntilElementClickable(copyToAction).click();
+       copyToAction.click();
     }
     public void clickOptionFromSelectedItemsDropdown(String optionName) {
         if (isSelectedItemsOptionDisplayed(optionName)) {
