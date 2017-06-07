@@ -520,11 +520,9 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         }
     }
 
-    public void clickSelectAll()
-    {
+    public void clickSelectAll() {
         getBrowser().findElement(By.cssSelector("div[id='SELECTED_LIST_ITEMS']")).click();
         getBrowser().waitUntilElementClickable(By.cssSelector("tr[title='All']"), 2).click();
-       // selectAllButton.click();
     }
 
     public void clickSelectedItemsListDropdownArrow()
