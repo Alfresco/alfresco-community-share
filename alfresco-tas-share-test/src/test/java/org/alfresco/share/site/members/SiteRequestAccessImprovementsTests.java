@@ -9,6 +9,7 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Role;
 import org.springframework.social.alfresco.api.entities.Site;
@@ -68,6 +69,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         groupService.addUserToGroup(adminUser, adminPassword, group, userName3);
     }
 
+    @Bug(id = "TBD")
     @TestRail(id = "C14280")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelSitePendingRequest()
@@ -86,6 +88,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
 
+    @Bug(id = "TBD")
     @TestRail(id = "C14283")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsGroupManager()
@@ -114,6 +117,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
 
+    @Bug(id = "TBD")
     @TestRail(id = "C14284")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void releaseToPoolRequestPendingTaskAsGroupManager()
@@ -146,6 +150,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
 
+    @Bug(id = "TBD")
     @TestRail(id = "C14285")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsGroupManagerAndRemoveUserFromGroup()
@@ -172,6 +177,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequests.toString(), "Pending Requests=");
     }
 
+    @Bug(id = "TBD")
     @TestRail(id = "C14286")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsSiteManager()

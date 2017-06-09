@@ -123,37 +123,21 @@ public class LeavingSiteTests extends ContextAwareWebTest {
     @TestRail(id = "C2928")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void leaveSiteUsingSiteFinder() {
-        siteName = String.format("SiteName-C2928-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
-        userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
-        setupAuthenticatedSession(user1, password);
-        LOG.info("STEP 1: Open 'Site Finder' page and search for '"+siteName+"'.");
-        siteFinderPage.navigateByMenuBar();
-        siteFinderPage.searchSite(siteName);
-        assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " is expected to be found.");
-        assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Leave"), "'Leave' button is available for the site.");
-        int counter = 1;
-        int retryRefreshCount = 5;
-        while (counter <= retryRefreshCount) {
-            try {
-                LOG.info("STEP 2: Click on 'Leave' button.");
-                siteFinderPage.clickSiteButton(siteName, "Leave");
-                assertEquals(notification.getDisplayedNotification(), "Successfully removed user " + user1 + " from site " + siteName, "Popup should be displayed");
-                assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Join"), "'Join' button is available for the site.");
-                LOG.info("STEP 3: Go to \"User's Dashboard\" page and verify \"My Sites\" dashlet.");
-                userDashboardPage.navigateByMenuBar();
-                assertFalse(mySitesDashlet.isSitePresent(siteName), siteName + " should no longer be listed in the list of sites.");
-                break;
-            }
-            catch (TimeoutException | NoSuchElementException e) {
-                counter++;
-                getBrowser().refresh();
-                siteFinderPage.searchSite(siteName);
-                assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " is expected to be found.");
-                assertFalse(siteFinderPage.isButtonDisplayedForSite(siteName, "Leave"), "'Leave' button is available for the site.");
-                assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Join"), "'Leave' button is available for the site.");
-            }
-        }
+         siteName = String.format("SiteName-C2928-%s", RandomData.getRandomAlphanumeric());
+         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+         userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
+         setupAuthenticatedSession(user1, password);
+         LOG.info("STEP 1: Open 'Site Finder' page and search for '"+siteName+"'.");
+         siteFinderPage.navigate();
+         siteFinderPage.searchSite(siteName);
+         assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " is expected to be found.");
+         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Leave"), "'Leave' button is available for the site.");
+         LOG.info("STEP 2: Click on 'Leave' button.");
+         siteFinderPage.clickSiteButton(siteName, "Leave");
+         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteName, "Join"), "'Join' button is available for the site.");
+         LOG.info("STEP 3: Go to \"User's Dashboard\" page and verify \"My Sites\" dashlet.");
+         userDashboardPage.navigateByMenuBar();
+         assertFalse(mySitesDashlet.isSitePresent(siteName), siteName + " should no longer be listed in the list of sites.");
     }
 
     @TestRail(id = "C2930")

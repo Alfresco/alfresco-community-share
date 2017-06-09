@@ -322,7 +322,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(moderatedSite.getTitle(), "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
         LOG.info("Step 2: Click 'Request to Join' button");
-        siteFinderPage.clickRequestToJoinButton(siteNameC2549);
+        siteFinderPage.clickSiteButton(moderatedSite.getTitle(), "Request to Join");
         Assert.assertEquals(siteFinderPage.getButtonCancelRequestText("Cancel Request"), "Cancel Request", "Cancel Request button is not displayed");
         cleanupAuthenticatedSession();
 

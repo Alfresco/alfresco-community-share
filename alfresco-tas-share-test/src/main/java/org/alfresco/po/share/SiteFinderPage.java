@@ -89,6 +89,8 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
             }
         catch(TimeoutException e){
             while(!isSiteFound(siteName)&&counter<3){
+                browser.refresh();
+                this.renderedPage();
                 searchButton.click();
                 getBrowser().waitUntilElementIsVisibleWithRetry(By.cssSelector("div[id$='_default-sites'] tr[class^='yui-dt-rec']"), 3);
                 LOG.info("Site not found "+ e.getMessage().toString());
@@ -149,7 +151,8 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
         for (WebElement button : getTheButtonsForSite(siteName))
             if (button.getText().equals(buttonName)) {
                 browser.waitUntilElementClickable(button, 30).click();
-               // browser.waitInSeconds(5);
+                if(!buttonName.equals("Delete"))
+                    browser.waitUntilElementDoesNotContainText(button, buttonName);
                 break;
             }
     }
@@ -209,9 +212,5 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     public String getButtonCancelRequestText(String textExpected) {
         getBrowser().waitUntilElementContainsText(cancelRequestButton, textExpected);
         return cancelRequestButton.getText();
-    }
-
-    public void clickRequestToJoinButton(String siteName) {
-        getBrowser().waitUntilElementClickable(By.cssSelector("td[class*='yui-dt-col-button'] button"), 6L).click();
     }
 }
