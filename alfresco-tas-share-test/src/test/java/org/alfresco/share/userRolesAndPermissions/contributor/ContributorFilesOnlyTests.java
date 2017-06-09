@@ -13,6 +13,7 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
@@ -137,6 +138,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), fileContent, "Correct file content/ file opened in new window");
     }
 
+    @Bug(id="TBD")
     @TestRail(id = "C8914")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void uploadNewVersionForItemCreatedBySelf()
@@ -651,6 +653,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
        // assertTrue(documentLibraryPage.isContentSelected(fileName), "Document is checked.");
     }
 
+    @Bug(id='TBD')
     @TestRail(id = "C8936")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void downloadPreviousVersion()
@@ -692,6 +695,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
     }
 
+    @Bug(id="TBD")
     @TestRail(id = "C8937")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void revertToPreviousVersion()
