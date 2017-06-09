@@ -155,6 +155,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         sharedFilesPage.clickLinkToFolder(linkC42626);
         assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "Displayed page=");
         ArrayList<String> breadcrumb = new ArrayList<>(Arrays.asList("Repository", "Sites", siteName1, "documentLibrary", folderC42626));
+        repositoryPage.renderedPage();
         assertEquals(repositoryPage.getBreadcrumbList(), breadcrumb.toString(), "Breadcrumb=");
     }
 
