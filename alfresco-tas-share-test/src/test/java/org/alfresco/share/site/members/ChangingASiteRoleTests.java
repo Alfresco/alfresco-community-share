@@ -45,48 +45,43 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
     @Autowired
     SiteUsersPage siteUsersPage;
 
-    private String testSiteName;
+    UserModel manager, testUser;
 
     @BeforeClass(alwaysRun = true)
     public void dataPreparation() throws Exception {
-        UserModel manager = dataUser.createRandomTestUser();
-        SiteModel testSite =  dataSite.usingUser(manager).createPublicRandomSite();
-        testSiteName = testSite.getTitle();
+        manager = dataUser.createRandomTestUser();
+        testUser = dataUser.createRandomTestUser();
+        setupAuthenticatedSession(manager.getUsername(), password);
     }
 
     @TestRail(id = "C2835")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlySiteManagerIsAbleToChangeRoles() throws DataPreparationException {
-        UserModel manager = dataUser.createRandomTestUser();
-        UserModel testCollaboratorUser = dataUser.createRandomTestUser();
         SiteModel testSite =  dataSite.usingUser(manager).createPublicRandomSite();
-        dataUser.addUserToSite(testCollaboratorUser, testSite, UserRole.SiteCollaborator);
-        setupAuthenticatedSession(manager.getUsername(), password);
+        dataUser.addUserToSite(testUser, testSite, UserRole.SiteCollaborator);
+
         LOG.info("Step 1: Navigate to site and click 'Site Members' link");
         siteUsersPage.navigate(testSite.getTitle());
         LOG.info("Step 2: Change the role of 'userCollaborator' from 'Collaborator' to 'Contributor'");
-        assertEquals(testCollaboratorUser.getUserRole().toString(), "SiteCollaborator", "expected user role: ");
-        siteUsersPage.changeRoleForMember("Contributor", testCollaboratorUser.getUsername());
-        assertEquals(testCollaboratorUser.getUserRole().toString(), "Contributor ▾",  " has new role=");
-        siteDashboardPage.navigate(testSiteName);
-        assertEquals(siteMembersDashlet.getMemberRole(testCollaboratorUser.getUsername()), "Contributor",
+        assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Collaborator ▾", "expected user role: ");
+        siteUsersPage.changeRoleForMember("Contributor", testUser.getUsername());
+        assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Contributor ▾",  " has new role=");
+        siteDashboardPage.navigate(testSite.getTitle());
+        assertEquals(siteMembersDashlet.getMemberRole(testUser.getUsername()), "Contributor",
                 "Successfully changed role of user to Contributor");
-        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C2836")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeRoleForAGroup() throws DataPreparationException {
-        UserModel testUser = dataUser.createRandomTestUser();
-        SiteModel testSite =  dataSite.usingUser(testUser).createPublicRandomSite();
-        GroupModel testGroup = dataGroup.usingUser(testUser).createRandomGroup();
+        SiteModel testSite =  dataSite.usingUser(manager).createPublicRandomSite();
+        GroupModel testGroup = dataGroup.usingAdmin().createRandomGroup();
         dataGroup.addListOfUsersToGroup(testGroup, testUser);
-        setupAuthenticatedSession(testUser.getUsername(), password);
         groupService.inviteGroupToSite(adminUser, adminPassword, testSite.getTitle(), testGroup.getDisplayName(), "SiteManager");
         LOG.info("Step 1: Open 'Site Members' page for the site");
         siteUsersPage.navigate(testSite.getTitle());
         assertTrue(siteUsersPage.isASiteMember(testUser.getUsername() + " FirstName LN-" + testUser.getUsername()), testUser.getUsername()+" is not a member of " + testSite.getTitle());
-        assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Manager",  testUser.getUsername() +" has role=");
+        assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Manager ▾",  testUser.getUsername() +" has role=");
         LOG.info("Step 2: Click on 'Groups' link");
         siteUsersPage.openSiteGroupsPage();
         siteGroupsPage.typeSearchGroup(testGroup.getDisplayName());
@@ -97,19 +92,15 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         LOG.info("Step 4: Click on 'Users' link and check the role of userTest has changed to 'Consumer'");
         siteGroupsPage.openSiteUsersPage();
         assertTrue(siteUsersPage.isASiteMember(testUser.getUsername()  + " FirstName LN-" + testUser.getUsername() ));
-        assertEquals(siteUsersPage.getRole(testUser.getUsername() ), "Consumer", testUser.getUsername()  + " has role in " +testGroup.getDisplayName());
-        cleanupAuthenticatedSession();
+        assertEquals(siteUsersPage.getRole(testUser.getUsername() ), "Consumer ▾", testUser.getUsername()  + " has role in " +testGroup.getDisplayName());
     }
 
     @TestRail(id = "C2837")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeRoleForAnUser() throws DataPreparationException {
         LOG.info("Preconditions: Add the userTest to the created site with 'Manager' role");
-        UserModel manager = dataUser.createRandomTestUser();
-        UserModel testUser = dataUser.createRandomTestUser();
         SiteModel testSite =  dataSite.usingUser(manager).createPublicRandomSite();
         dataUser.addUserToSite(testUser,testSite,UserRole.SiteManager);
-        setupAuthenticatedSession(manager.getUsername(), password);
         LOG.info("Step 1: Open 'Site Members' page for the site");
         siteUsersPage.navigate(testSite.getTitle());
         assertTrue(siteUsersPage.isASiteMember(testUser.getUsername() + " FirstName LN-" + testUser.getUsername()), testUser.getUsername()+" is not a site member of " + testSite.getTitle());
@@ -117,6 +108,5 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         LOG.info("Step 2: Change the current role to 'Consumer'");
         siteUsersPage.changeRoleForMember("Consumer", testUser.getUsername());
         assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Consumer ▾", testUser.getUsername() + " has role=");
-        cleanupAuthenticatedSession();
     }
 }
