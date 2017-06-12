@@ -241,6 +241,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
                 "Edit in Alfresco available for Contributor user");
     }
 
+    @Bug(id="TBD")
     @TestRail(id = "C8921")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void editOfflineForContentCreatedBySelf() {
