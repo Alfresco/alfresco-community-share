@@ -82,7 +82,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow();
+        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as user2.");
@@ -117,7 +117,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         selectPopUpPage.search(user3);
         selectPopUpPage.clickAddIcon("firstName3 lastName3 (" + user3 + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow();
+        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Logout then login as user2.");
@@ -158,7 +158,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         selectPopUpPage.search(group);
         selectPopUpPage.clickAddIcon(group);
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow();
+        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Navigate to User Dashboard.");
@@ -189,7 +189,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         selectPopUpPage.search(group);
         selectPopUpPage.clickAddIcon(group);
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow();
+        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         LOG.info("STEP 5: Navigate to User Dashboard.");

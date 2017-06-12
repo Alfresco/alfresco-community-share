@@ -306,7 +306,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public WebElement selectDocumentLibraryItemRow(String documentItem)
     {
-        browser.waitInSeconds(2);
+        browser.waitInSeconds(3);
         browser.waitUntilElementIsDisplayedWithRetry(documentLibraryItemsList, 6);
         List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
         return browser.findFirstElementWithValue(itemsList, documentItem);

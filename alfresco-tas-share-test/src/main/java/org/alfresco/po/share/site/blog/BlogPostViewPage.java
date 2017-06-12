@@ -35,7 +35,7 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     @FindBy(css = "div[id*='_blog-postview'] div.nodeTitle>a")
     private WebElement blogPostTitle;
 
-    @RenderWebElement
+    //@RenderWebElement
     @FindBy(css = "div[id*='_blog-postview'] div.content")
     private WebElement blogPostContent;
 

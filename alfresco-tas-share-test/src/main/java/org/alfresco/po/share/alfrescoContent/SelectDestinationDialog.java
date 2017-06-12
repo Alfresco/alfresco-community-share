@@ -20,10 +20,10 @@ public class SelectDestinationDialog extends ShareDialog
     @FindBy(css = "div[id*='title']")
     private WebElement dialogTitle;
 
-    @FindBy(css = "button[role='radio']")
+    @FindBy(css = "span[id^='alfresco_menus_AlfMenuBarItem']")
     protected List<WebElement> destinationList;
 
-    @FindBy(css = ".site-picker h4")
+    @FindBy(css = "div.alfresco-pickers-SingleItemPicker span[id^='alfresco_menus_AlfMenuBarItem']")
     protected List<WebElement> siteList;
 
     @FindBy(css = ".path .ygtvlabel")
@@ -37,6 +37,9 @@ public class SelectDestinationDialog extends ShareDialog
 
     @FindBy(css = "#ALF_COPY_MOVE_DIALOG_title")
     private WebElement copyToDialogTitle;
+
+    @FindBy(css="div.dijitTreeNodeContainer span[id^='alfresco_navigation_PathTree']")
+    private WebElement documentLibraryPath;
 
     public void clickOkButton()
     {
@@ -57,14 +60,18 @@ public class SelectDestinationDialog extends ShareDialog
      */
     public void clickDestinationButton(String buttonText)
     {
+        getBrowser().waitUntilElementsVisible(destinationList);
         for (WebElement aDestinationList : destinationList)
         {
-            if (aDestinationList.getText().equals(buttonText))
-                aDestinationList.click();
-            if (buttonText.equals("Shared Files"))
-                browser.waitInSeconds(5);
+            if (aDestinationList.getText().equals(buttonText)) {
+                getBrowser().waitUntilElementClickable(aDestinationList).click();
+                break;
+            }
+          if (buttonText.equals("Shared Files")) {
+                getBrowser().waitUntilElementsVisible(By.cssSelector("span[id^='alfresco_navigation_PathTree']"));
+            }
         }
-        browser.waitInSeconds(1);
+        //browser.waitInSeconds(1);
     }
 
     /**
@@ -127,17 +134,20 @@ public class SelectDestinationDialog extends ShareDialog
      * @param folderName
      *            to be set
      */
-    public void clickPathFolder(String folderName)
-    {
-        browser.waitUntilElementsVisible(By.cssSelector(".path .ygtvlabel"));
-        browser.waitInSeconds(2);
-        for (WebElement aPathList : pathList)
-        {
+    public void clickPathFolder(String folderName) {
+        getBrowser().waitUntilElementsVisible(By.cssSelector("div.dijitTreeNodeContainer span[id^='alfresco_navigation_PathTree']"));
+        for (WebElement aPathList : pathList) {
             if (aPathList.getText().equals(folderName))
                 aPathList.click();
+            getBrowser().waitInSeconds(5);
         }
     }
 
+    public void clickDocumentLibrary()
+    {
+        getBrowser().waitUntilElementVisible(documentLibraryPath).click();
+        getBrowser().waitInSeconds(1);
+    }
     /**
      * @return dialog's title
      */

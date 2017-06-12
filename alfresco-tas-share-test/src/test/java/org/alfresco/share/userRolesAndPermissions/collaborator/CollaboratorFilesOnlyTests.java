@@ -310,7 +310,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         selectPopUpPage.search(user);
         selectPopUpPage.clickAddIcon("(" + user + ")");
         selectPopUpPage.clickOkButton();
-        startWorkflowPage.clickStartWorkflow();
+        startWorkflowPage.clickStartWorkflow(documentLibraryPage);
 
         LOG.info("Step 5: Go to Toolbar and click Tasks/ My Tasks.");
         toolbarTasksMenu.clickMyTasks();
@@ -328,6 +328,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileNameC8962));
     }
 
+    @Bug(id="TBD")
     @TestRail(id = "C8942")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorUploadNewVersionSelfCreated()
@@ -360,6 +361,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFile));
     }
 
+    @Bug(id="TBD")
     @TestRail(id = "C8943")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorUploadNewVersionOtherUserCreated()
