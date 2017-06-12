@@ -1,6 +1,7 @@
 package org.alfresco.po.share.toolbar;
 
 import org.alfresco.utility.web.annotation.PageObject;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -31,6 +32,7 @@ public class ToolbarUserMenu extends Toolbar
     public boolean isUserDashboardDisplayed()
     {
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(By.cssSelector("div[id='HEADER_USER_MENU']"));
         return browser.isElementDisplayed(userDashboard);
     }
 

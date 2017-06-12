@@ -309,7 +309,7 @@ public class ToolbarTests extends ContextAwareWebTest
         LOG.info("STEP 5 - Click again on \"Sites\" menu. Click on \"Create Site\" link");
         createSiteDialog.navigateByMenuBar();
         Assert.assertTrue(createSiteDialog.isDescriptionInputFieldDisplayed(), "Description input is displayed");
-        createSiteDialog.clickClose();
+        createSiteDialog.clickCloseXButton();
 
         LOG.info("STEP 6 - Close \"Create Site\" form. Click again on \"Sites\" menu. Click on \"Favorites\" link");
         Assert.assertTrue(toolbarSitesMenu.isSiteFavorite(siteName1), siteName1 + " is favorite");
