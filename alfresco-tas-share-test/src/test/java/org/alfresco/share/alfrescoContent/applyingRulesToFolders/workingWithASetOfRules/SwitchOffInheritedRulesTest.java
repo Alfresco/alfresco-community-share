@@ -57,32 +57,26 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
     private final String path = "Sites/" + siteName + "/documentLibrary/" + folder1;
 
     @BeforeClass()
-    public void setupTest()
-    {
+    public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
-
         contentService.createFolder(userName, password, folder1, siteName);
         contentService.createFolderInRepository(userName, password, folder2, path);
-
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-
         LOG.info("Navigate to Manage Rule page for " + folder1);
         documentLibraryPage.clickDocumentLibraryItemAction(folder1, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folder1 + ": Rules", "Rule title=");
-
         LOG.info("Navigate to Create rule page");
         manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
         assertEquals(editRulesPage.getRelativePath(), "share/page/site/" + siteName + "/rule-edit", "Redirected to=");
-
         LOG.info("Fill in Create Rule details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(0, 0, 2);
         editRulesPage.typeRuleDetails(ruleName, description, indexOfOptionFromDropdown);
-        editRulesPage.clickCopySelectButton();
+        selectDestinationDialog.renderedPage();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();
@@ -90,7 +84,6 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
         editRulesPage.clickCreateButton();
         assertEquals(ruleDetailsPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         editRulesPage.cleanupSelectedValues();
-
         LOG.info("Navigate inside " + folder1);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
@@ -100,24 +93,20 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
 
     @TestRail(id = "C7325")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void switchOffInheritRules()
-    {
+    public void switchOffInheritRules() {
         LOG.info("STEP1: Navigate to 'Manage Rules' page for " + folder2);
         documentLibraryPage.clickDocumentLibraryItemAction(folder2, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folder2 + ": Rules", "Rule title=");
-
         LOG.info("STEP2: Click on 'Inherit Rules' button");
         manageRulesPage.clickInheritButton();
-        assertEquals(manageRulesPage.getInheritButtonText(), language.translate("documentLibrary.rules.dontInherit"), "Inherit button text=");
-
+        assertEquals(manageRulesPage.getInheritButtonText(), "Don't Inherit Rules", "Inherit button text=");
         LOG.info("STEP3: Navigate to Document Library -> 'Folder1'");
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         documentLibraryPage.clickOnFolderName(folder1);
         documentLibraryPage.clickOnFolderName(folder2);
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folder1, folder2).toString(), "Document Library breadcrumb=");
-
         LOG.info("STEP4: Create a file");
         contentService.createDocumentInRepository(userName, password, path + "/" + folder2, TEXT_PLAIN, fileName, "content of Document");
         assertEquals(documentLibraryPage.getFilesList(), Arrays.asList(fileName), folder2 + " content=");
