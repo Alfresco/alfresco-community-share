@@ -25,7 +25,7 @@ public class LinkedToRuleSetPage extends SiteCommon<LinkedToRuleSetPage>
 
     /**
      * Click on any button from page
-     * 
+     *
      * @param buttonId used in finding the button, values: done, view, change, unlink
      */
     public void clickButton(String buttonId)

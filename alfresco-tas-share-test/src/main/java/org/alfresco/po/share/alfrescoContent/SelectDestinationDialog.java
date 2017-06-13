@@ -40,8 +40,16 @@ public class SelectDestinationDialog extends ShareDialog {
     @FindBy(css = "#ALF_COPY_MOVE_DIALOG_title")
     private WebElement copyToDialogTitle;
 
+    @FindBy(css="button[id$='_default-rulesPicker-ok-button']")
+    private WebElement linkButton;
+
     public void clickOkButton() {
         okButton.click();
+    }
+
+    public void clickLinkButton()
+    {
+        getBrowser().waitUntilElementClickable(linkButton, 3).click();
     }
 
     public void clickCancelButton() {
