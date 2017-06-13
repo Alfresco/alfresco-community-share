@@ -169,7 +169,6 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     public RuleDetailsPage clickCreateButton()
     {
         getBrowser().waitUntilElementClickable(createButton, 10L).click();
-       // createButton.click();
         return (RuleDetailsPage) ruleDetailsPage.renderedPage();
     }
 
