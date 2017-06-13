@@ -1204,9 +1204,18 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         browser.waitUntilElementVisible(createButton).click();
     }
-
-    public boolean checkEditTagIsNotDisplayed()
+    public boolean isFileDisplayed(String fileName)
     {
-        return browser.isElementDisplayed(By.cssSelector("td .detail span[class='insitu-edit']:first-child"));
+       try {
+           getBrowser().waitUntilElementIsDisplayedWithRetry(By.cssSelector("td[class$='yui-dt-col-fileName']"), 5);
+           WebElement webElement = selectDocumentLibraryItemRow(fileName);
+
+           return browser.isElementDisplayed(webElement);
+       }
+
+       catch(NoSuchElementException ex) {
+           LOG.info("Element not found "+ ex.getMessage().toString());
+           return false;
+       }
     }
 }
