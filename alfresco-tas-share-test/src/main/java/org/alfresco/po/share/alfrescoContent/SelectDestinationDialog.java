@@ -23,7 +23,7 @@ public class SelectDestinationDialog extends ShareDialog
     @FindBy(css = "span[id^='alfresco_menus_AlfMenuBarItem']")
     protected List<WebElement> destinationList;
 
-    @FindBy(css = "div.alfresco-pickers-SingleItemPicker span[id^='alfresco_menus_AlfMenuBarItem']")
+    @FindBy(css = ".site-picker h4")
     protected List<WebElement> siteList;
 
     @FindBy(css = ".path .ygtvlabel")
@@ -80,8 +80,7 @@ public class SelectDestinationDialog extends ShareDialog
      * @param siteName
      *            to be set
      */
-    public void clickSite(String siteName)
-    {
+    public void clickSite(String siteName) {
         browser.findFirstElementWithValue(siteList, siteName).click();
         browser.waitInSeconds(2);
     }
