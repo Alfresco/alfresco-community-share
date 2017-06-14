@@ -76,7 +76,12 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     }
 
     public String getMessage() {
-        browser.waitUntilElementVisible(message);
+        //getBrowser().waitUntilElementIsVisibleWithRetry(By.cssSelector(".message"), 3);
         return message.getText();
+    }
+
+    public boolean isCreateLinkButtonDisplayedCopyToDialog()
+    {
+        return getBrowser().isElementDisplayed(createLinkButton);
     }
 }

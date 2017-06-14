@@ -99,7 +99,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileName1, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
         LOG.info("STEP2: Verify \"Copy to\" dialog");
-        assertTrue(copyMoveUnzipToDialog.isButtonDisplayed(language.translate("documentLibrary.contentActions.createLink")),
+        assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
                 "'Copy to...' dialog: 'Create Link' button is displayed.");
     }
 
@@ -113,7 +113,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsOption(language.translate("documentLibrary.contentActions.copyTo"));
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy 1 items to...", "Displayed dialog=");
         LOG.info("STEP2: Verify \"Copy to\" dialog");
-        assertTrue(copyMoveUnzipToDialog.isButtonDisplayed(language.translate("documentLibrary.contentActions.createLink")),
+        assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
                 "'Copy to...' dialog: 'Create Link' button is displayed.");
     }
 
@@ -128,7 +128,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsOption(language.translate("documentLibrary.contentActions.copyTo"));
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy 3 items to...", "Displayed dialog=");
         LOG.info("STEP2: Verify \"Copy to\" dialog");
-        assertTrue(copyMoveUnzipToDialog.isButtonDisplayed(language.translate("documentLibrary.contentActions.createLink")),
+        assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
                 "'Copy to...' dialog: 'Create Link' button is displayed.");
     }
 
@@ -142,7 +142,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         LOG.info("STEP2: From Document actions, click \"Copy to\" option");
         documentDetailsPage.clickDocumentActionsOption(language.translate("documentLibrary.contentActions.copyTo"));
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
-        assertTrue(copyMoveUnzipToDialog.isButtonDisplayed(language.translate("documentLibrary.contentActions.createLink")),
+        assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
                 "'Copy to...' dialog: 'Create Link' button is displayed.");
     }
 
@@ -206,6 +206,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     @TestRail(id = "C42614")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyLinkIsCreatedAtDestination() {
+        documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: From Document actions, click on \"Copy to\" option");
         documentLibraryPage.mouseOverContentItem(fileName1);
         documentLibraryPage.clickDocumentLibraryItemAction(fileName1, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
@@ -238,7 +239,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileName2, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName2 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickButton(language.translate("documentLibrary.contentActions.createLink"));
+        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
         assertEquals(copyMoveUnzipToDialog.getMessage(), language.translate("documentLibrary.contentActions.createLink.errorMessage"), "Displayed message= ");
     }
 
