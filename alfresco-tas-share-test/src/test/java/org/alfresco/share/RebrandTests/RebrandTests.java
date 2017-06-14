@@ -67,7 +67,7 @@ public class RebrandTests extends ContextAwareWebTest {
 		setupAuthenticatedSession(adminUser, adminPassword);
 		userDashboard.openAboutPage();
 		softAssert.assertEquals(aboutPopup.getAlfrescoVersion(), "Alfresco Enterprise v5.2.1", "Correct Alfresco version!");
-		softAssert.assertEquals(aboutPopup.getShareVersion(), "Alfresco Share v5.2.1-SNAPSHOT", "Correct Share version!");
+		softAssert.assertEquals(aboutPopup.getShareVersion(), "Alfresco Share v5.2.1", "Correct Share version!");
 		softAssert.assertAll();
 		cleanupAuthenticatedSession();
 	}

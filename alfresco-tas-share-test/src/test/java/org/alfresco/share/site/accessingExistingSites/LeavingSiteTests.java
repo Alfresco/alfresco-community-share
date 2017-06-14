@@ -104,7 +104,7 @@ public class LeavingSiteTests extends ContextAwareWebTest {
                 assertEquals(leaveSiteDialog.getDialogMessage(), dialogMessage, "Dialog message is not as expected.");
                 LOG.info("STEP 2: Click 'Cancel' button.");
                 leaveSiteDialog.clickCancelButton();
-                assertTrue(leaveSiteDialog.isPopupHidden(), "Popup should be closed.");
+                assertFalse(leaveSiteDialog.isLeaveSiteDialogDisplayed(), "Popup should be closed.");
                 assertTrue(siteDashboard.getCurrentUrl().endsWith(siteName+"/dashboard"), "User should remain on " + siteName + "'s dashboard page.");
                 LOG.info("STEP 3: Go to \"User's Dashboard\" page and verify \"My Sites\" dashlet.");
                 userDashboardPage.navigateByMenuBar();
@@ -195,7 +195,7 @@ public class LeavingSiteTests extends ContextAwareWebTest {
                 assertEquals(leaveSiteDialog.getDialogMessage(), dialogMessage, "Dialog message is not as expected.");
                 LOG.info("STEP 2: Click Close (x) button.");
                 leaveSiteDialog.clickCloseButton();
-                assertTrue(leaveSiteDialog.isPopupHidden(), "Popup should be closed");
+                assertFalse(leaveSiteDialog.isLeaveSiteDialogDisplayed(), "Popup should be closed");
                 assertTrue(siteDashboard.getCurrentUrl().endsWith(siteName+"/dashboard"), "User should remain on " + siteName + "'s dashboard page.");
                 LOG.info("STEP 3: Go to \"User's Dashboard\" page and verify \"My Sites\" dashlet.");
                 userDashboardPage.navigateByMenuBar();
