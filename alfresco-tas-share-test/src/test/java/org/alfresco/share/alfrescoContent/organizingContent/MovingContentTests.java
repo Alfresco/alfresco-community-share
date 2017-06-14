@@ -20,10 +20,8 @@ import static org.testng.Assert.*;
 /**
  * @author Laura.Capsa
  */
-public class MovingContentTests extends ContextAwareWebTest
-{
+public class MovingContentTests extends ContextAwareWebTest {
     @Autowired private DocumentLibraryPage documentLibraryPage;
-
     @Autowired private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
 
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
@@ -31,45 +29,36 @@ public class MovingContentTests extends ContextAwareWebTest
     private final String docContent = "content of the file.";
 
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
-    {
+    public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
     }
 
     @TestRail(id = "C7345")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void moveFile()
-    {
+    public void moveFile() {
         String siteName = String.format("Site-C7345-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("Doc-C7345-%s", RandomData.getRandomAlphanumeric());
         String folderName = String.format("Folder-C7345-%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createFolder(userName, password, folderName, siteName);
-
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-
         LOG.info("STEP1: Hover over the file.Click 'More...' menu. Click 'Move to...'");
         documentLibraryPage.clickDocumentLibraryItemAction(docName, "Move to...", copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + docName + " to...", "Displayed pop-up=");
-
         LOG.info("STEP2: Set the destination to 'All Sites'. Select 'site1'");
-        copyMoveUnzipToDialog.clickDestinationButton("All Sites");
+        copyMoveUnzipToDialog.clickAllSitesButton();
         copyMoveUnzipToDialog.clickSite(siteName);
         ArrayList<String> expectedPath = new ArrayList<>(asList("Documents", folderName));
         assertEquals(copyMoveUnzipToDialog.getPathList(), expectedPath.toString(), "Path=");
-
         LOG.info("STEP3: Set the folder created in preconditions as path");
         copyMoveUnzipToDialog.clickPathFolder(folderName);
-
         LOG.info("STEP4: Click 'Move' button");
-        copyMoveUnzipToDialog.clickButton("Move");
-        documentLibraryPage.renderedPage();
+        copyMoveUnzipToDialog.clickMoveButton(documentLibraryPage);
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Move to' dialog not displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName), docName + " displayed in Documents");
-
         LOG.info("STEP5: Open the folder created in preconditions");
         documentLibraryPage.clickOnFolderName(folderName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Displayed files in " + folderName);
@@ -77,8 +66,7 @@ public class MovingContentTests extends ContextAwareWebTest
 
     @TestRail(id = "C7346")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void moveFolder()
-    {
+    public void moveFolder() {
         String siteName = String.format("Site-C7346-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("TestDoc-C7346-%s", RandomData.getRandomAlphanumeric());
         String folderName1 = String.format("folderName1-%s", RandomData.getRandomAlphanumeric());
@@ -87,31 +75,25 @@ public class MovingContentTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createFolder(userName, password, folderName1, siteName);
         contentService.createFolder(userName, password, folderName2, siteName);
-
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-
         LOG.info("STEP1: Hover over folder. From 'More...' menu, click 'Move to...' option");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName1, "Move to...", copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + folderName1 + " to...", "Displayed pop-up=");
-
         LOG.info("STEP2: Set the destination to 'All Sites'");
-        copyMoveUnzipToDialog.clickDestinationButton("All Sites");
+        copyMoveUnzipToDialog.clickAllSitesButton();
         assertTrue(copyMoveUnzipToDialog.isSiteDisplayedInSiteSection(siteName), siteName + " displayed in 'Site' section");
-
         LOG.info("STEP3: Select a site");
         copyMoveUnzipToDialog.clickSite(siteName);
         ArrayList<String> expectedPath = new ArrayList<>(asList("Documents", folderName1, folderName2));
         assertEquals(copyMoveUnzipToDialog.getPathList(), expectedPath.toString(), "Path");
-
         LOG.info("STEP4: Set the folder created in preconditions as path. Click 'Move' button.");
         copyMoveUnzipToDialog.clickPathFolder(folderName2);
-        copyMoveUnzipToDialog.clickButton("Move");
+        copyMoveUnzipToDialog.clickMoveButton(documentLibraryPage);
         documentLibraryPage.renderedPage();
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Move to' dialog is displayed.");
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName1), folderName1 + " displayed in Documents.");
-
         LOG.info("STEP5: Open the folder created in preconditions");
         documentLibraryPage.clickOnFolderName(folderName2);
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[" + folderName1 + "]", "Displayed folders in " + folderName2);

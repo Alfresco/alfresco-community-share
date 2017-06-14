@@ -109,7 +109,7 @@ public class UnzippingContentTests extends ContextAwareWebTest {
         assertEquals(unzipToDialog.getDialogTitle(), "Unzip " + acpFile + " to...", "'Unzip to....' dialog is displayed");
         LOG.info("STEP3: Select the destination and click on Cancel button. Verify that selected destination does not contain any content of the acp file");
         unzipToDialog.clickSite(siteName1);
-        unzipToDialog.clickButton("Cancel");
+        unzipToDialog.clickCancelButton(documentDetailsPage);
         documentLibraryPage.navigate(siteName1);
         Assert.assertFalse(documentLibraryPage.isContentWithExactValuePresent(acpFolderName), "A folder with archive name present in Documents list.");
     }
