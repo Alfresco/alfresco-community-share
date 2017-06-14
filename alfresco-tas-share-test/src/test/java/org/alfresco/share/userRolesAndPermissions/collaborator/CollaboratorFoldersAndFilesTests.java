@@ -74,8 +74,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     private String folderName;
 
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
-    {
+    public void setupTest() {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(adminUser, adminPassword, domain, siteName, "SiteC description", Visibility.PUBLIC);
         siteService.create(adminUser, adminPassword, domain, siteName1, "SiteC description", Visibility.PUBLIC);
@@ -86,29 +85,23 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
     @TestRail(id = "C8814")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorLikeUnlike()
-    {
+    public void collaboratorLikeUnlike() {
         String testContentC8814 = String.format("FileC8814%s",RandomData.getRandomAlphanumeric());
-
         LOG.info("Preconditions.");
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, testContentC8814, "test content");
         documentLibraryPage.navigate(siteName);
-
         LOG.info("Step 1: Hover over the testContent 'Like' button.");
         assertTrue(documentLibraryPage.isLikeButtonDisplayed(testContentC8814), "Documents link is not present");
         assertEquals(social.getLikeButtonMessage(testContentC8814), "Like this document", "Like Button message=");
         assertEquals(social.getNumberOfLikes(testContentC8814), 0, "The number of likes=");
-
         LOG.info("Step 2: Click on the content's 'Like' button.");
         social.clickLikeButton(testContentC8814);
         assertEquals(social.getNumberOfLikes(testContentC8814), 1, testContentC8814 + "The number of likes=");
         assertTrue(social.isLikeButtonEnabled(testContentC8814), "Like button is enabled");
         assertEquals(social.getLikeButtonMessage(testContentC8814), "Unlike", "Like Button message=");
-
         LOG.info("Step 3: Hover over the content's 'Like' button.");
         assertEquals(social.getLikeButtonEnabledText(testContentC8814), "Unlike", "Unlike is displayed");
         assertEquals(social.getNumberOfLikes(testContentC8814), 1, "The number of likes=");
-
         LOG.info("Step 4: Click on the content's 'Unlike' button.");
         social.clickUnlike(testContentC8814);
         assertEquals(social.getNumberOfLikes(testContentC8814), 0, "The number of likes=");
@@ -117,35 +110,25 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
     @TestRail(id = "C8815")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorFavoriteUnfavorite()
-    {
+    public void collaboratorFavoriteUnfavorite() {
         String testContentC8815 = String.format("FileC8815%s",RandomData.getRandomAlphanumeric());
-
         LOG.info("Preconditions.");
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, testContentC8815, "test content");
         documentLibraryPage.navigate(siteName);
-
         LOG.info("Step 1: Hover over the content's 'Favorite' button.");
-        assertEquals(documentLibraryPage.getFavoriteTooltip(testContentC8815), "Add document to favorites",
-                "The text 'Add document to favorites' is displayed");
-
+        assertEquals(documentLibraryPage.getFavoriteTooltip(testContentC8815), "Add document to favorites", "The text 'Add document to favorites' is displayed");
         LOG.info("Step 2: Click on the 'Favorite' button.");
         documentLibraryPage.clickFavoriteLink(testContentC8815);
         assertTrue(documentLibraryPage.isFileFavorite(testContentC8815), "Step 2: The file is not favorited.");
-
         LOG.info("Step 3: Navigate to 'My Favorites' and check favorite items list.");
         documentLibraryPage.clickDocumentsFilterOption(DocumentsFilters.Favorites.title);
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentsFilters.Favorites.header, "My Favorites documents are displayed.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(testContentC8815), "Document is displayed in My favorites list!");
-
         LOG.info("Step 4: Hover over the content's yellow star.");
-        assertEquals(documentLibraryPage.getFavoriteTooltip(testContentC8815), "Remove document from favorites",
-                "'Remove document from favorites' is not displayed");
-
+        assertEquals(documentLibraryPage.getFavoriteTooltip(testContentC8815), "Remove document from favorites", "'Remove document from favorites' is not displayed");
         LOG.info("Step 5: Click the yellow star.");
         documentLibraryPage.clickFavoriteLink(testContentC8815);
         assertFalse(documentLibraryPage.isFileFavorite(testContentC8815), "The file is still 'Favorite'");
-
         LOG.info("Step 6: Navigate to 'My Favorites' and check favorite items list.");
         documentLibraryPage.clickDocumentsFilterOption(DocumentsFilters.Favorites.title);
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentsFilters.Favorites.header, "My Favorites documents are displayed.");
@@ -155,40 +138,31 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
     @TestRail(id = "C8818")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorEditBasicDetailsBySelf()
-    {
+    public void collaboratorEditBasicDetailsBySelf() {
         folderName = String.format("FolderC8818%s",RandomData.getRandomAlphanumeric());
         String editTag = String.format("editTag%s",RandomData.getRandomAlphanumeric());
         String editedName = String.format("editedName%s",RandomData.getRandomAlphanumeric());
         String editedTitle = String.format("editedTitle%s",RandomData.getRandomAlphanumeric());
         String editedDescription = String.format("editedDescription%s",RandomData.getRandomAlphanumeric());
-
         LOG.info("Preconditions.");
         contentService.createFolder(user, password, folderName, siteName);
         documentLibraryPage.navigate(siteName);
-
         LOG.info("Step 1: Hover over the created folder and click 'Edit Properties' action.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editFilePropertiesDialog);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
-
         LOG.info("Step 2: In the 'Name' field enter a name for the folder.");
         editFilePropertiesDialog.setName(editedName);
-
         LOG.info("Step 3: In the 'Title' field enter a title for the folder ('editedTitle').");
         editFilePropertiesDialog.setTitle(editedTitle);
-
         LOG.info("Step 4: In the 'Description' field enter a description for the folder (e.g.: 'editedDescription').");
         editFilePropertiesDialog.setDescription(editedDescription);
-
         LOG.info("Step 5: Click 'Select' beneath the Tags label to edit the tag associations.");
         editFilePropertiesDialog.clickSelectTags();
-
         LOG.info("Step 6: Type any tag name (e.g.: 'newtag') and click the checked icon and click 'OK' to save the changes.");
         selectDialog.renderedPage();
         selectDialog.typeTag(editTag);
         selectDialog.clickCreateNewIcon();
         selectDialog.clickOk();
-
         LOG.info("Step 7: Click 'Save' button.");
         editFilePropertiesDialog.clickSave();
         documentLibraryPage.renderedPage();
@@ -200,39 +174,30 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
     @TestRail(id = "C8819")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorEditBasicDetailsByOthers()
-    {
+    public void collaboratorEditBasicDetailsByOthers() {
         folderName = String.format("FolderC8819%s",RandomData.getRandomAlphanumeric());
         String editTag2 = String.format("editTag2%s",RandomData.getRandomAlphanumeric());
         String editedName = String.format("editedName%s",RandomData.getRandomAlphanumeric());
         String editedTitle = String.format("editedTitle%s",RandomData.getRandomAlphanumeric());
         String editedDescription = String.format("editedDescription%s",RandomData.getRandomAlphanumeric());
-
         LOG.info("Preconditions.");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
         documentLibraryPage.navigate(siteName);
-
         LOG.info("Step 1: Hover over the created folder and click 'Edit Properties' action.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editFilePropertiesDialog);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not sdisplayed");
-
         LOG.info("Step 2: In the 'Name' field enter a name for the folder.");
         editFilePropertiesDialog.setName(editedName);
-
         LOG.info("Step 3: In the 'Title' field enter a title for the folder ('editedTitle1').");
         editFilePropertiesDialog.setTitle(editedTitle);
-
         LOG.info("Step 4: In the 'Description' field enter a description for the folder (e.g.: 'editedDescription').");
         editFilePropertiesDialog.setDescription(editedDescription);
-
         LOG.info("Step 5: Click 'Select' beneath the Tags label to edit the tag associations.");
         editFilePropertiesDialog.clickSelectTags();
-
         LOG.info("Step 6: Type any tag name (e.g.: 'newtag') and click the checked icon and click 'OK' to save the changes.");
         selectDialog.typeTag(editTag2);
         selectDialog.clickCreateNewIcon();
         selectDialog.clickOk();
-
         LOG.info("Step 7: Click 'Save' button.");
         editFilePropertiesDialog.clickSave();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(editedName), "Edited document name is not found");
@@ -243,24 +208,19 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
     @TestRail(id = "C8816")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorRenameBySelf()
-    {
+    public void collaboratorRenameBySelf() {
         folderName = String.format("FolderC8816%s",RandomData.getRandomAlphanumeric());
         String newFolderName = "newFolderNameC8816";
-
         LOG.info("Preconditions.");
         contentService.createFolder(user, password, folderName, siteName);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-
         LOG.info("Step 1: Hover over the content name.");
         assertTrue(documentLibraryPage.isRenameIconDisplayed(folderName), "'Rename' icon is not displayed.");
-
         LOG.info("Step 2: Click on 'Rename' icon.");
         documentLibraryPage.clickRenameIcon(folderName);
         assertTrue(documentLibraryPage.isContentNameInputField(), "Folder name is text input field.");
         assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
-
         LOG.info("Step 3: Fill in the input field with a new name (e.g. newContentName) and click 'Save' button");
         documentLibraryPage.typeContentName(newFolderName);
         documentLibraryPage.clickButtonFromRenameContent("Save");
@@ -271,24 +231,19 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
     @TestRail(id = "C8817")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorRenameByOthers()
-    {
+    public void collaboratorRenameByOthers() {
         folderName = String.format("FolderC8817%s",RandomData.getRandomAlphanumeric());
         String newFolderName = "newFolderNameC8817";
-
         LOG.info("Preconditions.");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-
         LOG.info("Step 1: Hover over the content name.");
         assertTrue(documentLibraryPage.isRenameIconDisplayed(folderName), "'Rename' icon is not displayed.");
-
         LOG.info("Step 2: Click on 'Rename' icon.");
         documentLibraryPage.clickRenameIcon(folderName);
         assertTrue(documentLibraryPage.isContentNameInputField(), "Folder name is text input field.");
         assertTrue(documentLibraryPage.verifyButtonsFromRenameContent("Save", "Cancel"), "Rename content buttons");
-
         LOG.info("Step 3: Fill in the input field with a new name (e.g. newContentName) and click 'Save' button");
         documentLibraryPage.typeContentName(newFolderName);
         documentLibraryPage.clickButtonFromRenameContent("Save");
@@ -299,92 +254,70 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
     @TestRail(id = "C8823")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorMoveBySelf()
-    {
+    public void collaboratorMoveBySelf() {
         folderName = String.format("Folder1C8823%s",RandomData.getRandomAlphanumeric());
         String folderName2 = String.format("Folder2C8823%s",RandomData.getRandomAlphanumeric());
-
         LOG.info("Preconditions.");
         contentService.createFolder(user, password, folderName, siteName1);
         contentService.createFolder(user, password, folderName2, siteName1);
         documentLibraryPage.navigate(siteName1);
-
         LOG.info("Step 1: Hover over 'testFolder3', Click 'More...' link, Click 'Move to...''.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Move to...", copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + folderName + " to...", "Displayed pop up");
-
         LOG.info("Step 2: Set the destination to 'All Sites'.");
         copyMoveUnzipToDialog.clickDestinationButton("All Sites");
         assertTrue(copyMoveUnzipToDialog.isSiteDisplayedInSiteSection(siteName1), siteName1 + " displayed in 'Site' section");
-
         LOG.info("Step 3: Select your site name.");
         copyMoveUnzipToDialog.clickSite(siteName1);
         ArrayList<String> expectedPath = new ArrayList<>(asList("Documents", folderName, folderName2));
         assertEquals(copyMoveUnzipToDialog.getPathList(), expectedPath.toString(), "Step 5: Selected path is not correct.");
-
         LOG.info("Step 4: Select 'testFolder4' for the path.");
         copyMoveUnzipToDialog.clickPathFolder(folderName2);
-
         LOG.info("Step 5: Click 'Move' button. Verify the displayed folders.");
-        copyMoveUnzipToDialog.clickButton("Move");
-        documentLibraryPage.renderedPage();
+        copyMoveUnzipToDialog.clickMoveButton(documentLibraryPage);
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "Move to dialog not displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents");
-
         LOG.info("Step 6: Open the 'testFolder4' created in preconditions and verify displayed folders.");
         documentLibraryPage.clickOnFolderName(folderName2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Displayed folders in " + folderName2);
-
     }
 
     @TestRail(id = "C8824")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorMoveByOthers()
-    {
+    public void collaboratorMoveByOthers() {
         folderName = String.format("FolderC8824%s",RandomData.getRandomAlphanumeric());
-
         LOG.info("Preconditions.");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
         documentLibraryPage.navigate(siteName);
-
         LOG.info("Step 1: Hover over 'testFolder1'.");
         LOG.info("Step 2: Click 'More...' link. The Move to option is not available.");
         assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Move to..."), ("Move to...") + " option is displayed for " + folderName);
-
     }
 
     @TestRail(id = "C8822")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorCopyTo()
-    {
+    public void collaboratorCopyTo() {
         folderName = String.format("FolderC8822%s",RandomData.getRandomAlphanumeric());
-
         LOG.info("Preconditions.");
         contentService.createFolder(user, password, folderName, siteName);
         documentLibraryPage.navigate(siteName);
-
         LOG.info("Step 1: Hover over the created folder and click 'Copy to...'.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Copy to...", copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + folderName + " to...", "Displayed pop up");
-
         LOG.info("Step 2: Set the destination to 'testFolder'.");
         copyMoveUnzipToDialog.clickDestinationButton("All Sites");
         assertTrue(copyMoveUnzipToDialog.isSiteDisplayedInSiteSection(siteName), siteName + " displayed in 'Site' section");
         copyMoveUnzipToDialog.clickSite(siteName);
         copyMoveUnzipToDialog.clickPathFolder(folderName);
-
         LOG.info("Step 3: Click 'Copy' button");
-        copyMoveUnzipToDialog.clickButton("Copy");
+        copyMoveUnzipToDialog.clickCopyButton(documentLibraryPage);
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
-
         LOG.info("Step 4: Verify displayed folders from Documents.");
         documentLibraryPage.navigate(siteName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents");
-
         LOG.info("Step 5: Open the 'testfolder2' created in preconditions and verify displayed folders.");
         documentLibraryPage.clickOnFolderName(folderName);
         Assert.assertTrue(documentLibraryPage.getFoldersList().toString().contains(folderName), "Displayed folders in " + folderName);
-
     }
 
     @TestRail(id = "C8822")

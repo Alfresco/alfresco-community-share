@@ -17,12 +17,9 @@ import java.util.Collections;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class ActionsUnzippingContentTests extends ContextAwareWebTest
-{
+public class ActionsUnzippingContentTests extends ContextAwareWebTest {
     @Autowired private RepositoryPage repositoryPage;
-
     @Autowired private CopyMoveUnzipToDialog unzipToDialog;
-
     @Autowired private DocumentDetailsPage documentDetailsPage;
   
     private final String user = String.format("C8256TestUser%s", RandomData.getRandomAlphanumeric());
@@ -31,8 +28,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     private final String acpFile = "archiveC8257.acp";
    
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
-    {
+    public void setupTest() {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         contentService.uploadFileInRepository(adminUser, adminPassword, null, testDataFolder + zipFile);
@@ -41,28 +37,22 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
 
     @TestRail(id = "C8256")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-
-    public void unzipZipFileToRepository()
-    {
+    public void unzipZipFileToRepository() {
         LOG.info("Upload zip archive");
         repositoryPage.navigate();
         assertTrue(repositoryPage.isContentNameDisplayed(zipFile), "Repository: list of files=");
-
         LOG.info("STEP1: Click archive name, e.g: testArchive");
         repositoryPage.clickOnFile(zipFile);
         assertTrue(documentDetailsPage.getFileName().equals(zipFile), "Wrong file name!");
-
         LOG.info("STEP2: Click 'Unzip to...' link from 'Documents Actions'");
         documentDetailsPage.clickDocumentActionsOption("Unzip to...");
         assertEquals(unzipToDialog.getDialogTitle(), "Unzip " + zipFile + " to...", "'Unzip to....' dialog is displayed");
-
         LOG.info("STEP3: Select option My Files from 'Destination' section");
         unzipToDialog.clickDestinationButton("My Files");
         ArrayList expectedDestionationPath = new ArrayList(Collections.singletonList("My Files"));
         assertEquals(unzipToDialog.getPathList(), expectedDestionationPath.toString(), "Destionation set to=");
-
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
-        unzipToDialog.clickButton(language.translate("documentLibrary.contentActions.unzip"));
+        unzipToDialog.clickUnzipButton(documentDetailsPage);
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(user);
@@ -72,27 +62,22 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     @TestRail(id ="C8257")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
-    public void unzipAcpFileToRepository()
-    {
+    public void unzipAcpFileToRepository() {
         LOG.info("Upload acp archive");
         repositoryPage.navigate();
         assertTrue(repositoryPage.isContentNameDisplayed(acpFile), "Repository: list of files=");
-
         LOG.info("STEP1: Click archive name, e.g: testArchive");
         repositoryPage.clickOnFile(acpFile);
         assertTrue(documentDetailsPage.getFileName().equals(acpFile), "Wrong file name!");
-
         LOG.info("STEP2: Click 'Unzip to...' link from 'Documents Actions'");
         documentDetailsPage.clickDocumentActionsOption("Unzip to...");
         assertEquals(unzipToDialog.getDialogTitle(), "Unzip " + acpFile + " to...", "'Unzip to....' dialog is displayed");
-
         LOG.info("STEP3: Select option My Files from 'Destination' section");
         unzipToDialog.clickDestinationButton("My Files");
         ArrayList expectedDestionationPath = new ArrayList(Collections.singletonList("My Files"));
         assertEquals(unzipToDialog.getPathList(), expectedDestionationPath.toString(), "Destionation set to=");
-
         LOG.info("STEP4: Click 'Unzip' button and navigate to My Files");
-        unzipToDialog.clickButton(language.translate("documentLibrary.contentActions.unzip"));
+        unzipToDialog.clickUnzipButton(documentDetailsPage);
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(user);

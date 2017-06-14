@@ -41,85 +41,67 @@ public class CopyingContentTests extends ContextAwareWebTest
     private final String copyAction = "Copy to...";
 
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
-    {
+    public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
     }
 
     @TestRail(id = "C7377")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void copyFileToSharedFiles()
-    {
+    public void copyFileToSharedFiles() {
         String siteName = String.format("Site-C7377-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("Doc-C7377-%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
-
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
         documentLibraryPage.clickDocumentLibraryItemAction(docName, copyAction, copyMoveToDialog);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + docName + " to...", "Displayed pop up");
-
         LOG.info("STEP3: Set the destination to 'Shared Files'");
         copyMoveToDialog.clickDestinationButton("Shared Files");
-
         LOG.info("STEP4: Click 'Copy' button");
-        copyMoveToDialog.clickButton("Copy");
+        copyMoveToDialog.clickCopyButton(documentLibraryPage);
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
-
         LOG.info("STEP5: Verify displayed files from Documents");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " displayed in 'Documents'");
-
         LOG.info("STEP6: Go to 'Shared Files', from toolbar and verify the displayed files");
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         assertTrue(sharedFilesPage.isContentNameDisplayed(docName),
                 docName + " displayed in 'Shared Files'. List of 'Shared Files' documents=" + sharedFilesPage.getFilesList().toString());
-
         cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C7378")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void cancelCopyFileToSharedFiles()
-    {
+    public void cancelCopyFileToSharedFiles() {
         String siteName = String.format("Site-C7378-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("Doc-C7378-%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
-
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
-
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
         documentLibraryPage.clickDocumentLibraryItemAction(docName, copyAction, copyMoveToDialog);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + docName + " to...", "Displayed pop up");
-
         LOG.info("STEP3: Set the destination to 'Shared Files'");
         copyMoveToDialog.clickDestinationButton("Shared Files");
-
         LOG.info("STEP4: Click 'Cancel' button");
-        copyMoveToDialog.clickButton("Cancel");
+        copyMoveToDialog.clickCancelButton(documentLibraryPage);
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
-
         LOG.info("STEP5: Verify displayed files from Documents");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " displayed in 'Documents'");
-
         LOG.info("STEP6: Go to 'Shared Files', from toolbar and verify the displayed files");
         toolbar.clickSharedFiles();
         assertFalse(sharedFilesPage.isContentNameDisplayed(docName), docName + " displayed in 'Shared Files'");
-
         cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C7388")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void copyFolderToPublicSite()
-    {
+    public void copyFolderToPublicSite() {
         String siteName1 = String.format("Site1-C7388-%s", RandomData.getRandomAlphanumeric());
         String siteName2 = String.format("Site2-C7388-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("TestDoc-C7388-%s", RandomData.getRandomAlphanumeric());
@@ -128,35 +110,28 @@ public class CopyingContentTests extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName2, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createFolder(userName, password, folderName, siteName1);
-
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName1);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
-
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, copyAction, copyMoveToDialog);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + folderName + " to...", "Displayed pop up");
-
         LOG.info("STEP4: Set the destination to 'All Sites'");
         copyMoveToDialog.clickDestinationButton("All Sites");
         ArrayList<String> expectedPath_destination = new ArrayList<>(asList("Documents", folderName));
         assertEquals(copyMoveToDialog.getPathList(), expectedPath_destination.toString(), "Path");
-
         LOG.info("STEP5: Select a site");
         copyMoveToDialog.clickSite(siteName2);
         ArrayList<String> expectedPath = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(copyMoveToDialog.getPathList(), expectedPath.toString(), "Path");
-
         LOG.info("STEP6: Click 'Copy' button");
-        copyMoveToDialog.clickButton("Copy");
+        copyMoveToDialog.clickCopyButton(documentLibraryPage);
         assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "'Copy to' dialog not displayed");
-
         LOG.info("STEP7: Verify that the folder has been copied");
         documentLibraryPage.navigate(siteName2);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
         ArrayList<String> expectedFolderList = new ArrayList<>(Collections.singletonList(folderName));
         assertEquals(documentLibraryPage.getFoldersList().toString(), expectedFolderList.toString(), "Displayed folders=");
-
         cleanupAuthenticatedSession();
     }
 }
