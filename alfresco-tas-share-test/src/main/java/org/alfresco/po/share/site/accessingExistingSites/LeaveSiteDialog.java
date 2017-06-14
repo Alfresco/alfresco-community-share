@@ -2,6 +2,7 @@ package org.alfresco.po.share.site.accessingExistingSites;
 
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Button;
@@ -13,13 +14,13 @@ import ru.yandex.qatools.htmlelements.element.Button;
 public class LeaveSiteDialog  extends ConfirmationDialog
 {
     @FindBy(id = "ALF_SITE_SERVICE_DIALOG")
-    private WebElement dialog;
+    private WebElement dialogContainer;
 
     @RenderWebElement
     @FindBy(id = "ALF_SITE_SERVICE_DIALOG_title")
     private WebElement dialogTitle;
 
-    @FindBy(xpath = "//div[contains(@class, 'dijitDialogPaneContent')]//span[contains(@id, 'alfresco_buttons_AlfButton') and text()='Cancel']")
+    @FindBy(css = "div[id='ALF_SITE_SERVICE_DIALOG'] span[class$='alfresco-buttons-AlfButton'] span[id^='alfresco_buttons_AlfButton']")
     private Button dialogCancelButton;
 
     /**
@@ -42,19 +43,12 @@ public class LeaveSiteDialog  extends ConfirmationDialog
         return dialogCancelButton.isDisplayed();
     }
 
-    public void clickCancelButton()
-    {
+    public void clickCancelButton() {
         dialogCancelButton.click();
+        getBrowser().waitUntilElementDisappears(By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG']"));
     }
 
-    /**
-     * Check if popup is hidden or displayed
-     *
-     * @return true if hidden, false if displayed
-     */
-    public boolean isPopupHidden()
-    {
-        String elementClass = dialog.getAttribute("class");
-        return elementClass.contains("dialogHidden");
+    public boolean isLeaveSiteDialogDisplayed() {
+        return getBrowser().isElementDisplayed(dialogContainer);
     }
 }
