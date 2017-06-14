@@ -14,8 +14,7 @@ import java.util.List;
  * @author Laura.Capsa
  */
 @PageObject
-public class CopyMoveUnzipToDialog extends SelectDestinationDialog
-{
+public class CopyMoveUnzipToDialog extends SelectDestinationDialog {
     @FindAll(@FindBy(css = "div[id='ALF_COPY_MOVE_DIALOG'] span[class*='alfresco-buttons-AlfButton']"))
     private List<WebElement> buttonsList;
 
@@ -27,6 +26,9 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
 
     @FindBy(css = "button[id$='_default-copyMoveTo-link-button']")
     private WebElement createLinkButton;
+
+    @FindBy(css="button[id$='_default-copyMoveTo-ok-button']")
+    private WebElement unzipButton;
 
     private By createLinkMessage = By.cssSelector("div[id*='message_c'] .bd .message");
 
@@ -48,21 +50,6 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         return (SharePage) page.renderedPage();
     }
 
-    /**
-     * Verify presence of a given button
-     *
-     * @param buttonName name of the button to be checked
-     * @return true if buttonName is displayed
-     */
-    public boolean isButtonDisplayed(String buttonName) {
-        for (WebElement button : buttonsList) {
-            String text = button.getText();
-            if (text.equals(buttonName))
-                return true;
-        }
-        return false;
-    }
-
     public boolean isCreateLinkButtonDisplayed() {
         return getBrowser().isElementDisplayed(createLinkButton);
     }
@@ -76,7 +63,15 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     }
 
     public String getMessage() {
-        browser.waitUntilElementVisible(message);
         return message.getText();
+    }
+
+    public boolean isCreateLinkButtonDisplayedCopyToDialog() {
+        return getBrowser().isElementDisplayed(createLinkButton);
+    }
+
+    public SharePage clickUnzipButton(SharePage page) {
+        getBrowser().waitUntilElementClickable(unzipButton, 3).click();
+        return (SharePage) page.renderedPage();
     }
 }
