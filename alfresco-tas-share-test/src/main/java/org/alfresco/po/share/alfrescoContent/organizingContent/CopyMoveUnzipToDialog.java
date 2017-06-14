@@ -30,6 +30,9 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog {
     @FindBy(css="button[id$='_default-copyMoveTo-ok-button']")
     private WebElement unzipButton;
 
+    @FindBy(css="button[id$='_default-copyMoveTo-cancel-button']")
+    private WebElement cancelButton;
+
     private By createLinkMessage = By.cssSelector("div[id*='message_c'] .bd .message");
 
     /**
@@ -72,6 +75,16 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog {
 
     public SharePage clickUnzipButton(SharePage page) {
         getBrowser().waitUntilElementClickable(unzipButton, 3).click();
+        return (SharePage) page.renderedPage();
+    }
+
+    public SharePage clickCopyButton(SharePage page) {
+        getBrowser().waitUntilElementClickable(By.cssSelector("button[id$='_default-copyMoveTo-ok-button']"), 3).click();
+        return (SharePage) page.renderedPage();
+    }
+
+    public SharePage clickCancelButton(SharePage page) {
+        getBrowser().waitUntilElementClickable(cancelButton, 3).click();
         return (SharePage) page.renderedPage();
     }
 }
