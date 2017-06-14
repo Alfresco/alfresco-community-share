@@ -76,7 +76,6 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     }
 
     public String getMessage() {
-        //getBrowser().waitUntilElementIsVisibleWithRetry(By.cssSelector(".message"), 3);
         return message.getText();
     }
 
