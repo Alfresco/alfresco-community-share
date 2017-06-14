@@ -475,7 +475,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     }
 
     public boolean isSelectedItemsOptionDisplayed(String optionName) {
-        getBrowser().waitUntilElementsVisible(selectedItemsOptions);
+        //getBrowser().waitUntilElementsVisible(selectedItemsOptions);
         WebElement action = browser.findFirstElementWithExactValue(selectedItemsOptions, optionName);
         return browser.isElementDisplayed(action);
     }

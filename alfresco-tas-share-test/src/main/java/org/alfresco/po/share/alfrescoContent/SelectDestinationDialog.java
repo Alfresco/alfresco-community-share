@@ -22,6 +22,9 @@ public class SelectDestinationDialog extends ShareDialog {
     @FindBy(css = "button[role='radio']")
     protected List<WebElement> destinationList;
 
+    @FindBy(css="div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']")
+    private List<WebElement> sitesListCopyFilesTo;
+
     @FindBy(css = ".site-picker h4")
     protected List<WebElement> siteList;
 
@@ -42,6 +45,9 @@ public class SelectDestinationDialog extends ShareDialog {
 
     @FindBy(css="button[id$='_default-rulesPicker-ok-button']")
     private WebElement linkButton;
+
+    @FindBy(css="div[title='All Sites'] span")
+    private WebElement allSitesButton;
 
     public void clickOkButton() {
         okButton.click();
@@ -70,6 +76,10 @@ public class SelectDestinationDialog extends ShareDialog {
                 browser.waitInSeconds(5);
         }
         browser.waitInSeconds(1);
+    }
+
+    public void clickAllSitesButton() {
+        allSitesButton.click();
     }
 
     /**
@@ -149,5 +159,10 @@ public class SelectDestinationDialog extends ShareDialog {
     public String getCopyToDialogTitle() {
         browser.waitUntilElementVisible(copyToDialogTitle);
         return copyToDialogTitle.getText();
+    }
+
+    public void selectSite(String siteName) {
+        getBrowser().waitUntilElementsVisible(By.cssSelector("div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']"));
+        browser.findFirstElementWithValue(sitesListCopyFilesTo, siteName).click();
     }
 }
