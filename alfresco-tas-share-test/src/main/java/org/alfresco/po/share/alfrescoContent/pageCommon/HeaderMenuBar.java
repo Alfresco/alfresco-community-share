@@ -1,11 +1,9 @@
 package org.alfresco.po.share.alfrescoContent.pageCommon;
-import org.alfresco.common.Language;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +11,6 @@ import java.util.List;
 @PageObject
 public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 {
-    @Autowired
-    protected Language language;
-
     @FindBy(css = "button[id*='fileSelect']")
     private WebElement selectMenu;
 
