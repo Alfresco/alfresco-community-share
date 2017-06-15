@@ -15,6 +15,7 @@
 		<suiteXmlFile>src/test/resources/share-sanity-suite.xml</suiteXmlFile>
 		<tas.utility.version>1.0.15</tas.utility.version>
 		<maven-remote-resources.version>1.5</maven-remote-resources.version>
+		<maven-jar-plugin.version>2.6</maven-jar-plugin.version>
 	</properties>
 
 <distributionManagement>
@@ -50,7 +51,29 @@
 
 	</dependencies>
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-remote-resources-plugin</artifactId>
+					<version>${maven-remote-resources.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
