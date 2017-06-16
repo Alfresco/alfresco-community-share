@@ -146,8 +146,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     @FindAll(@FindBy(css = ".documentDroppable .ygtvlabel"))
     private List<WebElement> explorerPanelDocumentsList;
 
-    @FindAll(@FindBy(css = "[class*='data'] tr img"))
-    private WebElement fileImage;
 
     private WebElement selectViewInOptions(String viewName)
     {
@@ -950,18 +948,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public boolean isEditTagIconDisplayed(String contentName)
     {
-        // selectDocumentLibraryItemRow(contentName);
         return browser.isElementDisplayed(selectDocumentLibraryItemRow(contentName), editTagSelector);
-        // mouseOverContentItem(contentName);
-        // browser.waitInSeconds(3);
-        // return browser.findDisplayedElementsFromLocator(editTagSelector).get(0).isDisplayed();
-        // return selectDocumentLibraryItemRow(contentName).findElement(editTagSelector).isDisplayed();
-        // return browser.isElementDisplayed(selectDocumentLibraryItemRow(contentName).findElement(editTagSelector));
-        // WebElement element = browser.findElement(editTagSelector);
-        // String js = "arguments[0].style.visibility='visible';";
-        // ((JavascriptExecutor) browser).executeScript(js, element);
-        //
-        // return browser.isElementDisplayed(editTagSelector);
     }
 
     /**
