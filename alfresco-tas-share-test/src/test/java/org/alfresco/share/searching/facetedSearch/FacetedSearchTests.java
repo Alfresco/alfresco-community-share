@@ -218,7 +218,6 @@ public class FacetedSearchTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.selectSite(siteForMove);
         copyMoveUnzipToDialog.clickDocumentLibrary();
         copyMoveUnzipToDialog.clickButton("Move");
-        getBrowser().waitInSeconds(1);
         LOG.info("STEP7: Verify that the files has been moved");
         documentLibraryPage.navigate(siteForMove);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docForMove));

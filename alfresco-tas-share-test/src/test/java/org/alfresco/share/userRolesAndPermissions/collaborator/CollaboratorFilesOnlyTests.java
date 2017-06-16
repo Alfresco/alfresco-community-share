@@ -22,6 +22,7 @@ import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -32,33 +33,20 @@ import static org.testng.Assert.assertTrue;
  * Created by Rusu Andrei
  */
 
-public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
-{
+public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
     @Autowired private DocumentLibraryPage documentLibraryPage;
-
     @Autowired private DocumentDetailsPage documentDetailsPage;
-
     @Autowired private CreateContent create;
-
     @Autowired private UploadContent uploadContent;
-
     @Autowired private EditInAlfrescoPage editInAlfrescoPage;
-
     @Autowired private GoogleDocsCommon googleDocsCommon;
-
     @Autowired private StartWorkflowPage startWorkflowPage;
-
     @Autowired private SelectPopUpPage selectPopUpPage;
-
     @Autowired private ToolbarTasksMenu toolbarTasksMenu;
-
     @Autowired private WorkflowDetailsPage workflowDetailsPage;
-
     @Autowired private MyTasksPage myTasksPage;
-
     @Autowired private Download download;
 
-    // Upload
     private final String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8939-.txt";
     private final String testFilePath = testDataFolder + testFile;
     private final String newVersionFile = RandomData.getRandomAlphanumeric() + "-NewFile-C8942" + ".txt";
@@ -77,38 +65,20 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     private final String editedContent = "edited content in Google Docs";
     private final String editedTitle1 = "editedTitle1";
     private final String editedContent1 = "edited content in Google Docs1";
-    // Create
     private final String user = String.format("Collaborator%s",RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("SiteC%s",RandomData.getRandomAlphanumeric());
     private final String siteName2 = String.format("SiteC2%s",RandomData.getRandomAlphanumeric());
-    // Download
-    private String path = "Shared";
-    private final String fileNameC8940 = String.format("C8940 file%s",RandomData.getRandomAlphanumeric());
     private final String fileContent = String.format("test content%s",RandomData.getRandomAlphanumeric());
-    // View in Browser
-    private final String fileNameC8941 = String.format("C8941 file%s",RandomData.getRandomAlphanumeric());
-    // Upload New Version by self
-    private final String fileNameC8942 = String.format("C8942 file%s",RandomData.getRandomAlphanumeric());
-    // Upload New Version by other user
+    private final String textFilePlainCreatedBySelf = String.format("textFilePlainSelf file%s",RandomData.getRandomAlphanumeric());
+    private final String startWorkflowFile = "StartWorkflow "+ RandomData.getRandomAlphanumeric();
+    private final String textFilePlainCreatedByOtherUser = String.format("textFilePlainOther file%s",RandomData.getRandomAlphanumeric());
     private final String user2 = String.format("Collaborator2%s",RandomData.getRandomAlphanumeric());
-    private final String fileNameC8943 = String.format("C8943 file%s",RandomData.getRandomAlphanumeric());
-    // Edit Inline by self
-    private final String fileNameC8947 = String.format("C8947 file%s",RandomData.getRandomAlphanumeric());
-    // Edit Inline by others
-    private final String fileNameC8948 = String.format("C8948 file%s",RandomData.getRandomAlphanumeric());
-    // Check Out Google Docs By Self
-    private final String fileNameC8953 = String.format("C8953 file%s",RandomData.getRandomAlphanumeric());
-    // Check out Google Docs By Others
-    private final String fileNameC8954 = String.format("C8954 file%s",RandomData.getRandomAlphanumeric());
-    // Cancel editing locked by self
-    private final String fileNameC8957 = String.format("C8957 file%s",RandomData.getRandomAlphanumeric());
-    // Start Workflow
-    private final String fileNameC8962 = String.format("C8962 file%s",RandomData.getRandomAlphanumeric());
+    private final String msWordFileCreatedBySelf =  String.format("msWordFilePlainSelf file%s",RandomData.getRandomAlphanumeric());
+    private final String msWordFileCreatedByOther =  String.format("msWordFilePlainOther file%s",RandomData.getRandomAlphanumeric());
     private final String deletePath = String.format("Sites/%s/documentLibrary", siteName);
 
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
-    {
+    public void setupTest() {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         userService.create(adminUser, adminPassword, user2, password, user + domain, user2, user2);
         siteService.create(adminUser, adminPassword, domain, siteName, "SiteC description", Visibility.PUBLIC);
@@ -116,20 +86,22 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         userService.createSiteMember(adminUser, adminPassword, user, siteName, "SiteCollaborator");
         userService.createSiteMember(adminUser, adminPassword, user, siteName2, "SiteCollaborator");
         userService.createSiteMember(adminUser, adminPassword, user2, siteName, "SiteCollaborator");
-        setupAuthenticatedSession(user, password);
+        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, textFilePlainCreatedBySelf, fileContent);
+        contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, textFilePlainCreatedByOtherUser, fileContent);
+        contentService.createDocument(user, password, siteName, DocumentType.MSWORD, msWordFileCreatedBySelf, fileContent);
+        contentService.createDocument(user2, password, siteName, DocumentType.MSWORD, msWordFileCreatedByOther, fileContent);
+        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, startWorkflowFile, fileContent);
     }
 
     @TestRail(id = "C8938")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorCreateContent()
-    {
+    public void collaboratorCreateContent() {
+        setupAuthenticatedSession(user, password);
         LOG.info("Precondition: testSite Document Library page is opened.");
         documentLibraryPage.navigate(siteName);
-
         LOG.info("Step 1: On the Document Library Page click on Create button.");
         documentLibraryPage.clickCreateButton();
         Assert.assertTrue(documentLibraryPage.isCreateContentMenuDisplayed(), "Create content menu is not displayed");
-
         LOG.info("Step 2: From the Create Options menu select Create Plain Text.");
         create.clickPlainTextButton();
         Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
@@ -139,7 +111,6 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
         Assert.assertTrue(create.isCreateButtonPresent(), "The Create button is not displayed on the create form");
         Assert.assertTrue(create.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
-
         LOG.info("Step 3: Provide input for: Name= 'C8938test', Title= 'C8938test', Description= 'C8938test' and click the 'Create' button.");
         create.sendInputForName("C8938test");
         create.sendInputForTitle("C8938test");
@@ -152,70 +123,64 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Description:"), "C8938test",
                 "\"C8938test\" is not the file description for the file in preview");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/C8938test", deletePath));
+        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C8939")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorUploadContent()
-    {
+    public void collaboratorUploadContent() {
+        setupAuthenticatedSession(user, password);
         LOG.info("Precondition: testSite Document Library page is opened.");
         documentLibraryPage.navigate(siteName);
-
         LOG.info("STEP1: On the Document Library page click on the Upload button..");
         uploadContent.uploadContent(testFilePath);
-
         LOG.info("STEP2: Choose the testFile to upload and confirm Upload.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFile), String.format("File [%s] is displayed", testFile));
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, testFile));
+        cleanupAuthenticatedSession();
     }
 
     @TestRail(id = "C8940")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorDownloadContent()
-    {
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8940, fileContent);
-
+    public void collaboratorDownloadContent() {
+        setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testDocument from Document Library");
         documentLibraryPage.navigate(siteName);
-
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(textFilePlainCreatedBySelf, "Download"),  "\"Download\" is not available ");
         LOG.info("Step 2: Click the Download Button. Check the file was saved locally");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8940, "Download", documentLibraryPage);
-
+        documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedBySelf, "Download", documentLibraryPage);
         download.acceptAlertIfDisplayed();
-        Assert.assertTrue(download.isFileInDirectory(fileNameC8940, null), "The file was not found in the specified location");
+        Assert.assertTrue(download.isFileInDirectory(textFilePlainCreatedBySelf, null), "The file was not found in the specified location");
     }
 
     @TestRail(id = "C8941")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorViewInBrowser()
-    {
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8941, fileContent);
-
+    public void collaboratorViewInBrowser() {
+        String fileName = "C8941"+ RandomData.getRandomAlphanumeric();
+        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
-
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "View In Browser"),  "\"View In Browser\" is not available ");
         LOG.info("Step 2: Click 'View in browser.'");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8941, "View In Browser", documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "View In Browser", documentLibraryPage);
+        Assert.assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), fileContent,
+                "File content is not correct or file has not be opened in new window");
     }
 
     @TestRail(id = "C8947")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorEditInlineBySelf()
-    {
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8947, fileContent);
-
+    public void collaboratorEditInlineBySelf() {
+        setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
-
         LOG.info("Step 2: Click Edit in Alfresco.");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8947, language.translate("documentLibrary.contentActions.editInAlfresco"),
+        documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedBySelf, language.translate("documentLibrary.contentActions.editInAlfresco"),
                 editInAlfrescoPage);
-
         LOG.info("Step 3: Edit content and save changes.");
         editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName, updatedContent, updatedTitle, updatedDescription);
         editInAlfrescoPage.clickButton("Save");
         documentLibraryPage.navigate(siteName);
-
         LOG.info("Step4: Click on testFile to open file and check content.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(updatedDocName));
         documentLibraryPage.clickOnFile(updatedDocName);
@@ -227,23 +192,18 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
     @TestRail(id = "C8948")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorEditInlineByOthers()
-    {
-        contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, fileNameC8948, fileContent);
-
+    public void collaboratorEditInlineByOthers() {
+        setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
-
         LOG.info("Step 2: Click Edit in Alfresco.");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8948, language.translate("documentLibrary.contentActions.editInAlfresco"),
+        documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedByOtherUser, language.translate("documentLibrary.contentActions.editInAlfresco"),
                 editInAlfrescoPage);
-
         LOG.info("Step 3: Edit content and save changes.");
         editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName1, updatedContent1, updatedTitle1, updatedDescription1);
         editInAlfrescoPage.renderedPage();
         editInAlfrescoPage.clickButton("Save");
         documentLibraryPage.navigate(siteName);
-
         LOG.info("Step4: Click on testFile to open file and check content.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(updatedDocName1));
         documentLibraryPage.clickOnFile(updatedDocName1);
@@ -254,54 +214,36 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8957")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
-    public void collaboratorCancelEditingBySelf()
-    {
-        contentService.createDocument(user, password, siteName, DocumentType.MSWORD, fileNameC8957, fileContent);
-
+    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    public void collaboratorCancelEditingBySelf() {
+        setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileNameC8957), String.format("Document %s is not present", fileNameC8957));
-
-        LOG.info("Step 2: Click Check out to Google docs or Edit in Google Docs.");
-        googleDocsCommon.loginToGoogleDocs();
-        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8957, "Edit in Google Docs™", googleDocsCommon);
-        googleDocsCommon.clickOkButton();
-        googleDocsCommon.confirmFormatUpgrade();
-        Assert.assertEquals(googleDocsCommon.getConfirmationPopUpMessage(), "Editing in Google Docs™...", "Checking in Google Doc is not found.");
-        getBrowser().waitUntilElementDisappears(googleDocsCommon.confirmationPopup, 15L);
-
-        LOG.info("Step 3: Check the testFile status in Document Library.");
-        Assert.assertTrue(googleDocsCommon.isLockedIconDisplayed(), "Locked Icon is not displayed");
-        Assert.assertTrue(googleDocsCommon.isLockedDocumentMessageDisplayed(), "Message about the file being locked is not displayed");
-        Assert.assertTrue(googleDocsCommon.isGoogleDriveIconDisplayed(), "Google Drive icon is not displayed");
-
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(msWordFileCreatedBySelf), String.format("Document %s is not present", msWordFileCreatedBySelf));
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, "Edit Offline"), "Edit Offline is not available for "+msWordFileCreatedBySelf);
+        LOG.info("Step 2& Step 3: Click edit offline and Check the testFile status in Document Library.");
+        documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, "Edit Offline", documentLibraryPage);
+        Assert.assertTrue(documentLibraryPage.getInfoBannerText(msWordFileCreatedBySelf).contains("This document is locked"), documentLibraryPage.getInfoBannerText(msWordFileCreatedBySelf));
         LOG.info("Step 4: Mouse over testFile name and check available actions.");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, "Cancel Editing"), "Cancel Editing is not available for "+ msWordFileCreatedBySelf);
         LOG.info("Step 5: Click Cancel editing action..");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8957, "Cancel Editing in Google Docs™", documentLibraryPage);
-        googleDocsCommon.confirmFormatUpgrade();
-        Assert.assertEquals(googleDocsCommon.getConfirmationPopUpMessage(), "Cancel Editing in Google Docs™", "Cancel Editing in Google Doc is not found.");
-        getBrowser().switchWindow(1);
-        getBrowser().closeWindowAndSwitchBack();
+        documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, "Cancel Editing", documentLibraryPage);
+        documentLibraryPage.navigate(siteName);
+        Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(msWordFileCreatedBySelf), "Locked message is still displayed");
     }
 
     @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail(id = "C8962")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorStartWorkflow()
-    {
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8962, fileContent);
-
+    public void collaboratorStartWorkflow() {
+        setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileNameC8962), String.format("Document %s is not present", fileNameC8962));
-
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(startWorkflowFile), String.format("Document %s is not present", startWorkflowFile));
         LOG.info("Step 2: Click Start Workflow.");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8962, "Start Workflow", startWorkflowPage);
-
+        documentLibraryPage.clickDocumentLibraryItemAction(startWorkflowFile, "Start Workflow", startWorkflowPage);
         LOG.info("Step 3: From the Select Workflow drop-down select New Task Workflow.");
         startWorkflowPage.selectAWorkflow("New Task");
-
         LOG.info("Step 4: On the new task workflow form provide the inputs and click on Start Workflow button.");
         startWorkflowPage.addWorkflowDescription("test workflow");
         startWorkflowPage.selectCurrentDateFromDatePicker();
@@ -311,12 +253,10 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         selectPopUpPage.clickAddIcon("(" + user + ")");
         selectPopUpPage.clickOkButton();
         startWorkflowPage.clickStartWorkflow(documentLibraryPage);
-
         LOG.info("Step 5: Go to Toolbar and click Tasks/ My Tasks.");
         toolbarTasksMenu.clickMyTasks();
         myTasksPage.renderedPage();
         Assert.assertEquals(create.getPageTitle(), "Alfresco » My Tasks", "My Tasks page is not opened");
-
         LOG.info("Step 6: Check and confirm that the Task created at step 4 with details. ");
         myTasksPage.refresh();
         myTasksPage.clickViewWorkflow("test workflow");
@@ -325,34 +265,30 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(workflowDetailsPage.getStartedByUser().contains(user));
         Assert.assertTrue(workflowDetailsPage.getMessage().contains("test workflow"));
         Assert.assertTrue(workflowDetailsPage.getAssignedToUser().contains(user));
-        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileNameC8962));
+        contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, startWorkflowFile));
     }
 
-    @Bug(id="TBD")
+    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
     @TestRail(id = "C8942")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorUploadNewVersionSelfCreated()
-    {
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8942, fileContent);
-
+    public void collaboratorUploadNewVersionSelfCreated() {
+        String fileName = "C8942"+ RandomData.getRandomAlphanumeric();
+        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(
-                documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8942, language.translate("documentLibrary.contentAction.uploadNewVersion")),
-                "Upload new version action is not available for " + fileNameC8942);
-
+                documentLibraryPage.isActionAvailableForLibraryItem(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion")),
+                "Upload new version action is not available for " + fileName);
         LOG.info("Step 2: Click Upload New Version");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8942, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
         Assert.assertTrue(uploadContent.isUploadFilesToDialogDisplayed(), "Upload Files To Dialog is not displayed");
-
         LOG.info("Step 3: Select the updated version of testFile and confirm upload.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
         documentLibraryPage.renderedPage();
-        // getBrowser().waitUntilElementVisible(documentLibraryPage.content(newVersionFile));
         getBrowser().waitInSeconds(5);
         assertTrue(documentLibraryPage.isContentNameDisplayed(newVersionFile), String.format("File [%s] is displayed", newVersionFile));
-        Assert.assertFalse(documentLibraryPage.isContentNameDisplayed(fileNameC8942), fileNameC8942 + " is displayed.");
-
+        Assert.assertFalse(documentLibraryPage.isContentNameDisplayed(textFilePlainCreatedBySelf), textFilePlainCreatedBySelf + " is displayed.");
         LOG.info("Step 4: Check the testFile content.");
         documentLibraryPage.clickOnFile(newVersionFile);
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFile));
@@ -361,31 +297,27 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFile));
     }
 
-    @Bug(id="TBD")
+    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
     @TestRail(id = "C8943")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorUploadNewVersionOtherUserCreated()
-    {
-        contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8943, fileContent);
-
+    public void collaboratorUploadNewVersionOtherUserCreated() {
+        String fileName = "C8943"+ RandomData.getRandomAlphanumeric();
+        contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(
-                documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8943, language.translate("documentLibrary.contentAction.uploadNewVersion")),
-                "Upload new version action is not available for " + fileNameC8943);
-
+                documentLibraryPage.isActionAvailableForLibraryItem(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion")),
+                "Upload new version action is not available for " + fileName);
         LOG.info("Step 2: Click Upload New Version");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8943, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
         Assert.assertTrue(uploadContent.isUploadFilesToDialogDisplayed(), "Upload Files To Dialog is not displayed");
-
         LOG.info("Step 3: Select the updated version of testFile and confirm upload.");
         uploadContent.updateDocumentVersion(newVersionFilePath2, "comments", UploadContent.Version.Major);
         documentLibraryPage.renderedPage();
-        // getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.content(newVersionFile), 6);
         getBrowser().waitInSeconds(5);
         assertTrue(documentLibraryPage.isContentNameDisplayed(newVersionFile2), String.format("File [%s] is displayed", newVersionFile2));
-        Assert.assertFalse(documentLibraryPage.isContentNameDisplayed(fileNameC8943), fileNameC8943 + " is displayed.");
-
+        Assert.assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " is displayed.");
         LOG.info("Step 4: Check the testFile content.");
         documentLibraryPage.clickOnFile(newVersionFile2);
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFile2));
@@ -396,162 +328,124 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
     @TestRail(id = "C8953")
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
-    public void collaboratorCheckOutGoogleDocBySelf() throws Exception
-    {
-        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8953, fileContent);
-
+    public void collaboratorCheckOutGoogleDocBySelf() throws Exception {
+        setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileNameC8953), String.format("Document %s is not present", fileNameC8953));
-
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(msWordFileCreatedBySelf), String.format("Document %s is not present", msWordFileCreatedBySelf));
         LOG.info("Step 2: Click Check out to Google docs or Edit in Google Docs.");
         googleDocsCommon.loginToGoogleDocs();
-        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8953, "Edit in Google Docs™", googleDocsCommon);
+        documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, "Edit in Google Docs™", googleDocsCommon);
         googleDocsCommon.clickOkButton();
-
         LOG.info("Step 3: Check the testFile status in Document Library.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(googleDocsCommon.lockedIcon);
         Assert.assertTrue(googleDocsCommon.isLockedIconDisplayed(), "Locked Icon is not displayed");
         Assert.assertTrue(googleDocsCommon.isLockedDocumentMessageDisplayed(), "Message about the file being locked is not displayed");
         Assert.assertTrue(googleDocsCommon.isGoogleDriveIconDisplayed(), "Google Drive icon is not displayed");
-
         LOG.info("Step 4: Go back to the Google docs browser window and edit testFile.");
         googleDocsCommon.switchToGoogleDocsWindowandAndEditContent(editedTitle, editedContent);
-
         LOG.info("Step 5: Mouse over testFile name and check available actions.");
-        documentLibraryPage.mouseOverContentItem(fileNameC8953);
-
+        documentLibraryPage.mouseOverContentItem(msWordFileCreatedBySelf);
         LOG.info("Step 6: Click Check In Google");
-        googleDocsCommon.checkInGoogleDoc(fileNameC8953);
+        googleDocsCommon.checkInGoogleDoc(msWordFileCreatedBySelf);
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), true);
-
         LOG.info("Step 7: Click Ok on the Version Information window.");
         googleDocsCommon.clickOkButton();
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), false);
-
         LOG.info("Step 8: Check the testFile status and confirm that file has been unlocked.");
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(editedTitle), "Locked label displayed");
         Assert.assertEquals(googleDocsCommon.isGoogleDriveIconDisplayed(), false);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(editedTitle), "Name of the document was not updated");
-
         LOG.info("Step 9: Click on the testFile name to preview document.");
         documentLibraryPage.clickOnFile(editedTitle);
-
         LOG.info("Step 10: Check the testFile content.");
         Assert.assertTrue(documentDetailsPage.getContentText().contains(editedContent));
     }
 
     @TestRail(id = "C8954")
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
-    public void collaboratorCheckOutGoogleDocByOthers() throws Exception
-    {
-        contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileNameC8954, fileContent);
+    public void collaboratorCheckOutGoogleDocByOthers() throws Exception {
+        setupAuthenticatedSession(user, password);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileNameC8954), String.format("Document %s is not present", fileNameC8954));
-
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(msWordFileCreatedByOther), String.format("Document %s is not present", msWordFileCreatedByOther));
         LOG.info("Step 2: Click Check out to Google docs or Edit in Google Docs.");
         googleDocsCommon.loginToGoogleDocs();
-        documentLibraryPage.clickDocumentLibraryItemAction(fileNameC8954, "Edit in Google Docs™", googleDocsCommon);
+        documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedByOther, "Edit in Google Docs™", googleDocsCommon);
         googleDocsCommon.clickOkButton();
-
         LOG.info("Step 3: Check the testFile status in Document Library.");
         getBrowser().waitUntilElementVisible(googleDocsCommon.lockedIcon);
         Assert.assertTrue(googleDocsCommon.isLockedIconDisplayed(), "Locked Icon is not displayed");
         Assert.assertTrue(googleDocsCommon.isLockedDocumentMessageDisplayed(), "Message about the file being locked is not displayed");
         Assert.assertTrue(googleDocsCommon.isGoogleDriveIconDisplayed(), "Google Drive icon is not displayed");
-
         LOG.info("Step 4: Go back to the Google docs browser window and edit testFile.");
         googleDocsCommon.switchToGoogleDocsWindowandAndEditContent(editedTitle1, editedContent1);
-
         LOG.info("Step 5: Mouse over testFile name and check available actions.");
-        documentLibraryPage.mouseOverContentItem(fileNameC8954);
-
+        documentLibraryPage.mouseOverContentItem(msWordFileCreatedByOther);
         LOG.info("Step 6: Click Check In Google Doc™.");
-        googleDocsCommon.checkInGoogleDoc(fileNameC8954);
+        googleDocsCommon.checkInGoogleDoc(msWordFileCreatedByOther);
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), true);
-
         LOG.info("Step 7: Click Ok on the Version Information window.");
         googleDocsCommon.clickOkButton();
         getBrowser().waitUntilElementDisappears(By.xpath("//span[contains(text(), 'Checking In Google Doc™...')]"), 5L);
         Assert.assertEquals(googleDocsCommon.isVersionInformationPopupDisplayed(), false);
-
         LOG.info("Step 8: Check the testFile status and confirm that file has been unlocked.");
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(editedTitle1), "Locked label displayed");
         Assert.assertEquals(googleDocsCommon.isGoogleDriveIconDisplayed(), false);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(editedTitle1), "Name of the document was not updated");
-
         LOG.info("Step 9: Click on the testFile name to preview document.");
         documentLibraryPage.clickOnFile(editedTitle1);
-
         LOG.info("Step 10: Check the testFile content.");
         Assert.assertTrue(documentDetailsPage.getContentText().contains(editedContent));
     }
 
     @TestRail(id = "C8945")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-
-    public void editOnlineCreatedBySelf()
-    {
-        String fileNameC8945 = "C8945TestFile";
-        String fileContent = "C8945 content";
-        contentService.createDocument(user, password, siteName2, DocumentType.MSWORD, fileNameC8945, fileContent);
-        documentLibraryPage.navigate(siteName2);
-
+    public void editOnlineCreatedBySelf() {
+        setupAuthenticatedSession(user, password);
+        documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check available actions.");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8945, "Edit in Microsoft Office™"),
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, "Edit in Microsoft Office™"),
                 "Edit in Microsoft Office™ is not available");
-
         // TODO edit in MSOffice has not yet been automated
     }
 
     @TestRail(id = "C8946")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-
-    public void editOnlineCreatedByOtherUser()
-    {
-        String fileNameC8946 = "C8946TestFile";
-        String content = "C8946 content";
-        contentService.createDocument(adminUser, adminPassword, siteName2, DocumentType.MSWORD, fileNameC8946, content);
-        documentLibraryPage.navigate(siteName2);
-
+    public void editOnlineCreatedByOtherUser() {
+        setupAuthenticatedSession(user, password);
+        documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check that Edit in Microsoft Office™ is one of the available actions");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8946, "Edit in Microsoft Office™"),
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedByOther, "Edit in Microsoft Office™"),
                 "Edit in Microsoft Office™ is not available");
-
         // TODO edit in MSOffice has not yet been automated
     }
 
     @TestRail(id = "C8949")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-
-    public void editOfflineCreatedBySelf()
-    {
-        String fileNameC8949 = "C8949TestFile";
-        String content = "C8949 content";
-        contentService.createDocument(user, password, siteName2, DocumentType.TEXT_PLAIN, fileNameC8949, content);
-        documentLibraryPage.navigate(siteName2);
-
+    public void editOfflineCreatedBySelf() {
+        setupAuthenticatedSession(user, password);
+        String fileName = "C8949"+ RandomData.getRandomAlphanumeric();
+        contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check that Edit Offline is one of the available actions");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8949, "Edit Offline"), "Edit Offline is not available");
-
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit Offline"), "Edit Offline is not available");
         // TODO edit Offline has not yet been automated
     }
 
     @TestRail(id = "C8950")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
 
-    public void editOfflineCreatedByOtherUser()
-    {
-        String fileNameC8950 = "C8950TestFile";
-        String content = "C8950 content";
-        contentService.createDocument(adminUser, adminPassword, siteName2, DocumentType.TEXT_PLAIN, fileNameC8950, content);
-        documentLibraryPage.navigate(siteName2);
-
+    public void editOfflineCreatedByOtherUser() {
+        String fileName = "C8950"+ RandomData.getRandomAlphanumeric();
+        contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
+        setupAuthenticatedSession(user, password);
+        documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check that Edit Offline is one of the available actions");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileNameC8950, "Edit Offline"), "Edit Offline is not available");
-
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit Offline"), "Edit Offline is not available");
         // TODO edit Offline has not yet been automated
     }
-}
+    }
+
+
