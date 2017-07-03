@@ -10,6 +10,7 @@ import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import org.testng.asserts.SoftAssert;
 import ru.yandex.qatools.htmlelements.element.Select;
 import ru.yandex.qatools.htmlelements.element.Table;
 
@@ -164,15 +165,22 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
 
     }
 
-    public List<NodeDetails> getAspects() {
-        ArrayList<NodeDetails> aspect = new ArrayList<NodeDetails>();
+    public List<String> getAspects() {
+        ArrayList<String> aspects = new ArrayList<String>();
         List<List<WebElement>> rows = aspectsTable.getRows();
         for (List<WebElement> aspectRow : rows) {
-            NodeDetails na = new NodeDetails(aspectRow, getBrowser());
-            LOG.info("Aspect: " + na.toString());
-            aspect.add(na);
+            aspects.add(aspectRow.get(0).getText());
         }
 
-        return aspect;
+        return aspects;
+    }
+    public void assertAspectsArePresent(List<String> aspects){
+        SoftAssert softAssert= new SoftAssert();
+        List<String> aspectsDisplayed = getAspects();
+        for(String aspect : aspects){
+            System.out.print(aspect);
+            softAssert.assertFalse(aspectsDisplayed.indexOf(aspect)==-1,  String.format("[%s] is not displayed in Aspects table", aspect));
+        }
+        softAssert.assertAll();
     }
 }
