@@ -1,5 +1,6 @@
 package org.alfresco.po.adminconsole;
 
+import junit.framework.Assert;
 import org.alfresco.po.adminconsole.AdminNavigator.NavigationLink;
 import org.alfresco.po.adminconsole.consoles.TenantConsolePage;
 import org.alfresco.po.adminconsole.consoles.WorkflowConsolePage;
@@ -24,14 +25,25 @@ public class ConsoleExampleTest extends ContextAwareWebTest
     NodeBrowserQueryPage nodeBrowser;
 
     @Test
-    public void testingAdminConsole()
-    {
+    public void testingAdminConsole() {
         nodeBrowser.setBrowser(getBrowser());
         nodeBrowser.navigate();
 
-        for (NavigationLink link : NavigationLink.values())
-        {
+        for (NavigationLink link : NavigationLink.values()) {
             nodeBrowser.getNavigator().goTo(link, applicationContext);
         }
+    }
+
+    @Test
+    public void testRows() {
+        setupAuthenticatedSession(adminUser, adminPassword);
+        nodeBrowser.setBrowser(getBrowser());
+        nodeBrowser.navigate();
+        nodeBrowser.clickRootList();
+        nodeBrowser.getProperties();
+        nodeBrowser.getProperties().get(0).clickDelete();
+        nodeBrowser.getProperties().get(1).clickDelete();
+        nodeBrowser.getChildren().get(2).clickAction(NodeBrowserQueryPage.Actions.revertPermissions.getAction());
+        nodeBrowser.getChildren().get(1).clickAction(NodeBrowserQueryPage.Actions.delete.getAction());
     }
 }
