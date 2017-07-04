@@ -2,8 +2,10 @@ package org.alfresco.po.adminconsole.directories.DirectoryManagement;
 
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import ru.yandex.qatools.htmlelements.element.Button;
 
 import java.util.List;
 
@@ -15,6 +17,12 @@ public class AuthenticationChain {
     @RenderWebElement
     @FindBy(id = "dm-name")
     WebElement nameField;
+
+    @FindBy(css = "input[value='Synchronization Settings']")
+    Button synchronizationSettingsButton;
+
+    @FindBy(css="input[value='Run Synchronize']")
+    Button runSynchronizeButton;
 
     private List<WebElement> rowInfo;
     WebBrowser browser;
@@ -47,5 +55,20 @@ public class AuthenticationChain {
 
     public String getSynchronized() {
         return rowInfo.get(4).getText();
+    }
+
+    public void clickAction(String actionName) {
+        rowInfo.get(5).findElement(By.linkText(actionName)).click();
+        browser.handleModalDialogAcceptingAlert();
+    }
+
+    public void clickSynchronizationSettingsButton()
+    {
+        synchronizationSettingsButton.click();
+    }
+
+    public void clickRunSynchronize()
+    {
+        runSynchronizeButton.click();
     }
 }

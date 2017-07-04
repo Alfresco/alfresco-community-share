@@ -49,9 +49,4 @@ public class DirectoryManagementPage extends AdminConsolePage<DirectoryManagemen
         return "alfresco/s/admin/admin-directorymanagement";
     }
 
-    public void setName(String name){
-        getBrowser().waitUntilElementVisible(nameField).clear();
-        nameField.sendKeys(name);
-    }
-
 }
