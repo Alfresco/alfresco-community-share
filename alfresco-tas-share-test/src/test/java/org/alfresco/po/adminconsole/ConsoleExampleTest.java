@@ -48,5 +48,6 @@ public class ConsoleExampleTest extends ContextAwareWebTest
         directoryManagementPage.getAuthenticationDetails();
         directoryManagementPage.setName("Test123");
         getBrowser().waitInSeconds(5);
+        directoryManagementPage.getAuthenticationDetails().get(0).clickAction("Test");
     }
 }

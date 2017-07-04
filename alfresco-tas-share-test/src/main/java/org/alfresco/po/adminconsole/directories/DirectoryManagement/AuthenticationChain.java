@@ -55,6 +55,5 @@ public class AuthenticationChain {
 
     public void clickAction(String actionName) {
         rowInfo.get(5).findElement(By.linkText(actionName)).click();
-        browser.handleModalDialogAcceptingAlert();
     }
 }
