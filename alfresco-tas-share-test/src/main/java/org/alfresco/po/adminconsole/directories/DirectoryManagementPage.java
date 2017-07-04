@@ -4,6 +4,7 @@ import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.po.adminconsole.directories.DirectoryManagement.AuthenticationChain;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Value;
@@ -130,6 +131,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public void clickRunSynchronize() {
         runSynchronizeButton.click();
+        getBrowser().waitUntilElementPresent(By.cssSelector("iframe[src='/alfresco/s/enterprise/admin/admin-sync']"));
     }
 
     public void setName(String name) {

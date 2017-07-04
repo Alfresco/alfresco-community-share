@@ -40,7 +40,6 @@ public class ConsoleExampleTest extends ContextAwareWebTest
     }
 
     @Test
-
     public void testingDirectoryManagement()
     {
         directoryManagementPage.setBrowser(getBrowser());

@@ -14,17 +14,6 @@ import java.util.List;
  * Created by Mirela Tifui on 7/4/2017.
  */
 public class AuthenticationChain {
-
-    @RenderWebElement
-    @FindBy(id = "dm-name")
-    WebElement nameField;
-
-    @FindBy(css = "input[value='Synchronization Settings']")
-    Button synchronizationSettingsButton;
-
-    @FindBy(css="input[value='Run Synchronize']")
-    Button runSynchronizeButton;
-
     private List<WebElement> rowInfo;
     WebBrowser browser;
 
