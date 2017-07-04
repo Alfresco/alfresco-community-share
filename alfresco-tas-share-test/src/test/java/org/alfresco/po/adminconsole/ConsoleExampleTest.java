@@ -49,8 +49,8 @@ public class ConsoleExampleTest extends ContextAwareWebTest
         nodeBrowser.getProperties();
         nodeBrowser.getProperties().get(0).clickDelete();
         nodeBrowser.getProperties().get(1).clickDelete();
-     //  nodeBrowser.getChildren().get(2).clickAction(NodeBrowserQueryPage.Actions.revertPermissions.getAction());
-     //   nodeBrowser.getChildren().get(1).clickAction(NodeBrowserQueryPage.Actions.delete.getAction());
+        nodeBrowser.getChildren().get(2).clickAction(NodeBrowserQueryPage.Actions.revertPermissions.getAction());
+        nodeBrowser.getChildren().get(1).clickAction(NodeBrowserQueryPage.Actions.delete.getAction());
         nodeBrowser.assertNodeInformationIs("Type", "ys:store_root");
         ArrayList<String> expectedAspects = new ArrayList<String>();
         expectedAspects.add("sys:aspect_root");
