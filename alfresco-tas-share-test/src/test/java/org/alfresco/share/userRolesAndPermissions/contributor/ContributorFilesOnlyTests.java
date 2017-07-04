@@ -124,7 +124,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), fileContent, "Correct file content/ file opened in new window");
     }
 
-    @Bug(id="TBD")
+    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
     @TestRail(id = "C8914")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void uploadNewVersionForItemCreatedBySelf() {
@@ -241,7 +241,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
                 "Edit in Alfresco available for Contributor user");
     }
 
-    @Bug(id="TBD")
+    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
     @TestRail(id = "C8921")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void editOfflineForContentCreatedBySelf() {
@@ -538,7 +538,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
        // On 5.2, the file it's checked
     }
 
-    @Bug(id="TBD")
+    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
     @TestRail(id = "C8936")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void downloadPreviousVersion() {
@@ -569,7 +569,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
     }
 
-    @Bug(id="TBD")
+    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
     @TestRail(id = "C8937")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void revertToPreviousVersion() {

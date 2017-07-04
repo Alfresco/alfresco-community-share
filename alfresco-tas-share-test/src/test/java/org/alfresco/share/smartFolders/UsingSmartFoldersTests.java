@@ -13,6 +13,7 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -122,6 +123,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
     }
 
+    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
     @TestRail(id = "C8650")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void updateFileInSmartFolder() throws Exception {

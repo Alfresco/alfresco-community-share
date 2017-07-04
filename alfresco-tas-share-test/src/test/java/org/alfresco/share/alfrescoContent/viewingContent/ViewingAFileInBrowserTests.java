@@ -33,9 +33,7 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
     private final String folderName = "testFolder";
 
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
-    {
-
+    public void setupTest() {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
         contentService.createFolder(user, password, folderName, siteName);
@@ -52,13 +50,11 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentDetailsPage.isDocumentLibraryOpened(siteName), "Document Library is not opened!");
         Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName), "Folder is not displayed!");
-
         LOG.info("Step 2: Click on a folder (e.g. testFolder) and then hover over a file in the document library (e.g. testFile) .");
         documentLibraryPage.clickOnFolderName(folderName);
         List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™");
         Assert.assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
         Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");
-
         LOG.info("Step 3: Click View In Browser.");
         documentLibraryPage.clickOnAction(docName, "View In Browser");
         Assert.assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), "Document content",
