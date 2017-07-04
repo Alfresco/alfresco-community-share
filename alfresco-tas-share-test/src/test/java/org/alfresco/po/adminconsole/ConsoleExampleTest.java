@@ -3,6 +3,7 @@ package org.alfresco.po.adminconsole;
 import org.alfresco.po.adminconsole.AdminNavigator.NavigationLink;
 import org.alfresco.po.adminconsole.consoles.TenantConsolePage;
 import org.alfresco.po.adminconsole.consoles.WorkflowConsolePage;
+import org.alfresco.po.adminconsole.directories.DirectoryManagementPage;
 import org.alfresco.po.adminconsole.repositoryservices.ActivitiesFeedPage;
 import org.alfresco.po.adminconsole.supporttools.NodeBrowserQueryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -23,6 +24,9 @@ public class ConsoleExampleTest extends ContextAwareWebTest
     @Autowired
     NodeBrowserQueryPage nodeBrowser;
 
+    @Autowired
+    DirectoryManagementPage directoryManagementPage;
+
     @Test
     public void testingAdminConsole()
     {
@@ -33,5 +37,16 @@ public class ConsoleExampleTest extends ContextAwareWebTest
         {
             nodeBrowser.getNavigator().goTo(link, applicationContext);
         }
+    }
+
+    @Test
+
+    public void testingDirectoryManagement()
+    {
+        directoryManagementPage.setBrowser(getBrowser());
+        directoryManagementPage.navigate();
+        directoryManagementPage.getAuthenticationDetails();
+        directoryManagementPage.setName("Test123");
+        getBrowser().waitInSeconds(5);
     }
 }

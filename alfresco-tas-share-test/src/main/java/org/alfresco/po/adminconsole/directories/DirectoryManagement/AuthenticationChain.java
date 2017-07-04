@@ -1,5 +1,6 @@
 package org.alfresco.po.adminconsole.directories.DirectoryManagement;
 
+import org.alfresco.po.adminconsole.directories.DirectoryManagementPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
@@ -32,11 +33,6 @@ public class AuthenticationChain {
         this.browser = browser;
     }
 
-    public void setName(String name) {
-        nameField.clear();
-        nameField.sendKeys(name);
-    }
-
     public String getOrder() {
         return rowInfo.get(0).getText();
     }
@@ -60,15 +56,5 @@ public class AuthenticationChain {
     public void clickAction(String actionName) {
         rowInfo.get(5).findElement(By.linkText(actionName)).click();
         browser.handleModalDialogAcceptingAlert();
-    }
-
-    public void clickSynchronizationSettingsButton()
-    {
-        synchronizationSettingsButton.click();
-    }
-
-    public void clickRunSynchronize()
-    {
-        runSynchronizeButton.click();
     }
 }
