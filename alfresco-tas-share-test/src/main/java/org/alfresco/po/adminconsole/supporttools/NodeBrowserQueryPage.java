@@ -2,14 +2,15 @@ package org.alfresco.po.adminconsole.supporttools;
 
 import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.po.adminconsole.supporttools.Node.NodeChild;
-import org.alfresco.po.adminconsole.supporttools.Node.NodeDetails;
 import org.alfresco.po.adminconsole.supporttools.Node.NodeProperty;
+import org.alfresco.utility.exception.TestConfigurationException;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import ru.yandex.qatools.htmlelements.element.Select;
 import ru.yandex.qatools.htmlelements.element.Table;
@@ -113,6 +114,15 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
     @FindBy(id="aspects-table")
     Table aspectsTable;
 
+    @FindBy(id="info-table")
+    Table nodeInformationTable;
+
+    @FindBy(name ="nodebrowser-query-maxresults")
+    WebElement maxResultsFiled;
+
+    @FindBy( name ="nodebrowser-query-skipcount")
+    WebElement skipCountField;
+
     public NodeBrowserQueryPage usingStore(Store store) {
         selectNode.selectByValue(store.getValue());
         return this;
@@ -130,9 +140,35 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         return this;
     }
 
+    public boolean isMaxResultsFieldDisplayed()
+    {
+        return getBrowser().isElementDisplayed(maxResultsFiled);
+    }
+
+    public boolean isSkipCountFieldDisplayed()
+    {
+        return getBrowser().isElementDisplayed(skipCountField);
+    }
+
     public NodeBrowserQueryPage clickSearchAdvancedSettings() {
         getBrowser().waitUntilElementClickable(searchAdvancedSettings).click();
         return this;
+    }
+
+    public void setMaxResults(int maxResults ){
+        if(!isMaxResultsFieldDisplayed()) {
+            searchAdvancedSettings.click();
+        }
+        getBrowser().waitUntilElementVisible(maxResultsFiled).clear();
+        maxResultsFiled.sendKeys(Integer.toString(maxResults));
+    }
+
+    public void setSkipCount(int skipCount){
+        if(!isSkipCountFieldDisplayed()) {
+            searchAdvancedSettings.click();
+        }
+        getBrowser().waitUntilElementVisible(skipCountField).clear();
+        skipCountField.sendKeys(Integer.toString(skipCount));
     }
 
     public List<NodeProperty> getProperties() {
@@ -162,7 +198,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
     public void clickRootList()
     {
         getBrowser().waitUntilElementClickable(rootList).click();
-
+        getBrowser().waitUntilElementIsVisibleWithRetry(By.xpath("//text()[contains(.,'Node Information')]"), 3);
     }
 
     public List<String> getAspects() {
@@ -174,6 +210,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
 
         return aspects;
     }
+
     public void assertAspectsArePresent(List<String> aspects){
         SoftAssert softAssert= new SoftAssert();
         List<String> aspectsDisplayed = getAspects();
@@ -182,5 +219,26 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
             softAssert.assertFalse(aspectsDisplayed.indexOf(aspect)==-1,  String.format("[%s] is not displayed in Aspects table", aspect));
         }
         softAssert.assertAll();
+    }
+
+    public void assertNodeInformationIs(String nodeInformationName, String expectedNodeInformationValue) throws TestConfigurationException {
+        ArrayList<String> actualNodeInformationName = new ArrayList<String>();
+        actualNodeInformationName.add("Reference");
+        actualNodeInformationName.add("Primary Path");
+        actualNodeInformationName.add("Type");
+        actualNodeInformationName.add("Parent");
+
+        int nodeRowID = actualNodeInformationName.indexOf(nodeInformationName);
+        if (nodeRowID < 0) {
+            throw new TestConfigurationException("you did not define all Node Information values in your page object.");
+        }
+        /*
+            0 index based table
+            Reference	workspace://SpacesStore/8178a5e1-ad63-40f3-b7ac-a68c1195c3cc
+           if nodeRowID = 0 it will return Reference so we need the second column i.e. with index 1 (workspace://SpacesStore/8178a5e1-ad63-40f3-b7ac-a68c1195c3cc)
+         */
+        String actualNodeInformationValue = nodeInformationTable.getCellAt(nodeRowID, 1).getText();
+
+        Assert.assertEquals(actualNodeInformationValue, expectedNodeInformationValue, "Node Information ");
     }
 }
