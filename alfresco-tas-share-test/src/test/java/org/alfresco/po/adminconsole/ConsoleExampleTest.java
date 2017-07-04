@@ -47,7 +47,11 @@ public class ConsoleExampleTest extends ContextAwareWebTest
         directoryManagementPage.navigate();
         directoryManagementPage.getAuthenticationDetails();
         directoryManagementPage.setName("Test123");
-        getBrowser().waitInSeconds(5);
-        directoryManagementPage.getAuthenticationDetails().get(0).clickAction("Test");
+        directoryManagementPage.selectType(DirectoryManagementPage.Type.External);
+        directoryManagementPage.selectCIFSAuthentication(DirectoryManagementPage.CifsAuthenticationOptions.disabled);
+        directoryManagementPage.selectBrowserBasedAutomaticLogin(DirectoryManagementPage.BrowserBasedAutomaticLogin.disabled);
+        directoryManagementPage.clickSave();
+        //directoryManagementPage.getAuthenticationDetails().get(0).clickAction("Test");
+
     }
 }
