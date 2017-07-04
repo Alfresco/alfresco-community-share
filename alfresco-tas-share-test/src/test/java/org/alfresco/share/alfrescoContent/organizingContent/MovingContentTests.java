@@ -49,7 +49,7 @@ public class MovingContentTests extends ContextAwareWebTest {
         documentLibraryPage.clickDocumentLibraryItemAction(docName, "Move to...", copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + docName + " to...", "Displayed pop-up=");
         LOG.info("STEP2: Set the destination to 'All Sites'. Select 'site1'");
-        copyMoveUnzipToDialog.clickAllSitesButton();
+        copyMoveUnzipToDialog.clickDestinationButton("All Sites");
         copyMoveUnzipToDialog.clickSite(siteName);
         ArrayList<String> expectedPath = new ArrayList<>(asList("Documents", folderName));
         assertEquals(copyMoveUnzipToDialog.getPathList(), expectedPath.toString(), "Path=");
@@ -82,7 +82,7 @@ public class MovingContentTests extends ContextAwareWebTest {
         documentLibraryPage.clickDocumentLibraryItemAction(folderName1, "Move to...", copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + folderName1 + " to...", "Displayed pop-up=");
         LOG.info("STEP2: Set the destination to 'All Sites'");
-        copyMoveUnzipToDialog.clickAllSitesButton();
+        copyMoveUnzipToDialog.clickDestinationButton("All Sites");
         assertTrue(copyMoveUnzipToDialog.isSiteDisplayedInSiteSection(siteName), siteName + " displayed in 'Site' section");
         LOG.info("STEP3: Select a site");
         copyMoveUnzipToDialog.clickSite(siteName);

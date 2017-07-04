@@ -276,7 +276,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         assertTrue(repositoryPage.isContentSelected(folderC42631), folderC42631 + " is selected");
     }
 
-    @Bug(id = "TBD")
+    @Bug(id="TBD", description = "Step 2: folder is not selected")
     @TestRail(id = "C42632")
     @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
     public void deleteLinkRemovesLink() {
