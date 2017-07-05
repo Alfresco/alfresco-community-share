@@ -54,10 +54,10 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
     }
 
     public enum Actions {
-        delete("Delete"),
-        forceDelete("Force Delete"),
-        takeOwnership("Take Ownership"),
-        revertPermissions("Revert Permissions");
+        DELETE("Delete"),
+        FORCEDELETE("Force Delete"),
+        TAKEOWNERSHIP("Take Ownership"),
+        REVERTPERMISSIONS("Revert Permissions");
 
         private String action;
 

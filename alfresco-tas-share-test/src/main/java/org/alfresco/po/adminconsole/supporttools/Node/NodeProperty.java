@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Created by Mirela Tifui on 7/3/2017.
+ * This class is modeling the "Properties" table of a Node found on /alfresco/s/admin/admin-nodebrowser
  */
 public class NodeProperty {
 
