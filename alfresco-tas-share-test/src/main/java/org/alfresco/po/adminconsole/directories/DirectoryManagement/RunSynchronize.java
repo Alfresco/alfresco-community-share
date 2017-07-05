@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 /**
  * Created by Mirela Tifui on 7/4/2017.
+ * This class is modeling the "Run Synchronize" window found on /alfresco/s/enterprise/admin/admin-directorymanagement when Run Synchronize button is clicked
  */
 public class RunSynchronize {
     WebBrowser browser;

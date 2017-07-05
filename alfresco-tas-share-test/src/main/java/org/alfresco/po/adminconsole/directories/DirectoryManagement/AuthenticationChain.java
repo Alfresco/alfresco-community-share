@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Created by Mirela Tifui on 7/4/2017.
+ * This class is modeling the "Authentication Chain" table found on /alfresco/s/enterprise/admin/admin-directorymanagement
  */
 public class AuthenticationChain {
     private List<WebElement> rowInfo;
