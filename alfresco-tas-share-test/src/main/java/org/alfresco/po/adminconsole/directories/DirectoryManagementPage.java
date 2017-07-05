@@ -49,11 +49,11 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
     Button addButton;
 
     public enum Type {
-        OpenLDAP("ldap"),
+        OPEN_LDAP("ldap"),
         LDAP("ldap-ad"),
-        Passthru("passthru"),
-        Kerberos("kerberos"),
-        External("external");
+        PASSTHRU("passthru"),
+        KERBEROS("kerberos"),
+        EXTERNAL("external");
 
         private String value;
 
@@ -67,8 +67,8 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
     }
 
     public enum CifsAuthenticationOptions {
-        internal("alfrescoNtlm1"),
-        disabled("");
+        INTERNAL("alfrescoNtlm1"),
+        DISABLED("");
 
         private String value;
 
@@ -82,8 +82,8 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
     }
 
     public enum BrowserBasedAutomaticLogin {
-        internal("alfrescoNtlm1"),
-        disabled("");
+        INTERNAL("alfrescoNtlm1"),
+        DISABLED("");
 
         private String value;
 
