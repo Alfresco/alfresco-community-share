@@ -27,7 +27,7 @@ public class ConsoleExampleTest extends ContextAwareWebTest
     @Autowired
     NodeBrowserQueryPage nodeBrowser;
 
-    @Test
+    @Test(groups={"unit"})
     public void testingAdminConsole() {
         nodeBrowser.setBrowser(getBrowser());
         nodeBrowser.navigate();
@@ -37,7 +37,7 @@ public class ConsoleExampleTest extends ContextAwareWebTest
         }
     }
 
-    @Test
+    @Test(groups={"unit"})
     public void testRows() throws TestConfigurationException {
         setupAuthenticatedSession(adminUser, adminPassword);
         nodeBrowser.setBrowser(getBrowser());
