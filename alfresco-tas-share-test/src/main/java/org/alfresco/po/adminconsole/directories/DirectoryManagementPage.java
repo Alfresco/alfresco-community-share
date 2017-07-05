@@ -7,13 +7,11 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Value;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Select;
 import ru.yandex.qatools.htmlelements.element.Table;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 @PageObject
@@ -168,5 +166,4 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
     {
         cancelButton.click();
     }
-
 }
