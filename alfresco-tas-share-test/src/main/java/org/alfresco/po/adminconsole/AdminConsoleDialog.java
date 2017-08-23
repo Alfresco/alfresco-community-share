@@ -1,21 +1,16 @@
 package org.alfresco.po.adminconsole;
 
-import org.alfresco.po.adminconsole.general.LicensePage;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Claudia Agache on 5/9/2017.
  */
 public abstract class AdminConsoleDialog extends HtmlPage
 {
-    @Autowired
-    private LicensePage licensePage;
-
     @RenderWebElement
     @FindBy(id = "admin-dialog")
     protected WebElement dialogFrame;
@@ -24,12 +19,12 @@ public abstract class AdminConsoleDialog extends HtmlPage
     private By titleLocator = By.className("title");
     private By introLocator = By.className("intro");
 
-    public LicensePage clickClose()
+    public HtmlPage clickClose()
     {
         browser.switchTo().frame(dialogFrame);
         browser.waitUntilElementClickable(closeButtonLocator, properties.getExplicitWait()).click();
         browser.switchTo().defaultContent();
-        return (LicensePage) licensePage.renderedPage();
+        return renderedPage();
     }
 
     public boolean isCloseButtonDisplayed()

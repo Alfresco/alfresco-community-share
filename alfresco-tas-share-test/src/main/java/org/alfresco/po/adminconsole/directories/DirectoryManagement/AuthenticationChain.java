@@ -1,12 +1,8 @@
 package org.alfresco.po.adminconsole.directories.DirectoryManagement;
 
-import org.alfresco.po.adminconsole.directories.DirectoryManagementPage;
-import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
 
 import java.util.List;
 

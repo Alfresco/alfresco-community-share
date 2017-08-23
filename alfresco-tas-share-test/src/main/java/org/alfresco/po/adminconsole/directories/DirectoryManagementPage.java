@@ -2,6 +2,7 @@ package org.alfresco.po.adminconsole.directories;
 
 import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.po.adminconsole.directories.DirectoryManagement.AuthenticationChain;
+import org.alfresco.po.adminconsole.directories.DirectoryManagement.RunSynchronize;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -72,7 +73,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
         private String value;
 
-        private CifsAuthenticationOptions(String value) {
+        CifsAuthenticationOptions(String value) {
             this.value = value;
         }
 
@@ -87,7 +88,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
         private String value;
 
-        private BrowserBasedAutomaticLogin(String value) {
+        BrowserBasedAutomaticLogin(String value) {
             this.value = value;
         }
 
@@ -127,9 +128,9 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
         synchronizationSettingsButton.click();
     }
 
-    public void clickRunSynchronize() {
+    public RunSynchronize clickRunSynchronize() {
         runSynchronizeButton.click();
-        getBrowser().waitUntilElementPresent(By.cssSelector("iframe[src='/alfresco/s/enterprise/admin/admin-sync']"));
+        return new RunSynchronize(getBrowser());
     }
 
     public void setName(String name) {
