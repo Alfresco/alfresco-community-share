@@ -1,6 +1,5 @@
 package org.alfresco.po.adminconsole;
 
-import junit.framework.Assert;
 import org.alfresco.po.adminconsole.AdminNavigator.NavigationLink;
 import org.alfresco.po.adminconsole.consoles.TenantConsolePage;
 import org.alfresco.po.adminconsole.consoles.WorkflowConsolePage;
@@ -71,7 +70,7 @@ public class ConsoleExampleTest extends ContextAwareWebTest {
         directoryManagementPage.selectType(DirectoryManagementPage.Type.EXTERNAL);
         directoryManagementPage.selectCIFSAuthentication(DirectoryManagementPage.CifsAuthenticationOptions.DISABLED);
         directoryManagementPage.selectBrowserBasedAutomaticLogin(DirectoryManagementPage.BrowserBasedAutomaticLogin.DISABLED);
-        directoryManagementPage.clickSynchronizationSettingsButton();
+        directoryManagementPage.clickSynchronizationSettings();
         directoryManagementPage.clickSave();
         directoryManagementPage.getAuthenticationDetails().get(0).clickAction("Test");
     }
