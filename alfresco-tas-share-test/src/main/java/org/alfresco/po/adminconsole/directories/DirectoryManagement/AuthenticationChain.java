@@ -1,10 +1,13 @@
 package org.alfresco.po.adminconsole.directories.DirectoryManagement;
 
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+
+import static org.alfresco.utility.report.log.Step.STEP;
 
 /**
  * Created by Mirela Tifui on 7/4/2017.
@@ -36,10 +39,13 @@ public class AuthenticationChain {
     }
 
     public String getSynchronized() {
+        STEP("Get synchronized value");
         return rowInfo.get(4).getText();
     }
 
     public void clickAction(String actionName) {
+        STEP(String.format("Click action %s", actionName));
         rowInfo.get(5).findElement(By.linkText(actionName)).click();
+        Utility.waitToLoopTime(1);
     }
 }

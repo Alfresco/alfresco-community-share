@@ -11,6 +11,8 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static org.alfresco.utility.report.log.Step.STEP;
+
 /**
  * As for SharePage, we have one for AdminConsole page
  */
@@ -22,6 +24,9 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
     public T navigate()
     {
         String baseUrl = String.format("%s://%s:%s@%s:%s", properties.getScheme(), properties.getAdminUser(), properties.getAdminPassword(), properties.getServer(), properties.getPort());
+
+        STEP(String.format("Navigate to %s", baseUrl + "/" + relativePathToURL()));
+
         browser.navigate().to(baseUrl + "/" + relativePathToURL());
         navigator.setBrowser(browser);
         navigator.renderedPage();
