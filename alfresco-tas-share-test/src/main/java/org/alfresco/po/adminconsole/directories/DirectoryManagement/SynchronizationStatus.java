@@ -13,6 +13,25 @@ import static org.alfresco.utility.report.log.Step.STEP;
  */
 public class SynchronizationStatus
 {
+    public enum BeanNames
+    {
+        groupAnalysis("1 Group Analysis"),
+        groupCreation("3 Group Creation and Association Deletion"),
+        userCreation("6 User Creation and Association"),
+        authorityDeletion("7 Authority Deletion");
+
+        public String getName() {
+            return name;
+        }
+
+        private String name;
+
+        BeanNames(String name)
+        {
+            this.name = name;
+        }
+    }
+
     private List<WebElement> rowInfo;
     WebBrowser browser;
 
