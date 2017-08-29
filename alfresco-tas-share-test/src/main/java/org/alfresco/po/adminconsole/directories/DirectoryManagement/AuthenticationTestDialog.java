@@ -16,7 +16,7 @@ import static org.alfresco.utility.report.log.Step.STEP;
 @PageObject
 public class AuthenticationTestDialog extends AdminConsoleDialog
 {
-    private By runTestButton = By.className("inline");
+    private By runTestButton = By.cssSelector(".buttons>.inline");
     private By resultLocator = By.id("test-results");
     private By messageLocator = By.cssSelector("#test-diagnostics>div");
     private By diagnosticLocator = By.cssSelector(".results>tbody>tr");

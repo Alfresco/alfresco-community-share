@@ -1,6 +1,5 @@
 package org.alfresco.po.adminconsole.directories;
 
-import org.alfresco.po.adminconsole.AdminConsoleDialog;
 import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.po.adminconsole.directories.DirectoryManagement.*;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -227,10 +226,19 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
         syncUserDirectoriesDialog.clickClose();
     }
 
+    public SynchronizationStatus getStatusForBean(SynchronizationStatus.BeanNames beanName) throws Exception
+    {
+        for(SynchronizationStatus status: getSynchronizationStatus())
+        {
+            if(status.getBeanName().contains(beanName.getName()))
+                return status;
+        }
+        throw new Exception("Bean is not available in the Status list!");
+    }
+
     public EditDirectoryDialog edit(String authenticationType) throws Exception
     {
-        List<AuthenticationChain> authenticationChainList = getAuthenticationDetails();
-        for (AuthenticationChain auth: authenticationChainList)
+        for (AuthenticationChain auth: getAuthenticationDetails())
         {
             if(auth.getType().equals(authenticationType))
             {
@@ -243,10 +251,9 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public AuthenticationTestDialog test(String authenticationType) throws Exception
     {
-        List<AuthenticationChain> authenticationChainList = getAuthenticationDetails();
-        for (AuthenticationChain auth: authenticationChainList)
+        for (AuthenticationChain auth: getAuthenticationDetails())
         {
-            if(auth.getType().equals(authenticationType))
+            if(auth.getType().contains(authenticationType))
             {
                 auth.clickAction("Test");
                 return new AuthenticationTestDialog();
@@ -257,8 +264,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public SyncUserDirectoryTestDialog testSynchronize(String authenticationType) throws Exception
     {
-        List<AuthenticationChain> authenticationChainList = getAuthenticationDetails();
-        for (AuthenticationChain auth: authenticationChainList)
+        for (AuthenticationChain auth: getAuthenticationDetails())
         {
             if(auth.getType().equals(authenticationType))
             {
@@ -271,8 +277,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public DirectoryManagementPage status(String authenticationType) throws Exception
     {
-        List<AuthenticationChain> authenticationChainList = getAuthenticationDetails();
-        for (AuthenticationChain auth: authenticationChainList)
+        for (AuthenticationChain auth: getAuthenticationDetails())
         {
             if(auth.getType().equals(authenticationType))
             {
@@ -285,8 +290,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public DirectoryManagementPage remove(String authenticationType) throws Exception
     {
-        List<AuthenticationChain> authenticationChainList = getAuthenticationDetails();
-        for (AuthenticationChain auth: authenticationChainList)
+        for (AuthenticationChain auth: getAuthenticationDetails())
         {
             if(auth.getType().equals(authenticationType))
             {
