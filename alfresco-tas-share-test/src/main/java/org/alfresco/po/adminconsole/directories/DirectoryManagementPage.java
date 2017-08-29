@@ -1,6 +1,5 @@
 package org.alfresco.po.adminconsole.directories;
 
-import org.alfresco.po.adminconsole.AdminConsoleDialog;
 import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.po.adminconsole.directories.DirectoryManagement.*;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -227,11 +226,11 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
         syncUserDirectoriesDialog.clickClose();
     }
 
-    public SynchronizationStatus getStatusForBean(String beanName) throws Exception
+    public SynchronizationStatus getStatusForBean(SynchronizationStatus.BeanNames beanName) throws Exception
     {
         for(SynchronizationStatus status: getSynchronizationStatus())
         {
-            if(status.getBeanName().contains(beanName))
+            if(status.getBeanName().contains(beanName.getName()))
                 return status;
         }
         throw new Exception("Bean is not available in the Status list!");
