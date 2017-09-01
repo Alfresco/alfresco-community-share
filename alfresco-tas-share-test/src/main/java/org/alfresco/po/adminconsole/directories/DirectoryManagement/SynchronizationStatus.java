@@ -3,7 +3,12 @@ package org.alfresco.po.adminconsole.directories.DirectoryManagement;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.WebElement;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import static org.alfresco.utility.report.log.Step.STEP;
 
@@ -51,6 +56,23 @@ public class SynchronizationStatus
         return rowInfo.get(1).getText();
     }
 
+    public String getEndTime() throws ParseException
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy HH:mm:ss");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");;
+        Date endDate = sdf.parse(getTime().split(": ")[2]);
+        return sdf2.format(endDate);
+    }
+
+    public String getStartTime() throws ParseException
+    {
+        String text = getTime().split(": ")[1];
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy HH:mm:ss");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");;
+        Date startDate = sdf.parse(text.substring(0, text.indexOf("\n")));
+        return sdf2.format(startDate);
+    }
+
     public String getSuccessfulFailed()
     {
         return rowInfo.get(2).getText();
@@ -63,15 +85,22 @@ public class SynchronizationStatus
 
     public int getSuccessfulValue()
     {
-        String text = rowInfo.get(2).getText().split(":")[1];
+        String text = getSuccessfulFailed().split(":")[1];
         return Integer.valueOf(text.substring(1, text.indexOf("F") - 1));
+    }
+    public int getFailedValue()
+    {
+        return Integer.parseInt(getSuccessfulFailed().split(": ")[2]);
     }
 
     public int getPercentage()
     {
-        String text = rowInfo.get(3).getText().split(":")[1];
-        STEP(String.format("Percentage:[%s]", text));
-        STEP(String.format("Percentage:[%s]", text.substring(1, text.indexOf("%"))));
+        String text = getPercentCompleteAndTotalResults().split(":")[1];
         return Integer.valueOf(text.substring(1, text.indexOf("%")));
+    }
+
+    public int getTotalResults()
+    {
+        return Integer.parseInt(getPercentCompleteAndTotalResults().split(": ")[2]);
     }
 }

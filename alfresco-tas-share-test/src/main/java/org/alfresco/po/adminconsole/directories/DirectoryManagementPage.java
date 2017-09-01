@@ -39,19 +39,13 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
     @FindBy(css = "input[value='Run Synchronize']")
     WebElement runSynchronizeButton;
 
-    @RenderWebElement
-    @FindBy(css = "input[value='Save']")
-    WebElement saveButton;
-
-    @FindBy(css = "input.cancel")
-    WebElement cancelButton;
-
     @FindBy(id = "dm-type")
     Select availableTypes;
 
     @FindBy(id = "dm-cifs")
     Select cifsAuthentication;
 
+    @RenderWebElement
     @FindBy(id = "dm-browser")
     Select browserBasedAutomaticLogin;
 
@@ -63,52 +57,28 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public enum Type
     {
-        OPEN_LDAP("ldap"), LDAP("ldap-ad"), PASSTHRU("passthru"), KERBEROS("kerberos"), EXTERNAL("external");
+        OPEN_LDAP("ldap", "OpenLDAP"),
+        LDAP("ldap-ad", "LDAP (Active Directory)"),
+        PASSTHRU("passthru", "Passthru"),
+        KERBEROS("kerberos", "Kerberos"),
+        EXTERNAL("external", "External");
 
-        private String value;
+        private String value, displayedText;
 
-        Type(String value)
+        Type(String value, String displayedText)
         {
             this.value = value;
+            this.displayedText = displayedText;
         }
 
         public String getValue()
         {
             return value;
         }
-    }
 
-    public enum CifsAuthenticationOptions
-    {
-        INTERNAL("alfrescoNtlm1"), DISABLED("");
-
-        private String value;
-
-        CifsAuthenticationOptions(String value)
+        public String getDisplayedText()
         {
-            this.value = value;
-        }
-
-        public String getValue()
-        {
-            return value;
-        }
-    }
-
-    public enum BrowserBasedAutomaticLogin
-    {
-        INTERNAL("alfrescoNtlm1"), DISABLED("");
-
-        private String value;
-
-        BrowserBasedAutomaticLogin(String value)
-        {
-            this.value = value;
-        }
-
-        public String getValue()
-        {
-            return value;
+            return displayedText;
         }
     }
 
@@ -191,32 +161,56 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
         return this;
     }
 
-    public DirectoryManagementPage selectCIFSAuthentication(CifsAuthenticationOptions option)
+    public DirectoryManagementPage selectCIFSAuthentication(String option) throws Exception
     {
-        cifsAuthentication.selectByValue(option.getValue());
+        if(getCIFSAuthenticationOptions().contains(option))
+            cifsAuthentication.selectByVisibleText(option);
+        else
+            throw new Exception("Option not available!");
         return this;
     }
 
-    public DirectoryManagementPage selectBrowserBasedAutomaticLogin(BrowserBasedAutomaticLogin option)
+    public List<String> getCIFSAuthenticationOptions() throws Exception
     {
-        browserBasedAutomaticLogin.selectByValue(option.getValue());
+        List<WebElement> optionsList = cifsAuthentication.getOptions();
+        List<String> optionsValues = new ArrayList<>();
+        for(WebElement option: optionsList)
+            optionsValues.add(option.getText());
+        return optionsValues;
+    }
+
+    public String getCIFSAuthenticationSelectedOption() throws Exception
+    {
+        return cifsAuthentication.getFirstSelectedOption().getText();
+    }
+
+    public DirectoryManagementPage selectBrowserBasedAutomaticLogin(String option) throws Exception
+    {
+        if(getBrowserBasedAutomaticLoginOptions().contains(option))
+            browserBasedAutomaticLogin.selectByVisibleText(option);
+        else
+            throw new Exception("Option not available!");
         return this;
+    }
+
+    public List<String> getBrowserBasedAutomaticLoginOptions() throws Exception
+    {
+        List<WebElement> optionsList = browserBasedAutomaticLogin.getOptions();
+        List<String> optionsValues = new ArrayList<>();
+        for(WebElement option: optionsList)
+            optionsValues.add(option.getText());
+        return optionsValues;
+    }
+
+    public String getBrowserBasedAutomaticLoginSelectedOption() throws Exception
+    {
+        return browserBasedAutomaticLogin.getFirstSelectedOption().getText();
     }
 
     public String getSyncStatusMessage() {
         this.refresh();
         this.renderedPage();
         return syncStatusMessage.getText();
-    }
-
-    public void clickSave()
-    {
-        saveButton.click();
-    }
-
-    public void clickCancel()
-    {
-        cancelButton.click();
     }
 
     public void synchronize()

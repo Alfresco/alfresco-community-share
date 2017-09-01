@@ -21,9 +21,13 @@ public class SyncUserDirectoryTestDialog extends AdminConsoleDialog
     private By resultSyncActive = By.id("test-auth-active");
     private By groupsList = By.cssSelector("#groupList td");
     private By usersList = By.cssSelector("#userList td");
+    private By testDisgnostics = By.cssSelector(".results>tbody>tr>td:nth-of-type(1)");
 
     List<String> syncGroups = new ArrayList<>();
     List<String> syncUsers = new ArrayList<>();
+    int noGroups;
+    int noUsers;
+
     public List<String> runTest()
     {
         STEP("Click Run Test button");
@@ -32,6 +36,12 @@ public class SyncUserDirectoryTestDialog extends AdminConsoleDialog
         browser.waitUntilElementClickable(runTestButton, properties.getExplicitWait()).click();
         results.add(browser.waitUntilElementVisible(result).getText());
         results.add(browser.waitUntilElementVisible(resultSyncActive).getText());
+
+        String groupsDiagnostic= browser.waitUntilElementsVisible(testDisgnostics).get(0).getText();
+        String usersDiagnostic= browser.waitUntilElementsVisible(testDisgnostics).get(1).getText();
+        noGroups = Integer.parseInt(groupsDiagnostic.substring(groupsDiagnostic.indexOf(" ") + 1, groupsDiagnostic.lastIndexOf(" ")));
+        noUsers = Integer.parseInt(usersDiagnostic.substring(usersDiagnostic.indexOf(" ") + 1, usersDiagnostic.lastIndexOf(" ")));
+
         if(!browser.waitUntilElementsVisible(groupsList).isEmpty())
         for (WebElement group : browser.waitUntilElementsVisible(groupsList)) {
             syncGroups.add(group.getText().replaceFirst("GROUP_",""));
@@ -54,4 +64,13 @@ public class SyncUserDirectoryTestDialog extends AdminConsoleDialog
     {
         return syncUsers;
     }
+
+    public int getNoGroups() {
+        return noGroups;
+    }
+
+    public int getNoUsers() {
+        return noUsers;
+    }
+
 }
