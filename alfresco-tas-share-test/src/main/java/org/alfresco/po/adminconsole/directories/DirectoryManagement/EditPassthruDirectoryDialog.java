@@ -8,7 +8,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 @PageObject
 public class EditPassthruDirectoryDialog extends EditDirectoryDialog
 {
-    public static final String PASSTHRU_AUTHENTICATION_OBJECT = "Alfresco:Category=Authentication,Type=Configuration,id1=managed,id2=passthru";
+    public static final String PASSTHRU_AUTHENTICATION_OBJECT = "Alfresco:Category=Authentication,Type=Configuration,id1=managed,id2=passthru1";
 
     public enum PASSTHRUFields{
         useLocalServer("Use Local Server:", "passthru.authentication.useLocalServer"),
