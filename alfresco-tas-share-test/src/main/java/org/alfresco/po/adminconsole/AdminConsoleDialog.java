@@ -143,7 +143,9 @@ public abstract class AdminConsoleDialog extends HtmlPage
         try
         {
             browser.switchTo().frame(dialogFrame);
-            getPageField(fieldLabel).getInput().click();
+            
+            if (!getPageField(fieldLabel).getInput().isSelected())
+            	getPageField(fieldLabel).getInput().click();
             browser.switchTo().defaultContent();
         }
         catch (NoSuchElementException noSuchElementExp)
@@ -152,6 +154,23 @@ public abstract class AdminConsoleDialog extends HtmlPage
         }
     }
 
+    public void unCheckField(String fieldLabel) throws Exception
+    {
+        STEP(String.format("Uncheck %s field ", fieldLabel));
+        try
+        {
+            browser.switchTo().frame(dialogFrame);
+            
+            if (getPageField(fieldLabel).getInput().isSelected())
+            	getPageField(fieldLabel).getInput().click();
+            browser.switchTo().defaultContent();
+        }
+        catch (NoSuchElementException noSuchElementExp)
+        {
+            LOG.error(String.format("Could not find admin console field with label %s", fieldLabel), noSuchElementExp);
+        }
+    }
+    
     public void typeValueInField(String value, String fieldLabel) throws Exception
     {
         STEP(String.format("Type %s in %s field ", value, fieldLabel));
