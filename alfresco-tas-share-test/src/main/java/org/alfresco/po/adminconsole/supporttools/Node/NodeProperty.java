@@ -15,6 +15,35 @@ import java.util.List;
  */
 public class NodeProperty {
 
+    public enum Properties {
+        username("usr:username"),
+        accountExpires("usr:accountExpires"),
+        salt("usr:salt"),
+        enabled("usr:enabled"),
+        nodeUuid("sys:node-uuid"),
+        passwordHash("usr:passwordHash"),
+        storeProtocol("sys:store-protocol"),
+        name("cm:name"),
+        storeIdentifier("sys:store-identifier"),
+        nodeDbid("sys:node-dbid"),
+        locale("sys:locale"),
+        accountLocked("usr:accountLocked"),
+        credentialsExpire("usr:credentialsExpire"),
+        hashIndicator("usr:hashIndicator");
+
+        private String label;
+
+        Properties (String label)
+        {
+            this.label = label;
+        }
+
+        public String getLabel()
+        {
+            return label;
+        }
+    }
+
     private List<WebElement> rowInfo;
     WebBrowser browser;
 
