@@ -16,7 +16,9 @@ import ru.yandex.qatools.htmlelements.element.Select;
 import ru.yandex.qatools.htmlelements.element.Table;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @PageObject
 public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage> {
@@ -35,6 +37,21 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         return "";
     }
 
+    public enum Encryption {
+        MD4("md4"),
+        SHA256("sha256"),
+        BCRYPT10("bcrypt10");
+
+        private String value;
+
+        Encryption(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
     public enum Store {
         archiveSpaceStore("archive://SpacesStore"),
         systemSystem("system://system"),
@@ -44,7 +61,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         workspaceVersion2Store("workspace://version2Store");
         private String value;
 
-        private Store(String value) {
+        Store(String value) {
             this.value = value;
         }
 
@@ -61,7 +78,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
 
         private String action;
 
-        private Actions(String action) {
+        Actions(String action) {
             this.action = action;
         }
 
@@ -74,7 +91,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         noderef("noderef"), ftsAlfresco("fts-alfresco");
         private String value;
 
-        private Query(String value) {
+        Query(String value) {
             this.value = value;
         }
 
@@ -183,16 +200,56 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         return properties;
     }
 
+    public String getPropertyValue(String propertyName) throws Exception
+    {
+        List<String> valueList = new ArrayList<>();
+        Map<String, String> map = new HashMap<>();
+        List<NodeProperty> allProperties = getProperties();
+
+        for (NodeProperty typeProperty : allProperties)
+        {
+            valueList.add(typeProperty.getValue());
+        }
+
+        for (int i = 0; i < valueList.size();)
+        {
+            for (NodeProperty nodeName : allProperties) {
+                map.put(nodeName.getName(), valueList.get(i));
+                i++;
+            }
+        }
+
+        return map.get(propertyName);
+    }
+
     public List<NodeChild> getChildren() {
         ArrayList<NodeChild> child = new ArrayList<NodeChild>();
         List<List<WebElement>> rows = childrenTable.getRows();
         for (List<WebElement> childRow : rows) {
             NodeChild nc = new NodeChild(childRow, getBrowser());
-            LOG.info("Child: " + nc.toString());
             child.add(nc);
         }
 
         return child;
+    }
+
+    public void clickOnChildName(String childName) throws Exception
+    {
+        List<WebElement> childList = new ArrayList<>();
+        List<NodeChild> rows = getChildren();
+        for (NodeChild eachChildName : rows)
+        {
+            childList.add(getBrowser().findElement(By.linkText(eachChildName.getName())));
+        }
+
+        try
+        {
+            getBrowser().findFirstElementWithValue(childList,childName).click();
+        }
+        catch (Exception e)
+        {
+            throw new Exception(String.format("Child %s could not be found in child list.", childName));
+        }
     }
 
     public void clickRootList()
