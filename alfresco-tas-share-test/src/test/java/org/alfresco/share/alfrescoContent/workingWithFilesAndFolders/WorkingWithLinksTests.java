@@ -254,7 +254,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "Displayed page=");
         assertTrue(repositoryPage.isContentSelected(fileC42630), fileC42630 + " is selected");
     }
-    @Bug(id = "TBD")
+    @Bug(id = "MNT-17556", description = "Step 2: folder is not selected")
     @TestRail(id = "C42631")
     @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyLocateLinkedItemRedirectsToFolder() {
@@ -276,7 +276,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         assertTrue(repositoryPage.isContentSelected(folderC42631), folderC42631 + " is selected");
     }
 
-    @Bug(id="TBD", description = "Step 2: folder is not selected")
+    @Bug(id="MNT-17556", description = "Step 2: folder is not selected")
     @TestRail(id = "C42632")
     @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
     public void deleteLinkRemovesLink() {
