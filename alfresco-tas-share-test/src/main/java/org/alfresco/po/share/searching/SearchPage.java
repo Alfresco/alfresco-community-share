@@ -450,13 +450,16 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         }
     }
 
-    public void clickCheckbox(String searchResult) {
-        if (isResultFound(searchResult)) {
-            System.out.print("Position = " + i);
-            checkboxList.get(i).click();
-            i++;
-            selectedCheckboxes = browser.findDisplayedElementsFromLocator(checkboxSelector);
-        }
+    public void clickCheckbox(String searchResult)
+    {
+      if (isResultFound(searchResult)) {
+          for (i = 0; i < checkboxList.size(); i++)
+          {
+              System.out.print("Position = " + i);
+              checkboxList.get(i).click();
+              selectedCheckboxes = browser.findDisplayedElementsFromLocator(checkboxSelector);
+          }
+       }
     }
 
     public boolean isSelectedItemsListOptionDisplayed(String optionName) {

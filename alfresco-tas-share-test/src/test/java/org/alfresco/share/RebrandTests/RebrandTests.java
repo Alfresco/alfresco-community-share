@@ -66,8 +66,8 @@ public class RebrandTests extends ContextAwareWebTest {
 		logger.info("Verify Alfresco Community logo in version dialog is replaced with new Alfresco logo");
 		setupAuthenticatedSession(adminUser, adminPassword);
 		userDashboard.openAboutPage();
-		softAssert.assertEquals(aboutPopup.getAlfrescoVersion(), "Alfresco Enterprise v5.2.1", "Correct Alfresco version!");
-		softAssert.assertEquals(aboutPopup.getShareVersion(), "Alfresco Share v5.2.1", "Correct Share version!");
+		softAssert.assertEquals(aboutPopup.getAlfrescoVersion(), language.translate("alfrescoVersion"), "Correct Alfresco version!");
+		softAssert.assertEquals(aboutPopup.getShareVersion(), language.translate("shareVersion"),"Correct Share version!");
 		softAssert.assertAll();
 		cleanupAuthenticatedSession();
 	}
