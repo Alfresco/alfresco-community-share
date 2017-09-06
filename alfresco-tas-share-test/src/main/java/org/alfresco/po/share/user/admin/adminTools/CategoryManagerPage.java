@@ -72,6 +72,7 @@ public class CategoryManagerPage extends AdminToolsPage
         browser.waitUntilElementVisible(addCategoryNameInput);
         addCategoryNameInput.sendKeys(categoryName);
         addCategoryNameOKButton.click();
+        getBrowser().waitUntilElementDisappears(By.cssSelector("div.bd span.message"));
         renderedPage();
     }
 
