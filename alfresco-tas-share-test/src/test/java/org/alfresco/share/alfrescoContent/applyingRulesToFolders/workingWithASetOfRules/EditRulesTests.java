@@ -48,7 +48,7 @@ public class EditRulesTests extends ContextAwareWebTest {
     private final String path = "Documents";
     private String folderName, ruleName;
 
-    @BeforeMethod()
+    @BeforeMethod(alwaysRun = true)
     public void setupTest() {
         String random = RandomData.getRandomAlphanumeric();
         ruleName = "rule-" + random;
