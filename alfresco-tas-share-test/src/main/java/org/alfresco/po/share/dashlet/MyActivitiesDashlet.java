@@ -397,9 +397,8 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
     {
         int counter = 0;
         boolean found = false;
-        while(!found && counter < 3)
+        while(!found && counter < 5)
         {
-           // browser.waitUntilElementsVisible(activitiesList);
             List<ActivityLink> activityLinks = getActivities();
             for (ActivityLink link : activityLinks)
             {
