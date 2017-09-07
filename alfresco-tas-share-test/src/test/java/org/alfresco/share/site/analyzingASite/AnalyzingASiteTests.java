@@ -35,9 +35,9 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
     private String user = String.format("user2233-%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("C2233%s", RandomData.getRandomAlphanumeric());
     private String siteNameC2234 = String.format("C2234SiteName%s", RandomData.getRandomAlphanumeric());
-    private String user1C2234 = "C2234-1";//+ RandomData.getRandomAlphanumeric();
-    private String user2C2234 = "C2234-2";//+ RandomData.getRandomAlphanumeric();
-    private String user3C2234 = "C2234-3";//+ RandomData.getRandomAlphanumeric();
+    private String user1C2234 = "C2234-1";
+    private String user2C2234 = "C2234-2";
+    private String user3C2234 = "C2234-3";
     private String user4C2234 = "C2234-4";
     private String fileNameTxt1 = "txt file1";
     private String fileContentTxt1 = "Content for .txt file 1";

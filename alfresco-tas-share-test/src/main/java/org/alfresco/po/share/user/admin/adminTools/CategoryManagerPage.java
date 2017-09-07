@@ -66,7 +66,7 @@ public class CategoryManagerPage extends AdminToolsPage
     public void addCategory(String categoryName)
     {
         browser.mouseOver(categoryRoot);
-        browser.waitInSeconds(2);
+        getBrowser().waitUntilElementVisible(addCategoryButton);
         browser.findFirstDisplayedElement(addCategoryButton).click();
 
         browser.waitUntilElementVisible(addCategoryNameInput);
