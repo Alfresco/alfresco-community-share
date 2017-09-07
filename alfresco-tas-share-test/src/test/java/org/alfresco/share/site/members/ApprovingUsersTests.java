@@ -29,38 +29,27 @@ import org.testng.annotations.Test;
 
 public class ApprovingUsersTests extends ContextAwareWebTest
 {
-    @Autowired
-    MenuNavigationBar menuNavigationBar;
+    @Autowired MenuNavigationBar menuNavigationBar;
 
-    @Autowired
-    SiteFinderPage siteFinderPage;
+    @Autowired SiteFinderPage siteFinderPage;
 
-    @Autowired
-    MyTasksPage myTasksPage;
+    @Autowired MyTasksPage myTasksPage;
 
-    @Autowired
-    EditTaskPage editTaskPage;
+    @Autowired EditTaskPage editTaskPage;
 
-    @Autowired
-    ViewTaskPage viewTaskPage;
+    @Autowired ViewTaskPage viewTaskPage;
 
-    @Autowired
-    MySitesDashlet mySitesDashlet;
+    @Autowired MySitesDashlet mySitesDashlet;
 
-    @Autowired
-    UserDashboardPage userDashboardPage;
+    @Autowired UserDashboardPage userDashboardPage;
 
-    @Autowired
-    MyTasksDashlet myTasksDashlet;
+    @Autowired MyTasksDashlet myTasksDashlet;
 
-    @Autowired
-    private SiteDashboardPage siteDashboardPage;
+    @Autowired private SiteDashboardPage siteDashboardPage;
 
-    @Autowired
-    DataUser dataUser;
+    @Autowired DataUser dataUser;
 
-    @Autowired
-    DataSite dataSite;
+    @Autowired DataSite dataSite;
 
     UserModel testUser;
     UserModel managerUser;
@@ -78,8 +67,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     private String siteNameC2549 = "SiteC2549" + RandomData.getRandomAlphanumeric();
     private String taskName;
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() throws DataPreparationException
+    @BeforeClass(alwaysRun = true) public void setupTest() throws DataPreparationException
     {
         testUser = dataUser.createRandomTestUser();
         managerUser = dataUser.createRandomTestUser();
@@ -99,20 +87,18 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         dataUser.addUserToSite(consumerUser, moderatedSite, UserRole.SiteConsumer);
     }
 
-    @BeforeMethod
-    public void beforeMethod()
+    @BeforeMethod(alwaysRun = true) public void beforeMethod()
     {
         setupAuthenticatedSession(userTest, password);
         getBrowser().waitInSeconds(3);
         siteFinderPage.navigate();
     }
 
-    @TestRail(id = "C2461")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void approvingUsersUsingMyTasksPage()
+    @TestRail(id = "C2461") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void approvingUsersUsingMyTasksPage()
     {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         taskName = String.format("Request to join %s site", siteNameC2461);
+        siteFinderPage.navigate();
         siteFinderPage.searchSite(siteNameC2461);
         getBrowser().waitInSeconds(3);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2461));
@@ -156,11 +142,10 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertEquals(siteDashboardPage.getPageHeader(), siteNameC2461);
     }
 
-    @TestRail(id = "C2462")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void approvingUsersUsingMyTasksDashlet()
+    @TestRail(id = "C2462") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void approvingUsersUsingMyTasksDashlet()
     {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
+        siteFinderPage.navigate();
         taskName = String.format("Request to join %s site", siteNameC2462);
         siteFinderPage.searchSite(siteNameC2462);
         getBrowser().waitInSeconds(3);
@@ -202,11 +187,10 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertEquals(siteDashboardPage.getPageHeader(), siteNameC2462);
     }
 
-    @TestRail(id = "C2463")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void rejectingUsersUsingMyTasksPage()
+    @TestRail(id = "C2463") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void rejectingUsersUsingMyTasksPage()
     {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
+        siteFinderPage.navigate();
         siteFinderPage.searchSite(siteNameC2463);
         getBrowser().waitInSeconds(3);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2463));
@@ -254,12 +238,11 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertEquals(siteDashboardPage.getSiteVisibility(), "Moderated");
     }
 
-    @TestRail(id = "C2464")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void rejectingUsersUsingMyTasksDashlet()
+    @TestRail(id = "C2464") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void rejectingUsersUsingMyTasksDashlet()
     {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         taskName = String.format("Request to join %s site", siteNameC2464);
+        siteFinderPage.navigate();
         siteFinderPage.searchSite(siteNameC2464);
         getBrowser().waitInSeconds(3);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2464));
@@ -310,16 +293,16 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertEquals(siteDashboardPage.getSiteVisibility(), "Moderated");
     }
 
-    @TestRail(id = "C2549")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void onlySiteManagersApproveRejectRequestToJoinSite()
+    @TestRail(id = "C2549") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void onlySiteManagersApproveRejectRequestToJoinSite()
     {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         taskName = String.format("Request to join %s site", moderatedSite.getTitle());
+        siteFinderPage.navigate();
         siteFinderPage.searchSite(moderatedSite.getTitle());
         getBrowser().waitInSeconds(3);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(moderatedSite.getTitle()));
-        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(moderatedSite.getTitle(), "Request to Join"), "'Request to Join' button is expected to be displayed.");
+        Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(moderatedSite.getTitle(), "Request to Join"),
+                "'Request to Join' button is expected to be displayed.");
 
         LOG.info("Step 2: Click 'Request to Join' button");
         siteFinderPage.clickSiteButton(moderatedSite.getTitle(), "Request to Join");
