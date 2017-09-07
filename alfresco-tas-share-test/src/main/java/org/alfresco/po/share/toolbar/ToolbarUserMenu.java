@@ -5,33 +5,27 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-@PageObject
-public class ToolbarUserMenu extends Toolbar
+@PageObject public class ToolbarUserMenu extends Toolbar
 {
-    @FindBy(id = "HEADER_USER_MENU_DASHBOARD_text")
-    private WebElement userDashboard;
+    @FindBy(id = "HEADER_USER_MENU_DASHBOARD_text") private WebElement userDashboard;
 
-    @FindBy(id = "HEADER_USER_MENU_PROFILE_text")
-    private WebElement myProfileMenu;
+    @FindBy(id = "HEADER_USER_MENU_PROFILE_text") private WebElement myProfileMenu;
 
-    @FindBy(id = "HEADER_USER_MENU_HELP_text")
-    private WebElement help;
+    @FindBy(id = "HEADER_USER_MENU_HELP_text") private WebElement help;
 
-    @FindBy(id = "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME")
-    private WebElement setCurrentPageAsHome;
+    @FindBy(id = "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME") private WebElement setCurrentPageAsHome;
 
-    @FindBy(id = "HEADER_USER_MENU_SET_DASHBOARD_AS_HOME")
-    private WebElement setDashBoardAsHome;
+    @FindBy(id = "HEADER_USER_MENU_SET_DASHBOARD_AS_HOME") private WebElement setDashBoardAsHome;
 
-    @FindBy(id = "HEADER_USER_MENU_CHANGE_PASSWORD")
-    private WebElement changePassword;
+    @FindBy(id = "HEADER_USER_MENU_CHANGE_PASSWORD") private WebElement changePassword;
 
-    @FindBy(id = "HEADER_USER_MENU_LOGOUT_text")
-    private WebElement logout;
+    @FindBy(id = "HEADER_USER_MENU_LOGOUT_text") private WebElement logout;
+
+    private By dropdownMenu = By.id("HEADER_USER_MENU_POPUP_dropdown");
 
     public boolean isUserDashboardDisplayed()
     {
-        userMenuLink.click();
+        getBrowser().findElement(By.cssSelector("div[id='HEADER_USER_MENU_POPUP'] span.alfresco-menus-AlfMenuBarPopup__arrow")).click();
         getBrowser().waitUntilElementVisible(By.cssSelector("div[id='HEADER_USER_MENU']"));
         return browser.isElementDisplayed(userDashboard);
     }
@@ -45,54 +39,63 @@ public class ToolbarUserMenu extends Toolbar
     public boolean isMyProfileDisplayed()
     {
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(dropdownMenu);
         return browser.isElementDisplayed(myProfileMenu);
     }
 
     public void clickMyProfile()
     {
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(dropdownMenu);
         myProfileMenu.click();
     }
 
     public boolean isHelpDisplayed()
     {
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(dropdownMenu);
         return browser.isElementDisplayed(help);
     }
 
     public void clickHelp()
     {
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(dropdownMenu);
         help.click();
     }
 
     public boolean isSetCurrentPageAsHomeDisplayed()
     {
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(dropdownMenu);
         return browser.isElementDisplayed(setCurrentPageAsHome);
     }
 
     public void clickSetCurrentPageAsHome()
     {
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(dropdownMenu);
         setCurrentPageAsHome.click();
     }
 
     public boolean isDashBoardAsHomeDisplayed()
     {
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(dropdownMenu);
         return browser.isElementDisplayed(setDashBoardAsHome);
     }
 
     public void clickSetDashBoardAsHome()
     {
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(dropdownMenu);
         setDashBoardAsHome.click();
     }
 
     public boolean isChangePasswordDisplayed()
     {
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(dropdownMenu);
         return browser.isElementDisplayed(changePassword);
     }
 
@@ -100,18 +103,21 @@ public class ToolbarUserMenu extends Toolbar
     {
         browser.waitUntilElementClickable(userMenuLink, 5);
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(dropdownMenu);
         changePassword.click();
     }
 
     public boolean isLogoutDisplayed()
     {
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(dropdownMenu);
         return browser.isElementDisplayed(logout);
     }
 
     public void clickLogout()
     {
         userMenuLink.click();
+        getBrowser().waitUntilElementVisible(dropdownMenu);
         logout.click();
     }
 }
