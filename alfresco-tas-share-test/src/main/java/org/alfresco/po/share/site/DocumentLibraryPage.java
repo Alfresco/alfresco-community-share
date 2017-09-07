@@ -828,6 +828,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
             try
             {
                 By tagRows = By.cssSelector("ul.filterLink li span.tag a");
+                getBrowser().waitUntilElementsVisible(tagRows);
                 for (WebElement tagsElem : browser.findElements(tagRows))
                 {
                     allTagsNames.add(tagsElem.getText());
