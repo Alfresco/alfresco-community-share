@@ -31,72 +31,49 @@ import org.testng.annotations.Test;
 
 public class ToolbarTests extends ContextAwareWebTest
 {
-    @Autowired
-    MyFilesPage myFilesPage;
+    @Autowired MyFilesPage myFilesPage;
 
-    @Autowired
-    UserDashboardPage userDashboardPage;
+    @Autowired UserDashboardPage userDashboardPage;
 
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
+    @Autowired SiteDashboardPage siteDashboardPage;
 
-    @Autowired
-    Toolbar toolbar;
+    @Autowired Toolbar toolbar;
 
-    @Autowired
-    ToolbarSitesMenu toolbarSitesMenu;
+    @Autowired ToolbarSitesMenu toolbarSitesMenu;
 
-    @Autowired
-    ToolbarTasksMenu toolbarTasksMenu;
+    @Autowired ToolbarTasksMenu toolbarTasksMenu;
 
-    @Autowired
-    ToolbarUserMenu toolbarUserMenu;
+    @Autowired ToolbarUserMenu toolbarUserMenu;
 
-    @Autowired
-    SitesManagerPage sitesManagerPage;
+    @Autowired SitesManagerPage sitesManagerPage;
 
-    @Autowired
-    LoginPage loginPage;
+    @Autowired LoginPage loginPage;
 
-    @Autowired
-    UserProfilePage userProfilePage;
+    @Autowired UserProfilePage userProfilePage;
 
-    @Autowired
-    ChangePasswordPage changePasswordPage;
+    @Autowired ChangePasswordPage changePasswordPage;
 
-    @Autowired
-    MyTasksPage myTasksPage;
+    @Autowired MyTasksPage myTasksPage;
 
-    @Autowired
-    WorkflowsIveStartedPage workflowsIveStartedPage;
+    @Autowired WorkflowsIveStartedPage workflowsIveStartedPage;
 
-    @Autowired
-    UserSitesListPage userSitesListPage;
+    @Autowired UserSitesListPage userSitesListPage;
 
-    @Autowired
-    SiteFinderPage siteFinderPage;
+    @Autowired SiteFinderPage siteFinderPage;
 
-    @Autowired
-    CreateSiteDialog createSiteDialog;
+    @Autowired CreateSiteDialog createSiteDialog;
 
-    @Autowired
-    PeopleFinderPage peopleFinderPage;
+    @Autowired PeopleFinderPage peopleFinderPage;
 
-    @Autowired
-    RepositoryPage repositoryPage;
+    @Autowired RepositoryPage repositoryPage;
 
-    @Autowired
-    AdminToolsPage adminToolsPage;
+    @Autowired AdminToolsPage adminToolsPage;
 
-    @Autowired
-    AdvancedSearchPage advancedSearchPage;
+    @Autowired AdvancedSearchPage advancedSearchPage;
 
-    @Autowired
-    SharedFilesPage sharedFilesPage;
+    @Autowired SharedFilesPage sharedFilesPage;
 
-    @TestRail(id = "C2091")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void verifyAlfrescoToolbarItems()
+    @TestRail(id = "C2091") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyAlfrescoToolbarItems()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -137,9 +114,7 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(toolbarUserMenu.isLogoutDisplayed(), "\"Logout\" is displayed");
     }
 
-    @TestRail(id = "C2862")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void theToolbarIsAlwaysAvailableAtTheTopOfThePage()
+    @TestRail(id = "C2862") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void theToolbarIsAlwaysAvailableAtTheTopOfThePage()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -163,9 +138,7 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(toolbar.isToolbarDisplayed(), "\"Alfresco toolbar\" is displayed");
     }
 
-    @TestRail(id = "C2863")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void adminToolsAreAvailableOnlyForSystemAdministrators()
+    @TestRail(id = "C2863") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void adminToolsAreAvailableOnlyForSystemAdministrators()
     {
         String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String userName2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
@@ -205,9 +178,7 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(toolbar.isSearchBoxDisplayed(), "\"Search\" is displayed");
     }
 
-    @TestRail(id = "C2864")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void verifyTheLinksFromTheUserMenu()
+    @TestRail(id = "C2864") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromTheUserMenu()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -225,9 +196,9 @@ public class ToolbarTests extends ContextAwareWebTest
 
         LOG.info("STEP 3 - Click on the \"User menu\" -> \"Help\" link");
         toolbarUserMenu.clickHelp();
-        
+
         getBrowser().switchWindow(1);
-        
+
         Assert.assertEquals(getBrowser().getTitle(), language.translate("alfrescoDocumentation.pageTitle"), "Page title");
         getBrowser().closeWindowAndSwitchBack();
 
@@ -251,9 +222,7 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(loginPage.isCopyrightDisplayed(), "\"Copyright\" is displayed");
     }
 
-    @TestRail(id = "C2865")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void verifyTheLinksFromTasksMenu()
+    @TestRail(id = "C2865") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromTasksMenu()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -270,9 +239,7 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(workflowsIveStartedPage.isStartWorkflowDisplayed(), "\"Start Workflow\" is displayed");
     }
 
-    @TestRail(id = "C2866")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void verifyTheLinksFromSitesMenu()
+    @TestRail(id = "C2866") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromSitesMenu()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -328,9 +295,7 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(toolbarSitesMenu.isAddCurrentSiteToFavoritesDisplayed(), "\"Add current site to Favorites\" is displayed");
     }
 
-    @TestRail(id = "C2867")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void verifyTheLinksFromAlfrescoToolbar()
+    @TestRail(id = "C2867") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromAlfrescoToolbar()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -368,9 +333,7 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(advancedSearchPage.isKeywordsSearchFieldDisplayed(), "Keywords search field is displayed");
     }
 
-    @TestRail(id = "C2868")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void siteManagerIsAvailableOnlyForSiteAdministrators()
+    @TestRail(id = "C2868") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void siteManagerIsAvailableOnlyForSiteAdministrators()
     {
         String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String userName2 = String.format("User2%s", RandomData.getRandomAlphanumeric());

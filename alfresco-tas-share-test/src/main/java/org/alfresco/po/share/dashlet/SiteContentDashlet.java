@@ -321,7 +321,9 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         return browser.isElementDisplayed(selectItem(fileName), commentLink);
     }
     
-    public DocumentDetailsPage clickCommentLink(String fileName) {
+    public DocumentDetailsPage clickCommentLink(String fileName)
+    {
+        getBrowser().waitUntilElementVisible(selectItem(fileName));
         selectItem(fileName).findElement(commentLink).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
