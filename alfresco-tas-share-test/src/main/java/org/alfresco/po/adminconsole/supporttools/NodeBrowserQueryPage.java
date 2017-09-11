@@ -142,6 +142,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
 
     public NodeBrowserQueryPage usingStore(Store store) {
         selectNode.selectByValue(store.getValue());
+        clickRootList();
         return this;
     }
 
@@ -241,7 +242,6 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         {
             childList.add(getBrowser().findElement(By.linkText(eachChildName.getName())));
         }
-
         try
         {
             getBrowser().findFirstElementWithValue(childList,childName).click();
@@ -255,7 +255,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
     public void clickRootList()
     {
         getBrowser().waitUntilElementClickable(rootList).click();
-        getBrowser().waitUntilElementIsVisibleWithRetry(By.xpath("//text()[contains(.,'Node Information')]"), 3);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//text()[contains(.,'Node Information')]"), 3);
     }
 
     public List<String> getAspects() {
