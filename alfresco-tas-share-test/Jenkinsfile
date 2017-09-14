@@ -1,4 +1,4 @@
-node('tas-node-win') {
+node('share-node-win') {
  properties([
      
     	buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')),
