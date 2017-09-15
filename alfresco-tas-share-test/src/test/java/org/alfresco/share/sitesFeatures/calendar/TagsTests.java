@@ -35,7 +35,7 @@ public class TagsTests extends ContextAwareWebTest
     private String user1 = "user1-" + random;
     private String siteName = "SiteName-" + random;
     private Date currentDate = new Date();
-    private String tagName = "tag-" + random;
+    private String tagName = "tag-" + random.toLowerCase();
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

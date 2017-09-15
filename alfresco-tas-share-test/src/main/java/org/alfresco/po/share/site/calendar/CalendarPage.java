@@ -138,6 +138,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
      */
     public String getTagLink(String tagName)
     {
+        browser.waitInSeconds(2);
         return selectTag(tagName).findElement(By.xpath("..")).getText();
     }
 

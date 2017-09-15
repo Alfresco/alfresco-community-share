@@ -15,6 +15,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
@@ -62,13 +63,16 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void onlySiteManagerIsAbleToRenameDataListsFeatures() throws DataPreparationException {
         LOG.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
-        SiteModel testSite = dataSite.createPublicRandomSite();
+        UserModel testUser = dataUser.createRandomTestUser();
+        SiteModel testSite = dataSite.usingUser(testUser).createPublicRandomSite();
         dataUser.addUsersWithRolesToSite(testSite, UserRole.SiteCollaborator, UserRole.SiteConsumer, UserRole.SiteContributor);
         LOG.info("Step 1: Access 'Customize Site'");
-        setupAuthenticatedSession(userName, password);
+        setupAuthenticatedSession(testUser.getUsername(), testUser.getPassword());
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.clickSiteConfiguration();
         siteDashboardPage.clickCustomizeSite();
+        customizeSitePage.renderedPage();
+        customizeSitePage.addPageToSite(SitePageType.DATA_LISTS);
         Assert.assertTrue(customizeSitePage.isPageAddedToCurrentPages(SitePageType.DATA_LISTS));
         LOG.info("Step 2: Rename 'Data Lists' feature");
         customizeSitePage.renamePage(SitePageType.DATA_LISTS, "Test");
