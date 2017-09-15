@@ -323,7 +323,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     
     public DocumentDetailsPage clickCommentLink(String fileName)
     {
-        browser.waitUntilElementVisible(selectItem(fileName).findElement(commentLink));
+        browser.waitUntilElementIsDisplayedWithRetry(commentLink);
         selectItem(fileName).findElement(commentLink).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
