@@ -251,13 +251,14 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public void clickDetailedViewButton()
     {
-        detailedViewButton.click();
+        browser.waitUntilElementVisible(detailedViewButton).click();
     }
 
     public void addFileToFavorites(String fileName)
     {
         Parameter.checkIsMandotary("File", selectItem(fileName));
-        selectItem(fileName).findElement(addToFavoritesLink).click();
+        browser.waitUntilElementVisible( selectItem(fileName).findElement(addToFavoritesLink)).click();
+        //selectItem(fileName).findElement(addToFavoritesLink).click();
         int counter = 0;
         while(!isFileAddedToFavorites(fileName) && counter < 5)
         {
