@@ -10,7 +10,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -47,7 +47,7 @@ public class CategorizingContent extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
-        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         contentService.createDocument(testUser, password, siteName, DocumentType.TEXT_PLAIN, docName, "Document content");
         contentService.createDocument(testUser, password, siteName, DocumentType.TEXT_PLAIN, docWithCategory, "Document content");
         contentService.createDocument(testUser, password, siteName, DocumentType.TEXT_PLAIN, removeCategoryDoc, "Document content");

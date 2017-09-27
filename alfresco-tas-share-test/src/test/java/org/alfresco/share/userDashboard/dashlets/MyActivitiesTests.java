@@ -24,7 +24,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService.Visibility;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;

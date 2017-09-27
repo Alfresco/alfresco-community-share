@@ -11,7 +11,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -136,7 +136,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         createPreconditions(userName, siteName, identifier);
         setupAuthenticatedSession(userName, password);
         advancedSearchPage.navigate();
@@ -195,7 +195,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         createPreconditions(userName, siteName, identifier);
         setupAuthenticatedSession(userName, password);
         advancedSearchPage.navigate();
@@ -231,7 +231,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         createPreconditions(userName, siteName, identifier);
         setupAuthenticatedSession(userName, password);
         advancedSearchPage.navigate();
@@ -273,7 +273,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         String userName = "User1" + identifier;
         String siteName = "Site1" + identifier;
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         createPreconditions(userName, siteName, identifier);
         setupAuthenticatedSession(userName, password);
         advancedSearchPage.navigate();

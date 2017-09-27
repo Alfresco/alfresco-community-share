@@ -8,7 +8,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertFalse;
@@ -45,7 +45,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, user2, siteName, "SiteCollaborator");
 
         setupAuthenticatedSession(user2, password);
@@ -69,7 +69,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteName = uniqueIdentifier + "-SiteName";
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, adminUser, siteName, "SiteManager");
 
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -109,7 +109,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteName = "SiteName-" + uniqueIdentifier;
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, adminUser, siteName, "SiteCollaborator");
 
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -161,7 +161,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteName = uniqueIdentifier;
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, adminUser, siteName, "SiteCollaborator");
 
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -191,7 +191,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteName = uniqueIdentifier;
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, adminUser, siteName, "SiteCollaborator");
 
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -232,7 +232,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteName = uniqueIdentifier;
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
 
         setupAuthenticatedSession(adminUser, adminPassword);
 
@@ -263,7 +263,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteName = uniqueIdentifier;
 
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
-        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
 
         setupAuthenticatedSession(adminUser, adminPassword);
 

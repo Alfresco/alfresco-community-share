@@ -11,7 +11,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -45,7 +45,7 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
         List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
         pagesToAdd.add(DashboardCustomization.Page.CALENDAR);
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPagesToSite(user, password, siteName, pagesToAdd);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_CALENDAR, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(user, password);

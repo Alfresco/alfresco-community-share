@@ -17,7 +17,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -79,8 +79,8 @@ public class CreateLinksTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
-        siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteName2, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName1, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName1, content);
         contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName2, content);
         contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName3, content);

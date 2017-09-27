@@ -11,7 +11,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -59,7 +59,7 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
     @BeforeClass()
     public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
-        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folder1, siteName);
         contentService.createFolderInRepository(userName, password, folder2, path);
         setupAuthenticatedSession(userName, password);

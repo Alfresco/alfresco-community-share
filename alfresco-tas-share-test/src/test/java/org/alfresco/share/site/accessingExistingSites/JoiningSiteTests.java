@@ -16,7 +16,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -68,11 +68,11 @@ public class JoiningSiteTests extends ContextAwareWebTest {
     public void setupTest() {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2FirstName, user2LastName);
-        siteService.create(user1, password, domain, siteNameC2833, description, Site.Visibility.MODERATED);
-        siteService.create(user1, password, domain, siteNameC2823, description, Site.Visibility.PUBLIC);
-        siteService.create(user1, password, domain, siteNameC3053, description, Site.Visibility.PUBLIC);
-        siteService.create(user1, password, domain, siteNameC2831, description, Site.Visibility.MODERATED);
-        siteService.create(user1, password, domain, siteNameC3059, description, Site.Visibility.MODERATED);
+        siteService.create(user1, password, domain, siteNameC2833, description, SiteService.Visibility.MODERATED);
+        siteService.create(user1, password, domain, siteNameC2823, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteNameC3053, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteNameC2831, description, SiteService.Visibility.MODERATED);
+        siteService.create(user1, password, domain, siteNameC3059, description, SiteService.Visibility.MODERATED);
     }
 
     @TestRail(id = "C2823")

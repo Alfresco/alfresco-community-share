@@ -9,7 +9,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -42,7 +42,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     public void verifyDefaultAreas()
     {
         siteName = String.format("Site-C3034-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
 
         LOG.info("STEP 1: Go to the created site." + siteName + "and verify the default areas available.");
         siteDashboard.navigate(siteName);
@@ -68,7 +68,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     public void addAdditionalFeatures()
     {
         siteName = String.format("Site-C3035-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         LOG.info("STEP 1: Add the other available pages to the site, in the following order (using 'Customize site' feature)");
         customizeSite.navigate(siteName);
         customizeSite.addPageToSite(SitePageType.CALENDER);
@@ -126,7 +126,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     public void siteFeaturesAreAvailableOnAnyPageFromTheSite()
     {
         siteName = String.format("Site-C3036-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         siteDashboard.navigate(siteName);
         LOG.info("STEP 1: Click on 'Document Library' link.");
         siteDashboard.clickDocumentLibrary();

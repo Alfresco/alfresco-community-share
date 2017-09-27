@@ -11,7 +11,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -53,7 +53,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(user, password, siteName, Page.CALENDAR, null);
         setupAuthenticatedSession(user, password);
     }
