@@ -12,7 +12,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -77,12 +77,12 @@ public class SitesManagerTests extends ContextAwareWebTest
         groupService.addUserToGroup(adminUser, adminPassword, siteAdminGroup, siteAdmin);
         groupService.addUserToGroup(adminUser, adminPassword, siteAdminGroup, user4);
         groupService.addUserToGroup(adminUser, adminPassword, alfrescoAdminGroup, alfrescoAdmin);
-        siteService.create(siteAdmin, password, domain, site1, siteDescription, Site.Visibility.MODERATED);
-        siteService.create(siteAdmin, password, domain, site2, siteDescription, Site.Visibility.MODERATED);
-        siteService.create(siteAdmin, password, domain, site3, siteDescription, Site.Visibility.PRIVATE);
-        siteService.create(siteAdmin, password, domain, site4, siteDescription, Site.Visibility.PUBLIC);
-        siteService.create(siteAdmin, password, domain, site5, siteDescription, Site.Visibility.PUBLIC);
-        siteService.create(adminUser, adminPassword, domain, site6, siteDescription, Site.Visibility.PUBLIC);
+        siteService.create(siteAdmin, password, domain, site1, siteDescription, SiteService.Visibility.MODERATED);
+        siteService.create(siteAdmin, password, domain, site2, siteDescription, SiteService.Visibility.MODERATED);
+        siteService.create(siteAdmin, password, domain, site3, siteDescription, SiteService.Visibility.PRIVATE);
+        siteService.create(siteAdmin, password, domain, site4, siteDescription, SiteService.Visibility.PUBLIC);
+        siteService.create(siteAdmin, password, domain, site5, siteDescription, SiteService.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, site6, siteDescription, SiteService.Visibility.PUBLIC);
     }
 
     @TestRail(id = "C8701")

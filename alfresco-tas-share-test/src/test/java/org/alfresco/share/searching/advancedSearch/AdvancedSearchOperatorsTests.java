@@ -11,7 +11,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -52,7 +52,7 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
-        siteService.create(user1, password, domain, site1, site1 + " description", Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, site1, site1 + " description", SiteService.Visibility.PUBLIC);
 
         contentService.createDocument(user1, password, site1, CMISUtil.DocumentType.TEXT_PLAIN, docC7210, docC7210_content);
         contentService.createDocument(user1, password, site1, CMISUtil.DocumentType.TEXT_PLAIN, specificWord, "Create file with specific name");

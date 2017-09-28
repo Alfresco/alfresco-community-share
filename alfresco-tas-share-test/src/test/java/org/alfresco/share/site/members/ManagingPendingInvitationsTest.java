@@ -10,7 +10,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -40,7 +40,7 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userCollaborator, password, userCollaborator + domain, userCollaborator, userCollaborator);
         userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
         userService.create(adminUser, adminPassword, userConsumer, password, userConsumer + domain, userConsumer, userConsumer);
-        siteService.create(userManager, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userManager, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         userService.createSiteMember(userManager, password, userCollaborator, siteName, "SiteCollaborator");
         userService.createSiteMember(userManager, password, userContributor, siteName, "SiteContributor");
         userService.createSiteMember(userManager, password, userConsumer, siteName, "SiteConsumer");
@@ -78,7 +78,7 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         addSiteUsersPage.navigate(siteName);
         addSiteUsersPage.addExternalUser("fname1" + userIdentifier, "lname1" + userIdentifier, "fname1" + userIdentifier + domain);
@@ -151,7 +151,7 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         addSiteUsersPage.navigate(siteName);
         addSiteUsersPage.addExternalUser("fName" + userIdentifier, "lName" + userIdentifier, "test" + domain);
@@ -191,7 +191,7 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
-        siteService.create(userName1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName1, password);
         addSiteUsersPage.navigate(siteName);
 

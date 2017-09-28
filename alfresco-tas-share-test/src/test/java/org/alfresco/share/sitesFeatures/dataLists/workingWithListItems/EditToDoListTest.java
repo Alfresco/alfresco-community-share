@@ -12,7 +12,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -53,7 +53,7 @@ public class EditToDoListTest extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.create(adminUser, adminPassword, asigneeName, password, asigneeName + domain, "fName", "lName");
-        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
 
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + itemFile);
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + attachedFile);

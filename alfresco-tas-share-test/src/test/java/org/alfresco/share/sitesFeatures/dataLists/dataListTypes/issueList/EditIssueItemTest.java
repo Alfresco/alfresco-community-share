@@ -11,7 +11,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -60,7 +60,7 @@ public class EditIssueItemTest extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.create(adminUser, adminPassword, userAssignee, password, userAssignee + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.ISSUE_LIST, listName, "Issue List description");
         

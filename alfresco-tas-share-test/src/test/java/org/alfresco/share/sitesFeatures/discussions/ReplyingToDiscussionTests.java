@@ -11,7 +11,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -54,7 +54,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lName1");
-        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteName, Page.DISCUSSIONS, null);
         setupAuthenticatedSession(user1, password);
     }

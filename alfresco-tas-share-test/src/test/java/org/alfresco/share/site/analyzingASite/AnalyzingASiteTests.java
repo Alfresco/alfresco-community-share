@@ -10,7 +10,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -78,7 +78,7 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
     {
         //C2233
         userService.create(adminUser, adminPassword, user, password, user + domain, "C2233", "C2233");
-        siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(adminUser, adminPassword, siteName, DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
 
         contentService.createDocument(user, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileNameTxt1, fileContentTxt1);
@@ -97,7 +97,7 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user2C2234, password, user2C2234 + domain, "C2233-2", "C2233-2");
         userService.create(adminUser, adminPassword, user3C2234, password, user3C2234 + domain, "C2233-3", "C2233-3");
         userService.create(adminUser, adminPassword, user4C2234, password, user4C2234 + domain, "C2233-4", "C2233-4");
-        siteService.create(user1C2234, password, domain, siteNameC2234, siteNameC2234, Site.Visibility.PUBLIC);
+        siteService.create(user1C2234, password, domain, siteNameC2234, siteNameC2234, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(adminUser, adminPassword, siteNameC2234, DashboardCustomization.SiteDashlet.SITE_CONTRIB_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
 
         userService.createSiteMember(user1C2234, password, user2C2234, siteNameC2234, "SiteManager");

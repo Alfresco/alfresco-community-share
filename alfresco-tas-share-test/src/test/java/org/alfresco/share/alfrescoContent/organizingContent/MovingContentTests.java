@@ -8,7 +8,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -39,7 +39,7 @@ public class MovingContentTests extends ContextAwareWebTest {
         String siteName = String.format("Site-C7345-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("Doc-C7345-%s", RandomData.getRandomAlphanumeric());
         String folderName = String.format("Folder-C7345-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createFolder(userName, password, folderName, siteName);
         setupAuthenticatedSession(userName, password);
@@ -71,7 +71,7 @@ public class MovingContentTests extends ContextAwareWebTest {
         String docName = String.format("TestDoc-C7346-%s", RandomData.getRandomAlphanumeric());
         String folderName1 = String.format("folderName1-%s", RandomData.getRandomAlphanumeric());
         String folderName2 = String.format("folderName2-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createFolder(userName, password, folderName1, siteName);
         contentService.createFolder(userName, password, folderName2, siteName);

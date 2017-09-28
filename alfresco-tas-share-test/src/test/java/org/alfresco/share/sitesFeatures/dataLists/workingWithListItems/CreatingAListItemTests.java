@@ -10,7 +10,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -34,7 +34,7 @@ public class CreatingAListItemTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName);
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);

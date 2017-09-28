@@ -7,7 +7,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -27,7 +27,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
-        siteService.create(userName, password, domain, siteName, "Description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "Description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
     }
 

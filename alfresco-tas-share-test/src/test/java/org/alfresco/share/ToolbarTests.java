@@ -1,5 +1,6 @@
 package org.alfresco.share;
 
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.PeopleFinderPage;
@@ -25,7 +26,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -78,7 +78,7 @@ public class ToolbarTests extends ContextAwareWebTest
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Verify Alfresco toolbar");
@@ -119,7 +119,7 @@ public class ToolbarTests extends ContextAwareWebTest
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Verify Alfresco toolbar");
@@ -183,7 +183,7 @@ public class ToolbarTests extends ContextAwareWebTest
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Go to Alfresco Toolbar. Click on the \"User menu\" -> \"User Dashboard\" link");
@@ -227,7 +227,7 @@ public class ToolbarTests extends ContextAwareWebTest
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Go to Alfresco Toolbar. Click on the \"Tasks\" menu -> \"My Tasks\" link");
@@ -246,11 +246,11 @@ public class ToolbarTests extends ContextAwareWebTest
         String siteName2 = String.format("Site2%s", RandomData.getRandomAlphanumeric());
         String siteName3 = String.format("Site3%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName1, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName1, "description", SiteService.Visibility.PUBLIC);
         siteService.setFavorite(userName, password, siteName1);
-        siteService.create(userName, password, domain, siteName2, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName2, "description", SiteService.Visibility.PUBLIC);
         siteService.setFavorite(userName, password, siteName2);
-        siteService.create(userName, password, domain, siteName3, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName3, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         siteDashboardPage.navigate(siteName1);
         siteDashboardPage.navigate(siteName2);
@@ -301,7 +301,7 @@ public class ToolbarTests extends ContextAwareWebTest
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         groupService.addUserToGroup(adminUser, adminPassword, "ALFRESCO_ADMINISTRATORS", userName);
-        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("STEP 1 - Click on \"Home\" link from Alfresco Toolbar");

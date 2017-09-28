@@ -8,7 +8,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -36,7 +36,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, testUser1, password, testUser1 + domain, testUser1, "lastName");
         userService.create(adminUser, adminPassword, testUser2, password, testUser2 + domain, testUser2, "lastName");
-        siteService.create(testUser1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.create(testUser1, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         contentService.createDocument(testUser1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, testFileName, docContent);
         contentService.createFolder(testUser1, password, testFolderName, siteName);
     }

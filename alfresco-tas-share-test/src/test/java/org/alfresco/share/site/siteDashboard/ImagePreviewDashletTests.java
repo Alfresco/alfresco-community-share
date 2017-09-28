@@ -1,5 +1,6 @@
 package org.alfresco.share.site.siteDashboard;
 
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
 import org.alfresco.po.share.dashlet.ImagePreviewDashlet;
@@ -15,7 +16,6 @@ import org.testng.annotations.Test;
 
 import static org.alfresco.dataprep.DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT;
 import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet.IMAGE_PREVIEW;
-import static org.springframework.social.alfresco.api.entities.Site.Visibility.PUBLIC;
 import static org.testng.Assert.*;
 
 public class ImagePreviewDashletTests extends ContextAwareWebTest
@@ -45,10 +45,10 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     {
         String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName3, siteName3, PUBLIC);
+        siteService.create(userName, password, domain, siteName3, siteName3, SiteService.Visibility.PUBLIC);
         contentService.uploadFileInSite(userName, password, siteName3, testDataFolder + fileName);
-        siteService.create(userName, password, domain, siteName1, siteName1, PUBLIC);
-        siteService.create(userName, password, domain, siteName2, siteName2, PUBLIC);
+        siteService.create(userName, password, domain, siteName1, siteName1, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName2, siteName2, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(userName, password, siteName1, IMAGE_PREVIEW, TWO_COLUMNS_WIDE_RIGHT, 1, 1);
         siteService.addDashlet(userName, password, siteName2, IMAGE_PREVIEW, TWO_COLUMNS_WIDE_RIGHT, 1, 1);
         siteService.addDashlet(userName, password, siteName3, IMAGE_PREVIEW, TWO_COLUMNS_WIDE_RIGHT, 1, 1);

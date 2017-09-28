@@ -15,7 +15,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -69,9 +69,9 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteNameC8665, siteNameC8665, Site.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteNameC8666, siteNameC8666, Site.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteNameC8668, siteNameC8668, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteNameC8665, siteNameC8665, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteNameC8666, siteNameC8666, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteNameC8668, siteNameC8668, SiteService.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteNameC8665);
         contentService.createFolder(userName, password, folderName, siteNameC8668);
         contentService.createDocumentInRepository(userName, password, filesPath, DocumentType.TEXT_PLAIN, fileName1, fileContent);
