@@ -6,7 +6,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -33,7 +33,7 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
         userService.create(adminUser, adminPassword, userCollaborator, password, userCollaborator + domain, userCollaborator, userCollaborator);
         userService.create(adminUser, adminPassword, userSiteManager, password, userSiteManager + domain, userSiteManager, userSiteManager);
-        siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userConsumer, siteName, "SiteConsumer");
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
         userService.createSiteMember(adminUser, adminPassword, userCollaborator, siteName, "SiteCollaborator");

@@ -7,7 +7,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -59,7 +59,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     {
         LOG.info("Preconditions: create site");
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         wikiMainPage.navigate(siteName);
 
@@ -84,7 +84,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     {
         LOG.info("Preconditions: create site and wiki page");
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageName, "[[Page2]]", tags);
         wikiListPage.navigate(siteName);
@@ -102,7 +102,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     {
         LOG.info("Preconditions: create site and wiki page");
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageName, "[[Page2]]", tags);
         wikiListPage.navigate(siteName);

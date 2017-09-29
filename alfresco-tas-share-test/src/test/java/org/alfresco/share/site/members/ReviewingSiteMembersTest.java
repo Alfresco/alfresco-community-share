@@ -6,7 +6,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,7 +33,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, user2);
         userService.create(adminUser, adminPassword, user3, password, user3 + domain, user3, user3);
-        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, user2, siteName, "SiteCollaborator");
         userService.createSiteMember(user1, password, user3, siteName, "SiteCollaborator");
         setupAuthenticatedSession(user1, password);

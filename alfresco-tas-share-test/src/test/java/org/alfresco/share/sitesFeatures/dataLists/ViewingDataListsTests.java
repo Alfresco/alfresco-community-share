@@ -9,7 +9,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -37,7 +37,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     public void precondition()
     {
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
     }
     

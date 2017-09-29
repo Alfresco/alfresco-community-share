@@ -12,7 +12,7 @@ import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -41,7 +41,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
         description = "description" + uniqueIdentifier;
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         siteService.addDashlet(userName, password, siteName, DashboardCustomization.SiteDashlet.SITE_NOTICE,
                 DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);

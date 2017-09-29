@@ -10,7 +10,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -52,7 +52,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         String folderName1 = "C7546-folder1-" + random;
         String folderName2 = "C7546-folder2-" + random;
         String docName = "C7546-document-" + random;
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName1, siteName);
         contentService.createFolder(userName, password, folderName2, siteName);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, fileContent);
@@ -88,7 +88,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         String textFile = "C7548-textDocument-" + random;
         String htmlFile = "C7548-htmlFile-" + random;
         String xmlFile = "C7548-xmlFile-" + random;
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName1, siteName);
         contentService.createFolder(userName, password, folderName2, siteName);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, textFile, fileContent);
@@ -180,7 +180,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         String htmlFile = "C8410-htmlFile-" + random;
         String xmlFile = "C8410-xmlFile-" + random;
 
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName1, siteName);
         contentService.createFolder(userName, password, folderName2, siteName);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, textFile, fileContent);
@@ -223,7 +223,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         String htmlFile = "C8410-htmlFile-" + random;
         String xmlFile = "C8410-xmlFile-" + random;
 
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName1, siteName);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, textFile, fileContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.HTML, htmlFile, fileContent);

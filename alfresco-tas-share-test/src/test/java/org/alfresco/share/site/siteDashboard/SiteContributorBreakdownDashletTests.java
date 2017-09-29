@@ -10,7 +10,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -45,7 +45,7 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, "User1", "User1");
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, "FNUser2", "LNUser2");
-        siteService.create(userName1, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(userName1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(adminUser, adminPassword, siteName, DashboardCustomization.SiteDashlet.SITE_CONTRIB_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         userService.createSiteMember(userName1, password, userName2, siteName, "SiteManager");
         contentService.createDocument(userName1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName1User1, fileContent);

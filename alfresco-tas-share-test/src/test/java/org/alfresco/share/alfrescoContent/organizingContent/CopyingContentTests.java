@@ -10,7 +10,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -50,7 +50,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     public void copyFileToSharedFiles() {
         String siteName = String.format("Site-C7377-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("Doc-C7377-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -78,7 +78,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     public void cancelCopyFileToSharedFiles() {
         String siteName = String.format("Site-C7378-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("Doc-C7378-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
@@ -106,8 +106,8 @@ public class CopyingContentTests extends ContextAwareWebTest
         String siteName2 = String.format("Site2-C7388-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("TestDoc-C7388-%s", RandomData.getRandomAlphanumeric());
         String folderName = String.format("Folder-C7388-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName1, description, SiteService.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName2, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createFolder(userName, password, folderName, siteName1);
         setupAuthenticatedSession(userName, password);

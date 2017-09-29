@@ -11,7 +11,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -36,7 +36,7 @@ public class RestrictingMobileAccessTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
     }
 

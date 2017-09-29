@@ -11,14 +11,14 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 
-import static org.alfresco.utility.constants.UserRole.SiteContributor;
+import static org.springframework.social.alfresco.api.entities.Role.SiteContributor;
 import static org.testng.Assert.*;
 
 /**
@@ -61,7 +61,7 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, domain, name, user);
-        siteService.create(adminUser, adminPassword, domain, site, description, SiteService.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, site, description, Site.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, user, site, String.valueOf(SiteContributor));
         contentService.createFolder(adminUser, adminPassword, folderName, site);
         contentService.createFolder(user, password, folderName3, site);

@@ -8,7 +8,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -49,7 +49,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
         List<String> linkTags2 = new ArrayList<>();
         linkTags2.add("l3");
         siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(user1, password, siteName, "Link1", "link1.com", "link1 description", true, linkTags1);
         sitePagesService.createLink(user1, password, siteName, "Link2", "link2.com", "link2 description", true, linkTags1);
@@ -85,7 +85,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
 
         LOG.info("Precondition - Several links are added to site: Link1, Link2 are created by testUser1 and Link3 by testUser2.");
         siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, user2, siteName, "SiteCollaborator");
         siteService.addPageToSite(user1, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(user1, password, siteName, "Link1", "link1.com", "link1 description", true, null);

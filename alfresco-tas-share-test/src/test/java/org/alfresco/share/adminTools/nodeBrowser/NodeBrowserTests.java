@@ -7,7 +7,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -31,7 +31,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void beforeClass()
     {
-        siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(adminUser, adminPassword, siteName, CMISUtil.DocumentType.XML, fileName, content);
         LOG.info("Step 1: Login as administrator and navigate to Admin Tools - Node Browser page.");
         setupAuthenticatedSession(adminUser, adminPassword);

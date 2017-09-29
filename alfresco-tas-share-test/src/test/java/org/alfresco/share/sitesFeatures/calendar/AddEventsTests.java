@@ -17,7 +17,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -63,11 +63,11 @@ public class AddEventsTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         userService.addDashlet(user1, password, UserDashlet.MY_CALENDAR, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
-        siteService.create(user1, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
-        siteService.create(user1, password, domain, siteName2, siteName2, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName2, siteName2, Site.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
-        siteService.create(user1, password, domain, siteName3, siteName3, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName3, siteName3, Site.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
         siteService.addDashlet(user1, password, siteName, SiteDashlet.SITE_CALENDAR, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(user1, password);
@@ -285,7 +285,7 @@ public class AddEventsTests extends ContextAwareWebTest
     {
         String currentEventName = eventTitle + "C5462";
         String siteNameForEventWithTags = String.format("SiteName-%s",RandomData.getRandomAlphanumeric());
-        siteService.create(user1, password, domain, siteNameForEventWithTags, siteNameForEventWithTags, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteNameForEventWithTags, siteNameForEventWithTags, Site.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteNameForEventWithTags, Page.CALENDAR, null);
         calendarPage.navigate(siteNameForEventWithTags);
 

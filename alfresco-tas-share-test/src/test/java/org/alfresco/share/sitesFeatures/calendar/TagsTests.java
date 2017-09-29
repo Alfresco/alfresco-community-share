@@ -9,7 +9,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -41,7 +41,7 @@ public class TagsTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
-        siteService.create(user1, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
 
         sitePagesService.addCalendarEvent(user1, password, siteName, "event1", "", "", currentDate, currentDate, "08:00", "09:00", false, "tag1");

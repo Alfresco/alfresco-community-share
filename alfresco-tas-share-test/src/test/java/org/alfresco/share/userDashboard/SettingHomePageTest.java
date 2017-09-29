@@ -19,7 +19,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertTrue;
@@ -78,7 +78,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
-        siteService.create(userName1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         userService.createSiteMember(userName1, password, userName2, siteName, "SiteCollaborator");
         contentService.createFolder(userName2, password, folderName, siteName);
         setupAuthenticatedSession(userName1, password);
@@ -249,7 +249,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName);
         setupAuthenticatedSession(userName, password);
 

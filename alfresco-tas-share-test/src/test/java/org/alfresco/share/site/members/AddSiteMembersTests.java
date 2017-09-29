@@ -10,7 +10,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -75,7 +75,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, removeUser, password, removeUser + domain, removeUser, removeUser);
 
-        siteService.create(userManager1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userManager1, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userManager1, password);
     }
 

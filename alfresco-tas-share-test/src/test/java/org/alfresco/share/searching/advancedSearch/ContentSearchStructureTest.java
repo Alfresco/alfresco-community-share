@@ -16,7 +16,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePages.add(DashboardCustomization.Page.LINKS);
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, word + ".txt", phrase);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, phrase + ".txt", word);
@@ -155,7 +155,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePages.add(DashboardCustomization.Page.LINKS);
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "1.txt", word1 + " " + word2 + " " + word3);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "2.txt", word3 + " " + word2 + " " + word1);
@@ -254,7 +254,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePages.add(DashboardCustomization.Page.LINKS);
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + "1.txt", word1);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, word2 + " .txt", identifier + "2.txt");
@@ -304,7 +304,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePages.add(DashboardCustomization.Page.BLOG);
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
         sitePagesService.createBlogPost(userName, password, siteName, "file1" + identifier, "", false, null);
         sitePagesService.createBlogPost(userName, password, siteName, "file2" + identifier, "file1" + identifier, false, null);
@@ -336,7 +336,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePages.add(DashboardCustomization.Page.BLOG);
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
         contentService.createFolder(userName, password, "file1" + identifier, siteName);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.PDF, "testcontent_10." + identifier + ".pdf", "");
@@ -374,7 +374,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePages.add(DashboardCustomization.Page.BLOG);
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
         sitePagesService.createBlogPost(userName, password, siteName, "file1" + identifier, "", false, null);
 
@@ -409,7 +409,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         String siteName = "Site1" + identifier;
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + ".txt", "");
         setupAuthenticatedSession(userName, password);
         siteDashboardPage.navigate(siteName);
@@ -453,7 +453,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         String siteName = "Site1" + identifier;
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, identifier + ".txt", "");
         setupAuthenticatedSession(userName, password);
         siteDashboardPage.navigate(siteName);
@@ -502,7 +502,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePages.add(DashboardCustomization.Page.LINKS);
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
         contentService.createFolder(userName, password, "folder" + identifier, siteName);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file" + identifier, "");
@@ -543,7 +543,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePages.add(DashboardCustomization.Page.LINKS);
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
         contentService.createFolder(userName, password, "folder" + identifier, siteName);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file" + identifier, "");
@@ -584,7 +584,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePages.add(DashboardCustomization.Page.DISCUSSIONS);
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file1" + identifier, word);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, "file2" + identifier, "2" + word);

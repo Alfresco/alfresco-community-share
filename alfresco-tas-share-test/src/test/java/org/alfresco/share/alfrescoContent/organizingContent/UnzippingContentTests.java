@@ -10,7 +10,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -40,8 +40,8 @@ public class UnzippingContentTests extends ContextAwareWebTest {
     @BeforeClass(alwaysRun = true)
     public void setupTest() {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
-        siteService.create(testUser, password, domain, siteName1, siteName1, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName1, siteName1, Site.Visibility.PUBLIC);
         contentService.uploadFileInSite(testUser, password, siteName, testDataFolder + zipFile);
         contentService.uploadFileInSite(testUser, password, siteName, testDataFolder + acpFile);
         contentService.uploadFileInSite(testUser, password, siteName1, testDataFolder + acpFile);

@@ -11,7 +11,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -53,7 +53,7 @@ public class TrashcanTests extends ContextAwareWebTest
         String siteName = "site-C10506-" + random;
         String fileName = "fileName-C10506-" + random;
         String folderName = "folder-C10506-" + random;
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentService.createFolder(userName, password, folderName, siteName);
 
@@ -95,7 +95,7 @@ public class TrashcanTests extends ContextAwareWebTest
         String fileName = "fileName-C7572-" + random;
         String folderName = "folder-C7572-" + random;
 
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentService.createFolder(userName, password, folderName, siteName);
 
@@ -136,7 +136,7 @@ public class TrashcanTests extends ContextAwareWebTest
         String fileName = "fileName-C7573-" + random;
         String folderName = "folder-C7573-" + random;
 
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentService.createFolder(userName, password, folderName, siteName);
 

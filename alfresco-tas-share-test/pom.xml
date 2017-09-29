@@ -13,7 +13,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<suiteXmlFile>src/test/resources/share-sanity-suite.xml</suiteXmlFile>
-		<tas.utility.version>1.0.22-SNAPSHOT</tas.utility.version>
+		<tas.utility.version>1.0.15</tas.utility.version>
 		<maven-remote-resources.version>1.5</maven-remote-resources.version>
 		<maven-jar-plugin.version>2.6</maven-jar-plugin.version>
 	</properties>
@@ -47,11 +47,6 @@
 					<artifactId>testng</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>RELEASE</version>
 		</dependency>
 
 	</dependencies>

@@ -7,7 +7,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -44,7 +44,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     public void createNewFolderUsingMenu()
     {
         String siteName1 = "Site-C6276-" + uniqueId;
-        siteService.create(userName, password, domain, siteName1, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
         String folderName = "C6276-folderName-" + uniqueId;
         String folderTitle = "C6276-folderTitle" + uniqueId;
         String folderDescription = "C6276-folderDescription" + uniqueId;
@@ -85,7 +85,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     public void createFolderLink()
     {
         String siteName1 = "Site-C6277-" + uniqueId;
-        siteService.create(userName, password, domain, siteName1, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
         String folderName = "C6277-folderName-" + uniqueId;
 
         setupAuthenticatedSession(userName, password);
@@ -115,7 +115,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     public void cancelCreatingFolder()
     {
         String siteName1 = "Site-C6278-" + uniqueId;
-        siteService.create(userName, password, domain, siteName1, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
         String folderName = "C6278-folderName-" + uniqueId;
 
         setupAuthenticatedSession(userName, password);
@@ -141,7 +141,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         String siteName1 = "Site-C6291-" + uniqueId;
         String folderName1 = "C6291-folderName1-" + uniqueId;
         String folderName2 = "C6291-folderName2-" + uniqueId;
-        siteService.create(userName, password, domain, siteName1, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName1, siteName1);
 
         setupAuthenticatedSession(userName, password);

@@ -13,7 +13,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -73,7 +73,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     {
         //precondition
         siteName = String.format("Site-C2777-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
         LOG.info("STEP 1 - Navigate to Add Groups page for " + siteName);
@@ -109,7 +109,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     {
         //precondition
         siteName = String.format("Site-C2778-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
         LOG.info("STEP 1 - Navigate to Add Groups page for " + siteName);
@@ -144,7 +144,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     {
         //precondition
         siteName = String.format("Site-C2779-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
         LOG.info("STEP 1 - Navigate to Add Groups page for " + siteName);
@@ -179,7 +179,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     {
         //precondition
         siteName = String.format("Site-C2780-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
         LOG.info("STEP 1 - Navigate to Add Groups page for " + siteName);
@@ -214,7 +214,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     {
         LOG.info("STEP 1 - Create valid user and site");
         siteName = String.format("Site-C2784-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
         LOG.info("STEP 2 - Open Site Groups page, check that all elements are present");
@@ -234,7 +234,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     {
         LOG.info("STEP 1 - Create valid user and site");
         siteName = String.format("Site-C2812-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
         LOG.info("STEP 2 - Go back to site groups page from add groups page, check proper page is opened");
@@ -249,7 +249,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     {
         LOG.info("STEP 1 - Create valid user and site");
         siteName = String.format("Site-C2785-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
         LOG.info("STEP 3 - Search for empty groups");
@@ -299,7 +299,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userCollaborator, password, userCollaborator + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, userConsumer, password, userConsumer + domain, "firstName", "lastName");
-        siteService.create(userManager, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
 
         LOG.info("STEP 2 - Create 4 groups and add created users to them");
         groupService.createGroup(adminUser, adminPassword, groupManager);
@@ -347,7 +347,7 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
     {
         LOG.info("STEP 1 - Create 3 users and one site. Login with user1");
         siteName = String.format("Site-C2846-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
 
         LOG.info("STEP 2 - Search for group in Site Groups page. Invite group and check that is added on invited list");

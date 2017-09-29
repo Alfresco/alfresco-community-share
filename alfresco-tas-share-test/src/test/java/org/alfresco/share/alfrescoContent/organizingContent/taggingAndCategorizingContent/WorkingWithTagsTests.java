@@ -7,7 +7,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
@@ -36,7 +36,7 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
         String addedTagName = "addedTag-C7444-" + random;
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
-        siteService.create(userName, password, domain, siteName, "Description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "Description", Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentAction.addSingleTag(userName, password, siteName, fileName, tagName);
 

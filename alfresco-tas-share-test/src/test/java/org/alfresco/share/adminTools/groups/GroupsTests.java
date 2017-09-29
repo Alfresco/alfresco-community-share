@@ -9,7 +9,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -50,7 +50,7 @@ public class GroupsTests extends ContextAwareWebTest
     public void beforeClass()
     {
         userService.create(adminUser, adminPassword, userName, password, domain, "name", uniqueIdentifier);
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         groupService.createGroup(adminUser, adminPassword, C9462group);
         groupService.createGroup(adminUser, adminPassword, C9465group);
         groupService.createGroup(adminUser, adminPassword, C9471group);

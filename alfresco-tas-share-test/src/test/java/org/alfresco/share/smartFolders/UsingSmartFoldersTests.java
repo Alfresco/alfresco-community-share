@@ -15,7 +15,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -60,7 +60,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void createUserAndSite() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         testFilePath = testDataFolder + testFileName;
         contentService.uploadFileInSite(userName, password, siteName, filePath);
         contentService.uploadFileInSite(userName, password, siteName, pptxPath);

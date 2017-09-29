@@ -7,7 +7,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.Test;
 
 import java.awt.*;
@@ -33,7 +33,7 @@ public class UploadingFilesTests extends ContextAwareWebTest
         String testFile = random + "-C6970-File.txt";
         String testFilePath = testDataFolder + testFile;
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
 
         LOG.info("Precondition: Login as user and navigate to My Files page.");
         setupAuthenticatedSession(user, password);
@@ -58,7 +58,7 @@ public class UploadingFilesTests extends ContextAwareWebTest
         String testFilePath = testDataFolder + testFileName;
 
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         contentService.createFolder(testUser, password, folderName, siteName);
         setupAuthenticatedSession(testUser, password);
         documentLibraryPage.navigate(siteName);

@@ -13,7 +13,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -76,7 +76,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         List<DashboardCustomization.Page> pagesToAdd = new ArrayList<DashboardCustomization.Page>();
         pagesToAdd.add(DashboardCustomization.Page.BLOG);
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
         contentService.createDocument(userName,password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42558file, C42558file);

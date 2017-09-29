@@ -9,13 +9,13 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService.Visibility;
+import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 
-import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
+import static org.springframework.social.alfresco.api.entities.Role.SiteCollaborator;
 import static org.testng.Assert.*;
 
 /**

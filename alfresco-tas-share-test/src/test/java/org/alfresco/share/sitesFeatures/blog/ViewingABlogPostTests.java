@@ -10,7 +10,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -49,7 +49,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, user2);
-        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, user2, siteName, "SiteManager");
         siteService.addPageToSite(user1, password, siteName, Page.BLOG, null);
         sitePagesService.createBlogPost(user2, password, siteName, blogTitleUser2Draft, blogContentDraft, true, tags);

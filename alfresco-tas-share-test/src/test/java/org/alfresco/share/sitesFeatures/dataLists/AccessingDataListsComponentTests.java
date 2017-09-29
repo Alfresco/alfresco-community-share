@@ -17,7 +17,7 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -55,7 +55,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     @BeforeMethod(alwaysRun = true)
     public void precondition() {
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
     }
     

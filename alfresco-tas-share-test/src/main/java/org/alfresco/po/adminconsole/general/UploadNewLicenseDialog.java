@@ -18,14 +18,14 @@ public class UploadNewLicenseDialog extends AdminConsoleDialog
     public void selectLicense(String filePath)
     {
         browser.switchTo().frame(dialogFrame);
-        browser.waitUntilElementIsPresent(fileField).sendKeys(filePath);
+        browser.waitUntilElementPresent(fileField).sendKeys(filePath);
         browser.switchTo().defaultContent();
     }
 
     public void uploadLicense(String filePath)
     {
         browser.switchTo().frame(dialogFrame);
-        browser.waitUntilElementIsPresent(fileField).sendKeys(filePath);
+        browser.waitUntilElementPresent(fileField).sendKeys(filePath);
         browser.waitUntilElementClickable(uploadButton, properties.getImplicitWait()).click();
         browser.switchTo().defaultContent();
     }

@@ -8,7 +8,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -38,14 +38,14 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
-        siteService.create(user, password, domain, siteNameC5785, siteNameC5785, SiteService.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteNameC5785, siteNameC5785, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteNameC5785, DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + fileName+".docx");
         contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + fileName+".txt");
         contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + "newavatar.jpg");
         contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + "newavatar.bmp");
 
-        siteService.create(user, password, domain, siteNameC5783, siteNameC5783, SiteService.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteNameC5783, siteNameC5783, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteNameC5783, DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(user, password);
     }

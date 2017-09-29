@@ -14,7 +14,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -66,8 +66,8 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName2, description, Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
     }
 

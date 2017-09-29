@@ -11,7 +11,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -56,7 +56,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     public void siteLinksDashletHelpNotification()
     {
         siteName = String.format("SiteName-C5525-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_LINKS, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
 
         LOG.info("STEP 1: Navigate to " + siteName + " dashboard and check the 'Site Links' dashlet.");
@@ -82,7 +82,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     public void siteLinksDashletCreateLink()
     {
         siteName = String.format("SiteName-C5534-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_LINKS, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         siteDashboard.navigate(siteName);
 
@@ -119,7 +119,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     public void siteLinksDashletDetailsButton()
     {
         siteName = String.format("SiteName-C5804-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_LINKS, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         sitePagesService.createLink(user, password, siteName, linkTitle, "www.google.com", "Search engine", false, Collections.singletonList("tag1"));
         siteDashboard.navigate(siteName);

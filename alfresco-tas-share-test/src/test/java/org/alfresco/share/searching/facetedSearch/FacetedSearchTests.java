@@ -17,7 +17,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -82,9 +82,9 @@ public class FacetedSearchTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
-        siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteForCopy, description, SiteService.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteForMove, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteForCopy, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteForMove, description, Site.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName1, docContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName2, docContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName3, docContent);

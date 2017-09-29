@@ -8,7 +8,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -50,7 +50,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, "lastName");
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, "lastName");
-        siteService.create(userName1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName1, password, domain, siteName, description, Site.Visibility.PUBLIC);
         siteService.addPageToSite(userName1, password, siteName, DashboardCustomization.Page.WIKI, null);
         userService.createSiteMember(userName1, password, userName2, siteName, "SiteManager");
         userService.createSiteMember(userName1, password, userName2, siteName, "SiteManager");

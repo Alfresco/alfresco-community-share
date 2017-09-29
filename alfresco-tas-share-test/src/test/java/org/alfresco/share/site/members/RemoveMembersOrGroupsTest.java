@@ -10,7 +10,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -47,7 +47,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
     private String user2CompleteName;
     private String user1CompleteName;
 
-    public void setup(String id, SiteService.Visibility visibility) throws DataPreparationException {
+    public void setup(String id, Site.Visibility visibility) throws DataPreparationException {
         super.setup();
 
         uniqueIdentifier = "-" + id + "-" + RandomData.getRandomAlphanumeric();
@@ -73,7 +73,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeSiteMemberFromPublicSiteTest() throws DataPreparationException {
         LOG.info("Starting test C2882");
-        setup("C2882", SiteService.Visibility.PUBLIC);
+        setup("C2882", Site.Visibility.PUBLIC);
         // preconditions
         userService.createSiteMember(user1, password, user2, siteName, "SiteCollaborator");
         LOG.info("Adding " + user2 + "as " + siteName + " collaborator");
@@ -109,7 +109,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         LOG.info("Starting test C2883");
 
         // preconditions
-        setup("C2883", SiteService.Visibility.PUBLIC);
+        setup("C2883", Site.Visibility.PUBLIC);
         group1 = "testGroup" + uniqueIdentifier;
 
         LOG.info("Created site " + siteName + " with user " + user1 + "as manager");
@@ -165,7 +165,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, siteContributor, password, siteContributor + domain, "Contributor", description);
         userService.create(adminUser, adminPassword, siteConsumer, password, siteConsumer + domain, "Consumer", description);
 
-        siteService.create(siteManager, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(siteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
         LOG.info("Created site " + siteName + " with user " + siteManager + "as manager");
 
         userService.createSiteMember(siteManager, password, siteCollaborator, siteName, "SiteCollaborator");
@@ -257,7 +257,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, siteContributor, password, siteContributor + domain, "Contributor", description);
         userService.create(adminUser, adminPassword, siteConsumer, password, siteConsumer + domain, "Consumer", description);
 
-        siteService.create(siteManager, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(siteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
         LOG.info("Created site " + siteName + " with user " + siteManager + "as manager");
 
         groupService.createGroup(adminUser, adminPassword, group1);
@@ -314,7 +314,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         LOG.info("Starting test C2890");
 
         // preconditions
-        setup("C2890", SiteService.Visibility.PRIVATE);
+        setup("C2890", Site.Visibility.PRIVATE);
         LOG.info("Created site " + siteName + " with user " + user1 + "as manager");
 
         userService.createSiteMember(user1, password, user2, siteName, "SiteContributor");
@@ -352,7 +352,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         LOG.info("Starting test C2892");
 
         // preconditions
-        setup("C2892", SiteService.Visibility.MODERATED);
+        setup("C2892", Site.Visibility.MODERATED);
         LOG.info("Created site " + siteName + " with user " + user1 + "as manager");
 
         userService.createSiteMember(user1, password, user2, siteName, "SiteContributor");

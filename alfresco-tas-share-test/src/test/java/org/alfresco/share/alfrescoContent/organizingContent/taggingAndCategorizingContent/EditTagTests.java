@@ -7,7 +7,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -36,8 +36,8 @@ public class EditTagTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
-        siteService.create(userName, password, domain, siteName1, "Description", SiteService.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteName2, "Description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName1, "Description", Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName2, "Description", Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName2);
         contentAction.addSingleTag(userName, password, siteName2, folderName, tagName);
         contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "content of the file.");

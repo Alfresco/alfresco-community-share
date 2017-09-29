@@ -15,7 +15,7 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -76,7 +76,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest {
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeCurrentSiteFromFavoritesUsingSitesMenu() {
         String siteName = String.format("Site1%s",RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         LOG.info("STEP 1 - Navigate to the created site. Click \"Sites\" menu from Alfresco Toolbar");
         siteDashboardPage.navigate(siteName);
@@ -117,7 +117,7 @@ public class FavoriteSiteTests extends ContextAwareWebTest {
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removeSiteFromFavoritesUsingMySitesDashlet() {
         String siteName = String.format("Site1%s",RandomData.getRandomAlphanumeric());
-        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", Site.Visibility.PUBLIC);
         siteService.setFavorite(userName, password, siteName);
         setupAuthenticatedSession(userName, password);
         LOG.info("STEP 1 - Go to \"User Dashboard\" page");

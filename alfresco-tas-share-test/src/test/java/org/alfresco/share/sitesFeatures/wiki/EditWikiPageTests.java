@@ -8,7 +8,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.springframework.social.alfresco.api.entities.Site;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -55,7 +55,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     public void createUser()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);
-        siteService.create(testUser, password, domain, siteNameC5545, siteNameC5545, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteNameC5545, siteNameC5545, Site.Visibility.PUBLIC);
         contentService.uploadFileInSite(testUser, password, siteNameC5545, testDataFolder + image);
 
         setupAuthenticatedSession(testUser, password);
@@ -70,7 +70,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
 
         LOG.info("Preconditions: create site and wiki page");
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, wikiInitialContent, null);
         wikiListPage.navigate(siteName);
@@ -102,7 +102,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
 
         LOG.info("Preconditions: create site and wiki page");
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Content", tags);
         wikiListPage.navigate(siteName);
@@ -132,7 +132,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
 
         LOG.info("Preconditions: create site and wiki page");
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Content", null);
         wikiListPage.navigate(siteName);
@@ -181,7 +181,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
 
         LOG.info("Preconditions: create site and wiki page, upload document in document library");
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, Site.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
         sitePagesService.createWiki(testUser, password, siteName, wikiPageTitle, "Content", null);
         contentService.uploadFileInSite(testUser, password, siteName, testDataFolder + docName);
