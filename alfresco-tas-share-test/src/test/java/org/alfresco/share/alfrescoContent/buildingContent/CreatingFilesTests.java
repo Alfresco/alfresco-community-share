@@ -43,14 +43,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Create... button");
         documentLibraryPage.clickCreateButton();
-        Assert.assertTrue(create.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
         Assert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
-        Assert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
-        Assert.assertTrue(create.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
-        Assert.assertTrue(create.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
-        Assert.assertTrue(create.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
 
         LOG.info("Step 2: Click \"Plain Text...\" option.");
         create.clickPlainTextButton();
@@ -90,16 +83,9 @@ public class CreatingFilesTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
 
-        LOG.info("Step 1: Click Create... button");
+        LOG.info("Step 1: Click Create... button and check that the create HTML button is available");
         documentLibraryPage.clickCreateButton();
-        Assert.assertTrue(create.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
-        Assert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
         Assert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
-        Assert.assertTrue(create.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
-        Assert.assertTrue(create.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
-        Assert.assertTrue(create.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
 
         LOG.info("Step 2: Click \"HTML...\" option.");
         create.clickHTML();
@@ -140,14 +126,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Create... button");
         documentLibraryPage.clickCreateButton();
-        Assert.assertTrue(create.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
-        Assert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
-        Assert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
-        Assert.assertTrue(create.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
-        Assert.assertTrue(create.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
-        Assert.assertTrue(create.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
+        Assert.assertTrue(create.isXMLButtonDisplayed(), "Create... XML... is not available");
         
         LOG.info("Step 2: Click \"XML...\" option.");
         create.clickXMLButton();
