@@ -123,7 +123,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
     }
 
-    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
+    @Bug(id="MNT-18059",status = Bug.Status.FIXED)
     @TestRail(id = "C8650")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void updateFileInSmartFolder() throws Exception {
