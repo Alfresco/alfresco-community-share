@@ -12,6 +12,7 @@ import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 public class CreatingFilesTests extends ContextAwareWebTest
 {
@@ -166,18 +167,8 @@ public class CreatingFilesTests extends ContextAwareWebTest
     {
         documentLibraryPage.navigate(siteName);
         
-        LOG.info("Step 1: Click Create... button");
+        LOG.info("Step 1 & 2: Click Create... button and select Plain Text option");
         documentLibraryPage.clickCreateButton();
-        Assert.assertTrue(create.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
-        Assert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
-        Assert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
-        Assert.assertTrue(create.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
-        Assert.assertTrue(create.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
-        Assert.assertTrue(create.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
-        
-        LOG.info("Step 2: Click \"Plain Text...\" option.");
         create.clickPlainTextButton();
         Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
         Assert.assertTrue(create.isCreateFormDisplayed(), "Create Plain Text form is not displayed");
@@ -195,5 +186,24 @@ public class CreatingFilesTests extends ContextAwareWebTest
         Assert.assertFalse(create.isTitleMarkedAsMandatory(), "Title field is marked as mandatory");
         Assert.assertFalse(create.isDescriptionMarkedAsMandatory(), "Description field is marked as mandatory");
     }
-    
+
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void checkAllCreateAvailableActions()
+    {
+        SoftAssert softAssert= new SoftAssert();
+        documentLibraryPage.navigate(siteName);
+
+        LOG.info("Step 1: Click Create... button");
+        documentLibraryPage.clickCreateButton();
+        softAssert.assertTrue(create.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
+        softAssert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
+        softAssert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
+        softAssert.assertTrue(create.isXMLButtonDisplayed(), "Create... XML... is not available");
+        softAssert.assertTrue(create.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
+        softAssert.assertTrue(create.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
+        softAssert.assertTrue(create.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
+        softAssert.assertTrue(create.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
+        softAssert.assertTrue(create.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
+        softAssert.assertAll();
+    }
 }
