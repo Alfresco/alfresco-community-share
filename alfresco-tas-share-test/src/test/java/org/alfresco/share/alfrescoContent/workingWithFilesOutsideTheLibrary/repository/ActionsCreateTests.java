@@ -15,6 +15,7 @@ import org.springframework.social.alfresco.api.entities.Site.Visibility;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import static org.testng.Assert.assertEquals;
 
@@ -64,14 +65,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Create... button.");
         repository.clickCreateButton();
-        Assert.assertTrue(create.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
         Assert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
-        Assert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
-        Assert.assertTrue(create.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
-        Assert.assertTrue(create.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
-        Assert.assertTrue(create.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
 
         LOG.info("Step 2: Click \"Plain Text...\" option.");
         create.clickPlainTextButton();
@@ -117,14 +111,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Create... button");
         repository.clickCreateButton();
-        Assert.assertTrue(create.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
-        Assert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
         Assert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
-        Assert.assertTrue(create.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
-        Assert.assertTrue(create.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
-        Assert.assertTrue(create.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
 
         LOG.info("Step 2: Click \"HTML...\" option.");
         create.clickHTML();
@@ -169,14 +156,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Create... button");
         repository.clickCreateButton();
-        Assert.assertTrue(create.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
-        Assert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
-        Assert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
-        Assert.assertTrue(create.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
-        Assert.assertTrue(create.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
-        Assert.assertTrue(create.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
-        Assert.assertTrue(create.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
+        Assert.assertTrue(create.isXMLButtonDisplayed(), "The XML options is not displayed");
 
         LOG.info("Step 2: Click \"XML...\" option.");
         create.clickXMLButton();
@@ -298,5 +278,30 @@ public class ActionsCreateTests extends ContextAwareWebTest
         repository.clickCreateButtonWithoutWait();
         Assert.assertTrue(repository.isCreateContentMenuDisplayed(), "Create Content menu is not displayed when the Create button is clicked");
         cleanupAuthenticatedSession();
+    }
+
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void checkAllCreateAvailableActions()
+    {
+        SoftAssert softAssert = new SoftAssert();
+        // Preconditions
+        setupAuthenticatedSession(user, password);
+        repository.navigate();
+        repository.clickFolderFromExplorerPanel("User Homes");
+        repository.clickOnFolderName(user);
+
+        LOG.info("Step 1: Click Create... button");
+        repository.clickCreateButton();
+        softAssert.assertTrue(create.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
+        softAssert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
+        softAssert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
+        softAssert.assertTrue(create.isXMLButtonDisplayed(), "Create... XML... is not available");
+        softAssert.assertTrue(create.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
+        softAssert.assertTrue(create.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
+        softAssert.assertTrue(create.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
+        softAssert.assertTrue(create.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
+        softAssert.assertTrue(create.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
+
+        softAssert.assertAll();
     }
 }
