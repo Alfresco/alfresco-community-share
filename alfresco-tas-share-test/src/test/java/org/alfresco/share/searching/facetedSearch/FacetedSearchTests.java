@@ -91,14 +91,13 @@ public class FacetedSearchTests extends ContextAwareWebTest
 
     @AfterClass(alwaysRun = true) public void cleanup()
     {
-        // contentService.deleteFiles(adminUser, adminPassword,siteName, docName1, docName2, docName3, docForMove, docWorkflow);
         siteService.delete(adminUser, adminPassword, domain, siteName);
         siteService.delete(adminUser, adminPassword, domain, siteForCopy);
         siteService.delete(adminUser, adminPassword, domain, siteForMove);
         userService.delete(adminUser, adminPassword, userName);
     }
 
-    @TestRail(id = "C12816") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 0)
+    @TestRail(id = "C12816") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 2)
     public void facetedSearchBulkActionsTest()
     {
         LOG.info("STEP1: Verify search items are displayed.");
@@ -123,7 +122,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C12817") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 2)
+    @TestRail(id = "C12817") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 1)
     public void facetedSearchALLOption()
     {
         LOG.info("STEP1&2&3: Select ALL option from the Select Items List checkbox and Gallery View");
@@ -134,11 +133,10 @@ public class FacetedSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C12818") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 3)
+    @TestRail(id = "C12818") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 4)
     public void facetedSearchNoneOption()
     {
         LOG.info("STEP1: Select ALL option from the Select Items List checkbox.");
-        searchPage.clickDetailedView();
         searchPage.clickSelectAll();
         assertTrue(searchPage.isALLItemsCheckboxChecked());
         LOG.info("STEP2: Select None option from the Select Items List checkbox.");
@@ -152,7 +150,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C12819")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 1)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 2)
     public void facetedSearchInvertOption()
     {
         LOG.info("STEP1: Select ALL option from the Select Items List checkbox.");
@@ -167,7 +165,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C12821") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 4)
+    @TestRail(id = "C12821") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 5)
     public void facetedSearchDownloadAsZipAction()
     {
         LOG.info("STEP1: Select 'ALL' option from the Select Items List checkbox.");
@@ -182,10 +180,11 @@ public class FacetedSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C12823") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 5)
+    @TestRail(id = "C12823") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority =6)
     public void facetedSearchCopyToAction()
     {
         LOG.info("STEP1: Select the documents to be copied.");
+        searchPage.clickDetailedView();
         searchPage.clickCheckbox(docName1);
         searchPage.clickCheckbox(docName2);
         LOG.info("STEP2: Click on 'Copy to...' option from 'Selected Items...' dropdown.");
@@ -206,7 +205,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C12825") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 6)
+    @TestRail(id = "C12825") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 7)
     public void facetedSearchMoveToAction()
     {
         LOG.info("STEP1: Select the document to move.");
@@ -227,7 +226,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C12826") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 7)
+    @TestRail(id = "C12826") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 8)
     public void facetedSearchStartWorkflowAction()
     {
         LOG.info("STEP1: Select a document to start workflow.");
@@ -252,7 +251,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C12828") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 8)
+    @TestRail(id = "C12828") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 10)
     public void facetedSearchDeleteAction()
     {
         LOG.info("STEP1: Select the document to delete.");
