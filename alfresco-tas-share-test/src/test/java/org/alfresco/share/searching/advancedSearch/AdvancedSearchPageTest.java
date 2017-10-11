@@ -244,7 +244,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         advancedSearchPage.typeTitle("test" + identifier);
         advancedSearchPage.click1stSearch();
         Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_1"), "test" + identifier + " wiki 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " wiki 2"), "test" + identifier + " wiki 2 is displayed");
+        Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_2"), "test" + identifier + " wiki 2 is displayed");
 
         Assert.assertTrue(searchPage.isResultFound("test" + identifier + " blog 1"), "test" + identifier + " blog 1 is displayed");
         Assert.assertTrue(searchPage.isResultFound("test" + identifier + " blog 2"), "test" + identifier + " blog 2 is displayed");
