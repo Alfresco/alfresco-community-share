@@ -49,8 +49,6 @@ import java.util.List;
 
     @FindBy(css = ".filterLabel") private List<WebElement> allOptions;
 
-    //@FindBy(css = "#FCTSRCH_VIEWS_MENU span[class*='AlfMenuBarPopup__arrow']") private WebElement viewsDropdown;
-
     @FindBy(css="div[id='FCTSRCH_VIEWS_MENU'] img")
     private WebElement viewsDropdown;
     private By viewsDropdownOptionsSelector = By.cssSelector("#DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP .dijitMenuItemLabel");
@@ -91,7 +89,6 @@ import java.util.List;
 
     @FindBy(id="onActionCopyTo_text")
     private WebElement copyToAction;
-    //@FindBy(css = "td[id='onActionCopyTo_text']") private WebElement copyToAction;
 
     @FindBy(css = "DIV[ID='SELECTED_LIST_ITEMS'] span.alfresco-menus-AlfMenuBarPopup__arrow") private WebElement selectedListItemsDropdownArrow;
     private int i;
