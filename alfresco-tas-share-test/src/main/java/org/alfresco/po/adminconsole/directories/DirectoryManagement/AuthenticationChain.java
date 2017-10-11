@@ -43,9 +43,19 @@ public class AuthenticationChain {
         return rowInfo.get(4).getText();
     }
 
-    public void clickAction(String actionName) {
+    public void clickAction(String actionName) 
+    {
+    	WebElement link;
         STEP(String.format("Click action %s", actionName));
-        rowInfo.get(5).findElement(By.linkText(actionName)).click();
+        Utility.waitToLoopTime(1);
+        if(actionName.equals("Status [+]"))
+        {
+        	actionName = actionName.replace(" [+]", "");
+        	link = rowInfo.get(5).findElement(By.xpath(".//a[contains(text(),'" +  actionName +"')]"));
+        }
+        else
+        	link = rowInfo.get(5).findElement(By.xpath(".//a[text()='" +  actionName +"']"));
+        link.click();
         Utility.waitToLoopTime(1);
     }
 }
