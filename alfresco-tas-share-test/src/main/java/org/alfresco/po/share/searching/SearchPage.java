@@ -2,6 +2,7 @@ package org.alfresco.po.share.searching;
 
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -48,8 +49,10 @@ import java.util.List;
 
     @FindBy(css = ".filterLabel") private List<WebElement> allOptions;
 
-    @FindBy(css = "#FCTSRCH_VIEWS_MENU span[class*='AlfMenuBarPopup__arrow']") private WebElement viewsDropdown;
+    //@FindBy(css = "#FCTSRCH_VIEWS_MENU span[class*='AlfMenuBarPopup__arrow']") private WebElement viewsDropdown;
 
+    @FindBy(css="div[id='FCTSRCH_VIEWS_MENU'] img")
+    private WebElement viewsDropdown;
     private By viewsDropdownOptionsSelector = By.cssSelector("#DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP .dijitMenuItemLabel");
 
     @FindBy(css = "[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']") private List<WebElement> resultsGalleryViewList;
@@ -333,8 +336,9 @@ import java.util.List;
     public SearchPage clickDetailedView()
     {
         clickViewsDropdown();
-        getBrowser().waitUntilElementsVisible(viewsDropdownOptionsSelector);
+        getBrowser().waitUntilElementVisible(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP']"));
         browser.selectOptionFromFilterOptionsList("Detailed View", browser.findElements(viewsDropdownOptionsSelector));
+        browser.waitUntilElementDisappears(By.cssSelector("table[class*='alfresco-documentlibrary-AlfGalleryViewSlider']"));
         return (SearchPage) this.renderedPage();
     }
 
@@ -497,10 +501,21 @@ import java.util.List;
         return browser.isElementDisplayed(action);
     }
 
-    public void clickCopyTo()
+    public boolean isCopyToActionPresent()
     {
-        getBrowser().waitUntilElementClickable(copyToAction);
-        copyToAction.click();
+        return getBrowser().isElementDisplayed(copyToAction);
+    }
+    public HtmlPage clickCopyTo(HtmlPage page)
+    {
+       int retryCount = 0;
+        if(!isCopyToActionPresent()&& retryCount<=3)
+        {
+            clickSearchInDropdown();
+            copyToAction.click();
+            retryCount++;
+        }
+
+        return page.renderedPage();
     }
 
     public void clickOptionFromSelectedItemsDropdown(String optionName)
