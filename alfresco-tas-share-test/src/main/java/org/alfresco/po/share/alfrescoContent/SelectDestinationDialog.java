@@ -79,6 +79,7 @@ public class SelectDestinationDialog extends ShareDialog {
     }
 
     public void clickAllSitesButton() {
+        browser.waitUntilElementClickable(allSitesButton, 10L);
         allSitesButton.click();
     }
 
