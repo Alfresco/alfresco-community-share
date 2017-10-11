@@ -148,8 +148,8 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         LOG.info("STEP 2 - Fill in \"Keyword\" field with \"test\" and click \"Search\" button");
         advancedSearchPage.typeKeywords("test" + identifier);
         advancedSearchPage.click1stSearch();
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " wiki 1"), "test" + identifier + " wiki 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " wiki 2"), "test" + identifier + " wiki 2 is displayed");
+        Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_1"), "test" + identifier + " wiki 1 is displayed");
+        Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_2"), "test" + identifier + " wiki 2 is displayed");
         Assert.assertTrue(searchPage.isResultFound(identifier + " wiki 3"), identifier + " wiki 3 is displayed");
 
         Assert.assertTrue(searchPage.isResultFound("test" + identifier + " blog 1"), "test" + identifier + " blog 1 is displayed");
@@ -207,8 +207,8 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         LOG.info("STEP 2 - Fill in \"Name\" field with \"test*\"and click \"Search\" button");
         advancedSearchPage.typeName("test" + identifier + "*");
         advancedSearchPage.click1stSearch();
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " wiki 1"), "test" + identifier + " wiki 1 is displayed");
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " wiki 2"), "test" + identifier + " wiki 2 is displayed");
+        Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_1"), "test" + identifier + " wiki 1 is displayed");
+        Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_2"), "test" + identifier + " wiki 2 is displayed");
 
         LOG.info("STEP 3 - Choose \"Folders\" from \"Look for\" drop-down");
         advancedSearchPage.navigate();
@@ -243,7 +243,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         LOG.info("STEP 2 - Fill in \"Title\" field with \"test*\"and click \"Search\" button");
         advancedSearchPage.typeTitle("test" + identifier);
         advancedSearchPage.click1stSearch();
-        Assert.assertTrue(searchPage.isResultFound("test" + identifier + " wiki 1"), "test" + identifier + " wiki 1 is displayed");
+        Assert.assertTrue(searchPage.isResultFound("test" + identifier + "_wiki_1"), "test" + identifier + " wiki 1 is displayed");
         Assert.assertTrue(searchPage.isResultFound("test" + identifier + " wiki 2"), "test" + identifier + " wiki 2 is displayed");
 
         Assert.assertTrue(searchPage.isResultFound("test" + identifier + " blog 1"), "test" + identifier + " blog 1 is displayed");
