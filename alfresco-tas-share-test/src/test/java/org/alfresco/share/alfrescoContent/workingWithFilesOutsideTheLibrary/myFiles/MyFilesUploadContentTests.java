@@ -43,7 +43,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest {
         assertTrue(myFilesPage.isContentNameDisplayed(testFile),String.format("The file [%s] is not present", testFile));
     }
 
-    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
+    @Bug(id="MNT-18059",status = Bug.Status.FIXED)
     @TestRail(id = "C7792")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUpdateDocumentNewVersion() {

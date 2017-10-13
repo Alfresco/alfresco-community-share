@@ -43,7 +43,7 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest 
 		setupAuthenticatedSession(userName, password);
 	}
 
-	@Bug(id="MNT-18059",status = Bug.Status.OPENED)
+	@Bug(id="MNT-18059",status = Bug.Status.FIXED)
 	@TestRail(id = "C7074")
 	@Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 	public void uploadFileUsingUploadNewVersion() {

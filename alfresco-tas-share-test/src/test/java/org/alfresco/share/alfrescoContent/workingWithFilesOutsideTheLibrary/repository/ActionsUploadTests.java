@@ -48,7 +48,7 @@ public class ActionsUploadTests extends ContextAwareWebTest {
         assertTrue(repositoryPage.isContentNameDisplayed(testFile), String.format("File [%s] is displayed", testFile));
     }
 
-    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
+    @Bug(id="MNT-18059",status = Bug.Status.FIXED)
     @TestRail(id = "C8175")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void updateDocumentNewVersion() {
