@@ -30,7 +30,7 @@ public class LogoTests extends ContextAwareWebTest {
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
     public void checkAboutBox() {
         LOG.info("STEP 1: Verify bottom of User Dashboard page");
-        assertEquals(userDashboard.getPageTitle(), "Alfresco » User Dashboard", "Displayed page= ");
+        assertEquals(userDashboard.getPageTitle(), language.translate("userDashboard.PageTitle"), "Displayed page= ");
         assertTrue(userDashboard.isAlfrescoLogoDisplayed(), "Alfresco Logo is displayed.");
         LOG.info("STEP 2: Click Alfresco logo from bottom page");
         userDashboard.openAboutPage();
