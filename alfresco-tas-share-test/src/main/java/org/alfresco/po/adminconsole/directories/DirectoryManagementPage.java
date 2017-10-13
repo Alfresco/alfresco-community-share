@@ -2,6 +2,7 @@ package org.alfresco.po.adminconsole.directories;
 
 import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.po.adminconsole.directories.DirectoryManagement.*;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
@@ -237,6 +238,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
             if(auth.getType().equals(authenticationType))
             {
                 auth.clickAction("Edit");
+                Utility.waitToLoopTime(3);
                 return new EditDirectoryDialog();
             }
         }

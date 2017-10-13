@@ -255,7 +255,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
     public void clickRootList()
     {
         getBrowser().waitUntilElementClickable(rootList).click();
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//text()[contains(.,'Node Information')]"), 3);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//div[@class='main']//h2[contains(text(),'Node Information')]"), 3);
     }
 
     public List<String> getAspects() {
