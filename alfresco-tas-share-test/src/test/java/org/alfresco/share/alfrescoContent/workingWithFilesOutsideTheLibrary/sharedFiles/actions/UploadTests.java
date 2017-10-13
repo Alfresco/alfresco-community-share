@@ -69,7 +69,7 @@ public class UploadTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(doc1), String.format("File [%s] is displayed", doc1));
         cleanupAuthenticatedSession();
     }
-    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
+    @Bug(id="MNT-18059",status = Bug.Status.FIXED)
     @TestRail(id = "C7942")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void updateDocumentNewVersion() {
