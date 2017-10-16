@@ -12,6 +12,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.alfresco.api.entities.Site;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -41,28 +42,23 @@ public class EditRulesTests extends ContextAwareWebTest {
     @Autowired
     private SelectDestinationDialog selectDestinationDialog;
 
-    private final String random = RandomData.getRandomAlphanumeric();
-    private final String userName = "user-" + random;
-    private final String siteName = "Site-" + random;
-    private final String description = "description-" + random;
+    private final String userName = "user-" + RandomData.getRandomAlphanumeric();
+    private final String siteName = "Site-" + RandomData.getRandomAlphanumeric();
+    private final String description = "description-" + RandomData.getRandomAlphanumeric();
     private final String path = "Documents";
     private String folderName, ruleName;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest() {
-        String random = RandomData.getRandomAlphanumeric();
-        ruleName = "rule-" + random;
-        folderName = "folder-" + random;
+        ruleName = "rule-" + RandomData.getRandomAlphanumeric();
+        folderName = "folder-" + RandomData.getRandomAlphanumeric();
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
         siteService.create(userName, password, domain, siteName, description, Site.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("Navigate to Manage Rule page for folder");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
-        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
-        assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
         LOG.info("Navigate to Create rule page");
         manageRulesPage.clickCreateRules();
         editRulesPage.setCurrentSiteName(siteName);
@@ -75,14 +71,13 @@ public class EditRulesTests extends ContextAwareWebTest {
         selectDestinationDialog.clickOkButton();
         editRulesPage.renderedPage();
         editRulesPage.clickCreateButton();
-        assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         editRulesPage.cleanupSelectedValues();
     }
 
     @TestRail(id = "C7254")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editRuleDetails() {
-        String updatedRuleName = "updateRule-C7254-" + random;
+        String updatedRuleName = "updateRule-C7254-" + RandomData.getRandomAlphanumeric();
         String updatedDescription = "Updated Rule description";
         LOG.info("STEP1: Click 'Edit' button for rule");
         ruleDetailsPage.clickButton("edit");
@@ -110,7 +105,7 @@ public class EditRulesTests extends ContextAwareWebTest {
     @TestRail(id = "C7258")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void disableRule() {
-        String fileName = "fileC7258-" + random;
+        String fileName = "fileC7258-" + RandomData.getRandomAlphanumeric();
         LOG.info("STEP1: Click 'Edit' button for rule");
         ruleDetailsPage.clickButton("edit");
         assertEquals(editRulesPage.getRulePageHeader(), String.format(language.translate("rules.editPageHeader"), ruleName), "Page header=");
