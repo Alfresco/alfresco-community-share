@@ -10,7 +10,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -54,7 +54,7 @@ public class TagManagerTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user, password, domain, user, user);
         userService.create(adminUser, adminPassword, userAdmin, password, domain, userAdmin, userAdmin);
         groupService.addUserToGroup(adminUser, adminPassword, "ALFRESCO_ADMINISTRATORS", userAdmin);
-        siteService.create(user, password, domain, site, siteDescription, Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, site, siteDescription, SiteService.Visibility.PUBLIC);
         contentService.createDocument(user, password, site, CMISUtil.DocumentType.TEXT_PLAIN, fileName, content);
         contentAction.addMultipleTags(user, password, site, fileName, Arrays.asList(tag1, tag2, tag3));
     }

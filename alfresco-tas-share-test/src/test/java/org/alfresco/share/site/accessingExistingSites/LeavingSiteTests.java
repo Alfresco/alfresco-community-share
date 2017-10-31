@@ -13,7 +13,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -56,7 +56,7 @@ public class LeavingSiteTests extends ContextAwareWebTest {
         siteName = String.format("SiteName-C2926-%s", RandomData.getRandomAlphanumeric());
         dialogTitle = String.format(language.translate("leaveSite.dialogTitle"), siteName);
         dialogMessage = String.format(language.translate("leaveSite.dialogMessage"), siteName);
-        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
         LOG.info("STEP 1: Navigate to Site Dashboard for'" + siteName +"'");
         siteDashboard.navigate(siteName);
@@ -89,7 +89,7 @@ public class LeavingSiteTests extends ContextAwareWebTest {
         siteName = String.format("SiteName-C2927-%s", RandomData.getRandomAlphanumeric());
         dialogTitle = String.format(language.translate("leaveSite.dialogTitle"), siteName);
         dialogMessage = String.format(language.translate("leaveSite.dialogMessage"), siteName);
-        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
         setupAuthenticatedSession(user1, password);
         siteDashboard.navigate(siteName);
@@ -124,7 +124,7 @@ public class LeavingSiteTests extends ContextAwareWebTest {
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void leaveSiteUsingSiteFinder() {
          siteName = String.format("SiteName-C2928-%s", RandomData.getRandomAlphanumeric());
-         siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+         siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
          userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
          setupAuthenticatedSession(user1, password);
          LOG.info("STEP 1: Open 'Site Finder' page and search for '"+siteName+"'.");
@@ -146,7 +146,7 @@ public class LeavingSiteTests extends ContextAwareWebTest {
         siteName = String.format("SiteName-C2930-%s", RandomData.getRandomAlphanumeric());
         dialogTitle = String.format(language.translate("leaveSite.dialogTitle"), siteName);
         dialogMessage = String.format(language.translate("leaveSite.dialogMessage"), siteName);
-        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
         setupAuthenticatedSession(user1, password);
         siteDashboard.navigate(siteName);
@@ -181,7 +181,7 @@ public class LeavingSiteTests extends ContextAwareWebTest {
         siteName = String.format("SiteName-C2931-%s", RandomData.getRandomAlphanumeric());
         dialogTitle = String.format(language.translate("leaveSite.dialogTitle"), siteName);
         dialogMessage = String.format(language.translate("leaveSite.dialogMessage"), siteName);
-        siteService.create(user1, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
         siteDashboard.navigate(siteName);
         LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave Site.");

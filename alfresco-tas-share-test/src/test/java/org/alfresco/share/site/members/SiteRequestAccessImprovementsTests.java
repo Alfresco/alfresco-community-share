@@ -7,12 +7,13 @@ import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Role;
-import org.springframework.social.alfresco.api.entities.Site;
+import static org.alfresco.utility.constants.UserRole.SiteManager;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -62,10 +63,10 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName1, password, email, firstName, lastName + "1");
         userService.create(adminUser, adminPassword, userName2, password, email, firstName, lastName + "2");
         userService.create(adminUser, adminPassword, userName3, password, email, firstName, lastName + "3");
-        siteService.create(userName1, password, firstName + domain, site, description, Site.Visibility.MODERATED);
+        siteService.create(userName1, password, firstName + domain, site, description, SiteService.Visibility.MODERATED);
         userService.requestSiteMembership(userName2, password, site);
         groupService.createGroup(adminUser, adminPassword, group);
-        groupService.changeGroupRole(userName1, password, site, group, Role.SiteManager.toString());
+        groupService.changeGroupRole(userName1, password, site, group, UserRole.SiteManager.toString());
         groupService.addUserToGroup(adminUser, adminPassword, group, userName3);
     }
 
@@ -184,7 +185,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     {
         String userName4 = "user4" + RandomData.getRandomAlphanumeric();
         userService.create(adminUser, adminPassword, userName4, password, email, firstName, lastName + "4");
-        userService.createSiteMember(userName1, password, userName4, site, Role.SiteManager.toString());
+        userService.createSiteMember(userName1, password, userName4, site, UserRole.SiteManager.toString());
 
         setupAuthenticatedSession(userName1, password);
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");

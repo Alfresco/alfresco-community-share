@@ -9,7 +9,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -36,7 +36,7 @@ public class MyFilesTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         setupAuthenticatedSession(user, password);
     }

@@ -10,7 +10,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -35,7 +35,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         String userName = "user2198-" + RandomData.getRandomAlphanumeric() + domain;
         String siteName = String.format("C2198%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2198", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         customizeSite.navigate(siteName);
 
@@ -121,7 +121,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         String userName = "user2200-" + RandomData.getRandomAlphanumeric() + domain;
         String siteName = String.format("C2200%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2200", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
 
         LOG.info("Step 1 - Open 'Site Dashboard' page for the created site. Click 'Settings icon' -> 'Customize Dashboard'.");
         setupAuthenticatedSession(userName, password);
@@ -146,7 +146,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         String userName = "user2202-" + RandomData.getRandomAlphanumeric() + domain;
         String siteName = String.format("C2202%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2202", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step 1 / Step 2 - Go to 'Site Dashboard / Click 'Settings' icon -> 'Customize Dashboard.'");
@@ -194,7 +194,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         String userName = "user2203-" + RandomData.getRandomAlphanumeric() + domain;
         String siteName = String.format("C2203%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2203", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step 1 - Open 'Site Dashboard' page for the created site. Click 'Settings icon' -> 'Customize Dashboard'.");
@@ -222,7 +222,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         String userName = "user2207-" + RandomData.getRandomAlphanumeric() + domain;
         String siteName = String.format("C2207%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2207", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step 1 - Open 'Site Dashboard' page for the created site.");
@@ -244,7 +244,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         String userName = "user2208-" + RandomData.getRandomAlphanumeric() + domain;
         String siteName = String.format("C2208%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName, "C2208", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step 1 - Open 'Site Dashboard' page for the created site.");

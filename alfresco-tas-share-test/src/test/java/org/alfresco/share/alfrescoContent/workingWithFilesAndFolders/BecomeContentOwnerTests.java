@@ -9,7 +9,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
@@ -44,7 +44,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userSiteManager, password, userSiteManager + domain, firstName, lastName);
         userService.create(adminUser, adminPassword, userManager, password, userSiteManager + domain, firstName, lastName);
         userService.create(adminUser, adminPassword, userContributor, password, userSiteManager + domain, firstName, lastName);
-        siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(userSiteManager, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(userSiteManager, password, userManager, siteName, "SiteManager");
         userService.createSiteMember(userSiteManager, password, userContributor, siteName, "SiteContributor");
         contentService.createDocument(userContributor, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
@@ -93,7 +93,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userSiteManager, password, userSiteManager + domain, firstName, lastName);
         userService.create(adminUser, adminPassword, userManager, password, userSiteManager + domain, firstName, lastName);
         userService.create(adminUser, adminPassword, userContributor, password, userSiteManager + domain, firstName, lastName);
-        siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(userSiteManager, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(userSiteManager, password, userManager, siteName, "SiteManager");
         userService.createSiteMember(userSiteManager, password, userContributor, siteName, "SiteContributor");
         contentService.createFolder(userContributor, password, folderName, siteName);
@@ -146,7 +146,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userSiteManager, password, userSiteManager + domain, firstName, lastName);
         userService.create(adminUser, adminPassword, userManager, password, userSiteManager + domain, firstName, lastName);
         userService.create(adminUser, adminPassword, userContributor, password, userSiteManager + domain, firstName, lastName);
-        siteService.create(userSiteManager, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(userSiteManager, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(userSiteManager, password, userManager, siteName, "SiteManager");
         userService.createSiteMember(userSiteManager, password, userContributor, siteName, "SiteContributor");
         contentService.createDocument(userContributor, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);

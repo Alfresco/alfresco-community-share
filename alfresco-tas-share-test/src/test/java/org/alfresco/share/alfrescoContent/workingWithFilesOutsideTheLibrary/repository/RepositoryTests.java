@@ -12,7 +12,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -50,8 +50,8 @@ public class RepositoryTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
-        siteService.create(user, password, domain, siteName2, description, Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileName1, fileContent);
         contentService.createDocument(user, password, siteName2, DocumentType.TEXT_PLAIN, fileName2, fileContent);
         contentService.createFolder(user, password, folderName, siteName);

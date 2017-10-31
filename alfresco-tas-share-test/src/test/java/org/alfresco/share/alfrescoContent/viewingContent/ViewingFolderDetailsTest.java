@@ -7,7 +7,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -31,7 +31,7 @@ public class ViewingFolderDetailsTest extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C5850", "C5850");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName);
         setupAuthenticatedSession(userName, password);
     }

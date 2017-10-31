@@ -9,13 +9,13 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 
-import static org.springframework.social.alfresco.api.entities.Role.SiteCollaborator;
+import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
 import static org.testng.Assert.*;
 
 /**
@@ -52,7 +52,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, domain, name, user);
-        siteService.create(adminUser, adminPassword, domain, site, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, site, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, user, site, String.valueOf(SiteCollaborator));
         contentService.createFolder(adminUser, adminPassword, folderName, site);
         contentService.createFolder(user, password, folderName3, site);

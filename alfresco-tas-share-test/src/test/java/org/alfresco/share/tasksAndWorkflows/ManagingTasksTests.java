@@ -12,7 +12,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -56,7 +56,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName2", "lastName2");
-        siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         docs.add(docName);
         workflow.startNewTask(testUser, password, taskName, new Date(), testUser, Priority.High, siteName, docs, false);

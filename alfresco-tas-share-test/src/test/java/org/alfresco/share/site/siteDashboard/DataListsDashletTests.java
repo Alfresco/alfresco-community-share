@@ -12,7 +12,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 /**
@@ -35,7 +35,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
         String siteName = String.format("C5568%s", RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C5568", "C5568");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(userName, password, siteName, SiteDashlet.SITE_DATA_LIST, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
         setupAuthenticatedSession(userName, password);
 
@@ -69,7 +69,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
         int numberOfLists = 2;
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C5568", "C5568");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(userName, password, siteName, SiteDashlet.SITE_DATA_LIST, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
         dataListsService.createDataList(userName, password, siteName, DataList.EVENT_LIST, eventListName, description);
         dataListsService.createDataList(userName, password, siteName, DataList.TODO_LIST, todoListName, description);
@@ -109,7 +109,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
         String listDescription = "Contacts";
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C5570", "C5570");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(userName, password, siteName, SiteDashlet.SITE_DATA_LIST, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
         setupAuthenticatedSession(userName, password);
         siteDashboardPage.navigate(siteName);
@@ -164,7 +164,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, userNameSiteManager, password, userNameSiteManager + domain, "C5568SiteManager", "C5568SiteManager");
         userService.create(adminUser, adminPassword, userNameSiteConsumer, password, userNameSiteConsumer + domain, "userC5571Consumer", "userC5571Consumer");
-        siteService.create(userNameSiteManager, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userNameSiteManager, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(userNameSiteManager, password, siteName, SiteDashlet.SITE_DATA_LIST, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
         dataListsService.createDataList(userNameSiteManager, password, siteName, DataList.CONTACT_LIST, listName, description);
         userService.createSiteMember(userNameSiteManager, password, userNameSiteConsumer, siteName, "SiteConsumer");

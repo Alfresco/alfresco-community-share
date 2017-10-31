@@ -7,7 +7,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -35,10 +35,10 @@ public class UserProfileSitesTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName1, userName1, userName1 + domain, "fName1", "lName1");
         userService.create(adminUser, adminPassword, userName2, userName2, userName2 + domain, "fName2", "lName2");
 
-        siteService.create(userName1, userName1, domain, siteName1, "description", Visibility.PUBLIC);
-        siteService.create(userName1, userName1, domain, siteName2, "description", Visibility.PRIVATE);
-        siteService.create(userName1, userName1, domain, siteName3, "description", Visibility.PRIVATE);
-        siteService.create(userName2, userName2, domain, siteName4, "description", Visibility.PRIVATE);
+        siteService.create(userName1, userName1, domain, siteName1, "description", SiteService.Visibility.PUBLIC);
+        siteService.create(userName1, userName1, domain, siteName2, "description", SiteService.Visibility.PRIVATE);
+        siteService.create(userName1, userName1, domain, siteName3, "description", SiteService.Visibility.PRIVATE);
+        siteService.create(userName2, userName2, domain, siteName4, "description", SiteService.Visibility.PRIVATE);
         userService.createSiteMember(userName1, userName1, userName2, siteName3, role);
         setupAuthenticatedSession(userName2, userName2);
     }

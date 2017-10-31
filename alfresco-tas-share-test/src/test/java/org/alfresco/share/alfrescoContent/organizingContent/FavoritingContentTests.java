@@ -8,7 +8,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,10 +33,10 @@ public class FavoritingContentTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
-        siteService.create(testUser, password, domain, siteName1, siteName1, Site.Visibility.PUBLIC);
-        siteService.create(testUser, password, domain, siteName2, siteName2, Site.Visibility.PUBLIC);
-        siteService.create(testUser, password, domain, siteName3, siteName3, Site.Visibility.PUBLIC);
-        siteService.create(testUser, password, domain, siteName4, siteName4, Site.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName1, siteName1, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName2, siteName2, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName3, siteName3, SiteService.Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName4, siteName4, SiteService.Visibility.PUBLIC);
         contentService.createDocument(testUser, password, siteName1, DocumentType.TEXT_PLAIN, docName, "Document content");
         contentService.createFolder(testUser, password, folderName, siteName2);
         contentService.createDocument(testUser, password, siteName3, DocumentType.TEXT_PLAIN, docName, "Document content");

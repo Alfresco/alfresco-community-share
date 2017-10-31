@@ -11,7 +11,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -49,7 +49,7 @@ public class WikiDashletTests extends ContextAwareWebTest
     {
         //precondition
         siteName = String.format("Site-C5428-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, SiteDashlet.WIKI, DashletLayout.THREE_COLUMNS, 3, 1);
 
         LOG.info("Step 1: Verify Wiki dashlet displays Help icon");
@@ -89,7 +89,7 @@ public class WikiDashletTests extends ContextAwareWebTest
          * Precondition: Add Wiki page to Wiki
          */
         siteName = String.format("Site-C5433-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, SiteDashlet.WIKI, DashletLayout.THREE_COLUMNS, 3, 1);
         sitePagesService.createWiki(user, password, siteName, wikiPageTitle, wikiContent, null);
 
@@ -150,7 +150,7 @@ public class WikiDashletTests extends ContextAwareWebTest
          * Precondition: Add wiki pages to Wiki
          */
         siteName = String.format("Site-C5553-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, SiteDashlet.WIKI, DashletLayout.THREE_COLUMNS, 3, 1);
         sitePagesService.createWiki(user, password, siteName, wikiPageTitle, wikiContent, null);
         sitePagesService.createWiki(user, password, siteName, wikiPageTitle1, wikiContent1, null);

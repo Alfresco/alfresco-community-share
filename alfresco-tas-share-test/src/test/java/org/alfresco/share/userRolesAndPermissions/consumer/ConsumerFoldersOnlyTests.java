@@ -4,16 +4,16 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-
-import static org.springframework.social.alfresco.api.entities.Role.SiteConsumer;
+import static org.alfresco.utility.constants.UserRole.SiteConsumer;
 import static org.testng.Assert.*;
 
 /**
@@ -41,8 +41,8 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, domain, name, user);
-        siteService.create(adminUser, adminPassword, domain, site, siteDescription, Visibility.PUBLIC);
-        userService.createSiteMember(adminUser, adminPassword, user, site, String.valueOf(SiteConsumer));
+        siteService.create(adminUser, adminPassword, domain, site, siteDescription, SiteService.Visibility.PUBLIC);
+        userService.createSiteMember(adminUser, adminPassword, user, site, UserRole.SiteConsumer.toString());
         contentService.createFolder(adminUser, adminPassword, folderName, site);
         contentService.createFolderInRepository(adminUser, adminPassword, subFolderName, path);
         contentAction.addSingleTag(adminUser, adminPassword, path + "/" + subFolderName, tag);

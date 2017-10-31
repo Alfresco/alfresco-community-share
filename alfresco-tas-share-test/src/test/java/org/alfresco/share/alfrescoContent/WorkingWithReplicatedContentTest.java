@@ -14,7 +14,7 @@ import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.utility.data.RandomData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        siteService.create(adminUser, adminPassword, domain, site, site, Site.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, site, site, SiteService.Visibility.PUBLIC);
         contentService.createFolder(adminUser, adminPassword, folder, site);
         contentService.createDocumentInFolder(adminUser, adminPassword, site, folder, CMISUtil.DocumentType.TEXT_PLAIN, document, "");
         contentService.createFolderInRepository(adminUser, adminPassword, transferTargetFolder, pathForTransferTargetFolder);

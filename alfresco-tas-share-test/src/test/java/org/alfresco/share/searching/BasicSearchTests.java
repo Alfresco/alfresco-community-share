@@ -13,7 +13,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -68,8 +68,8 @@ public class BasicSearchTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, firstName, lastName1);
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, firstName, lastName2);
-        siteService.create(userName1, password, domain, siteName1, description, Site.Visibility.PUBLIC);
-        siteService.create(userName2, password, domain, siteName2, description, Site.Visibility.PUBLIC);
+        siteService.create(userName1, password, domain, siteName1, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName2, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
         contentService.createDocument(userName1, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName1, docContent);
         contentService.createDocument(userName1, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName2, docContent);
         sitePagesService.addCalendarEvent(userName1, password, siteName1, calendarEvent, "EventLocation", "description of the event",

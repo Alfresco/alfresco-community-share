@@ -12,7 +12,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -46,7 +46,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
         String description = String.format("C5449SiteDescription%s", RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");
-        siteService.create(adminUser, adminPassword, user, siteName, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, user, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(user, user, siteName, SiteDashlet.WEB_VIEW, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(adminUser, adminPassword);
 
@@ -105,7 +105,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
         String description = String.format("C5450SiteDescription%s", RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");
-        siteService.create(adminUser, adminPassword, user, siteName, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, user, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(user, user,   siteName, SiteDashlet.WEB_VIEW, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(adminUser, adminPassword);
 
@@ -144,7 +144,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
 
         LOG.info("Create Site C5453");
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");
-        siteService.create(adminUser, adminPassword, user, siteName, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, user, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(user, user, siteName, SiteDashlet.WEB_VIEW, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(adminUser, adminPassword);
 
@@ -186,7 +186,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
         
         LOG.info("Create Site C5459");
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");
-        siteService.create(adminUser, adminPassword, user, siteName, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, user, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(user, user, siteName, SiteDashlet.WEB_VIEW, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(adminUser, adminPassword);
         

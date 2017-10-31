@@ -17,7 +17,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -73,24 +73,24 @@ public class DeleteSiteTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
             public void testSetup() {
         userService.create(adminUser, adminPassword, userC2280, password, userC2280 + domain, "firstName", "lastName");
-        siteService.create(userC2280, password, domain, siteNameC2280_1, description, Site.Visibility.PUBLIC);
-        siteService.create(userC2280, password, domain, siteNameC2280_2, description, Site.Visibility.PUBLIC);
+        siteService.create(userC2280, password, domain, siteNameC2280_1, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userC2280, password, domain, siteNameC2280_2, description, SiteService.Visibility.PUBLIC);
         contentService.createDocument(userC2280, password, siteNameC2280_1, CMISUtil.DocumentType.TEXT_PLAIN, fileNameC2280, "fileC2280");
         contentService.createDocument(userC2280, password, siteNameC2280_2, CMISUtil.DocumentType.TEXT_PLAIN, fileNameC2280_1, "fileC2280");
         userService.create(adminUser, adminPassword, userC2281, password, userC2281 + domain, "firstName", "lastName");
-        siteService.create(adminUser, adminPassword, domain, siteNameUserCanNotDelete, description, Site.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteNameUserCanNotDelete, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userC2281, siteNameUserCanNotDelete, "SiteContributor");
         userService.create(adminUser, adminPassword, userc2282, password, userc2282 + domain, "firstName", "lastName");
         userService.createSiteMember(adminUser, adminPassword, userc2282, siteNameUserCanNotDelete, "SiteCollaborator");
         userService.create(adminUser, adminPassword, userC2283, password, userC2283 + domain, "firstName", "lastName");
         userService.createSiteMember(adminUser, adminPassword, userC2283, siteNameUserCanNotDelete, "SiteConsumer");
         userService.create(adminUser, adminPassword, userC2284, password, userC2284 + domain, "firstName", "lastName");
-        siteService.create(userC2284, password, domain, siteNameC2284, description, Site.Visibility.PUBLIC);
+        siteService.create(userC2284, password, domain, siteNameC2284, description, SiteService.Visibility.PUBLIC);
         userService.create(adminUser, adminPassword, userC2289_1, password, userC2289_1 + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, userC2289_2, password, userC2289_2 + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, userC2291, password, userC2291 + domain, "firstName", "lastName");
-        siteService.create(userC2291, password, domain, siteNameC2291, description, Site.Visibility.PUBLIC);
-        siteService.create(adminUser, adminPassword, domain, siteNameC2292, description, Site.Visibility.PUBLIC);
+        siteService.create(userC2291, password, domain, siteNameC2291, description, SiteService.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteNameC2292, description, SiteService.Visibility.PUBLIC);
     }
     SoftAssert softAssert = new SoftAssert();
 

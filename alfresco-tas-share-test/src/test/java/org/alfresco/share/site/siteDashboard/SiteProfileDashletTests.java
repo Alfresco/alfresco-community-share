@@ -11,7 +11,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -48,7 +48,7 @@ public class SiteProfileDashletTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, userName1, userName1, userName1 + domain, "fName1", "lName1");
         userService.create(adminUser, adminPassword, userName2, userName2, userName2 + domain, "fName2", "lName2");
-        siteService.create(userName1, userName1, domain, siteName1, "testDescription", Visibility.PUBLIC);
+        siteService.create(userName1, userName1, domain, siteName1, "testDescription", SiteService.Visibility.PUBLIC);
         userService.createSiteMember(userName1, userName1, userName2, siteName1, role);
         siteService.addDashlet(userName1, userName1, siteName1, SiteDashlet.SITE_PROFILE, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
 

@@ -8,7 +8,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -32,7 +32,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     public void createUserAndSite()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteName, "Site used for Google Docs", Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, "Site used for Google Docs", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
     }
 

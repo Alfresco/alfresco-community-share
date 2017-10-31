@@ -14,7 +14,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -52,7 +52,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         String breadcrumbPath = Arrays.asList("Documents", "Software Engineering Project", "Documentation", "Samples").toString();
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C6292", "C6292");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
 
@@ -102,7 +102,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C6292", "C6292");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
 
@@ -171,7 +171,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         aspectsForm.clickApplyChangesButton(repositoryPage);
 
         cleanupAuthenticatedSession();
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
 

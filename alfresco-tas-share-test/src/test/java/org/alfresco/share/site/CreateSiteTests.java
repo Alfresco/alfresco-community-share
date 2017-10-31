@@ -9,7 +9,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -34,7 +34,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
-        siteService.create(user, password, domain, testSiteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, testSiteName, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
     }
 
@@ -428,7 +428,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         String siteName = "C14004SiteName"+ RandomData.getRandomAlphanumeric();
         String siteID = RandomData.getRandomAlphanumeric();
         String description = "description";
-        siteService.create(user, password, domain, siteName, "description", Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         LOG.info("Precondition: User is logged into Share");
         userDashboardPage.navigate(user);
         siteDashboardPage.navigate(siteName);

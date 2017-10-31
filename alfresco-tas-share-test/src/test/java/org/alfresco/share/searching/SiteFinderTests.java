@@ -8,7 +8,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -40,8 +40,8 @@ public class SiteFinderTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, userFirstName, "lastName1");
-        siteService.create(user1, password, domain, siteName1, description, Site.Visibility.MODERATED);
-        siteService.create(user1, password, domain, siteName2, description, Site.Visibility.PRIVATE);
+        siteService.create(user1, password, domain, siteName1, description, SiteService.Visibility.MODERATED);
+        siteService.create(user1, password, domain, siteName2, description, SiteService.Visibility.PRIVATE);
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, userFirstName, user2LastName);
         setupAuthenticatedSession(user1, password);
     }

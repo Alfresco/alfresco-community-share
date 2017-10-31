@@ -12,7 +12,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -79,9 +79,9 @@ public class SearchManagerTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user3, password, user3 + domain, modifier3.split(" ")[0], modifier3.split(" ")[1]);
         groupService.addUserToGroup(adminUser, adminPassword, groupName, user1);
 
-        siteService.create(user1, password, domain, site1, site1 + " description", Site.Visibility.PUBLIC);
-        siteService.create(user1, password, domain, site2, site2 + " description", Site.Visibility.PUBLIC);
-        siteService.create(user1, password, domain, site3, site3 + " description", Site.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, site1, site1 + " description", SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, site2, site2 + " description", SiteService.Visibility.PUBLIC);
+        siteService.create(user1, password, domain, site3, site3 + " description", SiteService.Visibility.PUBLIC);
 
         // site1 members
         userService.createSiteMember(user1, password, user2, site1, "SiteManager");

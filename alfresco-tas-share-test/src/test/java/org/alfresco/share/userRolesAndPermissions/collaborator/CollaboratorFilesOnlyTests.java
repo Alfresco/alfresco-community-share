@@ -20,7 +20,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -81,8 +81,8 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
     public void setupTest() {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         userService.create(adminUser, adminPassword, user2, password, user + domain, user2, user2);
-        siteService.create(adminUser, adminPassword, domain, siteName, "SiteC description", Visibility.PUBLIC);
-        siteService.create(adminUser, adminPassword, domain, siteName2, "SiteC description", Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, "SiteC description", SiteService.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName2, "SiteC description", SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, user, siteName, "SiteCollaborator");
         userService.createSiteMember(adminUser, adminPassword, user, siteName2, "SiteCollaborator");
         userService.createSiteMember(adminUser, adminPassword, user2, siteName, "SiteCollaborator");

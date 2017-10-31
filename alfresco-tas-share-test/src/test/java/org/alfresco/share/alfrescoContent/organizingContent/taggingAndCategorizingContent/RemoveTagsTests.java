@@ -7,7 +7,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -37,8 +37,8 @@ public class RemoveTagsTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
-        siteService.create(userName, password, domain, siteName1, description, Site.Visibility.PUBLIC);
-        siteService.create(userName, password, domain, siteName2, description, Site.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName1, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName2);
         contentAction.addSingleTag(userName, password, siteName2, folderName, tagName);
         contentService.createDocument(userName, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileContent);

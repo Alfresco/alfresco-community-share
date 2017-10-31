@@ -7,7 +7,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -40,7 +40,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     public void viewAllDocumentsInLibrary()
     {
         String siteName = String.format("C6320SiteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
 
         LOG.info("Step 1: Go To Documents section and click All Documents link");
         documentLibraryPage.navigate(siteName);
@@ -74,7 +74,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     {
         String siteNameC6321 = String.format("C6321SiteName%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteNameC6321, description, Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteNameC6321, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
         String docName = "testFile1";
         String docName1 = "testFile2";
@@ -114,7 +114,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         String docName2 = "C10597-3";
         String expectedBannerText = "This document is locked by "+ user + " "+user+".";
         String siteName = String.format("C10597-site-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName + ".txt");
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName1 + ".txt");
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName2 + ".txt");
@@ -149,7 +149,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         String docName2 = "C6325-3";
 
         String siteName = String.format("C6325-site-%s", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName + ".txt");
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName1 + ".txt");
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName2 + ".txt");
@@ -184,7 +184,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     {
         String siteNameC10598 = String.format("C10598-site%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteNameC10598, description, Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteNameC10598, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
         
         LOG.info("Step 1: Go to Documents section and click Recently Added link");

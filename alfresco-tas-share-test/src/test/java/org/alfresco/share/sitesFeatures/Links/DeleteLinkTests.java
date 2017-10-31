@@ -9,7 +9,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -51,7 +51,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
 
@@ -78,7 +78,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
         linkTags.add("tag1");
         linkTags.add("tag2");
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, true, linkTags);
 
@@ -104,7 +104,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, linkTitle, linkURL, linkDescription, false, null);
 
@@ -128,7 +128,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        siteService.create(testUser, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         sitePagesService.createLink(testUser, password, siteName, "link1", "link1URL", "link1Description", false, null);
         sitePagesService.createLink(testUser, password, siteName, "link2", "link2URL", "link2Description", false, null);

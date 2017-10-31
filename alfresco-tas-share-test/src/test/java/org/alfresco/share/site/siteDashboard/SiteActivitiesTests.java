@@ -13,7 +13,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -49,7 +49,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String description = "Description" + uniqueIdentifier;
 
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
-        siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
 
         setupAuthenticatedSession(user, password);
         siteDashboardPage.navigate(siteName);
@@ -88,7 +88,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String documentName = "Document" + uniqueIdentifier;
 
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
-        siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.createDocument(user, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, documentName, documentName + " content");
 
         setupAuthenticatedSession(user, password);
@@ -132,7 +132,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String activity ="\""+ groupName+"\"" + " group added to site " + siteName + " with role " + managerRole;
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
-        siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(adminUser, adminPassword);
 
         LOG.info("Precondition: Add group to site");
@@ -167,7 +167,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String activity ="\""+ groupName+"\"" + " group added to site " + siteName + " with role " + managerRole;
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
-        siteService.create(user, password, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
 
         LOG.info("Precondition: Add group to site");
@@ -206,7 +206,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String managerRole = "Manager";
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
-        siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(adminUser, adminPassword);
 
         LOG.info("Precondition");
@@ -246,7 +246,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String managerRole = "Manager";
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
-        siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(adminUser, adminPassword);
 
         siteGroupsPage.navigate(siteName);
@@ -276,7 +276,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String activity ="\""+ groupName+"\"" + " group role changed to " + collaboratorRole;
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
-        siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(adminUser, adminPassword);
 
         LOG.info("Precondition");
@@ -325,7 +325,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String activity ="\""+ groupName+"\"" + " group removed from site "+siteName ;
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
-        siteService.create(adminUser, adminPassword, domain, siteName, description, Site.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(adminUser, adminPassword);
 
         LOG.info("Precondition");

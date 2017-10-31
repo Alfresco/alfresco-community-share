@@ -18,8 +18,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -75,7 +74,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     public void setupTest() {
         userContributor = String.format("Contributor%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
-        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, adminFile, "Some content");
         contentService.createFolder(adminUser, adminPassword, adminFolder, siteName);
@@ -206,8 +205,8 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         String siteName2 = String.format("SiteName2%s", RandomData.getRandomAlphanumeric());
         String folderName = String.format("folderName%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library page for the test site, as Contributor user.");
-        siteService.create(adminUser, adminPassword, domain, siteName1, description, Visibility.PUBLIC);
-        siteService.create(userContributor, password, domain, siteName2, description, Site.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName1, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userContributor, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteName1, "SiteContributor");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName1);
         documentLibraryPage.navigate(siteName1);

@@ -24,7 +24,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -92,7 +92,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     private void createObjectsForUserName(String userName, String siteName, String linkTitle, String blogTitle, String eventName, String datalistName, String discussionTitle, String fileName, String documentName, String wikiTitle)
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, documentName, documentName + " content"); 
         sitePagesService.createBlogPost(userName, password, siteName, blogTitle, blogTitle + " content", false, null); //TODO check why blog creation isn't in My Activities dashlet
         sitePagesService.addCalendarEvent(userName, password, siteName, eventName, "Where " + eventName, "description " + eventName, today.toDate(), today.toDate(), "6:00 PM",
@@ -137,7 +137,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
         userName = "User-" + uniqueIdentifier;
         siteName = "Site-" + uniqueIdentifier;
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
-        siteService.create(userName, password, domain, siteName, "description", Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         userDashboardPage.navigate(userName);
@@ -407,7 +407,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.create(adminUser, adminPassword, userNameB, password, userNameB + domain, userNameB, userNameB);
-        siteService.create(userName, password, domain, siteName, "description", Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         userService.createSiteMember(userName, password, userNameB, siteName, "SiteManager");
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, documentName, documentName + " content");
         contentService.createDocument(userNameB, password, siteName, DocumentType.TEXT_PLAIN, documentNameB, documentNameB + " content");

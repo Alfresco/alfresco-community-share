@@ -13,7 +13,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -46,7 +46,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, userName1, userName1, userName1, "fName1", "lName1");
         userService.create(adminUser, adminPassword, userName2, userName2, userName2, "fName2", "lName2");
-        siteService.create(userName1, userName1, domain, siteName, "testDescription", Visibility.PUBLIC);
+        siteService.create(userName1, userName1, domain, siteName, "testDescription", SiteService.Visibility.PUBLIC);
         contentService.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
         contentService.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName2, docContent);
         contentService.uploadFileInSite(userName1, userName1, siteName, testDataFolder + uploadFileName);
@@ -82,7 +82,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     {
         String siteName1 = String.format("Site%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
-        siteService.create(userName1, userName1, domain, siteName1, "testDescription", Visibility.PUBLIC);
+        siteService.create(userName1, userName1, domain, siteName1, "testDescription", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName1, userName1);
         siteDashboard.navigate(siteName1);
         LOG.info("STEP 1 - Verify Site Content Filter dashlet.");

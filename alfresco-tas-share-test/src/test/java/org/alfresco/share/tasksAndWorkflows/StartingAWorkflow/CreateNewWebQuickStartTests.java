@@ -12,7 +12,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -50,7 +50,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName1", "lastName1");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName2", "lastName2");
-        siteService.create(user1, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(user1, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         contentService.createDocument(user1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
     }
 

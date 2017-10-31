@@ -15,7 +15,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -53,7 +53,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
     @BeforeClass(alwaysRun = true)
     public void setupTest(){
         userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
-        siteService.create(adminUser, adminPassword, domain, siteName, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, adminFile, fileContent);
     }
@@ -164,7 +164,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         String siteNameC8916 = String.format("SiteNameC8916%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: Create test site, add Contributor user to site. Create a test file in site. Login as admin and navigate to site's doc lib");
-        siteService.create(adminUser, adminPassword, domain, siteNameC8916, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteNameC8916, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteNameC8916, "SiteContributor");
         contentService.createDocument(userContributor, password, siteNameC8916, DocumentType.TEXT_PLAIN, fileName, fileContent);
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -401,7 +401,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         String siteNameC8930 = String.format("SiteC8930%s", RandomData.getRandomAlphanumeric());
         LOG.info(
                 "Preconditions: Create test site and add Contributor member to site. Create a file in the Document Library for the test site, as admin user.");
-        siteService.create(adminUser, adminPassword, domain, siteNameC8930, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteNameC8930, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteNameC8930, "SiteContributor");
         contentService.createDocument(adminUser, adminPassword, siteNameC8930, DocumentType.TEXT_PLAIN, fileName, fileContent);
         LOG.info("Step1: Login as admin and lock test file - e.g. for offline editing");
@@ -424,7 +424,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         String content = String.format("FileContent%s", RandomData.getRandomAlphanumeric());
         String siteNameC8931 = String.format("SiteC8931%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as admin user.");
-        siteService.create(adminUser, adminPassword, domain, siteNameC8931, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteNameC8931, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteNameC8931, "SiteContributor");
         contentService.createDocument(adminUser, adminPassword, siteNameC8931, DocumentType.TEXT_PLAIN, fileName, content);
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -451,7 +451,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         String content = String.format("FileContent%s", RandomData.getRandomAlphanumeric());
         String siteNameC8932 = String.format("SiteC8932%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as admin user.");
-        siteService.create(adminUser, adminPassword, domain, siteNameC8932, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteNameC8932, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteNameC8932, "SiteContributor");
         contentService.createDocument(adminUser, adminPassword, siteNameC8932, DocumentType.TEXT_PLAIN, fileName, content);
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -521,7 +521,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         String siteNameC8935 = String.format("SiteC8932%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
-        siteService.create(adminUser, adminPassword, domain, siteNameC8935, description, Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteNameC8935, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteNameC8935, "SiteContributor");
         contentService.createDocument(userContributor, password, siteNameC8935, DocumentType.TEXT_PLAIN, fileName, fileContent);
         setupAuthenticatedSession(userContributor, password);

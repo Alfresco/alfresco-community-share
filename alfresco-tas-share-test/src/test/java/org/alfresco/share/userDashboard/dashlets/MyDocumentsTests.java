@@ -13,7 +13,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -42,7 +42,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         siteName1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
-        siteService.create(userName1, password, domain, siteName1, "description", Visibility.PUBLIC);
+        siteService.create(userName1, password, domain, siteName1, "description", SiteService.Visibility.PUBLIC);
     }
 
     @TestRail(id = "C2134")

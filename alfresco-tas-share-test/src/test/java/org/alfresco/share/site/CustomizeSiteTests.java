@@ -10,7 +10,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -39,7 +39,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         String siteName = String.format("C2135%s", RandomData.getRandomAlphanumeric());
         LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2135", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step 4 - Click 'Customize site'.");
@@ -74,7 +74,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         String siteName = String.format("C2148%s", RandomData.getRandomAlphanumeric());
         LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2148", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step 3 - Navigate to the newly created site and click on the 'Settings' icon -> 'Customize site'.");
@@ -97,7 +97,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         String siteName = String.format("C2156%s", RandomData.getRandomAlphanumeric());
         LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2156", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step 3 - Navigate to the newly created site and click on the 'Settings' icon -> 'Customize site'.");
@@ -135,7 +135,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         String siteName = String.format("C2164%s", RandomData.getRandomAlphanumeric());
         LOG.info("Step 1 / Step 2: Login to Share as any user. / Create any site");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2164", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step 3 - Navigate to the newly created site and click on the 'Settings' icon -> 'Customize site'.");
@@ -176,7 +176,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         String siteName = String.format("C2171%s", RandomData.getRandomAlphanumeric());
         LOG.info("Step 1: Login to Share as any user.");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2171", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step 2 - Create any site and add several site pages to it.");
@@ -216,7 +216,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         String siteName = String.format("C2173%s", RandomData.getRandomAlphanumeric());
         LOG.info("Step 1: Login to Share as any user.");
         userService.create(adminUser, adminPassword, userName, password, userName, "C2173", "lname");
-        siteService.create(userName, password, domain, siteName, siteName, Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
 
         LOG.info("Step 2 - Create any site and add several site pages to it.");

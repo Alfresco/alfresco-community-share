@@ -18,7 +18,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -76,8 +76,8 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @BeforeClass(alwaysRun = true)
     public void setupTest() {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(adminUser, adminPassword, domain, siteName, "SiteC description", Visibility.PUBLIC);
-        siteService.create(adminUser, adminPassword, domain, siteName1, "SiteC description", Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName, "SiteC description", SiteService.Visibility.PUBLIC);
+        siteService.create(adminUser, adminPassword, domain, siteName1, "SiteC description", SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, user, siteName, "SiteCollaborator");
         userService.createSiteMember(adminUser, adminPassword, user, siteName1, "SiteCollaborator");
         setupAuthenticatedSession(user, password);

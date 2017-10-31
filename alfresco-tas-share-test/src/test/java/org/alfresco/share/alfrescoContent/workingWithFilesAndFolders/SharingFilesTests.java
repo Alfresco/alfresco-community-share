@@ -12,7 +12,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.alfresco.api.entities.Site.Visibility;
+import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -51,9 +51,9 @@ public class SharingFilesTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        siteService.create(user, password, domain, siteNameC7093, description, Visibility.PUBLIC);
-        siteService.create(user, password, domain, siteNameC7649, description, Visibility.PUBLIC);
-        siteService.create(user, password, domain, siteName, description, Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteNameC7093, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteNameC7649, description, SiteService.Visibility.PUBLIC);
+        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC7095, fileContent);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fielNameC7097, fileContent);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileNameC7096, fileContent);
