@@ -45,10 +45,7 @@ var getRmMappings = function()
 {
    // Remove "GROUP_EVERYONE" from the mapping
    var mappings = getMappings();
-   if (args.defGroupsFor === 'rm')
-   {
-      mappings.pop();
-   }
+   mappings.pop();
 
    var additionalMappings = [];
    if (args.showGroups != null && args.showGroups == "true")
