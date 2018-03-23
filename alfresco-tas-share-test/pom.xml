@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.alfresco.tas</groupId>
 	<artifactId>share-test</artifactId>
-	<version>5.2.1-1</version>
+	<version>5.2.1-1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -18,17 +18,17 @@
 		<maven-jar-plugin.version>2.6</maven-jar-plugin.version>
 	</properties>
 
-<distributionManagement>
-  <snapshotRepository>
-   <id>alfresco-internal-snapshots</id>
-   <url>https://nexus.alfresco.com/nexus/content/repositories/internal-snapshots/</url>
-  </snapshotRepository>
-  <repository>
-   <id>alfresco-internal</id>
-   <url>https://nexus.alfresco.com/nexus/content/repositories/internal-releases/</url>
-  </repository>
- </distributionManagement>
- 
+	<distributionManagement>
+		<snapshotRepository>
+			<id>alfresco-internal-snapshots</id>
+			<url>https://nexus.alfresco.com/nexus/content/repositories/internal-snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>alfresco-internal</id>
+			<url>https://nexus.alfresco.com/nexus/content/repositories/internal-releases/</url>
+		</repository>
+	</distributionManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.alfresco.tas</groupId>
@@ -61,7 +61,7 @@
 			<version>RELEASE</version>
 		</dependency>
 
-		</dependencies>
+	</dependencies>
 	<build>
 		<pluginManagement>
 			<plugins>
