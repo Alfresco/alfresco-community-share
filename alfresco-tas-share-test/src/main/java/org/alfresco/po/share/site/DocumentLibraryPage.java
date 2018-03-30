@@ -400,7 +400,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public void clickCreateButton()
     {
-        browser.waitUntilElementClickable(createButton, 60).click();
+        browser.waitUntilElementClickable(createButton, 10).click();
         browser.waitUntilElementVisible(By.cssSelector("div[id$='_default-createContent-menu'][style*='visible']"));
     }
 

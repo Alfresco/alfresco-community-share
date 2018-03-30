@@ -14,7 +14,7 @@ public class Notification extends HtmlPage
 
     public String getDisplayedNotification()
     {
-        return browser.waitUntilElementVisible(notification).getText();
+        return getBrowser().waitUntilElementVisible(notification).getText();
     }
 
     public void waitUntilNotificationDisappears()
