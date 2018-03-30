@@ -36,9 +36,12 @@ public class ApplicationPage extends AdminToolsPage
     @RenderWebElement
     @FindBy (css = "button[id$='reset-button-button']")
     private Button resetButton;
-    
+
+    @FindBy(css="div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")
+    private WebElement okButton;
+
     @RenderWebElement
-    @FindBy(css = "form[id*=admin-console] button[id*=upload-button-button]")
+    @FindBy(css = "form[id$=_default-options-form] button[id$=upload-button-button]")
     private Button uploadButton;
     
     public enum Theme
@@ -78,7 +81,10 @@ public class ApplicationPage extends AdminToolsPage
 
         //upload the new image
         fileInput.setFileToUpload(testFilePath);
-
+        if(browser.isElementDisplayed(By.cssSelector("div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")))
+        {
+           okButton.click();
+        }
         //click 'Apply' button to save changes
         applyButton.click();
     }

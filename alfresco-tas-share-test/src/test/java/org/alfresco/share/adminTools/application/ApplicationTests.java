@@ -38,6 +38,8 @@ public class ApplicationTests extends ContextAwareWebTest {
             applicationPage.resetImageToDefault();
         applicationPage.uploadImage();
         LOG.info("Step 2: Verify the new logo image was uploaded successfully.");
+        applicationPage.refresh();
+        applicationPage.renderedPage();
         Assert.assertFalse(applicationPage.isAlfrescoDefaultImageDisplayed(), "Alfresco default image is not displayed.");
         LOG.info("Step 3: Reset the new image to the default one.");
         applicationPage.resetImageToDefault();
@@ -52,6 +54,8 @@ public class ApplicationTests extends ContextAwareWebTest {
         applicationPage.selectTheme(ApplicationPage.Theme.YELLOW_THEME);
         LOG.info("Step 2: Verify the new theme was successfully saved.");
         Assert.assertTrue(applicationPage.isThemeOptionSelected(ApplicationPage.Theme.YELLOW_THEME), "New theme is not selected");
+        applicationPage.refresh();
+        applicationPage.renderedPage();
         Assert.assertTrue(applicationPage.doesBodyContainTheme(ApplicationPage.Theme.YELLOW_THEME), "New theme is not in body");
     }
 }
