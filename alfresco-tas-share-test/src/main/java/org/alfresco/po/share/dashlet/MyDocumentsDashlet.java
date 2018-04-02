@@ -134,7 +134,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
      */
     public List<String> getDocumentsLinks()
     {
-        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("h3.filename > a"));
+        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("h3.filename > a"), 3);
         List<String> documentLinks = new ArrayList<>();
         for (WebElement element : documentsLinksList)
         {

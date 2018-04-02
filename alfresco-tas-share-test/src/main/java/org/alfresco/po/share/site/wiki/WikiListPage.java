@@ -219,7 +219,7 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
     public String getMissingPageTextColor(String wikiPage) {
         String color = selectWikiDetailsRow(wikiPage).findElement(missingWikiPage).getCssValue("color");
 
-        String[] hexValue = color.replace("rgba(", "").replace(")", "").split(",");
+        String[] hexValue = color.replace("rgb(", "").replace(")", "").split(",");
 
         int hexValue1 = Integer.parseInt(hexValue[0]);
         hexValue[1] = hexValue[1].trim();

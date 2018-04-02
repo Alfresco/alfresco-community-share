@@ -196,7 +196,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         String hex = "";
         WebElement dashletContainer = browser.findElement(By.cssSelector(".dashlet .title"));
         String color = dashletContainer.getCssValue("background-color");
-        String[] numbers = color.replace("rgba(", "").replace(")", "").split(",");
+        String[] numbers = color.replace("rgb(", "").replace(")", "").split(",");
         int number1 = Integer.parseInt(numbers[0]);
         numbers[1] = numbers[1].trim();
         int number2 = Integer.parseInt(numbers[1]);
