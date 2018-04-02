@@ -104,5 +104,4 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         Assert.assertEquals(repositoryPage.isActionAvailableForLibraryItem(folderInRepoMainPath, "Manage Aspects"), true);
 
     }
-
 }

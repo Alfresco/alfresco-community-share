@@ -591,7 +591,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
             if (actionElement != null)
             {
                 LOG.info("Click on 'More...'");
-                actionElement.click();
+                LOG.info("Button to be pressed: "+ actionElement.getText());
+                actionElement.sendKeys(Keys.ENTER);
                 availableActions = libraryItem.findElements(By.cssSelector(".more-actions>div>a"));
                 actionElement = browser.findFirstElementWithValue(availableActions, action);
                 Parameter.checkIsMandotary("Action", actionElement);
