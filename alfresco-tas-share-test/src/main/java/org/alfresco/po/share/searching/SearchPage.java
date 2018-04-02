@@ -23,9 +23,9 @@ import java.util.List;
 
     @FindBy(id = "FCTSRCH_RESULTS_COUNT_LABEL") private WebElement numberOfResultsLabel;
 
-    @FindBy(id = "SELECTED_ITEMS_MENU") private WebElement selectedItemsMenu;
+    @FindBy(id = "SELECTED_ITEMS_MENU_text") private WebElement selectedItemsMenu;
 
-    @FindBy(id = "onActionCopyTo") private WebElement copyToSelectedItemsOption;
+    @FindBy(id= "onActionCopyTo_text") private WebElement copyToSelectedItemsOption;
 
     @FindBy(css = ".propertiesCell .nameAndTitleCell a .value") private List<WebElement> resultsDetailedViewList;
 

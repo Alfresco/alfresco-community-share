@@ -214,8 +214,19 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public boolean isContentNameDisplayed(String contentName)
     {
-        WebElement webElement = selectDocumentLibraryItemRow(contentName);
-        return browser.isElementDisplayed(webElement);
+        boolean state = false;
+
+        try
+        {
+            WebElement webElement = selectDocumentLibraryItemRow(contentName);
+            getBrowser().waitUntilWebElementIsDisplayedWithRetry(selectDocumentLibraryItemRow(contentName), 5);
+            state = browser.isElementDisplayed(webElement);
+        }
+        catch (Exception ex)
+        {
+            state = false;
+        }
+        return state;
     }
 
     /**

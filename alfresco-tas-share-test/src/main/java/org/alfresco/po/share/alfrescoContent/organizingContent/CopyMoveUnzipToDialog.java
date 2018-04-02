@@ -18,7 +18,7 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog {
     @FindAll(@FindBy(css = "div[id='ALF_COPY_MOVE_DIALOG'] span[class*='alfresco-buttons-AlfButton']"))
     private List<WebElement> buttonsList;
 
-    @FindBy(css = ".message")
+    @FindBy(id = "NOTIFICATION_PROMPT")
     private WebElement message;
 
     @FindBy(css = "#ALF_COPY_MOVE_DIALOG span[class*='call-to-action']:first-child span[id*='alfresco_buttons_AlfButton']:first-child span[id$='label']")
