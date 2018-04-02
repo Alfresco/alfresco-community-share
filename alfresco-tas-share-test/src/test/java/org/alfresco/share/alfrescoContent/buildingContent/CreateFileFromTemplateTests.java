@@ -49,6 +49,7 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
         LOG.info("Step 1:Click 'Create' then click 'Create document from template'.");
         documentLibraryPage.clickCreateButton();
         createContent.clickCreateFromTemplateButton("Create document from template");
+        createContent.mouseOverButton("Create document from template");
         Assert.assertTrue(createContent.isTemplateDisplayed(docName), "Template is not displayed");
         
         LOG.info("Step 2: Select the template and check that the new file is created with the content from the template used");

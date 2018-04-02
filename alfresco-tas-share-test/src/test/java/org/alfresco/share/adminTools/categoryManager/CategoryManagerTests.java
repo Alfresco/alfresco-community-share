@@ -70,6 +70,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
         categoryManagerPage.addCategory(category9295);
 
         LOG.info("Step 2: Verify the category is added in the 'Category Manager' page.");
+        categoryManagerPage.navigate();
         Assert.assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category displayed");
     }
 

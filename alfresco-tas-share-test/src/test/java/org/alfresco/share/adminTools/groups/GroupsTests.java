@@ -110,7 +110,7 @@ public class GroupsTests extends ContextAwareWebTest
         groupsPage.clickBrowseButton();
         
         LOG.info("Step1: Create a group from Admin Tools page.");
-        groupsPage.createNewGroup(C9469group, true);
+        groupsPage.createGroup(C9469group);
 
         LOG.info("Step 2: Verify the group is present in the groups list.");
         groupsPage.checkGroupIsInList(C9462group);;

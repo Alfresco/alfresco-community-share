@@ -29,7 +29,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         folderInRepoMainPath = String.format("testFolderInRepoMainPath%s", RandomData.getRandomAlphanumeric());
         folderInRepoUserHomes = String.format("folderInRepoUserHomes%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, nonAdminUser, password, nonAdminUser + domain, nonAdminUser, nonAdminUser);
-        contentService.createFolderInRepository(adminUser, adminPassword, folderInRepoMainPath, null);
+        contentService.createFolderInRepository(adminUser, adminPassword, folderInRepoMainPath, "/");
         contentService.createFolderInRepository(nonAdminUser, password, folderInRepoUserHomes, "User Homes/" + nonAdminUser);
     }
 

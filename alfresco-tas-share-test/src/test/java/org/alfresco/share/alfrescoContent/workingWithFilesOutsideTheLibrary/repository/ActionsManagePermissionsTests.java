@@ -11,6 +11,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -21,6 +22,7 @@ import java.util.List;
  * Created by Mirela Tifui on 3/20/2017.
  */
 public class ActionsManagePermissionsTests extends ContextAwareWebTest {
+
     @Autowired RepositoryPage repositoryPage;
 
     @Autowired ManagePermissionsPage managePermissionsPage;
@@ -36,14 +38,14 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest {
     private String lname1 = "LastN1";
     private String fname2= "FirstN2";
     private String lname2 = "LastN2";
-    private String path ="";
+    private String path ="/";
     private String folderName = String.format("C202758Folder%s", RandomData.getRandomAlphanumeric());
     private String pathC202758 = folderName;
     private String file = "Manage_permissions_test_file";
     private String userC202776 = "C202759_1"+ RandomData.getRandomAlphanumeric();
     private String folderC202776 = String.format("C202776Folder%s", RandomData.getRandomAlphanumeric());
     private String subFolderC202776 = String.format("C202776Subfolder%s", RandomData.getRandomAlphanumeric());
-    private String pathfolderC202776 = "";
+    private String pathfolderC202776 = "/";
     private String pathSubfolder = folderC202776;
     private String pathForFile = folderC202776 + "/" + subFolderC202776;
     private String fileNameC202776 = String.format("C202776File%s", RandomData.getRandomAlphanumeric());
@@ -59,6 +61,19 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest {
         contentService.createFolderInRepository(adminUser, adminPassword, folderC202776, pathfolderC202776);
         contentService.createFolderInRepository(adminUser, adminPassword, subFolderC202776, pathSubfolder);
         contentService.createDocumentInRepository(adminUser, adminPassword, pathForFile, CMISUtil.DocumentType.TEXT_PLAIN, fileNameC202776, fileContent);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        contentService.deleteContentByPath(adminUser, adminPassword, path+"/"+folderName);
+        contentService.deleteContentByPath(adminUser, adminPassword, pathForFile+"/"+fileNameC202776);
+        contentService.deleteContentByPath(adminUser, adminPassword, pathSubfolder+"/"+subFolderC202776);
+        contentService.deleteContentByPath(adminUser, adminPassword, pathfolderC202776+"/"+folderC202776);
+        userService.delete(adminUser, adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userC202758_1);
+        userService.delete(adminUser, adminPassword, userC202776);
+        userService.delete(adminUser, adminPassword, userC202758_2);
     }
 
     @TestRail(id="C202757")

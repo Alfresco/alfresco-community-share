@@ -80,7 +80,8 @@ public class CreateContent extends SiteCommon<CreateContent>
 
     private WebElement selectCreateFromTemplateButton(String buttonName)
     {
-        return browser.findElement(By.xpath("//a[contains(@class, 'yuimenuitemlabel-hassubmenu')]//span[text()='" + buttonName + "']"));
+        return browser.findElement(By.xpath(""
+                + "//span[text()='" + buttonName + "']"));
     }
 
     public WebElement selectTemplate(String templateName)
@@ -373,10 +374,16 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public void clickCreateFromTemplateButton(String btnName)
     {
+        browser.waitUntilElementClickable(selectCreateFromTemplateButton(btnName));
         selectCreateFromTemplateButton(btnName).click();
-        browser.waitUntilElementVisible(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible"));
+        //browser.waitUntilElementVisible(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible"));
     }
 
+    public void mouseOverButton(String btnName)
+    {
+        WebElement button = selectCreateFromTemplateButton(btnName);
+        browser.mouseOver(button);
+    }
     /**
      * Method to select template
      */

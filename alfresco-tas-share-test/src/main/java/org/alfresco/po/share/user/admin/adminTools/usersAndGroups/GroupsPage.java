@@ -92,7 +92,7 @@ public class GroupsPage extends AdminToolsPage
 
     private By groupEditDisplayNameInput = By.cssSelector("input[id$='default-update-displayname']");
 
-    @FindBy(css = "button[id*='creategroup-ok']")
+    @FindBy(css = "span[id$='_default-creategroup-ok-button'] button")
     private WebElement createGroupOKButton;
 
     @FindBy(css = "button[id*='creategroup-cancel']")
@@ -339,8 +339,8 @@ public class GroupsPage extends AdminToolsPage
 
     public void clickCreateGroupButton()
     {
-        browser.waitUntilElementVisible(createGroupOKButton);
-        createGroupOKButton.click();
+        browser.waitUntilElementClickable(createGroupOKButton).click();
+
         this.renderedPage();
     }
 
@@ -372,6 +372,15 @@ public class GroupsPage extends AdminToolsPage
         {
             clickCancelCreateNewGroupButton();
         }
+    }
+
+    public void createGroup(String groupName)
+    {
+        clickNewGroupButton();
+        typeGroupIdentifier(groupName);
+        typeGroupDisplayName(groupName);
+
+            clickCreateGroupButton();
     }
 
     public void deleteGroup(String groupName, boolean areYouSure)

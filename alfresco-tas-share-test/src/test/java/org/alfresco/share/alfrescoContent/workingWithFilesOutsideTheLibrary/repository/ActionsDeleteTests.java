@@ -9,6 +9,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -20,15 +21,14 @@ public class ActionsDeleteTests extends ContextAwareWebTest
 
     @Autowired private DeleteDialog deleteDialog;
 
-
     private final String user = String.format("C8308TestUser%s", RandomData.getRandomAlphanumeric());
-    private final String fileName = "C8308 file";
+    private final String fileName = "0-C8308_file";
     private final String fileContent = "C8308 content";
     private final String path = "User Homes/" + user;
-    private final String folderName = "C8308 Folder";
-    private final String fileNameC13749 = "C13749 file"+ RandomData.getRandomAlphanumeric();
-    private final String folderNameC13751 = "C13751 Folder"+RandomData.getRandomAlphanumeric();
-    private final String path1 ="";
+    private final String folderName = "0-C8308_Folder";
+    private final String fileNameC13749 = "0-Repo_file"+ RandomData.getRandomAlphanumeric();
+    private final String folderNameC13751 = "0-Repo_Folder"+RandomData.getRandomAlphanumeric();
+    private final String path1 ="/";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -38,6 +38,16 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(adminUser, adminPassword, path1, DocumentType.TEXT_PLAIN, fileNameC13749, fileContent);
         contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
         contentService.createFolderInRepository(adminUser, adminPassword, folderNameC13751, path1);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        contentService.deleteContentByPath(adminUser, adminPassword, path+"/"+fileName);
+        contentService.deleteContentByPath(adminUser, adminPassword, path1+"/"+fileNameC13749);
+        contentService.deleteContentByPath(adminUser, adminPassword, path+"/"+folderName);
+        contentService.deleteContentByPath(adminUser, adminPassword, path1+"/"+folderNameC13751);
+        userService.delete(adminUser, adminPassword, user);
     }
 
     @TestRail(id = "C8308")
