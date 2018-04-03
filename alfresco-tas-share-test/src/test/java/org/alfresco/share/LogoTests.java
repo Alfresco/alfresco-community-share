@@ -18,7 +18,7 @@ public class LogoTests extends ContextAwareWebTest {
     AboutPopUpPage aboutPage;
 
     String user1 = "user1" + System.currentTimeMillis();
-    private String copyRightText = "© 2005-2017" + " Alfresco Software Inc. All rights reserved. www.alfresco.com Legal and License";
+    private String copyRightText = "© 2005-2018" + " Alfresco Software Inc. All rights reserved. www.alfresco.com Legal and License";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest() {

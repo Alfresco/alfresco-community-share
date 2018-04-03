@@ -5,10 +5,8 @@ import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.joda.time.DateTime;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,7 @@ import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.Table;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @PageObject
@@ -80,9 +79,9 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     @FindBy(xpath = "//div[contains(@class, 'fc-view') and not(contains(@style, 'display: none'))]//td[contains(@class, 'fc-today')]")
     private WebElement today;
 
-    private By eventsList = By.xpath(
-            "//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
+   private By eventsList = By.xpath("//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
 
+    //private By eventsList = By.cssSelector("div.fc-event-bg");
     @FindAll(@FindBy(css = ".yui-dt-data .yui-dt-col-name .yui-dt-liner"))
     private List<WebElement> agendaEventsName;
 
@@ -101,6 +100,9 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     private By calendarView = By.id("yui-history-field");
     @FindAll(@FindBy(xpath = "//div[contains(@class, 'fc-view-agendaDay')/th[@calss, 'fc-agenda-axis fc-widget-header']"))
     private List<WebElement> hoursDisplayedInDayView;
+
+    @FindAll(@FindBy(xpath ="//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']"))
+    private List<WebElement> eventList;
 
     @Override
     public String getRelativePath()
@@ -166,14 +168,26 @@ public class CalendarPage extends SiteCommon<CalendarPage>
      */
     public boolean isEventPresentInCalendar(String event)
     {
+        boolean eventState = false;
         try
         {
-            return selectEvent(event) != null;
+            int retry = 0;
+
+            if(retry <5)
+            {
+                 if(selectEvent(event) != null)
+                 {
+                     eventState = true;
+                 }
+                 else eventState = false;
+            }
+
         }
         catch (StaleElementReferenceException se)
         {
             return isEventPresentInCalendar(event);
         }
+        return eventState;
     }
 
     /**
@@ -188,7 +202,8 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         {
             if (isEventPresentInCalendar(event))
             {
-                selectEvent(event).findElement(By.xpath("ancestor::a")).click();
+                browser.mouseOver(selectEvent(event));
+                selectEvent(event).click();
             }
             else
             {
@@ -199,9 +214,15 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         {
             clickOnEvent(event);
         }
-        return (EventInformationDialog) eventInformationDialog.renderedPage();
+
+      return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
+
+    public EventInformationDialog clickEvent(String eventName)
+    {
+        return null;
+    }
     /**
      * Click on Add Event Button
      *

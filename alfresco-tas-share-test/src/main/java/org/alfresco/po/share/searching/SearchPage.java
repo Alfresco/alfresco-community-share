@@ -563,9 +563,9 @@ import java.util.List;
 
     public void clickSelectAll()
     {
-        getBrowser().findElement(By.cssSelector("div[id='SELECTED_LIST_ITEMS']")).click();
-        getBrowser().waitUntilElementIsVisibleWithRetry(By.id("SELECTED_LIST_ITEMS_dropdown"), 5);
-        getBrowser().waitUntilElementClickable(By.cssSelector("tr[title='All']"), 3).click();
+        getBrowser().findElement(By.cssSelector("div[id='SELECTED_LIST_ITEMS'] img")).click();
+        getBrowser().waitUntilElementVisible(By.id("SELECTED_LIST_ITEMS_dropdown"), 5);
+        getBrowser().findElement(By.cssSelector("tr[title='All']")).click();
     }
 
     public void clickSelectedItemsListDropdownArrow()

@@ -535,7 +535,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         mouseOverContentItem(libraryItem);
         if (isMoreMenuDisplayed(libraryItem))
-            clickMore();
+        {
+            WebElement contentItem = selectDocumentLibraryItemRow(libraryItem);
+            List<WebElement> availableActions = contentItem.findElements(By.cssSelector(".action-set>div>a"));
+            WebElement actionElement = browser.findFirstElementWithValue(availableActions, "More...");
+            actionElement.sendKeys(Keys.ENTER);
+        }
         return selectDocumentLibraryItemRow(libraryItem).findElements(actionsSet);
     }
 
@@ -552,6 +557,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         {
             if (browser.findFirstElementWithValue(availableActions, action) == null)
             {
+                LOG.info("Available actions are: "+ availableActions.toString());
                 LOG.info(String.format("Action '%s' is not available!", action));
                 return false;
             }

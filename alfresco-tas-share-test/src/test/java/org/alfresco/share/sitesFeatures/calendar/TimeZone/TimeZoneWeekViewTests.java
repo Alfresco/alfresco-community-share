@@ -326,7 +326,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         changeTimeZone(clientBTimeZone);
         calendarPage.refresh();
         calendarPage.renderedPage();
-        getBrowser().waitInSeconds(2);
+        //getBrowser().waitInSeconds(2);
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), aMonthAgo.toString("EEEE, d MMMM, yyyy"),

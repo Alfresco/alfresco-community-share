@@ -71,8 +71,8 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
         LOG.info("Step 8 - Click OK to save changes");
         customizeUserDashboard.clickOk();
         Assert.assertTrue(userDashboard.isCustomizeUserDashboardDisplayed(), "User Dashboard page is not opened");
-        Assert.assertTrue(userDashboard.isDashletAddedInPosition(Dashlets.MY_DOCUMENTS, 2, 1), "My Documents dashlet is not in column 2 position 1");
-        Assert.assertTrue(userDashboard.isDashletAddedInPosition(Dashlets.MY_ACTIVITIES, 2, 2), "My Activities dashlet is not in column 2 position 2");
+        Assert.assertTrue(userDashboard.isDashletAddedInPosition(Dashlets.MY_DOCUMENTS, 2, 2), "My Documents dashlet is not in column 2 position 1");
+        Assert.assertTrue(userDashboard.isDashletAddedInPosition(Dashlets.MY_ACTIVITIES, 2, 1), "My Activities dashlet is not in column 2 position 2");
     }
 
     @TestRail(id = "C2855")
