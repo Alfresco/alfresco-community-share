@@ -385,14 +385,25 @@ public class CreateContent extends SiteCommon<CreateContent>
         browser.mouseOver(button);
     }
     /**
-     * Method to select template
+     * Method to select document template
      */
-    public HtmlPage clickOnTemplate(String templateName, HtmlPage page )
+    public HtmlPage clickOnDocumentTemplate(String templateName, HtmlPage page )
     {
-        selectTemplate(templateName).click();
+        browser.mouseOver(browser.findElement(By.cssSelector("li[class$='yuimenuitem-hassubmenu first-of-type']")));
+        browser.waitUntilElementVisible(selectTemplate(templateName)).click();
         return page.renderedPage();
     }
 
+    /**
+     * Method to click on folder template
+     */
+
+    public HtmlPage clickOnFolderTemplate(String templateName, HtmlPage page)
+    {
+        browser.mouseOver(browser.findElement(By.cssSelector("li[class$='yuimenuitem-hassubmenu']")));
+        browser.waitUntilElementVisible(selectTemplate(templateName)).click();
+        return page.renderedPage();
+    }
     /**
      * Method to check if the template is present
      */

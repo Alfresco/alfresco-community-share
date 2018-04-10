@@ -199,7 +199,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         createContent.clickCreateFromTemplateButton("Create folder from template");
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
+        createContent.clickOnFolderTemplate(folderTemplateName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
@@ -226,7 +226,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         Assert.assertTrue(createContent.isTemplateDisplayed(fileTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnTemplate(fileTemplateName, myFilesPage);
+        createContent.clickOnDocumentTemplate(fileTemplateName, myFilesPage);
         Assert.assertEquals(notification.getDisplayedNotification(), String.format("Created content based on template '%s'", fileTemplateName), "Notification message appears");
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(fileTemplateName), String.format("Content: %s is not displayed.", fileTemplateName));
     }

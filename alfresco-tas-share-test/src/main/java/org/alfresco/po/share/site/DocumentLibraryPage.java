@@ -541,6 +541,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
             WebElement actionElement = browser.findFirstElementWithValue(availableActions, "More...");
             actionElement.sendKeys(Keys.ENTER);
         }
+        LOG.info("Available actions are: "+ actionsSet);
         return selectDocumentLibraryItemRow(libraryItem).findElements(actionsSet);
     }
 

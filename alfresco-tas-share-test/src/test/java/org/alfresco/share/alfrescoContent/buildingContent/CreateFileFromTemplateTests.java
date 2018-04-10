@@ -53,7 +53,7 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(createContent.isTemplateDisplayed(docName), "Template is not displayed");
         
         LOG.info("Step 2: Select the template and check that the new file is created with the content from the template used");
-        createContent.clickOnTemplate(docName, documentLibraryPage);
+        createContent.clickOnDocumentTemplate(docName, documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Newly created document is not displayed in Document Library");
 
         documentLibraryPage.clickOnFile(docName);

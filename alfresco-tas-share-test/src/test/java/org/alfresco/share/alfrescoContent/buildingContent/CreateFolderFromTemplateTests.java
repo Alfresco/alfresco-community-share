@@ -62,7 +62,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(createContent.isTemplateDisplayed(folderTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
+        createContent.clickOnFolderTemplate(folderTemplateName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
@@ -112,7 +112,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(createContent.isTemplateDisplayed(folderTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
+        createContent.clickOnFolderTemplate(folderTemplateName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
@@ -181,7 +181,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(createContent.isTemplateDisplayed(templateFolderName));
 
         LOG.info("STEP 2: Select the template: 'template1'");
-        createContent.clickOnTemplate(templateFolderName, createFolderFromTemplate);
+        createContent.clickOnFolderTemplate(templateFolderName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed(), "Create folder from template popup is displayed ");
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), templateFolderName);
 

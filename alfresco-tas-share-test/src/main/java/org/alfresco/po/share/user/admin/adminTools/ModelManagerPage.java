@@ -5,8 +5,10 @@ import org.alfresco.po.share.user.admin.adminTools.DialogPages.ImportModelDialog
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.utility.web.browser.Browser;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -175,8 +177,17 @@ public class ModelManagerPage extends AdminToolsPage
 
     public HtmlPage clickOnAction(String actionName, HtmlPage page)
     {
+        //browser.mouseOver(By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']"));
         List<WebElement> actionsOptions = browser.findElements(By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']"));
-        browser.findFirstElementWithValue(actionsOptions, actionName).click();
+        browser.waitUntilElementsVisible(actionsOptions);
+        for(WebElement action: actionsOptions)
+        {
+            if(action.getText().equals(actionName))
+            {
+                action.click();
+            }
+        }
+        //browser.findFirstElementWithValue(actionsOptions, actionName).click();
         return page.renderedPage();
     }
 

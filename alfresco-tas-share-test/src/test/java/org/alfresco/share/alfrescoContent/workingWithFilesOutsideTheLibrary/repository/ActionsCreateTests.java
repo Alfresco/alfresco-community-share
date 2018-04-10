@@ -208,7 +208,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
         Assert.assertTrue(create.isTemplateDisplayed(docName), "Template is not displayed");
 
         LOG.info("Step 2: Select the template and check that the new file is created with the content from the template used");
-        create.clickOnTemplate(docName, repository);
+        create.clickOnDocumentTemplate(docName, repository);
         Assert.assertTrue(repository.isContentNameDisplayed(docName), "Newly created document is not displayed in Repository/UserHomes ");
         repository.clickOnFile(docName);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Document is not previewed");
@@ -233,7 +233,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Select the test template, provide title and description and check that the new folder is created");
 
-        create.clickOnTemplate(folderName, createFolderFromTemplate);
+        create.clickOnFolderTemplate(folderName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderName);
 
