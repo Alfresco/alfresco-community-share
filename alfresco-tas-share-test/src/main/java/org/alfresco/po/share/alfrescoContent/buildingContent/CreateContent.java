@@ -389,7 +389,7 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public HtmlPage clickOnDocumentTemplate(String templateName, HtmlPage page )
     {
-        browser.mouseOver(browser.findElement(By.cssSelector("li[class$='yuimenuitem-hassubmenu first-of-type']")));
+       // browser.mouseOver(browser.findElement(By.cssSelector("li[class$='yuimenuitem-hassubmenu first-of-type']")));
         browser.waitUntilElementVisible(selectTemplate(templateName)).click();
         return page.renderedPage();
     }
@@ -406,12 +406,23 @@ public class CreateContent extends SiteCommon<CreateContent>
     /**
      * Method to check if the template is present
      */
-    public boolean isTemplateDisplayed(String templateName)
+    public boolean isFolderTemplateDisplayed(String templateName)
     {
-        browser.mouseOver(browser.findElement(By.cssSelector("li[class$='yuimenuitem-hassubmenu']")));
+        browser.mouseOver(browser.waitUntilElementVisible(By.cssSelector("li[class$='yuimenuitem-hassubmenu']")));
         if(!selectTemplate(templateName).isDisplayed())
         {
             browser.findElement(By.cssSelector("By.cssSelector(\"li[class$='yuimenuitem-hassubmenu']")).click();
+        }
+        return selectTemplate(templateName).isDisplayed();
+    }
+
+    public boolean isFileTemplateDisplayed(String templateName)
+    {
+        browser.mouseOver(browser.waitUntilElementVisible(By.cssSelector("li[class$='yuimenuitem-hassubmenu first-of-type']")));
+        browser.waitInSeconds(2);
+        if (!selectTemplate(templateName).isDisplayed())
+        {
+            browser.findElement(By.cssSelector("By.cssSelector(\"li[class$='yuimenuitem-hassubmenu first-of-type']")).click();
         }
         return selectTemplate(templateName).isDisplayed();
     }

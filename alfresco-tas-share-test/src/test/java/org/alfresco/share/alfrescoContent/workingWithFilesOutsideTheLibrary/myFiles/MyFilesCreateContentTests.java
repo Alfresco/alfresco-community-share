@@ -197,7 +197,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         LOG.info("STEP 1: Click 'Create' then 'Create folder from template'.");
         myFilesPage.clickCreateButton();
         createContent.clickCreateFromTemplateButton("Create folder from template");
-
+        Assert.assertTrue(createContent.isFolderTemplateDisplayed(folderTemplateName));
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
         createContent.clickOnFolderTemplate(folderTemplateName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
@@ -222,8 +222,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Create' then 'Create file from template'.");
         myFilesPage.clickCreateButton();
-        createContent.clickCreateFromTemplateButton("Create document from template");
-        Assert.assertTrue(createContent.isTemplateDisplayed(fileTemplateName));
+        //createContent.clickCreateFromTemplateButton("Create document from template");
+        Assert.assertTrue(createContent.isFileTemplateDisplayed(fileTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
         createContent.clickOnDocumentTemplate(fileTemplateName, myFilesPage);

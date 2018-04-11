@@ -274,8 +274,7 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Create' then 'Create document from template'.");
         sharedFilesPage.clickCreateButton();
-        createContent.clickCreateFromTemplateButton("Create document from template");
-        Assert.assertTrue(createContent.isTemplateDisplayed(fileTemplateName));
+        Assert.assertTrue(createContent.isFileTemplateDisplayed(fileTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
         createContent.clickOnDocumentTemplate(fileTemplateName, sharedFilesPage);
