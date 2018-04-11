@@ -400,7 +400,6 @@ public class CreateContent extends SiteCommon<CreateContent>
 
     public HtmlPage clickOnFolderTemplate(String templateName, HtmlPage page)
     {
-        browser.mouseOver(browser.findElement(By.cssSelector("li[class$='yuimenuitem-hassubmenu']")));
         browser.waitUntilElementVisible(selectTemplate(templateName)).click();
         return page.renderedPage();
     }
@@ -409,6 +408,11 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public boolean isTemplateDisplayed(String templateName)
     {
+        browser.mouseOver(browser.findElement(By.cssSelector("li[class$='yuimenuitem-hassubmenu']")));
+        if(!selectTemplate(templateName).isDisplayed())
+        {
+            browser.findElement(By.cssSelector("By.cssSelector(\"li[class$='yuimenuitem-hassubmenu']")).click();
+        }
         return selectTemplate(templateName).isDisplayed();
     }
     
