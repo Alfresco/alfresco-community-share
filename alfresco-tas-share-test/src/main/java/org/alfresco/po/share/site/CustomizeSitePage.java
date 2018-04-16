@@ -119,11 +119,6 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
     public void clickOk()
     {
         okButton.click();
-        if(browser.findElement(By.cssSelector("div[id='prompt_c'] div[id='prompt_h']")).getText().equals("Failure"))
-        {
-            LOG.info("Failed to save changes");
-            browser.findElement(By.cssSelector("button[id$='-button']")).click();
-        }
     }
 
     public void clickCancel()
