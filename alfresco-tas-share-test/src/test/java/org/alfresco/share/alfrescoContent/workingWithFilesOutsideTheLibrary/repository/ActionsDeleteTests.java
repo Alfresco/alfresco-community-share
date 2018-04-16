@@ -3,6 +3,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
+import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -20,6 +21,8 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     @Autowired private RepositoryPage repositoryPage;
 
     @Autowired private DeleteDialog deleteDialog;
+
+    @Autowired DeleteDocumentOrFolderDialog deleteDocumentOrFolderDialog;
 
     private final String user = String.format("C8308TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileName = "0-C8308_file";
@@ -63,16 +66,14 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileName), fileName + " is not available in Repository");
         
         LOG.info("Step 1: Hover over the file you want to delete and press More, select Delete Document");
-        repositoryPage.mouseOverContentItem(fileName);
-        repositoryPage.clickOnAction(fileName, "Delete Document");
+        repositoryPage.clickDocumentLibraryItemAction(fileName, "Delete Document", deleteDialog);
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), fileName), "Delete dialog message= ");
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete' button is not displayed.");
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is not displayed.");
         
         LOG.info("Step 2: Press \"Delete\"");
-        deleteDialog.clickDelete();
-        assertFalse(repositoryPage.isContentNameDisplayed(fileName), fileName + " is displayed.");
-        getBrowser().refresh();
+        deleteDocumentOrFolderDialog.confirmDocumentOrFolderDelete();
+        repositoryPage.navigate();
         assertFalse(repositoryPage.isContentNameDisplayed(fileName), fileName + " is displayed.");
         cleanupAuthenticatedSession();
     }
@@ -91,15 +92,14 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         
         LOG.info("Step 1: Hover over the folder you want to delete and press More, select Delete Folder");
         repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickOnAction(folderName, "Delete Folder");
+        repositoryPage.clickDocumentLibraryItemAction(folderName, "Delete Folder", deleteDialog);
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), folderName), "Delete dialog message= ");
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete' button is not displayed.");
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is not displayed.");  
         
         LOG.info("Step 2: Press \"Delete\"");
-        deleteDialog.clickDelete();
-        assertFalse(repositoryPage.isContentNameDisplayed(folderName), folderName + " is displayed.");
-        getBrowser().refresh();
+        deleteDocumentOrFolderDialog.confirmDocumentOrFolderDelete();
+        repositoryPage.navigate();
         assertFalse(repositoryPage.isContentNameDisplayed(folderName), folderName + " is displayed.");
         cleanupAuthenticatedSession();
     }
