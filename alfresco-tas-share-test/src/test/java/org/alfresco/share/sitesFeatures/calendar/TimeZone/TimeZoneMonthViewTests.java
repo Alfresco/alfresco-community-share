@@ -8,6 +8,7 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
@@ -71,6 +72,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
         }
     }
 
+    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
     @TestRail(id = "C5928")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void singleDayEvent()
@@ -129,6 +131,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
                 "Following information is available: Time section with End Date");
     }
 
+    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
     @TestRail(id = "C5930")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleDaysEvent()
@@ -189,6 +192,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
                 "Following information is available: Time section with End Date");
     }
 
+    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
     @TestRail(id = "C5932")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleWeeksEvent()
@@ -251,6 +255,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
                 "Following information is available: Time section with End Date");
     }
 
+    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
     @TestRail(id = "C5943")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleMonthsEvent()
