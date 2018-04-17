@@ -60,7 +60,7 @@ public class Toolbar extends HtmlPage
     @FindBy(id = "HEADER_ADMIN_CONSOLE_text")
     protected WebElement adminToolsLink;
 
-    @FindBy(id = "HEADER_USER_MENU_POPUP_text")
+    @FindBy(css="div[id='HEADER_USER_MENU_POPUP']")
     protected WebElement userMenuLink;
 
     @RenderWebElement

@@ -2,6 +2,7 @@ package org.alfresco.po.share.toolbar;
 
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -38,7 +39,8 @@ import org.openqa.selenium.support.FindBy;
 
     public boolean isMyProfileDisplayed()
     {
-        userMenuLink.click();
+        browser.mouseOver(userMenuLink);
+        userMenuLink.sendKeys(Keys.ENTER);
         getBrowser().waitUntilElementVisible(dropdownMenu);
         return browser.isElementDisplayed(myProfileMenu);
     }
