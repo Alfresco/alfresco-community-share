@@ -225,7 +225,7 @@ public class Toolbar extends HtmlPage
     {
         searchBoxInput.clear();
         searchBoxInput.sendKeys(keys);
-        searchBoxInput.sendKeys(Keys.RETURN);
+        searchBoxInput.sendKeys(Keys.ENTER);
 
         return (SearchPage) searchPage.renderedPage();
     }
