@@ -47,22 +47,22 @@ public class SitesManagerTests extends ContextAwareWebTest
     @Autowired
     private SystemErrorPage systemErrorPage;
 
-    //private final String // = RandomData.getRandomAlphanumeric();
+    private final String random = RandomData.getRandomAlphanumeric();
     private final String name = "name";
-    private final String user1 = "user1-" + RandomData.getRandomAlphanumeric();;
-    private final String user2 = "user2-" + RandomData.getRandomAlphanumeric();;
-    private final String user3 = "user3-" + RandomData.getRandomAlphanumeric();;
-    private final String user4 = "user4-" + RandomData.getRandomAlphanumeric();;
-    private final String siteAdmin = "siteAdmin-" + RandomData.getRandomAlphanumeric();;
-    private final String alfrescoAdmin = "alfrescoAdmin-" + RandomData.getRandomAlphanumeric();;
+    private final String user1 = "user1-" + random;
+    private final String user2 = "user2-" + random;
+    private final String user3 = "user3-" + random;
+    private final String user4 = "user4-" + random;
+    private final String siteAdmin = "siteAdmin-" + random;
+    private final String alfrescoAdmin = "alfrescoAdmin-" + random;
     private final String siteAdminGroup = "SITE_ADMINISTRATORS";
     private final String alfrescoAdminGroup = "ALFRESCO_ADMINISTRATORS";
-    private final String site1 = "0-site-C8674-" + RandomData.getRandomAlphanumeric();;
-    private final String site2 = "0-site-C8675-" + RandomData.getRandomAlphanumeric();;
-    private final String site3 = "0-site-C8676-" + RandomData.getRandomAlphanumeric();;
-    private final String site4 = "0-site-C8680-" + RandomData.getRandomAlphanumeric();;
-    private final String site5 = "site-C8696-" + RandomData.getRandomAlphanumeric();;
-    private final String site6 = "site-C8689-" + RandomData.getRandomAlphanumeric();;
+    private final String site1 = "0-site-C8674-" + random;
+    private final String site2 = "0-site-C8675-" + random;
+    private final String site3 = "0-site-C8676-" + random;
+    private final String site4 = "0-site-C8680-" + random;
+    private final String site5 = "site-C8696-" + random;
+    private final String site6 = "site-C8689-" + random;
     private final String siteDescription = "Site Description";
 
     @BeforeClass(alwaysRun = true)
@@ -295,7 +295,7 @@ public class SitesManagerTests extends ContextAwareWebTest
         assertEquals(deleteSiteDialog.getConfirmMessageFromSitesManager(), String.format(language.translate("deleteSite.confirmFromSitesManager"), site5));
 
         LOG.info("STEP3: Confirm site deletion by clicking 'Ok' button");
-        deleteSiteDialog.clickDeleteFromSitesManager(sitesManagerPage);
+        deleteSiteDialog.clickDeleteFromSitesManager();
         assertFalse(sitesManagerPage.isSiteDisplayed(site5), site5 + " is displayed in Sites Manager table.");
 
         LOG.info("STEP4: Navigate by link to " + site5 + " 's dashboard");

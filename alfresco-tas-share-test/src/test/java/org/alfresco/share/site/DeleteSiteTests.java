@@ -256,7 +256,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         sitesManagerPage.clickActionForManagedSiteRow(siteNameC2291, "Delete Site", deleteSiteDialog);
         assertEquals(deleteSiteDialog.getConfirmMessageFromSitesManager(), String.format(language.translate("deleteSite.confirmFromSitesManager"), siteNameC2291));
         LOG.info("STEP3: Confirm site deletion");
-        deleteSiteDialog.clickDeleteFromSitesManager(sitesManagerPage);
+        deleteSiteDialog.clickDeleteFromSitesManager();
         assertEquals(sitesManagerPage.isActionAvailableForManagedSiteRow(siteNameC2291, "Delete Site"), false, "The site is deleted - it is no longer displayed in \"manage sites\" table.\n");
         LOG.info("STEP4: Open the created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteNameC2291 + "/dashboard";
