@@ -6,11 +6,13 @@ import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,8 +89,14 @@ import java.util.List;
 
     @FindBy(css = "div[id='SELECTED_LIST_ITEMS'] img") private WebElement selectAllButton;
 
+    @FindBy(css="div[id='SELECTED_LIST_ITEMS_dropdown'] tr[title='All']")
+    private WebElement allOption;
+
     @FindBy(id="onActionCopyTo_text")
     private WebElement copyToAction;
+
+    @FindAll(@FindBy(css="tr[class$='dijitMenuItem']"))
+    private List<WebElement> optionsList;
 
     @FindBy(css = "DIV[ID='SELECTED_LIST_ITEMS'] span.alfresco-menus-AlfMenuBarPopup__arrow") private WebElement selectedListItemsDropdownArrow;
     private int i;
@@ -564,8 +572,10 @@ import java.util.List;
     public void clickSelectAll()
     {
         getBrowser().findElement(By.cssSelector("div[id='SELECTED_LIST_ITEMS'] img")).click();
-        getBrowser().waitUntilElementVisible(By.id("SELECTED_LIST_ITEMS_dropdown"), 5);
-        getBrowser().findElement(By.cssSelector("tr[title='All']")).click();
+        browser.waitInSeconds(2);
+
+        browser.mouseOver(allOption);
+        allOption.sendKeys(Keys.ENTER);
     }
 
     public void clickSelectedItemsListDropdownArrow()
