@@ -217,7 +217,7 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 
     public String getAddedUsersTally()
     {
-        browser.waitUntilElementVisible(addedUsersTally);
+        browser.waitUntilElementIsVisibleWithRetry(addedUsersTally, 3);
         return addedUsersBox.findElement(addedUsersTally).getText();
     }
 
