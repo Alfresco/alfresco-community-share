@@ -105,6 +105,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
      */
     public List<String> getSiteMembersList()
     {
+        browser.waitUntilElementsVisible(namesList);
         List<String> names = new ArrayList<>();
         for (WebElement aNamesList : namesList)
         {

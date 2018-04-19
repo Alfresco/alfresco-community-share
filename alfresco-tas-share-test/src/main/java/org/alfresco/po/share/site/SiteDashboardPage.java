@@ -1,5 +1,6 @@
 package org.alfresco.po.share.site;
 
+import com.sun.xml.internal.org.jvnet.fastinfoset.stax.LowLevelFastInfosetStreamWriter;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -9,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -108,13 +110,17 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
      */
     public boolean isOptionListedInSiteConfigurationDropDown(String option)
     {
+        List<String> availableOptions = new ArrayList<>();
         List<WebElement> siteConfigurationOptions = browser.findElements(By.cssSelector("div[style*='visible'] tr[id^='HEADER']>td[id$='text']"));
         getBrowser().waitUntilElementsVisible(siteConfigurationOptions);
+
         for (WebElement siteConfigurationOption : siteConfigurationOptions)
         {
+            availableOptions.add(siteConfigurationOption.getText());
             if (siteConfigurationOption.getText().equals(option))
                 return true;
         }
+        LOG.info("Available options are: "+ availableOptions.toString());
         return false;
     }
 

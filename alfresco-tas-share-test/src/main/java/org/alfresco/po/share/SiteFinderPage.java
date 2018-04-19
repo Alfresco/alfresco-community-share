@@ -88,7 +88,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
             return selectSite(siteName) !=null;
             }
         catch(TimeoutException e){
-            while(!isSiteFound(siteName)&&counter<3){
+            while(!isSiteFound(siteName)&&counter<5){
                 browser.refresh();
                 this.renderedPage();
                 searchButton.click();
