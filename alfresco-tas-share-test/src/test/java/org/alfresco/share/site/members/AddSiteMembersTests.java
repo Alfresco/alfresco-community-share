@@ -11,6 +11,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -77,6 +78,24 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         siteService.create(userManager1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userManager1, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void testCleanup()
+    {
+        userService.delete(adminUser, adminPassword, userManager1);
+        userService.delete(adminUser, adminPassword, userManager2);
+        userService.delete(adminUser, adminPassword, userCollaborator);
+        userService.delete(adminUser, adminPassword, userContributor);
+        userService.delete(adminUser, adminPassword, userConsumer);
+        userService.delete(adminUser, adminPassword, sameRoleUserA);
+        userService.delete(adminUser, adminPassword, sameRoleUserB);
+        userService.delete(adminUser, adminPassword, sameRoleUserC);
+        userService.delete(adminUser, adminPassword, differentRoleUserA);
+        userService.delete(adminUser, adminPassword, differentRoleUserB);
+        userService.delete(adminUser, adminPassword, differentRoleUserC);
+        userService.delete(adminUser, adminPassword, differentRoleUserD);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @TestRail(id = "C2824")
@@ -330,6 +349,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         LOG.info("STEP 4: Click on the 'Select Role' button for the selected user. Select 'Manager' role from the drop-down menu. Click on 'Add Users' button from 'Add Users to Site' panel.");
         addSiteUsersPage.setUserRole(differentRoleUserA, "Manager");
         addSiteUsersPage.clickAddUsers();
+        getBrowser().waitInSeconds(2);
         assertTrue(addSiteUsersPage.getUserRole(differentRoleUserA).contains("Manager"), differentRoleUserA + " has Manager role selected.");
         assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 1");
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserA), "User is added to site.");
