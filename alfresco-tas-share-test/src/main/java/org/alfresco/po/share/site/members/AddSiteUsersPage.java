@@ -111,7 +111,7 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
         {
             searchForUsersBox.findElement(By.cssSelector("button")).click();
             attempt++;
-            browser.waitInSeconds(2);
+            browser.waitInSeconds(3);
         }
         return (AddSiteUsersPage) this.renderedPage();
     }
@@ -196,6 +196,7 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
      */
     public String getUserRole(String userName)
     {
+        browser.waitUntilElementsVisible(setUserRoleRows);
         return browser.findFirstElementWithValue(setUserRoleRows, userName).findElement(selectRoleButton).getText();
     }
 
