@@ -1,6 +1,5 @@
 package org.alfresco.po.share.site;
 
-import com.sun.xml.internal.org.jvnet.fastinfoset.stax.LowLevelFastInfosetStreamWriter;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
