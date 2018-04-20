@@ -394,11 +394,10 @@ public class ModelManagerTests extends ContextAwareWebTest
         createModelDialogPage.sendPrefixText(prefix);
         createModelDialogPage.sendNameText(name);
         createModelDialogPage.clickCreateButton();
-        // modelManagerPage.navigate();
-        modelManagerPage.renderedPage();
+        modelManagerPage.navigate();
 
         LOG.info("Step 1: On the Model Manager page click C42566testModel name link.");
-        getBrowser().waitUntilElementVisible(modelManagerPage.selectRow(name));
+    //    getBrowser().waitUntilElementVisible(modelManagerPage.selectRow(name));
         modelManagerPage.clickModelName(name);
         Assert.assertTrue(modelDetailsPage.isCreateAspectButtonDisplayed(), "Create Aspect button is not displayed");
         Assert.assertTrue(modelDetailsPage.isCreateCustomTypeButtonDisplayed(), "Create Custom Type button is not displayed");
@@ -436,10 +435,9 @@ public class ModelManagerTests extends ContextAwareWebTest
         createModelDialogPage.sendPrefixText(prefix);
         createModelDialogPage.sendNameText(name);
         createModelDialogPage.clickCreateButton();
-        // modelManagerPage.navigate();
-
+        modelManagerPage.renderedPage();
         LOG.info("Step 1: On the Model Manager page click C42567testModel name link.");
-        getBrowser().waitUntilElementVisible(modelManagerPage.selectRow(name));
+       // getBrowser().waitUntilElementVisible(modelManagerPage.selectRow(name));
         modelManagerPage.clickModelName(name);
         Assert.assertTrue(modelDetailsPage.isCreateAspectButtonDisplayed(), "Create Aspect button is not displayed");
         Assert.assertTrue(modelDetailsPage.isCreateCustomTypeButtonDisplayed(), "Create Custom Type button is not displayed");

@@ -122,7 +122,7 @@ public class ModelManagerPage extends AdminToolsPage
     public boolean isModelDisplayed(String modelName)
     {
     	By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        browser.waitUntilElementIsDisplayedWithRetry(modelRowLocator, 2);
+        browser.waitUntilElementIsDisplayedWithRetry(modelRowLocator, 3);
         return browser.isElementDisplayed(modelRowLocator);
     }
 
@@ -177,17 +177,18 @@ public class ModelManagerPage extends AdminToolsPage
 
     public HtmlPage clickOnAction(String actionName, HtmlPage page)
     {
-        //browser.mouseOver(By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']"));
         List<WebElement> actionsOptions = browser.findElements(By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']"));
         browser.waitUntilElementsVisible(actionsOptions);
         for(WebElement action: actionsOptions)
         {
             if(action.getText().equals(actionName))
             {
+                browser.mouseOver(action);
                 action.click();
+                browser.waitInSeconds(2);
+                break;
             }
         }
-        //browser.findFirstElementWithValue(actionsOptions, actionName).click();
         return page.renderedPage();
     }
 
