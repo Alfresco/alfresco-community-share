@@ -28,7 +28,7 @@ public class ApplicationPage extends AdminToolsPage
    
     
     @FindBy(css = "button[id$='apply-button-button']")
-    private Button applyButton;
+    private WebElement applyButton;
     
     @FindBy (xpath = "//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]")
     private WebElement defaultAlfrescoImage;
@@ -42,7 +42,7 @@ public class ApplicationPage extends AdminToolsPage
 
     @RenderWebElement
     @FindBy(css = "form[id$=_default-options-form] button[id$=upload-button-button]")
-    private Button uploadButton;
+    private WebElement uploadButton;
     
     public enum Theme
     {
@@ -75,17 +75,16 @@ public class ApplicationPage extends AdminToolsPage
     {
         String testFile = "alfrescoLogo.png";
         String testFilePath = testDataFolder + testFile;
-
-        //click Upload button
         uploadButton.click();
 
-        //upload the new image
         fileInput.setFileToUpload(testFilePath);
+        browser.waitInSeconds(1);
         if(browser.isElementDisplayed(By.cssSelector("div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")))
         {
            okButton.click();
         }
-        //click 'Apply' button to save changes
+
+        browser.mouseOver(applyButton);
         applyButton.click();
     }
 
