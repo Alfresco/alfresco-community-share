@@ -67,9 +67,11 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     }
 
     public void searchSite(String site) {
+        browser.waitInSeconds(5);
         searchField.clear();
         searchField.sendKeys(site);
-        getBrowser().waitUntilElementClickable(searchButton).sendKeys(Keys.ENTER);
+        browser.mouseOver(searchButton);
+        getBrowser().waitUntilElementClickable(searchButton).click();
         this.renderedPage();
     }
 
@@ -85,6 +87,13 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     public boolean checkSiteWasFound(String siteName) {
         int counter = 0;
         try{
+            int retry = 0;
+                    if(retry <3 && selectSite(siteName)==null)
+                    {
+                        searchSite(siteName);
+                        LOG.info(selectSite(siteName).toString() + " was found");
+                        retry++;
+                    }
             return selectSite(siteName) !=null;
             }
         catch(TimeoutException e){
