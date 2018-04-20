@@ -7,6 +7,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -317,7 +318,15 @@ import java.util.List;
      */
     public boolean isSearchResultsListInDetailedView()
     {
-        browser.waitUntilElementsVisible(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"));
+        try
+        {
+            browser.waitUntilElementsVisible(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"));
+            return resultsDetailedViewList.size() > 0;
+        }
+        catch (TimeoutException ex)
+        {
+            browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"), 3);
+        }
         return resultsDetailedViewList.size() > 0;
     }
 
