@@ -8,6 +8,7 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
@@ -123,6 +124,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         assertTrue(addSiteUsersPage.isAddExternalUsersPanelDisplayed(), "'...Add External Users' panel is displayed, with:\n a)'First Name:'\n b)'Last Name:'\n c) 'Email:'\n d) 'Add' button");
     }
 
+    @Bug(id ="TBD0", description = "Alfresco Documentation is not yet available for 6.0")
     @TestRail(id = "3114")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyInfoIconFromAddUsersPage()

@@ -24,6 +24,7 @@ import org.alfresco.po.share.user.profile.UserSitesListPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
@@ -178,6 +179,7 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(toolbar.isSearchBoxDisplayed(), "\"Search\" is displayed");
     }
 
+    @Bug(id ="TBD", description = "Alfresco Documentation is not yet available for 6.0")
     @TestRail(id = "C2864") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromTheUserMenu()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
