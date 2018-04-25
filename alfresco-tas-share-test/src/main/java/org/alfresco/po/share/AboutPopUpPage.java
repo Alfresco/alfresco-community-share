@@ -114,7 +114,7 @@ public class AboutPopUpPage extends ShareDialog
     public void clickAlfrescoLink()
     {
         alfrescoLink.click();
-        browser.waitInSeconds(1);
+        browser.waitInSeconds(2);
     }
     
     /**
