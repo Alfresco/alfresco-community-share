@@ -8,8 +8,12 @@ import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PageObject
 public class CreateContent extends SiteCommon<CreateContent>
@@ -75,6 +79,9 @@ public class CreateContent extends SiteCommon<CreateContent>
     
     @FindBy(css = "div[id*='_default-createFolder-dialog_c'] div[id*='_default-createFolder-dialogTitle']")
     private WebElement createFolderDialogTitle;
+
+    @FindAll(@FindBy(css=".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible span"))
+    private List<WebElement> templatesList;
 
     public By message = By.cssSelector("span.message span.wait");
 
@@ -376,7 +383,11 @@ public class CreateContent extends SiteCommon<CreateContent>
     {
         browser.waitUntilElementClickable(selectCreateFromTemplateButton(btnName));
         selectCreateFromTemplateButton(btnName).click();
-        //browser.waitUntilElementVisible(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible"));
+        if(browser.isElementDisplayed(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible"))== false)
+        {
+            browser.mouseOver(selectCreateFromTemplateButton(btnName));
+        }
+        browser.waitUntilElementVisible(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible"));
     }
 
     public void mouseOverButton(String btnName)
@@ -400,7 +411,9 @@ public class CreateContent extends SiteCommon<CreateContent>
 
     public HtmlPage clickOnFolderTemplate(String templateName, HtmlPage page)
     {
-        browser.waitUntilElementVisible(selectTemplate(templateName)).click();
+        browser.waitUntilElementsVisible(templatesList);
+        browser.findFirstElementWithValue(templatesList, templateName).click();
+       // browser.waitUntilElementVisible(selectTemplate(templateName)).click();
         return page.renderedPage();
     }
     /**
@@ -408,12 +421,24 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public boolean isFolderTemplateDisplayed(String templateName)
     {
-        browser.mouseOver(browser.waitUntilElementVisible(By.cssSelector("li[class$='yuimenuitem-hassubmenu']")));
-        if(!selectTemplate(templateName).isDisplayed())
+        List<String> templatesName = new ArrayList<>();
+        browser.waitUntilElementsVisible(templatesList);
+        for(WebElement template: templatesList)
         {
-            browser.findElement(By.cssSelector("By.cssSelector(\"li[class$='yuimenuitem-hassubmenu']")).click();
+            templatesName.add(template.getText());
         }
-        return selectTemplate(templateName).isDisplayed();
+
+        System.out.println("templates available are: "+ templatesName.toArray());
+        return templatesName.contains(templateName);
+
+       // browser.findFirstElementWithValue(templatesList, templateName);
+
+//        browser.mouseOver(browser.waitUntilElementVisible(By.cssSelector("li[class$='yuimenuitem-hassubmenu']")));
+//        if(!selectTemplate(templateName).isDisplayed())
+//        {
+//            browser.findElement(By.cssSelector("By.cssSelector(\"li[class$='yuimenuitem-hassubmenu']")).click();
+//        }
+//        return selectTemplate(templateName).isDisplayed();
     }
 
     public boolean isFileTemplateDisplayed(String templateName)

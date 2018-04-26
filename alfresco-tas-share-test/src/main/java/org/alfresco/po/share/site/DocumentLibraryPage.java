@@ -434,7 +434,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public String getExplorerPanelDocuments()
     {
-        browser.waitInSeconds(2);
+        browser.waitUntilElementsVisible(explorerPanelDocumentsList);
         ArrayList<String> foldersTextList = new ArrayList<>();
         for (WebElement anExplorerPanelDocumentsList : explorerPanelDocumentsList)
         {

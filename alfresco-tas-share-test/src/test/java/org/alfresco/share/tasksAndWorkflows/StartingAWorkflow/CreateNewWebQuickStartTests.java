@@ -56,7 +56,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
 
     @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail(id = "C8352")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    //@Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewWebQuickStartReviewAndPublishSectionStructure()
     {
         LOG.info("Precondition");
@@ -92,7 +92,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
 
     @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail(id = "C8353")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+   // @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewWebQuickStartReviewAndPublishWebAssets()
     {
         LOG.info("Precondition");
