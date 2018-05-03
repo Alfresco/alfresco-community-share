@@ -36,8 +36,8 @@ public class RebrandTests extends ContextAwareWebTest {
 		softAssert.assertFalse(login.isOldLogoDisplayed(), "Old logo displayed");
 		softAssert.assertTrue(login.isMakeBusinessFlowDisplayed(), "'make business flow' displayed");
 		softAssert.assertFalse(login.isSimpleSmartDisplayed(), "'Simple+Smart' displayed");
-		softAssert.assertEquals(login.getBackgroundColour(), new String[] { "rgb(102, 102, 102)", "rgb(102, 102, 102)",
-				"rgb(102, 102, 102)" }, "Background colour is not blue!");
+		softAssert.assertEquals(login.getBackgroundColour(), new String[] { "rgb(51, 51, 51)", "rgb(51, 51, 51)",
+				"rgb(51, 51, 51)" }, "Background colour is not blue!");
 		softAssert.assertEquals(login.getAlfrescoShareColour(), "rgb(12, 121, 191)", "Alfresco share color is not blue!");
 		softAssert.assertEquals(login.getCopyRightText(), String.format("© 2005-%s Alfresco Software Inc. All rights reserved.", DateTime.now().getYear()), "Correct copyright year");
 		softAssert.assertEquals(login.getSignInButtonColor(), "rgb(255, 255, 255)", "Correct color for Sign In");

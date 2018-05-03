@@ -1,6 +1,5 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
-import junit.framework.Assert;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.site.wiki.CreateWikiPage;
 import org.alfresco.po.share.site.wiki.WikiListPage;
@@ -12,6 +11,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -79,7 +79,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click on wiki page list");
         wikiPage.clickOnWikiListLink();
-        Assert.assertTrue("Wiki page is not displayed in the list!", wikiListPage.getWikiPageTitlesList().contains(wikiPageTitle));
+        Assert.assertTrue( wikiListPage.getWikiPageTitlesList().contains(wikiPageTitle), "Wiki page is not displayed in the list!");
     }
 
     @TestRail(id = "C5504")
@@ -101,8 +101,8 @@ public class CreateNewWikiTests extends ContextAwareWebTest
         createWikiPage.cancelWikiPageAndLeavePage();
 
         LOG.info("STEP 4: Check that wiki page is not present on the list");
-        Assert.assertTrue("There are wiki pages displayed in the list!", wikiListPage.getWikiPageTitlesList().isEmpty());
-        Assert.assertTrue("Wrong message displayed!", wikiListPage.noWikiPageDisplayed().equals("There are currently no pages to display"));
+        Assert.assertTrue( wikiListPage.getWikiPageTitlesList().isEmpty(), "There are wiki pages displayed in the list!");
+        Assert.assertTrue( wikiListPage.noWikiPageDisplayed().equals("There are currently no pages to display"), "Wrong message displayed!");
     }
 
     @TestRail(id = "C5524")
@@ -122,13 +122,13 @@ public class CreateNewWikiTests extends ContextAwareWebTest
         createWikiPage.typeWikiPageTitle(wikiPageTitle);
         createWikiPage.typeWikiPageContent(wikiPageContent);
         createWikiPage.addTag(tagName);
-        Assert.assertTrue("Tag is not displayed!", createWikiPage.getWikiPageTagsList().contains(tagName));
+        Assert.assertTrue( createWikiPage.getWikiPageTagsList().contains(tagName), "Tag is not displayed!");
 
         LOG.info("STEP 3: Click on Save button");
         createWikiPage.saveWikiPage();
 
         LOG.info("STEP 4: Navigate to Wiki Page List page");
         wikiPage.clickOnWikiListLink();
-        Assert.assertTrue("Tag is not displayed in the list!", wikiListPage.getTagsList().contains(tagName + " (1)"));
+        Assert.assertTrue(wikiListPage.getTagsList().contains(tagName + " (1)") , "Tag is not displayed in the list!");
     }
 }

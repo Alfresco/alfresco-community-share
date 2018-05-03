@@ -42,7 +42,7 @@ public class LogoTests extends ContextAwareWebTest {
         LOG.info("STEP 3: Click 'www.alfresco.com'");
         aboutPage.clickAlfrescoLink();
         getBrowser().switchWindow(1);
-        assertEquals(getBrowser().getCurrentUrl(), "https://www.alfresco.com/", "Displayed URL=");
+         assertEquals(getBrowser().getCurrentUrl(), "https://www.alfresco.com/", "Displayed URL=");
         closeWindowAndSwitchBack();
         LOG.info("STEP 4: Click Legal and License link");
         setupAuthenticatedSession(user1, user1);

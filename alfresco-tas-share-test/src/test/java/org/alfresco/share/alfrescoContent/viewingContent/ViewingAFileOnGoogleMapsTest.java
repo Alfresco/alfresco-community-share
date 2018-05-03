@@ -9,6 +9,7 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
@@ -48,7 +49,8 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
         contentAspects.addGeographicAspect(user, password, siteName, docName, longitude, latitude);
         setupAuthenticatedSession(user, password);
     }
-    
+
+    @Bug(id ="ACE-5219", description = "view in Google Maps is not working")
     @TestRail (id="C5921")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
@@ -67,7 +69,7 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");
         
         LOG.info("Step 3: Click on View on Google Maps");
-        documentLibraryPage.clickOnAction(docName, "View on Google Maps");
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, "View on Google Maps", documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isFileOpenedInGoogleMaps(),"File is not opened in Google Maps");
         Assert.assertTrue(documentLibraryPage.isDocumentThumbnailDisplayedOnGoogleMaps(),"Document thumbnail is not displayed in Google Maps");
         
