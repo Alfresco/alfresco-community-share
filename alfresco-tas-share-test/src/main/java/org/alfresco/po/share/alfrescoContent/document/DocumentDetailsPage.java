@@ -144,6 +144,9 @@ import java.util.List;
 
     @FindBy(css = ".message") private WebElement contentError;
 
+    @FindBy(css="span[id$='_default-numPages']")
+    private WebElement defaultPageNumber;
+
     private By fileLocation = By.xpath("//span[@class= 'folder-link folder-open']//a");
 
     private By documentsLink = By.xpath("//span[@class = 'folder-link']//a");
@@ -804,4 +807,9 @@ import java.util.List;
         addCommentButton.click();
     }
 
+    public String getDefaultNumberOfPages()
+    {
+        browser.waitUntilElementVisible(defaultPageNumber, 5);
+        return defaultPageNumber.getText();
+    }
 }

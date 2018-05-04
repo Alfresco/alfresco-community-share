@@ -62,7 +62,7 @@ public class PreviewFileTest extends ContextAwareWebTest
         LOG.info("STEP 4: Scroll between testDoc pages");
         String actualPageNo = documentDetailsPage.getCurrentPageNo();
         documentDetailsPage.clickOnNextButton();
-        String newPageNo = documentDetailsPage.getCurrentPageNo();
+        String newPageNo = documentDetailsPage.getDefaultNumberOfPages();
         Assert.assertFalse(actualPageNo.equals(newPageNo), "Page number should be different!");
         documentDetailsPage.clickOnPreviousButton();
         newPageNo = documentDetailsPage.getCurrentPageNo();
