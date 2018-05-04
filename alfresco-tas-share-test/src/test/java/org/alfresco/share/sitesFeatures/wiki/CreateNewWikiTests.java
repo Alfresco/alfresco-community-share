@@ -129,6 +129,6 @@ public class CreateNewWikiTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Navigate to Wiki Page List page");
         wikiPage.clickOnWikiListLink();
-        Assert.assertTrue(wikiListPage.getTagsList().contains(tagName + " (1)") , "Tag is not displayed in the list!");
+        Assert.assertTrue(wikiListPage.getTagsList().contains(tagName.toLowerCase() + " (1)") , "Tag is not displayed in the list!");
     }
 }
