@@ -845,7 +845,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         while (counter < retryCount)
         {
             try
-            {
+            {   browser.waitInSeconds(20);
+            browser.refresh();
                 By tagRows = By.cssSelector("ul.filterLink li span.tag a");
                 getBrowser().waitUntilElementsVisible(tagRows);
                 for (WebElement tagsElem : browser.findElements(tagRows))
