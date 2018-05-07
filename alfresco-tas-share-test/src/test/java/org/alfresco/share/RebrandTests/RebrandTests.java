@@ -7,8 +7,10 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -28,7 +30,8 @@ public class RebrandTests extends ContextAwareWebTest {
 	@TestRail(id = "C42575, C42576, C42577, C42578, C42580, C42579")
 	@Test(groups = { TestGroup.SANITY, TestGroup.SHARE })
 	public void checkLoginPage() {
-		logger.info("Verify old logo is replaced");
+		cleanupAuthenticatedSession();
+		LOG.info("Verify old logo is replaced");
 		login.navigate();
 		SoftAssert softAssert = new SoftAssert();
 		softAssert.assertTrue(login.isLogoDisplayed(), "New logo displayed on Sign In page");
@@ -59,6 +62,7 @@ public class RebrandTests extends ContextAwareWebTest {
 		cleanupAuthenticatedSession();
 	}
 
+	@Bug(id ="SHA-2178", description = "Share version is not correct")
 	@TestRail(id = "C42582, C42583")
 	@Test(groups = { TestGroup.SANITY, TestGroup.SHARE })
 	public void checkAlfrescoOneLogoInVersiondialog() {
@@ -66,9 +70,8 @@ public class RebrandTests extends ContextAwareWebTest {
 		logger.info("Verify Alfresco Community logo in version dialog is replaced with new Alfresco logo");
 		setupAuthenticatedSession(adminUser, adminPassword);
 		userDashboard.openAboutPage();
-		softAssert.assertEquals(aboutPopup.getAlfrescoVersion(), language.translate("alfrescoVersion"), "Correct Alfresco version!");
-		softAssert.assertEquals(aboutPopup.getShareVersion(), language.translate("shareVersion"),"Correct Share version!");
-		softAssert.assertAll();
+		Assert.assertEquals(aboutPopup.getAlfrescoVersion(), language.translate("alfrescoVersion"), "Correct Alfresco version!");
+		Assert.assertEquals(aboutPopup.getShareVersion(), language.translate("shareVersion"),"Correct Share version!");
 		cleanupAuthenticatedSession();
 	}
 }
