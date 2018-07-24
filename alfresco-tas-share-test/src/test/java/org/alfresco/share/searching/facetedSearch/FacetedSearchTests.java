@@ -122,7 +122,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C12817") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 1)
+    @TestRail(id = "C12817") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 3)
     public void facetedSearchALLOption()
     {
         LOG.info("STEP1&2&3: Select ALL option from the Select Items List checkbox and Gallery View");
@@ -202,7 +202,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C12825") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 7)
+    @TestRail(id = "C12825") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 1)
     public void facetedSearchMoveToAction()
     {
         LOG.info("STEP1: Select the document to move.");

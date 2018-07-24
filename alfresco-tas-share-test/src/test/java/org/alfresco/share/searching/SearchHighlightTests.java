@@ -12,6 +12,7 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
@@ -314,6 +315,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted(docName));
     }
 
+    @Bug(id = "SHA-2221")
     @TestRail(id = "C42562")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchWithConjunctions() {

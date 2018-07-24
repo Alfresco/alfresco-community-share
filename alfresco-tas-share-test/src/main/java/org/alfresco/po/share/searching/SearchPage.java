@@ -349,6 +349,8 @@ import java.util.List;
 
     public SearchPage clickDetailedView()
     {
+        browser.waitInSeconds(2);
+
         clickViewsDropdown();
         getBrowser().waitUntilElementVisible(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP']"));
         browser.selectOptionFromFilterOptionsList("Detailed View", browser.findElements(viewsDropdownOptionsSelector));
