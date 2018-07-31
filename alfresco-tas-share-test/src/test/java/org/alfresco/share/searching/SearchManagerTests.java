@@ -60,6 +60,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     private String user1 = String.format("user1%s", RandomData.getRandomAlphanumeric());
     private String user2 = String.format("testUser2%s", RandomData.getRandomAlphanumeric());
     private String user3 = String.format("testUser3%s", RandomData.getRandomAlphanumeric());
+    private String modifier1 = "firstName1 lastName1";
     private String modifier2 = "firstName2 lastName2";
     private String modifier3 = "firstName3 lastName3";
     private String groupName = "ALFRESCO_SEARCH_ADMINISTRATORS";
@@ -304,6 +305,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertTrue(searchPage.isFilterOptionDisplayed(filterId, modifier2), modifier2 + " option is displayed under the Modifier filter.");
         assertFalse(searchPage.isFilterOptionDisplayed(filterId, modifier3), modifier3 + " option is not displayed under the Modifier filter.");
     }
+
 
     @TestRail(id = "C6308")
     @Test(enabled = false, groups = { TestGroup.SANITY, TestGroup.SEARCH })

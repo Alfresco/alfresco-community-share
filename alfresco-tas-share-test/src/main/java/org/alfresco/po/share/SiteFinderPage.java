@@ -91,7 +91,10 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
                     if(retry <3 && selectSite(siteName)==null)
                     {
                         searchSite(siteName);
-                        LOG.info(selectSite(siteName).toString() + " was found");
+                        if(selectSite(siteName) == null)
+                            LOG.info("site was not was found");
+                            else
+                             LOG.info(selectSite(siteName).toString() + " was found");
                         retry++;
                     }
             return selectSite(siteName) !=null;
