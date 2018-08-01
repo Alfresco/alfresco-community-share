@@ -14,6 +14,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 public class RebrandTests extends ContextAwareWebTest {
 	@Autowired
     LoginPage login;
@@ -33,18 +37,19 @@ public class RebrandTests extends ContextAwareWebTest {
 		cleanupAuthenticatedSession();
 		LOG.info("Verify old logo is replaced");
 		login.navigate();
-		SoftAssert softAssert = new SoftAssert();
-		softAssert.assertTrue(login.isLogoDisplayed(), "New logo displayed on Sign In page");
-		softAssert.assertTrue(login.isMakeBusinessFlowDisplayed(), "'make business flow' displayed");
-		softAssert.assertFalse(login.isOldLogoDisplayed(), "Old logo displayed");
-		softAssert.assertTrue(login.isMakeBusinessFlowDisplayed(), "'make business flow' displayed");
-		softAssert.assertFalse(login.isSimpleSmartDisplayed(), "'Simple+Smart' displayed");
-		softAssert.assertEquals(login.getBackgroundColour(), new String[] { "rgb(51, 51, 51)", "rgb(51, 51, 51)",
-				"rgb(51, 51, 51)" }, "Background colour is not blue!");
-		softAssert.assertEquals(login.getAlfrescoShareColour(), "rgb(12, 121, 191)", "Alfresco share color is not blue!");
-		softAssert.assertEquals(login.getCopyRightText(), String.format("© 2005-%s Alfresco Software Inc. All rights reserved.", DateTime.now().getYear()), "Correct copyright year");
-		softAssert.assertEquals(login.getSignInButtonColor(), "rgb(255, 255, 255)", "Correct color for Sign In");
-		softAssert.assertAll();
+
+		assertTrue(login.isLogoDisplayed(), "New logo displayed on Sign In page");
+		assertFalse(login.isOldLogoDisplayed(), "Old logo displayed");
+		assertFalse(login.isSimpleSmartDisplayed(), "'Simple+Smart' displayed");
+		assertEquals(login.getBackgroundColour(), new String[] { "rgb(12, 121, 191)", "rgb(136, 136, 136)"
+				}, "Background colour is not blue!");
+		assertEquals(login.getAlfrescoShareColour(), "rgb(12, 121, 191)", "Alfresco share color is not blue!");
+		assertEquals(login.getCopyRightText(), String.format("© 2005-%s Alfresco Software Inc. All rights reserved.", DateTime.now().getYear()), "Correct copyright year");
+		assertEquals(login.getSignInButtonColor(), "rgb(255, 255, 255)", "Correct color for Sign In");
+
+
+
+
 	}
 
 	@TestRail(id = "C42581")
