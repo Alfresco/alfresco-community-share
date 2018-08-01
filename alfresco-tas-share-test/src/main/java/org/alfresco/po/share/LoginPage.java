@@ -48,6 +48,12 @@ public class LoginPage extends HtmlPage
     @FindBy(css = ".sticky-footer")
     private WebElement stickyFooter;
 
+    @FindBy(css = "#Share")
+    private WebElement bodyShare;
+
+    @FindBy(css = " .product-tagline")
+    private WebElement productTagline;
+
     @FindBy(css = ".sticky-push")
     private WebElement stickyPush;
 
@@ -181,10 +187,10 @@ public class LoginPage extends HtmlPage
     }
 
     public String[] getBackgroundColour() {
-        String colourStickyWrapper = stickyWrapper.getCssValue("color");
-        String colourStickyFooter = stickyFooter.getCssValue("color");
-        String colourStickyPush = stickyPush.getCssValue("color");
-        String[] colours = new String[] { colourStickyWrapper, colourStickyFooter, colourStickyPush };
+
+        String colourBodyShare = bodyShare.getCssValue("background-color");
+        String colourProductTagline = productTagline.getCssValue("color");
+        String[] colours = new String[] { colourBodyShare, colourProductTagline };
         return colours;
     }
 
