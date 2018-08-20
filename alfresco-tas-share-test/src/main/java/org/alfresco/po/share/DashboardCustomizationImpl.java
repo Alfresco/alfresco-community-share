@@ -12,6 +12,8 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
+import org.openqa.selenium.JavascriptExecutor;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -246,6 +248,8 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
 			if (existingDashletsInColumn.size() < maxDashletsInColumn) {
 				WebElement target = browser
 						.waitUntilElementVisible(By.cssSelector(String.format(targetColumn, columnNumber)));
+				((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
+
 				browser.dragAndDrop(webDashlet, target);
 				if (!isDashletAddedInColumn(dashlet, columnNumber)) {
 					browser.dragAndDrop(webDashlet, target);

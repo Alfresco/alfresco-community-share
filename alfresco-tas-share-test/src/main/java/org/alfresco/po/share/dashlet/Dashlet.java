@@ -13,6 +13,8 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
 
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.JavascriptExecutor;
+
 
 /**
  * handle common elements of all Alfresco Share dashlets
@@ -157,7 +159,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
      * 
      * @param height int new height
      */
-    public void resizeDashlet(int height)
+    public void resizeDashlet(int height,int scrolldown)
     {
         WebElement resizeDash = null;
         try
@@ -168,6 +170,12 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         {
             throw new PageOperationException(this.getDashletTitle() + " is not expandable");
         }
+        if (scrolldown == 1)
+        {
+            ((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
+        }
+
+
         browser.dragAndDrop(resizeDash, 0, height);
     }
 

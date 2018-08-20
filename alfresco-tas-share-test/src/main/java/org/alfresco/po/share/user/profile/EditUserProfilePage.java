@@ -9,6 +9,8 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
+import org.openqa.selenium.JavascriptExecutor;
+
 
 import java.util.List;
 
@@ -81,7 +83,7 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
     
     @FindBy(css = "button[id$='button-cancel-button']")
     private Button cancel;
-    @FindBy(css = "button[id$='save-button']")
+    @FindBy(css = "span[id$='button-save']")
     private Button save;
 
     @Override
@@ -274,6 +276,7 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
     
     public UserProfilePage clickSave()
     {
+     //   ((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
         save.click();
         return (UserProfilePage) userProfilePage.renderedPage();
     }

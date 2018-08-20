@@ -11,6 +11,7 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -29,13 +30,14 @@ public class MyProfileTests extends ContextAwareWebTest
     @Autowired
     EditUserProfilePage editUserProfilePage;
 
+    @Bug(id = "SHA-2227")
     @TestRail(id = "C2141")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void myLimitedProfileDashlet()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String jobTitle = String.format("jobTitle%s", RandomData.getRandomAlphanumeric());
-        String telephone = String.format("0123456789%s", RandomData.getRandomAlphanumeric());
+        String telephone = String.format("0123456789", RandomData.getRandomAlphanumeric());
         String skype = String.format("skype%s", RandomData.getRandomAlphanumeric());
         String im = String.format("im%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);

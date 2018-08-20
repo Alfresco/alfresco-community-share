@@ -132,8 +132,8 @@ public class MySitesTests extends ContextAwareWebTest
         LOG.info("STEP 4 - My Favorites filter, check that only site1 is displayed");
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.MyFavorites.toString());
         getBrowser().waitInSeconds(2);
-        Assert.assertTrue(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is not available");
-        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " is available");
-        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " is available");
+        Assert.assertFalse(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is not available");
+        Assert.assertTrue(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " is available");
+        Assert.assertTrue(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " is available");
     }
 }

@@ -14,11 +14,11 @@ import org.openqa.selenium.support.FindBy;
 
     @FindBy(id = "HEADER_USER_MENU_HELP_text") private WebElement help;
 
-    @FindBy(id = "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME") private WebElement setCurrentPageAsHome;
+    @FindBy(id = "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME_text") private WebElement setCurrentPageAsHome;
 
-    @FindBy(id = "HEADER_USER_MENU_SET_DASHBOARD_AS_HOME") private WebElement setDashBoardAsHome;
+    @FindBy(id = "HEADER_USER_MENU_SET_DASHBOARD_AS_HOME_text") private WebElement setDashBoardAsHome;
 
-    @FindBy(id = "HEADER_USER_MENU_CHANGE_PASSWORD") private WebElement changePassword;
+    @FindBy(id = "HEADER_USER_MENU_CHANGE_PASSWORD_text") private WebElement changePassword;
 
     @FindBy(id = "HEADER_USER_MENU_LOGOUT_text") private WebElement logout;
 

@@ -252,7 +252,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
 
         LOG.info("Step 2 - Resize any dashlet from the 'Site Dashboard',by dragging the bottom edge of the dashlet.");
         int sizeBefore = siteContentDashlet.getDashletHeight();
-        siteContentDashlet.resizeDashlet(300);
+        siteContentDashlet.resizeDashlet(300,0);
         int sizeAfter = siteContentDashlet.getDashletHeight();
         Assert.assertTrue(sizeBefore < sizeAfter, "Height is not changed");
     }

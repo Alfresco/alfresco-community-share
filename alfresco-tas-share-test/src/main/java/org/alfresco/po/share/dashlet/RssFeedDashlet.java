@@ -56,6 +56,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
      */
     public EnterFeedURLPopUp clickOnConfigureRssFeedDashlet()
     {
+        getBrowser().waitInSeconds(5);
         browser.mouseOver(browser.findElement(configureDashlet));
         browser.findElement(configureDashlet).click();
         return (EnterFeedURLPopUp) enterFeedURLPopUp.renderedPage();
@@ -69,6 +70,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     public void clickOnRssLink(int position)
     {
         feedsList.get(position).click();
+        getBrowser().waitInSeconds(5);
         browser.switchWindow();
     }
 }

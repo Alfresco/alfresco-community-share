@@ -12,6 +12,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import java.util.ArrayList;
 
 /**
  * @author bogdan.simion
@@ -69,7 +70,7 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
         for(String winHandle : getBrowser().getWindowHandles())
         {
             getBrowser().switchTo().window(winHandle);
-            if (getBrowser().getCurrentUrl().contains("http://www.reuters.com"))
+            if (getBrowser().getCurrentUrl().contains("https://www.reuters.com"))
             {
                 break;
             }
@@ -79,7 +80,7 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
             }
         }
 
-        Assert.assertTrue(getBrowser().getCurrentUrl().contains("http://www.reuters.com"), "After clicking on RSS link, the title is: " + getBrowser().getCurrentUrl());
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("https://www.reuters.com"), "After clicking on RSS link, the title is: " + getBrowser().getCurrentUrl());
         closeWindowAndSwitchBack();
     }
 }

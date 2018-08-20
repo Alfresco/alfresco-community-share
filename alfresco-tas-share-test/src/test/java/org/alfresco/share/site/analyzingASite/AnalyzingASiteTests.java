@@ -153,12 +153,15 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
     public void verifySiteContributorBreakdownDashlet()
     {
         setupAuthenticatedSession(user1C2234, password);
+        getBrowser().waitInSeconds(10);
         siteDashboardPage.navigate(siteNameC2234);
 
         LOG.info("Step 1&2: Verify the content of \"Contributor Breakdown\" dashlet.");
 
         siteContributorBreackdownDashlet.renderedPage();
         Assert.assertEquals(siteContributorBreackdownDashlet.getNumberOfPieChartSlices(), 4, "There are not 4 different sections in the pie chart");
+        getBrowser().waitInSeconds(10);
+
         Map<String, String> fileDetails = siteContributorBreackdownDashlet.getPieChartSliceTooltip();
         assertTrue(fileDetails.containsKey(user3C2234), user3C2234+" contribution is not displayed");
         assertTrue(fileDetails.get(user3C2234).contains("1 items (11.1%)"), user3C2234+" user contribution number of files in not correct");

@@ -46,6 +46,7 @@ public class MyDiscussionsTests extends ContextAwareWebTest
         Assert.assertEquals(myDiscussionsDashlet.getDefaultMessage(), "There are no topics matching your filters.");
         
         LOG.info("Step 2: Verify 'My Topics' filter");
+        getBrowser().refresh();
         Assert.assertTrue(myDiscussionsDashlet.checkTopicDropdownOptions());
         
         LOG.info("Step 3: Verify 'Topics updated in the last day' filter");
