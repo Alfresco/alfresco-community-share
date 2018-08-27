@@ -229,7 +229,10 @@ public class TinyMceEditor extends HtmlPage {
         }
 
         String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
+
+        getBrowser().waitInSeconds(5);
         browser.executeJavaScript(setCommentJs);
+
         setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", text);
         browser.executeJavaScript(setCommentJs);
 

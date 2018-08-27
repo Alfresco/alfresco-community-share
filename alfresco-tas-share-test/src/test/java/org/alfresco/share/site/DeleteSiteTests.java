@@ -18,6 +18,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -284,5 +285,16 @@ public class DeleteSiteTests extends ContextAwareWebTest
         getBrowser().navigate().to(url);
         assertEquals(siteDashboardPage.getCurrentUrl(), url.replace(":80/","/"), "User is successfully redirected to the site dashboard.");
         cleanupAuthenticatedSession();
+    }
+    @AfterClass(alwaysRun = true)
+    public void aftertest() {
+
+        siteService.delete(adminUser,adminPassword,siteNameC2280_1 );
+        siteService.delete(adminUser,adminPassword,siteNameC2280_2 );
+        siteService.delete(adminUser,adminPassword,siteNameUserCanNotDelete );
+        siteService.delete(adminUser,adminPassword,siteNameC2284 );
+        siteService.delete(adminUser,adminPassword,siteNameC2291 );
+        siteService.delete(adminUser,adminPassword,siteNameC2292 );
+
     }
 }

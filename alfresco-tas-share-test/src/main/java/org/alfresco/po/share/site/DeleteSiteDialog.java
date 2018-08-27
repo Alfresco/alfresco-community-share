@@ -38,7 +38,7 @@ public class DeleteSiteDialog extends ShareDialog
     @FindBy(id = "ALF_SITE_SERVICE_DIALOG_CANCELLATION_label")
     private WebElement cancelFromSitesManager;
 
-    private By sitesManager_actions_delete = By.id("ALF_SITE_SERVICE_DIALOG_CONFIRMATION_label");
+    private By sitesManager_actions_delete = By.id("ALF_SITE_SERVICE_DIALOG_CONFIRMATION");
 
     private By deleteSiteWindow = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG']");
     public boolean isPopupDisplayed()

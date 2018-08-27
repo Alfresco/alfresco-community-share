@@ -75,6 +75,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(5);
 
         //Switch to new window opened
+        /*
         for(String winHandle : getBrowser().getWindowHandles())
         {
             getBrowser().switchTo().window(winHandle);
@@ -86,9 +87,9 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
             {
                 getBrowser().switchTo().window(currentWindow);
             }
-        }
+        }*/
 
-        assertTrue(getBrowser().getCurrentUrl().contains("http://www.reuters.com"), "After clicking on RSS link, the title is: " + getBrowser().getCurrentUrl());
+        assertTrue(getBrowser().getCurrentUrl().contains("https://www.reuters.com"), "After clicking on RSS link, the title is: " + getBrowser().getCurrentUrl());
         closeWindowAndSwitchBack();
     }
 }
