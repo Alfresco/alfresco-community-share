@@ -339,6 +339,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         addSiteUsersPage.navigate(siteName);
 
         LOG.info("STEP 2: In the 'Search for users...' search box, enter 'differentRoleUser'. Click 'Search' button/ press 'Enter' key.");
+        getBrowser().waitInSeconds(5);
         addSiteUsersPage.searchForUser("differentRoleUser");
         assertTrue(addSiteUsersPage.isUserDisplayedInSearchResults(differentRoleUserA), differentRoleUserA + " user is displayed in the search results.");
         assertTrue(addSiteUsersPage.isUserDisplayedInSearchResults(differentRoleUserB), differentRoleUserB + " user is displayed in the search results.");
@@ -393,7 +394,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         addSiteUsersPage.setUserRole(differentRoleUserD, "Consumer");
         assertTrue(addSiteUsersPage.getUserRole(differentRoleUserD).contains("Consumer"), differentRoleUserD + " has Consumer role selected.");
         addSiteUsersPage.clickAddUsers();
-        getBrowser().waitInSeconds(2);
+        getBrowser().waitInSeconds(5);
         assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 4");
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserA), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(differentRoleUserA), "Manager");

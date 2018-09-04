@@ -271,6 +271,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "Task is present");
 
         LOG.info("Step 7: Switch the filter to 'Completed tasks'");
+        getBrowser().waitInSeconds(5);
         myTasksDashlet.selectOptionFromTaskFilters("Completed Tasks");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Completed tasks");
 

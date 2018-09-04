@@ -37,7 +37,7 @@ public class CreateSiteDialog extends ShareDialog
     private WebElement createSiteDialog;
 
     //@RenderWebElement
-    @FindBy(id = "CREATE_SITE_DIALOG_OK_label")
+    @FindBy(css = "span[id='CREATE_SITE_DIALOG_OK_label']")
     private WebElement createButton;
 
     @RenderWebElement

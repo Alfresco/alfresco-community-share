@@ -174,7 +174,6 @@ public class CustomizeSiteDashboardPage extends SiteCommon<CustomizeSiteDashboar
 		List<WebElement> dashlets = dashboardCustomization.reorderDashletsInColumn(dashletToMove, dashletToReplace,
 				column);
 		browser.dragAndDrop(dashlets.get(0), dashlets.get(1));
-		browser.dragAndDrop(dashlets.get(0), dashlets.get(1));
 		return dashlets;
 	}
 }

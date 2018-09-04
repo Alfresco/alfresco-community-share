@@ -111,10 +111,15 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         siteDashboardPage.clickSiteConfiguration();
         siteDashboardPage.clickOptionInSiteConfigurationDropDown("Join Site", siteDashboardPage);
         LOG.info("STEP 2: Click on 'Site Members' link.");
+        getBrowser().waitInSeconds(4);
+
         siteUsersPage.navigate(siteNameC3053);
+        getBrowser().waitInSeconds(8);
         assertTrue(siteUsersPage.isASiteMember(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteNameC3053);
+
         assertTrue(siteUsersPage.isRoleSelected("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
         LOG.info("STEP 3: Click again on 'Site Configuration Options' icon.");
+        getBrowser().waitInSeconds(7);
         siteDashboardPage.clickSiteConfiguration();
         assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
         assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Join Site"), "'Join Site' action should be available in the 'Site Configuration Options' drop-down menu.");

@@ -141,8 +141,9 @@ public class DeleteSiteTests extends ContextAwareWebTest
         deleteSiteDialog.clickDelete();
         assertEquals(deleteSiteDialog.getConfirmMessage().contains(language.translate("deleteSite.confirmAgain")), true, "Second confirm delete message is correct");
         LOG.info("STEP4: Click \"Yes\" button");
-        deleteSiteDialog.clickYes();
         getBrowser().waitInSeconds(8);
+
+        deleteSiteDialog.clickYes();
         assertEquals(mySitesDashlet.isSitePresent(siteNameC2280_2), false, "Site isn't displayed in 'MySites' dashlet.");
         LOG.info("STEP5: Search for the file created within the site");
         toolbar.search(siteNameC2280_2);
