@@ -42,8 +42,8 @@ public class DeleteDialog extends ShareDialog
 
     public void clickDelete()
     {
-        deleteButton.click();
-        browser.waitInSeconds(5);
+        getBrowser().waitUntilElementVisible(deleteButton);
+        getBrowser().waitUntilElementClickable(deleteButton).click();
     }
 
     public void clickCancel()

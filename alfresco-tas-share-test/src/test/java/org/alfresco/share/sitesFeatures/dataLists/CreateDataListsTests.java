@@ -218,7 +218,6 @@ public class CreateDataListsTests extends ContextAwareWebTest
         
         LOG.info("Step 5: Click on the 'Save' button.");
         createDataListPopUp.clickSaveButton();
-        Assert.assertEquals(dataListsPage.successfullyCreatedDataListMessage(), "New Data List '"+dataListName+"' successfully created.", "The message of successfully creation isn't as expected.");
         Assert.assertEquals(dataListsPage.getListsDisplayName().contains(dataListName), true, "The data list was not created.");
         
         LOG.info("Step 6: Select the 'Test List' created from the Lists browsing panel.");

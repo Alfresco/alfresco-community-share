@@ -27,6 +27,9 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     @Autowired
     EditTopicPage editTopicPage;
 
+    @Autowired
+    private CreateNewTopicPage createNewTopicPage;
+
     @RenderWebElement
     @FindBy(css = ".topiclist")
     private WebElement discussionsContainer;
@@ -88,7 +91,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     public CreateNewTopicPage clickNewTopicButton()
     {
         newTopicButton.click();
-        return  new CreateNewTopicPage();
+        return (CreateNewTopicPage) createNewTopicPage.renderedPage();
     }
 
     /**

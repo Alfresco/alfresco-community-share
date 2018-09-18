@@ -124,7 +124,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
         assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
-    @Bug(id = "SHA-2070", description = "Node Browser page Select Store button text is missing on Firefox.")
     @TestRail(id = "C9306")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void checkNodeBrowserPage()

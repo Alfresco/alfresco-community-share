@@ -1,0 +1,22 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed Tests">
+
+	<listeners>
+		<listener class-name="org.uncommons.reportng.HTMLReporter"/>
+	</listeners>
+
+	<test name="CreateNewTopicTests">
+		<classes>
+			<class
+					name="org.alfresco.share.sitesFeatures.discussions.CreateNewTopicTests"/>
+		</classes>
+	</test>
+
+	<test name="DeletingABlogPostTests">
+		<classes>
+			<class
+					name="org.alfresco.share.sitesFeatures.blog.DeletingABlogPostTests"/>
+		</classes>
+	</test>
+
+</suite>

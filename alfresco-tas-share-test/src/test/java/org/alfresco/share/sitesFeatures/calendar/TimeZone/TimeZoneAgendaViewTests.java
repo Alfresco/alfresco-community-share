@@ -189,6 +189,8 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
         calendarPage.clickOnEventInAgenda(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), today.toString("EEEE, d MMMM, yyyy"), "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), endDate.toString("EEEE, d MMMM, yyyy"), "Following information is available: Time section with End Date");
+        changeTimeZone(clientATimeZone);
+
     }
 
     @Bug(id="SHA-2165", status = Bug.Status.OPENED)

@@ -155,7 +155,8 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 
     public DeleteDialog clickDeleteButton()
     {
-        deleteButton.click();
+        getBrowser().waitUntilElementVisible(deleteButton);
+        getBrowser().waitUntilElementClickable(deleteButton).click();
         return (DeleteDialog) deleteDialog.renderedPage();
     }
 

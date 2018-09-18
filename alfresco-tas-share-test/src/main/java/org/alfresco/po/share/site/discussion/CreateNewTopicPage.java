@@ -22,7 +22,10 @@ import java.util.List;
 public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
 {
     @Autowired
-    TopicListPage topicListPage;
+    private TopicListPage topicListPage;
+
+    @Autowired
+    private TopicViewPage topicViewPage;
 
     @RenderWebElement
     @FindBy(css = ".page-form-header>h1")
@@ -80,10 +83,11 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
      */
     public void typeTopicContent(String content)
     {
+        browser.waitUntilElementVisible(topicContent);
         browser.switchToFrame(browser.findElement(topicContent).getAttribute("id"));
         WebElement editable = browser.switchTo().activeElement();
         editable.clear();
-        editable.sendKeys(Keys.chord(Keys.CONTROL, "a"), content);
+        editable.sendKeys(content);
         browser.switchToDefaultContent();
     }
 
@@ -95,7 +99,7 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
     public TopicViewPage clickSaveButton()
     {
         saveButton.click();
-        return new TopicViewPage();
+        return (TopicViewPage) topicViewPage.renderedPage();
     }
 
     /**

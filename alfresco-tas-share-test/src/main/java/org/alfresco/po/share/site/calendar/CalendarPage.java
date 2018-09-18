@@ -118,7 +118,10 @@ public class CalendarPage extends SiteCommon<CalendarPage>
      */
     private WebElement selectTag(String tagName)
     {
-        return browser.findFirstElementWithValue(tags, tagName);
+        WebElement selectTagElement = browser.findFirstElementWithValue(tags, tagName);
+        browser.waitUntilElementVisible(selectTagElement);
+        browser.waitUntilElementClickable(selectTagElement);
+        return selectTagElement;
     }
 
     /**

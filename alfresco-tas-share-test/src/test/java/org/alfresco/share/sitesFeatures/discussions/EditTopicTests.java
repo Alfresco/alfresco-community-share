@@ -74,7 +74,7 @@ public class EditTopicTests extends ContextAwareWebTest
         assertEquals(topicViewPage.getTopicContent(), topicNewContent, "The updated topic appears in the topic view page with the new content.");
         assertEquals(topicViewPage.getTopicTags(), topicTag1, "tag1 is also displayed in the tags list.");
 
-        LOG.info("STEP 2 - Click 'Discussions Topic List' link.");
+        LOG.info("STEP 3 - Click 'Discussions Topic List' link.");
         topicViewPage.clickDiscussionsTopicListLink();
         assertEquals(topicListPage.getTopicStatus(topic1Title), "(Updated)", "The text (Updated) appears after the title.");
         assertEquals(topicListPage.getTopicContent(topic1Title), topicNewContent, "The updated topic appears in the topic view page with the new content.");

@@ -203,6 +203,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
                 "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), dayAfterTomorrow.toString("EEEE, d MMMM, yyyy"),
                 "Following information is available: Time section with End Date");
+        changeTimeZone(clientATimeZone);
     }
 
     @Bug(id="SHA-2165", status = Bug.Status.OPENED)

@@ -65,9 +65,11 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         LOG.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
         UserModel testUser = dataUser.createRandomTestUser();
         SiteModel testSite = dataSite.usingUser(testUser).createPublicRandomSite();
-        dataUser.addUsersWithRolesToSite(testSite, UserRole.SiteCollaborator, UserRole.SiteConsumer, UserRole.SiteContributor);
+        DataUser.ListUserWithRoles ls = dataUser.addUsersWithRolesToSite(testSite, UserRole.SiteCollaborator, UserRole.SiteConsumer, UserRole.SiteContributor);
+        ls.getOneUserWithRole( UserRole.SiteCollaborator);
         LOG.info("Step 1: Access 'Customize Site'");
         setupAuthenticatedSession(testUser.getUsername(), testUser.getPassword());
+
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.clickSiteConfiguration();
         siteDashboardPage.clickCustomizeSite();
@@ -84,7 +86,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "Data Lists wasn't rename correctly");
         LOG.info("Step 5: Logout from the site manager account and login with the user account that has the Consumer role.");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(UserRole.SiteConsumer.getRoleId(), password);
+        setupAuthenticatedSession(ls.getOneUserWithRole( UserRole.SiteConsumer).getUsername(), password);
         LOG.info("Step 6: Access Test site and check the available Site Configuration Options.");
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.clickSiteConfiguration();
@@ -94,7 +96,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");
         LOG.info("Step 8: Logout from the site Consumer role user account and login with the user account that has the Collaborator role.");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(UserRole.SiteCollaborator.getRoleId(), password);
+        setupAuthenticatedSession(ls.getOneUserWithRole( UserRole.SiteCollaborator).getUsername(), password);
         LOG.info("Step 9: Access Test site and check the available Site Configuration Options.");
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.clickSiteConfiguration();
@@ -104,7 +106,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");
         LOG.info("Step 11: Logout from the site Collaborator role user account and login with the user account that has the Contributor role.");
         cleanupAuthenticatedSession();
-        setupAuthenticatedSession(UserRole.SiteContributor.getRoleId(), password);
+        setupAuthenticatedSession(ls.getOneUserWithRole( UserRole.SiteContributor).getUsername(), password);
         LOG.info("Step 9: Access Test site and check the available Site Configuration Options.");
         siteDashboardPage.navigate(testSite.getTitle());
         siteDashboardPage.clickSiteConfiguration();
