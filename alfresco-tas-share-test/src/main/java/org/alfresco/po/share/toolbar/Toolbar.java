@@ -101,7 +101,8 @@ public class Toolbar extends HtmlPage
 
     public void clickHome()
     {
-        homeLink.click();
+        getBrowser().waitUntilElementVisible(homeLink);
+        getBrowser().waitUntilElementClickable(homeLink).click();
     }
 
     public boolean isMyFilesDisplayed()

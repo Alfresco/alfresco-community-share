@@ -49,6 +49,8 @@ public class DeleteSiteDialog extends ShareDialog
 
     public void clickDelete()
     {
+        browser.waitUntilElementVisible(delete);
+
         browser.findElement(delete).click();
     }
 
@@ -75,7 +77,9 @@ public class DeleteSiteDialog extends ShareDialog
 
     public void clickYes()
     {
-        yes.click();
+        getBrowser().waitUntilElementVisible(yes);
+        getBrowser().waitUntilElementClickable(yes).click();
+
         browser.waitUntilElementDisappears(By.cssSelector(".bd"), 30);
         browser.waitInSeconds(5);
     }

@@ -5,6 +5,8 @@ import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,9 @@ public class CreateCustomTypeDialog extends ShareDialog
     @FindBy(id="CMM_CREATE_TYPE_DIALOG")
     private WebElement createCustomTypeWindow;
 
-    private By createButton = By.id("CMM_CREATE_TYPE_DIALOG_OK_label");
+    @RenderWebElement
+    @FindBy(css="span[widgetid='CMM_CREATE_TYPE_DIALOG_OK']>span")
+    private WebElement createButton;
 
     @RenderWebElement
     @FindBy(id="CMM_CREATE_TYPE_DIALOG_CANCEL_label")
@@ -38,10 +42,13 @@ public class CreateCustomTypeDialog extends ShareDialog
 
     public ModelDetailsPage clickCreateButton()
     {
-        browser.findElement(createButton).click();
-        browser.waitInSeconds(2);
+     getBrowser().waitUntilElementClickable(createButton).click();
+
+
         return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
+
+
 
     public void clickCancelButton()
     {

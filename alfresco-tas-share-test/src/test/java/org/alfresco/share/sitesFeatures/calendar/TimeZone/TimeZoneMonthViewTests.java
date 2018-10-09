@@ -190,6 +190,8 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
                 "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), endDate.toString("EEEE, d MMMM, yyyy"),
                 "Following information is available: Time section with End Date");
+        changeTimeZone(clientATimeZone);
+
     }
 
     @Bug(id="SHA-2165", status = Bug.Status.OPENED)

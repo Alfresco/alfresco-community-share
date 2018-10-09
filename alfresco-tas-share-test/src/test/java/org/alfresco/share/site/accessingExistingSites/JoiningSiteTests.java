@@ -81,7 +81,7 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
         LOG.info("STEP 1: Enter site name (" + siteNameC2823 + ") in textbox and click on 'Search' button.");
-        siteFinderPage.searchSite(siteNameC2823);
+        siteFinderPage.searchSiteWithRetry(siteNameC2823);
         assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2823), "Site is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2823, "Join"), "'Join' button is expected to be displayed for " + siteNameC2823);
         LOG.info("STEP 2: Click on " + siteNameC2823 + "'s name link. Click on 'Site Members' link.");
@@ -89,7 +89,7 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         assertFalse(siteUsersPage.isASiteMember(user2FirstName + " " + user2LastName), user2 + " should not be displayed in the list of members for " + siteNameC2823);
         LOG.info("STEP 3: Return to 'Site Finder' page and click 'Join' button for " + siteNameC2823);
         siteFinderPage.navigate();
-        siteFinderPage.searchSite(siteNameC2823);
+        siteFinderPage.searchSiteWithRetry(siteNameC2823);
         siteFinderPage.clickSiteButton(siteNameC2823, "Join");
         assertEquals(notification.getDisplayedNotification(), "Successfully added user " + user2 + " to site " + siteNameC2823);
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2823, "Leave"), "'Leave' button appears in place of 'Join' button for " + siteNameC2823);
@@ -134,7 +134,7 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
         LOG.info("STEP 1: Enter site name (" + siteNameC2831 + ") in textbox and click on 'Search' button.");
-        siteFinderPage.searchSite(siteNameC2831);
+        siteFinderPage.searchSiteWithRetry(siteNameC2831);
         assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2831), "Site is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2831, "Request to Join"), "'Request to Join' button is expected to be displayed for " + siteNameC2831);
         LOG.info("STEP 2: Click on 'Request to Join' button.");
@@ -145,7 +145,7 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         }
         catch (TimeoutException e) {
             getBrowser().refresh();
-            siteFinderPage.searchSite(siteNameC2831);
+            siteFinderPage.searchSiteWithRetry(siteNameC2831);
             assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2831, "Cancel Request"), "'Cancel Request' button appears in place of 'Request to Join' button for " + siteNameC2831);
         }
         LOG.info("STEP 3: Logout and login to Share as " + user1 + ". Open 'My Tasks' page.");
@@ -227,7 +227,7 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
         LOG.info("STEP 1: Enter site name (" + siteNameC2833 + ") in textbox and click on 'Search' button.");
-        siteFinderPage.searchSite(siteNameC2833);
+        siteFinderPage.searchSiteWithRetry(siteNameC2833);
         assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2833), "Site is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2833, "Request to Join"), "'Request to Join' button is expected to be displayed for " + siteNameC2833);
         LOG.info("STEP 2: Click on 'Request to Join' button.");
@@ -238,7 +238,7 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         }
         catch (TimeoutException e) {
             getBrowser().refresh();
-            siteFinderPage.searchSite(siteNameC2833);
+            siteFinderPage.searchSiteWithRetry(siteNameC2833);
             assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2833, "Cancel Request"), "'Cancel Request' button appears in place of 'Request to Join' button for " + siteNameC2833);
         }
         LOG.info("STEP 3: Logout and login to Share as " + user1 + ". Open 'My Tasks' page.");
@@ -251,7 +251,7 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
         LOG.info("STEP 5: Search site name (" + siteNameC2833 + ") and click on 'Cancel Request' button. ");
-        siteFinderPage.searchSite(siteNameC2833);
+        siteFinderPage.searchSiteWithRetry(siteNameC2833);
         siteFinderPage.clickSiteButton(siteNameC2833, "Cancel Request");
         assertEquals(notification.getDisplayedNotification(), "Successfully cancelled request to join site " + siteNameC2833 + "");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2833, "Request to Join"), "'Request to Join' button appears in place of 'Cancel Request' button for " + siteNameC2833);

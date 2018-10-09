@@ -4,6 +4,7 @@ import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -14,7 +15,8 @@ import org.openqa.selenium.support.FindBy;
 public class ImportModelDialogPage extends ShareDialog
 {
     @RenderWebElement
-    private By importButton = By.id("CMM_IMPORT_DIALOG_OK_label");
+    @FindBy(id = "CMM_IMPORT_DIALOG_OK")
+    private WebElement importButton;
 
     @RenderWebElement
     private By cancelButton = By.id("CMM_IMPORT_DIALOG_CANCEL_label");
@@ -72,6 +74,7 @@ public class ImportModelDialogPage extends ShareDialog
 
     public void clickImportButton()
     {
-        browser.findElement(importButton).click();
+        browser.waitUntilElementClickable(importButton).click();
     }
+
 }

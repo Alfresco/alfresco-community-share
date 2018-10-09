@@ -65,6 +65,7 @@ public class SelectPopUpPage extends ShareDialog
     {
         browser.waitUntilElementVisible(searchInput).clear();
         searchInput.sendKeys(searchText);
+        getBrowser().waitInSeconds(5);
         browser.waitUntilElementClickable(searchButton).click();
         int counter = 0;
         while(!browser.isElementDisplayed(addIcon) && counter < 2)

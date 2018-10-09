@@ -96,7 +96,8 @@ import java.util.List;
 
     @FindBy(css = "[id*=default-paginator-top] [class*=previous]") protected WebElement previousPage;
 
-    @RenderWebElement @FindBy(css = ".viewmode-label") protected List<WebElement> propertiesList;
+    @RenderWebElement @FindBy(css = ".viewmode-label")
+    protected List<WebElement> propertiesList;
 
     @FindBy(css = ".viewmode-value") protected List<WebElement> propertiesValuesList;
 
@@ -457,6 +458,7 @@ import java.util.List;
     public boolean arePropertiesDisplayed(String... expectedPropertiesList)
     {
         List<String> propertiesTextList = new ArrayList<>();
+        getBrowser().waitUntilElementsVisible(propertiesList);
         for (WebElement property : propertiesList)
             propertiesTextList.add(property.getText().substring(0, property.getText().indexOf(":")));
         return DataUtil.areListsEquals(propertiesTextList, expectedPropertiesList);

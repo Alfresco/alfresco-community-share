@@ -3,7 +3,10 @@ package org.alfresco.share;
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
 import org.alfresco.dataprep.*;
+import org.alfresco.rest.core.RestWrapper;
+import org.alfresco.utility.data.DataUser;
 import org.alfresco.utility.exception.DataPreparationException;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.AbstractWebTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -45,6 +48,9 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     @Autowired
     protected Language language;
+
+    @Autowired
+    public RestWrapper restClient;
     
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
@@ -64,6 +70,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         domain = "@test.com";
         password = "password";
         cleanupAuthenticatedSession();
+        restClient.authenticateUser(new UserModel(adminUser, adminPassword));
     }
 
     /**

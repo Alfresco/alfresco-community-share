@@ -233,7 +233,8 @@ public class CalendarPage extends SiteCommon<CalendarPage>
      */
     public AddEventDialog clickAddEventButton()
     {
-        addEventButton.click();
+        getBrowser().waitUntilElementVisible(addEventButton);
+        getBrowser().waitUntilElementClickable(addEventButton).click();
         return (AddEventDialog) addEventDialog.renderedPage();
     }
 

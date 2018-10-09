@@ -269,6 +269,7 @@ public class UserProfileTests extends ContextAwareWebTest
         LOG.info("Step 1&2: Switch off \"Disable account\" check-box");
         userProfileAdminToolsPage.clickEditUserButton();
         editUserPage.clickDisabledAccount();
+        getBrowser().waitInSeconds(5);
         editUserPage.clickSaveChangesButton();
         Assert.assertEquals(userProfileAdminToolsPage.getAccountStatus(), "Enabled", "Account is not enabled");
 

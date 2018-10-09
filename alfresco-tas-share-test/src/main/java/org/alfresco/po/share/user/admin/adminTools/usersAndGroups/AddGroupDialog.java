@@ -121,6 +121,8 @@ public class AddGroupDialog extends ShareDialog
      */
     public void clickAddButtonForGroup(String searchResult)
     {
+        getBrowser().waitInSeconds(3);
+        getBrowser().waitUntilElementsVisible(addButtonsList);
         int index = getItemIndexFromSearchResults(searchResult);
         addButtonsList.get(index).click();
     }

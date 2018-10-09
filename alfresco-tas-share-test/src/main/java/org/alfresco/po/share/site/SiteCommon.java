@@ -36,6 +36,9 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     @FindBy(css = "span[id='HEADER_REPOSITORY_text'] a")
     protected WebElement repositoryButton;
 
+    @FindBy(css = "#yui-gen48")
+    protected WebElement errorButton;
+
     public void setCurrentSiteName(String currentSiteName)
     {
         this.currentSiteName = currentSiteName;
@@ -143,4 +146,12 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
         repositoryButton.click();
         return new RepositoryPage();
     }
+
+    public void navigateErrorClick()
+    {
+        if(getBrowser().isElementDisplayed(errorButton))
+            errorButton.click();
+    }
+
+
 }

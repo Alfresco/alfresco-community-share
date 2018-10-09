@@ -125,6 +125,9 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     public HtmlPage clickStartWorkflow(HtmlPage page)
     {
         //workaround for "MNT-17015"
+        getBrowser().waitUntilElementVisible(submitWorkflow);
+        getBrowser().waitUntilElementClickable(submitWorkflow);
+
         browser.clickJS(submitWorkflow);
         if(browser.isElementDisplayed(submitWorkflow))
             browser.clickJS(submitWorkflow);
@@ -207,6 +210,6 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     private void dismissErrorPopup()
     {
         if(browser.isElementDisplayed(By.xpath("//div[@id='prompt_h' and text()='Workflow could not be started']")))
-            browser.findElement(By.cssSelector("div#prompt button")).click();
+            browser.waitUntilElementVisible(By.cssSelector("div#prompt button")).click();
     }
 }

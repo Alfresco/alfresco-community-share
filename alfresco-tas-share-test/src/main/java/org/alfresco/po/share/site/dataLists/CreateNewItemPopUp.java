@@ -672,6 +672,7 @@ public class CreateNewItemPopUp extends ShareDialog
             i++;
         }
         addAttachments(folder, file);
+        getBrowser().waitInSeconds(5);
         addAssignedTo(userName);
         selectDropDownItem(status, DropDownLists.issueStatus.toString());
         selectDropDownItem(priority, DropDownLists.issuePriority.toString());
@@ -724,6 +725,7 @@ public class CreateNewItemPopUp extends ShareDialog
             i++;
         }
         addAttachments(folder, file);
+        getBrowser().waitInSeconds(5);
         addAssignedToToDo(userName);
         selectDropDownItem(status, DropDownLists.todoStatus.toString());
     }

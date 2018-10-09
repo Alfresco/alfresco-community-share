@@ -39,7 +39,8 @@ public class SelectAssigneeToWorkflowPopUp extends SelectPopUpPage
 
     public void clickOkButton()
     {
-        okButton.click();
+        getBrowser().waitUntilElementVisible(okButton);
+        getBrowser().waitUntilElementClickable(okButton).click();
     }
 
     public void clickCancelButton()

@@ -16,6 +16,7 @@
 		<tas.utility.version>1.0.30-SNAPSHOT</tas.utility.version>
 		<maven-remote-resources.version>1.5</maven-remote-resources.version>
 		<maven-jar-plugin.version>2.6</maven-jar-plugin.version>
+		<tas.restapi.version>5.2.0.12</tas.restapi.version>
 	</properties>
 
 	<distributionManagement>
@@ -59,6 +60,21 @@
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 			<version>RELEASE</version>
+		</dependency>
+
+		<!-- REST API -->
+		<dependency>
+			<groupId>org.alfresco.tas</groupId>
+			<artifactId>restapi-test</artifactId>
+			<version>${tas.restapi.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.alfresco.tas</groupId>
+			<artifactId>restapi-test</artifactId>
+			<version>${tas.restapi.version}</version>
 		</dependency>
 
 	</dependencies>

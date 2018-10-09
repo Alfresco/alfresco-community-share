@@ -262,7 +262,8 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     public AddSiteGroupsPage addGroups()
     {
-        browser.waitUntilElementClickable(addGroupsButton, 30).click();
+        browser.waitUntilElementVisible(addGroupsButton);
+        browser.waitUntilElementClickable(addGroupsButton).click();
         return (AddSiteGroupsPage) this.renderedPage();
     }
 

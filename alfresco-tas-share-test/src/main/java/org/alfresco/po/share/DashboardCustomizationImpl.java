@@ -205,8 +205,8 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
 	 * Click OK button
 	 */
 	public void clickOk() {
-		okButton.click();
-		browser.waitInSeconds(3);
+		getBrowser().waitUntilElementVisible(okButton);
+		getBrowser().waitUntilElementClickable(okButton).click();
 	}
 
 	/**

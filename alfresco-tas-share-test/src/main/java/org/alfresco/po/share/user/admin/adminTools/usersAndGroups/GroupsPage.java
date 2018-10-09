@@ -123,7 +123,8 @@ public class GroupsPage extends AdminToolsPage
 
     public void clickSearchButton()
     {
-        searchButton.click();
+        getBrowser().waitUntilElementVisible(searchButton);
+        getBrowser().waitUntilElementClickable(searchButton).click();
     }
 
     public void clickBrowseButton()

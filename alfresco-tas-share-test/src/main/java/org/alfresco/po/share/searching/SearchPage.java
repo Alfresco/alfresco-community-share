@@ -562,6 +562,8 @@ import java.util.List;
 
     public void deleteDocuments(boolean areYouSure)
     {
+        getBrowser().waitUntilElementClickable(deleteDialogCancel);
+
         if (areYouSure)
         {
             while (browser.isElementDisplayed(deleteDialogConfirm))

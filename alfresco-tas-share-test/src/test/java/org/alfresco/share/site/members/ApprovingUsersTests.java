@@ -99,7 +99,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         taskName = String.format("Request to join %s site", siteNameC2461);
         siteFinderPage.navigate();
-        siteFinderPage.searchSite(siteNameC2461);
+        siteFinderPage.searchSiteWithRetry(siteNameC2461);
         getBrowser().waitInSeconds(3);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2461));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2461, "Request to Join"), "'Request to Join' button is expected to be displayed.");
@@ -147,8 +147,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         siteFinderPage.navigate();
         taskName = String.format("Request to join %s site", siteNameC2462);
-        siteFinderPage.searchSite(siteNameC2462);
-        getBrowser().waitInSeconds(3);
+        siteFinderPage.searchSiteWithRetry(siteNameC2462);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2462));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2462, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
@@ -191,8 +190,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         siteFinderPage.navigate();
-        siteFinderPage.searchSite(siteNameC2463);
-        getBrowser().waitInSeconds(3);
+        siteFinderPage.searchSiteWithRetry(siteNameC2463);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2463));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2463, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
@@ -228,7 +226,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
         LOG.info("Step 10: Open 'Site Finder' page and search for 'moderatedSite'");
         menuNavigationBar.goTo(siteFinderPage);
-        siteFinderPage.searchSite(siteNameC2463);
+        siteFinderPage.searchSiteWithRetry(siteNameC2463);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2463));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2463, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
@@ -243,8 +241,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         taskName = String.format("Request to join %s site", siteNameC2464);
         siteFinderPage.navigate();
-        siteFinderPage.searchSite(siteNameC2464);
-        getBrowser().waitInSeconds(3);
+        siteFinderPage.searchSiteWithRetry(siteNameC2464);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2464));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2464, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
@@ -284,7 +281,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
         LOG.info("Step 10: Open 'Site Finder' page and search for 'moderatedSite'");
         menuNavigationBar.goTo(siteFinderPage);
-        siteFinderPage.searchSite(siteNameC2464);
+        siteFinderPage.searchSiteWithRetry(siteNameC2464);
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2464));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2464, "Request to Join"), "'Request to Join' button is expected to be displayed.");
 
@@ -299,8 +296,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
         taskName = String.format("Request to join %s site", moderatedSite.getTitle());
         siteFinderPage.navigate();
-        siteFinderPage.searchSite(moderatedSite.getTitle());
-        getBrowser().waitInSeconds(3);
+        siteFinderPage.searchSiteWithRetry(moderatedSite.getTitle());
         Assert.assertTrue(siteFinderPage.checkSiteWasFound(moderatedSite.getTitle()));
         Assert.assertTrue(siteFinderPage.isButtonDisplayedForSite(moderatedSite.getTitle(), "Request to Join"),
                 "'Request to Join' button is expected to be displayed.");

@@ -115,15 +115,29 @@ public class ModelManagerPage extends AdminToolsPage
     public WebElement selectModelByName(String modelName)
     {
     	By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        browser.waitUntilElementIsDisplayedWithRetry(modelRowLocator);
-        return browser.findElement(modelRowLocator);
+    	return browser.waitUntilElementVisible(modelRowLocator);
     }
 
     public boolean isModelDisplayed(String modelName)
     {
-    	By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        browser.waitUntilElementIsDisplayedWithRetry(modelRowLocator, 3);
-        return browser.isElementDisplayed(modelRowLocator);
+        By modelRowLocator = By.xpath(String.format(modelRow, modelName));
+        return getBrowser().isElementDisplayed(modelRowLocator);
+    }
+
+    public void waitForModel(String modelName)
+    {
+        getBrowser().waitUntilElementVisible(By.xpath(String.format(modelRow, modelName)));
+    }
+
+    public void createModel(String name, String nameSpace, String prefix)
+    {
+        navigate();
+        clickCreateModelButton();
+        createModelDialogPage.sendNamespaceText(nameSpace);
+        createModelDialogPage.sendPrefixText(prefix);
+        createModelDialogPage.sendNameText(name);
+        createModelDialogPage.clickCreateButton();
+        waitForModel(name);
     }
 
     public String getModelDetails(String modelName)
@@ -153,8 +167,8 @@ public class ModelManagerPage extends AdminToolsPage
 
     public void clickActionsButtonForModel(String modelName)
     {
-        Parameter.checkIsMandotary("Model", selectModelByName(modelName));
-        browser.waitUntilElementClickable(selectModelByName(modelName).findElement(actionsButton), 5).click();
+        //Parameter.checkIsMandotary("Model", selectModelByName(modelName));
+        selectModelByName(modelName).findElement(actionsButton).click();
     }
 
     public void mouseOverModelItem(String modelName)

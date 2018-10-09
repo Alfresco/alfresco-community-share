@@ -40,7 +40,8 @@ public abstract class DashletPopUp extends HtmlPage
     
     public void clickOkButton()
     {
-        browser.waitUntilElementClickable(okButton, 30).click();
+        browser.waitUntilElementVisible(okButton);
+        browser.waitUntilElementClickable(okButton).click();
         try {
             int counter = 0;
             while (browser.isElementDisplayed(dialogContainer) && counter < 10)

@@ -160,7 +160,8 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
     /**
      * Method to click the Cancel button
      */
-    public void clickCancelButton(){cancelButton.click();
+    public void clickCancelButton(){
+        getBrowser().waitUntilElementClickable(cancelButton).click();
     }
 
     /**

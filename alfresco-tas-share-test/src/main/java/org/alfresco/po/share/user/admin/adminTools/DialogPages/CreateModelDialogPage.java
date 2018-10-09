@@ -1,11 +1,13 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Mirela Tifui on 11/28/2016.
@@ -30,7 +32,13 @@ public class CreateModelDialogPage extends ShareDialog
     @FindBy(xpath ="//div[@id='CMM_CREATE_MODEL_DIALOG']//textarea[@name='description']")
     private WebElement descriptionField;
 
-    private By createButton = By.id("CMM_CREATE_MODEL_DIALOG_OK_label");
+    @FindBy(css ="span[widgetid='CMM_CREATE_MODEL_DIALOG_OK']>span")
+    private WebElement createButton;
+
+
+    @Autowired
+    private ModelManagerPage modelManagerPage;
+
     private By cancelButton = By.id("CMM_CREATE_MODEL_DIALOG_CANCEL_label");
     private By closeWindowButton = By.cssSelector("div[id='CMM_CREATE_MODEL_DIALOG'] .dijitDialogCloseIcon");
 
@@ -71,6 +79,6 @@ public class CreateModelDialogPage extends ShareDialog
 
     public void clickCreateButton()
     {
-        browser.waitUntilElementClickable(createButton, 6).click();
+        getBrowser().waitUntilElementClickable(createButton).click();
     }
 }

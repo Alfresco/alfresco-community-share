@@ -94,23 +94,22 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 
     public void setSiteNoticeText(String text)
     {
-
         tinyMceEditor.setText(text);
         tinyMceEditor.selectTextFromEditor();
+        getBrowser().waitInSeconds(2);
     }
 
     public void clickOkButton()
     {
+    getBrowser().waitUntilElementVisible(configPanelOk);
+    getBrowser().waitUntilElementClickable(configPanelOk).click();
 
-        configPanelOk.click();
-        browser.waitInSeconds(1);
     }
 
     public void clickCancelbutton()
     {
-
-        configPanelCancel.click();
-        browser.waitInSeconds(1);
+        getBrowser().waitUntilElementVisible(configPanelCancel);
+        getBrowser().waitUntilElementClickable(configPanelCancel).click();
     }
 
     public void setTextColour(String colour)

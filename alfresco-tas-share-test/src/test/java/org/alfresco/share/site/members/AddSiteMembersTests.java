@@ -100,7 +100,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2824")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES,"ExternalUsers" })
     public void verifyDefaultItemsFromAddUsersPage()
     {
         LOG.info("STEP 1: Navigate to 'Add Users' page for " + siteName);
@@ -339,7 +339,6 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         addSiteUsersPage.navigate(siteName);
 
         LOG.info("STEP 2: In the 'Search for users...' search box, enter 'differentRoleUser'. Click 'Search' button/ press 'Enter' key.");
-        getBrowser().waitInSeconds(5);
         addSiteUsersPage.searchForUser("differentRoleUser");
         assertTrue(addSiteUsersPage.isUserDisplayedInSearchResults(differentRoleUserA), differentRoleUserA + " user is displayed in the search results.");
         assertTrue(addSiteUsersPage.isUserDisplayedInSearchResults(differentRoleUserB), differentRoleUserB + " user is displayed in the search results.");
@@ -351,8 +350,9 @@ public class AddSiteMembersTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click on the 'Select Role' button for the selected user. Select 'Manager' role from the drop-down menu. Click on 'Add Users' button from 'Add Users to Site' panel.");
         addSiteUsersPage.setUserRole(differentRoleUserA, "Manager");
-        addSiteUsersPage.clickAddUsers();
         assertTrue(addSiteUsersPage.getUserRole(differentRoleUserA).contains("Manager"), differentRoleUserA + " has Manager role selected.");
+
+        addSiteUsersPage.clickAddUsers();
         assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 1");
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserA), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(differentRoleUserA), "Manager");

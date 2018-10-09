@@ -34,6 +34,7 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
     @Override
     public String getDashletTitle()
     {
+        getBrowser().waitUntilElementVisible(dashletTitle);
         return dashletContainer.findElement(dashletTitle).getText();
     }
     

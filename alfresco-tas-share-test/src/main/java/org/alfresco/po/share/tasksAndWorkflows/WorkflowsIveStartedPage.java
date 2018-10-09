@@ -132,10 +132,11 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
     {
         WebElement selectedTask = selectWorkflow(workflowName);
         browser.mouseOver(selectedTask);
+        getBrowser().waitInSeconds(3);
         selectedTask.findElement(deleteWorkflowLink).click();
         if (areYouSure)
         {
-            browser.findElement(deleteWorkflowYesButton).click();
+            browser.waitUntilElementVisible(deleteWorkflowYesButton).click();
         }
         else browser.findElement(deleteWorkflowNoButton).click();
         browser.refresh();

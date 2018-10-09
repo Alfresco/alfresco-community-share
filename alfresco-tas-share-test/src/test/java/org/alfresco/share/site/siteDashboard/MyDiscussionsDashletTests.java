@@ -42,8 +42,9 @@ public class MyDiscussionsDashletTests extends ContextAwareWebTest
     public void myDiscussionsDashlet()
     {
         siteDashboardPage.navigate(siteName);
-        
+        siteDashboardPage.navigateErrorClick();
         LOG.info("Step 1: Verify 'My Discussions' dahslet");
+
         assertEquals(myDiscussionsDashlet.getDashletTitle(), "My Discussions");
         assertEquals(myDiscussionsDashlet.getDefaultMessage(), "There are no topics matching your filters.");
         

@@ -70,7 +70,7 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2895")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES, "ExternalUsers" })
     public void searchForPendingInvites()
     {
         String userRole = "Contributor";
@@ -143,7 +143,7 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     }
 
     @TestRail(id = "C2898")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES,"ExternalUsers"  })
     public void verifyPendingInvitesPage()
     {
         String userRole = "Collaborator";

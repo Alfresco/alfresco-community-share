@@ -158,6 +158,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         selectPopUpPage.search(group);
         selectPopUpPage.clickAddIcon(group);
         selectPopUpPage.clickOkButton();
+
         startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
@@ -189,6 +190,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         selectPopUpPage.search(group);
         selectPopUpPage.clickAddIcon(group);
         selectPopUpPage.clickOkButton();
+
         startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 

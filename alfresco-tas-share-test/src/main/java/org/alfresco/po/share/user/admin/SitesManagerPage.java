@@ -181,7 +181,8 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
 		if (manageSiteRow != null) {
 			for (WebElement siteAction : manageSiteRow.getSiteActions()) {
 				if (action.equals(siteAction.getText())) {
-					siteAction.click();
+					getBrowser().waitUntilElementVisible(siteAction);
+					getBrowser().waitUntilElementClickable(siteAction).click();
 					break;
 				}
 			}

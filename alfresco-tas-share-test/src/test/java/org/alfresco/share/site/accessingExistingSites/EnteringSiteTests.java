@@ -80,7 +80,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
         siteFinderPage.navigate();
 
         LOG.info("STEP 1: Search for '"+siteName+"'.");
-        siteFinderPage.searchSite(siteName);
+        siteFinderPage.searchSiteWithRetry(siteName);
         assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " should be found.");
 
         LOG.info("STEP 2: Click on '"+siteName+"' link.");

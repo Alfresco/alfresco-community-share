@@ -103,7 +103,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         siteFinderPage.navigateByMenuBar();
         assertEquals(getBrowser().getTitle(), "Alfresco » Site Finder", "Site Finder page is displayed.");
         LOG.info("STEP2: Search for the created site");
-        siteFinderPage.searchSite(siteNameC2280_1);
+        siteFinderPage.searchSiteWithRetry(siteNameC2280_1);
         assertEquals(siteFinderPage.checkSiteWasFound(siteNameC2280_1), true, "Site is found.");
         LOG.info("STEP3: Verify options available for the site");
         assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameC2280_1, "Delete"), true, "Delete option is displayed.");
@@ -117,7 +117,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertEquals(deleteSiteDialog.getConfirmMessage().contains(language.translate("deleteSite.confirmAgain")), true,"Second confirm delete message is correct");
         LOG.info("STEP6: Click \"Yes\" button");
         deleteSiteDialog.clickYes();
-        siteFinderPage.searchSite(siteNameC2280_1);
+        siteFinderPage.searchSiteWithRetry(siteNameC2280_1);
         assertFalse(siteFinderPage.isSiteFound(siteNameC2280_1), "The site isn't displayed on \"Site Finder\" page.");
         LOG.info("STEP7: Search for the file created within the site");
         toolbar.search(fileNameC2280);
@@ -141,9 +141,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
         deleteSiteDialog.clickDelete();
         assertEquals(deleteSiteDialog.getConfirmMessage().contains(language.translate("deleteSite.confirmAgain")), true, "Second confirm delete message is correct");
         LOG.info("STEP4: Click \"Yes\" button");
-        getBrowser().waitInSeconds(8);
 
         deleteSiteDialog.clickYes();
+        getBrowser().waitInSeconds(8);
+
         assertEquals(mySitesDashlet.isSitePresent(siteNameC2280_2), false, "Site isn't displayed in 'MySites' dashlet.");
         LOG.info("STEP5: Search for the file created within the site");
         toolbar.search(siteNameC2280_2);
@@ -163,7 +164,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         toolbarSitesMenu.clickSiteFinder();
         softAssert.assertEquals(siteFinderPage.isSearchFieldDisplayed(), true, "Site Finder page is displayed.");
         LOG.info("STEP2: Search for the created site");
-        siteFinderPage.searchSite(siteNameUserCanNotDelete);
+        siteFinderPage.searchSiteWithRetry(siteNameUserCanNotDelete);
         softAssert.assertEquals(siteFinderPage.checkSiteWasFound(siteNameUserCanNotDelete), true, "Site is found.");
         LOG.info("STEP3: Verify options available for the site");
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Delete"), false, "Delete option is not displayed.");
@@ -184,7 +185,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         toolbarSitesMenu.clickSiteFinder();
         softAssert.assertEquals(siteFinderPage.isSearchFieldDisplayed(), true, "Site Finder page is displayed.");
         LOG.info("STEP2: Search for the created site");
-        siteFinderPage.searchSite(siteNameUserCanNotDelete);
+        siteFinderPage.searchSiteWithRetry(siteNameUserCanNotDelete);
         softAssert.assertEquals(siteFinderPage.checkSiteWasFound(siteNameUserCanNotDelete), true, "Site is found.");
         LOG.info("STEP3: Verify options available for the site");
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Delete"), false, "Delete option is not displayed.");
@@ -205,7 +206,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         siteFinderPage.navigateByMenuBar();
         softAssert.assertEquals(siteFinderPage.isSearchFieldDisplayed(), true, "Site Finder page is displayed.");
         LOG.info("STEP2: Search for the created site");
-        siteFinderPage.searchSite(siteNameUserCanNotDelete);
+        siteFinderPage.searchSiteWithRetry(siteNameUserCanNotDelete);
         softAssert.assertEquals(siteFinderPage.checkSiteWasFound(siteNameUserCanNotDelete), true, "Site is found.");
         LOG.info("STEP3: Verify options available for the site");
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Delete"), false, "Delete option is not displayed.");
@@ -226,7 +227,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         siteFinderPage.navigateByMenuBar();
         assertEquals(siteFinderPage.isSearchFieldDisplayed(), true, "Site Finder page is displayed.");
         LOG.info("STEP2: Search for the created site");
-        siteFinderPage.searchSite(siteNameC2284);
+        siteFinderPage.searchSiteWithRetry(siteNameC2284);
         assertEquals(siteFinderPage.checkSiteWasFound(siteNameC2284), true, "Site is found.");
         LOG.info("STEP3: Click on 'Delete' button");
         siteFinderPage.clickSiteButton(siteNameC2284, "Delete");
@@ -234,7 +235,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2284 + "''?"), true,"Confirm delete message is correct.");
         LOG.info("STEP4: Click on 'Cancel' button");
         deleteSiteDialog.clickCancel();
-        siteFinderPage.searchSite(siteNameC2284);
+        siteFinderPage.searchSiteWithRetry(siteNameC2284);
         assertEquals(siteFinderPage.checkSiteWasFound(siteNameC2284), true, "Site is found, it wasn't deleted.");
         LOG.info("STEP5: Click again on 'Delete' button");
         siteFinderPage.clickSiteButton(siteNameC2284, "Delete");
@@ -244,7 +245,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         deleteSiteDialog.clickDelete();
         assertEquals(deleteSiteDialog.getConfirmMessage().contains(language.translate("deleteSite.confirmAgain")), true,"Second confirm delete message is correct");
         deleteSiteDialog.clickNo();
-        siteFinderPage.searchSite(siteNameC2284);
+        siteFinderPage.searchSiteWithRetry(siteNameC2284);
         assertEquals(siteFinderPage.checkSiteWasFound(siteNameC2284), true, "Site is found, it wasn't deleted.");
         cleanupAuthenticatedSession();
     }

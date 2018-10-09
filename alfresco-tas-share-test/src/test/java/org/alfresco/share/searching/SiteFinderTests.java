@@ -61,7 +61,7 @@ public class SiteFinderTests extends ContextAwareWebTest
         assertEquals(siteFinderPage.getSearchMessage(), language.translate("siteFinder.helpMessage"), "Help message");
 
         LOG.info("STEP3: Fill in search field and click \"Search\" button");
-        siteFinderPage.searchSite(siteName1);
+        siteFinderPage.searchSiteWithRetry(siteName1);
         assertTrue(siteFinderPage.isSearchResultsListDisplayed(), "Search results list contains list of sites");
         assertTrue(siteFinderPage.isSiteNameListDisplayed(), "Search results list contains site title");
         assertTrue(siteFinderPage.isSiteDescriptionListDisplayed(), "Search results list contains site description");
@@ -90,11 +90,11 @@ public class SiteFinderTests extends ContextAwareWebTest
         siteFinderPage.navigate();
 
         LOG.info("STEP1: Enter the partial site name in the search field and click the search button");
-        siteFinderPage.searchSite(siteName1.substring(0, 17));
+        siteFinderPage.searchSiteWithRetry(siteName1.substring(0, 17));
         assertTrue(siteFinderPage.checkSiteWasFound(siteName1), "Site " + siteName1 + " is displayed in search result section");
 
         LOG.info("STEP2: Enter the full site name in the search field and click the search button");
-        siteFinderPage.searchSite(siteName1);
+        siteFinderPage.searchSiteWithRetry(siteName1);
         assertTrue(siteFinderPage.checkSiteWasFound(siteName1), "Site " + siteName1 + " is displayed in search result section");
     }
 
@@ -105,7 +105,7 @@ public class SiteFinderTests extends ContextAwareWebTest
         siteFinderPage.navigate();
 
         LOG.info("STEP1: Enter the moderated site's name into the search field and click the search button");
-        siteFinderPage.searchSite(siteName1);
+        siteFinderPage.searchSiteWithRetry(siteName1);
         assertTrue(siteFinderPage.checkSiteWasFound(siteName1), "Site " + siteName1 + "is displayed in search result section");
         assertEquals(siteFinderPage.getVisibilityLabel(), "Moderated", " \"Moderated\" label is displayed below " + siteName1 + " site");
     }
@@ -117,7 +117,7 @@ public class SiteFinderTests extends ContextAwareWebTest
         siteFinderPage.navigate();
 
         LOG.info("STEP1: Enter the private site's name into the search field and click the search button");
-        siteFinderPage.searchSite(siteName2);
+        siteFinderPage.searchSiteWithRetry(siteName2);
         assertTrue(siteFinderPage.checkSiteWasFound(siteName2), "Site " + siteName2 + "is displayed in search result section");
         assertEquals(siteFinderPage.getVisibilityLabel(), "Private", " \"Private\" label is displayed below " + siteName2 + " site");
 
@@ -130,7 +130,7 @@ public class SiteFinderTests extends ContextAwareWebTest
         siteFinderPage.navigate();
 
         LOG.info("STEP1: Enter the private site's name into the search field and click the search button");
-        siteFinderPage.searchSite(siteName2);
+        siteFinderPage.searchSiteWithRetry(siteName2);
         assertEquals(siteFinderPage.getSearchMessage(), language.translate("siteFinder.noResults"), "Displayed message:");
         assertFalse(siteFinderPage.checkSiteWasFound(siteName2), "No results displayed in search result section");
 

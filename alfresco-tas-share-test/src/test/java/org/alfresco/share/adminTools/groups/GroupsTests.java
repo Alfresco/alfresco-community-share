@@ -125,6 +125,7 @@ public class GroupsTests extends ContextAwareWebTest
         LOG.info("Step 2: Search for the group created in Precondition.");
         groupsPage.writeInSearchInput(C9471group);
         groupsPage.clickSearchButton();
+        getBrowser().waitInSeconds(5);
 
         LOG.info("Step 3: Verify the group is present in the search result list.");
         Assert.assertTrue(groupsPage.isGroupPresentInSearchResult(C9471group));
@@ -132,6 +133,7 @@ public class GroupsTests extends ContextAwareWebTest
     
         groupsPage.writeInSearchInput("*" + uniqueIdentifier);
         groupsPage.clickSearchButton();
+        getBrowser().waitInSeconds(5);
         Assert.assertTrue(groupsPage.isGroupPresentInSearchResult(C9471group));
         Assert.assertTrue(groupsPage.isGroupPresentInSearchResult(C9471group1));
     }

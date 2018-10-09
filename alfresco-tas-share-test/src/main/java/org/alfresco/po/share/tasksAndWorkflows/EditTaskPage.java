@@ -89,8 +89,10 @@ public class EditTaskPage extends SharePage<EditTaskPage>
     
     public <T> SharePage reject(String comment, SharePage<T> page)
     {
+        getBrowser().waitUntilElementVisible(commentTextArea);
         commentTextArea.sendKeys(comment);
-        rejectButton.click();
+        getBrowser().waitUntilElementVisible(rejectButton);
+        getBrowser().waitUntilElementClickable(rejectButton).click();
         return page;
     }
 

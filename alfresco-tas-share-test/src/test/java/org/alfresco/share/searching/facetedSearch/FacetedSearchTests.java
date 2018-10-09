@@ -177,6 +177,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         searchPage.clickOptionFromSelectedItemsDropdown("Download as Zip");
         LOG.info("STEP3: Choose Save option and verify archive is displayed in specified location.");
         download.acceptAlertIfDisplayed();
+        getBrowser().waitInSeconds(8);
         assertTrue(download.isFileInDirectory("Archive", ".zip"), "The zip archive was not found in the specified location");
         cleanupAuthenticatedSession();
     }
@@ -242,6 +243,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         selectAssigneeToWorkflowPopUp.searchUser(userName);
         selectPopUpPage.clickAddIcon("FirstName LastName (" + userName + ")");
         selectAssigneeToWorkflowPopUp.clickOkButton();
+        getBrowser().waitInSeconds(5);
         startWorkflowPage.clickStartWorkflow(searchPage);
         userDashboardPage.navigate(userName);
         assertTrue(myTasksDashlet.isTaskPresent("FacetedWorkflowDescription"), "Task is not present in Active tasks");
@@ -251,6 +253,9 @@ public class FacetedSearchTests extends ContextAwareWebTest
     @TestRail(id = "C12828") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 10)
     public void facetedSearchDeleteAction()
     {
+        int retry = 0 ;
+        boolean status = false;
+
         LOG.info("STEP1: Select the document to delete.");
         searchPage.clickCheckbox(docForDelete);
         LOG.info("STEP2: Click on 'Delete' option from 'Selected Items...' dropdown and confirm deletion.");
@@ -260,7 +265,14 @@ public class FacetedSearchTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(1);
         LOG.info("STEP3: Verify that the file has been deleted.");
         toolbar.search(docForDelete);
-        assertFalse(searchPage.isResultFound(docForDelete), docForDelete + " is still found by search");
+        status = searchPage.isResultFound(docForDelete);
+        if(retry<5 && status ==true){
+            toolbar.search(docForDelete);
+            status =  searchPage.isResultFound(docForDelete);
+            retry++;
+            getBrowser().waitInSeconds(2);
+        }
+        assertFalse(status, docForDelete + " is still found by search");
         LOG.info("STEP4: Verify that the deleted file is present in Trashcan.");
         userTrashcanPage.navigate(userName);
         assertTrue(userTrashcanPage.getItemsNamesList().contains(docForDelete), docForDelete + " isn't displayed in Trashcan.");
