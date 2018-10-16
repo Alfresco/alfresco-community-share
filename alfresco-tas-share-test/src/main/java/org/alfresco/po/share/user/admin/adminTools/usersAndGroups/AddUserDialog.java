@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +71,10 @@ public class AddUserDialog extends ShareDialog
      */
     public void searchGroup(String userToSearch)
     {
-        fillInSearchInput(userToSearch);
-        clickSearchButton();
-        renderedPage();
+      getBrowser().waitInSeconds(10);
+            fillInSearchInput(userToSearch);
+            clickSearchButton();
+            renderedPage();
     }
 
     /**

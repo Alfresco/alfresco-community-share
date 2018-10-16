@@ -79,6 +79,7 @@ public class CreateModelDialogPage extends ShareDialog
 
     public void clickCreateButton()
     {
+        getBrowser().waitUntilElementVisible(createButton);
         getBrowser().waitUntilElementClickable(createButton).click();
     }
 }

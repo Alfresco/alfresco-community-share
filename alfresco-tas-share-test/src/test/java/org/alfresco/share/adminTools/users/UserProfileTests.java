@@ -218,6 +218,7 @@ public class UserProfileTests extends ContextAwareWebTest
                         "Deleting a user does not remove their permissions from the repository. These permissions will be reused if the user is recreated later. You can also disable the user account.");
 
         LOG.info("Step 2: Click the Delete button on the Delete User pop-up window");
+        getBrowser().waitInSeconds(5);
         deleteUserDialogPage.clickButton("Delete", usersPage);
 
         LOG.info("Step 3: On the Users Search page search for user1");
@@ -262,6 +263,7 @@ public class UserProfileTests extends ContextAwareWebTest
         usersPage.clickUserLink(fullName);
         userProfileAdminToolsPage.clickEditUserButton();
         editUserPage.clickDisabledAccount();
+        getBrowser().waitInSeconds(9);
         editUserPage.clickSaveChangesButton();
         getBrowser().waitUntilElementContainsText(userProfileAdminToolsPage.accountStatus, "Disabled");
         Assert.assertEquals(userProfileAdminToolsPage.getAccountStatus(), "Disabled", "Account is not disabled");

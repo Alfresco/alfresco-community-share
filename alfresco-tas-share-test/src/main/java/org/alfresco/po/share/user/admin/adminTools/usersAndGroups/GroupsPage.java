@@ -98,6 +98,9 @@ public class GroupsPage extends AdminToolsPage
     @FindBy(css = "button[id*='creategroup-cancel']")
     private WebElement cancelCreateGroupButton;
 
+    @FindBy(css = ".yui-dt-rec div")
+    private WebElement searchResult;
+
     private By groupBy = By.cssSelector("div.yui-columnbrowser-column-body span[class*=item-label]");
     private By createAndCreateAnotherGroupButton = By.cssSelector("button[id*='creategroup-another']");
     private By deleteGroupOKButton = By.cssSelector("button[id$='_default-remove-button-button']");
@@ -131,6 +134,11 @@ public class GroupsPage extends AdminToolsPage
     {
         browser.waitUntilElementClickable(browseButton, properties.getImplicitWait()).click();
         browser.waitUntilElementVisible(By.cssSelector(".yui-columnbrowser-column-body"));
+    }
+
+    public void waitUntilSearchElementDisplayed()
+    {
+        browser.waitUntilElementVisible(searchResult);
     }
 
     /**
@@ -340,6 +348,7 @@ public class GroupsPage extends AdminToolsPage
 
     public void clickCreateGroupButton()
     {
+        browser.waitUntilElementVisible(createGroupOKButton);
         browser.waitUntilElementClickable(createGroupOKButton).click();
 
         this.renderedPage();

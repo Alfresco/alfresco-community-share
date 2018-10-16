@@ -100,7 +100,8 @@ public class ModelManagerPage extends AdminToolsPage
 
     public CreateModelDialogPage clickCreateModelButton()
     {
-        createModelButton.click();
+        getBrowser().waitUntilElementVisible(createModelButton);
+       getBrowser().waitUntilElementClickable(createModelButton).click();
         return (CreateModelDialogPage) createModelDialogPage.renderedPage();
     }
 
