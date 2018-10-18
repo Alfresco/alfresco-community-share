@@ -35,7 +35,7 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
         String file = "TestDoc1";
         Assert.assertFalse(contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
                 file + " document creation failed");
-        contentService.updateDocumentContent(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphabetic(10));
+     //   contentService.updateDocumentContent(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphabetic(10));
 
         file = "TestDoc2";
         Assert.assertFalse(contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),

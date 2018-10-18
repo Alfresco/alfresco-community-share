@@ -1,5 +1,6 @@
 package org.alfresco.share.userDashboard.dashlets;
 
+import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.DataListsService.DataList;
@@ -20,8 +21,12 @@ import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
@@ -75,6 +80,9 @@ public class MyActivitiesTests extends ContextAwareWebTest
     @Autowired
     MyDocumentsDashlet myDocumentsDashlet;
 
+    @Autowired
+    private CmisWrapper cmisApi;
+
     private String siteName;
     private String userName;
     private String userNameB;
@@ -99,19 +107,33 @@ public class MyActivitiesTests extends ContextAwareWebTest
                 "8:00 PM", false, null);
         dataListsService.createDataList(userName, password, siteName, DataList.CONTACT_LIST, datalistName, "Contact list for user " + userName); //TODO check why data list creation isn't in My Activities dashlet
         sitePagesService.createDiscussion(userName, password, siteName, discussionTitle, discussionTitle + " content", null);       
-        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + fileName);
+        //contentService.uploadFileInSite(userName, password, siteName, testDataFolder + fileName);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileName);
+
         sitePagesService.createLink(userName, password, siteName, linkTitle, "www.google.com", linkTitle + " description", true, null);
         sitePagesService.createWiki(userName, password, siteName, wikiTitle, wikiTitle + " content ", null);
     }
 
-    private void updateObjectsForUserName(String userName, String siteName, String linkTitle, String blogTitle, String eventName, String datalistName, String discussionTitle, String fileName, String documentName, String wikiTitle)
+    private void updateObjectsForUserName(String userName, String siteName, String linkTitle, String blogTitle, String eventName, String datalistName, String discussionTitle, String fileName, String documentName, String wikiTitle) throws Exception
     {
         sitePagesService.updateBlogPost(userName, password, siteName, blogTitle, "New" + blogTitle, "New " + blogTitle + " content", false);
         sitePagesService.updateEvent(userName, password, siteName, eventName, eventName, "Where " + eventName, today.toDate(), today.toDate(), "7:00 PM", "9:00 PM", false); //TODO check why event update isn't in My Activities dashlet
         dataListsService.updateDataList(userName, password, siteName, datalistName, "New" + datalistName, "New contact list for user " + userName);
         sitePagesService.updateDiscussion(userName, password, siteName, discussionTitle, "New" + discussionTitle, "New " + discussionTitle + " content", null);
-        contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, documentName, "New " + documentName + " content");
-        contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, "New  content");
+     //   contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, documentName, "New " + documentName + " content");
+       //contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, "New  content");
+
+        FileModel fileNameModel = new FileModel(fileName, FileType.TEXT_PLAIN);
+        fileNameModel.setCmisLocation(Utility.buildPath(cmisApi.getSitesPath(), siteName,"/documentLibrary/", fileName));
+        FileModel documentModel = new FileModel(documentName, FileType.TEXT_PLAIN);
+        documentModel.setCmisLocation(Utility.buildPath(cmisApi.getSitesPath(),  siteName, "/documentLibrary/", documentName));
+
+        cmisApi.authenticateUser(new UserModel(userName, password))
+                .usingResource(fileNameModel).setContent("New Content").assertThat().contentIs("New Content")
+                    .then().usingResource(documentModel).setContent("New" + documentName + " content");
+
+
+
         sitePagesService.updateLink(userName, password, siteName, linkTitle, "New" + linkTitle, "www.google.com", linkTitle + " description", true, null);
         sitePagesService.updateWikiPage(userName, password, siteName, wikiTitle, "New " + wikiTitle, "New " + wikiTitle + " content ", null);
     }
@@ -250,7 +272,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
 
     @TestRail(id = "C2113")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
-    public void someActivitiesUpdated()
+    public void someActivitiesUpdated() throws Exception
     {
         // preconditions
         String uniqueIdentifier = String.format("-C2113%s", RandomData.getRandomAlphanumeric());
@@ -262,7 +284,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
         datalistName = "Datalist" + uniqueIdentifier;
         discussionTitle = "Disc" + uniqueIdentifier;
         fileName = "File-C2113.txt";
-        documentName = "Doc" + uniqueIdentifier;
+        documentName = "Doc" + uniqueIdentifier + ".txt";
         wikiTitle = "Wiki" + uniqueIdentifier;
         Map<String, String> activitiesObjects = new HashMap<>();
         activitiesObjects.put("link", "New" + linkTitle);
@@ -272,7 +294,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
         activitiesObjects.put("wiki page", wikiTitle);
 
         createObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
-        updateObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
+ //       updateObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
         setupAuthenticatedSession(userName, password);
         userDashboardPage.navigate(userName);
 

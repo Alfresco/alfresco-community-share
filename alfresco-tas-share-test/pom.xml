@@ -17,6 +17,7 @@
 		<maven-remote-resources.version>1.5</maven-remote-resources.version>
 		<maven-jar-plugin.version>2.6</maven-jar-plugin.version>
 		<tas.restapi.version>5.2.0.12</tas.restapi.version>
+		<tas.cmis.version>5.2.0-1</tas.cmis.version>
 	</properties>
 
 	<distributionManagement>
@@ -75,6 +76,19 @@
 			<groupId>org.alfresco.tas</groupId>
 			<artifactId>restapi-test</artifactId>
 			<version>${tas.restapi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.alfresco.tas</groupId>
+			<artifactId>cmis-test</artifactId>
+			<version>${tas.cmis.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.alfresco.tas</groupId>
+			<artifactId>cmis-test</artifactId>
+			<version>${tas.cmis.version}</version>
 		</dependency>
 
 	</dependencies>
