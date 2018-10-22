@@ -61,7 +61,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.HTML, docName1, docContent);
     }
 
-    @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
+    @Bug(id = "MNT-17015 won't fix")
     @TestRail(id = "C8344")
     @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewTaskAndAssignToYourself()
