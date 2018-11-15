@@ -54,7 +54,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
         String file = "TestDoc";
         Assert.assertFalse(contentService.createDocument(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, file).getId().isEmpty());
- //       contentService.updateDocumentContent(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(10));
+       contentService.updateDocumentContent(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(10));
  //       contentService.updateDocumentContent(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(20));
         contentAction.likeContent(userName2, password, siteName1, file);
         setupAuthenticatedSession(userName1, password);

@@ -85,7 +85,7 @@ public class EditRulesTests extends ContextAwareWebTest {
         LOG.info("STEP2: Fill in Create Rule details with new details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(1, 0, 2);
         editRulesPage.typeRuleDetails(updatedRuleName, updatedDescription, indexOfOptionFromDropdown);
-        editRulesPage.clickCopySelectButton();
+ //       editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();

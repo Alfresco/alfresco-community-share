@@ -102,7 +102,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
                 "'Locate Folder' option is displayed for " + subFolderName);
 
         LOG.info("STEP3: Click \"Locate Folder\" option");
-        documentLibraryPage.clickOnAction(subFolderName, language.translate("documentLibrary.contentActions.locateFolder"));
+        documentLibraryPage.clickOnLocateFolder();
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString(), "Breadcrumb=");
     }
 

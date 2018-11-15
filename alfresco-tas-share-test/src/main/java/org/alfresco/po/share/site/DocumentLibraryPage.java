@@ -146,6 +146,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     @FindAll(@FindBy(css = ".documentDroppable .ygtvlabel"))
     private List<WebElement> explorerPanelDocumentsList;
 
+    @FindBy(css = "a[title^='Locate']")
+    private WebElement locateFolder;
+
 
     private WebElement selectViewInOptions(String viewName)
     {
@@ -638,6 +641,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         WebElement actionLink = browser.findFirstElementWithValue(availableActions, action);
         actionLink.click();
     }
+    public void clickOnLocateFolder()
+    {
+       getBrowser().waitUntilElementVisible(locateFolder);
+       getBrowser().waitUntilElementClickable(locateFolder).click();
+    }
+
 
     public String getDocumentListHeader()
     {
