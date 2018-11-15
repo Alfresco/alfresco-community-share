@@ -81,7 +81,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8665")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders"})
     public void applySFTemplateToExistingFolder()
     {
         LOG.info("Preconditions: Navigate to Document Library for the page for the test site");
@@ -124,13 +124,13 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName1), "File1 displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName2), "File2 displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName3), "File3 displayed");
-        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
+       Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
     }
 
     @TestRail(id = "C8666")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,"SmartFolders"})
     public void applySFTemplateToCreatedFolder()
     {
         LOG.info("Preconditions: Navigate to Document Library for the page for the test site");
@@ -197,7 +197,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8668")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,"SmartFolders"})
     public void applyCustomSmartFolder()
     {
         String customSmartFolderTemplate = "employeeSmartSimpleTemplate.json";

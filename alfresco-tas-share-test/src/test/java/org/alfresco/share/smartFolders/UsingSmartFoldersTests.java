@@ -86,7 +86,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8648")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT ,"SmartFolders"})
     public void addFileToSmartFolder() {
         LOG.info("Steps5: Click Upload button and select a pdf file.");
         uploadContent.uploadContent(testFilePath);
@@ -99,7 +99,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8649")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT , "SmartFolders"})
     public void createFileInSmartFolder() throws Exception {
         googleDocs.loginToGoogleDocs();
         LOG.info("Step5: Press Create button -> Google Docs Document");
@@ -121,7 +121,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
     @Bug(id="MNT-18059",status = Bug.Status.FIXED)
     @TestRail(id = "C8650")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,"SmartFolders" })
     public void updateFileInSmartFolder() throws Exception {
         googleDocs.loginToGoogleDocs();
         LOG.info("Step5: Press Create button -> Google Docs Document");
@@ -152,7 +152,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8663")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,"SmartFolders" })
     public void checkSmartFolderStructure() {
         LOG.info("Step5: Click on 'My content' the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(mainSmartFolder);
@@ -164,7 +164,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8664")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,"SmartFolders" })
     public void checkFilesAreCorrectlyFilled() {
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFolderName(folderName);
@@ -177,7 +177,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail(id = "C8647")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders"})
     public void checkAvailableActions() {
         LOG.info("Step5: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
