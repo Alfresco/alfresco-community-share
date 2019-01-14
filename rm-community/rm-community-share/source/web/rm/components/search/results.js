@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -305,6 +305,7 @@
       onDataTableHeaderCheckboxChange: function RecordsResults_onDataTableHeaderCheckboxChange(e, args)
       {
          this.widgets.addToHold.set("disabled", !args[1].headerCheckBoxChecked || this.resultsCount == 0);
+         this.widgets.exportButton.set("disabled", !args[1].headerCheckBoxChecked || this.resultsCount == 0);
       },
 
       /**
@@ -321,6 +322,7 @@
             activate = true;
          }
          this.widgets.addToHold.set("disabled", !activate);
+         this.widgets.exportButton.set("disabled", !activate);
       },
 
       _setupDataTable: function RecordsResults_setupDataTable()

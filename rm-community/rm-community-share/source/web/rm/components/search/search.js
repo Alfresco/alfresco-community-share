@@ -2,7 +2,7 @@
  * #%L
  * Alfresco Records Management Module
  * %%
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  * %%
  * This file is part of the Alfresco software.
  * -
@@ -456,7 +456,6 @@
          var resultCount = args[1].count;
          var disable = (resultCount == 0);
          this.widgets.printButton.set("disabled", disable);
-         this.widgets.exportButton.set("disabled", disable);
       },
 
       /**
@@ -538,7 +537,7 @@
          input.type = "hidden";
          form.appendChild(input);
          input.name = "nodeRefs";
-         input.value = this.resultNodeRefs.join(",");
+         input.value = Alfresco.rm.dataTableSelectedItems(this.widgets.dataTable);
          form.submit();
       },
 
