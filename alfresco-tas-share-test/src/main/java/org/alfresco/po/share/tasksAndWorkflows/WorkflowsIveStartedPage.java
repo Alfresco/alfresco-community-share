@@ -111,6 +111,7 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
     {
         WebElement selectedTask = selectWorkflow(workflowName);
         browser.mouseOver(selectedTask);
+        getBrowser().waitUntilElementVisible(cancelWorkflowLink);
         selectedTask.findElement(cancelWorkflowLink).click();
         if (areYouSure)
         {

@@ -1,5 +1,6 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
+import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -11,7 +12,10 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -63,14 +67,19 @@ public class EditTests extends ContextAwareWebTest
     private final String tagName = "tag" + uniqueIdentifier;
     private final String googleDocName = uniqueIdentifier + "googleDoc.docx";
 
+    @Autowired
+    public CmisWrapper cmisApi;
+
     @BeforeClass(alwaysRun = true)
-    public void setupTest()
+    public void setupTest() throws Exception
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName1, "");
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName2, "");
-        contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName3, "");
+        contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName1, "a");
+        contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName2, "a");
+        contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName3, "a");
         contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
+        //FileModel file1 = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "content new bla bla");
+        //cmisApi.authenticateUser(new UserModel(adminUser, adminPassword)).usingShared().createFile(file1);
     }
 
     @TestRail(id = "C7953")
@@ -264,7 +273,7 @@ public class EditTests extends ContextAwareWebTest
     @AfterClass
     public void cleanUp()
     {
-        contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + updatedDocName1);
+        contentService.deleteContentByPath(adminUser, adminPassword,  "/" + path + "/" + updatedDocName1);
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + updatedDocName2);
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + docName3);
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + updatedFolderName);

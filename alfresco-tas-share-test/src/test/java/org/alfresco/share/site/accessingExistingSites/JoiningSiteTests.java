@@ -134,6 +134,7 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
         LOG.info("STEP 1: Enter site name (" + siteNameC2831 + ") in textbox and click on 'Search' button.");
+        getBrowser().waitInSeconds(5);
         siteFinderPage.searchSiteWithRetry(siteNameC2831);
         assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2831), "Site is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2831, "Request to Join"), "'Request to Join' button is expected to be displayed for " + siteNameC2831);

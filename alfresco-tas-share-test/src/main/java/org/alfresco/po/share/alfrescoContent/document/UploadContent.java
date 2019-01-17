@@ -68,8 +68,10 @@ public class UploadContent extends SiteCommon<UploadContent> {
 
 	public void uploadContent(String filePath, String contentsOfFile) {
 		// click Upload button
+		getBrowser().waitInSeconds(5);
 		browser.waitUntilElementClickable(uploadButton);
 		uploadButton.click();
+		getBrowser().waitInSeconds(5);
 
 		// set the file to upload
 		File fileToUpload = newFile(filePath, contentsOfFile);

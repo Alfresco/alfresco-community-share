@@ -16,7 +16,7 @@
 		<tas.utility.version>1.0.30-SNAPSHOT</tas.utility.version>
 		<maven-remote-resources.version>1.5</maven-remote-resources.version>
 		<maven-jar-plugin.version>2.6</maven-jar-plugin.version>
-		<tas.cmis.version>5.2.0-1</tas.cmis.version>
+		<tas.cmis.version>5.2.0-2</tas.cmis.version>
 	</properties>
 
 	<distributionManagement>

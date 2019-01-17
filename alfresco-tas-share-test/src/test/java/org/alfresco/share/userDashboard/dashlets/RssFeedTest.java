@@ -3,6 +3,7 @@ package org.alfresco.share.userDashboard.dashlets;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.share.dashlet.EnterFeedURLPopUp;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -21,6 +22,9 @@ public class RssFeedTest extends ContextAwareWebTest
 {
     @Autowired
     RssFeedDashlet rssFeedDashlet;
+
+    @Autowired EnterFeedURLPopUp enterFeedURLPopUp;
+
 
     @Autowired
     UserDashboardPage userDashboardPage;
@@ -42,7 +46,13 @@ public class RssFeedTest extends ContextAwareWebTest
     {
         LOG.info("Step 1: Verify \"RSS Feed\" dashlet");
         userDashboardPage.navigate(userName);
-        rssFeedDashlet.renderedPage();
+
+        rssFeedDashlet.clickOnConfigureRssFeedDashlet();
+        enterFeedURLPopUp.fillUrlField("http://feeds.reuters.com/reuters/businessNews");
+        enterFeedURLPopUp.selectNumberOfItemsToDisplay("10");
+        enterFeedURLPopUp.checkNewWindowCheckbox();
+        enterFeedURLPopUp.clickOkButton();
+
         assertEquals(rssFeedDashlet.getFeedsListSize(), noOfFeeds, "Number of feeds");
 
         LOG.info("Step 2: Verify title bar actions from \"RSS Feed\" dashlet");

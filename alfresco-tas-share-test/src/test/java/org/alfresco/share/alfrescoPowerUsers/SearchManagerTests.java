@@ -115,11 +115,11 @@ public class SearchManagerTests extends ContextAwareWebTest
     public void editFilterProperty()
     {
         searchManagerPage.navigate();
-        
         LOG.info("Step 1: Edit filter property and save changes");
         searchManagerPage.editFilterProperty("cm:created (Created Date)", "audio:album (Album)");
         
         LOG.info("Step 2: Check new filter property is present");
+        getBrowser().refresh();
         Assert.assertEquals(searchManagerPage.getFilterProperty("filter_created", "audio:album (Album)"), "audio:album (Album)");
     }
     

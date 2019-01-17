@@ -176,6 +176,7 @@ public class ActionsEditTests extends ContextAwareWebTest
 
         LOG.info("Step 6: Type a tag name and click create");
         selectDialog.typeTag(tagName);
+        getBrowser().waitInSeconds(5);
         selectDialog.clickCreateNewIcon();
         selectDialog.clickOk();
         editFilePropertiesDialog.isTagSelected(tagName.toLowerCase());
