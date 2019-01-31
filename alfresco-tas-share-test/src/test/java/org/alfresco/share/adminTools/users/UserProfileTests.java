@@ -215,7 +215,7 @@ public class UserProfileTests extends ContextAwareWebTest
                 deleteUserDialogPage.getDeleteUserWindowText(),
                 "Click Delete User to remove this user.\n" +
                         "\n" +
-                        "Deleting a user does not remove their permissions from the repository. These permissions will be reused if the user is recreated later. You can also disable the user account.");
+                        "Deleting a user removes their permissions from the repository. If you create a user with the same userid as a previously deleted user, the new user gets access to the original user's files but not their permissions as they are removed upon user deletion.");
 
         LOG.info("Step 2: Click the Delete button on the Delete User pop-up window");
         getBrowser().waitInSeconds(5);
@@ -263,7 +263,7 @@ public class UserProfileTests extends ContextAwareWebTest
         usersPage.clickUserLink(fullName);
         userProfileAdminToolsPage.clickEditUserButton();
         editUserPage.clickDisabledAccount();
-        getBrowser().waitInSeconds(9);
+    //    getBrowser().waitInSeconds(9);
         editUserPage.clickSaveChangesButton();
         getBrowser().waitUntilElementContainsText(userProfileAdminToolsPage.accountStatus, "Disabled");
         Assert.assertEquals(userProfileAdminToolsPage.getAccountStatus(), "Disabled", "Account is not disabled");

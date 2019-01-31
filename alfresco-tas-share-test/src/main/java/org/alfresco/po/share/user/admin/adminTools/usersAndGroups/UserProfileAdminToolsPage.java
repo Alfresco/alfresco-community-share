@@ -153,6 +153,7 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
 
     public String getGroupsNames()
     {
+        getBrowser().waitInSeconds(5);
         return groupName.getText();
     }
 }

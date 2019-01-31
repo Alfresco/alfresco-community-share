@@ -836,6 +836,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public String getTags(String contentName)
     {
+        getBrowser().waitInSeconds(8);
         browser.waitUntilWebElementIsDisplayedWithRetry(browser.findElement(contentTagsSelector), 5);
         List<WebElement> tagsList = selectDocumentLibraryItemRow(contentName).findElements(contentTagsSelector);
         List<String> tagsTextList = new ArrayList<>();

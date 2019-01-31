@@ -209,7 +209,7 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public void addGroup(String groupName)
     {
-        searchGroupButton.click();
+        getBrowser().waitUntilElementClickable(searchGroupButton).click();
         browser.waitUntilElementVisible(By.xpath(String.format("//td[contains(@class,'col-description')]//h3[@class='itemname' and text()='%s']//ancestor::tr//td[contains(@class,'col-actions')]//button[contains(text(),'Add')]",groupName))).click();
     }
 

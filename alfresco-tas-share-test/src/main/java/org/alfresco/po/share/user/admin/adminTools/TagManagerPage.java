@@ -28,7 +28,7 @@ public class TagManagerPage extends AdminToolsPage {
 	@FindBy(css = ".title")
 	private WebElement tableTitle;
 
-	@RenderWebElement
+	//@RenderWebElement
 	@FindBy(css = ".dashlet thead")
 	private WebElement tableHead;
 
@@ -44,7 +44,7 @@ public class TagManagerPage extends AdminToolsPage {
 	@FindBy(css = "span[id*='prev-span']")
 	private WebElement previousLinkDisabled;
 
-	@RenderWebElement
+//	@RenderWebElement
 	@FindBy(css = "div[id*='list-bar-bottom'] span[id*='pages'] .yui-pg-page")
 	private List<WebElement> pagesList;
 
@@ -130,6 +130,7 @@ public class TagManagerPage extends AdminToolsPage {
 	 */
     public boolean isTagDisplayed(String tag)
     {
+    	getBrowser().waitInSeconds(5);
 	    browser.waitUntilElementIsDisplayedWithRetry(tagSelector, 10);
         LOG.info("Check that tag is displayed: " + tag);
 
@@ -230,12 +231,14 @@ public class TagManagerPage extends AdminToolsPage {
 	 *            - tag name
 	 */
 	public boolean searchTag(String tagName) {
+
 		int counter = 0;
 		search(tagName);
 		while(!isTagDisplayed(tagName) && counter < 3)
 		{
 			search(tagName);
 			counter++;
+			getBrowser().waitInSeconds(5);
 		}
 		return isTagDisplayed(tagName);
 	}

@@ -30,6 +30,9 @@ public class AdminToolsPage extends SharePage<AdminToolsPage> implements Accessi
     @FindBy(css = "#alf-filters>div[id$='admin-console']")
     private WebElement adminToolsDiv;
 
+    @FindBy(css= "[href='module-package']")
+    private WebElement modulePackage;
+
     private By toolsList = By.cssSelector(".tool-link");
 
     @Override
@@ -58,7 +61,11 @@ public class AdminToolsPage extends SharePage<AdminToolsPage> implements Accessi
      */
     public HtmlPage navigateToNodeFromToolsPanel(String toolName, HtmlPage page)
     {
-        browser.findFirstElementWithValue(toolsLinksList, toolName).click();
+        getBrowser().waitUntilElementVisible(modulePackage);
+        getBrowser().waitUntilElementClickable(modulePackage).click();
+     //   browser.findFirstElementWithValue(toolsLinksList, toolName).click();
+        getBrowser().waitInSeconds(3);
+        getBrowser().refresh();
         return page.renderedPage();
     }
 

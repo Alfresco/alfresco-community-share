@@ -88,7 +88,8 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
 
     public UserProfilePage clickOkButton()
     {
-        okButton.click();
+        getBrowser().waitUntilElementVisible(okButton);
+        getBrowser().waitUntilElementClickable(okButton).click();
         return (UserProfilePage) userProfilePage.renderedPage();
     }
 

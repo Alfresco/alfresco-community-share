@@ -120,7 +120,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         ArrayList<String> expectedList = new ArrayList<>(singletonList(group1));
         assertEquals(groupsPage.getBreadcrumb(), expectedList, "Groups breadcrumb path=");
         expectedList.clear();
-
+        getBrowser().waitInSeconds(5);
         LOG.info("STEP1: Click 'Add Group' button from second column's header");
         groupsPage.clickAddGroupButton();
         assertEquals(addGroupDialog.getDialogTitle(), language.translate("adminTools.groups.addGroupDialog.title"), "Displayed dialog title=");

@@ -69,7 +69,7 @@ public class UploadingFilesTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Inside the folder click the Upload button.");
         uploadContent.uploadContent(testFilePath);
-
+        getBrowser().waitInSeconds(6);
         LOG.info("STEP3: Verify if the file is uploaded successfully.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFileName), String.format("The file [%s] is not present", testFileName));
     }
