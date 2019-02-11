@@ -30,8 +30,9 @@ public class ApplicationPage extends AdminToolsPage
     @FindBy(css = "button[id$='apply-button-button']")
     private WebElement applyButton;
     
-    @FindBy (xpath = "//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]")
+    @FindBy (xpath = "//img[contains(@id, '_default-logoimg') and contains(@src, 'app-logo-48.png')]")
     private WebElement defaultAlfrescoImage;
+
     
     @RenderWebElement
     @FindBy (css = "button[id$='reset-button-button']")

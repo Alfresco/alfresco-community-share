@@ -90,6 +90,7 @@ public class UsersPage extends AdminToolsPage
             searchButton.click();
             this.renderedPage();
             counter++;
+            getBrowser().waitInSeconds(4);
         }
         while (!verifyUserIsFound(user) && counter <= 5);
     }

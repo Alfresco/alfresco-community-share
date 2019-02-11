@@ -300,7 +300,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         createModelDialogPage.sendPrefixText(prefix);
         createModelDialogPage.sendNameText(name);
         createModelDialogPage.clickCreateButton();
-        modelManagerPage.renderedPage();
+ //       modelManagerPage.renderedPage();
         modelManagerPage.clickActionsButtonForModel(name);
         modelManagerPage.clickOnAction("Activate", modelManagerPage);
 

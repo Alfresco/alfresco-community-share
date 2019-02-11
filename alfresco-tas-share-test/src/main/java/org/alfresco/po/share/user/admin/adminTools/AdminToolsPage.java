@@ -61,11 +61,9 @@ public class AdminToolsPage extends SharePage<AdminToolsPage> implements Accessi
      */
     public HtmlPage navigateToNodeFromToolsPanel(String toolName, HtmlPage page)
     {
-        getBrowser().waitUntilElementVisible(modulePackage);
-        getBrowser().waitUntilElementClickable(modulePackage).click();
-     //   browser.findFirstElementWithValue(toolsLinksList, toolName).click();
-        getBrowser().waitInSeconds(3);
-        getBrowser().refresh();
+
+        browser.findFirstElementWithValue(toolsLinksList, toolName).click();
+
         return page.renderedPage();
     }
 
