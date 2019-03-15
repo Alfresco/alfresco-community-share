@@ -241,9 +241,14 @@ public class SearchManagerTests extends ContextAwareWebTest
         searchPage.selectOptionFromSearchIn(site1);
         assertTrue(searchPage.isFilterTypePresent(filterName), "The new filter ('tagFilter') is displayed on 'Search Results' page, on 'Filter by' section");
         assertTrue(searchPage.isFilterOptionDisplayed(filterId, "tag1"), " tag1 option is displayed under the 'tagFilter' filter.");
+
+        getBrowser().executeScript("scroll(0,250);");
+        getBrowser().waitInSeconds(5);
+
         assertEquals(searchPage.getFilterOptionHits("tag1"), "1", "tag1 has 1 hit.");
         assertTrue(searchPage.isFilterOptionDisplayed(filterId, "tag2"), " tag2 option is displayed under the 'tagFilter' filter.");
         assertEquals(searchPage.getFilterOptionHits("tag2"), "1", "tag2 has 1 hit.");
+
 
         LOG.info("STEP 10: Go to site2's dashboard. Type '" + documentName + "' on the 'Search box' from 'Alfresco Toolbar' and press 'Enter' key.");
         siteDashboardPage.navigate(site2);
@@ -253,6 +258,10 @@ public class SearchManagerTests extends ContextAwareWebTest
         searchPage.selectOptionFromSearchIn(site2);
         assertTrue(searchPage.isFilterTypePresent(filterName), "The new filter ('tagFilter') is displayed on 'Search Results' page, on 'Filter by' section");
         assertTrue(searchPage.isFilterOptionDisplayed(filterId, "tag3"), " tag3 option is displayed under the 'tagFilter' filter.");
+
+        getBrowser().executeScript("scroll(0,250);");
+        getBrowser().waitInSeconds(5);
+
         assertEquals(searchPage.getFilterOptionHits("tag3"), "1", "tag3 has 1 hit.");
         assertTrue(searchPage.isFilterOptionDisplayed(filterId, "tag4"), " tag4 option is displayed under the 'tagFilter' filter.");
         assertEquals(searchPage.getFilterOptionHits("tag4"), "1", "tag4 has 1 hit.");

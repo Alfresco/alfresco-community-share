@@ -101,7 +101,6 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         userDashboardPage.navigate(user2);
         assertTrue(mySitesDashlet.isSitePresent(siteNameC2823), siteNameC2823 + " is displayed on 'My Sites' dashlet.");
     }
-
     @TestRail(id = "C3053")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void joinPublicSiteFromSiteDashboardPage() {

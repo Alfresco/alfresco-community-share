@@ -35,7 +35,7 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
         String file = "TestDoc1";
         Assert.assertFalse(contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
                 file + " document creation failed");
-     //   contentService.updateDocumentContent(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphabetic(10));
+        contentService.updateDocumentContent(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphabetic(10));
 
         file = "TestDoc2";
         Assert.assertFalse(contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
@@ -46,7 +46,7 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
         Assert.assertFalse(contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
                 file + " document creation failed");
         contentAction.setFileAsFavorite(userName, password, siteName, file);
-
+        getBrowser().waitInSeconds(10);
         myDocumentsDashlet.waitForDocument();
 
         LOG.info("STEP 1 - Select \"I've Recently Modified\" value from filter");
@@ -76,6 +76,7 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
         LOG.info("STEP 4 - Log out and log in again");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userName, password);
+        getBrowser().waitInSeconds(8);
         userDashboardPage.navigate(userName);
         myDocumentsDashlet.waitForDocument();
         myDocumentsDashlet.refreshWhileErrorLoadingDocumentsIsDisplayed();

@@ -3,6 +3,7 @@ package org.alfresco.share.site.siteDashboard;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
+import org.alfresco.po.share.dashlet.EnterFeedURLPopUp;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -23,9 +24,12 @@ public class RssFeedDashletTests extends ContextAwareWebTest
     @Autowired
     SiteDashboardPage siteDashboardPage;
 
+    @Autowired EnterFeedURLPopUp enterFeedURLPopUp;
+
+
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    private int noOfFeeds = 10;
+    private int noOfFeeds = 5;
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -42,6 +46,14 @@ public class RssFeedDashletTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Verify \"RSS Feed\" dashlet");
         siteDashboardPage.navigate(siteName);
+
+        rssFeedDashlet.clickOnConfigureRssFeedDashlet();
+        enterFeedURLPopUp.fillUrlField("http://feeds.reuters.com/reuters/businessNews");
+        enterFeedURLPopUp.selectNumberOfItemsToDisplay("5");
+        enterFeedURLPopUp.checkNewWindowCheckbox();
+        getBrowser().waitInSeconds(5);
+        enterFeedURLPopUp.clickOkButton();
+
         rssFeedDashlet.renderedPage();
         Assert.assertEquals(rssFeedDashlet.getFeedsListSize(), noOfFeeds);
 

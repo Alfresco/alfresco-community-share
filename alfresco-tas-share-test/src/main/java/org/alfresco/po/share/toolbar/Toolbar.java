@@ -33,7 +33,7 @@ public class Toolbar extends HtmlPage
     @FindBy(id = "SHARE_HEADER")
     protected WebElement toolbar;
 
-    @FindBy(id = "HEADER_HOME_text")
+    @FindBy(css = "[widgetid=\"HEADER_HOME\"]")
     protected WebElement homeLink;
 
     @FindBy(id = "HEADER_MY_FILES_text")

@@ -69,7 +69,7 @@ public class ApplicationPage extends AdminToolsPage
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
    
     
-    @Override
+//    @OverridenoDocumentsAdded
     public String getRelativePath() { return "share/page/console/admin-console/application"; }
 
     public void uploadImage()

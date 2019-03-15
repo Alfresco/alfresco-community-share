@@ -69,9 +69,15 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     public boolean arePropertiesDisplayed(String... expectedPropertiesList)
     {
         List<String> propertiesList = new ArrayList<>();
+        getBrowser().waitUntilElementsVisible(propertiesElements);
+
         for(WebElement propertyElement : propertiesElements)
+            if(propertyElement.getText().contains(":"))
             propertiesList.add(propertyElement.getText().substring(0, propertyElement.getText().indexOf(":")));
-         return DataUtil.areListsEquals(propertiesList, expectedPropertiesList);
+            else
+                propertiesList.add(propertyElement.getText());
+
+        return DataUtil.areListsEquals(propertiesList, expectedPropertiesList);
     }
 
     /**

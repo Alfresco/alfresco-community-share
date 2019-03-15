@@ -156,7 +156,8 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
     public void addPageToSite(SitePageType page)
     {
         WebElement pageElem = browser.findElement(By.cssSelector(page.getCustomizeCssLocator()));
-        pageElem.click();
+        getBrowser().waitUntilElementClickable(pageElem).click();
+        getBrowser().waitUntilElementVisible(pageElem);
         browser.scrollToElement(currentSitePagesArea);
         browser.dragAndDrop(pageElem, currentSitePagesArea);
     }

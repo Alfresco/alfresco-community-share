@@ -366,17 +366,18 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         changeContentTypeDialog.renderedPage();
         assertEquals(changeContentTypeDialog.getDialogTitle(), "Change Type", "Displayed dialog: ");
         LOG.info("Step3: Select 'Article' from 'New Type' dropdown and click 'Ok' button");
-        changeContentTypeDialog.selectOption("Article");
+        changeContentTypeDialog.selectOption("Smart Folder Template");
+
         changeContentTypeDialog.clickButton("OK");
         getBrowser().refresh();
         documentDetailsPage.renderedPage();
-        assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Creator", "Created Date", "Modifier",
-                "Modified Date", "Template Name", "Mimetype", "Size", "Primary Image", "Secondary Image", "Related Articles"), "Displayed properties:");
+        assertTrue(documentDetailsPage.arePropertiesDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Last thumbnail modifcation data", "Description", "Creator", "Name", "Locale", "Version Label", "Modifier",
+                "Modified Date", "Auto Version", "Version Type", "Initial Version","Last Accessed Date", "Author", "Encoding", "Size", "Mimetype"), "Displayed properties:");
         LOG.info("Step6: Click 'Edit Properties' option from 'Document Actions' section");
         documentDetailsPage.clickEditProperties();
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
-        assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Template Name", "Tags", "Primary Image",
-                "Secondary Image", "Related Articles"), "Displayed properties:");
+        assertTrue(editPropertiesPage.arePropertiesDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Last thumbnail modifcation data", "Description", "Creator", "Name", "Content", "Locale", "Version Label", "Modifier",
+                "Modified Date", "Auto Version", "Version Type", "Initial Version","Last Accessed Date", "Author", "Encoding", "Size", "Mimetype"), "Displayed properties:");
     }
 
     @TestRail(id = "C8805")

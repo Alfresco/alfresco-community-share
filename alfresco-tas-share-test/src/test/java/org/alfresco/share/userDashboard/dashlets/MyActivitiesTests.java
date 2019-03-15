@@ -120,8 +120,8 @@ public class MyActivitiesTests extends ContextAwareWebTest
         sitePagesService.updateEvent(userName, password, siteName, eventName, eventName, "Where " + eventName, today.toDate(), today.toDate(), "7:00 PM", "9:00 PM", false); //TODO check why event update isn't in My Activities dashlet
         dataListsService.updateDataList(userName, password, siteName, datalistName, "New" + datalistName, "New contact list for user " + userName);
         sitePagesService.updateDiscussion(userName, password, siteName, discussionTitle, "New" + discussionTitle, "New " + discussionTitle + " content", null);
-     //   contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, documentName, "New " + documentName + " content");
-       //contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, "New  content");
+        contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, documentName, "New " + documentName + " content");
+       contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, "New  content");
 
         FileModel fileNameModel = new FileModel(fileName, FileType.TEXT_PLAIN);
         fileNameModel.setCmisLocation(Utility.buildPath(cmisApi.getSitesPath(), siteName,"/documentLibrary/", fileName));
@@ -294,7 +294,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
         activitiesObjects.put("wiki page", wikiTitle);
 
         createObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
- //       updateObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
+        updateObjectsForUserName(userName, siteName, linkTitle, blogTitle, eventName, datalistName, discussionTitle, fileName, documentName, wikiTitle);
         setupAuthenticatedSession(userName, password);
         userDashboardPage.navigate(userName);
 

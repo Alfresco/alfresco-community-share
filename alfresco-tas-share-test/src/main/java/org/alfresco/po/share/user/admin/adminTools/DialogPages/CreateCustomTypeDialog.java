@@ -8,8 +8,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * Created by Mirela Tifui on 12/6/2016.
@@ -40,14 +43,31 @@ public class CreateCustomTypeDialog extends ShareDialog
     @FindBy(xpath = "//div[@id ='CMM_CREATE_TYPE_DIALOG']//div[@class='control']//textarea")
     private WebElement descriptionField;
 
+    @FindBy(css = ".dijitSelectLabel")
+    private WebElement parentTypeElement;
+
+    @FindAll(@FindBy(css = "table[role='listbox'] > tbody > tr[id^='dijit_MenuItem']"))
+    private List<WebElement> parentTypeElements;
+
     public ModelDetailsPage clickCreateButton()
     {
-     getBrowser().waitUntilElementClickable(createButton).click();
+        getBrowser().waitUntilElementClickable(createButton).click();
 
 
         return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
 
+    public void selectParentType(String parentType)
+    {
+       getBrowser().waitUntilElementVisible(parentTypeElement).click();
+        for(WebElement type : parentTypeElements)
+        {
+            if(type.getAttribute("aria-label").equals(parentType))
+            {
+                getBrowser().clickJS(type);
+            }
+        }
+    }
 
 
     public void clickCancelButton()

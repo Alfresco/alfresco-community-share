@@ -15,25 +15,25 @@ public class ToolbarTasksMenu extends Toolbar
 
     public boolean isMyTasksDisplayed()
     {
-        tasksLink.click();
+        getBrowser().waitUntilElementClickable(tasksLink).click();
         return browser.isElementDisplayed(myTasks);
     }
 
     public boolean isWorkflowsIveStartedDisplayed()
     {
-        tasksLink.click();
+        getBrowser().waitUntilElementClickable(tasksLink).click();
         return browser.isElementDisplayed(workflowsIveStarted);
     }
 
     public void clickMyTasks()
     {
-        tasksLink.click();
-        myTasks.click();
+        getBrowser().waitUntilElementClickable(tasksLink).click();
+        getBrowser().waitUntilElementClickable(myTasks).click();
     }
 
     public void clickWorkflowsIveStarted()
     {
-        tasksLink.click();
-        workflowsIveStarted.click();
+        getBrowser().waitUntilElementClickable(tasksLink).click();
+        getBrowser().waitUntilElementClickable(workflowsIveStarted).click();
     }
 }

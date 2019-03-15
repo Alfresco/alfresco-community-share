@@ -50,6 +50,7 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
     
     public void clickOnTopicButton()
     {
+        getBrowser().waitUntilElementClickable(topicsButton);
         topicsButton.click();
     }
     

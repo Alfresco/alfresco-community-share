@@ -134,6 +134,8 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
         customizeUserDashboard.clickOk();
 
         LOG.info("Step 4 - On Site Dashboard page verify that several dashlets have an expand ");
+        getBrowser().executeJavaScript("scroll(0, 250);");
+        getBrowser().waitInSeconds(2);
         Assert.assertTrue(mySitesDashlet.isDashletExpandable());
         Assert.assertTrue(savedSearchDashlet.isDashletExpandable());
 

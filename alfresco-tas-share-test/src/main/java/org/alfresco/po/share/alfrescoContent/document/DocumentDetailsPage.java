@@ -633,8 +633,9 @@ import java.util.List;
 
     public void clickDeleteComment(String comment)
     {
+        getBrowser().waitUntilElementVisible(commContent);
         browser.mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
-        deleteCommentButton.click();
+        getBrowser().waitUntilElementClickable(deleteCommentButton).click();
     }
 
     public void clickEditComment(String comment)

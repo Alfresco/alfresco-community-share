@@ -197,7 +197,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickButton("Copy");
         LOG.info("STEP7: Verify that the files have been copied");
         documentLibraryPage.navigate(siteForCopy);
-        getBrowser().waitInSeconds(1);
+        getBrowser().waitInSeconds(5);
         assertTrue(documentLibraryPage.isFileDisplayed(docName1));
         contentService.deleteDocument(userName, password, siteForCopy, docName1);
         cleanupAuthenticatedSession();
@@ -262,7 +262,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         searchPage.clickSelectedItemsDropdown();
         searchPage.clickOptionFromSelectedItemsDropdown("Delete");
         searchPage.deleteDocuments(true);
-        getBrowser().waitInSeconds(1);
+        getBrowser().waitInSeconds(5);
         LOG.info("STEP3: Verify that the file has been deleted.");
         toolbar.search(docForDelete);
         status = searchPage.isResultFound(docForDelete);

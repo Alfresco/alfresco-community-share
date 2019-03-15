@@ -5,6 +5,11 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
+import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
+import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -33,6 +38,16 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
 
     @Autowired private EditPropertiesPage editPropertiesPage;
 
+    @Autowired AdminToolsPage adminToolsPage;
+
+    @Autowired ModelManagerPage modelManagerPage;
+
+    @Autowired CreateModelDialogPage createModelDialogPage;
+
+    @Autowired ModelDetailsPage modelDetailsPage;
+
+    @Autowired CreateCustomTypeDialog createCustomTypeDialog;
+
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
     private final String siteName = String.format("Site-%s", RandomData.getRandomAlphanumeric());
@@ -43,6 +58,8 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
         siteService.create(userName, password, domain, siteName, "Description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
+
+
     }
 
     @TestRail(id = "C7163")
@@ -62,7 +79,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertEquals(changeContentTypeDialog.getDialogTitle(), "Change Type", "Displayed dialog: ");
 
         LOG.info("STEP2: Select 'Article' from 'New Type' dropdown and click 'Cancel' button");
-        changeContentTypeDialog.selectOption("Article");
+        changeContentTypeDialog.selectOption("Smart Folder Template");
         changeContentTypeDialog.clickButton("Cancel");
         ArrayList<String> propertiesList = new ArrayList<>(Arrays.asList("Template Name:", "Primary Image:", "Secondary Image:", "Related Articles:"));
         assertEquals(documentDetailsPage.checkPropertiesAreNotDisplayed(propertiesList), "Given list isn't displayed", " property displayed.");
@@ -77,6 +94,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void changeTypeFolder()
     {
+
         String folderName = String.format("Folder-C7166-%s", RandomData.getRandomAlphanumeric());
         contentService.createFolder(userName, password, folderName, siteName);
 
@@ -104,6 +122,10 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertTrue(changeContentTypeDialog.isButtonDisplayed("OK"), "'OK' button is displayed.");
         assertTrue(changeContentTypeDialog.isButtonDisplayed("Cancel"), "'Cancel' button is displayed.");
 
+
+      //  changeContentTypeDialog.clickButton("Cancel");
+
+        /*
         LOG.info("STEP5: Select 'ws:website' from 'New Type' dropdown and click 'Ok' button");
         changeContentTypeDialog.selectOption("ws:website");
         changeContentTypeDialog.clickButton("OK");
@@ -115,6 +137,8 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
         assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Host Name", "Host Port ", "Web App Context ",
                 "Site Configuration", "Site Languages", "Feedback Configuration", "Publish Target"), "Displayed properties:");
+
+                */
     }
 
     @TestRail(id = "C7167")
