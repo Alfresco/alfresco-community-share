@@ -5,12 +5,12 @@ node('ff55') {
     	choice(choices: 'Firefox\nChrome', description: 'Browser', name: 'Browser'),
     		string(defaultValue: '172.29.100.143', description: '', name: 'AlfrescoHost'),
     		string(defaultValue: '8080', description: '', name: 'AlfrescoPort'),
-    		string(defaultValue: '8081', description: '', name: 'SharePort'),
+    		string(defaultValue: '8080', description: '', name: 'SharePort'),
     		booleanParam(defaultValue: false, description: '', name: 'UseJolokiaAgent'),
     		string(defaultValue: 'src/test/resources/share-po-runner-suite.xml' , description: '', name: 'SuiteXmlFile'),
     		booleanParam(defaultValue: false, description: '', name: 'RunTestsMarkedAsBugs'),
     		string(defaultValue: 'sanity', description: '', name: 'IncludeGroups'),
-    		string(defaultValue: 'google-docs,unit', description: '', name: 'ExcludeGroups'),
+    		string(defaultValue: 'google-docs,unit,SmartFolders,ExternalUsers', description: '', name: 'ExcludeGroups'),
     		booleanParam(defaultValue: false, description: 'Enable or Disable the ability of adding tests and TestRail', name: 'EnableTestRailIntegration'),
     		string(defaultValue: '5.2.N-${AlfrescoHost}', description: 'The name of the Test Run In TestRail (requires *EnableTestRailIntegration*)', name: 'TestRailTestRunName')
     		])
