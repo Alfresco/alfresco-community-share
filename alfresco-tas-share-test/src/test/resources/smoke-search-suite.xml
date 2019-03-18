@@ -19,14 +19,7 @@
 					<exclude name="verifyDetailedView" />
 					<exclude name="verifyGalleryView" />
 				</methods>
-			</class>
-			<class name="org.alfresco.share.searching.LiveSearchTests">
-				<methods>
-					<exclude name="testCheckLiveSearchScopeOptionsRepoContext" />
-					<exclude name="testLiveSearchInRepositoryResults" />
-					<exclude name="testLiveSearchSitesResult" />
-				</methods>
-			</class>
+			</class>			
 			<class name="org.alfresco.share.searching.SiteFinderTests" />
 			<class name="org.alfresco.share.searching.SearchManagerTests">
 				<methods>
