@@ -130,7 +130,7 @@ public class SiteFinderTests extends ContextAwareWebTest
         siteFinderPage.navigate();
 
         LOG.info("STEP1: Enter the private site's name into the search field and click the search button");
-        siteFinderPage.searchSiteWithRetry(siteName2);
+        siteFinderPage.searchSite(siteName2);
         assertEquals(siteFinderPage.getSearchMessage(), language.translate("siteFinder.noResults"), "Displayed message:");
         assertFalse(siteFinderPage.checkSiteWasFound(siteName2), "No results displayed in search result section");
 

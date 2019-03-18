@@ -34,7 +34,7 @@ import java.util.List;
 
     @RenderWebElement @FindBy(id = "FCTSRCH_TOP_MENU_BAR_SCOPE_LABEL") private WebElement searchInLabel;
 
-    @RenderWebElement @FindBy(css = "span[class*='confirmationButton'] ") private WebElement searchButton;
+    @FindBy(css = "span[class*='confirmationButton'] ") private WebElement searchButton;
 
     @FindBy(css = "[id=FCTSRCH_SCOPE_SELECTION_MENU_text]") private WebElement searchInDropdown;
 

@@ -25,17 +25,7 @@
 				<methods>
 					<exclude name="createNewSearchFilter" />
 				</methods>
-			</class>
-			<class name="org.alfresco.share.searching.SearchHighlightTests">
-				<methods>
-					<exclude name="highlightSearchByDescription" />
-					<exclude name="highlightSearchByNameOfBlog" />
-					<exclude name="highlightSearchByPropertyDescription" />
-					<exclude name="highlightSearchByPropertyTitle" />
-					<exclude name="highlightSearchByTitle" />
-					<exclude name="highlightSearchWithConjunctions" />
-				</methods>
-			</class>
+			</class>		
 		</classes>
 
 	</test>

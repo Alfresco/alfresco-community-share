@@ -71,8 +71,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
         searchField.clear();
         searchField.sendKeys(site);
         browser.mouseOver(searchButton);
-        getBrowser().waitUntilElementClickable(searchButton).click();
-        this.renderedPage();
+        getBrowser().waitUntilElementClickable(searchButton).click();      
     }
 
     public boolean isSiteFound(String siteName)
