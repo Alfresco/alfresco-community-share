@@ -1,0 +1,49 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ShareSmokeSuite-Docker" preserve-order="true"
+	parallel="false" thread-count="1">
+	<listeners>
+		<listener
+			class-name="org.alfresco.utility.report.HtmlReportListener" />
+		<listener
+			class-name="org.alfresco.utility.testng.OSTestMethodSelector" />
+	</listeners>
+
+	<!-- I've excluded the tests that are constantly failing or marked with 
+		BUG -->
+	<!-- this should be investigated by QA team -->
+	<test name="Search">
+		<classes>
+			<class name="org.alfresco.share.searching.BasicSearchTests">
+				<methods>
+					<exclude name="verifySearchPage" />
+					<exclude name="verifyDetailedView" />
+					<exclude name="verifyGalleryView" />
+				</methods>
+			</class>
+			<class name="org.alfresco.share.searching.LiveSearchTests">
+				<methods>
+					<exclude name="testCheckLiveSearchScopeOptionsRepoContext" />
+					<exclude name="testLiveSearchInRepositoryResults" />
+					<exclude name="testLiveSearchSitesResult" />
+				</methods>
+			</class>
+			<class name="org.alfresco.share.searching.SiteFinderTests" />
+			<class name="org.alfresco.share.searching.SearchManagerTests">
+				<methods>
+					<exclude name="createNewSearchFilter" />
+				</methods>
+			</class>
+			<class name="org.alfresco.share.searching.SearchHighlightTests">
+				<methods>
+					<exclude name="highlightSearchByDescription" />
+					<exclude name="highlightSearchByNameOfBlog" />
+					<exclude name="highlightSearchByPropertyDescription" />
+					<exclude name="highlightSearchByPropertyTitle" />
+					<exclude name="highlightSearchByTitle" />
+					<exclude name="highlightSearchWithConjunctions" />
+				</methods>
+			</class>
+		</classes>
+
+	</test>
+</suite>

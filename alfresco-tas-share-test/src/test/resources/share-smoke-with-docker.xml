@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ShareSmokeSuite-Docker" preserve-order="true"
+	parallel="false" thread-count="2">
+	<listeners>
+		<listener class-name="org.alfresco.utility.report.HtmlReportListener" />		
+	</listeners>
+	<!-- in order for this to work you need to pass -Denvironment=docker to 
+		use the docker.properties -->
+	<test name="Share">
+		<classes>
+			<class name="org.alfresco.share.SeleniumValidationTest"></class>
+			<class name="org.alfresco.share.LoginTests"></class>
+		</classes>
+	</test>
+</suite>

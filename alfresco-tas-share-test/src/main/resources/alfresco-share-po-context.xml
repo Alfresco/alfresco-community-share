@@ -21,4 +21,11 @@
 		<constructor-arg type="java.lang.String" value="${locale.language}" />
 		<constructor-arg type="java.lang.String" value="${locale.country}" />
 	</bean>
+	
+	 <bean id="alfrescoHttpClientFactory" class="org.alfresco.dataprep.AlfrescoHttpClientFactory">
+        <property name="host" value="${alfresco.server.http}" />
+        <property name="port" value="${alfresco.port.http}" />
+        <property name="scheme" value="http" />
+        <property name="sharePort" value="${share.port.http}" />        
+    </bean>
 </beans>
