@@ -61,8 +61,7 @@ services:
       - 5672:5672 # AMQP
       - 61616:61616 # OpenWire
       - 61613:61613 # STOMP
-  
-  # https://www.pawangaria.com/post/docker/debugging-docker-container-with-realvnc/
+    
   selenium-firefox:
     image: selenium/standalone-firefox-debug:3.11
     environment:
