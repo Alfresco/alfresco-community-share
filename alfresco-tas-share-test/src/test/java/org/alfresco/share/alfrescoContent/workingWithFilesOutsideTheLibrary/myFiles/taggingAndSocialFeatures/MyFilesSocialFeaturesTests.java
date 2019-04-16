@@ -62,6 +62,9 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         social.clickLikeButton(testFile);
         Assert.assertEquals(social.getNumberOfLikes(testFile), 1, "The number of likes is not correct");
         Assert.assertTrue(social.isLikeButtonEnabled(testFile), "Like button is not enabled");
+
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
     @TestRail(id="C13661")
@@ -91,6 +94,9 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         social.clickLikeButton(folderName);
         Assert.assertEquals(social.getNumberOfLikes(folderName), 1, "The number of likes is not correct");
         Assert.assertTrue(social.isLikeButtonEnabled(folderName), "Like button is not enabled");
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+
     }
 
     @TestRail(id="C13662")
@@ -118,6 +124,8 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on Unlike");
         social.clickUnlike(testFile);
         Assert.assertEquals(social.getNumberOfLikes(testFile), 0, "The number of likes is not correct");
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
     @TestRail(id="C13663")
@@ -149,6 +157,8 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on Unlike");
         social.clickUnlike(folderName);
         Assert.assertEquals(social.getNumberOfLikes(folderName), 0, "The number of likes is not correct");
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
     @TestRail(id="C12841")
@@ -177,6 +187,8 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         LOG.info("STEP3: Navigate to My Files page.");
         sitePage.clickMyFilesLink();
         assertEquals(social.getNumberOfComments(testFile), 1, "Number of comments=");
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
     @TestRail(id="C13664")
@@ -210,5 +222,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         LOG.info("STEP3: Navigate to My Files page");
         sitePage.clickMyFilesLink();
         assertEquals(social.getNumberOfComments(folderName), 1, "Number of comments=");
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 }

@@ -12,6 +12,8 @@ import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -46,6 +48,13 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+    }
+
     public void setup(String id) {
 
         LOG.info("Preconditions for test " + id);
@@ -67,6 +76,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
         getBrowser().waitInSeconds(2);
         contactListSelectedContent.setBrowser(getBrowser());
         contactListSelectedContent.clickSelectAllOption();
+
     }
 
     @TestRail(id = "C6396")
@@ -104,6 +114,8 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
             contacts.clear();
             results.clear();
         }
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id = "C6398")
@@ -139,6 +151,8 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
             Assert.assertEquals(row.size(), 0, "Item on line " + i + " was not deleted");
             contacts.clear();
         }
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id = "C6407")
@@ -172,6 +186,8 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
             Assert.assertFalse(contactListSelectedContent.isItemChecked(contacts), "Item at row " + i + " is checked");
             contacts.clear();
         }
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
 }

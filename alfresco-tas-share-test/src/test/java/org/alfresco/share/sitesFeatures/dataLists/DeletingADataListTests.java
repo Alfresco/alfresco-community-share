@@ -13,9 +13,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class DeletingADataListTests extends ContextAwareWebTest
 {
@@ -53,6 +51,20 @@ public class DeletingADataListTests extends ContextAwareWebTest
         createDataListPopUp.clickCancelFormButton();
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         getBrowser().refresh();
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanupMethod()
+    {
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
     
     @TestRail(id = "C5911")

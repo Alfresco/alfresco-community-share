@@ -95,6 +95,38 @@ public class DeleteSiteTests extends ContextAwareWebTest
     }
     SoftAssert softAssert = new SoftAssert();
 
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userC2280);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2280);
+        userService.delete(adminUser,adminPassword, userC2281);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2281);
+        userService.delete(adminUser,adminPassword, userc2282);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userc2282);
+        userService.delete(adminUser,adminPassword, userC2283);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2283);
+        userService.delete(adminUser,adminPassword, userC2284);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2284);
+
+        userService.delete(adminUser,adminPassword, userC2289_1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2289_1);
+        userService.delete(adminUser,adminPassword, userC2289_2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2289_2);
+        userService.delete(adminUser,adminPassword, userC2291);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2291);
+
+
+        siteService.delete(adminUser,adminPassword,siteNameC2280_1 );
+        siteService.delete(adminUser,adminPassword,siteNameC2280_2 );
+        siteService.delete(adminUser,adminPassword,siteNameUserCanNotDelete );
+        siteService.delete(adminUser,adminPassword,siteNameC2284 );
+        siteService.delete(adminUser,adminPassword,siteNameC2291 );
+        siteService.delete(adminUser,adminPassword,siteNameC2292 );
+
+
+    }
+
     @TestRail(id = "C2280")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsManagerFromSiteFinder() {
@@ -134,6 +166,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     public void deleteSiteAsManagerFromDashlet() {
         setupAuthenticatedSession(userC2280, password);
         LOG.info("STEP1&2: Hover over the created site from \"My sites\" dashlet. Click on \"Delete\" button");
+        getBrowser().refresh();
         mySitesDashlet.clickDeleteSiteIconForSite(siteNameC2280_2);
         assertEquals(deleteSiteDialog.isPopupDisplayed(), true, "Delete popup is displayed.");
         assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2280_2 + "''?"), true, "Confirm delete message is correct.");
@@ -288,15 +321,5 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertEquals(siteDashboardPage.getCurrentUrl(), url.replace(":80/","/"), "User is successfully redirected to the site dashboard.");
         cleanupAuthenticatedSession();
     }
-    @AfterClass(alwaysRun = true)
-    public void aftertest() {
 
-        siteService.delete(adminUser,adminPassword,siteNameC2280_1 );
-        siteService.delete(adminUser,adminPassword,siteNameC2280_2 );
-        siteService.delete(adminUser,adminPassword,siteNameUserCanNotDelete );
-        siteService.delete(adminUser,adminPassword,siteNameC2284 );
-        siteService.delete(adminUser,adminPassword,siteNameC2291 );
-        siteService.delete(adminUser,adminPassword,siteNameC2292 );
-
-    }
 }

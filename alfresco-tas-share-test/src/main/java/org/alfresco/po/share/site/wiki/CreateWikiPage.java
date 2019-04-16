@@ -106,6 +106,13 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
         return (WikiListPage) wikiListPage.renderedPage();
     }
 
+
+    public void cancelWikiPage()
+    {
+        cancelButton.click();
+        browser.waitInSeconds(2);
+    }
+
     /**
      * Method used to add tag
      */

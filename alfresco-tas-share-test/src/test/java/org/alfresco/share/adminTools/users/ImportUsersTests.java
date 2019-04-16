@@ -54,6 +54,13 @@ public class ImportUsersTests extends ContextAwareWebTest
         usersPage.searchUser(importedUser);
         assertTrue(usersPage.verifyUserIsFound(importedUser), "User " + importedUser + " found");
 
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+
+        userService.delete(adminUser,adminPassword, importedUser);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + importedUser);
+
+
     }
 
 }

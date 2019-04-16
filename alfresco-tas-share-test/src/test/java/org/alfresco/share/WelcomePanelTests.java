@@ -9,6 +9,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -38,6 +39,16 @@ public class WelcomePanelTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName1, password, "@tests.com", userName1, userName1);
         userService.create(adminUser, adminPassword, userName2, password, "@tests.com", userName2, userName2);
         userService.create(adminUser, adminPassword, userName3, password, "@tests.com", userName3, userName3);
+    }
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
+        userService.delete(adminUser,adminPassword, userName2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
+        userService.delete(adminUser,adminPassword, userName3);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName3);
     }
 
     @TestRail(id = "C202855")

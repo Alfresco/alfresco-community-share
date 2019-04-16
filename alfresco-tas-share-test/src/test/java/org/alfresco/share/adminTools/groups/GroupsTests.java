@@ -67,6 +67,9 @@ public class GroupsTests extends ContextAwareWebTest
         groupService.removeGroup(adminUser, adminPassword, C9469group);
         groupService.removeGroup(adminUser, adminPassword, C9471group);
         groupService.removeGroup(adminUser, adminPassword, C9460group);
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser, adminPassword,siteName);
     }
 
     @TestRail(id = "C9462")
@@ -98,6 +101,7 @@ public class GroupsTests extends ContextAwareWebTest
         groupsPage.editGroup(C9465group, C9465groupEdited, true);
 
         LOG.info("Step 2: Verify the edited group is present in the groups list.");
+        getBrowser().waitInSeconds(7);
         groupsPage.checkGroupIsInList(C9465EditedName);
         groupsPage.checkGroupIsRemoved(C9465group);
     }

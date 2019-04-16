@@ -16,8 +16,12 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -61,6 +65,8 @@ public class CreateLinksTests extends ContextAwareWebTest
     @Autowired
     private SearchPage searchPage;
 
+
+
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String userName = "user" + uniqueIdentifier;
     private final String firstName = "user";
@@ -88,6 +94,16 @@ public class CreateLinksTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName2, CMISUtil.DocumentType.TEXT_PLAIN, fileName2, content);
         contentService.createDocument(userName, password, siteName2, CMISUtil.DocumentType.TEXT_PLAIN, fileName3, content);
         setupAuthenticatedSession(userName, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser, adminPassword,siteName1);
+        siteService.delete(adminUser, adminPassword,siteName2);
+
     }
 
     @TestRail(id = "C42605")
@@ -213,7 +229,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
         LOG.info("STEP2: Select a destination folder and click \"Create Link\" button");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLink();
         LOG.info("STEP3: Go to the destination location and verify the content");
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
@@ -229,7 +245,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileName2, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName2 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLink();
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         assertTrue(sharedFilesPage.isContentNameDisplayed(linkFile2), linkFile2 + " is displayed in destination of copy file, Shared Files.");
@@ -239,8 +255,9 @@ public class CreateLinksTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileName2, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName2 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
-        assertEquals(copyMoveUnzipToDialog.getMessage(), language.translate("documentLibrary.contentActions.createLink.errorMessage"), "Displayed message= ");
+        copyMoveUnzipToDialog.clickCreateLink();
+        assertEquals(copyMoveUnzipToDialog.getMessage2(), language.translate("documentLibrary.contentActions.createLink.errorMessage"), "Displayed message= ");
+
     }
 
     @TestRail(id = "C42621")
@@ -255,7 +272,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName3 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton("Recent Sites");
         copyMoveUnzipToDialog.clickSite(siteName2);
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLink();
         documentLibraryPage.selectDocumentLibraryItemRow(linkFile3);
         assertTrue(documentLibraryPage.isContentNameDisplayed(linkFile3),
                 linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
@@ -277,7 +294,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName3 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton("Recent Sites");
         copyMoveUnzipToDialog.clickSite(siteName2);
-        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        copyMoveUnzipToDialog.clickCreateLink();
         documentLibraryPage.selectDocumentLibraryItemRow(linkFile3);
         assertTrue(documentLibraryPage.isContentNameDisplayed(linkFile3),
                 linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);

@@ -8,6 +8,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -39,6 +40,21 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
         userService.createSiteMember(adminUser, adminPassword, userCollaborator, siteName, "SiteCollaborator");
         userService.createSiteMember(adminUser, adminPassword, userSiteManager, siteName, "SiteManager");
     }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userConsumer);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userConsumer);
+        userService.delete(adminUser,adminPassword, userContributor);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
+        userService.delete(adminUser,adminPassword, userCollaborator);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userCollaborator);
+        userService.delete(adminUser,adminPassword, userSiteManager);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userSiteManager);
+        siteService.delete(adminUser,adminPassword,siteName );
+    }
+
 
     @TestRail(id ="C8723")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})

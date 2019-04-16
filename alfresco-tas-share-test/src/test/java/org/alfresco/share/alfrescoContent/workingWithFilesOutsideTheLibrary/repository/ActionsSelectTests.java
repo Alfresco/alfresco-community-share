@@ -11,6 +11,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -38,6 +39,15 @@ public class ActionsSelectTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
         setupAuthenticatedSession(user, password);            
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+      contentService.deleteContentByPath(adminUser, adminPassword, path+"/"+folderName);
+      contentService.deleteContentByPath(adminUser, adminPassword, path+"/"+fileName);
+      contentService.deleteContentByPath(adminUser, adminPassword, path);
+
     }
 
     @TestRail(id = "8163")

@@ -13,6 +13,7 @@ import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -49,7 +50,17 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
         contentAspects.addGeographicAspect(user, password, siteName, docName, longitude, latitude);
         setupAuthenticatedSession(user, password);
     }
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser, adminPassword,siteName);
+    }
 
+
+    /*
+    //Google Maps will no longer be supported by Share
     @Bug(id ="ACE-5219", description = "view in Google Maps is not working")
     @TestRail (id="C5921")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
@@ -77,4 +88,5 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
         documentLibraryPage.clickOnFileInGoogleMaps();
         Assert.assertEquals(documentDetailsPage.getFileName(), docName, "Document preview is not displayed when file is accessed form the Google Maps view");
     }
+    */
 }

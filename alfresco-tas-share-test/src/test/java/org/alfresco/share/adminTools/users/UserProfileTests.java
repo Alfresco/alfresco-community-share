@@ -15,6 +15,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -72,6 +73,25 @@ public class UserProfileTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, c9426User, password, c9426User + domain, "c9426firstName", "c9426lastName");
         userService.create(adminUser, adminPassword, c9434User, password, c9434User + domain, "c9434firstName", "c9434lastName");
         setupAuthenticatedSession(adminUser, adminPassword);
+    }
+    @AfterClass(alwaysRun = true)
+    public void afterClass()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        userService.delete(adminUser,adminPassword, c9416User);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9416User);
+        userService.delete(adminUser,adminPassword, c9417User);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9417User);
+        userService.delete(adminUser,adminPassword, c9427User);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9427User);
+        userService.delete(adminUser,adminPassword, c9426User);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9426User);
+        userService.delete(adminUser,adminPassword, c9434User);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9434User);
+
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9431User);
+
     }
 
     @TestRail(id = "C9415")

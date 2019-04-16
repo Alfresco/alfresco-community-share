@@ -186,6 +186,11 @@ public class MyActivitiesTests extends ContextAwareWebTest
         LOG.info("Step 4: Click 'X' icon on balloon popup");
         myActivitiesDashlet.closeHelpBalloon();
         assertFalse(myActivitiesDashlet.isBalloonDisplayed(), "Help balloon isn't displayed");
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C2112")
@@ -267,6 +272,10 @@ public class MyActivitiesTests extends ContextAwareWebTest
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle, wikiPage);
          assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/wiki-page?title=" + wikiTitle), "'Wiki' page is opened.");
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+         siteService.delete(adminUser,adminPassword,siteName );
     }
 
 
@@ -336,6 +345,10 @@ public class MyActivitiesTests extends ContextAwareWebTest
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle, wikiPage);
          assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/wiki-page?title=" + wikiTitle), "'Wiki' page is opened.");
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
 
@@ -412,6 +425,10 @@ public class MyActivitiesTests extends ContextAwareWebTest
          menuNavigationBar.goTo(userDashboardPage);
          myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle, wikiListPage);
          assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/wiki"), "'Wiki' page is opened.");
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C2117")
@@ -450,5 +467,11 @@ public class MyActivitiesTests extends ContextAwareWebTest
         myActivitiesDashlet.selectOptionFromUserActivities("Everyone's activities");
         assertTrue(myActivitiesDashlet.isActivityPresentInActivitiesDashlet(activityUserA), "Activity link: " + activityUserA + " is present in My Activities dashlet.");
         assertTrue(myActivitiesDashlet.isActivityPresentInActivitiesDashlet(activityUserB), "Activity link: " + activityUserB + " is present in My Activities dashlet.");
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        userService.delete(adminUser,adminPassword, userNameB);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userNameB);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 }

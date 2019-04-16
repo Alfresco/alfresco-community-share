@@ -14,6 +14,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -78,6 +79,18 @@ public class BasicSearchTests extends ContextAwareWebTest
         sitePagesService.createDiscussion(userName1, password, siteName1, discussion, "text", null);
         sitePagesService.createBlogPost(userName1, password, siteName1, blogPost, "content of the blog", false, null);
         sitePagesService.createLink(userName1, password, siteName1, link, "url", "description of link", false, null);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser, adminPassword, userName1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
+        userService.delete(adminUser, adminPassword, userName2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
+
+        siteService.delete(adminUser, adminPassword, siteName1);
+        siteService.delete(adminUser, adminPassword, siteName2);
     }
 
     @TestRail(id = "C5933")

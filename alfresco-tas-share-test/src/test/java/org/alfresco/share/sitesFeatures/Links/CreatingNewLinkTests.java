@@ -12,6 +12,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -42,6 +43,13 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, testUser);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -113,6 +121,8 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
 
         getBrowser().close();
         getBrowser().switchTo().window(currentWindow);
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -188,6 +198,8 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
         getBrowser().navigate().back();
         linkPage.renderedPage();
         Assert.assertEquals(linkPage.getLinkTitle(), linkTitle, "Link not displayed in Liks list");
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -211,5 +223,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
         createLinkPage.typeLinkURL(linkURL);
         createLinkPage.clickCancelButton();
         Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 }

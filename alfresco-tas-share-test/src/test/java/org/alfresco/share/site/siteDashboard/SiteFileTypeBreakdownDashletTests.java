@@ -9,6 +9,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -48,6 +49,16 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
         siteService.create(user, password, domain, siteNameC5783, siteNameC5783, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteNameC5783, DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(user, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteNameC5785 );
+        siteService.delete(adminUser,adminPassword,siteNameC5783 );
+
     }
 
     @TestRail(id = "C5783")

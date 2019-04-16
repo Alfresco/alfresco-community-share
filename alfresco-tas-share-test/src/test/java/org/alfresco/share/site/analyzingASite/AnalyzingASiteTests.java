@@ -12,6 +12,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -113,6 +114,29 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
         contentService.createDocument(user3C2234, password, siteNameC2234, CMISUtil.DocumentType.TEXT_PLAIN, fileName1User3, fileContentUser3);
         contentService.createDocument(user4C2234, password, siteNameC2234, CMISUtil.DocumentType.TEXT_PLAIN, fileName1User4, fileContentUser4);
         contentService.createDocument(user4C2234, password, siteNameC2234, CMISUtil.DocumentType.HTML, fileName2User4, fileContentUser4);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+
+        userService.delete(adminUser,adminPassword, user1C2234);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1C2234);
+
+        userService.delete(adminUser,adminPassword, user2C2234);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2C2234);
+
+        userService.delete(adminUser,adminPassword, user3C2234);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user3C2234);
+
+        userService.delete(adminUser,adminPassword, user4C2234);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user4C2234);
+
+        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser,adminPassword,siteNameC2234 );
+
     }
 
     @TestRail(id="C2233")

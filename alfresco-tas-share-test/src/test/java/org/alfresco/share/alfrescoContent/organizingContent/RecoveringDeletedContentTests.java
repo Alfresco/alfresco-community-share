@@ -76,6 +76,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsOption("Delete");
         deleteDialog.clickDelete();
         ArrayList<String> expectedDisplayedContent1 = new ArrayList<>(Collections.singletonList(fileName3));
+        getBrowser().waitInSeconds(5);
         assertEquals(documentLibraryPage.getFilesList().toString(), expectedDisplayedContent1.toString(), "Displayed files in 'Documents' list=");
 
         LOG.info("STEP2: Open the user menu on the toolbar and click 'My Profile' then the 'Trashcan' tab.");
@@ -101,6 +102,9 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName2), fileName2 + " isn't displayed in Document Library.");
 
         cleanupAuthenticatedSession();
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser, adminPassword,siteName);
     }
 
     @TestRail(id = "C7571")
@@ -160,5 +164,8 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.getFoldersList().contains(folderName2), folderName2 + " isn't displayed in Document Library.");
 
         cleanupAuthenticatedSession();
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser, adminPassword,siteName);
     }
 }

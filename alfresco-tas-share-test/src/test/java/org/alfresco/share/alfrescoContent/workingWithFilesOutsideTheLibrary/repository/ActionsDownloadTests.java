@@ -10,6 +10,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -60,6 +61,14 @@ public class ActionsDownloadTests extends ContextAwareWebTest
         contentService.createFolderInRepository(adminUser, adminPassword, folderNameC8243, path);
 
         setupAuthenticatedSession(user, password);
+    }
+
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
     @TestRail(id = "C8240")

@@ -11,6 +11,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -43,6 +44,12 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+    }
     @TestRail(id = "C7546")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void selectItemsByCheckbox()
@@ -75,6 +82,8 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         LOG.info("STEP4: Click on the folder2 checkbox");
         documentLibraryPage.clickCheckBox(folderName2);
         assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
+        siteService.delete(adminUser, adminPassword,siteName);
+
     }
 
     @TestRail(id = "C7548")
@@ -166,6 +175,8 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         ArrayList<String> expectedContentList9 = new ArrayList<>(Arrays.asList(folderName1, folderName2, textFile, htmlFile, xmlFile));
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedContentList9), expectedContentList9.toString(), "Content not selected=");
         assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
+        siteService.delete(adminUser, adminPassword,siteName);
+
     }
 
     @TestRail(id = "C8410")
@@ -210,6 +221,8 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         startWorkflowPage.renderedPage();
         ArrayList<String> expectedItemsList = new ArrayList<>(Arrays.asList(htmlFile, textFile, xmlFile));
         assertEquals(startWorkflowPage.getItemsList(), expectedItemsList.toString(), "Start Workflow Page- 'Items' list=");
+        siteService.delete(adminUser, adminPassword,siteName);
+
     }
 
     @TestRail(id = "C7554")
@@ -265,5 +278,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         documentLibraryPage.renderedPage();
         assertEquals(documentLibraryPage.getFoldersList().toString(), expectedContentList3.toString(), "Document Library - displayed folders=");
         assertEquals(documentLibraryPage.getFilesList().toString(), expectedContentList3.toString(), "Document Library - displayed files=");
+        siteService.delete(adminUser, adminPassword,siteName);
+
     }
 }

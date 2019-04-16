@@ -83,5 +83,8 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
 
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("https://www.reuters.com"), "After clicking on RSS link, the title is: " + getBrowser().getCurrentUrl());
         closeWindowAndSwitchBack();
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 }

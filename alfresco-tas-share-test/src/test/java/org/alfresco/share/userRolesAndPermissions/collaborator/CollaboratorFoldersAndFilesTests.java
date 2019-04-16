@@ -20,6 +20,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -81,6 +82,15 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         userService.createSiteMember(adminUser, adminPassword, user, siteName, "SiteCollaborator");
         userService.createSiteMember(adminUser, adminPassword, user, siteName1, "SiteCollaborator");
         setupAuthenticatedSession(user, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser,adminPassword,siteName1 );
     }
 
     @TestRail(id = "C8814")
@@ -469,6 +479,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page=");
 
         LOG.info("Step 2: In the 'Comments' area of 'Folder Details' page write a comment and press 'Add Comment' button");
+        getBrowser().waitInSeconds(5);
         documentDetailsPage.addComment(comment);
         assertEquals(documentDetailsPage.getCommentContent(), comment, "Comment content is not as expected.");
 

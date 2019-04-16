@@ -62,6 +62,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     @FindBy(css = "div[id$='default-options-menu'] span")
     private List<WebElement> optionsList;
 
+
     private By optionsMenuDropDown = By.cssSelector("div[id*='default-options-menu'].visible");
     private By displayedOptionsListBy = By.xpath("//div[contains(@id, 'default-options-menu')]//li[not(contains(@class, 'hidden'))]");
 
@@ -150,6 +151,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private WebElement locateFolder;
 
 
+    @FindBy(css = ".yui-dt-col-fileName")
+    private List<WebElement> nrOfSharedElements;
+
+
     private WebElement selectViewInOptions(String viewName)
     {
         return browser.findElement(By.xpath("//div[contains(@id, '_default-options-menu')]//ul[@class= 'first-of-type']//span[text()='" + viewName + "']"));
@@ -158,6 +163,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private WebElement findItemInCarrouselFilmstripView(String contentName)
     {
         return browser.findElement(By.xpath("//div[contains(@class, 'alf-filmstrip-nav-item-thumbnail')]//div[text()='" + contentName + "']"));
+    }
+    public int getNrOfSharedElements()
+    {
+        return nrOfSharedElements.size();
     }
 
     private By renameIcon = By.cssSelector(".filename span[class='insitu-edit']");

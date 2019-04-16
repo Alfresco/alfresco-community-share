@@ -11,6 +11,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -40,11 +41,12 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     private String siteName2 = String.format("Site2-%s", RandomData.getRandomAlphanumeric());
     private String siteName3 = String.format("Site3-%s", RandomData.getRandomAlphanumeric());
     private final String fileName = "newavatar.jpg";
+   protected String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName3, siteName3, SiteService.Visibility.PUBLIC);
         contentService.uploadFileInSite(userName, password, siteName3, testDataFolder + fileName);
@@ -55,6 +57,14 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
         siteService.addDashlet(userName, password, siteName3, IMAGE_PREVIEW, TWO_COLUMNS_WIDE_RIGHT, 1, 1);
 
         setupAuthenticatedSession(userName, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser,adminPassword,siteName3 );
     }
 
     @TestRail(id = "C5414")

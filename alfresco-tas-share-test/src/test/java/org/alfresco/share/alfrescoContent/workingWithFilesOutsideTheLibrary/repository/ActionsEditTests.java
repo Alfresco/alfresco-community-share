@@ -16,6 +16,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -102,6 +103,20 @@ public class ActionsEditTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(editInAlfUsr, password, editInAlfrescoPath, DocumentType.TEXT_PLAIN, fileName, fileContent);
         contentService.createDocumentInRepository(editFileInGDUsr, password, editFileInGDPath, DocumentType.MSWORD, fileName, fileContent);
         contentService.createFolderInRepository(editFolderUsr, password, folderName, editFolderPath);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, editFileUsr);
+        userService.delete(adminUser,adminPassword, editFolderUsr);
+        userService.delete(adminUser,adminPassword, editInAlfUsr);
+        userService.delete(adminUser,adminPassword, editFileInGDUsr);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + editFileUsr);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + editFolderUsr);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + editInAlfUsr);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + editFileInGDUsr);
+
     }
 
     @TestRail(id = "C7737")
@@ -248,7 +263,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         docsCommon.confirmFormatUpgrade();
         getBrowser().waitInSeconds(7);
         docsCommon.switchToGoogleDocsWindowandAndEditContent(editedTitle, editedContent);
-
+        getBrowser().waitInSeconds(5);
         LOG.info("Step5: Verify the file is locked and Google Drive icon is displayed");
         Assert.assertTrue(docsCommon.isLockedIconDisplayed(), "Locked Icon is not displayed");
         Assert.assertTrue(docsCommon.isLockedDocumentMessageDisplayed(), "Message about the file being locked is not displayed");

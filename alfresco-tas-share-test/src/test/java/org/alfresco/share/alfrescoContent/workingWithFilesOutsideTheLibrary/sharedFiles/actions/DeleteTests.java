@@ -42,6 +42,7 @@ public class DeleteTests extends ContextAwareWebTest
         contentService.createFolderInRepository(adminUser, adminPassword, folderName2, path);
     }
 
+
     @TestRail(id = "C8014")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void deleteDocument()
@@ -108,6 +109,9 @@ public class DeleteTests extends ContextAwareWebTest
     @AfterClass
     public void cleanUp()
     {
+        userService.delete(adminUser, adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+
         contentService.deleteContentByPath(adminUser, adminPassword, path + docName2);
         contentService.deleteContentByPath(adminUser, adminPassword, path + folderName2);
     }

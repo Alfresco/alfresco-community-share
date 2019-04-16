@@ -17,6 +17,7 @@ import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -66,6 +67,15 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         contentService.uploadFileInSite(userName, password, siteName, pptxPath);
         newVersionFilePath = testDataFolder + newVersionFileName;
         setupAuthenticatedSession(userName, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @BeforeMethod(alwaysRun = true)

@@ -17,6 +17,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -92,6 +93,14 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         contentService.createDocument(adminUser, adminPassword, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileC8907, testContent);
         contentService.createDocument(adminUser, adminPassword, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileC8908, testContent);
         contentService.createDocument(adminUser, adminPassword, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileC8909, testContent);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -348,12 +357,14 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
 
     public void consumerLocateFile()
     {
-        documentLibraryPage.navigate(siteName);
+        getBrowser().waitInSeconds(12);
 
+        documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: In Documents Library, go to Documents sections and select Recently Added.");
         documentLibraryPage.clickDocumentsFilterOption("Recently Added");
 
         LOG.info("Step 2: Mouse over testFile and confirm the presence of Locate File.");
+
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileC8907, "Locate File"));
 
         LOG.info("Step 3: Click Locate File");

@@ -40,9 +40,14 @@ public class CategoryManagerTests extends ContextAwareWebTest
         categoryManagerPage.navigate();
     }
 
+
+
     @AfterClass
     public void afterClassDeleteAddedCategories()
     {
+        userService.deleteCategory(adminUser, adminPassword, category9295);
+        userService.deleteCategory(adminUser, adminPassword, categoryEdited);
+
         for (String categoryName : Arrays.asList(category9295, categoryEdited))
             if( userService.categoryExists(adminUser, adminPassword, categoryName))
                 userService.deleteCategory(adminUser, adminPassword, categoryName);
@@ -71,6 +76,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Verify the category is added in the 'Category Manager' page.");
         categoryManagerPage.navigate();
+        getBrowser().waitInSeconds(8);
         Assert.assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category displayed");
     }
 

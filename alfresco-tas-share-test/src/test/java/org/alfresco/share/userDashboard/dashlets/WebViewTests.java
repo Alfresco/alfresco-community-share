@@ -13,6 +13,7 @@ import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -37,6 +38,13 @@ public class WebViewTests extends ContextAwareWebTest{
         userService.addDashlet(userName, password, UserDashlet.WEB_VIEW, DashletLayout.THREE_COLUMNS, 3, 1);
 
         setupAuthenticatedSession(userName, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
     
     @TestRail(id = "C2143")

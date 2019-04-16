@@ -8,6 +8,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -26,6 +27,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest {
     private final String zipFile = "testFileC8256.zip";
     private final String zipContent = "testFile1";
     private final String acpFile = "archiveC8257.acp";
+    private final String acpContent= "fileC8257";
    
     @BeforeClass(alwaysRun = true)
     public void setupTest() {
@@ -34,6 +36,16 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest {
         contentService.uploadFileInRepository(adminUser, adminPassword, null, testDataFolder + zipFile);
         contentService.uploadFileInRepository(adminUser, adminPassword, null, testDataFolder + acpFile);
     }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        contentService.deleteContentByPath(adminUser, adminPassword,  zipFile);
+        contentService.deleteContentByPath(adminUser, adminPassword,  acpFile);
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+    }
+
 
     @TestRail(id = "C8256")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
@@ -57,6 +69,8 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest {
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         repositoryPage.clickOnFolderName(user);
         assertTrue(repositoryPage.isContentNameDisplayed(zipContent), "content is displayed, " + zipContent);
+
+
     }
     
     @TestRail(id ="C8257")
@@ -84,5 +98,10 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest {
         repositoryPage.getDocumentListHeader();
         repositoryPage.selectDocumentLibraryItemRow("fileC8257");
         assertTrue(repositoryPage.isContentNameDisplayed("fileC8257"), acpFile + " is not displayed " );
+
+   //     contentService.deleteContentByPath(adminUser, adminPassword,  "User Homes/"+ user+"/"+acpContent);
+
+   //     contentService.deleteContentByPath(adminUser, adminPassword,  "User Homes/"+ user);
+
     }
 }

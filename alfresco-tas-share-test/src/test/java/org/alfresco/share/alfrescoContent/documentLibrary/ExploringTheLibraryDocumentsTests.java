@@ -9,6 +9,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,6 +34,14 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         userService.create(adminUser, adminPassword, user1, password, user1+"@tests.com", user1, user1);
         setupAuthenticatedSession(user, password);
+    }
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        userService.delete(adminUser,adminPassword, user1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
     }
 
     @TestRail(id ="C6320")
@@ -66,6 +75,8 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName1), "File-6320-1 is not displayed");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName2), 6);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName2), "File-6320-2 is not displayed");
+        siteService.delete(adminUser, adminPassword,siteName);
+
     }
    
     @TestRail(id = "C6321")
@@ -73,7 +84,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     public void viewImEditingFiles()
     {
         String siteNameC6321 = String.format("C6321SiteName%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+     //   userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteNameC6321, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
         String docName = "testFile1";
@@ -103,6 +114,10 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "testFile1 is not displayed in the list of files currently beeing edited");
         assertEquals(documentLibraryPage.getInfoBannerText(docName), "This document is locked by you for offline editing.",
                 "this document is locked by you message is not displayed");
+   //     userService.delete(adminUser,adminPassword, user);
+   //     contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser, adminPassword,siteNameC6321);
+
     }
 
     @TestRail(id = "C10597")
@@ -138,6 +153,8 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName1), "testFile2 is displayed and it should not be displayed");
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName2), "testFile3 is displayed and it should not be displayed");
         assertEquals(documentLibraryPage.getInfoBannerText(docName), expectedBannerText);
+        siteService.delete(adminUser, adminPassword,siteName);
+
     }
     
     @TestRail(id ="C6325")
@@ -176,6 +193,9 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         filters.clickMyFavouritesFilter();
         assertEquals(filters.getNoContentText(), "No content items");
+        siteService.delete(adminUser, adminPassword,siteName);
+
+
     }
     
     @TestRail(id ="C10598")
@@ -183,7 +203,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     public void viewRecentlyAddedFiles()
     {
         String siteNameC10598 = String.format("C10598-site%s", RandomData.getRandomAlphanumeric());
-        userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+    //    userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteNameC10598, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
         
@@ -206,5 +226,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName1), "File is not displayed in Recently added section");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(documentLibraryPage.selectDocumentLibraryItemRow(docName2), 6);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName2), "File is not displayed in Recently added section");
+
+        siteService.delete(adminUser, adminPassword,siteNameC10598);
     }
 }

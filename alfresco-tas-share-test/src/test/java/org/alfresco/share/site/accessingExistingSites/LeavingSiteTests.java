@@ -14,6 +14,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -50,6 +51,15 @@ public class LeavingSiteTests extends ContextAwareWebTest {
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, "firstName", "lastName");
     }
 
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
+        userService.delete(adminUser,adminPassword, user2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
+    }
+
     @TestRail(id = "C2926")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyLeaveSitePopup() {
@@ -80,7 +90,10 @@ public class LeavingSiteTests extends ContextAwareWebTest {
                 siteDashboard.clickSiteConfiguration();
                 siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
             }
+
         }
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id = "C2927")
@@ -118,6 +131,8 @@ public class LeavingSiteTests extends ContextAwareWebTest {
                 siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
             }
         }
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id = "C2928")
@@ -138,6 +153,8 @@ public class LeavingSiteTests extends ContextAwareWebTest {
          LOG.info("STEP 3: Go to \"User's Dashboard\" page and verify \"My Sites\" dashlet.");
          userDashboardPage.navigateByMenuBar();
          assertFalse(mySitesDashlet.isSitePresent(siteName), siteName + " should no longer be listed in the list of sites.");
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id = "C2930")
@@ -173,6 +190,8 @@ public class LeavingSiteTests extends ContextAwareWebTest {
                 siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
             }
         }
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id = "C2931")
@@ -209,5 +228,6 @@ public class LeavingSiteTests extends ContextAwareWebTest {
                 siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
             }
         }
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 }

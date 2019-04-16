@@ -11,6 +11,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -45,6 +46,14 @@ public class CopyingContentTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
     }
 
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+    }
+
+
     @TestRail(id = "C7377")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void copyFileToSharedFiles() {
@@ -71,6 +80,8 @@ public class CopyingContentTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(docName),
                 docName + " displayed in 'Shared Files'. List of 'Shared Files' documents=" + sharedFilesPage.getFilesList().toString());
         cleanupAuthenticatedSession();
+        siteService.delete(adminUser, adminPassword,siteName);
+
     }
 
     @TestRail(id = "C7378")
@@ -97,6 +108,8 @@ public class CopyingContentTests extends ContextAwareWebTest
         toolbar.clickSharedFiles();
         assertFalse(sharedFilesPage.isContentNameDisplayed(docName), docName + " displayed in 'Shared Files'");
         cleanupAuthenticatedSession();
+        siteService.delete(adminUser, adminPassword,siteName);
+
     }
 
     @TestRail(id = "C7388")
@@ -133,5 +146,8 @@ public class CopyingContentTests extends ContextAwareWebTest
         ArrayList<String> expectedFolderList = new ArrayList<>(Collections.singletonList(folderName));
         assertEquals(documentLibraryPage.getFoldersList().toString(), expectedFolderList.toString(), "Displayed folders=");
         cleanupAuthenticatedSession();
+        siteService.delete(adminUser, adminPassword,siteName1);
+        siteService.delete(adminUser, adminPassword,siteName2);
+
     }
 }

@@ -10,6 +10,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -36,6 +37,15 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lastName1");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, "lastName2");
         setupAuthenticatedSession(user1, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
+        userService.delete(adminUser,adminPassword, user2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -76,6 +86,8 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
         linkPage.clickSpecificTag("l3");
         linksList = Collections.singletonList("Link3");
         Assert.assertTrue(CollectionUtils.isEqualCollection(linkPage.getLinksTitlesList(), linksList), "Only 'Link3' should be displayed!");
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -109,5 +121,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
         linkPage.filterLinksBy("Recently Added");
         Assert.assertTrue(linkPage.isLinkDisplayed("Link1"), "Link1 should be displayed!");
         // Assert.assertFalse(linkPage.isLinkDisplayed("Link3"), "Link3 should not be displayed!"); - in case Link3 is created in the past
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 }

@@ -24,6 +24,11 @@ public abstract class ConfirmationDialog extends HtmlPage
     //@FindBy(css = "div.dialogDisplayed span.dijitDialogCloseIcon")
     protected WebElement dialogCloseButton;
 
+
+    @FindBy(css ="span[widgetid='ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM'] >span")
+    protected WebElement confirmDeletionButton;
+
+
     /**
      * Obtain the message of the dialog
      *
@@ -38,7 +43,8 @@ public abstract class ConfirmationDialog extends HtmlPage
      * Click on the OK button
      */
     public void clickOKButton() {
-        browser.waitUntilElementClickable(By.cssSelector("span[widgetid$='DIALOG_CONFIRM'] span"), 5).click();
+        getBrowser().waitUntilElementClickable(confirmDeletionButton).click();
+        getBrowser().clickJS(confirmDeletionButton);
     }
 
     /**

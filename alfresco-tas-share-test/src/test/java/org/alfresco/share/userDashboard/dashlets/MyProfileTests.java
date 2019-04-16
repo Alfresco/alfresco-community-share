@@ -30,7 +30,6 @@ public class MyProfileTests extends ContextAwareWebTest
     @Autowired
     EditUserProfilePage editUserProfilePage;
 
-    @Bug(id = "SHA-2227")
     @TestRail(id = "C2141")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
     public void myLimitedProfileDashlet()
@@ -47,6 +46,7 @@ public class MyProfileTests extends ContextAwareWebTest
         editUserProfilePage.setAboutInformation(userName, userName, jobTitle, "", "");
         editUserProfilePage.setContactInformation(telephone, "", userName + domain, skype, im, "");
         editUserProfilePage.uploadNewPhoto(testDataFolder + "newavatar.jpg");
+        getBrowser().waitInSeconds(7);
         editUserProfilePage.clickSave();
 
         userDashboardPage.navigate(userName);
@@ -101,5 +101,8 @@ public class MyProfileTests extends ContextAwareWebTest
         LOG.info("STEP 9 - Click \"Home\"");
         userDashboardPage.navigateByMenuBar();
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "Customize user dashboard option is displayed");
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 }

@@ -9,6 +9,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -57,6 +58,18 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
         sitePagesService.replyToDiscussion(user2, password, siteName, topic2Title, topicReply2);
         setupAuthenticatedSession(user1, password);
     }
+
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
+        userService.delete(adminUser,adminPassword, user2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
+        siteService.delete(adminUser,adminPassword,siteName );
+    }
+
 
     private void changeTopicDate(DateTime date)
     {
@@ -110,6 +123,7 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
         assertEquals(topicListPage.getTagAssociatedTopicsNo(topicTag1), "(2)", "Tag1 has 2 topics associated.");
         assertTrue(topicListPage.isTagDisplayed(topicTag2), "Tag2 is displayed in te tags list.");
         assertEquals(topicListPage.getTagAssociatedTopicsNo(topicTag2), "(1)", "Tag1 has 1 topic associated.");
+        getBrowser().waitInSeconds(10);
 
         LOG.info("STEP 2 - Click on tag1.");
         topicListPage.clickTag(topicTag1);

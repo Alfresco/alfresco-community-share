@@ -10,6 +10,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -34,7 +35,15 @@ public class ManagingCommentsTests extends ContextAwareWebTest
         contentService.createDocument(user, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, "content");
         setupAuthenticatedSession(user, password);
     }
-    
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser, adminPassword,siteName);
+    }
+
     @TestRail(id = "C9934")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void commentsDeleteComment()
