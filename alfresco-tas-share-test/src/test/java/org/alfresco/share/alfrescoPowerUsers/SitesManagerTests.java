@@ -13,7 +13,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -84,36 +83,6 @@ public class SitesManagerTests extends ContextAwareWebTest
         siteService.create(siteAdmin, password, domain, site4, siteDescription, SiteService.Visibility.PUBLIC);
         siteService.create(siteAdmin, password, domain, site5, siteDescription, SiteService.Visibility.PUBLIC);
         siteService.create(adminUser, adminPassword, domain, site6, siteDescription, SiteService.Visibility.PUBLIC);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        userService.delete(adminUser,adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-
-        userService.delete(adminUser,adminPassword, user3);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user3);
-
-        userService.delete(adminUser,adminPassword, user4);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user4);
-
-        userService.delete(adminUser,adminPassword, siteAdmin);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + siteAdmin);
-
-        userService.delete(adminUser,adminPassword, alfrescoAdmin);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + alfrescoAdmin);
-
-        siteService.delete(adminUser,adminPassword,site1);
-        siteService.delete(adminUser,adminPassword,site2);
-        siteService.delete(adminUser,adminPassword,site3);
-        siteService.delete(adminUser,adminPassword,site4);
-        siteService.delete(adminUser,adminPassword,site5);
-        siteService.delete(adminUser,adminPassword,site6);
-
     }
 
     @TestRail(id = "C8701")

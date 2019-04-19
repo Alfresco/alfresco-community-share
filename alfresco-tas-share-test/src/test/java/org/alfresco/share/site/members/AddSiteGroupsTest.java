@@ -14,7 +14,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -68,24 +67,6 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        userService.delete(adminUser,adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-
-        userService.delete(adminUser,adminPassword, user3);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user3);
-
-        siteService.delete(adminUser,adminPassword,siteName );
-
-    }
-
-
-
     @TestRail(id = "C2777")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addGroupWithManagerRole()
@@ -120,8 +101,6 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         assertTrue(mySitesDashlet.isSitePresent(siteName), "Site is visible for user: " + user2);
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C2778")
@@ -157,8 +136,6 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         assertTrue(mySitesDashlet.isSitePresent(siteName), "Site is visible for user: " + user2);
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C2779")
@@ -194,8 +171,6 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         assertTrue(mySitesDashlet.isSitePresent(siteName), "Site is visible for user: " + user2);
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C2780")
@@ -231,8 +206,6 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         assertTrue(mySitesDashlet.isSitePresent(siteName), "Site is visible for user: " + user2);
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C2784")
@@ -253,8 +226,6 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
         assertTrue(addSiteGroups.isSetRolesButtonDisplayed(), "Set roles button is not displayed");
         assertFalse(addSiteGroups.isAddGroupsButtonEnabled(), "Add groups button should be disabled by default");
         assertTrue(addSiteGroups.isGoBackToSiteGroupsDisplayed(), "Go back to site groups is not displayed");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C2812")
@@ -270,8 +241,6 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
         addSiteGroups.navigate(siteName);
         addSiteGroups.goBackToSiteGroupsPage();
         assertTrue(addSiteGroups.getCurrentUrl().contains("site-groups"), "Site groups page should be opened");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C2785")
@@ -309,8 +278,6 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
         addSiteGroups.searchForGroup(group2);
         assertTrue(addSiteGroups.isGroupReturned(group2), "Group was not found");
         assertFalse(addSiteGroups.isGroupReturned(group), "Group should not be returned");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C2786")
@@ -372,20 +339,6 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
         setupAuthenticatedSession(userManager, password);
         siteGroups.navigate(siteName);
         assertTrue(siteGroups.isAddGroupsButtonDisplayed(), "Add groups button should be visible for Manager user");
-
-        siteService.delete(adminUser,adminPassword,siteName );
-        userService.delete(adminUser,adminPassword, userManager);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userManager);
-
-        userService.delete(adminUser,adminPassword, userCollaborator);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userCollaborator);
-
-        userService.delete(adminUser,adminPassword, userConsumer);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userConsumer);
-
-        userService.delete(adminUser,adminPassword, userContributor);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
-
     }
 
     @TestRail(id = "C2846")
@@ -413,8 +366,5 @@ public class AddSiteGroupsTest extends ContextAwareWebTest
         siteUsers.goToAddUsersPage();
         addSiteUsers.searchForUser(user2);
         assertFalse(addSiteUsers.isSelectUserButtonEnabled(user2), "Select button should be disabled for already added user");
-
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 }

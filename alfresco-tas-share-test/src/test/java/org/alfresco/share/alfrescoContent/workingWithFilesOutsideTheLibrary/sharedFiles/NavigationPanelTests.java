@@ -42,7 +42,6 @@ public class NavigationPanelTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
     }
 
-
     @TestRail(id = "C7927")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void verifyFilters()

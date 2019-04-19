@@ -11,7 +11,6 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -41,13 +40,6 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
         contentService.createFolder(testUser, password, folderName, siteName);
         contentService.createDocumentInFolder(testUser, password, siteName, folderName, DocumentType.TEXT_PLAIN, docName, "Document content");
         setupAuthenticatedSession(testUser, password);
-    }
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
     }
 
     @TestRail(id = "C5883")

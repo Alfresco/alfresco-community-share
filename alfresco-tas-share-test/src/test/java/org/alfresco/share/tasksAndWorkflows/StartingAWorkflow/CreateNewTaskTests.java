@@ -15,7 +15,6 @@ import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -60,16 +59,6 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.HTML, docName1, docContent);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        userService.delete(adminUser,adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-            siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @Bug(id = "MNT-17015 won't fix")

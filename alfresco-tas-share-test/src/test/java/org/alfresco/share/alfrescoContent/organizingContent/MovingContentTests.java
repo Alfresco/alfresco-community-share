@@ -9,7 +9,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,14 +32,6 @@ public class MovingContentTests extends ContextAwareWebTest {
     public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
     }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-    }
-
 
     @TestRail(id = "C7345")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
@@ -71,8 +62,6 @@ public class MovingContentTests extends ContextAwareWebTest {
         LOG.info("STEP5: Open the folder created in preconditions");
         documentLibraryPage.clickOnFolderName(folderName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Displayed files in " + folderName);
-        siteService.delete(adminUser, adminPassword,siteName);
-
     }
 
     @TestRail(id = "C7346")
@@ -108,7 +97,5 @@ public class MovingContentTests extends ContextAwareWebTest {
         LOG.info("STEP5: Open the folder created in preconditions");
         documentLibraryPage.clickOnFolderName(folderName2);
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[" + folderName1 + "]", "Displayed folders in " + folderName2);
-        siteService.delete(adminUser, adminPassword,siteName);
-
     }
 }

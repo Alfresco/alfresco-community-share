@@ -10,7 +10,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -48,15 +47,6 @@ public class RepositoryTagTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
     }
-
-    @AfterClass(alwaysRun = true)
-
-    public void cleanup()
-    {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, path);
-    }
-
 
     @TestRail(id = "C8266")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})

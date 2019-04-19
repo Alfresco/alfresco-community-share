@@ -10,7 +10,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -35,15 +34,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, "Site used for Google Docs", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
-        siteService.delete(adminUser, adminPassword,siteName);
     }
 
     @TestRail(id = "C6990")
@@ -80,7 +70,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createGoogleDocsSpreadsheet() throws Exception
     {
-  //      googleDocs.loginToGoogleDocs();
+        googleDocs.loginToGoogleDocs();
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
         documentLibraryPage.navigate(siteName);
 
@@ -108,7 +98,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createGoogleDocsPresentation() throws Exception
     {
- //       googleDocs.loginToGoogleDocs();
+        googleDocs.loginToGoogleDocs();
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
         documentLibraryPage.navigate(siteName);
 

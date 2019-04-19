@@ -150,9 +150,6 @@ public class LikeCommentTests extends ContextAwareWebTest
     @AfterClass
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-
         contentService.deleteContentByPath(adminUser, adminPassword, path + fileName1);
         contentService.deleteContentByPath(adminUser, adminPassword, path + fileName2);
         contentService.deleteContentByPath(adminUser, adminPassword, path + folderName1);

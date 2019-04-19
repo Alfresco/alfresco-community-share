@@ -11,7 +11,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 /**
@@ -25,7 +24,6 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
     @Autowired private EditPropertiesDialog editFilePropertiesDialog;
 
     @Autowired private SelectDialog selectDialog;
-
 
     private String uniqueIdentifier;
     private String userName;
@@ -52,7 +50,6 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
     }
-
 
     @TestRail(id = "C7005")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
@@ -89,10 +86,6 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
         Assert.assertEquals(documentLibraryPage.getItemTitle("DocEditName"), "(DocEditTitle)", "The title of edited document is not correct");
         Assert.assertEquals(documentLibraryPage.getItemDescription("DocEditName"), "DocEditDescription", "The description of edited document is not correct");
         Assert.assertEquals(documentLibraryPage.getTags("DocEditName"), "[edittag" + uniqueIdentifier + "]", "The tag of the edited document is not correct");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
     }
 
     @TestRail(id = "C7013")
@@ -132,9 +125,5 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
                 "The description of edited document is not correct");
         Assert.assertEquals(documentLibraryPage.getTags("FolderEditName"), "[edittag" + uniqueIdentifier + "]",
                 "The tag of the edited document is not correct");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
     }
 }

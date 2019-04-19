@@ -10,7 +10,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -38,13 +37,6 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-    }
-
     @TestRail(id = "C3034")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultAreas()
@@ -69,8 +61,6 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         LOG.info("STEP 4: Click on 'Site Dashboard' link.");
         siteDashboard.clickSiteDashboard();
         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/dashboard"), "'Site Dashboard' page is opened.");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C3035")
@@ -129,8 +119,6 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         LOG.info("STEP 9: Click on 'Data Lists' link from 'More' menu.");
         siteDashboard.clickLinkFromMoreMenu("Data Lists");
         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C3036")
@@ -159,7 +147,5 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         assertTrue(siteDashboard.isSiteDashboardLinkDisplayed(), "Site Dashboard is a default area on the site.");
         assertTrue(siteDashboard.isDocumentLibraryLinkDisplayed(), "Document Library is a default area on the site.");
         assertTrue(siteDashboard.isSiteMembersLinkDisplayed(), "Site Members is a default area on the site.");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 }

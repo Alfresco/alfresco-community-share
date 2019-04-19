@@ -123,7 +123,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     public void clickCancel()
     {
-       getBrowser().waitUntilElementClickable(cancelButton).click();
+        cancelButton.click();
     }
 
     /**

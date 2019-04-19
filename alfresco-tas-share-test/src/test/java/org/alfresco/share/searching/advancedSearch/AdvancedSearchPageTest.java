@@ -13,7 +13,6 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -126,9 +125,6 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         Assert.assertFalse(advancedSearchPage.isDateFromPickerDisplayed(), "Date From picker is not displayed");
         Assert.assertFalse(advancedSearchPage.isDateToPickerDisplayed(), "Date To picker is not displayed");
         Assert.assertFalse(advancedSearchPage.isModifierInputDisplayed(), "Modifier input is not displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
     @Bug(id = "ACE-5789")
@@ -188,11 +184,6 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
 
         Assert.assertTrue(searchPage.isResultFound("test" + identifier + " topic 1"), "test" + identifier + " topic 1 is displayed");
         Assert.assertTrue(searchPage.isResultFound("test" + identifier + " topic 2"), "test" + identifier + " topic 2 is displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
     @Bug(id = "ACE-5789")
@@ -229,10 +220,6 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         advancedSearchPage.typeName("test" + identifier + "*");
         advancedSearchPage.click1stSearch();
         Assert.assertEquals(searchPage.getNumberOfResultsText(), language.translate("searchPage.noResultsFound"), "No results found");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @Bug(id = "ACE-5789")
@@ -276,10 +263,6 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         advancedSearchPage.click1stSearch();
         Assert.assertTrue(searchPage.isResultFound("test" + identifier + " list 1"), "test" + identifier + " list 1 is displayed");
         Assert.assertTrue(searchPage.isResultFound("test" + identifier + " list 2"), "test" + identifier + " list 2 is displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @TestRail(id = "C5909")
@@ -315,9 +298,5 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         advancedSearchPage.click1stSearch();
         Assert.assertTrue(searchPage.isResultFound("test" + identifier + " list 1"), "test" + identifier + " list 1 is displayed");
         Assert.assertTrue(searchPage.isResultFound(identifier + " list 3"), identifier + " list 3 is displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 }

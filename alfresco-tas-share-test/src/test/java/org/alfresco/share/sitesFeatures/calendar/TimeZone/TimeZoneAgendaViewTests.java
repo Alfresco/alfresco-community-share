@@ -13,7 +13,6 @@ import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -57,14 +56,6 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
         siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(user, password, siteName, Page.CALENDAR, null);
         setupAuthenticatedSession(user, password);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     private String formatDate(DateTime date, String hour)

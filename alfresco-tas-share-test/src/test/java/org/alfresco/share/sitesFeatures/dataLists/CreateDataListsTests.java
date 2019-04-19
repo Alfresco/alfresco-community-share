@@ -10,11 +10,12 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.junit.After;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class CreateDataListsTests extends ContextAwareWebTest
 {
@@ -49,21 +50,6 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.navigate(siteName);
         createDataListPopUp.clickCancelFormButton();
     }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void cleanupMethod()
-    {
-        siteService.delete(adminUser,adminPassword,siteName );
-
-    }
-
     
     @TestRail(id = "C5861")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })

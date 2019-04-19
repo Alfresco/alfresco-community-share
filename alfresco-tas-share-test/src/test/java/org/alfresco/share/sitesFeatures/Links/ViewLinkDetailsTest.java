@@ -11,7 +11,6 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -45,15 +44,6 @@ public class ViewLinkDetailsTest extends ContextAwareWebTest
         sitePagesService.createLink(testUser, password, siteName, linkTitle, "link1.com", "link1 description", true, tags);
         setupAuthenticatedSession(testUser, password);
     }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser,adminPassword,siteName );
-    }
-
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6179")

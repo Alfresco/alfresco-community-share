@@ -11,7 +11,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -44,14 +43,6 @@ public class AccessingCalendarTests extends ContextAwareWebTest
         siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(user, password, siteName, Page.CALENDAR, null);
         setupAuthenticatedSession(user, password);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C5437")

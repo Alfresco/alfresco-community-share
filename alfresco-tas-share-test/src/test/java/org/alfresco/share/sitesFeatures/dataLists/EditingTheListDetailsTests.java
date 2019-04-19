@@ -12,7 +12,9 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class EditingTheListDetailsTests extends ContextAwareWebTest
 {
@@ -47,20 +49,6 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         createDataListPopUp.clickCancelFormButton();
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
         getBrowser().refresh();
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void cleanupMethod()
-    {
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
     
     @TestRail(id = "C5894")
@@ -155,9 +143,6 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         LOG.info("Step 5: Check and confirm that the list now displays the new title and description.");
         Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsDisplayName().contains("new Title"), true);
-
-        userService.delete(adminUser,adminPassword, collaborator);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + collaborator);
     }
     
     @TestRail(id = "C5899")
@@ -177,10 +162,6 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         LOG.info("Step 2: Click on the Edit button.");
         dataListsPage.clickOnDisabledEditButton(listName);
-
-        userService.delete(adminUser,adminPassword, contributor);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + contributor);
-
         
     }
     
@@ -201,9 +182,6 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         LOG.info("Step 2: Click on the Edit button.");
         dataListsPage.clickOnDisabledEditButton(listName);
-
-        userService.delete(adminUser,adminPassword, consumer);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + consumer);
         
     }
     
@@ -241,9 +219,6 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         LOG.info("Step 5: Check and confirm that the list now displays the new title and description.");
         Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsDisplayName().contains("new Title"), true);
-
-        userService.delete(adminUser,adminPassword, contributor);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + contributor);
         
     }
     
@@ -277,9 +252,6 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
         
         LOG.info("Step 5: Check and confirm that the list now displays the new title and description.");
         Assert.assertEquals("The updated list is not displayed.", dataListsPage.getListsDisplayName().contains("new Title"), true);
-
-        userService.delete(adminUser,adminPassword, manager);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + manager);
         
     }
 }

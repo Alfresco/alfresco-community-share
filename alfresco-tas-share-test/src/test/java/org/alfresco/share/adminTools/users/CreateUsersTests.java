@@ -10,7 +10,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -29,7 +28,6 @@ public class CreateUsersTests extends ContextAwareWebTest
 
     @Autowired
     private LoginPage loginPage;
-
 
     @TestRail(id = "C9396")
     @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
@@ -75,9 +73,6 @@ public class CreateUsersTests extends ContextAwareWebTest
         usersPage.searchUser(userName);
         assertTrue(usersPage.verifyUserIsFound(userName), "User " + userName + " displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
     }
 
     @TestRail(id = "C9401")
@@ -117,9 +112,6 @@ public class CreateUsersTests extends ContextAwareWebTest
         usersPage.searchUser(userName);
         assertTrue(usersPage.verifyUserIsFound(userName), "User " + userName + " displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
     }
 
     @TestRail(id = "C9405")
@@ -157,7 +149,6 @@ public class CreateUsersTests extends ContextAwareWebTest
         assertEquals(createUsers.getPasswordsDontMatchNotificationText(), message, "Displayed message:");
         createUsers.renderedPage();
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("share/page/console/admin-console/users#state=panel%3Dcreate"), "Create users page displayed");
-
 
     }
 
@@ -203,8 +194,6 @@ public class CreateUsersTests extends ContextAwareWebTest
         usersPage.searchUser(userName);
         usersPage.clickUserLink("First Name");
         assertEquals(adminToolsUserProfile.isUserAddedToGroup(), "ALFRESCO_ADMINISTRATORS", "User added to group");
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
 
@@ -249,8 +238,6 @@ public class CreateUsersTests extends ContextAwareWebTest
         assertEquals(loginPage.getPageTitle(), "Alfresco » Login", "Displayed page= ");
         loginPage.login(userName, "password");
         assertEquals(loginPage.getAuthenticationError(), authenticatinError, "Authentication error message=");
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
 
@@ -286,8 +273,6 @@ public class CreateUsersTests extends ContextAwareWebTest
         usersPage.searchUser(userName);
         assertTrue(usersPage.verifyUserIsFound(userName), "User " + userName + " displayed");
         assertTrue(usersPage.isSpecificUserDataDisplayed("12345 GB"), "User quota displayed correctly");
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
 

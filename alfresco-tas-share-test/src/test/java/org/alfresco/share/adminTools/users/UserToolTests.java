@@ -54,10 +54,6 @@ public class UserToolTests extends ContextAwareWebTest
 //        assertTrue(usersPage.isSpecificUserDataDisplayed("Deleted?"), "Deleted? column displayed");
  //       assertTrue(usersPage.isSpecificUserDataDisplayed("Action"), "Action column displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-
     }
 
     @TestRail(id = "C9393")
@@ -89,10 +85,6 @@ public class UserToolTests extends ContextAwareWebTest
         usersPage.searchUser(userName1);
         assertEquals(usersPage.verifyUserIsFound(userName1), true, "User " + userName1 + " found");
         assertEquals(usersPage.verifyUserIsFound(userName2), false, "User " + userName2 + " found");
-        userService.delete(adminUser,adminPassword, userName1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser,adminPassword, userName2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
 
     }
 }

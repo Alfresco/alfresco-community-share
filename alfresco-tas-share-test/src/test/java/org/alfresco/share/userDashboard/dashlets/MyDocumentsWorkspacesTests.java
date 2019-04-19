@@ -84,10 +84,5 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
         Assert.assertTrue(myDocumentsDashlet.isDocumentPresent("TestDoc3"), "\"TestDoc3\" is displayed");
         Assert.assertFalse(myDocumentsDashlet.isDocumentPresent("TestDoc1"), "\"TestDoc1\" isn't displayed");
         Assert.assertFalse(myDocumentsDashlet.isDocumentPresent("TestDoc2"), "\"TestDoc2\" isn't displayed");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 }

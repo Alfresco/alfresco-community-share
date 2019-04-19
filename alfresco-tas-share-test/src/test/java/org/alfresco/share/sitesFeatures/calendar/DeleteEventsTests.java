@@ -14,7 +14,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -60,14 +59,6 @@ public class DeleteEventsTests extends ContextAwareWebTest
         siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
         siteService.addDashlet(user1, password, siteName, SiteDashlet.SITE_CALENDAR, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(user1, password);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C3174")
@@ -345,7 +336,6 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click 'Delete' button.");
         deleteEventDialog.confirmEventDelete();
-        getBrowser().waitInSeconds(5);
         assertFalse(calendarPage.isEventPresentInAgenda(eventName), "The event is displayed on the 'Calendar' page.");
 
         LOG.info("STEP 3: Go to site's dashboard and verify 'Site Calendar' dashlet.");

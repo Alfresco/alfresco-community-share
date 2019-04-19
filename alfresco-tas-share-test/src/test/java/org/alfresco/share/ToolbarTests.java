@@ -113,11 +113,6 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(toolbarUserMenu.isDashBoardAsHomeDisplayed(), "\"Use My Dashboard\" is displayed");
         Assert.assertTrue(toolbarUserMenu.isChangePasswordDisplayed(), "\"Change password\" is displayed");
         Assert.assertTrue(toolbarUserMenu.isLogoutDisplayed(), "\"Logout\" is displayed");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2862") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void theToolbarIsAlwaysAvailableAtTheTopOfThePage()
@@ -142,10 +137,6 @@ public class ToolbarTests extends ContextAwareWebTest
         LOG.info("STEP 2 - Navigate to any other page from Share");
         siteDashboardPage.navigate(siteName);
         Assert.assertTrue(toolbar.isToolbarDisplayed(), "\"Alfresco toolbar\" is displayed");
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2863") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void adminToolsAreAvailableOnlyForSystemAdministrators()
@@ -186,16 +177,9 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(toolbar.isAdminToolsDisplayed(), "\"Admin Tools\" is displayed");
         Assert.assertTrue(toolbar.isUserMenuDisplayed(), "\"User menu\" is displayed");
         Assert.assertTrue(toolbar.isSearchBoxDisplayed(), "\"Search\" is displayed");
-
-        userService.delete(adminUser,adminPassword, userName1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-
-        userService.delete(adminUser,adminPassword, userName2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-
     }
 
-    //this test will fail if we are testing a non released version
+    @Bug(id ="TBD", description = "Alfresco Documentation is not yet available for 6.0")
     @TestRail(id = "C2864") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromTheUserMenu()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -238,11 +222,6 @@ public class ToolbarTests extends ContextAwareWebTest
         LOG.info("STEP 7 - Click on the \"User menu\" -> \"Logout\" option");
         toolbarUserMenu.clickLogout();
         Assert.assertTrue(loginPage.isCopyrightDisplayed(), "\"Copyright\" is displayed");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2865") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromTasksMenu()
@@ -260,11 +239,6 @@ public class ToolbarTests extends ContextAwareWebTest
         LOG.info("STEP 2 - Click on the \"Tasks\" menu -> \"Workflows I've started\" link");
         workflowsIveStartedPage.navigateByMenuBar();
         Assert.assertTrue(workflowsIveStartedPage.isStartWorkflowDisplayed(), "\"Start Workflow\" is displayed");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2866") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromSitesMenu()
@@ -321,14 +295,6 @@ public class ToolbarTests extends ContextAwareWebTest
         toolbarSitesMenu.clickRemoveCurrentSiteFromFavorites();
         Assert.assertFalse(toolbarSitesMenu.isRemoveCurrentSiteFromFavoritesDisplayed(), "\"Remove current site from Favorites\" isn't displayed");
         Assert.assertTrue(toolbarSitesMenu.isAddCurrentSiteToFavoritesDisplayed(), "\"Add current site to Favorites\" is displayed");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-        siteService.delete(adminUser,adminPassword,siteName1);
-        siteService.delete(adminUser,adminPassword,siteName2);
-        siteService.delete(adminUser,adminPassword,siteName3);
-
     }
 
     @TestRail(id = "C2867") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromAlfrescoToolbar()
@@ -367,12 +333,6 @@ public class ToolbarTests extends ContextAwareWebTest
         LOG.info("STEP 7 - Click on \"Search\" icon -> \"Advanced Search...\" link");
         advancedSearchPage.navigateByMenuBar();
         Assert.assertTrue(advancedSearchPage.isKeywordsSearchFieldDisplayed(), "Keywords search field is displayed");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
-
-
     }
 
     @TestRail(id = "C2868") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void siteManagerIsAvailableOnlyForSiteAdministrators()
@@ -416,11 +376,5 @@ public class ToolbarTests extends ContextAwareWebTest
         LOG.info("STEP 4 - Click on \"Sites Manager\" link");
         sitesManagerPage.navigateByMenuBar();
         Assert.assertTrue(sitesManagerPage.isSitesTableDisplayed(), "Sites table is displayed");
-
-        userService.delete(adminUser,adminPassword, userName1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser,adminPassword, userName2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-
     }
 }

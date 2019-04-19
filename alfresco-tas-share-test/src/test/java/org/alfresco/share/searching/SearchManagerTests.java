@@ -114,23 +114,6 @@ public class SearchManagerTests extends ContextAwareWebTest
         myDocumentsDashlet.waitForDocument();
     }
 
-
-    @AfterClass
-    public void removeAddedFiles() {
-        userService.delete(adminUser, adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        userService.delete(adminUser, adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-        userService.delete(adminUser, adminPassword, user3);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user3);
-        siteService.delete(adminUser, adminPassword, site1);
-        siteService.delete(adminUser, adminPassword, site2);
-        siteService.delete(adminUser, adminPassword, site3);
-
-    }
-
-
-
     @TestRail(id = "C6274")
     @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifySearchManagerPage()
@@ -205,20 +188,13 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP 8: Click on " + site2 + " option.");
         getBrowser().navigate().back();
-        getBrowser().waitInSeconds(5);
         searchPage.clickFilterOption(site2, filterId);
-        getBrowser().waitInSeconds(5);
-
         assertTrue(searchPage.isSearchResultsAsExpected(Arrays.asList(documentName + "3", documentName + "4")),
                 "Only site2 files are displayed on the search results.");
 
         LOG.info("STEP 9: Click on " + site3 + " option.");
         getBrowser().navigate().back();
-        getBrowser().waitInSeconds(5);
-
         searchPage.clickFilterOption(site3, filterId);
-        getBrowser().waitInSeconds(5);
-
         assertTrue(searchPage.isSearchResultsAsExpected(Arrays.asList(documentName + "5", documentName + "6")),
                 "Only site 3 files are displayed on the search results.");
     }
@@ -738,7 +714,6 @@ public class SearchManagerTests extends ContextAwareWebTest
                 "Popup message is displayed.");
         LOG.info("STEP 4: Click 'Yes' button.");
         confirmDeletionDialog.clickOKButton();
-        getBrowser().waitInSeconds(5);
         assertFalse(searchManagerPage.isFilterAvailable(filterId), "Filter is no longer listed on 'Search Manager' page.");
     }
 

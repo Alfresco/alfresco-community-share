@@ -33,11 +33,7 @@ public class ApplicationPage extends AdminToolsPage
     @FindBy (xpath = "//img[contains(@id, '_default-logoimg') and contains(@src, 'app-logo-48.png')]")
     private WebElement defaultAlfrescoImage;
 
-  //  @FindBy(xpath= "/html/body/div[9]/div[1]/div[2]/div[1]/div[1]/div/div/div/div/div/div[2]")
-    @FindBy(css= ".info")
-    private WebElement mainText;
-
-
+    
     @RenderWebElement
     @FindBy (css = "button[id$='reset-button-button']")
     private Button resetButton;
@@ -71,11 +67,9 @@ public class ApplicationPage extends AdminToolsPage
 
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
-    protected String mainTextString = "";
-
-
-
-    //    @OverridenoDocumentsAdded
+   
+    
+//    @OverridenoDocumentsAdded
     public String getRelativePath() { return "share/page/console/admin-console/application"; }
 
     public void uploadImage()
@@ -136,11 +130,5 @@ public class ApplicationPage extends AdminToolsPage
         By themeToBeFound = By.xpath("//body[@id = 'Share' and contains(@class, 'skin-" + theme.getTheme() + "')]");
         browser.waitUntilElementVisible(themeToBeFound);
         return browser.isElementDisplayed(themeToBeFound);
-    }
-
-
-    public String checkText()
-    {
-        return mainText.getText();
     }
 }

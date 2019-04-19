@@ -14,7 +14,6 @@ import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -42,14 +41,6 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest 
 		siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
 		contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, testFileName, fileContent);
 		setupAuthenticatedSession(userName, password);
-	}
-
-	@AfterClass(alwaysRun = true)
-	public void cleanup()
-	{
-		userService.delete(adminUser,adminPassword, userName);
-		contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-		siteService.delete(adminUser, adminPassword,siteName);
 	}
 
 	@Bug(id="MNT-18059",status = Bug.Status.FIXED)

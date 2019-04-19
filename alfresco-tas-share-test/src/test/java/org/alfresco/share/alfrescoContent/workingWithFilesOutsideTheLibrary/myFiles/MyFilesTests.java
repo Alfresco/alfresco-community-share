@@ -11,7 +11,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -41,20 +40,7 @@ public class MyFilesTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
         setupAuthenticatedSession(user, password);
     }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser,adminPassword,siteName);
-    }
-
-
+    
     @TestRail (id ="C7648")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     

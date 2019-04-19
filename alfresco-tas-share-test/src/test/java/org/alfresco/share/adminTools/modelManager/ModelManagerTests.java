@@ -93,9 +93,6 @@ public class ModelManagerTests extends ContextAwareWebTest
     @AfterMethod(alwaysRun = true)
     public void afterMethod()
     {
-
-
-
         if(modelManagerPage.isModelDisplayed(name))
         {
             if(modelManagerPage.getModelStatus(name).equals("Active"))
@@ -108,19 +105,7 @@ public class ModelManagerTests extends ContextAwareWebTest
             modelManagerPage.clickActionsButtonForModel(name);
             modelManagerPage.clickOnAction("Delete", deleteModelDialogPage);
             deleteModelDialogPage.clickDelete();
-
-
         }
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void afterClass()
-    {
-            siteService.delete(adminUser, adminPassword,siteName);
-
-            userService.delete(adminUser,adminPassword, userName);
-            contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
     }
 
     @TestRail(id = "C9500")
@@ -296,9 +281,6 @@ public class ModelManagerTests extends ContextAwareWebTest
         LOG.info("Step 4: Click the Delete button");
         deleteModelDialogPage.clickButton("Delete");
         modelManagerPage.renderedPage();
-
-        getBrowser().waitInSeconds(6);
-
         Assert.assertFalse(modelManagerPage.isModelDisplayed(name));
 
 
@@ -409,7 +391,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         importModelDialogPage.importFile(filePath);
         importModelDialogPage.clickImportButton();
         modelManagerPage.renderedPage();
-        getBrowser().waitInSeconds(5);
+
         Assert.assertTrue(modelManagerPage.isModelDisplayed(modelName), "Imported model is not present on the Model Manager Page");
 
         LOG.info("Step 4: Check the Model details displayed on the Model Manager page");
@@ -517,9 +499,6 @@ public class ModelManagerTests extends ContextAwareWebTest
         Assert.assertTrue(modelManagerPage.isModelDisplayed(modelName), "Model should be displayed");
         modelManagerPage.clickActionsButtonForModel(modelName);
         modelManagerPage.clickOnAction("Activate", modelManagerPage);
-        modelManagerPage.clickModelName("Marketing_content");
-
-
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);

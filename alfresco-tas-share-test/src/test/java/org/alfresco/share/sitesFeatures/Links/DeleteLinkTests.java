@@ -11,7 +11,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -46,14 +45,6 @@ public class DeleteLinkTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-    }
-
-
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6187")
     public void deleteLinkFromLinkDetailsPage()
@@ -76,7 +67,6 @@ public class DeleteLinkTests extends ContextAwareWebTest
                 "Wrong delete link message!");
         deleteLinkPopUp.clickOnDeleteLinkButtonLinkDetailsPage();
         Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
 
     }
 
@@ -106,8 +96,6 @@ public class DeleteLinkTests extends ContextAwareWebTest
         deleteLinkPopUp.clickOnDeleteLinkButtonLinksPage();
         Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
         Assert.assertTrue(linkPage.getTagsFromTagsSection().isEmpty(), "No tags should be displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -132,8 +120,6 @@ public class DeleteLinkTests extends ContextAwareWebTest
         deleteLinkPopUp.clickOnCancelDeleteLink();
         Assert.assertTrue(linkPage.getLinksListTitle().equals("All Links"), "All links should be displayed after clicking on 'Links' link!");
         Assert.assertTrue(linkPage.getLinksTitlesList().contains(linkTitle), "Link is not displayed in the list!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -208,7 +194,5 @@ public class DeleteLinkTests extends ContextAwareWebTest
         LOG.info("STEP 9: Click 'Delete' button.");
         deleteLinkPopUp.clickOnDeleteLinkButtonLinksPage();
         Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 }

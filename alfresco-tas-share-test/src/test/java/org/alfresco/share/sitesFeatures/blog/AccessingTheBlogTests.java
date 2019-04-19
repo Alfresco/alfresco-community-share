@@ -12,7 +12,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -52,15 +51,6 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
         siteService.create(adminUser, adminPassword, user, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(adminUser, adminPassword, siteName, Page.BLOG, null);
         setupAuthenticatedSession(adminUser, adminPassword);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C5526")

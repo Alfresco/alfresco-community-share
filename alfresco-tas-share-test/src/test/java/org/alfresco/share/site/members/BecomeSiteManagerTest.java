@@ -9,7 +9,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertFalse;
@@ -58,18 +57,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
                 "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
 
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        userService.delete(adminUser,adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-
-        siteService.delete(adminUser,adminPassword,siteName );
-
-
     }
-
-
 
     @TestRail(id = "C2849")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
@@ -109,11 +97,6 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
                 "'Become Site Manager' action should NOT be displayed when clicking on 'Actions' button.");
         assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Delete Site"),
                 "'Delete Site' action should be displayed when clicking on 'Actions' button.");
-
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C2850")
@@ -166,11 +149,6 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteUsers.navigate(siteName);
 
         assertTrue(siteUsers.isRoleSelected("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
-
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C2852")
@@ -201,11 +179,6 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'. 'Become Site Manager' action is available.");
         assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
                 "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C2854")
@@ -246,10 +219,6 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
 
         LOG.info("STEP 7: Verify the listed users: admin user is listed, with 'Manager' role.");
         assertTrue(siteUsers.isRoleSelected("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser,adminPassword,siteName );
 
     }
 
@@ -282,11 +251,6 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'. 'Become Site Manager' action is available.");
         assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
                 "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
-
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C2861")
@@ -326,10 +290,5 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
 
         LOG.info("STEP 7: Verify the listed users: admin user is listed, with 'Manager' role.");
         assertTrue(siteUsers.isRoleSelected("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
-
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 }

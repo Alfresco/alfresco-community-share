@@ -112,10 +112,6 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.WEB_VIEW, 2, 1));
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.WIKI, 3, 1));
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_SEARCH, 4, 1));
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2200")
@@ -141,12 +137,6 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.WIKI, 1, 2), "Dashlet " + Dashlets.WIKI.getDashletName() + " is missing");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_PROFILE, 2, 3), "Dashlet " + Dashlets.SITE_PROFILE.getDashletName() + " is missing");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_LINKS, 1, 3), "Dashlet " + Dashlets.SITE_LINKS.getDashletName() + " is missing");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-        siteService.delete(adminUser,adminPassword,siteName);
-
     }
 
     @TestRail(id = "C2202")
@@ -195,11 +185,6 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         LOG.info("Step 8 - Click 'Close' button above the available dashlets.");
         customizeSite.clickCloseAvailabeDashlets();
         Assert.assertFalse(customizeSite.isAvailableDashletListDisplayed(), "Available dashlets list is not closed");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2203")
@@ -228,11 +213,6 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         customizeSite.clickOk();
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_CONTENT, 1, 1), "Site Content dashlet is not in column 1 first position");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_MEMBERS, 1, 2), "Site Members dashlet is not in column 2 first position");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2207")
@@ -255,11 +235,6 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_MEMBERS, 1, 1), "Site Members dashlet is not in column 1 first position");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_CONTENT, 2, 1), "Site Content dashlet is not in column 2 first position");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_ACTIVITIES, 2, 2), "Site Activities dashlet is not in column 2 second position");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2208")
@@ -280,10 +255,5 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         siteContentDashlet.resizeDashlet(300,0);
         int sizeAfter = siteContentDashlet.getDashletHeight();
         Assert.assertTrue(sizeBefore < sizeAfter, "Height is not changed");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 }

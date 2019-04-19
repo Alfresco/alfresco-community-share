@@ -11,7 +11,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -42,14 +41,6 @@ public class AddAndEditCommentsToAFileTest extends ContextAwareWebTest
         contentService.createFolder(testUser, password, folderName, siteName);
         contentService.createDocumentInFolder(testUser, password, siteName, folderName, DocumentType.TEXT_PLAIN, docName, "Document content");
         setupAuthenticatedSession(testUser, password);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled = false)

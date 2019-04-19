@@ -52,7 +52,5 @@ public class CancelWorkflowsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Verify the workflow is not present in 'My Tasks' page.");
         myTasksPage.navigate();
         Assert.assertFalse(myTasksPage.checkTaskWasFound(workflowName), String.format("Workflow: %s is present in 'My Tasks' page.", workflowName));
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 }

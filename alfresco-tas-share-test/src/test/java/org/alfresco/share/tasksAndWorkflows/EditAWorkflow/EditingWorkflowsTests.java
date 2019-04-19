@@ -74,9 +74,6 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
         editTaskPage.clickOnSaveButton(taskDetailsPage);
         Assert.assertTrue(taskDetailsPage.getStatus().contains("In Progress"));
         Assert.assertTrue(taskDetailsPage.getComment().contains(comment));
-
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
     @TestRail(id = "C8464")
@@ -105,8 +102,6 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
         editTaskPage.writeComment(comment);
         editTaskPage.clickOnSaveButton(myTasksPage);
         Assert.assertTrue(myTasksPage.getStatus(workflowName).contains("On Hold"));
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
     @TestRail(id = "C8465")
@@ -143,7 +138,5 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
         Assert.assertTrue(editTaskPage.isStatusOptionPresent(EditTaskPage.TaskStatus.ON_HOLD));
         Assert.assertTrue(editTaskPage.isStatusOptionPresent(EditTaskPage.TaskStatus.CANCELLED));
         Assert.assertTrue(editTaskPage.isStatusOptionPresent(EditTaskPage.TaskStatus.COMPLETED));
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 }

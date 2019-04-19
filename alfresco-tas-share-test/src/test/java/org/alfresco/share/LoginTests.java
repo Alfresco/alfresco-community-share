@@ -5,7 +5,6 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -45,27 +44,6 @@ public class LoginTests extends ContextAwareWebTest
         }
         cleanupAuthenticatedSession();
     }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, validUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + validUser);
-
-        userService.delete(adminUser,adminPassword, testUserC2084);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUserC2084);
-
-        userService.delete(adminUser,adminPassword, specialPassUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + specialPassUser);
-
-        for (String specialUser : specialUsers)
-        {
-            userService.delete(adminUser,adminPassword, specialUser);
-            contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + specialUser);
-        }
-    }
-
-
 
     @TestRail(id = "C2080")
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})

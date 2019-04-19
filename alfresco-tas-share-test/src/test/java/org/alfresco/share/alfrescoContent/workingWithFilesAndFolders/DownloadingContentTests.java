@@ -11,8 +11,6 @@ import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -63,14 +61,6 @@ public class DownloadingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
     }
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
-    }
-
     private boolean isFileInDirectory(String fileName, String extension)
     {
         downloadDirectory = new File(downloadPath);
@@ -103,8 +93,6 @@ public class DownloadingContentTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Hover file and click 'Download' button");
         documentLibraryPage.mouseOverContentItem(docName);
-        getBrowser().waitInSeconds(5);
-
         documentLibraryPage.clickDownloadForItem(docName);
 
         if (documentCommon.isAlertPresent())
@@ -129,7 +117,6 @@ public class DownloadingContentTests extends ContextAwareWebTest
 
         LOG.info("Hover folder and click 'Download as Zip' button from Actions options");
         documentLibraryPage.mouseOverContentItem(folderName);
-        getBrowser().waitInSeconds(5);
         documentLibraryPage.clickDownloadAsZipForItem(folderName);
         if (documentCommon.isAlertPresent())
         {

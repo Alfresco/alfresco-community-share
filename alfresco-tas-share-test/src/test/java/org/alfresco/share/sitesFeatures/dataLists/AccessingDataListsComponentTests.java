@@ -19,7 +19,9 @@ import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,21 +50,15 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     public void createUser() {
         userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void precondition() {
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
     }
-
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
-    }
-
-
+    
     @TestRail(id = "C5844")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void onlySiteManagerIsAbleToRenameDataListsFeatures() throws DataPreparationException {
@@ -118,23 +114,12 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         LOG.info("Step 10: Check the Data Lists feature name displayed on the Site Dashboard");
         Assert.assertTrue(siteDashboardPage.isPageAddedToDashboard(SitePageType.DATA_LISTS));
         Assert.assertTrue(siteDashboardPage.getPageDisplayName(SitePageType.DATA_LISTS).equals("Test"), "The actual name of 'Data Lists' feature is not as expected");
-
-        userService.delete(adminUser,adminPassword, testUser.getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" +  testUser.getUsername());
-        userService.delete(adminUser,adminPassword, ls.getOneUserWithRole( UserRole.SiteConsumer).getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" +  ls.getOneUserWithRole( UserRole.SiteConsumer).getUsername());
-        userService.delete(adminUser,adminPassword, ls.getOneUserWithRole( UserRole.SiteCollaborator).getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" +  ls.getOneUserWithRole( UserRole.SiteCollaborator).getUsername());
-        userService.delete(adminUser,adminPassword, ls.getOneUserWithRole( UserRole.SiteContributor).getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" +  ls.getOneUserWithRole( UserRole.SiteContributor).getUsername());
-        siteService.delete(adminUser,adminPassword,testSite.getTitle() );
-
     }
     
     @TestRail(id = "C5846")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browsingPaneDisplay()
-    {
+    {    
         LOG.info("Preconditions: Create multiple Lists");
         List<String> createdDataLists = new ArrayList<>(2);
         for(int i=0; i<2; i++)
@@ -153,7 +138,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     @TestRail(id = "C5845")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewListsFromDataLists()
-    {
+    {    
         LOG.info("Preconditions: Create a new List");
         String listName = "listC5845";
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, listName, "contact link description");
@@ -174,7 +159,6 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         Assert.assertFalse(dataListsPage.currentContent.isSelectItemsButtonEnabled(), "'Select items' button is enabled.");
         
         LOG.info("Step 3: Mouse over the list displayed under Lists");
-        getBrowser().waitInSeconds(5);
         Assert.assertTrue(dataListsPage.isEditButtonDisplayedForList(listName), "'Edit' button is displayed.");
         Assert.assertTrue(dataListsPage.isDeleteButtonDisplayedForList(listName), "'Delete' button is displayed.");
     }

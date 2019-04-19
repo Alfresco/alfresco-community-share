@@ -13,7 +13,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -52,14 +51,6 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(adminUser, adminPassword, "Data Dictionary/Node Templates", CMISUtil.DocumentType.TEXT_PLAIN, fileTemplateName, "some content");
 
         setupAuthenticatedSession(user, password);
-    }
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        contentService.deleteContentByPath(adminUser, adminPassword,  "Data Dictionary/Node Templates/" + fileTemplateName);
-
     }
 
     @TestRail(id = "C7650")
@@ -231,7 +222,6 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Create' then 'Create file from template'.");
         myFilesPage.clickCreateButton();
-        getBrowser().waitInSeconds(3);
         //createContent.clickCreateFromTemplateButton("Create document from template");
         Assert.assertTrue(createContent.isFileTemplateDisplayed(fileTemplateName));
 

@@ -13,7 +13,6 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -46,14 +45,6 @@ public class AccessingLinkTests extends ContextAwareWebTest
         siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.LINKS, null);
         setupAuthenticatedSession(testUser, password);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })

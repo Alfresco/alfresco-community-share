@@ -12,7 +12,6 @@ import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -40,13 +39,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         contentService.uploadFilesInFolder(testDataFolder, userName, password, siteName, folderName);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         setupAuthenticatedSession(userName, password);
-    }
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C6374")
@@ -151,9 +143,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         LOG.info("Step 3: Click the 'Save' button.");
         createNewItemPopUp.clickSave();
         Assert.assertEquals(dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("0001", "Issue list title", userTest+" "+userTest, "Complete", "High", "Test description", "Sun 1 Jan 2017", "comment for test item", "MultiPageDocument.pptx")), true, "The data list was not created.");
-
-        userService.delete(adminUser,adminPassword, userTest);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userTest);
     }
     
     @TestRail(id = "C6383")
@@ -207,8 +196,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         LOG.info("Step 3: Click the 'Save' button.");
         createNewItemPopUp.clickSave();
         Assert.assertEquals(dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("Task List Advanced test", "Task List Advanced test description", "Sun 1 Jan 2017", "Thu 2 Feb 2017", userTest+" "+userTest, "High", "Complete", "10", "test comment", "test.xlsx")), true, "The data list was not created.");
-        userService.delete(adminUser,adminPassword, userTest);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userTest);
     }
     
     @TestRail(id = "C6386")
@@ -228,8 +215,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         LOG.info("Step 3: Click the 'Save' button.");
         createNewItemPopUp.clickSave();
         Assert.assertEquals(dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("Test Title", "test description", "Sun 1 Jan 2017", "High", "Complete", "Test comments")), true, "The data list was not created.");
-        userService.delete(adminUser,adminPassword, userTest);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userTest);
     }
     
     @TestRail(id = "C6386")
@@ -249,8 +234,6 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         LOG.info("Step 3: Click the 'Save' button.");
         createNewItemPopUp.clickSave();
         Assert.assertEquals(dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("Test title", "Sun 1 Jan 2017 12:00:00", "1", "Complete", userTest+" "+userTest, "test.xlsx")), true, "The data list was not created.");
-        userService.delete(adminUser,adminPassword, userTest);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userTest);
     }
     
     @Bug(id = "ACE-4226")
@@ -271,7 +254,5 @@ public class CreatingAListItemTests extends ContextAwareWebTest
         LOG.info("Step 3: Click the 'Save' button.");
         createNewItemPopUp.clickSave();
         Assert.assertEquals(dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("test@test.com", "Test feedback", "test", "test comment", "2", "Test User", "www.test.com")), true, "The data list was not created.");
-        userService.delete(adminUser,adminPassword, userTest);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userTest);
     }
 }

@@ -119,7 +119,6 @@ public class SettingHomePageTest extends ContextAwareWebTest
         setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         userDashboardPage.renderedPage();
-        getBrowser().waitInSeconds(5);
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
 
         LOG.info("STEP 6.2 - My Files Page");
@@ -241,13 +240,6 @@ public class SettingHomePageTest extends ContextAwareWebTest
         getBrowser().refresh();
         siteDashboardPage.renderedPage();
         assertTrue(siteDashboardPage.isAlfrescoLogoDisplayed(), "Alfresco logo is displayed");
-
-        userService.delete(adminUser,adminPassword, userName1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser,adminPassword, userName2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C2859")
@@ -296,7 +288,6 @@ public class SettingHomePageTest extends ContextAwareWebTest
         LOG.info("STEP 7 - Click on the Home link in the header bar");
         toolbarUserMenu.clickHome();
         userDashboardPage.renderedPage();
-        getBrowser().waitInSeconds(5);
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
 
         LOG.info("STEP 8 - Click on the user drop down in the header bar, log out and log in again");
@@ -304,9 +295,5 @@ public class SettingHomePageTest extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         getBrowser().refresh();
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 }

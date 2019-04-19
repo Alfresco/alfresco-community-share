@@ -11,7 +11,10 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 
 /**
  * @author iulia.cojocea
@@ -47,20 +50,6 @@ public class RenameWikiPageTests extends ContextAwareWebTest
 
         siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-    }
-
-
-    @AfterMethod(alwaysRun = true)
-    public void cleanupMethod()
-    {
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C5500")

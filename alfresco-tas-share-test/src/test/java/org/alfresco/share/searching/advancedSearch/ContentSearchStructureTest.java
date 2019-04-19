@@ -97,7 +97,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         documentDetailsPage.addComment(phrase);
 
         LOG.info("STEP 1 - Fill in search field with a word (e.g: \"word\" or \"=word\") and click \"Search\" button or \"Enter\"");
-        getBrowser().waitInSeconds(10);
         toolbar.search(word);
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult, (int) properties.getImplicitWait());
         assertEquals(searchPage.getPageTitle(), language.translate("searchPage.pageTitle"), "Page title");
@@ -105,7 +104,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(phrase + ".txt"), phrase + ".txt is displayed");
         assertTrue(searchPage.isResultFound(identifier + "1.txt"), identifier + "1.txt is displayed");
         assertTrue(searchPage.isResultFound(identifier + "2.txt"), identifier + "2.txt is displayed");
-        assertTrue(searchPage.isResultFound(word + "_wiki"), word + " wiki is displayed");
+        assertTrue(searchPage.isResultFound(word + " wiki"), word + " wiki is displayed");
         assertTrue(searchPage.isResultFound(phrase + " wiki"), phrase + " wiki is displayed");
         assertTrue(searchPage.isResultFound(word + " blog"), word + " blog is displayed");
         assertTrue(searchPage.isResultFound(phrase + " blog"), phrase + " blog is displayed");
@@ -123,7 +122,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(word + ".txt"), word + ".txt is displayed");
         assertTrue(searchPage.isResultFound(phrase + ".txt"), phrase + ".txt is displayed");
         assertTrue(searchPage.isResultFound(word + " wiki"), word + " wiki is displayed");
-        assertTrue(searchPage.isResultFound(phrase + "_wiki"), phrase + " wiki is displayed");
+        assertTrue(searchPage.isResultFound(phrase + " wiki"), phrase + " wiki is displayed");
         assertTrue(searchPage.isResultFound(word + " blog"), word + " blog is displayed");
         assertTrue(searchPage.isResultFound(phrase + " blog"), phrase + " blog is displayed");
         assertTrue(searchPage.isResultFound(word + " calendar"), word + " calendar is displayed");
@@ -132,10 +131,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(phrase + " discussion"), phrase + " discussion is displayed");
         assertTrue(searchPage.isResultFound(word + " link"), word + " link is displayed");
         assertTrue(searchPage.isResultFound(phrase + " link"), phrase + " link is displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @Bug(id = "ACE-5789")
@@ -145,8 +140,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     {
         String identifier = RandomData.getRandomAlphanumeric();
         String identifier1 = RandomData.getRandomAlphanumeric();
-        String identifier2 = RandomData.getRandomAlphanumeric();
-        String identifier3 = RandomData.getRandomAlphanumeric();
+        String identifier2 = String.valueOf(Long.parseLong(identifier1) + 1);
+        String identifier3 = String.valueOf(Long.parseLong(identifier2) + 1);
         String word1 = "word" + identifier1;
         String word2 = "word" + identifier2;
         String word3 = "word" + identifier3;
@@ -199,7 +194,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
 
         LOG.info(
                 "STEP 1 - Fill in search field with words (e.g: \"word1 word2 word3\" or \"word1 AND word2 AND word3\") and click \"Search\" button or \"Enter\"");
-        getBrowser().waitInSeconds(10);
         toolbar.search(word1 + " AND " + word2 + " AND " + word3);
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult, (int) properties.getImplicitWait());
         assertEquals(searchPage.getPageTitle(), language.translate("searchPage.pageTitle"), "Page title");
@@ -207,7 +201,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(identifier + "2.txt"), identifier + "2.txt is displayed");
         assertTrue(searchPage.isResultFound(word1 + " " + word2 + " " + word3 + " 1.txt"), word1 + " " + word2 + " " + word3 + " 1.txt is displayed");
         assertTrue(searchPage.isResultFound(word3 + " " + word2 + " " + word1 + " 2.txt"), word3 + " " + word2 + " " + word1 + " 2.txt is displayed");
-        assertTrue(searchPage.isResultFound(word1 + "_" + word2 + "_" + word3 + "_wiki"), word1 + " " + word2 + " " + word3 + " wiki is displayed");
+        assertTrue(searchPage.isResultFound(word1 + " " + word2 + " " + word3 + " wiki"), word1 + " " + word2 + " " + word3 + " wiki is displayed");
         assertTrue(searchPage.isResultFound(word3 + " " + word2 + " " + word1 + " wiki"), word3 + " " + word2 + " " + word1 + " wiki is displayed");
         assertTrue(searchPage.isResultFound(word1 + " " + word2 + " " + word3 + " blog"), word1 + " " + word2 + " " + word3 + " blog is displayed");
         assertTrue(searchPage.isResultFound(word3 + " " + word2 + " " + word1 + " blog"), word3 + " " + word2 + " " + word1 + " blog is displayed");
@@ -227,7 +221,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(word1 + " " + word2 + " " + word3 + " 1.txt"), word1 + " " + word2 + " " + word3 + " 1.txt is displayed");
         assertTrue(searchPage.isResultFound(word3 + " " + word2 + " " + word1 + " 2.txt"), word3 + " " + word2 + " " + word1 + " 2.txt is displayed");
         assertTrue(searchPage.isResultFound(word1 + " " + word2 + " " + word3 + " wiki"), word1 + " " + word2 + " " + word3 + " wiki is displayed");
-        assertTrue(searchPage.isResultFound(word3 + "_" + word2 + "_" + word1 + "_wiki"), word3 + " " + word2 + " " + word1 + " wiki is displayed");
+        assertTrue(searchPage.isResultFound(word3 + " " + word2 + " " + word1 + " wiki"), word3 + " " + word2 + " " + word1 + " wiki is displayed");
         assertTrue(searchPage.isResultFound(word1 + " " + word2 + " " + word3 + " blog"), word1 + " " + word2 + " " + word3 + " blog is displayed");
         assertTrue(searchPage.isResultFound(word3 + " " + word2 + " " + word1 + " blog"), word3 + " " + word2 + " " + word1 + " blog is displayed");
         assertTrue(searchPage.isResultFound(word1 + " " + word2 + " " + word3 + " calendar"), word1 + " " + word2 + " " + word3 + " calendar is displayed");
@@ -236,10 +230,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(word3 + " " + word2 + " " + word1 + " discussion"), word3 + " " + word2 + " " + word1 + " discussion is displayed");
         assertTrue(searchPage.isResultFound(word1 + " " + word2 + " " + word3 + " link"), word1 + " " + word2 + " " + word3 + " link is displayed");
         assertTrue(searchPage.isResultFound(word3 + " " + word2 + " " + word1 + " link"), word3 + " " + word2 + " " + word1 + " link is displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @Bug(id = "ACE-5789")
@@ -249,8 +239,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     {
         String identifier = RandomData.getRandomAlphanumeric();
         String identifier1 = RandomData.getRandomAlphanumeric();
-        String identifier2 = RandomData.getRandomAlphanumeric();
-        String identifier3 = RandomData.getRandomAlphanumeric();
+        String identifier2 = String.valueOf(Long.parseLong(identifier1) + 1);
+        String identifier3 = String.valueOf(Long.parseLong(identifier2) + 1);
         String word1 = "word" + identifier1;
         String word2 = "word" + identifier2;
         String word3 = "word" + identifier3;
@@ -285,14 +275,13 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         documentDetailsPage.clickOnCommentDocument();
         documentDetailsPage.addComment(word3);
 
-        getBrowser().waitInSeconds(10);
         LOG.info("STEP 1 - Fill in search field with words (e.g: \"word1 OR word2 OR word3\") and click \"Search\" button or \"Enter\"");
         toolbar.search(word1 + " OR " + word2 + " OR " + word3);
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult, (int) properties.getImplicitWait());
         assertEquals(searchPage.getPageTitle(), language.translate("searchPage.pageTitle"), "Page title");
         assertTrue(searchPage.isResultFoundWithRetry(identifier + "1.txt"), identifier + "1.txt is displayed");
         assertTrue(searchPage.isResultFoundWithRetry(word2 + " .txt"), word2 + " .txt is displayed");
-        assertTrue(searchPage.isResultFoundWithRetry(word1 + "_wiki"), word1 + " wiki is displayed");
+        assertTrue(searchPage.isResultFoundWithRetry(word1 + " wiki"), word1 + " wiki is displayed");
         assertTrue(searchPage.isResultFoundWithRetry(identifier + " wiki"), identifier + " wiki is displayed");
         assertTrue(searchPage.isResultFoundWithRetry(word2 + " blog"), word2 + " blog is displayed");
         assertTrue(searchPage.isResultFoundWithRetry(identifier + " blog"), identifier + " blog is displayed");
@@ -301,10 +290,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFoundWithRetry(word3 + " discussion"), word3 + " discussion is displayed");
         assertTrue(searchPage.isResultFoundWithRetry(word2 + " link"), word2 + " link is displayed");
         assertTrue(searchPage.isResultFoundWithRetry(identifier + " link"), identifier + " link is displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @TestRail(id = "C5935")
@@ -337,9 +322,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertEquals(searchPage.getPageTitle(), language.translate("searchPage.pageTitle"), "Page title");
         assertTrue(searchPage.isResultFound("file1" + identifier), "file1" + identifier + " is displayed");
         assertTrue(searchPage.isResultFound("file2" + identifier), "file2" + identifier + " is displayed");
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @TestRail(id = "C5936")
@@ -379,9 +361,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult, (int) properties.getImplicitWait());
         assertEquals(searchPage.getPageTitle(), language.translate("searchPage.pageTitle"), "Page title");
         assertTrue(searchPage.isResultFound("testcontent_10." + identifier + ".pdf"), "testcontent_10." + identifier + ".pdf is displayed");
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @TestRail(id = "C5937")
@@ -419,9 +398,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertEquals(searchPage.getPageTitle(), language.translate("searchPage.pageTitle"), "Page title");
         assertTrue(searchPage.isResultFound("file1" + identifier), "file1" + identifier + " is displayed");
         assertTrue(searchPage.isResultFound("file2" + identifier), "file2" + identifier + " is displayed");
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @TestRail(id = "C5938")
@@ -466,9 +442,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult, (int) properties.getImplicitWait());
         assertEquals(searchPage.getPageTitle(), language.translate("searchPage.pageTitle"), "Page title");
         assertTrue(searchPage.isResultFound(identifier + ".txt"), identifier + ".txt" + " is displayed");
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @TestRail(id = "C5939")
@@ -512,9 +485,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult, (int) properties.getImplicitWait());
         assertEquals(searchPage.getPageTitle(), language.translate("searchPage.pageTitle"), "Page title");
         assertTrue(searchPage.isResultFound(identifier + ".txt"), identifier + ".txt" + " is displayed");
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @TestRail(id = "C5940")
@@ -556,9 +526,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound("calendar" + identifier), "calendar" + identifier + " is displayed");
         assertTrue(searchPage.isResultFound("discussion" + identifier), "discussion" + identifier + " is displayed");
         assertTrue(searchPage.isResultFound("link" + identifier), "link" + identifier + " is displayed");
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @TestRail(id = "C5941")
@@ -600,9 +567,6 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound("calendar" + identifier), "calendar" + identifier + " is displayed");
         assertTrue(searchPage.isResultFound("discussion" + identifier), "discussion" + identifier + " is displayed");
         assertTrue(searchPage.isResultFound("link" + identifier), "link" + identifier + " is displayed");
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     @TestRail(id = "C5950")
@@ -670,8 +634,5 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound("discussion2" + identifier), "discussion2" + identifier + " is displayed");
         assertTrue(searchPage.isResultFound("discussion3" + identifier), "discussion3" + identifier + " is displayed");
         assertTrue(searchPage.isResultFound("discussion4" + identifier), "discussion4" + identifier + " is displayed");
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 }

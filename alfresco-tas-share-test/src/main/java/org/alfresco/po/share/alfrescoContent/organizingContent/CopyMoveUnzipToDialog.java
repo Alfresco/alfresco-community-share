@@ -21,9 +21,6 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog {
     @FindBy(id = "NOTIFICATION_PROMPT")
     private WebElement message;
 
-    @FindBy(css = ".message")
-    private WebElement message2;
-
     @FindBy(css = "#ALF_COPY_MOVE_DIALOG span[class*='call-to-action']:first-child span[id*='alfresco_buttons_AlfButton']:first-child span[id$='label']")
     private WebElement createLinkButtonFromSearchPage;
 
@@ -50,10 +47,10 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog {
         }
     }
 
-    public void clickCreateLink() {
+    public SharePage clickCreateLink(SharePage page) {
         browser.waitUntilElementClickable(createLinkButton, 5).click();
-        //getBrowser().waitUntilElementDisappears(createLinkMessage, 15);
-        //return (SharePage) page.renderedPage();
+        getBrowser().waitUntilElementDisappears(createLinkMessage, 15);
+        return (SharePage) page.renderedPage();
     }
 
     public boolean isCreateLinkButtonDisplayed() {
@@ -68,18 +65,10 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog {
         return browser.isElementDisplayed(createLinkButtonFromSearchPage);
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return message.getText();
-        //return message.getText();
     }
 
-
-    public String getMessage2()
-    {
-        return message2.getText();
-        //return message.getText();
-    }
     public boolean isCreateLinkButtonDisplayedCopyToDialog() {
         return getBrowser().isElementDisplayed(createLinkButton);
     }

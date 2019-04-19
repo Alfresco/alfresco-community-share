@@ -16,8 +16,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -49,14 +47,6 @@ public class EditingAListItemTests extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         setupAuthenticatedSession(userName, password);
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
     }
     
     @TestRail(id = "C6391")
@@ -93,8 +83,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
         
         LOG.info("Step 3: Check the new firstName for the To do list item.");
         Assert.assertEquals("The data list was not updated.", dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("new Title", currentDate.toString("EEE dd MMM yyyy HH:mm")+":00", "1",  "In Progress", userTest+" "+userTest, "test.xlsx")), true);
-        userService.delete(adminUser,adminPassword, userTest);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userTest);
+
     }
     
     @TestRail(id = "C6392")

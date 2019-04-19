@@ -13,7 +13,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -54,17 +53,6 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         siteService.create(user1, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         contentService.createDocument(user1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
     }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        userService.delete(adminUser,adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-        siteService.delete(adminUser,adminPassword,siteName );
-    }
-
 
     @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail(id = "C8352")

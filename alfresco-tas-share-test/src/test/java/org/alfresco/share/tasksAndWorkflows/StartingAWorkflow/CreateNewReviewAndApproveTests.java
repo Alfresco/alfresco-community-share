@@ -13,7 +13,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -58,19 +57,6 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         groupService.createGroup(adminUser, adminPassword, group);
         groupService.inviteGroupToSite(adminUser, adminPassword, siteName, group, "SiteCollaborator");
         groupService.addUserToGroup(adminUser, adminPassword, group, user1);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        userService.delete(adminUser,adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-        userService.delete(adminUser,adminPassword, user3);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user3);
-
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C8351")

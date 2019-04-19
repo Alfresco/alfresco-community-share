@@ -11,7 +11,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -43,14 +42,6 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
     }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-    }
-
 
     public void setup(String id) {
 
@@ -116,8 +107,6 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             Assert.assertTrue(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is not checked");
             contacts.clear();
         }
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C6404")
@@ -162,8 +151,6 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             Assert.assertTrue(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is not checked");
             contacts.clear();
         }
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C6405")
@@ -208,8 +195,6 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             Assert.assertFalse(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is checked");
             contacts.clear();
         }
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C6406")
@@ -254,9 +239,6 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             Assert.assertFalse(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is checked");
             contacts.clear();
         }
-        siteService.delete(adminUser,adminPassword,siteName );
-
 
     }
-
 }

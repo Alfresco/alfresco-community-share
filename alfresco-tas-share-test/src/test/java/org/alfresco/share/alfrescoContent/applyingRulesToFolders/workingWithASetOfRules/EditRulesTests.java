@@ -12,7 +12,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -49,7 +48,7 @@ public class EditRulesTests extends ContextAwareWebTest {
     private final String path = "Documents";
     private String folderName, ruleName;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest() {
         ruleName = "rule-" + RandomData.getRandomAlphanumeric();
         folderName = "folder-" + RandomData.getRandomAlphanumeric();
@@ -57,7 +56,6 @@ public class EditRulesTests extends ContextAwareWebTest {
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName);
         setupAuthenticatedSession(userName, password);
-
         documentLibraryPage.navigate(siteName);
         LOG.info("Navigate to Manage Rule page for folder");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
@@ -74,24 +72,11 @@ public class EditRulesTests extends ContextAwareWebTest {
         editRulesPage.renderedPage();
         editRulesPage.clickCreateButton();
         editRulesPage.cleanupSelectedValues();
-
-    }
-
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
     }
 
     @TestRail(id = "C7254")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editRuleDetails() {
-        documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
-
         String updatedRuleName = "updateRule-C7254-" + RandomData.getRandomAlphanumeric();
         String updatedDescription = "Updated Rule description";
         LOG.info("STEP1: Click 'Edit' button for rule");

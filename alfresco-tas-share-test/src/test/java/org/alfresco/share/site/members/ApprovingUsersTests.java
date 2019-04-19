@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -86,41 +85,6 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         dataUser.addUserToSite(collaboratorUser, moderatedSite, UserRole.SiteCollaborator);
         dataUser.addUserToSite(contributorUser, moderatedSite, UserRole.SiteContributor);
         dataUser.addUserToSite(consumerUser, moderatedSite, UserRole.SiteConsumer);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userManager);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userManager);
-
-        userService.delete(adminUser,adminPassword, userTest);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userTest);
-
-        userService.delete(adminUser,adminPassword, collaboratorUser.getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + collaboratorUser.getUsername());
-
-        userService.delete(adminUser,adminPassword, testUser.getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser.getUsername());
-
-        userService.delete(adminUser,adminPassword, managerUser.getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + managerUser.getUsername());
-
-        userService.delete(adminUser,adminPassword, contributorUser.getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + contributorUser.getUsername());
-
-        userService.delete(adminUser,adminPassword, consumerUser.getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + consumerUser.getUsername());
-
-
-        siteService.delete(adminUser,adminPassword,siteNameC2461 );
-        siteService.delete(adminUser,adminPassword,siteNameC2462 );
-        siteService.delete(adminUser,adminPassword,siteNameC2463 );
-
-        siteService.delete(adminUser,adminPassword,siteNameC2464 );
-        siteService.delete(adminUser,adminPassword,siteNameC2549 );
-        siteService.delete(adminUser,adminPassword,moderatedSite.getTitle() );
-
     }
 
     @BeforeMethod(alwaysRun = true) public void beforeMethod()

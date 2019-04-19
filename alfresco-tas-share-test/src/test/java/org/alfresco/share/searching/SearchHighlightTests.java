@@ -100,9 +100,8 @@ public class SearchHighlightTests extends ContextAwareWebTest
 
     @AfterClass
     public void removeAddedFiles() {
-            userService.delete(adminUser, adminPassword, userName);
-            contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-            siteService.delete(adminUser, adminPassword, siteName);
+        contentService.deleteFiles(userName, password, siteName,
+                docName, C42550testFile, C42558file, C42560file, C42560file2, C42562file1, C42562file2, C42564file1, C42564file2, C42549file);
     }
 
     @TestRail(id = "C42544")

@@ -12,7 +12,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -83,14 +82,6 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(folderName2, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName2 + ": Rules", "Rule title=");
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
     }
 
     @TestRail(id = "C7327")

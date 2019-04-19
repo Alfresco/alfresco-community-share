@@ -116,10 +116,6 @@ public class SelectTests extends ContextAwareWebTest
     @AfterClass
     public void cleanUp()
     {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-
-
         contentService.deleteContentByPath(adminUser, adminPassword, path + docName);
         contentService.deleteContentByPath(adminUser, adminPassword, path + folderName);
     }

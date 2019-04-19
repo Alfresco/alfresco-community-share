@@ -20,7 +20,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -81,16 +80,6 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(adminUser, adminPassword, adminFolder, siteName);
         setupAuthenticatedSession(userContributor, password);
     }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-
-        userService.delete(adminUser,adminPassword, userContributor);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
-        siteService.delete(adminUser,adminPassword,siteName );
-    }
-
 
     @TestRail(id = "C8787")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
@@ -237,10 +226,6 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step6: Verify displayed folder has been copied");
         documentLibraryPage.navigate(siteName2);
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Displayed folders=");
-
-        siteService.delete(adminUser,adminPassword,siteName1 );
-        siteService.delete(adminUser,adminPassword,siteName2 );
-
     }
 
     @TestRail(id = "C8796")
@@ -326,10 +311,6 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step4: Return to Manage Permissions page for the file and check if permissions were added successfully.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
         assertTrue(managePermissionsPage.isPermissionAddedForUser(fullName), String.format("User [%s] added in permissions.", user2));
-        userService.delete(adminUser,adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-
-
     }
 
     @TestRail(id = "C8801")

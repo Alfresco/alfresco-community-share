@@ -17,7 +17,6 @@ import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -45,14 +44,6 @@ public class FavoriteSiteTests extends ContextAwareWebTest {
     public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
     }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-    }
     @TestRail(id = "C2216")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addCurrentSiteToFavoritesUsingSitesMenu() throws DataPreparationException {
@@ -79,10 +70,6 @@ public class FavoriteSiteTests extends ContextAwareWebTest {
         userDashboardPage.navigate(testUser.getUsername());
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
         Assert.assertTrue(mySitesDashlet.isSiteFavorited(testSite.getTitle()), testSite.getTitle() + " is favorite");
-        userService.delete(adminUser, adminPassword, testUser.getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser.getUsername());
-        siteService.delete(adminUser, adminPassword, testSite.getTitle());
-
     }
 
     @TestRail(id = "C2217")
@@ -105,8 +92,6 @@ public class FavoriteSiteTests extends ContextAwareWebTest {
         userDashboardPage.navigate(userName);
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
         Assert.assertFalse(mySitesDashlet.isSiteFavorited(siteName), siteName + " isn't favorite");
-        siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
     @TestRail(id = "C2220")
@@ -126,9 +111,6 @@ public class FavoriteSiteTests extends ContextAwareWebTest {
         Assert.assertTrue(mySitesDashlet.isSiteFavorited(testSite.getTitle()), testSite.getTitle() + " is favorite");
         LOG.info("STEP 4 - Go to Alfresco Toolbar -> \"Sites\" menu. Click on \"Favorites\"");
         Assert.assertTrue(toolbarSitesMenu.isSiteFavorite(testSite.getTitle()), testSite.getTitle() + " is favorite");
-        userService.delete(adminUser, adminPassword, testUser.getUsername());
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser.getUsername());
-        siteService.delete(adminUser, adminPassword, testSite.getTitle());
     }
 
     @TestRail(id = "C2221")
@@ -148,7 +130,5 @@ public class FavoriteSiteTests extends ContextAwareWebTest {
         Assert.assertFalse(mySitesDashlet.isSiteFavorited(siteName), siteName + " isn't favorite");
         LOG.info("STEP 4 - Go to Alfresco Toolbar -> \"Sites\" menu. Click on \"Favorites\"");
         Assert.assertFalse(toolbarSitesMenu.isSiteFavorite(siteName), siteName + " isn't favorite");
-        siteService.delete(adminUser, adminPassword, siteName);
-
     }
 }

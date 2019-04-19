@@ -12,7 +12,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -47,13 +46,6 @@ public class TrashcanTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-    }
-
     @TestRail(id = "C10506")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void emptyTrashcan()
@@ -78,7 +70,6 @@ public class TrashcanTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 2, folderName + "\n" + fileName),
                 "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
-        getBrowser().waitInSeconds(6);
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[]", "Document Library folders=");
 
@@ -94,8 +85,6 @@ public class TrashcanTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'OK' button");
         emptyTrashcanDialog.clickButton("OK");
         assertEquals(userTrashcanPage.getNoItemsMessage(), "No items exist", "Empty trash");
-        siteService.delete(adminUser, adminPassword,siteName);
-
     }
 
     @TestRail(id = "C7572")
@@ -122,7 +111,6 @@ public class TrashcanTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
                 "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
-        getBrowser().waitInSeconds(6);
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), Collections.singletonList(folderName).toString(), "Document Library folders=");
 
@@ -138,8 +126,6 @@ public class TrashcanTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'OK' button");
         emptyTrashcanDialog.clickButton("OK");
         assertEquals(userTrashcanPage.getNoItemsMessage(), "No items exist", "Empty trash");
-        siteService.delete(adminUser, adminPassword,siteName);
-
     }
 
     @TestRail(id = "C7573")
@@ -159,7 +145,6 @@ public class TrashcanTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Select all items and delete them by selecting 'Delete' option from 'Selected Items...' menu. Confirm deletion");
         documentLibraryPage.clickCheckBox(folderName);
-        getBrowser().waitInSeconds(4);
         assertFalse(documentLibraryPage.isContentSelected(fileName), fileName + " is selected.");
         assertTrue(documentLibraryPage.isContentSelected(folderName), folderName + " is selected.");
         headerMenuBar.clickSelectedItemsMenu();
@@ -182,7 +167,5 @@ public class TrashcanTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'OK' button");
         emptyTrashcanDialog.clickButton("OK");
         assertEquals(userTrashcanPage.getNoItemsMessage(), "No items exist", "Empty trash");
-        siteService.delete(adminUser, adminPassword,siteName);
-
     }
 }

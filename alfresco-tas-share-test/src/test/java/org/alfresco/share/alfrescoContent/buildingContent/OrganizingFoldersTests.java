@@ -8,7 +8,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -38,14 +37,6 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         String firstName = "FirstName";
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
     }
 
     @TestRail(id = "C6276")
@@ -87,8 +78,6 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb= ");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[]", "Folders displayed in " + folderName);
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Files displayed in " + folderName);
-        siteService.delete(adminUser, adminPassword,siteName1);
-
     }
 
     @TestRail(id = "C6277")
@@ -119,8 +108,6 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents list.");
         ArrayList<String> foldersExpected = new ArrayList<>(Arrays.asList("Documents", folderName));
         assertEquals(documentLibraryPage.getExplorerPanelDocuments(), foldersExpected.toString(), "Document Library explorer panel: Library->Documents: ");
-        siteService.delete(adminUser, adminPassword,siteName1);
-
     }
 
     @TestRail(id = "C6278")
@@ -145,8 +132,6 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         newContentDialog.clickCancelButton();
         assertFalse(newContentDialog.isCancelButtonDisplayed(), "'Cancel' button is displayed.");
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents list.");
-        siteService.delete(adminUser, adminPassword,siteName1);
-
     }
 
     @TestRail(id = "C6291")
@@ -206,7 +191,5 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         ArrayList<String> breadcrumbExpected4 = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected4.toString(), "Document Library breadcrumb=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[" + folderName1 + "]", "Folders displayed in Documents=");
-        siteService.delete(adminUser, adminPassword,siteName1);
-
     }
 }

@@ -9,7 +9,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -43,15 +42,6 @@ public class MyFilesPageTests extends ContextAwareWebTest
         String userMyFiles = "User Homes/" + user;
         contentService.createDocumentInRepository(user, password, userMyFiles, CMISUtil.DocumentType.TEXT_PLAIN, nonAdminFile, "some content");
         contentAction.addSingleTag(user, password, userMyFiles + "/" +  nonAdminFile, tag1);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        contentService.deleteContentByPath(adminUser, adminPassword,  "/" + adminFile);
-
     }
 
     @TestRail(id = "C7659")

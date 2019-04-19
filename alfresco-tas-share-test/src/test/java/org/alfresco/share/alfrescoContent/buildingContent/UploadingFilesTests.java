@@ -45,10 +45,6 @@ public class UploadingFilesTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Verify if the file is uploaded successfully.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
-
-        userService.delete(adminUser,adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
     }
 
     @TestRail(id = "C11833")
@@ -76,9 +72,5 @@ public class UploadingFilesTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(6);
         LOG.info("STEP3: Verify if the file is uploaded successfully.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFileName), String.format("The file [%s] is not present", testFileName));
-
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
     }
 }

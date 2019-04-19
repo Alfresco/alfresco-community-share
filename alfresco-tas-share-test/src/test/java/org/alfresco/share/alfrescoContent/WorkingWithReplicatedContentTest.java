@@ -15,7 +15,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.utility.data.RandomData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.util.ArrayList;
@@ -97,11 +96,6 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         editPropertiesDialog.updateFolderDetailsForReplication(properties.getServer2Url(), properties.getServer2Port(), adminUser, adminPassword);
     }
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        siteService.delete(adminUser, adminPassword,site);
-    }
    // @TestRail(id = "C7600")
    // @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled = false)
     public void verifyContentAfterReplication()

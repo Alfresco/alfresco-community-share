@@ -55,9 +55,6 @@ public class DataListsDashletTests extends ContextAwareWebTest
         LOG.info("Step 3 - Click X icon.");
         siteDataListsDashlet.closeHelpBalloon();
         Assert.assertFalse(siteDataListsDashlet.isBalloonDisplayed(), "Balloon is not displayed");
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C5569")
@@ -100,9 +97,6 @@ public class DataListsDashletTests extends ContextAwareWebTest
         Assert.assertTrue(dataListsPage.currentContent.areNavigationLinksDisplayed(), "The navigation links are not displayed.");
         Assert.assertTrue(dataListsPage.isListWithCreatedListsDisplayed(), "List with created lists is not displayed");
         Assert.assertTrue(dataListsPage.currentContent.allFilterOptionsAreDisplayed(), "Not all filters are displayed.");
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C5570")
@@ -156,10 +150,6 @@ public class DataListsDashletTests extends ContextAwareWebTest
         siteDataListsDashlet.clickOnNewListSaveButton();
         getBrowser().waitInSeconds(4);
         Assert.assertTrue(siteDataListsDashlet.isDataListLinkDisplayed(listDescription), "Data list link is not displayed");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C5571")
@@ -196,11 +186,6 @@ public class DataListsDashletTests extends ContextAwareWebTest
         LOG.info("Step 3 - Click on the Data List title link from Site Data Lists dashlet.");
         siteDataListsDashlet.clickOnTheFirstDataListTitleLink();
         Assert.assertTrue(siteDataListsDashlet.isDataListPageTheCurrentPage(), "The current page is not Data List details page");
-        userService.delete(adminUser,adminPassword, userNameSiteManager);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userNameSiteManager);
-        userService.delete(adminUser,adminPassword, userNameSiteConsumer);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userNameSiteConsumer);
-        siteService.delete(adminUser,adminPassword,siteName );
 
     }
 }

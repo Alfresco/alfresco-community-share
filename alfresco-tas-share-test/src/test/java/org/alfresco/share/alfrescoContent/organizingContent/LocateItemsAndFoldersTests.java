@@ -10,7 +10,6 @@ import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -43,15 +42,6 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
-    }
-
-
     @Bug(id = "MNT-17556")
     @TestRail(id = "C7516")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
@@ -73,7 +63,6 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
         ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb=");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "User is redirected to location of the created document.");
-        documentLibraryPage.clickCheckBox(docName);
         assertTrue(documentLibraryPage.isContentSelected(docName), docName + " is selected.");
         assertFalse(documentLibraryPage.isContentSelected(folderName), folderName + " is selected.");
     }
@@ -98,8 +87,6 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
         ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb=");
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "User is redirected to location of the created folder.");
-        documentLibraryPage.clickCheckBox(folderName);
-
         assertTrue(documentLibraryPage.isContentSelected(folderName), folderName + " is selected.");
         assertFalse(documentLibraryPage.isContentSelected(docName), docName + " is selected.");
     }

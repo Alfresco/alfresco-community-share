@@ -9,7 +9,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -54,13 +53,6 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         tags.add(tagName);
     }
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-    }
-
     @TestRail(id = "C5536")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewWikiPageDetailsFromPageView()
@@ -84,8 +76,6 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         Assert.assertTrue(wikiDetailsPage.getTagsList().contains(tagName), "Tag is not displayed!");
         Assert.assertTrue(wikiDetailsPage.getLinkedPagesList().contains(wikiPageName), "Page is not displayed!");
         Assert.assertTrue(wikiDetailsPage.getVersion().equals("Version 1.0"), "Wrong version is displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C5537")
@@ -104,8 +94,6 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         Assert.assertTrue(wikiDetailsPage.getTagsList().contains("tag1"), "Tag is not displayed!");
         Assert.assertTrue(wikiDetailsPage.getLinkedPagesList().contains("Page2"), "Page is not displayed!");
         Assert.assertTrue(wikiDetailsPage.getVersion().equals("Version 1.0"), "Wrong version is displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C5540")
@@ -123,10 +111,10 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         wikiListPage.clickEdit(wikiPageName);
 
         LOG.info("STEP 2: Change text with [[Page3]], remove tag1, then click 'Save' button");
-     //   editWikiPage.clearWikiPageContent();
+        editWikiPage.clearWikiPageContent();
         editWikiPage.removeTag(tagName);
         editWikiPage.saveWikiContent("[[Page3]]");
-        Assert.assertTrue(wikiPage.getWikiPageContent().equals("Page3Page2"), "Wrong wiki page content");
+        Assert.assertTrue(wikiPage.getWikiPageContent().equals("Page3"), "Wrong wiki page content");
 
         LOG.info("STEP 3: Click on 'Details' link");
         wikiPage.clickOnDetailsLink();
@@ -155,7 +143,5 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 7: Click 'View Page' link");
         wikiDetailsPage.clickOnViewPageLink();
         Assert.assertTrue(wikiPage.getWikiPageContent().equals("Page2"), "Page should contain a link to Page2!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 }

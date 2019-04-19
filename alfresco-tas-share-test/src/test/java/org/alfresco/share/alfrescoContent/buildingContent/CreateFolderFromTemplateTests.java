@@ -91,11 +91,6 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFolderName("Samples");
         Assert.assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbPath);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), "File not found");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
-
     }
 
     @TestRail(id = "C6293")
@@ -124,9 +119,6 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         createFolderFromTemplate.clickCancelButton();
         Assert.assertFalse(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertFalse(documentLibraryPage.isContentNameDisplayed(folderTemplateName), "Folder not found");
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
     }
     
     @TestRail(id = "C8139")
@@ -233,9 +225,5 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         LOG.info("STEP 10: Hover over the created folder (AFolder.Name). Click 'Manage Aspects' option from more menu.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList(aspectType), "Aspect is not added to 'Currently Selected' list");
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
-
     }
 }

@@ -9,7 +9,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -40,15 +39,6 @@ public class PreviewFileTest extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
         contentService.uploadFilesInFolder(testDataFolder, testUser, password, siteName, folderName);
     }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
-    }
-
 
     @TestRail(id = "C5883")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
@@ -87,7 +77,6 @@ public class PreviewFileTest extends ContextAwareWebTest
         documentLibraryPage.clickOnFolderName(folderName);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is not displayed!");
         documentLibraryPage.clickOnFile(docName);
-        getBrowser().waitInSeconds(5);
         Assert.assertEquals(documentDetailsPage.getScaleValue(), newScaleValue, "Wrong scale value! expected " + documentDetailsPage.getScaleValue()
                 + "but found " + newScaleValue);
         documentDetailsPage.clickOnZoomOutButton();

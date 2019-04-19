@@ -60,8 +60,6 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         Assert.assertTrue(workflowDetailsPage.getStartedByUser().contains(testUser));
         Assert.assertTrue(workflowDetailsPage.getMessage().contains(workflowName));
         Assert.assertTrue(workflowDetailsPage.getAssignedToUser().contains(testUser));
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
     @TestRail(id = "C8426")
@@ -88,10 +86,6 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         Assert.assertTrue(workflowDetailsPage.getStartedByUser().contains(testUser));
         Assert.assertTrue(workflowDetailsPage.getMessage().contains(workflowName));
         Assert.assertTrue(workflowDetailsPage.getAssignedToUser().contains(user2));
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        userService.delete(adminUser,adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
     }
 
     @TestRail(id = "C8427")
@@ -110,8 +104,6 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         LOG.info("STEP 2: Verify 'View History' and 'Cancel Workflow' options are displayed for the workflow.");
         Assert.assertTrue(workflowsIveStartedPage.isCancelWorkflowOptionDisplayed(workflowName));
         Assert.assertTrue(workflowsIveStartedPage.isViewHistoryOptionDisplayed(workflowName));
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
     @TestRail(id = "C8428")
@@ -133,10 +125,6 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksPage.isEditTaskOptionDisplayed(workflowName));
         Assert.assertTrue(myTasksPage.isViewTaskOptionDisplayed(workflowName));
         Assert.assertTrue(myTasksPage.isViewWorkflowOptionDisplayed(workflowName));
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        userService.delete(adminUser,adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
     }
 
     @TestRail(id = "C8458")
@@ -163,8 +151,6 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Verify 'Start Workflow' button is displayed.");
         Assert.assertTrue(workflowsIveStartedPage.isStartWorkflowDisplayed());
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
     @TestRail(id = "C8461")
@@ -190,8 +176,6 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Verify 'Start Workflow' button is displayed.");
         Assert.assertTrue(myTasksPage.isStartWorkflowDisplayed());
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
     @TestRail(id = "C8460")
@@ -211,8 +195,6 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksPage.isEditTaskOptionDisplayed(workflowName));
         Assert.assertTrue(myTasksPage.isViewTaskOptionDisplayed(workflowName));
         Assert.assertTrue(myTasksPage.isViewWorkflowOptionDisplayed(workflowName));
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
     @TestRail(id = "C8500")
@@ -244,8 +226,6 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         Assert.assertTrue(editTaskPage.getMessage().contains(workflowName));
         Assert.assertTrue(editTaskPage.getPriority().contains("Medium"));
         Assert.assertTrue(editTaskPage.getOwner().contains(testUser));
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
 }

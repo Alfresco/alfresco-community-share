@@ -42,7 +42,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     @FindBy(xpath = "//img[contains(@title,'Locked by you')]")
     public WebElement lockedIcon;
 
-    @FindBy(css = "img[alt='googledrive']")
+    @FindBy(xpath = "//img[contains(@title,'status.googledrive')]")
     protected WebElement googleDriveIcon;
 
     @FindBy(xpath = "//div[contains(text(), 'This document is locked by you')]")
@@ -62,9 +62,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     @FindBy(id = "t-insert-link")
     protected WebElement addLinkInGoogleSheet;
-
-    @FindBy(css = "#yui-gen82-button")
-    protected WebElement confirmDocumentFormatUpgradeYes;
 
     @FindBy(xpath = "//input[contains(@class, 'docs-link-insertlinkbubble-text jfk-textinput label-input-label')]")
     protected WebElement inputTextForLinkInGoogleDoc;
@@ -89,15 +86,8 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     public By confirmationPopup = By.cssSelector("span.wait");
     protected String googleDocsLoginUrl = "https://accounts.google.com/ServiceLogin#identifier";
-
-    protected String googleDocsTestEmail = "tsealfresco123@gmail.com";
-    protected String googleDocsTestPassword = "NessPassword1!";
-
-    /*
-    //old credentials that don't work anymore
     protected String googleDocsTestEmail = "test.alfresco5@gmail.com";
     protected String googleDocsTestPassword = "Ness2015*";
-    */
 
     public void clickOkButton()
     {
@@ -136,8 +126,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     public void switchToGoogleDocsWindowandAndEditContent(String title, String content)
     {
         browser.switchWindow(1);
-        getBrowser().waitInSeconds(6);
-
         changeGoogleDocsTitle(title);
         editGoogleDocsContent(content);
         browser.closeWindowAndSwitchBack();
@@ -146,7 +134,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     public void switchToGoogleSheetsWindowandAndEditContent(String title, String content)
     {
         browser.switchWindow(1);
-        getBrowser().waitInSeconds(6);
         changeGoogleDocsTitle(title);
         editGoogleSheetsContent(content);
         browser.closeWindowAndSwitchBack();
@@ -155,15 +142,9 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     public void switchToGooglePresentationsAndEditContent(String title)
     {
         browser.switchWindow(1);
-        getBrowser().waitInSeconds(5);
         changeGoogleDocsTitle(title);
         browser.closeWindowAndSwitchBack();
 
-    }
-
-    public void confirmDocumentFormatUpgradeYes()
-    {
-        getBrowser().waitUntilElementClickable(confirmDocumentFormatUpgradeYes).click();
     }
 
     public void editGoogleDocsContent(String content)
@@ -174,9 +155,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         addLinkInGoogleDoc.click();
         browser.waitUntilElementVisible(inputTextForLinkInGoogleDoc).sendKeys(content);
         browser.waitUntilElementVisible(inputLinkInGoogleDoc).sendKeys("test");
-        browser.waitUntilElementVisible(inputLinkInGoogleDoc).sendKeys(Keys.ENTER);
-     //   browser.waitUntilElementClickable(applyButtonGoogleDoc).click();
-
+        browser.waitUntilElementClickable(applyButtonGoogleDoc).click();
         browser.waitInSeconds(3);
     }
 
@@ -188,9 +167,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         addLinkInGoogleSheet.click();
         browser.waitUntilElementVisible(inputTextForLinkInGoogleSheet).sendKeys(content);
         browser.waitUntilElementVisible(inputLinkInGoogleSheets).sendKeys("test");
-        browser.waitUntilElementVisible(inputLinkInGoogleDoc).sendKeys(Keys.ENTER);
-
-   //     browser.waitUntilElementClickable(applyButtonGoogleSheets).click();
+        browser.waitUntilElementClickable(applyButtonGoogleSheets).click();
         browser.waitInSeconds(3);
     }
 

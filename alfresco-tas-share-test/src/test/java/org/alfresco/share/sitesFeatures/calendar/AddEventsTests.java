@@ -18,7 +18,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -72,17 +71,6 @@ public class AddEventsTests extends ContextAwareWebTest
         siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
         siteService.addDashlet(user1, password, siteName, SiteDashlet.SITE_CALENDAR, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(user1, password);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser,adminPassword,siteName );
-        siteService.delete(adminUser,adminPassword,siteName2 );
-        siteService.delete(adminUser,adminPassword,siteName3 );
-
     }
 
     @TestRail(id = "C3086")

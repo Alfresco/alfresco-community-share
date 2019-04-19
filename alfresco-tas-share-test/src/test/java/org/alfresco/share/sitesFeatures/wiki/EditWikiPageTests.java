@@ -10,7 +10,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -63,15 +62,6 @@ public class EditWikiPageTests extends ContextAwareWebTest
         tags.add(tagName);
     }
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-
-        siteService.delete(adminUser,adminPassword,siteNameC5545 );
-    }
-
     @TestRail(id = "C5542")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editWikiPageFromPageView()
@@ -93,7 +83,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
         Assert.assertEquals(currentContent, wikiInitialContent, "Wrong wiki content!, expected " + wikiInitialContent + " but found " + currentContent);
 
         LOG.info("STEP 2: Clear wiki page content and add another one and a tag ");
-       editWikiPage.clearWikiPageContent();
+        editWikiPage.clearWikiPageContent();
         editWikiPage.addTag(tagName);
         editWikiPage.saveWikiContent(wikiNewContent);
         Assert.assertEquals(wikiMainPage.getWikiPageContent().trim(), wikiNewContent, "Wrong wiki content!, expected " + wikiNewContent + " but found "
@@ -102,7 +92,6 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click on wiki page list link");
         wikiMainPage.clickOnWikiListLink();
         Assert.assertTrue(wikiListPage.getTagsList().contains(tagName + " (1)"), "Tag is not displayed in the list!");
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C5543")
@@ -133,8 +122,6 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 4: Navigate to 'Wiki Page List'");
         wikiMainPage.clickOnWikiListLink();
         Assert.assertFalse(wikiListPage.getTagsList().contains(tagName + " (1)"), "Tag is displayed in the list!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C5544")
@@ -156,8 +143,6 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 2: Add some content in the text box");
         editWikiPage.cancelWikiContent("New content");
         Assert.assertTrue(wikiPage.getWikiPageContent().equals("Content"), "Wrong wiki page content!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C5545")
@@ -219,7 +204,5 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 4: Click on 'Save' button");
         editWikiPage.clickOnSaveButton();
         wikiPage.clickOnDocLink(docName);
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 }

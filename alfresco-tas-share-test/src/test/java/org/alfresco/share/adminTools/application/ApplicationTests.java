@@ -56,14 +56,4 @@ public class ApplicationTests extends ContextAwareWebTest {
         applicationPage.renderedPage();
         Assert.assertTrue(applicationPage.doesBodyContainTheme(ApplicationPage.Theme.YELLOW_THEME), "New theme is not in body");
     }
-
-    @TestRail(id = "C299219")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
-    public void checkText()
-    {
-        Assert.assertEquals(applicationPage.checkText(),
-                "You can find further administration tools in the Repository Admin Console, find out more information in the Alfresco Documentation.");
-
-    }
-
 }

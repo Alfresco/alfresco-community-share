@@ -13,7 +13,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -54,17 +53,6 @@ public class SiteProfileDashletTests extends ContextAwareWebTest
         siteService.addDashlet(userName1, userName1, siteName1, SiteDashlet.SITE_PROFILE, DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
 
         setupAuthenticatedSession(userName1, userName1);
-
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser,adminPassword, userName2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-        siteService.delete(adminUser,adminPassword,siteName1 );
 
     }
 

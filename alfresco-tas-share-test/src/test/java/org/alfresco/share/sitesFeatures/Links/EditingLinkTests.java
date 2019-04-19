@@ -12,7 +12,6 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -46,13 +45,6 @@ public class EditingLinkTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -157,7 +149,6 @@ public class EditingLinkTests extends ContextAwareWebTest
          */
 
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("bing"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
-        siteService.delete(adminUser,adminPassword,siteName );
 
     }
 
@@ -276,8 +267,6 @@ public class EditingLinkTests extends ContextAwareWebTest
          * closeWindowAndSwitchBack();
          */
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("bing"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -316,7 +305,5 @@ public class EditingLinkTests extends ContextAwareWebTest
         Assert.assertEquals(linkPage.getLinkTags(linkTitle).size(), 2, "Wrong no of tags for link title!");
         Assert.assertTrue(linkPage.getLinkTags(linkTitle).contains("tag1"), "Tag1 is not displayed in the list of tags!");
         Assert.assertTrue(linkPage.getLinkTags(linkTitle).contains("tag2"), "Tag2 is not displayed in the list of tags!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 }

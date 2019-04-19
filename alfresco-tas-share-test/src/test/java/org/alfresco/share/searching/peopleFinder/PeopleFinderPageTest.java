@@ -56,11 +56,6 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
         LOG.info("STEP 4 - Click a user link from search results (e.g: user2)");
         peopleFinderPage.clickUserLink(userName2);
         Assert.assertTrue(userProfilePage.isAboutHeaderDisplayed(), "\"About\" header is displayed");
-        userService.delete(adminUser, adminPassword, userName1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser, adminPassword, userName2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-
     }
 
     @TestRail(id = "C5824")
@@ -79,8 +74,6 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
         LOG.info("STEP 2 - Click \"Search\" button");
         peopleFinderPage.clickSearchAndWaitForResults();
         Assert.assertEquals(peopleFinderPage.getNoResultsText(), language.translate("peopleFinder.noResults"), "No results found translation");
-        userService.delete(adminUser, adminPassword, userName1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
     }
 
     @TestRail(id = "C5825")
@@ -97,7 +90,5 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
         Assert.assertEquals(notification.getDisplayedNotification(), language.translate("peopleFinder.emptyValueSearchNotification"), "Empty search input field search error");
         Assert.assertEquals(peopleFinderPage.getSearchInputFieldValue(), "", "Search input value");
         Assert.assertEquals(peopleFinderPage.getSearchHelpMessage(), language.translate("peopleFinder.searchResultsMessage"), "Search help message");
-        userService.delete(adminUser, adminPassword, userName1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
     }
 }

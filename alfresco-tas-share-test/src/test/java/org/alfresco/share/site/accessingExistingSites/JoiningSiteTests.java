@@ -17,7 +17,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -74,20 +73,6 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         siteService.create(user1, password, domain, siteNameC3053, description, SiteService.Visibility.PUBLIC);
         siteService.create(user1, password, domain, siteNameC2831, description, SiteService.Visibility.MODERATED);
         siteService.create(user1, password, domain, siteNameC3059, description, SiteService.Visibility.MODERATED);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        userService.delete(adminUser,adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-        siteService.delete(adminUser,adminPassword,siteNameC2833 );
-        siteService.delete(adminUser,adminPassword,siteNameC2823 );
-        siteService.delete(adminUser,adminPassword,siteNameC3053 );
-        siteService.delete(adminUser,adminPassword,siteNameC2831 );
-        siteService.delete(adminUser,adminPassword,siteNameC3059 );
     }
 
     @TestRail(id = "C2823")

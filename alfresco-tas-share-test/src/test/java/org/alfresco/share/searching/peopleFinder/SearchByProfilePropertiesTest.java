@@ -58,13 +58,6 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("test" + identifier), "User " + "test" + identifier + " is displayed");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user1" + identifier), "User " + "user1" + identifier + " is displayed");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user2" + identifier), "User " + "user2" + identifier + " is displayed");
-        userService.delete(adminUser, adminPassword, "test" + identifier);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "test" + identifier);
-        userService.delete(adminUser, adminPassword, "user1" + identifier);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user1" + identifier);
-        userService.delete(adminUser, adminPassword, "user2" + identifier);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user2" + identifier);
-
     }
 
     @TestRail(id = "C6451")
@@ -86,11 +79,6 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         Assert.assertEquals(peopleFinderPage.getSearchResultsInfo(),
                 String.format(language.translate("peopleFinder.searchResultsInfo"), "user2" + identifier, "1"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user2" + identifier), "User " + "user2" + identifier + " is displayed");
-
-        userService.delete(adminUser, adminPassword, "user1" + identifier);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user1" + identifier);
-        userService.delete(adminUser, adminPassword, "user2" + identifier);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user2" + identifier);
     }
 
     @TestRail(id = "C6455")
@@ -113,10 +101,6 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
                 String.format(language.translate("peopleFinder.searchResultsInfo"), "user" + identifier, "2"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user" + identifier + "1"), "User " + "user" + identifier + "1" + " is displayed");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user" + identifier + "2"), "User " + "user" + identifier + "2" + " is displayed");
-        userService.delete(adminUser, adminPassword, "user" + identifier + "1");
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user" + identifier + "1");
-        userService.delete(adminUser, adminPassword, "user" + identifier + "2");
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user" + identifier + "2");
     }
 
     @TestRail(id = "C5822")
@@ -148,11 +132,6 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         Assert.assertEquals(peopleFinderPage.getSearchResultsInfo(),
                 String.format(language.translate("peopleFinder.searchResultsInfo"), "lastName" + identifier + " firstName" + identifier, "1"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user2" + identifier), "User " + "user2" + identifier + " is displayed");
-
-        userService.delete(adminUser, adminPassword, "user1" + identifier);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user1" + identifier);
-        userService.delete(adminUser, adminPassword, "user2" + identifier);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user2" + identifier);
     }
 
     @TestRail(id = "C5832")
@@ -175,9 +154,5 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
                 String.format(language.translate("peopleFinder.searchResultsInfo"), "firstName" + identifier, "2"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user" + identifier + "1"), "User " + "user" + identifier + "1" + " is displayed");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user" + identifier + "2"), "User " + "user" + identifier + "2" + " is displayed");
-        userService.delete(adminUser, adminPassword, "user" + identifier + "1");
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user" + identifier + "1");
-        userService.delete(adminUser, adminPassword, "user" + identifier + "2");
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user" + identifier + "2");
     }
 }

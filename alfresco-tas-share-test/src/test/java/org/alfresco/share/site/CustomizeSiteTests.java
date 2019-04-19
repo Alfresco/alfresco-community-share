@@ -64,10 +64,6 @@ public class CustomizeSiteTests extends ContextAwareWebTest
                 Assert.assertTrue(siteContentDashlet.getDashletColor().equals(theme.dashletHexColor), theme.name + " is not set");
             }
         }
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2148")
@@ -91,10 +87,6 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         customizeSite.clickCancel();
         siteDashboard.renderedPage();
         Assert.assertFalse(siteContentDashlet.getDashletColor().equals(Theme.GREEN.dashletHexColor));
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2156")
@@ -133,10 +125,6 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         Collections.sort(availablePages);
         Collections.sort(pages);
         Assert.assertTrue(availablePages.equals(pages));
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2164")
@@ -160,7 +148,6 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         customizeSite.addPageToSite(SitePageType.DISCUSSIONS);
         customizeSite.addPageToSite(SitePageType.LINKS);
         customizeSite.addPageToSite(SitePageType.BLOG);
-
         Assert.assertTrue(customizeSite.isPageAddedToCurrentPages(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not added");
         Assert.assertTrue(customizeSite.isPageAddedToCurrentPages(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText() + " is not added");
         Assert.assertTrue(customizeSite.isPageAddedToCurrentPages(SitePageType.DATA_LISTS), SitePageType.DATA_LISTS.getDisplayText() + " is not added");
@@ -179,10 +166,6 @@ public class CustomizeSiteTests extends ContextAwareWebTest
                 + " is not added to site dashboard");
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.LINKS), SitePageType.LINKS.getDisplayText() + " is not added to site dashboard");
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.BLOG), SitePageType.BLOG.getDisplayText() + " is not added to site dashboard");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2171")
@@ -223,10 +206,6 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         Assert.assertFalse(siteDashboard.isPageAddedToDashboard(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not removed from site dashboard");
         Assert.assertFalse(siteDashboard.isPageAddedToDashboard(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText()
                 + " is not removed from site dashboard");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2173")
@@ -252,9 +231,5 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         customizeSite.clickOk();
         siteDashboard.renderedPage();
         Assert.assertTrue(siteDashboard.getPageDisplayName(SitePageType.WIKI).equals("Wiki-Edit"), "Wiki display page name is not modified");
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
-
     }
 }

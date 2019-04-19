@@ -12,7 +12,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -52,16 +51,6 @@ public class CreateTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, user2);
-    }
-
-    @AfterClass
-    public void cleanup()
-    {
-        userService.delete(adminUser, adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-
-        userService.delete(adminUser, adminPassword, user2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
     }
 
     @TestRail(id = "C7929")
@@ -302,8 +291,6 @@ public class CreateTests extends ContextAwareWebTest
 
         cleanupAuthenticatedSession();
         contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + fileTemplateName);
-        contentService.deleteContentByPath(adminUser, adminPassword, "Data Dictionary/Node Templates/" + fileTemplateName);
-
     }
 
     @TestRail(id = "C7934")
@@ -332,7 +319,6 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Document");
-        getBrowser().waitInSeconds(5);
         sharedFilesPage.refresh();
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocName));
@@ -346,7 +332,7 @@ public class CreateTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocName), String.format("File [%s] is displayed", googleDocName));
 
         cleanupAuthenticatedSession();
-        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + "Untitled document"+googleDocName);
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + googleDocName);
     }
 
     @TestRail(id = "C7935")
@@ -374,7 +360,6 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet");
-        getBrowser().waitInSeconds(5);
         sharedFilesPage.refresh();
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocSpreadsheet));
@@ -389,7 +374,7 @@ public class CreateTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocSpreadsheet), String.format("File [%s] is displayed", googleDocSpreadsheet));
 
         cleanupAuthenticatedSession();
-        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" +"Untitled spreadsheet"+ googleDocSpreadsheet);
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + googleDocSpreadsheet);
     }
 
     @TestRail(id = "C7936")
@@ -405,8 +390,6 @@ public class CreateTests extends ContextAwareWebTest
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Presentation'");
         sharedFilesPage.clickCreateButton();
         createContent.clickGoogleDocsPresentation();
-
-        googleDocs.clickOkButtonOnTheAuthPopup();
 
         LOG.info("Step 2: Edit the document in the Google Docs tab ");
         googleDocs.switchToGooglePresentationsAndEditContent(title);
@@ -430,6 +413,6 @@ public class CreateTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocPresentation), String.format("File [%s] is displayed", googleDocPresentation));
 
         cleanupAuthenticatedSession();
-        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" +"Untitled presentation"+ googleDocPresentation);
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + googleDocPresentation);
     }
 }

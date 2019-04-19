@@ -37,9 +37,6 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     @FindBy(css = "[class*=mce-edit-area]")
     private WebElement editWikiArea;
 
-    @FindBy(css = "#tinymce")
-    private WebElement editWikiLine;
-
     @RenderWebElement
     @FindBy(css = "button[id$='default-save-button-button']")
     private WebElement saveButton;

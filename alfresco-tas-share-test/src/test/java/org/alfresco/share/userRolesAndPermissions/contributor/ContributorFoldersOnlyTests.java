@@ -14,7 +14,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -72,16 +71,6 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
     }
 
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-
-        userService.delete(adminUser,adminPassword, user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,site );
-    }
-
-
     @TestRail(id = "C8874")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void collaboratorCreateFolder()
@@ -100,9 +89,8 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
         LOG.info("STEP3: Set input for name, title, description and click on Save button");
         newContentDialog.fillInDetails(folderName2, title, description);
         newContentDialog.clickSaveButton();
-        getBrowser().waitInSeconds(4);
-     //   Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName2));
-   //     notification.waitUntilNotificationDisappears();
+        Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName2));
+        notification.waitUntilNotificationDisappears();
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName2), String.format("Folder [%s] is displayed in Document Library.", folderName2));
     }
 

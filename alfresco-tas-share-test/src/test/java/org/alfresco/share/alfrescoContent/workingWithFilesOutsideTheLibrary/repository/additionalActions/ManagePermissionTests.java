@@ -11,7 +11,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -46,7 +45,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
     private String lname1 = "LastN1";
     private String fname2= "FirstN2";
     private String lname2 = "LastN2";
-    private String path ="/";
+    private String path ="";
     private String folderName = "0ManagePermissionsFolder";
     private String pathC202758 = "0ManagePermissionsFolder";
     private String pathForFileC202762 = "0ManagePermissionsFolder";
@@ -55,7 +54,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
     private String userC202776 = "C202759_1"+ RandomData.getRandomAlphanumeric();
     private String folderC202776 = "C202776Folder";
     private String subFolderC202776 = "C202776Subfolder";
-    private String pathfolderC202776 = "/";
+    private String pathfolderC202776 = "";
     private String pathSubfolder ="C202776Folder";
     private String pathForFile = "C202776Folder/C202776Subfolder";
     private String fileNameC202776 = "C202776File";
@@ -83,28 +82,6 @@ public class ManagePermissionTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(adminUser, adminPassword, pathForFile, CMISUtil.DocumentType.TEXT_PLAIN, fileNameC202776, fileContent);
         contentService.createDocumentInRepository(adminUser, adminPassword, pathForFileC202762, CMISUtil.DocumentType.TEXT_PLAIN, fileNameC202762, fileContent);
     }
-
-    @AfterClass(alwaysRun = true)
-
-    public void cleanup()
-    {
-        userService.delete(adminUser, adminPassword, userName);
-        userService.delete(adminUser, adminPassword, userC202758_1);
-        userService.delete(adminUser, adminPassword, userC202758_2);
-        userService.delete(adminUser, adminPassword, userC202776);
-        userService.delete(adminUser, adminPassword, C202764user);
-        userService.delete(adminUser, adminPassword, userC202762_1);
-        userService.delete(adminUser, adminPassword, userC202762_2);
-
-        contentService.deleteTreeByPath(adminUser, adminPassword, "User Homes/" + userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "User Homes/" + userC202758_1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "User Homes/" + userC202758_2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "User Homes/" + userC202776);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "User Homes/" + C202764user);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "User Homes/" + userC202762_1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "User Homes/" + userC202762_2);
-    }
-
 
     @TestRail(id="C202757")
     @Test

@@ -1,6 +1,5 @@
 package org.alfresco.share.RebrandTests;
 
-import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.po.share.AboutPopUpPage;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.searching.AdvancedSearchPage;
@@ -8,10 +7,7 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.report.Bug;
-import org.apache.chemistry.opencmis.commons.data.RepositoryInfo;
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -35,9 +31,6 @@ public class RebrandTests extends ContextAwareWebTest {
 	@Autowired
     AdvancedSearchPage advancedSearch;
 
-	@Autowired
-	private CmisWrapper cmisApi;
-
 	@TestRail(id = "C42575, C42576, C42577, C42578, C42580, C42579")
 	@Test(groups = { TestGroup.SANITY, TestGroup.SHARE })
 	public void checkLoginPage() {
@@ -53,6 +46,8 @@ public class RebrandTests extends ContextAwareWebTest {
 		assertEquals(login.getAlfrescoShareColour(), "rgb(12, 121, 191)", "Alfresco share color is not blue!");
 		assertEquals(login.getCopyRightText(), String.format("© 2005-%s Alfresco Software Inc. All rights reserved.", DateTime.now().getYear()), "Correct copyright year");
 		assertEquals(login.getSignInButtonColor(), "rgb(255, 255, 255)", "Correct color for Sign In");
+
+
 
 
 	}
@@ -75,15 +70,13 @@ public class RebrandTests extends ContextAwareWebTest {
 	@Bug(id ="SHA-2178", description = "Share version is not correct")
 	@TestRail(id = "C42582, C42583")
 	@Test(groups = { TestGroup.SANITY, TestGroup.SHARE })
-	public void checkAlfrescoOneLogoInVersiondialog()
-	{
+	public void checkAlfrescoOneLogoInVersiondialog() {
+		SoftAssert softAssert = new SoftAssert();
 		logger.info("Verify Alfresco Community logo in version dialog is replaced with new Alfresco logo");
 		setupAuthenticatedSession(adminUser, adminPassword);
 		userDashboard.openAboutPage();
-
-		RepositoryInfo info = cmisApi.authenticateUser(new UserModel(adminUser, adminPassword)).getRepositoryInfo();
-		Assert.assertTrue(aboutPopup.getAlfrescoVersion().contains(StringUtils.substring(info.getProductVersion(), 0, 5)));
-		Assert.assertTrue(aboutPopup.getShareVersion().contains("Alfresco Share"));
+		Assert.assertEquals(aboutPopup.getAlfrescoVersion(), language.translate("alfrescoVersion"), "Correct Alfresco version!");
+		Assert.assertEquals(aboutPopup.getShareVersion(), language.translate("shareVersion"),"Correct Share version!");
 		cleanupAuthenticatedSession();
 	}
 }

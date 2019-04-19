@@ -13,7 +13,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -54,21 +53,6 @@ public class SearchManagerTests extends ContextAwareWebTest
         contentService.createDocument(UserC8703, password, siteC8703, DocumentType.TEXT_PLAIN, documentName + "UserC8703", documentName + " content");
         groupService.addUserToGroup(adminUser, adminPassword, alfrescoSearchAdministrators, userC8713);
         setupAuthenticatedSession(userC8713, password);
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, UserC8703);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + UserC8703);
-
-        userService.delete(adminUser,adminPassword, userC8704);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC8704);
-
-        userService.delete(adminUser,adminPassword, userC8713);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC8713);
-
-        siteService.delete(adminUser,adminPassword,siteC8703);
     }
 
     @TestRail(id = "C8703")

@@ -12,7 +12,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -78,14 +77,6 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(user1, password);
         myDocumentsDashlet.waitForDocument();
-    }
-
-    @AfterClass
-    public void removeAddedFiles() {
-        userService.delete(adminUser, adminPassword, user1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser, adminPassword, site1);
-
     }
 
     @TestRail(id = "C7210")

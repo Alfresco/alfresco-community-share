@@ -11,7 +11,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -41,13 +40,6 @@ public class LinkCommentsTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
     }
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, testUser);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-    }
-
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail(id = "C6230")
@@ -72,7 +64,6 @@ public class LinkCommentsTests extends ContextAwareWebTest
         linkDetailsViewPage.addComment(comment);
         Assert.assertTrue(linkDetailsViewPage.getCommentsList().contains(comment), "Comment is not displayed!");
         Assert.assertTrue(linkDetailsViewPage.getCommentAuthor(comment).equals("firstName" + " " + "lastName"), "Wrong comment author!");
-        siteService.delete(adminUser,adminPassword,siteName );
 
     }
 
@@ -98,8 +89,6 @@ public class LinkCommentsTests extends ContextAwareWebTest
         String comment = "some content";
         linkDetailsViewPage.cancelAddComment(comment);
         Assert.assertTrue(linkDetailsViewPage.getNoCommentsMessage().equals("No comments"), "'No comments' message should be displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
@@ -129,8 +118,6 @@ public class LinkCommentsTests extends ContextAwareWebTest
         Assert.assertTrue(linkDetailsViewPage.getCommentsList().contains("comment1 edited"), "Comment is not displayed!");
         Assert.assertTrue(linkDetailsViewPage.getCommentAuthor(comment).equals("firstName" + " " + "lastName"), "Wrong comment author!");
         Assert.assertTrue(linkDetailsViewPage.getCommentCreationTime(comment).equals("just now"), "Wrong comment creation time!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
@@ -158,8 +145,6 @@ public class LinkCommentsTests extends ContextAwareWebTest
         linkDetailsViewPage.clearCommentContent();
         linkDetailsViewPage.cancelAddComment("comment1 edited");
         Assert.assertTrue(linkDetailsViewPage.getCommentsList().contains(comment), "Comment is not displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -186,8 +171,6 @@ public class LinkCommentsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Delete' button.");
         deleteCommentPopUp.clickDelete();
         Assert.assertTrue(linkDetailsViewPage.getCommentsList().isEmpty(), "No Comment should be displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -214,7 +197,5 @@ public class LinkCommentsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Cancel' button.");
         deleteCommentPopUp.clickCancel();
         Assert.assertTrue(linkDetailsViewPage.getCommentsList().contains(comment), "Comment is not displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 }

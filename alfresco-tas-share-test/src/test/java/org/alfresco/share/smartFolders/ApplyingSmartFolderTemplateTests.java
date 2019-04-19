@@ -17,7 +17,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -80,18 +79,6 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(userName, password, filesPath, DocumentType.TEXT_PLAIN, fileName3, fileContent);
         setupAuthenticatedSession(userName, password);
     }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanup()
-    {
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-        siteService.delete(adminUser,adminPassword,siteNameC8665 );
-        siteService.delete(adminUser,adminPassword,siteNameC8666 );
-        siteService.delete(adminUser,adminPassword,siteNameC8668 );
-    }
-
 
     @TestRail(id = "C8665")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders"})

@@ -66,20 +66,14 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest {
     @AfterClass(alwaysRun = true)
     public void cleanup()
     {
-
+        contentService.deleteContentByPath(adminUser, adminPassword, path+"/"+folderName);
+        contentService.deleteContentByPath(adminUser, adminPassword, pathForFile+"/"+fileNameC202776);
+        contentService.deleteContentByPath(adminUser, adminPassword, pathSubfolder+"/"+subFolderC202776);
+        contentService.deleteContentByPath(adminUser, adminPassword, pathfolderC202776+"/"+folderC202776);
         userService.delete(adminUser, adminPassword, userName);
         userService.delete(adminUser, adminPassword, userC202758_1);
-        userService.delete(adminUser, adminPassword, userC202758_2);
         userService.delete(adminUser, adminPassword, userC202776);
-
-        contentService.deleteTreeByPath(adminUser, adminPassword, folderC202776);
-        contentService.deleteTreeByPath(adminUser, adminPassword, folderName);
-
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" +userC202758_1);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC202776);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC202758_2);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
+        userService.delete(adminUser, adminPassword, userC202758_2);
     }
 
     @TestRail(id="C202757")

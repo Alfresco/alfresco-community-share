@@ -58,10 +58,6 @@ public class SiteNoticeTests extends ContextAwareWebTest
         setup("C5556");
         Assert.assertTrue(siteDashboardPage.isDashletAddedInPosition(Dashlets.SITE_NOTICE, 1, 2), "Dashlet is not added in the correct position ");
 
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
-
     }
 
     @TestRail(id = "C5557")
@@ -84,10 +80,6 @@ public class SiteNoticeTests extends ContextAwareWebTest
         LOG.info("Closing the configure panel");
         siteNoticeDashlet.closeConfigurePanel();
         Assert.assertFalse(siteNoticeDashlet.isConfigurePanelOpened(), "Configure site notice panel is opened");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C5558")
@@ -109,9 +101,6 @@ public class SiteNoticeTests extends ContextAwareWebTest
         getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("div.dashlet.notice-dashlet div.title")), text);
         Assert.assertEquals(siteNoticeDashlet.getDashletTitle(), text, "Site Notice title is not the same as the title that was set");
         Assert.assertEquals(siteNoticeDashlet.getSiteNoticeText(), text, "Site Notice text is not the same as the text that was set");
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C5559")
@@ -133,9 +122,5 @@ public class SiteNoticeTests extends ContextAwareWebTest
 
         Assert.assertNotEquals(siteNoticeDashlet.getDashletTitle(), text, "Site Notice title is the same as the title that was set");
         Assert.assertNotEquals(siteNoticeDashlet.getSiteNoticeText(), text, "Site Notice text is the same as the text that was set");
-
-        userService.delete(adminUser,adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
     }
 }
