@@ -22,7 +22,7 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<id>alfresco-internal-snapshots</id>
-			<url>https://nexus.alfresco.com/nexus/content/repositories/internal-snapshots/</url>
+			<url>https://nexus.alfresco.com/nexus/contecheckAlfrescoOneLogoInVersiondialognt/repositories/internal-snapshots/</url>
 		</snapshotRepository>
 		<repository>
 			<id>alfresco-internal</id>

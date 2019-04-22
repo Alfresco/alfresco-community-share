@@ -78,6 +78,14 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.isMoreMenuDisplayed(docName), docName + " - 'More' menu is displayed.");
 
         cleanupAuthenticatedSession();
+
+        userService.delete(adminUser,adminPassword, userSiteManager);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userSiteManager);
+        userService.delete(adminUser,adminPassword, userManager);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userManager);
+        userService.delete(adminUser,adminPassword, userContributor);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
+        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C7153")
@@ -131,6 +139,13 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.isMoreMenuDisplayed(folderName), folderName + " - 'More' menu is displayed.");
 
         cleanupAuthenticatedSession();
+        userService.delete(adminUser,adminPassword, userSiteManager);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userSiteManager);
+        userService.delete(adminUser,adminPassword, userManager);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userManager);
+        userService.delete(adminUser,adminPassword, userContributor);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
+        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C7154")
@@ -180,5 +195,14 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), docName + " - 'More' menu is displayed. ");
 
         cleanupAuthenticatedSession();
+        userService.delete(adminUser,adminPassword, userSiteManager);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userSiteManager);
+        userService.delete(adminUser,adminPassword, userManager);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userManager);
+        userService.delete(adminUser,adminPassword, userContributor);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
+        siteService.delete(adminUser,adminPassword,siteName);
     }
+
+
 }

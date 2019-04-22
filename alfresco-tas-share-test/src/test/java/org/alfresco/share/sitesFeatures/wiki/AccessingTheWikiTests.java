@@ -88,6 +88,9 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
         LOG.info("Step 4 : Click on 'newWiki' link and verify that 'Main Page' is opeend");
         siteDashboardPage.clickLinkFromHeaderNavigationMenu(SitePageType.WIKI);
         Assert.assertTrue(wikiMainPage.isNewPageButtonDisplayed(), "Wiki 'Main Page' is not opened");
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C5494")
@@ -128,6 +131,9 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
         LOG.info("Step 3 : Click on 'Main Page' button");
         wikiListPage.clickMainPageButton();
         wikiMainPage.isRenameWikiMainPagePanelDisplayed();
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
 }

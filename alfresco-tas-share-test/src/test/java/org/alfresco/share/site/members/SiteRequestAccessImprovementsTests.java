@@ -8,12 +8,17 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
+import org.alfresco.utility.data.DataSite;
+import org.alfresco.utility.data.DataUser;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.alfresco.utility.constants.UserRole.SiteManager;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -42,32 +47,61 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     @Autowired
     private EditTaskPage editTaskPage;
 
-    private String userName1, userName2, userName3, user2, site, group, task;
+    @Autowired DataSite siteApi;
+
+    @Autowired DataUser dataUser;
+
+    private String  userName2, userName3, user2, group, task;
     private final String firstName = "firstName";
     private final String lastName = "lastName";
     private final String email = firstName + domain;
     private final String description = "description";
+    SiteModel moderated;
+    UserModel userName1;
+
 
     @BeforeMethod
     public void setupTest()
     {
         final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
-        userName1 = "user1-" + uniqueIdentifier;
+
         userName2 = "user2-" + uniqueIdentifier;
         userName3 = "user3-" + uniqueIdentifier;
         user2 = firstName + " " + lastName + "2" + " (" + userName2 + ")";
-        site = "site" + uniqueIdentifier;
         group = "group" + uniqueIdentifier;
-        task = "Request to join " + site + " site";
 
-        userService.create(adminUser, adminPassword, userName1, password, email, firstName, lastName + "1");
+
+        userName1 = dataUser.createRandomTestUser();
+
         userService.create(adminUser, adminPassword, userName2, password, email, firstName, lastName + "2");
         userService.create(adminUser, adminPassword, userName3, password, email, firstName, lastName + "3");
-        siteService.create(userName1, password, firstName + domain, site, description, SiteService.Visibility.MODERATED);
-        userService.requestSiteMembership(userName2, password, site);
+
+        moderated = siteApi.usingUser(userName1).createModeratedRandomSite();
+
+        task = "Request to join " + moderated.getTitle() + " site";
+
+        userService.requestSiteMembership(userName2, password, moderated.getTitle());
+
+
+
         groupService.createGroup(adminUser, adminPassword, group);
-        groupService.changeGroupRole(userName1, password, site, group, UserRole.SiteManager.toString());
+        groupService.changeGroupRole(userName1.getUsername(), password, moderated.getTitle(), group, UserRole.SiteManager.toString());
         groupService.addUserToGroup(adminUser, adminPassword, group, userName3);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName1.getUsername());
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1.getUsername());
+
+        userService.delete(adminUser,adminPassword, userName2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
+        userService.delete(adminUser,adminPassword, userName3);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName3);
+
+        siteService.delete(adminUser,adminPassword,firstName + domain );
+
     }
 
     @Bug(id = "TBD")
@@ -76,14 +110,14 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     public void cancelSitePendingRequest()
     {
         LOG.info("Precondition: Cancel request");
-        userService.removePendingSiteRequest(userName1, password, userName2, site);
+        userService.removePendingSiteRequest(userName1.getUsername(), password, userName2, moderated.getTitle());
 
         LOG.info("Precondition: Login as site admin " + userName1);
-        setupAuthenticatedSession(userName1, password);
+        setupAuthenticatedSession(userName1.getUsername(), password);
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
 
         LOG.info("STEP1: Navigate to Site Members page -> Pending tab");
-        pendingInvitesPage.navigate(site);
+        pendingInvitesPage.navigate(moderated.getTitle());
         assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");
         ArrayList<String> pendingRequestsList = new ArrayList<>();
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
@@ -94,11 +128,11 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsGroupManager()
     {
-        setupAuthenticatedSession(userName1, password);
+        setupAuthenticatedSession(userName1.getUsername(), password);
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
 
         LOG.info("STEP1: Navigate to Site Members page -> Pending tab");
-        pendingInvitesPage.navigate(site);
+        pendingInvitesPage.navigate(moderated.getTitle());
         assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");
         ArrayList<String> pendingRequestsList = new ArrayList<>(Arrays.asList(user2));
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
@@ -113,7 +147,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Login as " + userName3 + " and navigate to Pending Invites page");
         setupAuthenticatedSession(userName3, password);
-        pendingInvitesPage.navigate(site);
+        pendingInvitesPage.navigate(moderated.getTitle());
         assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
@@ -123,11 +157,11 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void releaseToPoolRequestPendingTaskAsGroupManager()
     {
-        setupAuthenticatedSession(userName1, password);
+        setupAuthenticatedSession(userName1.getUsername(), password);
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
 
         LOG.info("STEP1: Navigate to 'Pending Invites' page");
-        pendingInvitesPage.navigate(site);
+        pendingInvitesPage.navigate(moderated.getTitle());
         assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");
         ArrayList<String> pendingRequestsList = new ArrayList<>(Arrays.asList(user2));
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
@@ -145,7 +179,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
 
         LOG.info("STEP4: Login as " + userName3 + ". Navigate to Pending Invites page");
         setupAuthenticatedSession(userName3, password);
-        pendingInvitesPage.navigate(site);
+        pendingInvitesPage.navigate(moderated.getTitle());
         assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");
         pendingRequestsList.add(user2);
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
@@ -160,7 +194,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
 
         LOG.info("STEP1: Navigate to Site Members page -> Pending tab");
-        pendingInvitesPage.navigate(site);
+        pendingInvitesPage.navigate(moderated.getTitle());
         assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");
         ArrayList<String> pendingRequests = new ArrayList<>(Arrays.asList(user2));
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequests.toString(), "Pending Requests=");
@@ -173,7 +207,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         editTaskPage.clickClaimButton();
 
         LOG.info("STEP3: Navigate to Pending Invites page");
-        pendingInvitesPage.navigate(site);
+        pendingInvitesPage.navigate(moderated.getTitle());
         assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequests.toString(), "Pending Requests=");
     }
@@ -185,13 +219,13 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     {
         String userName4 = "user4" + RandomData.getRandomAlphanumeric();
         userService.create(adminUser, adminPassword, userName4, password, email, firstName, lastName + "4");
-        userService.createSiteMember(userName1, password, userName4, site, UserRole.SiteManager.toString());
+        userService.createSiteMember(userName1.getUsername(), password, userName4, moderated.getTitle(), UserRole.SiteManager.toString());
 
-        setupAuthenticatedSession(userName1, password);
+        setupAuthenticatedSession(userName1.getUsername(), password);
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
 
         LOG.info("STEP1: Navigate to Site Members page -> Pending tab");
-        pendingInvitesPage.navigate(site);
+        pendingInvitesPage.navigate(moderated.getTitle());
         assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");
         ArrayList<String> pendingRequestsList = new ArrayList<>(Arrays.asList(user2));
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
@@ -206,8 +240,11 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Login as " + userName4 + " and navigate to Pending Invites page");
         setupAuthenticatedSession(userName4, password);
-        pendingInvitesPage.navigate(site);
+        pendingInvitesPage.navigate(moderated.getTitle());
         assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
+
+        userService.delete(adminUser,adminPassword, userName4);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName4);
     }
 }

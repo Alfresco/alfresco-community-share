@@ -12,6 +12,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -51,6 +52,14 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+
+    }
+
     @TestRail(id = "C5525")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletHelpNotification()
@@ -75,6 +84,8 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
         LOG.info("Step 3: Click 'X' icon on balloon popup");
         siteLinksDashlet.closeHelpBalloon();
         assertFalse(siteLinksDashlet.isBalloonDisplayed(), "Help balloon isn't displayed");
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id = "C5534")
@@ -112,6 +123,8 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
         siteDashboard.navigate(siteName);
         assertTrue(siteLinksDashlet.isLinkPresentInList(linkTitle), "Link title is displayed in dashlet.");
         assertTrue(siteLinksDashlet.hasLinkDetailsButton(linkTitle));
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id = "C5804")
@@ -135,5 +148,8 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
         assertTrue(linkDetailsViewPage.getCreationDate().contains(df.format(new Date())), "Date of creation is today.");
         assertEquals(linkDetailsViewPage.getCreatedBy(), user + " " + user, "User that created the link is current user.");
         assertTrue(linkDetailsViewPage.isTagDisplayedInTagsList("tag1"), "Tag1 is displayed.");
+
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 }

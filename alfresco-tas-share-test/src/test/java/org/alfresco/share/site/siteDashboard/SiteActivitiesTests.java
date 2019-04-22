@@ -75,6 +75,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'X' icon");
         siteActivitiesDashlet.closeHelpBalloon();
         assertEquals(siteActivitiesDashlet.isBalloonDisplayed(), false, "'Help' balloon is closed.");
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C2809")
@@ -117,6 +120,11 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         assertEquals(siteActivitiesDashlet.isHistoryOptionSelected(SiteActivitiesDaysRangeFilter.TWENTY_EIGHT_DAYS), true,
                 "Option 'in the last 28 days' is selected.");
         assertEquals(siteActivitiesDashlet.isTimeRangeAccurateForAllActivities(28, "now"), true, "Only activities in the last 28 days are displayed.");
+
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id="C12833")
@@ -153,6 +161,10 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         getBrowser().waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
         Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity is not present on dashlet");
         cleanupAuthenticatedSession();
+
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id="C12834")
@@ -187,6 +199,10 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity is not present on dashlet");
 
         cleanupAuthenticatedSession();
+
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id="C12835")
@@ -226,6 +242,11 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         siteMembersPage.openSiteGroupsPage();
         Assert.assertEquals(siteGroupsPage.getSiteMembersList(),expectedGroupName, groupName+" is not displayed");
         Assert.assertEquals(siteGroupsPage.getIds(), expectedId, groupId+ " is not displayed");
+
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id="C12836")
@@ -257,11 +278,15 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         siteGroupsPage.clickSearchButton();
         Assert.assertEquals(siteGroupsPage.getSearchResultsGroupName(), expectedGroupName, expectedGroupName+" is not displayed in search results");
         Assert.assertEquals(siteGroupsPage.getIdInSearchResults(), expectedId, expectedId+" is not displayed in search results");
+
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id="C12837")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-
     public void activitiesDashletDisplaysGroupNameWhenGroupsRoleIsChanged()
     {
         String user = String.format("C12837User%s", RandomData.getRandomAlphanumeric());
@@ -307,6 +332,11 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
         getBrowser().waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
         Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity is not present on dashlet");
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
+
+
     }
     @TestRail(id="C12838")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
@@ -351,5 +381,8 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
         getBrowser().waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
         Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity is not present on dashlet");
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 }

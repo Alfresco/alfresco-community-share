@@ -15,6 +15,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -51,6 +52,17 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         contentService.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName2, docContent);
         contentService.uploadFileInSite(userName1, userName1, siteName, testDataFolder + uploadFileName);
         userService.createSiteMember(adminUser, adminPassword, userName2, siteName, "SiteManager");
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
+        userService.delete(adminUser,adminPassword, userName2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
+
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C5425") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void siteContentDashletSimpleView()
@@ -103,6 +115,8 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         siteContentDashlet.clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_CONTENT);
         siteContentDashlet.closeHelpBalloon();
         assertEquals(siteContentDashlet.isBalloonDisplayed(), false, "'Help' balloon closed.");
+        siteService.delete(adminUser,adminPassword,siteName1 );
+
     }
 
     @TestRail(id = "C5456") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void favoriteItem() throws Exception

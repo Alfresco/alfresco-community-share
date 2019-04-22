@@ -10,6 +10,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -38,6 +39,15 @@ public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
         contentService.createFolder(user, password, folderName1, siteName);
         contentService.createDocumentInFolder(user, password, siteName, folderName1, DocumentType.TEXT_PLAIN, docName1, "Document content");
         setupAuthenticatedSession(user, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser, adminPassword,siteName);
+
     }
 
     @TestRail(id = "C6333")

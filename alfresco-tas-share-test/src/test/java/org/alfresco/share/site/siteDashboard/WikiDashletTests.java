@@ -13,6 +13,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -41,6 +42,13 @@ public class WikiDashletTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
     @TestRail(id = "C5428")
@@ -78,6 +86,9 @@ public class WikiDashletTests extends ContextAwareWebTest
 
         LOG.info("Step 7: Close the Edit Pop-up by clicking the X button");
         selectWikiPage.clickCloseButton();
+
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id = "C5433")
@@ -137,6 +148,8 @@ public class WikiDashletTests extends ContextAwareWebTest
          * Cleanup
          */
         sitePagesService.deleteWikiPage(adminUser, adminPassword, siteName, wikiPageTitle);
+        siteService.delete(adminUser,adminPassword,siteName );
+
 
     }
 
@@ -179,5 +192,7 @@ public class WikiDashletTests extends ContextAwareWebTest
          */
         sitePagesService.deleteWikiPage(adminUser, adminPassword, siteName, wikiPageTitle);
         sitePagesService.deleteWikiPage(adminUser, adminPassword, siteName, wikiPageTitle1);
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 }

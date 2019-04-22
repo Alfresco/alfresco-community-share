@@ -67,6 +67,22 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         setupAuthenticatedSession(userManager, password);
         siteMembersPage.navigate(siteName);
         Assert.assertTrue(siteMembersPage.isPendingInvitesDisplayed(), "\"Pending Invites\" is displayed");
+
+        userService.delete(adminUser,adminPassword, userManager);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userManager);
+
+        userService.delete(adminUser,adminPassword, userCollaborator);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userCollaborator);
+
+        userService.delete(adminUser,adminPassword, userContributor);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
+
+        userService.delete(adminUser,adminPassword, userConsumer);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userConsumer);
+
+        siteService.delete(adminUser,adminPassword,siteName);
+
+
     }
 
     @TestRail(id = "C2895")
@@ -140,6 +156,12 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         pendingInvitesPage.typeIntoSearchInput(RandomStringUtils.randomAlphabetic(1025));
         pendingInvitesPage.clickSearchButton();
         Assert.assertFalse(pendingInvitesPage.isPendingInvitesListDisplayed(), "Pending invites list is not displayed");
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+
+        siteService.delete(adminUser,adminPassword,siteName);
+
     }
 
     @TestRail(id = "C2898")
@@ -179,6 +201,11 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         Assert.assertTrue(DataUtil.areDatesEqual(addUsersDate, invitationSentDate, 300000), "Invitation date. addUsersDate :" + addUsersDate.toString() + " invitationSentDate: " + invitationSentDate.toString());
         Assert.assertEquals(pendingInvitesPage.getInvitationUserRole("fName" + userIdentifier), userRole, "Invitation user role");
         Assert.assertTrue(pendingInvitesPage.isCancelButtonDisplayed("fName" + userIdentifier), "Cancel button is displayed");
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+
+        siteService.delete(adminUser,adminPassword,siteName);
     }
 
     @TestRail(id = "C2900")
@@ -212,5 +239,12 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         LOG.info("STEP 4 - Click on \"Pending Invites\" link on the site navigation");
         pendingInvitesPage.navigate(siteName);
         Assert.assertFalse(pendingInvitesPage.isPendingInvitesListDisplayed(), userName2 + " invitation is not displayed");
+
+        userService.delete(adminUser,adminPassword, userName1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
+        userService.delete(adminUser,adminPassword, userName2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
+
+        siteService.delete(adminUser,adminPassword,siteName);
     }
 }

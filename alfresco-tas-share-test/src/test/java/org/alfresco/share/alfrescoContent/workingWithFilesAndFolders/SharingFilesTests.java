@@ -14,6 +14,7 @@ import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -63,6 +64,16 @@ public class SharingFilesTests extends ContextAwareWebTest
         //setupAuthenticatedSession(user, password);
     }
 
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser, adminPassword,siteNameC7093);
+        siteService.delete(adminUser, adminPassword,siteNameC7649);
+        siteService.delete(adminUser, adminPassword,siteName);
+    }
+
 
    @TestRail(id = "C7095")
    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
@@ -82,11 +93,13 @@ public class SharingFilesTests extends ContextAwareWebTest
             LOG.info("Step 2: Click Facebook icon");
             social.clickShareWithFacebook();
             getBrowser().switchWindow();
-            getBrowser().waitUntilElementIsDisplayedWithRetry(social.facebookHomeLink, 2);
+        getBrowser().waitInSeconds(5);
+
+        getBrowser().waitUntilElementIsDisplayedWithRetry(social.facebookHomeLink, 2);
             Assert.assertEquals(social.getFacebookWindowTitle(), "Facebook", "User is not redirected to the Facebook page");
             social.loginFacebook();
             Assert.assertTrue(social.isShareLinkDisplayedOnFacebook(), "Share link is not displayed on Facebook");
-            getBrowser().closeWindowAcceptingModalDialog();
+     //       getBrowser().closeWindowAcceptingModalDialog();
             cleanupAuthenticatedSession();
     }
 
@@ -119,7 +132,10 @@ public class SharingFilesTests extends ContextAwareWebTest
             getBrowser().closeWindowAndSwitchBack();
             cleanupAuthenticatedSession();
     }
+/*
 
+
+// The consumer version of Google+ is shutting down in April 2019. This test is now disabled.
   @Bug(id = "ACE-5768")
   @TestRail(id = "C7097")
   @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
@@ -159,7 +175,7 @@ public class SharingFilesTests extends ContextAwareWebTest
 
     }
 }
-
+*/
    @TestRail(id = "C7099")
    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void unshareDocument()

@@ -11,6 +11,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -39,17 +40,29 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser, adminPassword,siteName);
+
+    }
+
     @TestRail(id="C6939")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     
     public void noTagsAdded()
     {
+        String tagName1 = "tag1c6940";
+
         documentLibraryPage.navigate(siteName);
         
         LOG.info("Step 1: Verify Tags section");
         Assert.assertTrue(filters.checkIfTagsFilterIsPresent(), "Tags filter is not displayed");
         
         LOG.info("Step 2: Click Tags filter");
+
         filters.clickTagsLink();
         Assert.assertFalse(filters.areTagsPresent(), "Tags content is displayed ");
     }
@@ -62,8 +75,8 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
         //Preconditions
         String tagName1 = "tag1c6940";
         String tagName2 = "tag2c6940";
-        String siteName = String.format("C6940SiteName", RandomData.getRandomAlphanumeric());
-        siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
+     //   String siteName = String.format("C6940SiteName", RandomData.getRandomAlphanumeric());
+   //     siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.createFolder(user, password, folderName, siteName);
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, docName, docContent);
         setupAuthenticatedSession(user, password);

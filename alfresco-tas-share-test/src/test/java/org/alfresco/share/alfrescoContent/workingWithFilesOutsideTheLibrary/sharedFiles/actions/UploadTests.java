@@ -125,5 +125,10 @@ public class UploadTests extends ContextAwareWebTest
         contentService.deleteContentByPath(user, password, path + "/" + doc1);
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + newDoc2);
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + doc3);
+        userService.delete(adminUser, adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+
+        userService.delete(adminUser, adminPassword, user2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
     }
 }

@@ -12,6 +12,8 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -54,6 +56,13 @@ public class MyTasksTest extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
         setupAuthenticatedSession(userName, password);
         workflowService.startNewTask(userName, password, taskName, taskDate, userName, Priority.Low, null, true);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
     
     @TestRail(id="C2122")

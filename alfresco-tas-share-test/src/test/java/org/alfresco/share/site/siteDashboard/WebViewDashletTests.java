@@ -86,6 +86,11 @@ public class WebViewDashletTests extends ContextAwareWebTest
         configureWebViewPopUp.clickCloseButton();
         Assert.assertFalse(webViewDashlet.isConfigureWebViewWindowDisplayed());
 
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
+
+
     }
 
     @TestRail(id = "C5450")
@@ -126,6 +131,10 @@ public class WebViewDashletTests extends ContextAwareWebTest
         assertEquals(webViewDashlet.getDashletTitle(), linkTitle, "Web View Dashlet title is updated.");
         String expectedSource = getBrowser().findElement(By.cssSelector("iframe[class$='iframe-body']")).getAttribute("src");
         assertEquals(expectedSource, url);
+
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C5453")
@@ -167,6 +176,10 @@ public class WebViewDashletTests extends ContextAwareWebTest
         assertEquals(siteDashboard.getRelativePath(), expectedRelativePath, "User is redirected to site dashboard");
         assertEquals(webViewDashlet.getDefaultMessage(), "No web page to display.");
         assertEquals(webViewDashlet.getDashletTitle(), "Web View");
+
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
     
     @TestRail(id = "C5459")
@@ -204,6 +217,10 @@ public class WebViewDashletTests extends ContextAwareWebTest
         assertEquals(webViewDashlet.getDashletTitle(), linkTitle);
         String expectedSource = getBrowser().findElement(By.cssSelector("iframe[class$='iframe-body']")).getAttribute("src");
         assertEquals(expectedSource, url);
+
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
     
 }

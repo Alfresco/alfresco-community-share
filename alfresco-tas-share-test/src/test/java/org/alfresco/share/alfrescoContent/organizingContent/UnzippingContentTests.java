@@ -12,6 +12,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -47,6 +48,17 @@ public class UnzippingContentTests extends ContextAwareWebTest {
         contentService.uploadFileInSite(testUser, password, siteName1, testDataFolder + acpFile);
         setupAuthenticatedSession(testUser, password);
     }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, testUser);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
+        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword,siteName1);
+
+    }
+
 
     @TestRail(id = "C7409")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})

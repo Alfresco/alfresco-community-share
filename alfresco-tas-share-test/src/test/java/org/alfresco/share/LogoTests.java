@@ -5,6 +5,7 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -18,15 +19,22 @@ public class LogoTests extends ContextAwareWebTest {
     AboutPopUpPage aboutPage;
 
     String user1 = "user1" + System.currentTimeMillis();
-    private String copyRightText = "© 2005-2018" + " Alfresco Software Inc. All rights reserved. www.alfresco.com Legal and License";
+    private String copyRightText = "© 2005-2019" + " Alfresco Software Inc. All rights reserved. www.alfresco.com Legal and License";
 
     @BeforeClass(alwaysRun = true)
     public void setupTest() {
         userService.create(adminUser, adminPassword, user1, user1, user1 + domain, user1, user1);
         setupAuthenticatedSession(user1, user1);
     }
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
+    }
 
-    @TestRail(id = "C2088")
+
+        @TestRail(id = "C2088")
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
     public void checkAboutBox() {
         LOG.info("STEP 1: Verify bottom of User Dashboard page");

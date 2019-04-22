@@ -68,5 +68,9 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
         documentLibraryPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         getBrowser().waitInSeconds(2);
         assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(addedTagName.toLowerCase()).toString(), fileName + " -> tags=");
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser, adminPassword,siteName);
     }
 }

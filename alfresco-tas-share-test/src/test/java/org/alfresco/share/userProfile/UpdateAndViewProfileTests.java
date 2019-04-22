@@ -9,6 +9,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,6 +34,13 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, user, user + domain, "fName", "lName");
         setupAuthenticatedSession(user, user);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
     @TestRail(id = "C2110")

@@ -9,6 +9,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -37,6 +38,11 @@ public class NodeBrowserTests extends ContextAwareWebTest
         LOG.info("Step 1: Login as administrator and navigate to Admin Tools - Node Browser page.");
         setupAuthenticatedSession(adminUser, adminPassword);
         nodeBrowserPage.navigate();
+    }
+    @AfterClass(alwaysRun = true)
+    public void afterClass()
+    {
+        siteService.delete(adminUser, adminPassword,siteName);
     }
 
     @TestRail(id = "C9309")

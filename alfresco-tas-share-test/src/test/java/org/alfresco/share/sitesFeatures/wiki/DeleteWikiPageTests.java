@@ -12,9 +12,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.util.Collections;
 
@@ -53,6 +51,20 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.WIKI, null);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, testUser);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
+    }
+
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanupMethod()
+    {
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C5515")

@@ -93,6 +93,21 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, startWorkflowFile, fileContent);
     }
 
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        userService.delete(adminUser,adminPassword, user2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
+
+        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser,adminPassword,siteName2 );
+
+    }
+
+
+
     @TestRail(id = "C8938")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorCreateContent() {
@@ -146,8 +161,10 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testDocument from Document Library");
         documentLibraryPage.navigate(siteName);
+        getBrowser().waitInSeconds(5);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(textFilePlainCreatedBySelf, "Download"),  "\"Download\" is not available ");
         LOG.info("Step 2: Click the Download Button. Check the file was saved locally");
+        getBrowser().refresh();
         documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedBySelf, "Download", documentLibraryPage);
         download.acceptAlertIfDisplayed();
         Assert.assertTrue(download.isFileInDirectory(textFilePlainCreatedBySelf, null), "The file was not found in the specified location");
@@ -334,8 +351,9 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(msWordFileCreatedBySelf), String.format("Document %s is not present", msWordFileCreatedBySelf));
         LOG.info("Step 2: Click Check out to Google docs or Edit in Google Docs.");
-        googleDocsCommon.loginToGoogleDocs();
+    //    googleDocsCommon.loginToGoogleDocs();
         documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, "Edit in Google Docs™", googleDocsCommon);
+        getBrowser().waitInSeconds(5);
         googleDocsCommon.clickOkButton();
         LOG.info("Step 3: Check the testFile status in Document Library.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(googleDocsCommon.lockedIcon);
@@ -374,6 +392,10 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         googleDocsCommon.loginToGoogleDocs();
         documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedByOther, "Edit in Google Docs™", googleDocsCommon);
         googleDocsCommon.clickOkButton();
+        getBrowser().waitInSeconds(8);
+        googleDocsCommon.confirmDocumentFormatUpgradeYes();
+        getBrowser().waitInSeconds(5);
+
         LOG.info("Step 3: Check the testFile status in Document Library.");
         getBrowser().waitUntilElementVisible(googleDocsCommon.lockedIcon);
         Assert.assertTrue(googleDocsCommon.isLockedIconDisplayed(), "Locked Icon is not displayed");

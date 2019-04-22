@@ -42,8 +42,36 @@ public class ModelDetailsPage extends SharePage<ModelDetailsPage>
     @FindBy(css = "span[class*='backButton '] span[id*='alfresco_buttons_AlfButton']")
     private WebElement showModelsButton;
 
+    /*@RenderWebElement
+    @FindBy(css = "div[widgetid*='alfresco_menus_AlfMenuBarPopup']")
+    private List<WebElement> actionButtons;*/
+
+    @RenderWebElement
+    @FindBy(css = "div[class$='dijitVisible'] tbody[id$='ITEMS']>tr")
+    private List<WebElement> rows;
+
+    private By typeName = By.cssSelector("td[class*='nameColumn'] span[class='value']");
+    private By actionsButton = By.cssSelector("td[class*='actionsColumn'] span[class$='arrow']");
     private By typeList =  By.cssSelector("div#TYPES_LIST tr[id^='alfresco_lists_views_layouts_Row']");
     private By aspectList =  By.cssSelector("div#PROPERTY_GROUPS_LIST tr[id^='alfresco_lists_views_layouts_Row']");
+
+
+    private void clickAction(String type)
+    {
+        for(WebElement element : rows)
+        {
+            WebElement name = element.findElement(typeName);
+            if(name.getText().equals(type))
+            {
+                element.findElement(actionsButton).click();
+            }
+        }
+    }
+
+    public void selectlayouDesign(String type)
+    {
+        clickAction(type);
+    }
 
     public boolean isCreateCustomTypeButtonDisplayed()
     {

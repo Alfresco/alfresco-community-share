@@ -265,5 +265,14 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupService.removeGroup(adminUser, adminPassword, group3);
         groupService.removeGroup(adminUser, adminPassword, groupNameToAdd);
         groupService.removeGroup(adminUser, adminPassword, displayName);
+        userService.delete(adminUser,adminPassword, userAdmin);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userAdmin);
+        siteService.delete(adminUser, adminPassword,userModelAdmin);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userModelAdmin);
+        siteService.delete(adminUser, adminPassword,userToAdd);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userToAdd);
+
     }
+
+
 }

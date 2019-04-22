@@ -8,6 +8,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -31,6 +32,15 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, nonAdminUser, password, nonAdminUser + domain, nonAdminUser, nonAdminUser);
         contentService.createFolderInRepository(adminUser, adminPassword, folderInRepoMainPath, "/");
         contentService.createFolderInRepository(nonAdminUser, password, folderInRepoUserHomes, "User Homes/" + nonAdminUser);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, nonAdminUser);
+        contentService.deleteTreeByPath(adminUser, adminPassword, folderInRepoMainPath);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + nonAdminUser);
+
     }
 
     @TestRail(id = "C8254")

@@ -7,6 +7,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -37,6 +38,22 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
         userService.createSiteMember(user1, password, user2, siteName, "SiteCollaborator");
         userService.createSiteMember(user1, password, user3, siteName, "SiteCollaborator");
         setupAuthenticatedSession(user1, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
+
+        userService.delete(adminUser,adminPassword, user2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
+
+        userService.delete(adminUser,adminPassword, user3);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user3);
+
+        siteService.delete(adminUser,adminPassword,siteName );
+
     }
 
     @TestRail(id = "C2816")

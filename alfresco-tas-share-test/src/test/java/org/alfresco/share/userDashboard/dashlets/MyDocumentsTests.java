@@ -15,6 +15,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -43,6 +44,14 @@ public class MyDocumentsTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, userName1, userName1);
         siteName1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName1, password, domain, siteName1, "description", SiteService.Visibility.PUBLIC);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
+          siteService.delete(adminUser,adminPassword,siteName1 );
     }
 
     @TestRail(id = "C2134")
@@ -114,6 +123,9 @@ public class MyDocumentsTests extends ContextAwareWebTest
         LOG.info("STEP 8 - Press add comment, check that comment section is displayed on document details page");
         myDocumentsDashlet.addComment(file);
         Assert.assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "Add comment block is not displayed on document details page");
+
+        userService.delete(adminUser,adminPassword, userName2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
     }
 
     @TestRail(id = "C2138")

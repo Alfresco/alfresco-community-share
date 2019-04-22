@@ -91,10 +91,11 @@ public class FacetedSearchTests extends ContextAwareWebTest
 
     @AfterClass(alwaysRun = true) public void cleanup()
     {
-        siteService.delete(adminUser, adminPassword, domain, siteName);
-        siteService.delete(adminUser, adminPassword, domain, siteForCopy);
-        siteService.delete(adminUser, adminPassword, domain, siteForMove);
         userService.delete(adminUser, adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser, adminPassword, siteName);
+        siteService.delete(adminUser, adminPassword, siteForCopy);
+        siteService.delete(adminUser, adminPassword, siteForMove);
     }
 
     @TestRail(id = "C12816") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 2)

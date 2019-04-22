@@ -12,9 +12,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 /**
  * @author iulia.nechita
@@ -48,6 +46,13 @@ public class CreateNewWikiTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, testUser);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
+    }
+
     @BeforeMethod(alwaysRun = true)
     public void createSite()
     {
@@ -58,6 +63,13 @@ public class CreateNewWikiTests extends ContextAwareWebTest
         siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.WIKI, null);
     }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanupMethod()
+    {
+        siteService.delete(adminUser,adminPassword,siteName );
+    }
+
 
     @TestRail(id = "C5504")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -98,7 +110,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
         createWikiPage.typeWikiPageContent(wikiPageContent);
 
         LOG.info("STEP 3: Click on Cancel button");
-        createWikiPage.cancelWikiPageAndLeavePage();
+        createWikiPage.cancelWikiPage();
 
         LOG.info("STEP 4: Check that wiki page is not present on the list");
         Assert.assertTrue( wikiListPage.getWikiPageTitlesList().isEmpty(), "There are wiki pages displayed in the list!");

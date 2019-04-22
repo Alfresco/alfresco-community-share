@@ -12,6 +12,7 @@ import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -55,6 +56,17 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
         sitePagesService.createBlogPost(user2, password, siteName, blogTitleUser2Draft, blogContentDraft, true, tags);
         setupAuthenticatedSession(user1, password);
     }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
+        userService.delete(adminUser,adminPassword, user2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
+        siteService.delete(adminUser,adminPassword,siteName );
+    }
+
 
     @TestRail(id = "C5528")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })

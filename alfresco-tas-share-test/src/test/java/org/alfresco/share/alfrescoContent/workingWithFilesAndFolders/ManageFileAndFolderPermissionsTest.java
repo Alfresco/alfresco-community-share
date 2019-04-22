@@ -10,6 +10,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -40,6 +41,16 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         contentService.createDocument(testUser1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, testFileName, docContent);
         contentService.createFolder(testUser1, password, testFolderName, siteName);
     }
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, testUser1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser1);
+        userService.delete(adminUser,adminPassword, testUser2);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser2);
+        siteService.delete(adminUser, adminPassword,siteName);
+    }
+
 
     @TestRail(id = "C6092")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
@@ -78,6 +89,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
 
         LOG.info("STEP3: Return to Manage Permissions page for the file and check if permissions were added successfully.");
         documentLibraryPage.clickDocumentLibraryItemAction(testFileName, "Manage Permissions", managePermissionsPage);
+        getBrowser().waitInSeconds(5);
         assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
         managePermissionsPage.clickButton("Cancel");
         getBrowser().waitInSeconds(5);

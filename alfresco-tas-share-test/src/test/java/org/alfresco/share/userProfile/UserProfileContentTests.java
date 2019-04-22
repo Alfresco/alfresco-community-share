@@ -34,6 +34,8 @@ public class UserProfileContentTests extends ContextAwareWebTest
         NoModifiedContentMessage = language.translate("userProfileContent.noModifiedContentMessage");
     }
 
+
+
     @TestRail(id = "C2552")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER})
     public void noAddedOrModifiedContent()
@@ -55,5 +57,6 @@ public class UserProfileContentTests extends ContextAwareWebTest
     public void tearDown()
     {
         userService.delete(adminUser, adminPassword, userName1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
     }
 }

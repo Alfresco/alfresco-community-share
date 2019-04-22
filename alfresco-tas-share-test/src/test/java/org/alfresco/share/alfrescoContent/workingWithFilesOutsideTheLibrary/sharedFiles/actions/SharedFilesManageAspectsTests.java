@@ -94,8 +94,13 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     @AfterClass
     public void deleteContent()
     {
-        contentService.deleteContentByPath(userName, password, "/Shared/" + folderName);
         userService.delete(adminUser, adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+
         userService.delete(adminUser, adminPassword, userName1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
+
+        contentService.deleteContentByPath(adminUser, adminPassword, "/Shared/" + folderName);
+
     }
 }

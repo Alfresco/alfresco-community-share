@@ -73,6 +73,9 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(userDashboard.isCustomizeUserDashboardDisplayed(), "User Dashboard page is not opened");
         Assert.assertTrue(userDashboard.isDashletAddedInPosition(Dashlets.MY_DOCUMENTS, 2, 1), "My Documents dashlet is not in column 2 position 1");
         Assert.assertTrue(userDashboard.isDashletAddedInPosition(Dashlets.MY_ACTIVITIES, 2, 2), "My Activities dashlet is not in column 2 position 2");
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
     @TestRail(id = "C2855")
@@ -114,6 +117,9 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
         customizeUserDashboard.clickOk();
         Assert.assertTrue(userDashboard.isCustomizeUserDashboardDisplayed(), "User Dashboard page is not opened " + getBrowser().getCurrentUrl());
         Assert.assertTrue(userDashboard.getNumerOfColumns() == 3, "User Dashboard page doesn't have 3 columns");
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
     @TestRail(id = "C2857")
@@ -154,5 +160,8 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
   //      savedSearchDashlet.resizeDashlet(-400);
         Assert.assertTrue(mySitesDashlet.getDashletHeight() < sizeAfterMyMeeting);
    //     Assert.assertTrue(savedSearchDashlet.getDashletHeight() < sizeAfterMyDiscussions);
+
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 }

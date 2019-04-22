@@ -13,6 +13,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -65,6 +66,16 @@ public class EditToDoListTest extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         dataListsPage.clickToDoListItem(todoListName);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        userService.delete(adminUser,adminPassword, asigneeName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + asigneeName);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "C10352")

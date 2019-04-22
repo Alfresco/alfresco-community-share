@@ -12,6 +12,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -43,6 +44,19 @@ public class UnzipContentTests extends ContextAwareWebTest
         contentService.uploadFileInRepository(adminUser, adminPassword, path, testDataFolder + zipFile);
         contentService.uploadFileInRepository(adminUser, adminPassword, path, testDataFolder + acpFile);
     }
+    @AfterClass
+    public void deleteContent()
+    {
+        userService.delete(adminUser, adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+
+        contentService.deleteContentByPath(adminUser, adminPassword, path+"/"+zipFile);
+        contentService.deleteContentByPath(adminUser, adminPassword, path+"/"+acpFile);
+        contentService.deleteContentByPath(adminUser, adminPassword, path+"/"+"fileC8040.txt");
+        contentService.deleteTreeByPath(adminUser, adminPassword, path+"/"+"archiveC7410");
+
+    }
+
 
     @TestRail(id = "C8040")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})

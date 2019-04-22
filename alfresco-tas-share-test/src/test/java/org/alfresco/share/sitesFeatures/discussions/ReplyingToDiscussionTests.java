@@ -12,6 +12,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -57,6 +58,14 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         siteService.create(user1, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteName, Page.DISCUSSIONS, null);
         setupAuthenticatedSession(user1, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     @TestRail(id = "6214")

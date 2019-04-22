@@ -10,6 +10,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -45,6 +46,15 @@ public class ViewEventTests extends ContextAwareWebTest
         siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), startHour, endHour, false, eventTags);
         setupAuthenticatedSession(user1, password);
+    }
+
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user1);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
+        siteService.delete(adminUser,adminPassword,siteName );
     }
 
     private String formatDate(DateTime date, String hour)

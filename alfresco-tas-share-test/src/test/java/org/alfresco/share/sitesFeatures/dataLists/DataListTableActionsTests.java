@@ -12,9 +12,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.util.Arrays;
 
@@ -59,6 +57,15 @@ public class DataListTableActionsTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(2);
         contactListSelectedContent.setBrowser(getBrowser());
     }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser,adminPassword,siteName );
+    }
+
 
     @TestRail(id = "C6864")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })

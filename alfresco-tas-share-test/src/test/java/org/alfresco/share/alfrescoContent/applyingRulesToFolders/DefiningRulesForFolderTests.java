@@ -15,6 +15,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -69,6 +70,16 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword,siteName2);
+
     }
 
     @TestRail(id = "C6367")
@@ -442,6 +453,8 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
                 "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
+        getBrowser().waitInSeconds(7);
+
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
 
@@ -629,6 +642,8 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
                 "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
+        getBrowser().waitInSeconds(7);
+
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
 
         LOG.info("STEP3: Navigate to the path specified in the rule, Document Library");

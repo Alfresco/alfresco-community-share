@@ -247,6 +247,10 @@ public class EditTests extends ContextAwareWebTest
                 String.format("Document: %s has incorrect contents.", editedInGoogleDocsTitle));
 
         cleanupAuthenticatedSession();
+        contentService.deleteContentByPath(adminUser, adminPassword,  "/" + path + "/contents" + editedInGoogleDocsTitle);
+
+
+
     }
 
     @TestRail(id = "C13760")
@@ -273,6 +277,10 @@ public class EditTests extends ContextAwareWebTest
     @AfterClass
     public void cleanUp()
     {
+        userService.delete(adminUser, adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+
+
         contentService.deleteContentByPath(adminUser, adminPassword,  "/" + path + "/" + updatedDocName1);
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + updatedDocName2);
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + docName3);

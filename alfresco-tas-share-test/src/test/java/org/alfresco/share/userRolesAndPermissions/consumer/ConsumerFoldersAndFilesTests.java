@@ -15,6 +15,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -83,6 +84,18 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(adminUser, adminPassword, folderC8761, siteName);
         contentService.createFolder(adminUser, adminPassword, folderC8784, siteName);
         setupAuthenticatedSession(user, password);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
+        userService.delete(adminUser,adminPassword, user8865);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user8865);
+        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser,adminPassword,site8865 );
+
     }
 
     @TestRail(id = "C8761")

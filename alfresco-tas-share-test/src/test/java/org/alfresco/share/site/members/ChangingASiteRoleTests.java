@@ -16,6 +16,7 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -54,6 +55,17 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         setupAuthenticatedSession(manager.getUsername(), password);
     }
 
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, manager.getUsername());
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + manager.getUsername());
+
+        userService.delete(adminUser,adminPassword, testUser.getUsername());
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser.getUsername());
+
+    }
+
     @TestRail(id = "C2835")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlySiteManagerIsAbleToChangeRoles() throws DataPreparationException {
@@ -69,6 +81,8 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         siteDashboardPage.navigate(testSite.getTitle());
         assertEquals(siteMembersDashlet.getMemberRole(testUser.getUsername()), "Contributor",
                 "Successfully changed role of user to Contributor");
+
+        siteService.delete(adminUser,adminPassword,testSite.getTitle() );
     }
 
     @TestRail(id = "C2836")
@@ -93,6 +107,9 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         siteGroupsPage.openSiteUsersPage();
         assertTrue(siteUsersPage.isASiteMember(testUser.getUsername()  + " FirstName LN-" + testUser.getUsername() ));
         assertEquals(siteUsersPage.getRole(testUser.getUsername() ), "Consumer ▾", testUser.getUsername()  + " has role in " +testGroup.getDisplayName());
+
+        siteService.delete(adminUser,adminPassword,testSite.getTitle() );
+
     }
 
     @TestRail(id = "C2837")
@@ -108,5 +125,6 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         LOG.info("Step 2: Change the current role to 'Consumer'");
         siteUsersPage.changeRoleForMember("Consumer", testUser.getUsername());
         assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Consumer ▾", testUser.getUsername() + " has role=");
+        siteService.delete(adminUser,adminPassword,testSite.getTitle() );
     }
 }

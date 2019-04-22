@@ -11,6 +11,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,6 +34,13 @@ public class MyMeetingWorkspacesTests extends ContextAwareWebTest
         userService.addDashlet(userName, password, DashboardCustomization.UserDashlet.MY_MEETING_WORKSPACES, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(userName, password);
     }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+      }
     
     @TestRail(id = "C2772")
     @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})

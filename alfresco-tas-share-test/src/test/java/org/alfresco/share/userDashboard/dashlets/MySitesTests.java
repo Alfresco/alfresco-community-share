@@ -8,9 +8,12 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.junit.After;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -34,6 +37,13 @@ public class MySitesTests extends ContextAwareWebTest
         userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         setupAuthenticatedSession(userName, password);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void cleanup()
+    {
+        userService.delete(adminUser,adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
     @TestRail(id = "C2095")
@@ -92,6 +102,8 @@ public class MySitesTests extends ContextAwareWebTest
         mySitesDashlet.confirmDeleteSite("Delete");
         mySitesDashlet.confirmDeleteSite("No");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName1), "Site is not available");
+        siteService.delete(adminUser,adminPassword,siteName1 );
+
     }
 
     @TestRail(id = "C2100")
@@ -135,5 +147,8 @@ public class MySitesTests extends ContextAwareWebTest
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is not available");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " is available");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " is available");
+        siteService.delete(adminUser,adminPassword,siteName1 );
+        siteService.delete(adminUser,adminPassword,siteName2 );
+        siteService.delete(adminUser,adminPassword,siteName3 );
     }
 }
