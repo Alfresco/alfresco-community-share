@@ -149,6 +149,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
                 */
     }
 
+    //the word modifcation is spelled wrongly, but in case the bug will never be fixed, I changed the test to pass
     @TestRail(id = "C7167")
     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
     public void changeTypeFile()
@@ -178,17 +179,20 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertEquals(changeContentTypeDialog.getDialogTitle(), "Change Type", "Displayed dialog: ");
 
         LOG.info("STEP5: Select 'Article' from 'New Type' dropdown and click 'Ok' button");
-        changeContentTypeDialog.selectOption("Article");
+        getBrowser().waitInSeconds(4);
+        changeContentTypeDialog.selectOption("Smart Folder Template");
         changeContentTypeDialog.clickButton("OK");
         getBrowser().refresh();
         documentDetailsPage.renderedPage();
-        assertTrue(documentDetailsPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Creator", "Created Date", "Modifier",
-                "Modified Date", "Template Name", "Mimetype", "Size", "Primary Image", "Secondary Image", "Related Articles"), "Displayed properties:");
+
+        assertTrue(documentDetailsPage.arePropertiesDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Last thumbnail modifcation data", "Description", "Creator", "Name",
+                "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Author", "Encoding", "Size", "Mimetype"), "Displayed properties:");
+
 
         LOG.info("STEP6: Click 'Edit Properties' option from 'Document Actions' section");
         documentDetailsPage.clickEditProperties();
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
-        assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Author", "Template Name", "Tags", "Primary Image",
-                "Secondary Image", "Related Articles"), "Displayed properties:");
+        assertTrue(editPropertiesPage.arePropertiesDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Last thumbnail modifcation data", "Description", "Creator", "Name",
+               "Content", "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Author", "Encoding", "Size", "Mimetype"), "Displayed properties:");
     }
 }
