@@ -50,7 +50,8 @@ public class SelectDestinationDialog extends ShareDialog {
     private WebElement allSitesButton;
 
     public void clickOkButton() {
-        okButton.click();
+        getBrowser().waitInSeconds(5);
+        getBrowser().waitUntilElementClickable(okButton).click();
     }
 
     public void clickLinkButton()

@@ -295,8 +295,9 @@ public class SettingHomePageTest extends ContextAwareWebTest
 
         LOG.info("STEP 7 - Click on the Home link in the header bar");
         toolbarUserMenu.clickHome();
-        userDashboardPage.renderedPage();
         getBrowser().waitInSeconds(5);
+
+        userDashboardPage.renderedPage();
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
 
         LOG.info("STEP 8 - Click on the user drop down in the header bar, log out and log in again");

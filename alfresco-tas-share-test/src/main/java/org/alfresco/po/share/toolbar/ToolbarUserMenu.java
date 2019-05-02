@@ -118,8 +118,8 @@ import org.openqa.selenium.support.FindBy;
 
     public void clickLogout()
     {
-        userMenuLink.click();
+        getBrowser().waitUntilElementClickable(userMenuLink).click();
         getBrowser().waitUntilElementVisible(dropdownMenu);
-        logout.click();
+        getBrowser().waitUntilElementClickable(logout).click();
     }
 }

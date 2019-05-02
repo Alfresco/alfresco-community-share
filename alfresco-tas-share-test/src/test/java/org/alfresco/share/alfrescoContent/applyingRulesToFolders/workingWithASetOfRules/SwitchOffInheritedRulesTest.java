@@ -90,6 +90,7 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         documentLibraryPage.clickOnFolderName(folder1);
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folder1).toString(), "Document Library breadcrumb=");
+        getBrowser().waitInSeconds(8);
     }
 
     @AfterClass(alwaysRun = true)
@@ -109,6 +110,7 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
         assertEquals(manageRulesPage.getRuleTitle(), folder2 + ": Rules", "Rule title=");
         LOG.info("STEP2: Click on 'Inherit Rules' button");
         manageRulesPage.clickInheritButton();
+        getBrowser().waitInSeconds(4);
         assertEquals(manageRulesPage.getInheritButtonText(), "Don't Inherit Rules", "Inherit button text=");
         LOG.info("STEP3: Navigate to Document Library -> 'Folder1'");
         documentLibraryPage.navigate(siteName);
