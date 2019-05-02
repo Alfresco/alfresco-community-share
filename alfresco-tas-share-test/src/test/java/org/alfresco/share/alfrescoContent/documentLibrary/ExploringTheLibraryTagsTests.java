@@ -100,5 +100,8 @@ public class ExploringTheLibraryTagsTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(4);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Folder tagged with tag2 is not displayed in Document Library");
         Assert.assertFalse(documentLibraryPage.isContentNameDisplayed(docName), "Document tagged with tag1 is displayed in Document Library");
+        contentAction.removeTag(user, password, siteName, docName, tagName1);
+        contentAction.removeTag(user, password, siteName, folderName, tagName2);
+
     }
 }

@@ -119,6 +119,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
         }
 
         LOG.info("Step 2: Check the folder was saved locally");
+        getBrowser().waitInSeconds(5);
         Assert.assertTrue(isFileInDirectory(folderNameC7802, ".zip"), "The folder was not found in the specified location");
         userService.delete(adminUser,adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);

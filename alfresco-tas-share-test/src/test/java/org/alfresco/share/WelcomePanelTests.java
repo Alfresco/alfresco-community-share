@@ -102,6 +102,7 @@ public class WelcomePanelTests extends ContextAwareWebTest
         userDashboard.clickCustomizeUserDashboard();
         customizeUserDashboard.activateGetStartedPanel(true);
         customizeUserDashboard.clickOk();
+        getBrowser().waitInSeconds(3);
         Assert.assertTrue(welcomePanel.isWelcomePanelDisplayed(), "Welcome panel displayed");
 
         logger.info("Step4: Click on the Customise User Dashboard icon on the right, select Hide on Dashboard radio button and click OK button");

@@ -115,7 +115,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
             alert.accept();
         }
         LOG.info("Step 2: Check the folder was saved locally");
-
+getBrowser().waitInSeconds(5);
         Assert.assertTrue(isFileInDirectory(folderNameC8243, ".zip"), "The folder was not found in the specified location");
     }
 }

@@ -81,6 +81,8 @@ public class FacetedSearchTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docForMove, docContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docForDelete, docContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docWorkflow, docContent);
+        getBrowser().waitInSeconds(12);
+
     }
 
     @BeforeMethod(alwaysRun = true) public void beforeMethod()
@@ -176,9 +178,9 @@ public class FacetedSearchTests extends ContextAwareWebTest
         LOG.info("STEP2: Click on 'Download as Zip' option from 'Selected Items...' dropdown.");
         searchPage.clickSelectedItemsDropdown();
         searchPage.clickOptionFromSelectedItemsDropdown("Download as Zip");
+        getBrowser().waitInSeconds(8);
         LOG.info("STEP3: Choose Save option and verify archive is displayed in specified location.");
         download.acceptAlertIfDisplayed();
-        getBrowser().waitInSeconds(8);
         assertTrue(download.isFileInDirectory("Archive", ".zip"), "The zip archive was not found in the specified location");
         cleanupAuthenticatedSession();
     }
@@ -209,6 +211,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     {
         LOG.info("STEP1: Select the document to move.");
         searchPage.clickCheckbox(docForMove);
+        getBrowser().waitInSeconds(3);
         LOG.info("STEP2: Click on 'Move to...' option from 'Selected Items...' dropdown.");
         searchPage.clickSelectedItemsDropdown();
         searchPage.clickOptionFromSelectedItemsDropdown("Move to...");
@@ -243,8 +246,10 @@ public class FacetedSearchTests extends ContextAwareWebTest
         startWorkflowPage.clickOnSelectButton();
         selectAssigneeToWorkflowPopUp.searchUser(userName);
         selectPopUpPage.clickAddIcon("FirstName LastName (" + userName + ")");
+        getBrowser().waitInSeconds(3);
+
         selectAssigneeToWorkflowPopUp.clickOkButton();
-        getBrowser().waitInSeconds(5);
+        getBrowser().waitInSeconds(3);
         startWorkflowPage.clickStartWorkflow(searchPage);
         userDashboardPage.navigate(userName);
         assertTrue(myTasksDashlet.isTaskPresent("FacetedWorkflowDescription"), "Task is not present in Active tasks");
@@ -263,7 +268,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         searchPage.clickSelectedItemsDropdown();
         searchPage.clickOptionFromSelectedItemsDropdown("Delete");
         searchPage.deleteDocuments(true);
-        getBrowser().waitInSeconds(5);
+        getBrowser().waitInSeconds(10);
         LOG.info("STEP3: Verify that the file has been deleted.");
         toolbar.search(docForDelete);
         status = searchPage.isResultFound(docForDelete);

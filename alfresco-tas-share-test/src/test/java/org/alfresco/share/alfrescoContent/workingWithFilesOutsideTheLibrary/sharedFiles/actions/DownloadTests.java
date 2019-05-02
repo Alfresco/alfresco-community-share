@@ -102,7 +102,7 @@ public class DownloadTests  extends ContextAwareWebTest
       
         LOG.info("Step 1: Mouse over folder, click Download");
         sharePage.clickDocumentLibraryItemAction(folderNameC8027, "Download as Zip", sharePage);
-
+        getBrowser().waitInSeconds(10);
         if (documentCommon.isAlertPresent())
         {
             alert = getBrowser().switchTo().alert();

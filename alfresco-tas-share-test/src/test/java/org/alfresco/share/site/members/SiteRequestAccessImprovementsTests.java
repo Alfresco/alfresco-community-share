@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.alfresco.utility.constants.UserRole.SiteManager;
 import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -89,7 +90,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         groupService.addUserToGroup(adminUser, adminPassword, group, userName3);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
         userService.delete(adminUser,adminPassword, userName1.getUsername());

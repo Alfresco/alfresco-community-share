@@ -202,6 +202,7 @@ public class CreateUsersTests extends ContextAwareWebTest
         LOG.info("Step8: Verify the the new user is added to group");
         usersPage.searchUser(userName);
         usersPage.clickUserLink("First Name");
+        getBrowser().waitInSeconds(5);
         assertEquals(adminToolsUserProfile.isUserAddedToGroup(), "ALFRESCO_ADMINISTRATORS", "User added to group");
         userService.delete(adminUser,adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);

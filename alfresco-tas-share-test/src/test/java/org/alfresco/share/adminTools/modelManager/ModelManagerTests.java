@@ -319,6 +319,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         createModelDialogPage.sendNameText(name);
         createModelDialogPage.clickCreateButton();
  //       modelManagerPage.renderedPage();
+        getBrowser().waitInSeconds(5);
         modelManagerPage.clickActionsButtonForModel(name);
         modelManagerPage.clickOnAction("Activate", modelManagerPage);
 
@@ -440,7 +441,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         modelManagerPage.navigate();
 
         LOG.info("Step 1: On the Model Manager page click C42566testModel name link.");
-        modelManagerPage.clickModelName(name);
+        modelManagerPage.clickModelNameWithoutRender(name);
         Assert.assertTrue(modelDetailsPage.isCreateAspectButtonDisplayed(), "Create Aspect button is not displayed");
         Assert.assertTrue(modelDetailsPage.isCreateCustomTypeButtonDisplayed(), "Create Custom Type button is not displayed");
         Assert.assertTrue(modelDetailsPage.isShowModelsButtonDisplayed(), "Show models button is not displayed");

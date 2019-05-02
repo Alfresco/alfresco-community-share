@@ -82,17 +82,21 @@ public class ApplicationPage extends AdminToolsPage
     {
         String testFile = "alfrescoLogo.png";
         String testFilePath = testDataFolder + testFile;
-        uploadButton.click();
+        getBrowser().waitInSeconds(2);
+        getBrowser().waitUntilElementClickable(uploadButton).click();
+        getBrowser().waitInSeconds(2);
 
         fileInput.setFileToUpload(testFilePath);
         browser.waitInSeconds(1);
         if(browser.isElementDisplayed(By.cssSelector("div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")))
         {
-           okButton.click();
+            getBrowser().waitInSeconds(2);
+            getBrowser().waitUntilElementClickable(okButton).click();
         }
 
         browser.mouseOver(applyButton);
-        applyButton.click();
+        getBrowser().waitInSeconds(2);
+        getBrowser().waitUntilElementClickable(applyButton).click();
     }
 
     public boolean isAlfrescoDefaultImageDisplayed()

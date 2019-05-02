@@ -267,8 +267,8 @@ public class CalendarPage extends SiteCommon<CalendarPage>
      */
     public CalendarPage clickWeekButton()
     {
-        weekButton.click();
-        browser.waitInSeconds(1);
+        getBrowser().waitUntilElementClickable(weekButton).click();
+        browser.waitInSeconds(4);
         return (CalendarPage) this.renderedPage();
     }
 

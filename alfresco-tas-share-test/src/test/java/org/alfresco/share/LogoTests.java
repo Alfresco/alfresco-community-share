@@ -33,7 +33,7 @@ public class LogoTests extends ContextAwareWebTest {
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
     }
 
-
+//copyRightText is hardcoded with year 2019, so running on older builds will make this test fail
         @TestRail(id = "C2088")
     @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
     public void checkAboutBox() {

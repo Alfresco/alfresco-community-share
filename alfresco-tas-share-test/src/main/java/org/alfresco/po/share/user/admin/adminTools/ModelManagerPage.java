@@ -161,6 +161,13 @@ public class ModelManagerPage extends AdminToolsPage
         return (ModelDetailsPage) modelDetailsPage.renderedPage();
     }
 
+    public void clickModelNameWithoutRender(String modelName)
+    {
+        browser.waitUntilElementClickable(By.xpath("//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']"), 15);
+        browser.findElement(By.xpath("//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='" + modelName + "']")).click();
+    }
+
+
     public Boolean isActionsButtonDisplayed()
     {
         return browser.isElementDisplayed(actionsButton);

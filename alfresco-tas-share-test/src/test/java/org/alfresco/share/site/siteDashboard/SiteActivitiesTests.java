@@ -376,6 +376,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         Assert.assertEquals(siteGroupsPage.getSiteMembersList(),expectedGroupName, groupName+" is not displayed");
         siteGroupsPage.removeGroup(groupName);
 
+        getBrowser().waitInSeconds(10);
         LOG.info("Step 2: Go to Site Dashboard and observe the Site Activities dashlet");
         siteDashboardPage.navigate(siteName);
 

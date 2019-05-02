@@ -87,6 +87,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Change the status of the workflow (eg. 'In Progress') then click 'Save and Close' button.");
         startWorkflowPage.selectTaskStatus("In Progress");
+        getBrowser().waitInSeconds(3);
         startWorkflowPage.saveAndClose();
         assertTrue(myTasksDashlet.getTaskTypeAndStatus(taskName).equals(taskTypeAndStatus),
                 "Wrong type and status! Expected " + taskTypeAndStatus + "but found: " + myTasksDashlet.getTaskTypeAndStatus(taskName));
@@ -105,9 +106,12 @@ public class ManagingTasksTests extends ContextAwareWebTest
         LOG.info("STEP 2: Click 'Reassign' button, reassign the task to 'user2' then click 'ok' button.");
         startWorkflowPage.clickOnReassignButton();
         selectAssigneePopUp.enterUserToSearch(user2);
+        getBrowser().waitInSeconds(9);
         selectAssigneePopUp.clickOnSearchButton();
+        getBrowser().waitInSeconds(2);
         selectAssigneePopUp.clickOnSelectButton();
         cleanupAuthenticatedSession();
+        getBrowser().waitInSeconds(8);
         setupAuthenticatedSession(user2, password);
         userDashboardPage.navigate(user2);
         assertTrue(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Active tasks");
