@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -38,12 +39,12 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
     private String random = RandomData.getRandomAlphanumeric();
     private String user = "user-" + random;
     private String siteName = "SiteName-" + random;
-    private DateTime today = new DateTime();
-    private DateTime endDate = today.plusDays(2);
-    private DateTime aWeekAgo = today.minusWeeks(1);
-    private DateTime nextWeek = today.plusWeeks(1);
-    private DateTime aMonthAgo = today.minusMonths(1);
-    private DateTime nextMonth = today.plusMonths(1);
+    DateTime today;
+    DateTime endDate;
+    DateTime aWeekAgo;
+    DateTime nextWeek;
+    DateTime aMonthAgo;
+    DateTime nextMonth;
     private String clientATimeZone = "tzutil /s \"GTB Standard Time\"";
     private String clientBTimeZone = "tzutil /s \"GMT Standard Time\"";
 
@@ -54,6 +55,17 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
         siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(user, password, siteName, Page.CALENDAR, null);
         setupAuthenticatedSession(user, password);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupMethod()
+    {
+        today = new DateTime();
+        endDate = today.plusDays(2);
+        aWeekAgo = today.minusWeeks(1);
+        nextWeek = today.plusWeeks(1);
+        aMonthAgo = today.minusMonths(1);
+        nextMonth = today.plusMonths(1);
     }
 
 

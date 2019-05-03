@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -38,8 +39,15 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
     private String topicTag1 = "tag1";
     private String topicTag2 = "tag2";
 
-    private DateTime today = new DateTime();
-    private DateTime eightDaysAgo = today.minusDays(8);
+     DateTime today;
+     DateTime eightDaysAgo ;
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupMethod()
+    {
+        today = new DateTime();
+        eightDaysAgo = today.minusDays(8);
+    }
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

@@ -101,7 +101,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         userService.delete(adminUser,adminPassword, userName3);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName3);
 
-        siteService.delete(adminUser,adminPassword,firstName + domain );
+        siteService.delete(adminUser,adminPassword, moderated.getTitle() );
 
     }
 

@@ -35,7 +35,7 @@ public class EditingLinkTests extends ContextAwareWebTest
 
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName = "";
-    private DateTime currentDate = new DateTime();
+    DateTime currentDate;
     private String linkTitle = String.format("Google%s", RandomData.getRandomAlphanumeric());
     private String linkURL = "https://www.google.ro";
     private String linkDescription = String.format("Link description%s", RandomData.getRandomAlphanumeric());
@@ -59,6 +59,7 @@ public class EditingLinkTests extends ContextAwareWebTest
     @TestRail(id = "C6184")
     public void editLinkFromLinkPageView()
     {
+        currentDate = new DateTime();
         LOG.info("Precondition: Create site, add 'Links' page to it and create an external link");
         linkTags.add("tag1");
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
@@ -165,6 +166,7 @@ public class EditingLinkTests extends ContextAwareWebTest
     @TestRail(id = "C6185")
     public void editLinkFromLinksPage()
     {
+        currentDate = new DateTime();
         LOG.info("Precondition: Create site, add 'Links' page to it and create an external link");
         linkTags.add("tag1");
         linkTags.add("tag2");
@@ -284,6 +286,7 @@ public class EditingLinkTests extends ContextAwareWebTest
     @TestRail(id = "C6186")
     public void cancelEditingLink()
     {
+        currentDate = new DateTime();
         LOG.info("Precondition: Create site, add 'Links' page to it and create an external link");
         linkTags.add("tag1");
         linkTags.add("tag2");

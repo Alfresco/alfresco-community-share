@@ -43,7 +43,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     InsertImagePopUp insertImagePopUp;
 
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
-    String today = df.format(new Date());
+    String today;
     private String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
     private String topicTitle;
@@ -72,6 +72,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createReplyToDiscussion()
     {
+        today = df.format(new Date());
         topicTitle = String.format("Topic1%s", RandomData.getRandomAlphanumeric());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         topicListPage.navigate(siteName);
@@ -104,6 +105,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreatingReplyToDiscussion()
     {
+        today = df.format(new Date());
         topicTitle = String.format("Topic1%s", RandomData.getRandomAlphanumeric());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         topicListPage.navigate(siteName);
@@ -132,6 +134,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void insertLinkInReplyToDiscussion()
     {
+        today = df.format(new Date());
         String linkUrl = "https://www.alfresco.com/";
         String linkText = "Alfresco site";
         String linkTitle = "Alfresco";
@@ -166,6 +169,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void insertImageInReplyToDiscussion()
     {
+        today = df.format(new Date());
         String imageSource = "https://www.alfresco.com/sites/www.alfresco.com/files/alfresco-logo.png";
         String imageDescription = "Alfresco logo";
         topicTitle = String.format("Topic1%s", RandomData.getRandomAlphanumeric());
@@ -198,6 +202,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void replyToAReply()
     {
+        today = df.format(new Date());
         topicTitle = String.format("Topic1%s", RandomData.getRandomAlphanumeric());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         sitePagesService.replyToDiscussion(user1, password, siteName, topicTitle, topicReply);
@@ -229,6 +234,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editReplyAddedToTopic()
     {
+        today = df.format(new Date());
         topicTitle = String.format("Topic1%s", RandomData.getRandomAlphanumeric());
         sitePagesService.createDiscussion(user1, password, siteName, topicTitle, topicContent, null);
         sitePagesService.replyToDiscussion(user1, password, siteName, topicTitle, topicReply);

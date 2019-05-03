@@ -39,7 +39,7 @@ public class ViewTopicTests extends ContextAwareWebTest
     private String topicTag = "tag1";
     private String topicReply = "Some reply from user2.";
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
-    String today = df.format(new Date());
+    String today;
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()
@@ -68,6 +68,7 @@ public class ViewTopicTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewTopicFromDiscussionsTopicListPage()
     {
+        today = df.format(new Date());
         //precondition
         topicListPage.navigate(siteName);
 
@@ -99,6 +100,7 @@ public class ViewTopicTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewTopicUsingReadAction()
     {
+        today = df.format(new Date());
         //precondition
         topicListPage.navigate(siteName);
 
@@ -131,6 +133,7 @@ public class ViewTopicTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewTopicByClickingOnItsName()
     {
+        today = df.format(new Date());
         //precondition
         topicListPage.navigate(siteName);
 

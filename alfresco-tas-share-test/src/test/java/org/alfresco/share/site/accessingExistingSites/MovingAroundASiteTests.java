@@ -73,6 +73,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
 
     }
 
+    //this tests usually fails because of the draganddrop method
     @TestRail(id = "C3035")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addAdditionalFeatures()

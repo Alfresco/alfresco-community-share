@@ -14,6 +14,7 @@ import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -33,10 +34,17 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
 
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName = "";
-    private DateTime currentDate = new DateTime();
+     DateTime currentDate;
     private String linkTitle = String.format("Link%s", RandomData.getRandomAlphanumeric());
     private String linkURL = "https://www.google.com";
     private String linkDescription = String.format("Link description%s", RandomData.getRandomAlphanumeric());
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupMethod()
+    {
+        currentDate = new DateTime();
+    }
+
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

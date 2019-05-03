@@ -35,10 +35,12 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     private String user = String.format("C3155User%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("C3155SiteName%s", RandomData.getRandomAlphanumeric());
     private String description = String.format("C3155SiteDescription%s", RandomData.getRandomAlphanumeric());
-    private DateTime today = new DateTime();
-    private DateTime yesterday = today.minusDays(1);
-    private DateTime tomorrow = today.plusDays(1);
-    private Date startDate = today.toDate();
+     DateTime today ;
+     DateTime yesterday;
+     DateTime tomorrow ;
+     Date startDate ;
+
+
 
     Calendar refferenceCalendar = Calendar.getInstance();
     Integer dayOfMonth = refferenceCalendar.get(Calendar.DAY_OF_MONTH);
@@ -71,6 +73,10 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void changeTheMainCalendarView()
     {
+        today = new DateTime();
+        yesterday = today.minusDays(1);
+        tomorrow = today.plusDays(1);
+         startDate = today.toDate();
         LOG.info("Precondition:  Add calendar event");
 
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle, eventLocation, eventDescription, startDate, startDate, "", "", false, "tag1");
@@ -119,6 +125,10 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         String eventTitle4 = "testEvent4";
         String eventTitle5 = "testEvent5";
         String eventTitle6 = "testEvent6";
+        today = new DateTime();
+        yesterday = today.minusDays(1);
+        tomorrow = today.plusDays(1);
+        startDate = today.toDate();
 
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, startDate, startDate, "", "", false, "tag1");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle2, eventLocation, eventDescription, calendarUtility.tomorrow(),
@@ -215,7 +225,10 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         /**
          * Precondition: Add test events
          */
-
+        today = new DateTime();
+        yesterday = today.minusDays(1);
+        tomorrow = today.plusDays(1);
+        startDate = today.toDate();
         String eventTitle1 = "testEvent1";
         String eventTitle2 = "testEvent2";
         String eventTitle3 = "testEvent3";
@@ -304,7 +317,10 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
                 calendarUtility.dayAfterTomorrow(), "", "", false, "tag1");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle3, eventLocation, eventDescription, calendarUtility.dayOfNextWeek(),
                 calendarUtility.dayOfNextWeek(), "", "", false, "tag1");
-
+        today = new DateTime();
+        yesterday = today.minusDays(1);
+        tomorrow = today.plusDays(1);
+        startDate = today.toDate();
         /**
          * Test Steps
          */
@@ -327,6 +343,10 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         String eventTitle1 = "testEvent1";
         String eventTitle2 = "testEvent2";
         String eventTitle3 = "testEvent3";
+        today = new DateTime();
+        yesterday = today.minusDays(1);
+        tomorrow = today.plusDays(1);
+        startDate = today.toDate();
 
         Calendar dayAfterMidDate = calendarUtility.midDateOfTheMonth();
         dayAfterMidDate.add(Calendar.DAY_OF_MONTH, 1);
@@ -381,6 +401,10 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         /**
          * Preconditions
          */
+        today = new DateTime();
+        yesterday = today.minusDays(1);
+        tomorrow = today.plusDays(1);
+        startDate = today.toDate();
         String eventTitle1 = "testEvent1";
 
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, startDate, startDate, "", "", false, "tag1");
@@ -465,6 +489,10 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyTheMiniCalendar()
     {
+        today = new DateTime();
+        yesterday = today.minusDays(1);
+        tomorrow = today.plusDays(1);
+        startDate = today.toDate();
         LOG.info("Step 1: Verify the presence of the mini-calendar.");
 
         calendarPage.navigate(siteName);
@@ -506,6 +534,10 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         /**
          * Preconditions
          */
+        today = new DateTime();
+        yesterday = today.minusDays(1);
+        tomorrow = today.plusDays(1);
+        startDate = today.toDate();
         String eventTitle1 = "testEvent1";
         String eventTitle2 = "testEvent2";
         String eventTitle3 = "testEvent3";

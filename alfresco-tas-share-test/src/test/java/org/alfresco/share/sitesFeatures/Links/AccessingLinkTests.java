@@ -15,6 +15,7 @@ import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -37,7 +38,14 @@ public class AccessingLinkTests extends ContextAwareWebTest
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private List<String> tags = new ArrayList<>();
-    private DateTime currentDate = new DateTime();
+    DateTime currentDate;
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupMethod()
+    {
+        currentDate = new DateTime();
+    }
+
 
     @BeforeClass(alwaysRun = true)
     public void setupTest()

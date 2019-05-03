@@ -32,7 +32,7 @@ public class ViewLinkDetailsTest extends ContextAwareWebTest
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private List<String> tags = new ArrayList<>();
-    private DateTime currentDate = new DateTime();
+     DateTime currentDate;
     private String linkTitle = "Link1";
 
     @BeforeClass(alwaysRun = true)
@@ -59,6 +59,7 @@ public class ViewLinkDetailsTest extends ContextAwareWebTest
     @TestRail(id = "C6179")
     public void viewLinkDetails()
     {
+        currentDate = new DateTime();
         LOG.info("Step 1 - Navigate to 'Links' page for Site1.");
         linkPage.navigate(siteName);
         linkPage.clickOnLinkName(linkTitle);

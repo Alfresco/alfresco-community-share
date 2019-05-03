@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
@@ -54,7 +55,7 @@ public class AddEventsTests extends ContextAwareWebTest
     private String siteName = String.format("SiteName-%s",RandomData.getRandomAlphanumeric());
     private String siteName2 = String.format("SiteName-C5452%s",RandomData.getRandomAlphanumeric());
     private String siteName3 = String.format("SiteName-C5465%s",RandomData.getRandomAlphanumeric());
-    private DateTime today = new DateTime();
+    DateTime today;
     private String eventTitle = "testEvent";
     private String defaultStartTime = "12:00 PM";
     private String defaultEndTime = "1:00 PM";
@@ -83,6 +84,12 @@ public class AddEventsTests extends ContextAwareWebTest
         siteService.delete(adminUser,adminPassword,siteName2 );
         siteService.delete(adminUser,adminPassword,siteName3 );
 
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void setupMethod()
+    {
+        today = new DateTime();
     }
 
     @TestRail(id = "C3086")

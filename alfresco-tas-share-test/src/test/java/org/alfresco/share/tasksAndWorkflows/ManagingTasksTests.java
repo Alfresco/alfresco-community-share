@@ -87,7 +87,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Change the status of the workflow (eg. 'In Progress') then click 'Save and Close' button.");
         startWorkflowPage.selectTaskStatus("In Progress");
-        getBrowser().waitInSeconds(3);
+        getBrowser().waitInSeconds(5);
         startWorkflowPage.saveAndClose();
         assertTrue(myTasksDashlet.getTaskTypeAndStatus(taskName).equals(taskTypeAndStatus),
                 "Wrong type and status! Expected " + taskTypeAndStatus + "but found: " + myTasksDashlet.getTaskTypeAndStatus(taskName));

@@ -166,6 +166,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         assertTrue(myTasksPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userName1, password);
+        getBrowser().waitInSeconds(3);
         getBrowser().refresh();
         myTasksPage.renderedPage();
         assertTrue(myTasksPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");

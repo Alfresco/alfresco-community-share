@@ -149,7 +149,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertEquals(deleteSiteDialog.getConfirmMessage().contains(language.translate("deleteSite.confirmAgain")), true,"Second confirm delete message is correct");
         LOG.info("STEP6: Click \"Yes\" button");
         deleteSiteDialog.clickYes();
-        getBrowser().waitInSeconds(4);
+        getBrowser().waitInSeconds(9);
         siteFinderPage.searchSiteWithRetry(siteNameC2280_1);
         assertFalse(siteFinderPage.isSiteFound(siteNameC2280_1), "The site isn't displayed on \"Site Finder\" page.");
         LOG.info("STEP7: Search for the file created within the site");
@@ -177,7 +177,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         LOG.info("STEP4: Click \"Yes\" button");
         getBrowser().waitInSeconds(5);
         deleteSiteDialog.clickYes();
-        getBrowser().waitInSeconds(5);
+        getBrowser().waitInSeconds(10);
         assertEquals(mySitesDashlet.isSitePresent(siteNameC2280_2), false, "Site isn't displayed in 'MySites' dashlet.");
         LOG.info("STEP5: Search for the file created within the site");
         toolbar.search(siteNameC2280_2);
