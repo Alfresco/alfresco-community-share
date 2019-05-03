@@ -79,6 +79,7 @@ public class WelcomePanelTests extends ContextAwareWebTest
 
         logger.info("Step2: Click on the Hide button and verify Get Started Panel is not displayed anymore");
         welcomePanel.clickOnHideButton();
+        getBrowser().waitInSeconds(4);
         hideWelcomePanelDialogue.confirmHideWelcomePanel();
         Assert.assertFalse(welcomePanel.isWelcomePanelDisplayed(), "Welcome panel displayed");
     }

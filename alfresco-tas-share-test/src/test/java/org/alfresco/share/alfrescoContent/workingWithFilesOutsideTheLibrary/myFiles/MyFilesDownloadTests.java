@@ -74,6 +74,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
         sitePage.clickMyFilesLink();
         uploadContent.uploadContent(filePath, fileContent);
+        getBrowser().waitInSeconds(10);
 
         LOG.info("Step 1: Mouse over file, click Download");
         myFilesPage.clickDocumentLibraryItemAction(fileNameC7799, "Download", myFilesPage);
@@ -105,7 +106,6 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
         myFilesPage.clickFolderLink();
         newContentDialog.fillInNameField(folderNameC7802);
         newContentDialog.clickSaveButton();
-        getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isContentNameDisplayed(folderNameC7802), folderNameC7802 + " displayed in My Files documents list.");
 
         LOG.info("Step 1: Mouse over folder, click Download");

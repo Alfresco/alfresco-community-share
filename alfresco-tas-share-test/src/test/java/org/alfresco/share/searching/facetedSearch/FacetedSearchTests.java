@@ -200,7 +200,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickButton("Copy");
         LOG.info("STEP7: Verify that the files have been copied");
         documentLibraryPage.navigate(siteForCopy);
-        getBrowser().waitInSeconds(5);
+        getBrowser().waitInSeconds(10);
         assertTrue(documentLibraryPage.isFileDisplayed(docName1));
         contentService.deleteDocument(userName, password, siteForCopy, docName1);
         cleanupAuthenticatedSession();
@@ -249,7 +249,6 @@ public class FacetedSearchTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(3);
 
         selectAssigneeToWorkflowPopUp.clickOkButton();
-        getBrowser().waitInSeconds(3);
         startWorkflowPage.clickStartWorkflow(searchPage);
         userDashboardPage.navigate(userName);
         assertTrue(myTasksDashlet.isTaskPresent("FacetedWorkflowDescription"), "Task is not present in Active tasks");

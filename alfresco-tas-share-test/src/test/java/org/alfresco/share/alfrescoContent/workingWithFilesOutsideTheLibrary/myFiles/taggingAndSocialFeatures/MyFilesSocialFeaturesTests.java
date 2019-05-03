@@ -174,7 +174,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         sitePage.clickMyFilesLink();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         uploadContent.uploadContent(testFilePath);
-        getBrowser().waitInSeconds(3);
+        getBrowser().waitInSeconds(9);
         getBrowser().refresh();
         assertTrue(myFilesPage.isContentNameDisplayed(testFile),String.format("The file [%s] is not present", testFile));
 

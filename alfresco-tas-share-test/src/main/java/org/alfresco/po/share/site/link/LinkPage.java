@@ -216,7 +216,7 @@ public class LinkPage extends SiteCommon<LinkPage>
     public void clickSpecificTag(String tagName)
     {
         browser.findElement(By.cssSelector("li a[rel='" + tagName + "']")).click();
-        browser.waitInSeconds(3);
+        browser.waitInSeconds(8);
     }
 
     /**

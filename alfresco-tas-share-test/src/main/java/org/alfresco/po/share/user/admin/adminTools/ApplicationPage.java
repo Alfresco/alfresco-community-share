@@ -87,10 +87,10 @@ public class ApplicationPage extends AdminToolsPage
         getBrowser().waitInSeconds(2);
 
         fileInput.setFileToUpload(testFilePath);
-        browser.waitInSeconds(1);
+        browser.waitInSeconds(5);
         if(browser.isElementDisplayed(By.cssSelector("div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")))
         {
-            getBrowser().waitInSeconds(2);
+            getBrowser().waitInSeconds(5);
             getBrowser().waitUntilElementClickable(okButton).click();
         }
 

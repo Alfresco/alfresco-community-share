@@ -125,6 +125,8 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     public HtmlPage clickStartWorkflow(HtmlPage page)
     {
         //workaround for "MNT-17015"
+        getBrowser().waitInSeconds(8);
+
         getBrowser().waitUntilElementVisible(submitWorkflow);
         getBrowser().waitUntilElementClickable(submitWorkflow);
 
@@ -184,13 +186,13 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
 
     public UserDashboardPage saveAndClose()
     {
-        submitWorkflow.click();
+        getBrowser().waitUntilElementClickable(submitWorkflow).click();
         return (UserDashboardPage) userDashboardPage.renderedPage();
     }
 
     public SelectAssigneePopUp clickOnReassignButton()
     {
-        reassignButton.click();
+        getBrowser().waitUntilElementClickable(reassignButton).click();
         return (SelectAssigneePopUp) selectAssigneePopUp.renderedPage();
     }
 

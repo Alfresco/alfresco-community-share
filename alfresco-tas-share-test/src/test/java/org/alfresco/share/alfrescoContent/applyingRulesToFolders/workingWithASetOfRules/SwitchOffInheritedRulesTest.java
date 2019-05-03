@@ -90,7 +90,7 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         documentLibraryPage.clickOnFolderName(folder1);
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folder1).toString(), "Document Library breadcrumb=");
-        getBrowser().waitInSeconds(8);
+        getBrowser().waitInSeconds(14);
     }
 
     @AfterClass(alwaysRun = true)

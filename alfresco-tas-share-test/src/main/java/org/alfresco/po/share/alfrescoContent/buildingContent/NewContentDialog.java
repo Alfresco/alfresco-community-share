@@ -74,8 +74,8 @@ public class NewContentDialog extends ShareDialog
 
     public void clickSaveButton()
     {
-        saveButton.click();
-        browser.waitInSeconds(3);
+        getBrowser().waitUntilElementClickable(saveButton).click();
+        browser.waitInSeconds(10);
     }
 
     public void clickCancelButton()
