@@ -428,6 +428,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check available actions.");
+        getBrowser().waitInSeconds(7);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, "Edit in Microsoft Office™"),
                 "Edit in Microsoft Office™ is not available");
         // TODO edit in MSOffice has not yet been automated

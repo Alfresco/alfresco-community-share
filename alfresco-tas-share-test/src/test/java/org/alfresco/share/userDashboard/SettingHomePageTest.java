@@ -292,7 +292,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
         toolbarUserMenu.clickSetDashBoardAsHome();
         documentDetailsPage.renderedPage();
         getBrowser().waitInSeconds(5);
-        assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
+        assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is facetedSearchDeleteActiondisplayed");
 
         LOG.info("STEP 7 - Click on the Home link in the header bar");
         toolbarUserMenu.clickHome();

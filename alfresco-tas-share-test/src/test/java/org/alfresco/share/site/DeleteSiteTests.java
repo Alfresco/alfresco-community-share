@@ -178,6 +178,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(5);
         deleteSiteDialog.clickYes();
         getBrowser().waitInSeconds(10);
+        getBrowser().refresh();
         assertEquals(mySitesDashlet.isSitePresent(siteNameC2280_2), false, "Site isn't displayed in 'MySites' dashlet.");
         LOG.info("STEP5: Search for the file created within the site");
         toolbar.search(siteNameC2280_2);

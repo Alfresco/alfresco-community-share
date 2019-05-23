@@ -105,7 +105,6 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
 
     }
 
-    @Bug(id = "TBD")
     @TestRail(id = "C14280")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelSitePendingRequest()
@@ -124,7 +123,6 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
 
-    @Bug(id = "TBD")
     @TestRail(id = "C14283")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsGroupManager()
@@ -153,7 +151,6 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
 
-    @Bug(id = "TBD")
     @TestRail(id = "C14284")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void releaseToPoolRequestPendingTaskAsGroupManager()
@@ -186,7 +183,6 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
 
-    @Bug(id = "TBD")
     @TestRail(id = "C14285")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsGroupManagerAndRemoveUserFromGroup()
@@ -195,6 +191,8 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
 
         LOG.info("STEP1: Navigate to Site Members page -> Pending tab");
+        getBrowser().waitInSeconds(4);
+
         pendingInvitesPage.navigate(moderated.getTitle());
         assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");
         ArrayList<String> pendingRequests = new ArrayList<>(Arrays.asList(user2));
@@ -213,7 +211,6 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequests.toString(), "Pending Requests=");
     }
 
-    @Bug(id = "TBD")
     @TestRail(id = "C14286")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsSiteManager()
@@ -224,7 +221,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(userName1.getUsername(), password);
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
-
+        getBrowser().waitInSeconds(4);
         LOG.info("STEP1: Navigate to Site Members page -> Pending tab");
         pendingInvitesPage.navigate(moderated.getTitle());
         assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");

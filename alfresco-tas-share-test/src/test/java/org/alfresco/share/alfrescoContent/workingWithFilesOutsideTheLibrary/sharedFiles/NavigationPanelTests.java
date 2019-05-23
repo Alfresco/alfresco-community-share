@@ -61,7 +61,7 @@ public class NavigationPanelTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Click on one tag name");
         documentsFilters.clickSidebarTag(tag);
-        getBrowser().waitInSeconds(4);
+        getBrowser().waitInSeconds(8);
         sharedFilesPage.renderedPage();
         assertTrue(sharedFilesPage.getFoldersList().toString().contains(folderName), "Displayed folders=");
     }

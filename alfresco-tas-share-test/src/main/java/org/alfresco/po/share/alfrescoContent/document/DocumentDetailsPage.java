@@ -271,6 +271,7 @@ import java.util.List;
     public void addComment(String comment)
     {
         browser.waitUntilElementClickable(commentContentIframe, 5L);
+        getBrowser().waitInSeconds(5);
         browser.findElement(commentContentIframe).sendKeys(comment);
         addCommentButton.click();
         getBrowser().waitUntilElementDisappears(By.cssSelector("span[class='message']"), 5L);
