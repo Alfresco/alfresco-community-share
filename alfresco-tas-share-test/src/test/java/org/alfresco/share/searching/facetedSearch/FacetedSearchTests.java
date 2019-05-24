@@ -1,6 +1,5 @@
 package org.alfresco.share.searching.facetedSearch;
 
-import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
@@ -12,25 +11,17 @@ import org.alfresco.po.share.tasksAndWorkflows.SelectAssigneeToWorkflowPopUp;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
-import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.profile.UserTrashcanPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.model.UserModel;
-import org.apache.chemistry.opencmis.client.api.CmisObject;
-import org.apache.chemistry.opencmis.client.api.ItemIterable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -61,11 +52,6 @@ public class FacetedSearchTests extends ContextAwareWebTest
 
     @Autowired CopyMoveUnzipToDialog copyMoveUnzipToDialog;
 
-    @Autowired SitesManagerPage sitesManagerPage;
-
-    @Autowired
-    private CmisWrapper cmisApi;
-
     String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     String userName = "facetedTestUser-" + uniqueIdentifier;
     String firstName = "FirstName";
@@ -83,20 +69,8 @@ public class FacetedSearchTests extends ContextAwareWebTest
     String docContent = "content of file.";
     String searchTerm = "FacetedTestDoc";
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() throws Exception
+    @BeforeClass(alwaysRun = true) public void setupTest()
     {
-        FolderModel sitesFolder = new FolderModel("Sites");
-        sitesFolder.setCmisLocation("/Sites");
-        ItemIterable<CmisObject> theSites = cmisApi.authenticateUser(new UserModel(adminUser, adminPassword))
-                .usingResource(sitesFolder).withCMISUtil().getCmisFolder(sitesFolder.getCmisLocation()).getChildren();
-        for(CmisObject o : theSites)
-        {
-            siteService.delete(adminUser, adminPassword, o.getName());
-        }
-
-
-
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteForCopy, description, SiteService.Visibility.PUBLIC);
@@ -129,7 +103,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     @TestRail(id = "C12816") @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 2)
     public void facetedSearchBulkActionsTest()
     {
-          LOG.info("STEP1: Verify search items are displayed.");
+        LOG.info("STEP1: Verify search items are displayed.");
         searchPage.clickDetailedView();
         assertTrue(searchPage.getNumberOfResultsText().contains(" - results found"), "Section with number of results is displayed");
         assertTrue(searchPage.isResultFoundWithRetry(docName1));
@@ -226,6 +200,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickButton("Copy");
         LOG.info("STEP7: Verify that the files have been copied");
         documentLibraryPage.navigate(siteForCopy);
+        getBrowser().waitInSeconds(10);
         assertTrue(documentLibraryPage.isFileDisplayed(docName1));
         contentService.deleteDocument(userName, password, siteForCopy, docName1);
         cleanupAuthenticatedSession();
@@ -271,7 +246,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         startWorkflowPage.clickOnSelectButton();
         selectAssigneeToWorkflowPopUp.searchUser(userName);
         selectPopUpPage.clickAddIcon("FirstName LastName (" + userName + ")");
-        getBrowser().waitInSeconds(5);
+        getBrowser().waitInSeconds(3);
 
         selectAssigneeToWorkflowPopUp.clickOkButton();
         startWorkflowPage.clickStartWorkflow(searchPage);
@@ -296,9 +271,9 @@ public class FacetedSearchTests extends ContextAwareWebTest
         LOG.info("STEP3: Verify that the file has been deleted.");
         toolbar.search(docForDelete);
         status = searchPage.isResultFound(docForDelete);
-        if(retry < 5 && status == true){
+        if(retry<5 && status ==true){
             toolbar.search(docForDelete);
-            status = searchPage.isResultFound(docForDelete);
+            status =  searchPage.isResultFound(docForDelete);
             retry++;
             getBrowser().waitInSeconds(2);
         }

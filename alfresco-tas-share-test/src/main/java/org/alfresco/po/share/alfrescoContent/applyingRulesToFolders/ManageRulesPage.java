@@ -92,7 +92,7 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 
     public EditRulesPage clickCreateRules()
     {
-        getBrowser().waitUntilElementClickable(createRulesLink).click();
+        createRulesLink.click();
         return (EditRulesPage) editRulesPage.renderedPage();
     }
 

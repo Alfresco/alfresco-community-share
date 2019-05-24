@@ -37,8 +37,6 @@ public class ApplicationTests extends ContextAwareWebTest {
         if (!applicationPage.isAlfrescoDefaultImageDisplayed())
             applicationPage.resetImageToDefault();
         applicationPage.uploadImage();
-        getBrowser().waitInSeconds(5);
-        getBrowser().refresh();
         LOG.info("Step 2: Verify the new logo image was uploaded successfully.");
         Assert.assertFalse(applicationPage.isAlfrescoDefaultImageDisplayed(), "Alfresco default image is not displayed.");
         LOG.info("Step 3: Reset the new image to the default one.");

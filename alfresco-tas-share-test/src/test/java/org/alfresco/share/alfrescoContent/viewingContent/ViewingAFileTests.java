@@ -39,7 +39,6 @@ public class ViewingAFileTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.uploadFileInSite(user, password, siteName, testDataFolder + docName + ".docx");
-        getBrowser().waitInSeconds(8);
         setupAuthenticatedSession(user, password);
     }
 
