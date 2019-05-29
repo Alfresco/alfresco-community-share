@@ -47,7 +47,7 @@ public class CreateTests extends ContextAwareWebTest
     private final String googleDocPresentation = "googleDocTitle.pptx";
     private final String docContent = "googleDoccontent";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -64,8 +64,8 @@ public class CreateTests extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
     }
 
-    @TestRail(id = "C7929")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7929")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void sharedFilesCreatePlainTextFile()
     {
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
@@ -82,7 +82,7 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertTrue(createContent.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
         Assert.assertTrue(createContent.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
         Assert.assertTrue(createContent.isCreateFromTemplateAvailable("Create document from template"),
-                "Create... Create document from template is not displayed");
+            "Create... Create document from template is not displayed");
         Assert.assertTrue(createContent.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
 
         LOG.info("Step 2: Click \"Plain Text...\" option.");
@@ -126,8 +126,8 @@ public class CreateTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, "Shared/C7929TestName");
     }
 
-    @TestRail(id = "C7937")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7937")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void sharedFilesCreateHTMLFile()
     {
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
@@ -179,8 +179,8 @@ public class CreateTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, "Shared/C7937TestName");
     }
 
-    @TestRail(id = "C7938")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7938")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void sharedFilesCreateXMLFile()
     {
 
@@ -220,7 +220,7 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 6: Verify the document's preview");
         Assert.assertEquals(documentDetailsPage.getContentText().trim(), "C7938 test content",
-                "\"C7938 test content \" is not the content displayed in preview");
+            "\"C7938 test content \" is not the content displayed in preview");
         Assert.assertEquals(documentDetailsPage.getFileName(), "C7938TestName", "\"C7938TestName\" is not the file name for the file in preview");
 
         LOG.info("Step 7: Login with testUser2 and navigate to Shared Files page.");
@@ -234,8 +234,8 @@ public class CreateTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, "Shared/C7938TestName");
     }
 
-    @TestRail(id = "C7931")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7931")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void sharedFilesCreateFolderFromTemplate()
     {
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
@@ -271,8 +271,8 @@ public class CreateTests extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "Shared/TestFolderC7931");
     }
 
-    @TestRail(id = "C7932")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7932")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void sharedFilesCreateDocumentFromTemplate()
     {
         LOG.info("Precondition: Login as admin user and create a file template.");
@@ -306,8 +306,8 @@ public class CreateTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C7934")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
+    @TestRail (id = "C7934")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void sharedFilesCreateGoogleDocsDocument() throws Exception
     {
         googleDocs.loginToGoogleDocs();
@@ -346,11 +346,11 @@ public class CreateTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocName), String.format("File [%s] is displayed", googleDocName));
 
         cleanupAuthenticatedSession();
-        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + "Untitled document"+googleDocName);
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + "Untitled document" + googleDocName);
     }
 
-    @TestRail(id = "C7935")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
+    @TestRail (id = "C7935")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void sharedFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
         googleDocs.loginToGoogleDocs();
@@ -389,11 +389,11 @@ public class CreateTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocSpreadsheet), String.format("File [%s] is displayed", googleDocSpreadsheet));
 
         cleanupAuthenticatedSession();
-        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" +"Untitled spreadsheet"+ googleDocSpreadsheet);
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + "Untitled spreadsheet" + googleDocSpreadsheet);
     }
 
-    @TestRail(id = "C7936")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
+    @TestRail (id = "C7936")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void sharedFilesCreateGoogleDocsPresentation() throws Exception
     {
         googleDocs.loginToGoogleDocs();
@@ -430,6 +430,6 @@ public class CreateTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocPresentation), String.format("File [%s] is displayed", googleDocPresentation));
 
         cleanupAuthenticatedSession();
-        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" +"Untitled presentation"+ googleDocPresentation);
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + "Untitled presentation" + googleDocPresentation);
     }
 }

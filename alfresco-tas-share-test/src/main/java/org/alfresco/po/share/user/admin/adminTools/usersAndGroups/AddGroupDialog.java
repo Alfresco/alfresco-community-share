@@ -18,24 +18,24 @@ import java.util.stream.Collectors;
 public class AddGroupDialog extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(css = "span[id*='grouppicker-title']")
+    @FindBy (css = "span[id*='grouppicker-title']")
     private WebElement dialogTitle;
 
     @RenderWebElement
-    @FindBy(css = "div[id*='search-groupfinder'] input")
+    @FindBy (css = "div[id*='search-groupfinder'] input")
     private WebElement searchInputField;
 
     @RenderWebElement
-    @FindBy(css = "div[id*='search-groupfinder'] button[id*='search']")
+    @FindBy (css = "div[id*='search-groupfinder'] button[id*='search']")
     private WebElement searchButton;
 
-    @FindAll(@FindBy(css = ".itemname"))
+    @FindAll (@FindBy (css = ".itemname"))
     private List<WebElement> searchResultsList;
 
-    @FindAll(@FindBy(css = ".detail"))
+    @FindAll (@FindBy (css = ".detail"))
     private List<WebElement> searchResultsIdList;
 
-    @FindAll(@FindBy(css = "td[class*='actions'] button"))
+    @FindAll (@FindBy (css = "td[class*='actions'] button"))
     private List<WebElement> addButtonsList;
 
     /**
@@ -69,7 +69,7 @@ public class AddGroupDialog extends ShareDialog
 
     /**
      * Fill in search input field with a group name and click 'Search' button
-     * 
+     *
      * @param groupToSearch typed in search input field
      */
     public void searchGroup(String groupToSearch)
@@ -116,7 +116,7 @@ public class AddGroupDialog extends ShareDialog
 
     /**
      * Click 'Add' button for a search result item
-     * 
+     *
      * @param searchResult to be added
      */
     public void clickAddButtonForGroup(String searchResult)

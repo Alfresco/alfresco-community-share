@@ -35,22 +35,23 @@ public class LinkCommentsTests extends ContextAwareWebTest
     private String linkURL = "LinkURL.com";
     private String linkDescription = String.format("Link description%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6230")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6230")
     public void addingACommentToALink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
@@ -72,12 +73,12 @@ public class LinkCommentsTests extends ContextAwareWebTest
         linkDetailsViewPage.addComment(comment);
         Assert.assertTrue(linkDetailsViewPage.getCommentsList().contains(comment), "Comment is not displayed!");
         Assert.assertTrue(linkDetailsViewPage.getCommentAuthor(comment).equals("firstName" + " " + "lastName"), "Wrong comment author!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6231")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6231")
     public void cancelAddingACommentToALink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
@@ -98,12 +99,12 @@ public class LinkCommentsTests extends ContextAwareWebTest
         String comment = "some content";
         linkDetailsViewPage.cancelAddComment(comment);
         Assert.assertTrue(linkDetailsViewPage.getNoCommentsMessage().equals("No comments"), "'No comments' message should be displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
-    @TestRail(id = "C6232")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
+    @TestRail (id = "C6232")
     // This test doesn't work with with selenium version 2.46.0. It should be enabled on 2.53.0 version.
     public void editLinkComment()
     {
@@ -129,12 +130,12 @@ public class LinkCommentsTests extends ContextAwareWebTest
         Assert.assertTrue(linkDetailsViewPage.getCommentsList().contains("comment1 edited"), "Comment is not displayed!");
         Assert.assertTrue(linkDetailsViewPage.getCommentAuthor(comment).equals("firstName" + " " + "lastName"), "Wrong comment author!");
         Assert.assertTrue(linkDetailsViewPage.getCommentCreationTime(comment).equals("just now"), "Wrong comment creation time!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
-    @TestRail(id = "C6233")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
+    @TestRail (id = "C6233")
     // This test doesn't work with with selenium version 2.46.0. It should be enabled on 2.53.0 version.
     public void cancelEditingLinkComment()
     {
@@ -158,12 +159,12 @@ public class LinkCommentsTests extends ContextAwareWebTest
         linkDetailsViewPage.clearCommentContent();
         linkDetailsViewPage.cancelAddComment("comment1 edited");
         Assert.assertTrue(linkDetailsViewPage.getCommentsList().contains(comment), "Comment is not displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6234")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6234")
     public void deleteLinkComment()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
@@ -186,12 +187,12 @@ public class LinkCommentsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Delete' button.");
         deleteCommentPopUp.clickDelete();
         Assert.assertTrue(linkDetailsViewPage.getCommentsList().isEmpty(), "No Comment should be displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6235")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6235")
     public void cancelDeletingLinkComment()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
@@ -214,7 +215,7 @@ public class LinkCommentsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Cancel' button.");
         deleteCommentPopUp.clickCancel();
         Assert.assertTrue(linkDetailsViewPage.getCommentsList().contains(comment), "Comment is not displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

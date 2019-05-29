@@ -23,50 +23,50 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
     SiteGroupsPage siteGroupsPage;
 
     @RenderWebElement
-    @FindBy(css = "div[class='finder-wrapper']")
+    @FindBy (css = "div[class='finder-wrapper']")
     protected WebElement groupFinderWrapper;
 
     @RenderWebElement
-    @FindBy(css = "div[class='groupslist']")
+    @FindBy (css = "div[class='groupslist']")
     protected WebElement groupsListBox;
 
-    @FindBy(css = "div[class='title'] label")
+    @FindBy (css = "div[class='title'] label")
     protected WebElement defaultSearchText;
 
-    @FindBy(css = "input[id*='group-finder']")
+    @FindBy (css = "input[id*='group-finder']")
     protected WebElement groupSearchBox;
 
-    @FindBy(css = "button[id*='group-search-button']")
+    @FindBy (css = "button[id*='group-search-button']")
     protected WebElement groupSearchButton;
 
-    @FindBy(css = "div[class*='grouplistWrapper'] div[class*='title']")
+    @FindBy (css = "div[class*='grouplistWrapper'] div[class*='title']")
     protected WebElement groupsListTitle;
 
-    @FindBy(css = "button[id*='selectallroles']")
+    @FindBy (css = "button[id*='selectallroles']")
     protected WebElement setRolesButton;
 
-    @FindBy(css = "button[id*='default-add-button']")
+    @FindBy (css = "button[id*='default-add-button']")
     protected WebElement addGroupsButton;
 
     @RenderWebElement
-    @FindBy(css = "span[id*='backTo'] a")
+    @FindBy (css = "span[id*='backTo'] a")
     protected WebElement backToSiteGroups;
 
-    @FindAll(@FindBy(css = "div[id*='default-results'] tbody[class='yui-dt-data'] tr"))
+    @FindAll (@FindBy (css = "div[id*='default-results'] tbody[class='yui-dt-data'] tr"))
     protected List<WebElement> groupResultsList;
 
-    @FindAll(@FindBy(css = "div[id*='inviteelist'] tbody[class='yui-dt-data'] tr"))
+    @FindAll (@FindBy (css = "div[id*='inviteelist'] tbody[class='yui-dt-data'] tr"))
     protected List<WebElement> groupInvitedList;
 
-    @FindAll(@FindBy(css = "li[class*='yuimenuitem']"))
+    @FindAll (@FindBy (css = "li[class*='yuimenuitem']"))
     protected List<WebElement> allRolesFilterOptions;
 
-    @FindBy(css = "div[id*='invitationBar'] button")
+    @FindBy (css = "div[id*='invitationBar'] button")
     protected WebElement setAllRolesToButton;
 
     protected By roleOptions = By.cssSelector("div[id*='inviteelist'] div.yui-menu-button-menu.visible a.yuimenuitemlabel");
 
-    @FindBy(css = "div[id*='default-results'] td[class='yui-dt-empty']")
+    @FindBy (css = "div[id*='default-results'] td[class='yui-dt-empty']")
     private WebElement searchResultsText;
 
     public enum GroupRoles
@@ -82,7 +82,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     /**
      * Get default search text
-     * 
+     *
      * @return
      */
     public String getDefaultSearchText()
@@ -92,7 +92,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     /**
      * Get groups list title
-     * 
+     *
      * @return
      */
     public String getGroupsListTitle()
@@ -102,7 +102,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     /**
      * Checks whether search box is displayed or not
-     * 
+     *
      * @return
      */
     public boolean isGroupSearchBoxDisplayed()
@@ -112,7 +112,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     /**
      * Checks whether search button is displayed or not
-     * 
+     *
      * @return
      */
     public boolean isGroupSearchButtonDisplayed()
@@ -122,7 +122,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     /**
      * Checks whether set roles button is displayed or not
-     * 
+     *
      * @return
      */
     public boolean isSetRolesButtonDisplayed()
@@ -132,7 +132,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     /**
      * Check if Add Groups button is enabled or disabled
-     * 
+     *
      * @return
      */
     public boolean isAddGroupsButtonEnabled()
@@ -142,7 +142,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     /**
      * Check if Go Back to Site Groups link is displayed
-     * 
+     *
      * @return
      */
     public boolean isGoBackToSiteGroupsDisplayed()
@@ -162,7 +162,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     /**
      * Search for a specific group
-     * 
+     *
      * @param groupName
      * @return
      */
@@ -235,8 +235,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
             setAllRolesToButton.click();
             browser.selectOptionFromFilterOptionsList(roleOption, allRolesFilterOptions);
             return (AddSiteGroupsPage) this.renderedPage();
-        }
-        catch (NoSuchElementException nse)
+        } catch (NoSuchElementException nse)
         {
             LOG.error("Set role option not present" + nse.getMessage());
             throw new PageOperationException(roleOption + " option not present.");
@@ -252,8 +251,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
             List<WebElement> groupRoleOptions = browser.waitUntilElementsVisible(roleOptions);
             browser.selectOptionFromFilterOptionsList(roleOption, groupRoleOptions);
             return (AddSiteGroupsPage) this.renderedPage();
-        }
-        catch (NoSuchElementException nse)
+        } catch (NoSuchElementException nse)
         {
             LOG.error("Set role option not present" + nse.getMessage());
             throw new PageOperationException(roleOption + " option not present.");
@@ -269,7 +267,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     /**
      * Get the search text when looking for groups
-     * 
+     *
      * @return
      */
     public String getSearchText()
@@ -279,7 +277,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     /**
      * Get the search text
-     * 
+     *
      * @return
      */
     public String getSearchBoxContent()
@@ -289,7 +287,7 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 
     /**
      * Complete flow to add a group to a site
-     * 
+     *
      * @param group
      * @param role
      */

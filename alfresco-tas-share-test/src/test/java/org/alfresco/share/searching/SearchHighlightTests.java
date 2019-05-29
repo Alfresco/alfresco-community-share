@@ -72,14 +72,15 @@ public class SearchHighlightTests extends ContextAwareWebTest
     String C42564file2 = "big C42564file";
     String C42549file = siteName;
 
-    @BeforeClass(alwaysRun = true)
-    public void createPrecondition() {
+    @BeforeClass (alwaysRun = true)
+    public void createPrecondition()
+    {
         List<DashboardCustomization.Page> pagesToAdd = new ArrayList<DashboardCustomization.Page>();
         pagesToAdd.add(DashboardCustomization.Page.BLOG);
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.addPagesToSite(userName, password, siteName, pagesToAdd);
-        contentService.createDocument(userName,password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42558file, C42558file);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42560file, docContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42560file2, docContent);
@@ -99,15 +100,17 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @AfterClass
-    public void removeAddedFiles() {
-            userService.delete(adminUser, adminPassword, userName);
-            contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-            siteService.delete(adminUser, adminPassword, siteName);
+    public void removeAddedFiles()
+    {
+        userService.delete(adminUser, adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C42544")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchByName() {
+    @TestRail (id = "C42544")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchByName()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type the name of the file and click search.");
@@ -119,9 +122,10 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted(docName));
     }
 
-    @TestRail(id = "C42545")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchByTitle() {
+    @TestRail (id = "C42545")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchByTitle()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type the title of the file and click search.");
@@ -133,10 +137,11 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isTitleHighlighted(docTitle));
     }
 
-    @TestRail(id = "C42546")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
+    @TestRail (id = "C42546")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
 
-    public void highlightSearchByDescription() {
+    public void highlightSearchByDescription()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type the description of the file and click search.");
@@ -148,9 +153,10 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isDescriptionHighlighted(docDescription));
     }
 
-    @TestRail(id = "C42547")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchByContent() {
+    @TestRail (id = "C42547")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchByContent()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type the content of the file and click search.");
@@ -162,9 +168,10 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isContentHighlighted(docContent));
     }
 
-    @TestRail(id = "C42548")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchByNameOfBlog() {
+    @TestRail (id = "C42548")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchByNameOfBlog()
+    {
         LOG.info("Step 1: Login with username and navigate to Blog page.");
         blogPage.navigate(siteName);
         LOG.info("Step 2: Click 'New Post' button.");
@@ -185,9 +192,10 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted(blogPostTitle));
     }
 
-    @TestRail(id = "C42550")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchByContentOnDifferentPage() {
+    @TestRail (id = "C42550")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchByContentOnDifferentPage()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type one of the contents of the doc file and click search.");
@@ -202,13 +210,14 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertFalse(searchPage.isContentHighlighted("Page4"));
     }
 
-    @TestRail(id = "C42556")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchByPropertyName() {
+    @TestRail (id = "C42556")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchByPropertyName()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type the name of the file and click search.");
-        advancedSearchPage.typeKeywords("name:"+docName);
+        advancedSearchPage.typeKeywords("name:" + docName);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the name is highlighted.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
@@ -216,13 +225,14 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted(docName));
     }
 
-    @TestRail(id = "C42557")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchByPropertyTitle() {
+    @TestRail (id = "C42557")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchByPropertyTitle()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type the title of the file and click search.");
-        advancedSearchPage.typeKeywords("title:"+docTitle);
+        advancedSearchPage.typeKeywords("title:" + docTitle);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the title is highlighted.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
@@ -230,13 +240,14 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isTitleHighlighted(docTitle));
     }
 
-    @TestRail(id = "C42558")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchByPropertyDescription() {
+    @TestRail (id = "C42558")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchByPropertyDescription()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type the description of the file and click search.");
-        advancedSearchPage.typeKeywords("description:"+docDescription);
+        advancedSearchPage.typeKeywords("description:" + docDescription);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the description is highlighted.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
@@ -244,7 +255,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isDescriptionHighlighted(docDescription));
         LOG.info("Step 4: Type some text that is found in the file and click search.");
         advancedSearchPage.navigate();
-        advancedSearchPage.typeKeywords("TEXT:"+C42558file);
+        advancedSearchPage.typeKeywords("TEXT:" + C42558file);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 5: Verify that the file is found and the text is highlighted.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
@@ -253,13 +264,14 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted(C42558file));
     }
 
-    @TestRail(id = "C42560")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchWithWildcards() {
+    @TestRail (id = "C42560")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchWithWildcards()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type the '?' wildcard followed by the name of the file and click search.");
-        advancedSearchPage.typeKeywords("?"+"42560file");
+        advancedSearchPage.typeKeywords("?" + "42560file");
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the name is highlighted.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
@@ -267,7 +279,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted(C42560file));
         LOG.info("Step 4: Type the '*' wildcard followed by a part of the name of the file and click search.");
         advancedSearchPage.navigate();
-        advancedSearchPage.typeKeywords("*"+"42560");
+        advancedSearchPage.typeKeywords("*" + "42560");
         advancedSearchPage.click1stSearch();
         LOG.info("Step 5: Verify that the files are found and the name is highlighted.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
@@ -276,7 +288,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted("42560"));
         LOG.info("Step 6: Type the '=' wildcard followed by the name of the file and click search.");
         advancedSearchPage.navigate();
-        advancedSearchPage.typeKeywords("="+"C42560file");
+        advancedSearchPage.typeKeywords("=" + "C42560file");
         advancedSearchPage.click1stSearch();
         LOG.info("Step 7: Verify that the file is found and the name is highlighted.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
@@ -294,13 +306,14 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted(C42560file));
     }
 
-    @TestRail(id = "C42561")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchCMISStyleProperty(){
+    @TestRail (id = "C42561")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchCMISStyleProperty()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type 'cm_name:' followed by the name of the file and click search.");
-        advancedSearchPage.typeKeywords("cm_name:"+docName);
+        advancedSearchPage.typeKeywords("cm_name:" + docName);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 3: Verify that the file is found and the content is highlighted.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
@@ -308,7 +321,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted(docName));
         LOG.info("Step 4: Type '@cm_name:' followed by the name of the file and click search.");
         advancedSearchPage.navigate();
-        advancedSearchPage.typeKeywords("@cm_name:"+docName);
+        advancedSearchPage.typeKeywords("@cm_name:" + docName);
         advancedSearchPage.click1stSearch();
         LOG.info("Step 5: Verify that the file is found and the content is highlighted.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult);
@@ -316,10 +329,11 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted(docName));
     }
 
-    @Bug(id = "SHA-2221")
-    @TestRail(id = "C42562")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchWithConjunctions() {
+    @Bug (id = "SHA-2221")
+    @TestRail (id = "C42562")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchWithConjunctions()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type 'AND' conjunction between 2 search terms and click search.");
@@ -347,9 +361,10 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted(C42562file1));
     }
 
-    @TestRail(id = "C42563")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchWithDisjunctions() {
+    @TestRail (id = "C42563")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchWithDisjunctions()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type 'OR' disjunction between 2 search terms and click search.");
@@ -373,9 +388,10 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted(C42562file2));
     }
 
-    @TestRail(id = "C42564")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchWithNegation() {
+    @TestRail (id = "C42564")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchWithNegation()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type 'NOT' negation between 2 search terms and click search.");
@@ -406,9 +422,10 @@ public class SearchHighlightTests extends ContextAwareWebTest
         assertTrue(searchPage.isNameHighlighted(C42564file1));
     }
 
-    @TestRail(id = "C42549")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
-    public void highlightSearchByTermFoundInSiteName() {
+    @TestRail (id = "C42549")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void highlightSearchByTermFoundInSiteName()
+    {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");
         advancedSearchPage.navigate();
         LOG.info("Step 2: Type the name of the file and click search.");

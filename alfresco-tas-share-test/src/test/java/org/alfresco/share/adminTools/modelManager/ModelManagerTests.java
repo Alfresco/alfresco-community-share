@@ -74,7 +74,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     private String fileContent = "C42568 content";
     private String name;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
@@ -84,21 +84,20 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     }
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void naming()
     {
         name = String.format("C42565Name%s", RandomData.getRandomAlphanumeric());
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
     public void afterMethod()
     {
 
 
-
-        if(modelManagerPage.isModelDisplayed(name))
+        if (modelManagerPage.isModelDisplayed(name))
         {
-            if(modelManagerPage.getModelStatus(name).equals("Active"))
+            if (modelManagerPage.getModelStatus(name).equals("Active"))
             {
                 modelManagerPage.clickActionsButtonForModel(name);
                 modelManagerPage.clickOnAction("Deactivate", modelManagerPage);
@@ -113,18 +112,18 @@ public class ModelManagerTests extends ContextAwareWebTest
         }
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void afterClass()
     {
-            siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
-            userService.delete(adminUser,adminPassword, userName);
-            contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        userService.delete(adminUser, adminPassword, userName);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
 
-    @TestRail(id = "C9500")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9500")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void checkModelManagerPage()
     {
         LOG.info("Step 1: Navigate to Admin Tools page, check and confirm that Model Manager is available under Admin tools");
@@ -147,8 +146,8 @@ public class ModelManagerTests extends ContextAwareWebTest
         // correct");
     }
 
-    @TestRail(id = "C42565")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C42565")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createModel()
     {
         String nameSpace = String.format("C42565Namespace%s", RandomData.getRandomAlphanumeric());
@@ -173,12 +172,12 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         Assert.assertTrue(modelManagerPage.isModelDisplayed(name), "C42565Name model is not displayed");
         Assert.assertEquals(modelManagerPage.getModelDetails(name), String.format("%s %s Inactive\nActions▾", name, nameSpace),
-                "Model details are not correct");
+            "Model details are not correct");
 
     }
 
-    @TestRail(id = "C9511")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9511")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void checkImportModelForm()
     {
         modelManagerPage.navigate();
@@ -197,8 +196,8 @@ public class ModelManagerTests extends ContextAwareWebTest
         Assert.assertTrue(importModelDialogPage.isCancelButtonDisplayed(), "Cancel button is not displayed");
     }
 
-    @TestRail(id = "C9516")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9516")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void activateModel()
     {
         // Preconditions
@@ -222,8 +221,8 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C9517")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9517")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editModel()
     {
         // Preconditions
@@ -256,19 +255,19 @@ public class ModelManagerTests extends ContextAwareWebTest
         modelManagerPage.renderedPage();
 
         Assert.assertEquals(modelManagerPage.getModelDetails(name), String.format("%s %s Inactive\nActions▾", name, editedNamespace),
-                "Model details have not been edited successfully");
+            "Model details have not been edited successfully");
 
     }
 
-    @TestRail(id = "C9518")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9518")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteModel()
     {
         // Preconditions
         String nameSpace = String.format("C9518nameSpace%s", RandomData.getRandomAlphanumeric());
         String prefix = String.format("C9518%s", RandomData.getRandomAlphanumeric());
         String expectedDialogText = "Are you sure you want to delete model ''" + name
-                + "''? All custom types, aspects and properties in the model will also be deleted.";
+            + "''? All custom types, aspects and properties in the model will also be deleted.";
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
         createModelDialogPage.sendNamespaceText(nameSpace);
@@ -288,7 +287,7 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Check the Delete Model window");
         Assert.assertTrue(deleteModelDialogPage.isCloseXButtonDisplayedOnDeleteModelDialog(),
-                "The Close X button is not displayed on the Delete Model dialog page");
+            "The Close X button is not displayed on the Delete Model dialog page");
         Assert.assertEquals(deleteModelDialogPage.getDeleteModelDialogText(), expectedDialogText, "The dialog text is not correct");
         Assert.assertTrue(deleteModelDialogPage.isButtonDisplayed("Delete"), "Delete button is not displayed");
         Assert.assertTrue(deleteModelDialogPage.isButtonDisplayed("Cancel"), "Cancel button is not displayed");
@@ -302,11 +301,10 @@ public class ModelManagerTests extends ContextAwareWebTest
         Assert.assertFalse(modelManagerPage.isModelDisplayed(name));
 
 
-
     }
 
-    @TestRail(id = "C9520")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9520")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void checkAvailableActionsForActiveModel()
     {
         // Preconditions
@@ -318,7 +316,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         createModelDialogPage.sendPrefixText(prefix);
         createModelDialogPage.sendNameText(name);
         createModelDialogPage.clickCreateButton();
- //       modelManagerPage.renderedPage();
+        //       modelManagerPage.renderedPage();
         getBrowser().waitInSeconds(5);
         modelManagerPage.clickActionsButtonForModel(name);
         modelManagerPage.clickOnAction("Activate", modelManagerPage);
@@ -334,8 +332,8 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C9521")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9521")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deactivateModel()
     {
         // Preconditions
@@ -363,8 +361,8 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C9519")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9519")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void exportModel()
     {
         // Preconditions
@@ -392,8 +390,8 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C9509")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9509")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void importModel()
     {
         String filePath = testDataFolder + "C9509TestModelName.zip";
@@ -406,7 +404,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         Assert.assertTrue(importModelDialogPage.isImportModelWindowDisplayed(), "Import Model window is not displayed");
 
         LOG.info(
-                "Step 2&3: Click the Choose Files button, navigate to the location where the testModel file is available locally and select file to import then click open;");
+            "Step 2&3: Click the Choose Files button, navigate to the location where the testModel file is available locally and select file to import then click open;");
         importModelDialogPage.importFile(filePath);
         importModelDialogPage.clickImportButton();
         modelManagerPage.renderedPage();
@@ -415,12 +413,12 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Check the Model details displayed on the Model Manager page");
         Assert.assertEquals(modelManagerPage.getModelDetails(modelName), "C9509TestModelName C9509TestModelName Inactive\n" + "Actions▾",
-                "Imported Model Details are not correct");
+            "Imported Model Details are not correct");
 
     }
 
-    @TestRail(id = "C42566")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C42566")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createCustomType()
     {
         // Preconditions
@@ -457,11 +455,11 @@ public class ModelManagerTests extends ContextAwareWebTest
         createCustomTypeDialog.clickCreateButton();
 
         Assert.assertEquals(modelDetailsPage.getTypeDetails(displayedTypeName), prefix + ":TestCustomTypeName CustomTypeLabel cm:content No\n" + "Actions▾",
-                "Details for the created type are not correct");
+            "Details for the created type are not correct");
     }
 
-    @TestRail(id = "C42567")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C42567")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createAspect()
     {
         // Preconditions
@@ -481,7 +479,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         createModelDialogPage.clickCreateButton();
         modelManagerPage.waitForModel(name);
         LOG.info("Step 1: On the Model Manager page click C42567testModel name link.");
-       // getBrowser().waitUntilElementVisible(modelManagerPage.selectRow(name));
+        // getBrowser().waitUntilElementVisible(modelManagerPage.selectRow(name));
         modelManagerPage.clickModelNameWithoutRender(name);
         Assert.assertTrue(modelDetailsPage.isCreateAspectButtonDisplayed(), "Create Aspect button is not displayed");
         Assert.assertTrue(modelDetailsPage.isCreateCustomTypeButtonDisplayed(), "Create Custom Type button is not displayed");
@@ -498,12 +496,12 @@ public class ModelManagerTests extends ContextAwareWebTest
         createAspectDialogPage.clickCreateButton();
 
         Assert.assertEquals(modelDetailsPage.getAspectDetails(displayedAspectName), prefix + ":TestAspectName aspectNameLabel No\n" + "Actions▾",
-                "Details for the created aspect are not correct");
+            "Details for the created aspect are not correct");
     }
 
-    @Bug(id = "TBD")
-    @TestRail(id = "C42568")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Bug (id = "TBD")
+    @TestRail (id = "C42568")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void useCreatedModel()
     {
         String filePath = testDataFolder + "Marketing_content.zip";

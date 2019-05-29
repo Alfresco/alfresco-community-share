@@ -13,19 +13,19 @@ import org.openqa.selenium.support.FindBy;
 public class UserContentPage extends SharePage<UserContentPage>
 {
     @RenderWebElement
-    @FindBy(css = ".viewcolumn>div:nth-child(1)")
+    @FindBy (css = ".viewcolumn>div:nth-child(1)")
     private WebElement recentlyAddedLabel;
 
     @RenderWebElement
-    @FindBy(xpath = ".//*[@id='template_x002e_user-content_x002e_user-content_x0023_default-body']/div/p[1]")
+    @FindBy (xpath = ".//*[@id='template_x002e_user-content_x002e_user-content_x0023_default-body']/div/p[1]")
     private WebElement noAddedContentMessage;
 
     @RenderWebElement
-    @FindBy(css = ".viewcolumn>div:nth-child(3)")
+    @FindBy (css = ".viewcolumn>div:nth-child(3)")
     private WebElement recentlyModfiedLabel;
 
     @RenderWebElement
-    @FindBy(xpath = ".//*[@id='template_x002e_user-content_x002e_user-content_x0023_default-body']/div/p[2]")
+    @FindBy (xpath = ".//*[@id='template_x002e_user-content_x002e_user-content_x0023_default-body']/div/p[2]")
     private WebElement noModifiedContentMessage;
 
     public boolean isRecentlyAddedLabelDisplayed()
@@ -82,7 +82,7 @@ public class UserContentPage extends SharePage<UserContentPage>
 
     /**
      * Open User Content page from the my profile navigation links
-     * 
+     *
      * @param myProfileNavigation
      * @return {@link UserContentPage}
      */

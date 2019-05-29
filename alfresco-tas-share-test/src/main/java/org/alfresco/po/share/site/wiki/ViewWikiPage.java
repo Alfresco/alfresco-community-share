@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 public class ViewWikiPage extends SiteCommon<ViewWikiPage>
 {
     @RenderWebElement
-    @FindBy(css = "a[href*='details']")
+    @FindBy (css = "a[href*='details']")
     private WebElement wikiPageDetailsLink;
 
     @Override

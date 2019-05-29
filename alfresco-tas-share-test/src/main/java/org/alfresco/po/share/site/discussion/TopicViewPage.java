@@ -30,34 +30,34 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     TopicListPage topicListPage;
 
     /* Top Buttons */
-    @FindBy(css = ".backLink>a")
+    @FindBy (css = ".backLink>a")
     private Link discussionsTopicListLink;
 
     @RenderWebElement
-    @FindBy(css = "div.new-topic button[id$='default-create-button-button']")
+    @FindBy (css = "div.new-topic button[id$='default-create-button-button']")
     private Button newTopicButton;
 
     /* Topic area */
     @RenderWebElement
-    @FindBy(css = "div.node.topic")
+    @FindBy (css = "div.node.topic")
     private WebElement topicElement;
 
-    @FindBy(className = "nodeTitle")
+    @FindBy (className = "nodeTitle")
     private WebElement topicTitle;
 
-    @FindBy(className = "published")
+    @FindBy (className = "published")
     private WebElement topicPublished;
 
-    @FindBy(css = ".tagLabel+span")
+    @FindBy (css = ".tagLabel+span")
     private WebElement topicTags;
 
-    @FindBy(css = ".onEditTopic>a")
+    @FindBy (css = ".onEditTopic>a")
     private Link editLink;
 
-    @FindBy(css = ".onDeleteTopic>a")
+    @FindBy (css = ".onDeleteTopic>a")
     private Link deleteLink;
 
-    @FindBy(xpath = "//div[contains(text(), 'Add Reply')]")
+    @FindBy (xpath = "//div[contains(text(), 'Add Reply')]")
     private WebElement addReplyHeader;
 
     private By replyLink = By.cssSelector(".onAddReply>a");
@@ -66,7 +66,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     private By noReplies = By.cssSelector(".replyTo+span");
 
     /* Replies area */
-    @FindAll(@FindBy(css = ".reply"))
+    @FindAll (@FindBy (css = ".reply"))
     private List<WebElement> repliesList;
 
     private By replyAuthor = By.cssSelector(".userLink>a");
@@ -77,16 +77,16 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     /* Add/Edit Reply area */
     private By replyTextArea = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
 
-    @FindBy(className = "replyTitle")
+    @FindBy (className = "replyTitle")
     private WebElement replyBoxTitle;
 
-    @FindBy(css = "button[id$='submit-button']")
+    @FindBy (css = "button[id$='submit-button']")
     private Button submitButton;
 
-    @FindBy(css = "button[id$='cancel-button']")
+    @FindBy (css = "button[id$='cancel-button']")
     private Button cancelButton;
 
-    @FindBy(xpath = "//button[descendant-or-self::*[text()='Insert']]")
+    @FindBy (xpath = "//button[descendant-or-self::*[text()='Insert']]")
     private Button insertMenuButton;
 
     private By replyBoxMenu = By.className("mce-menu");
@@ -100,7 +100,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Get element for the specified reply
-     * 
+     *
      * @param reply
      * @return
      */
@@ -183,7 +183,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Get the number of noReplies for the specified reply
-     * 
+     *
      * @param reply
      * @return
      */
@@ -194,7 +194,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Get when the specified reply was posted
-     * 
+     *
      * @param reply
      * @return
      */
@@ -205,7 +205,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Method to add reply to topic
-     * 
+     *
      * @return
      */
     public TopicViewPage clickReply()
@@ -216,7 +216,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Method to edit topic
-     * 
+     *
      * @return
      */
     public EditTopicPage editTopic()
@@ -227,7 +227,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Method to delete topic
-     * 
+     *
      * @return
      */
     public DeleteDialog deleteTopic()
@@ -286,7 +286,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Get the title of the Reply Box
-     * 
+     *
      * @return
      */
     public String getReplyBoxTitle()
@@ -296,7 +296,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Get the content of the Reply Box
-     * 
+     *
      * @return
      */
     public String getReplyBoxContent()
@@ -330,7 +330,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     /**
      * Check if replyChild appears indented from its parent
-     * 
+     *
      * @param replyChild
      * @param replyParent
      * @return
@@ -338,12 +338,12 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public boolean isReplyIndentedFromItsParent(String replyChild, String replyParent)
     {
         return browser.isElementDisplayed(selectReply(replyParent),
-                By.xpath("following-sibling::*[@class='indented']//*[contains(@class, 'content')]/*[text()='" + replyChild + "']"));
+            By.xpath("following-sibling::*[@class='indented']//*[contains(@class, 'content')]/*[text()='" + replyChild + "']"));
     }
 
     /**
      * Click on Show/ Hide Replies link from Reply Parent
-     * 
+     *
      * @param reply
      * @return
      */

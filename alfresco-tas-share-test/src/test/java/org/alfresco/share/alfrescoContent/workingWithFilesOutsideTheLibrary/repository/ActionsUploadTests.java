@@ -20,10 +20,14 @@ import static org.testng.Assert.*;
 /**
  * @author Andrei.Nechita
  */
-public class ActionsUploadTests extends ContextAwareWebTest {
-    @Autowired private RepositoryPage repositoryPage;
-    @Autowired private UploadContent uploadContent;
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+public class ActionsUploadTests extends ContextAwareWebTest
+{
+    @Autowired
+    private RepositoryPage repositoryPage;
+    @Autowired
+    private UploadContent uploadContent;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
     private final String random = RandomData.getRandomAlphanumeric();
     private final String user = "user1-" + random;
@@ -33,24 +37,26 @@ public class ActionsUploadTests extends ContextAwareWebTest {
     private String newVersionFile = RandomData.getRandomAlphanumeric() + "-NewFile-C8175.txt";
 
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        contentService.deleteContentByPath(adminUser, adminPassword,  "/Shared/" + testFile);
-        contentService.deleteContentByPath(adminUser, adminPassword,  "/Shared/" + newVersionFile);
+        contentService.deleteContentByPath(adminUser, adminPassword, "/Shared/" + testFile);
+        contentService.deleteContentByPath(adminUser, adminPassword, "/Shared/" + newVersionFile);
     }
 
-    @TestRail(id = "C8172")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void uploadDocument() {
+    @TestRail (id = "C8172")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void uploadDocument()
+    {
         LOG.info("Precondition: Navigate to Repository page.");
         repositoryPage.navigate();
         LOG.info("STEP1: Check if the Upload button is greyed on the Repository page .");
@@ -62,10 +68,11 @@ public class ActionsUploadTests extends ContextAwareWebTest {
         assertTrue(repositoryPage.isContentNameDisplayed(testFile), String.format("File [%s] is displayed", testFile));
     }
 
-    @Bug(id="MNT-18059",status = Bug.Status.FIXED)
-    @TestRail(id = "C8175")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void updateDocumentNewVersion() {
+    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
+    @TestRail (id = "C8175")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void updateDocumentNewVersion()
+    {
         String testFilePath2 = testDataFolder + testFile2;
         String newVersionFilePath = testDataFolder + newVersionFile;
         LOG.info("Precondition: Navigate to Shared folder from Repository page and upload a file");

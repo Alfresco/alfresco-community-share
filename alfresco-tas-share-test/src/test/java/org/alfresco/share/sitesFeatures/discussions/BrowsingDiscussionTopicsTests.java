@@ -39,17 +39,17 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
     private String topicTag1 = "tag1";
     private String topicTag2 = "tag2";
 
-     DateTime today;
-     DateTime eightDaysAgo ;
+    DateTime today;
+    DateTime eightDaysAgo;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void setupMethod()
     {
         today = new DateTime();
         eightDaysAgo = today.minusDays(8);
     }
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lName1");
@@ -68,14 +68,14 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
     }
 
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
@@ -84,8 +84,8 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
         //TODO Find a way to change topic date: change date in database or running ssh commands on server
     }
 
-    @TestRail(id = "6199")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6199")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseByTopicsFilter()
     {
         topicListPage.navigate(siteName);
@@ -118,8 +118,8 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
 //        assertFalse(topicListPage.isTopicDisplayed(topic3Title), "Topic3 should not be  displayed.");
     }
 
-    @TestRail(id = "6204")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6204")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTopicsByTags()
     {
         topicListPage.navigate(siteName);
@@ -135,13 +135,13 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
 
         LOG.info("STEP 2 - Click on tag1.");
         topicListPage.clickTag(topicTag1);
-        assertEquals(topicListPage.getTopicListTitle(), "Posts with Tag '"+topicTag1+"'", "Only topics associated with tag1 are displayed.");
+        assertEquals(topicListPage.getTopicListTitle(), "Posts with Tag '" + topicTag1 + "'", "Only topics associated with tag1 are displayed.");
         assertTrue(topicListPage.isTopicDisplayed(topic1Title), "Topic1 is associated with tag1 and it is displayed.");
         assertTrue(topicListPage.isTopicDisplayed(topic2Title), "Topic2 is associated with tag1 and it is displayed.");
 
         LOG.info("STEP 3 - Click on tag2.");
         topicListPage.clickTag(topicTag2);
-        assertEquals(topicListPage.getTopicListTitle(), "Posts with Tag '"+topicTag2+"'", "Only topics associated with tag2 are displayed.");
+        assertEquals(topicListPage.getTopicListTitle(), "Posts with Tag '" + topicTag2 + "'", "Only topics associated with tag2 are displayed.");
         assertFalse(topicListPage.isTopicDisplayed(topic1Title), "Topic1 is not associated with tag2 and it is not displayed.");
         assertTrue(topicListPage.isTopicDisplayed(topic2Title), "Topic2 is associated with tag2 and it is displayed.");
     }

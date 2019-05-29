@@ -16,9 +16,11 @@ import org.testng.annotations.Test;
 
 public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DocumentsFilters filters;
+    @Autowired
+    private DocumentsFilters filters;
 
     private final String user = String.format("C6333User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C6333SiteDescription%s", RandomData.getRandomAlphanumeric());
@@ -28,7 +30,7 @@ public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
     private final String docName1 = "testFile2";
     private final String siteName = String.format("C6333SiteName%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
 
     public void setupTest()
     {
@@ -41,17 +43,17 @@ public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C6333")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6333")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void OpenFoldersFromTree()
     {
@@ -68,13 +70,13 @@ public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(4);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "testFile1 is not displayed");
         Assert.assertEquals(documentLibraryPage.getBreadcrumbList(), "[Documents, testFolder1]",
-                "The breadcrumb does not display the correct position.The position currently displayed is: ");
+            "The breadcrumb does not display the correct position.The position currently displayed is: ");
 
         LOG.info("Step 3: Click on folder from Library section, testFolder2");
         filters.clickSecondFolder();
         getBrowser().waitInSeconds(4);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName1), "testFile2 is not displayed");
         Assert.assertEquals(documentLibraryPage.getBreadcrumbList(), "[Documents, testFolder2]",
-                "The breadcrumb does not display the correct position.The position currently displayed is: ");
+            "The breadcrumb does not display the correct position.The position currently displayed is: ");
     }
 }

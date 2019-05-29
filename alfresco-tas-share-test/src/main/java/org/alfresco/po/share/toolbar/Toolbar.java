@@ -30,63 +30,63 @@ public class Toolbar extends HtmlPage
     private SitesManagerPage sitesManagerPage;
 
     @RenderWebElement
-    @FindBy(id = "SHARE_HEADER")
+    @FindBy (id = "SHARE_HEADER")
     protected WebElement toolbar;
 
-    @FindBy(css = "[widgetid=\"HEADER_HOME\"]")
+    @FindBy (css = "[widgetid=\"HEADER_HOME\"]")
     protected WebElement homeLink;
 
-    @FindBy(id = "HEADER_MY_FILES_text")
+    @FindBy (id = "HEADER_MY_FILES_text")
     protected WebElement myFilesLink;
 
-    @FindBy(id = "HEADER_SHARED_FILES_text")
+    @FindBy (id = "HEADER_SHARED_FILES_text")
     protected WebElement sharedFilesLink;
 
-    @FindBy(id = "HEADER_SITES_MENU_text")
+    @FindBy (id = "HEADER_SITES_MENU_text")
     protected WebElement sitesLink;
 
-    @FindBy(id = "HEADER_TASKS_text")
+    @FindBy (id = "HEADER_TASKS_text")
     protected WebElement tasksLink;
 
-    @FindBy(id = "HEADER_PEOPLE_text")
+    @FindBy (id = "HEADER_PEOPLE_text")
     protected WebElement peopleLink;
 
-    @FindBy(id = "HEADER_REPOSITORY_text")
+    @FindBy (id = "HEADER_REPOSITORY_text")
     protected WebElement repositoryLink;
 
-    @FindBy(id = "HEADER_SITES_CONSOLE_text")
+    @FindBy (id = "HEADER_SITES_CONSOLE_text")
     protected WebElement sitesManagerLink;
 
-    @FindBy(id = "HEADER_ADMIN_CONSOLE_text")
+    @FindBy (id = "HEADER_ADMIN_CONSOLE_text")
     protected WebElement adminToolsLink;
 
-    @FindBy(css="div[id='HEADER_USER_MENU_POPUP']")
+    @FindBy (css = "div[id='HEADER_USER_MENU_POPUP']")
     protected WebElement userMenuLink;
 
     @RenderWebElement
-    @FindBy(css = ".alf-search-icon")
+    @FindBy (css = ".alf-search-icon")
     protected WebElement searchIcon;
 
-    @FindBy(id = "HEADER_SEARCH_BOX_ADVANCED_SEARCH_text")
+    @FindBy (id = "HEADER_SEARCH_BOX_ADVANCED_SEARCH_text")
     protected WebElement advancedSearchLink;
 
     @RenderWebElement
-    @FindBy(id = "HEADER_SEARCHBOX_FORM_FIELD")
+    @FindBy (id = "HEADER_SEARCHBOX_FORM_FIELD")
     protected WebElement searchBoxInput;
 
-    @FindAll(@FindBy(css = "div.alf-live-search-sites-list div.alf-livesearch-item>a"))
+    @FindAll (@FindBy (css = "div.alf-live-search-sites-list div.alf-livesearch-item>a"))
     protected List<WebElement> searchSitesList;
 
-    @FindBy(css = ".alfresco-header-SearchBox-clear")
+    @FindBy (css = ".alfresco-header-SearchBox-clear")
     protected WebElement clearSearchBox;
 
-    @FindBy(css = "div.alf-livesearch-item>a")
+    @FindBy (css = "div.alf-livesearch-item>a")
     private List<WebElement> searchResultsInToolbar;
 
-    @FindBy(css = "span.alfresco-buttons-AlfButton.confirmationButton.call-to-action.dijitButton")
+    @FindBy (css = "span.alfresco-buttons-AlfButton.confirmationButton.call-to-action.dijitButton")
     private WebElement searchButton;
 
-    @FindBy(id = "HEADER_MY_FILES")
+    @FindBy (id = "HEADER_MY_FILES")
     private WebElement myFilesButton;
 
     public boolean isToolbarDisplayed()
@@ -235,7 +235,7 @@ public class Toolbar extends HtmlPage
      * Click a result from live search results list
      *
      * @param query search result to be clicked on
-     * @param page that will be rendered
+     * @param page  that will be rendered
      * @return html rendered page
      */
     public HtmlPage clickResult(String query, HtmlPage page)
@@ -261,14 +261,14 @@ public class Toolbar extends HtmlPage
      */
     public boolean isResultDisplayedInLiveSearch(String query)
     {
-    	int j=0;
-    	while(!browser.isElementDisplayed(By.xpath("//div[contains(@class, 'alf-live-search')]//div")) && j<4)
-    	{
-    		browser.refresh();
-    		this.searchInToolbar(query);
-    		j++;
-    	}
-    	browser.waitUntilElementsVisible(By.xpath("//div[contains(@class, 'alf-live-search')]//div"));
+        int j = 0;
+        while (!browser.isElementDisplayed(By.xpath("//div[contains(@class, 'alf-live-search')]//div")) && j < 4)
+        {
+            browser.refresh();
+            this.searchInToolbar(query);
+            j++;
+        }
+        browser.waitUntilElementsVisible(By.xpath("//div[contains(@class, 'alf-live-search')]//div"));
         browser.waitUntilElementsVisible(By.cssSelector("div.alf-livesearch-item>a"));
 
         for (WebElement aSearchResultsInToolbar : searchResultsInToolbar)

@@ -13,12 +13,13 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
 
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.JavascriptExecutor;
 
 
 /**
  * handle common elements of all Alfresco Share dashlets
- * 
+ *
  * @author Cristina.Axinte
  */
 
@@ -26,14 +27,14 @@ import org.openqa.selenium.JavascriptExecutor;
 public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
 {
     @RenderWebElement
-    @FindBy(css = "div.title")
+    @FindBy (css = "div.title")
     protected static TextBlock title;
 
-    @FindBy(css = "div[style*='visible']>div>div.balloon")
+    @FindBy (css = "div[style*='visible']>div>div.balloon")
     // @CacheLookup
     protected static WebElement helpBallon;
 
-    @FindBy(css = "div[style*='visible']>div>div.balloon>div.text")
+    @FindBy (css = "div[style*='visible']>div>div.balloon>div.text")
     protected static TextBlock helpBallonText;
 
     protected static By dashletTitle = By.cssSelector("div.title");
@@ -156,17 +157,16 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
 
     /**
      * Resize dashlet
-     * 
+     *
      * @param height int new height
      */
-    public void resizeDashlet(int height,int scrolldown)
+    public void resizeDashlet(int height, int scrolldown)
     {
         WebElement resizeDash = null;
         try
         {
             resizeDash = browser.findElement(By.xpath(String.format(resizeDashlet, this.getDashletTitle())));
-        }
-        catch (NoSuchElementException ns)
+        } catch (NoSuchElementException ns)
         {
             throw new PageOperationException(this.getDashletTitle() + " is not expandable");
         }
@@ -181,7 +181,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
 
     /**
      * Get dashlet height
-     * 
+     *
      * @return int dashlet height
      */
     public int getDashletHeight()
@@ -191,8 +191,7 @@ public abstract class Dashlet<T> extends SharePage<Dashlet<T>>
         try
         {
             return Integer.valueOf(val);
-        }
-        catch (NumberFormatException nf)
+        } catch (NumberFormatException nf)
         {
             double dblVal = Double.parseDouble(val);
             return (int) dblVal;

@@ -41,7 +41,7 @@ public class ViewTopicTests extends ContextAwareWebTest
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
     String today;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lName1");
@@ -54,18 +54,18 @@ public class ViewTopicTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "6211")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6211")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewTopicFromDiscussionsTopicListPage()
     {
         today = df.format(new Date());
@@ -78,7 +78,7 @@ public class ViewTopicTests extends ContextAwareWebTest
         LOG.info("Expected Result: Information about that topic is displayed.");
         assertEquals(topicViewPage.getTopicTitle(), topicTitle, "Title is displayed.");
         assertTrue(topicViewPage.getTopicPublished().startsWith("Created on: " + today),
-                "Topic was created today. Actual: [" +topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
+            "Topic was created today. Actual: [" + topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
         assertTrue(topicViewPage.getTopicPublished().contains("Author: " + user1 + " lName1"), "The user who created the topic is User1.");
         assertTrue(topicViewPage.getTopicPublished().contains("Last reply by: " + user2 + " lName2"), "The user who last replied the topic is User2.");
         assertTrue(topicViewPage.getTopicPublished().contains("Last reply on: " + today), "Last reply was today.");
@@ -96,8 +96,8 @@ public class ViewTopicTests extends ContextAwareWebTest
         assertTrue(topicListPage.isTopicDisplayed(topicTitle), "Topic is displayed on the list.");
     }
 
-    @TestRail(id = "6212")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6212")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewTopicUsingReadAction()
     {
         today = df.format(new Date());
@@ -110,7 +110,7 @@ public class ViewTopicTests extends ContextAwareWebTest
         LOG.info("Expected Result: Information about that topic is displayed.");
         assertEquals(topicViewPage.getTopicTitle(), topicTitle, "Title is displayed.");
         assertTrue(topicViewPage.getTopicPublished().startsWith("Created on: " + today),
-                "Topic was created today. Actual: [" +topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
+            "Topic was created today. Actual: [" + topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
         assertTrue(topicViewPage.getTopicPublished().contains("Author: " + user1 + " lName1"), "The user who created the topic is User1.");
         assertTrue(topicViewPage.getTopicPublished().contains("Last reply by: " + user2 + " lName2"), "The user who last replied the topic is User2.");
         assertTrue(topicViewPage.getTopicPublished().contains("Last reply on: " + today), "Last reply was today.");
@@ -129,8 +129,8 @@ public class ViewTopicTests extends ContextAwareWebTest
         assertFalse(topicListPage.isReadLinkDisplayed(topicTitle), "The Read action is not available if 'Simple View' is selected.");
     }
 
-    @TestRail(id = "6213")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6213")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewTopicByClickingOnItsName()
     {
         today = df.format(new Date());
@@ -143,7 +143,7 @@ public class ViewTopicTests extends ContextAwareWebTest
         LOG.info("Expected Result: Information about that topic is displayed.");
         assertEquals(topicViewPage.getTopicTitle(), topicTitle, "Title is displayed.");
         assertTrue(topicViewPage.getTopicPublished().startsWith("Created on: " + today),
-                "Topic was created today. Actual: [" +topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
+            "Topic was created today. Actual: [" + topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
         assertTrue(topicViewPage.getTopicPublished().contains("Author: " + user1 + " lName1"), "The user who created the topic is User1.");
         assertTrue(topicViewPage.getTopicPublished().contains("Last reply by: " + user2 + " lName2"), "The user who last replied the topic is User2.");
         assertTrue(topicViewPage.getTopicPublished().contains("Last reply on: " + today), "Last reply was today.");

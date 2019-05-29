@@ -31,8 +31,8 @@ public class CreateUsersTests extends ContextAwareWebTest
     private LoginPage loginPage;
 
 
-    @TestRail(id = "C9396")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9396")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void browseCreateUserPage()
     {
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
@@ -44,8 +44,8 @@ public class CreateUsersTests extends ContextAwareWebTest
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("share/page/console/admin-console/users#state=panel%3Dcreate"), "Create users page displayed");
     }
 
-    @TestRail(id = "C9397")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9397")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createUser()
 
     {
@@ -75,13 +75,13 @@ public class CreateUsersTests extends ContextAwareWebTest
         usersPage.searchUser(userName);
         assertTrue(usersPage.verifyUserIsFound(userName), "User " + userName + " displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
 
-    @TestRail(id = "C9401")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9401")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createAndStartAnother()
 
     {
@@ -117,13 +117,13 @@ public class CreateUsersTests extends ContextAwareWebTest
         usersPage.searchUser(userName);
         assertTrue(usersPage.verifyUserIsFound(userName), "User " + userName + " displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
 
-    @TestRail(id = "C9405")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9405")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void managePassword()
 
     {
@@ -161,8 +161,8 @@ public class CreateUsersTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C9406")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9406")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addingUserToGroup()
 
     {
@@ -204,13 +204,13 @@ public class CreateUsersTests extends ContextAwareWebTest
         usersPage.clickUserLink("First Name");
         getBrowser().waitInSeconds(5);
         assertEquals(adminToolsUserProfile.isUserAddedToGroup(), "ALFRESCO_ADMINISTRATORS", "User added to group");
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
 
-    @TestRail(id = "C9407")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9407")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void disableAccount()
 
     {
@@ -250,13 +250,13 @@ public class CreateUsersTests extends ContextAwareWebTest
         assertEquals(loginPage.getPageTitle(), "Alfresco » Login", "Displayed page= ");
         loginPage.login(userName, "password");
         assertEquals(loginPage.getAuthenticationError(), authenticatinError, "Authentication error message=");
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
 
-    @TestRail(id = "C9408")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9408")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addQuotaToUser()
     {
         String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
@@ -287,13 +287,13 @@ public class CreateUsersTests extends ContextAwareWebTest
         usersPage.searchUser(userName);
         assertTrue(usersPage.verifyUserIsFound(userName), "User " + userName + " displayed");
         assertTrue(usersPage.isSpecificUserDataDisplayed("12345 GB"), "User quota displayed correctly");
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
 
-    @TestRail(id = "C42597")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C42597")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyCreateUsersPage()
 
     {

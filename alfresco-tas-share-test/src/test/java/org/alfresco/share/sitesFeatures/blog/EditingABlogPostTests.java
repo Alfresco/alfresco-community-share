@@ -45,7 +45,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
     private String C5561EditedContent = "C5561 content edited";
     private String tagC5561 = "c5561tag";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -55,16 +55,16 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5560")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5560")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void editABlogPostDirectlyFromBlogPage()
     {
@@ -88,8 +88,8 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPostView.getBlogPostTags(), Arrays.asList("tag1", tagC5560));
     }
 
-    @TestRail(id = "C5561")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5561")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void editBlogPostFromBlogPostView()
     {
@@ -118,8 +118,8 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPostView.getBlogPostTags(), Arrays.asList("tag1", tagC5561));
     }
 
-    @TestRail(id = "C6107")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6107")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void editABlogDraftPostDirectlyFromBlogPage()
     {
@@ -154,8 +154,8 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPostView.getBlogPostTags(), Arrays.asList("c6107tag", newTag));
     }
 
-    @TestRail(id = "C6108")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6108")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     private void editBlogDraftPostFromBlogPostView()
     {
@@ -165,13 +165,13 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         blogPage.navigate(siteName);
         blogPage.clickMyDraftsFilter();
         blogPage.clickReadBlogPost(blogPostTitleC6108);
-        
+
         String newTitle = "C6108 edited title";
         String newContent = "C6108 edited content";
         String newTag = "c6108editedtag";
 
         LOG.info("Test Steps");
-        
+
         LOG.info("Step 1: Navigate to Post View Page, click the Edit button for Draft blog post");
         blogPostView.clickEditButton();
         Assert.assertEquals(editBlogPost.getEditBlogPostPageTitle(), expectedPageTitle);
@@ -189,10 +189,10 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPostView.getBlogPostContent().trim(), newContent);
         Assert.assertEquals(blogPostView.getBlogPostTags(), Arrays.asList("tag1", newTag));
     }
-    
-    @TestRail(id ="C6110")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    
+
+    @TestRail (id = "C6110")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+
     public void editABlogDraftPostAndPublishIt()
     {
         LOG.info("Test setup");
@@ -211,7 +211,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         blogPage.selectBlogPostWithtitle(blogTitle);
         blogPage.clickEditButton(blogTitle);
         Assert.assertEquals(editBlogPost.getEditBlogPostPageTitle(), expectedPageTitle);
-        
+
         LOG.info("Step 2:  Update title, content, tag then click Publish Internally button.");
         editBlogPost.editTitle(newTitle);
         editBlogPost.sendBlogPostTextInput(newContent);
@@ -222,7 +222,7 @@ public class EditingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPostView.getBlogPostTitle(), newTitle);
         Assert.assertEquals(blogPostView.getBlogPostContent().trim(), newContent);
         Assert.assertEquals(blogPostView.getBlogPostTags(), Arrays.asList("c6110tag", newTag));
-        
+
         LOG.info("Step 3: Go to Blog post list");
         blogPostView.clickBlogPostListButton();
         Assert.assertTrue(blogPage.isBlogPostDisplayed(newTitle), "The blog post is not visible in the Latest view");

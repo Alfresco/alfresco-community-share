@@ -13,6 +13,7 @@ public class DeleteDocumentOrFolderDialog extends DeleteDialog
 {
     @Autowired
     DocumentLibraryPage documentLibraryPage;
+
     public DocumentLibraryPage confirmDocumentOrFolderDelete()
     {
         clickDelete();

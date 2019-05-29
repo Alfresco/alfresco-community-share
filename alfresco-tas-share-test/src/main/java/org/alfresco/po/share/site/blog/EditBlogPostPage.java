@@ -16,7 +16,7 @@ public class EditBlogPostPage extends CreateBlogPostPage
 
     /**
      * Method to send input to the Title field
-     * 
+     *
      * @return
      */
 
@@ -29,7 +29,7 @@ public class EditBlogPostPage extends CreateBlogPostPage
 
     /**
      * Method to send input for the Blog content
-     * 
+     *
      * @param blogPostContentText
      */
 

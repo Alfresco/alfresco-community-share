@@ -15,41 +15,43 @@ import java.util.List;
  */
 @PageObject
 @Primary
-public class SelectDestinationDialog extends ShareDialog {
-    @FindBy(css = "div[id*='title']")
+public class SelectDestinationDialog extends ShareDialog
+{
+    @FindBy (css = "div[id*='title']")
     private WebElement dialogTitle;
 
-    @FindBy(css = "button[role='radio']")
+    @FindBy (css = "button[role='radio']")
     protected List<WebElement> destinationList;
 
-    @FindBy(css="div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']")
+    @FindBy (css = "div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']")
     private List<WebElement> sitesListCopyFilesTo;
 
-    @FindBy(css = ".site-picker h4")
+    @FindBy (css = ".site-picker h4")
     protected List<WebElement> siteList;
 
-    @FindBy(css = ".path .ygtvlabel")
+    @FindBy (css = ".path .ygtvlabel")
     private List<WebElement> pathList;
 
-    @FindBy(css = "button[id*='ok']")
+    @FindBy (css = "button[id*='ok']")
     private WebElement okButton;
 
-    @FindBy(css = "button[id*='destinationDialog-cancel']")
+    @FindBy (css = "button[id*='destinationDialog-cancel']")
     private WebElement cancelButton;
 
-    @FindBy(css="div.dijitTreeNodeContainer span[id^='alfresco_navigation_PathTree']")
+    @FindBy (css = "div.dijitTreeNodeContainer span[id^='alfresco_navigation_PathTree']")
     private WebElement documentLibraryPath;
 
-    @FindBy(css = "#ALF_COPY_MOVE_DIALOG_title")
+    @FindBy (css = "#ALF_COPY_MOVE_DIALOG_title")
     private WebElement copyToDialogTitle;
 
-    @FindBy(css="button[id$='_default-rulesPicker-ok-button']")
+    @FindBy (css = "button[id$='_default-rulesPicker-ok-button']")
     private WebElement linkButton;
 
-    @FindBy(css="div[title='All Sites'] span")
+    @FindBy (css = "div[title='All Sites'] span")
     private WebElement allSitesButton;
 
-    public void clickOkButton() {
+    public void clickOkButton()
+    {
         getBrowser().waitInSeconds(5);
         getBrowser().waitUntilElementClickable(okButton).click();
     }
@@ -59,18 +61,20 @@ public class SelectDestinationDialog extends ShareDialog {
         getBrowser().waitUntilElementClickable(linkButton, 3).click();
     }
 
-    public void clickCancelButton() {
+    public void clickCancelButton()
+    {
         cancelButton.click();
     }
 
     /**
      * Choose any button from "Destination" section
      *
-     * @param buttonText
-     *            to be set
+     * @param buttonText to be set
      */
-    public void clickDestinationButton(String buttonText) {
-        for (WebElement aDestinationList : destinationList) {
+    public void clickDestinationButton(String buttonText)
+    {
+        for (WebElement aDestinationList : destinationList)
+        {
             if (aDestinationList.getText().equals(buttonText))
                 aDestinationList.click();
             if (buttonText.equals("Shared Files"))
@@ -79,7 +83,8 @@ public class SelectDestinationDialog extends ShareDialog {
         browser.waitInSeconds(1);
     }
 
-    public void clickAllSitesButton() {
+    public void clickAllSitesButton()
+    {
         browser.waitUntilElementClickable(allSitesButton, 10L);
         allSitesButton.click();
     }
@@ -87,10 +92,10 @@ public class SelectDestinationDialog extends ShareDialog {
     /**
      * Choose any site from "Site" section
      *
-     * @param siteName
-     *            to be set
+     * @param siteName to be set
      */
-    public void clickSite(String siteName) {
+    public void clickSite(String siteName)
+    {
         browser.findFirstElementWithValue(siteList, siteName).click();
         browser.waitInSeconds(2);
     }
@@ -98,12 +103,13 @@ public class SelectDestinationDialog extends ShareDialog {
     /**
      * Check site presence in "Site" section
      *
-     * @param siteName
-     *            to be verified
+     * @param siteName to be verified
      * @return true if site is displayed
      */
-    public boolean isSiteDisplayedInSiteSection(String siteName) {
-        for (WebElement aSiteList : siteList) {
+    public boolean isSiteDisplayedInSiteSection(String siteName)
+    {
+        for (WebElement aSiteList : siteList)
+        {
             if (aSiteList.getText().equals(siteName))
                 return true;
         }
@@ -113,10 +119,12 @@ public class SelectDestinationDialog extends ShareDialog {
     /**
      * @return folders from "Path"
      */
-    public String getPathList() {
+    public String getPathList()
+    {
         browser.waitUntilElementsVisible(By.cssSelector(".path .ygtvlabel"));
         ArrayList<String> pathText = new ArrayList<>();
-        for (WebElement aPathList : pathList) {
+        for (WebElement aPathList : pathList)
+        {
             pathText.add(aPathList.getText());
         }
         return pathText.toString();
@@ -126,7 +134,8 @@ public class SelectDestinationDialog extends ShareDialog {
      * @return first folder from path
      */
 
-    public String getPathFirstItem() {
+    public String getPathFirstItem()
+    {
         browser.waitUntilElementsVisible(By.cssSelector(".path table[class*='ygtv-expanded'] .ygtvlabel"));
         return browser.findElement(By.cssSelector(".path table[class*='ygtv-expanded'] .ygtvlabel")).getText();
     }
@@ -134,13 +143,14 @@ public class SelectDestinationDialog extends ShareDialog {
     /**
      * Choose any folder from "Path" section
      *
-     * @param folderName
-     *            to be set
+     * @param folderName to be set
      */
-    public void clickPathFolder(String folderName) {
+    public void clickPathFolder(String folderName)
+    {
         browser.waitUntilElementsVisible(By.cssSelector(".path .ygtvlabel"));
         browser.waitInSeconds(2);
-        for (WebElement aPathList : pathList) {
+        for (WebElement aPathList : pathList)
+        {
             if (aPathList.getText().equals(folderName))
                 aPathList.click();
         }
@@ -149,21 +159,25 @@ public class SelectDestinationDialog extends ShareDialog {
     /**
      * @return dialog's title
      */
-    public String getDialogTitle() {
+    public String getDialogTitle()
+    {
         return dialogTitle.getText();
     }
 
-    public void clickDocumentLibrary() {
+    public void clickDocumentLibrary()
+    {
         getBrowser().waitUntilElementVisible(documentLibraryPath).click();
         getBrowser().waitInSeconds(1);
     }
 
-    public String getCopyToDialogTitle() {
+    public String getCopyToDialogTitle()
+    {
         browser.waitUntilElementVisible(copyToDialogTitle);
         return copyToDialogTitle.getText();
     }
 
-    public void selectSite(String siteName) {
+    public void selectSite(String siteName)
+    {
         getBrowser().waitUntilElementsVisible(By.cssSelector("div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']"));
         browser.findFirstElementWithValue(sitesListCopyFilesTo, siteName).click();
     }

@@ -52,8 +52,8 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     Download download;
 
     private String user = String.format("ConsumerUser%s", RandomData.getRandomAlphanumeric());
-    private String description = String.format("C8882SiteDescription%s",RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("C8882SiteName%s",RandomData.getRandomAlphanumeric());
+    private String description = String.format("C8882SiteDescription%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("C8882SiteName%s", RandomData.getRandomAlphanumeric());
     private String fileC8884 = "C8884 test file";
     private String fileC8885 = "C8885 test file";
     private String fileC8887 = "C8887 test file";
@@ -72,7 +72,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     private String testContent = "testContent";
     private String windowsUser;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -95,22 +95,22 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         contentService.createDocument(adminUser, adminPassword, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileC8909, testContent);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void authenticateConsumer()
     {
         setupAuthenticatedSession(user, password);
     }
 
-    @TestRail(id = "C14502")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C14502")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerCreateContent()
     {
@@ -125,8 +125,8 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isCreateContentMenuDisplayed(), "Create content menu is displayed");
     }
 
-    @TestRail(id = "C14500")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C14500")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerUploadContent()
     {
@@ -141,8 +141,8 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertFalse(uploadContent.isUploadFilesToDialogDisplayed(), "Upload files dialog is displayed");
     }
 
-    @TestRail(id = "C8884")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8884")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerDownloadContent()
     {
@@ -164,8 +164,8 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(download.isFileInDirectory(fileC8884, null), "The file was not found in the specified location");
     }
 
-    @TestRail(id = "C8885")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8885")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerViewInBrowser()
     {
@@ -180,8 +180,8 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), testContent, "File content is not correct or file has not be opened in new window");
     }
 
-    @TestRail(id = "C8887")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8887")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerUploadNewVersionCreatedByOtherUser()
     {
@@ -191,11 +191,11 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.mouseOverContentItem(fileC8887);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8887), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8887, "Upload New Version"),
-                "Upload New Version is available for user with Consumer role");
+            "Upload New Version is available for user with Consumer role");
     }
 
-    @TestRail(id = "C8888")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8888")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerUploadNewVersionLockedByOtherUser()
     {
@@ -212,11 +212,11 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.mouseOverContentItem(fileC8888);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8888), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8888, "Upload New Version"),
-                "Upload New Version is available for user with Consumer role");
+            "Upload New Version is available for user with Consumer role");
     }
 
-    @TestRail(id = "C8890")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8890")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerEditOnlineCreatedAddedByOtherUser()
     {
@@ -225,11 +225,11 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.mouseOverContentItem(fileC8890);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8890), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8890, "Edit in Microsoft Office™"),
-                "Edit in Microsoft Office™ is available for user with Consumer role");
+            "Edit in Microsoft Office™ is available for user with Consumer role");
     }
 
-    @TestRail(id = "C8892")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8892")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerEditInlineCreatedAddedByOtherUser()
     {
@@ -238,11 +238,11 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.mouseOverContentItem(fileC8892);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8892), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8892, "Edit in Alfresco"),
-                "Edit in Alfresco is available for user with Consumer role");
+            "Edit in Alfresco is available for user with Consumer role");
     }
 
-    @TestRail(id = "C8894")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8894")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerEditOfflineCreatedAddedByOtherUser()
     {
@@ -251,11 +251,11 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.mouseOverContentItem(fileC8894);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8894), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8894, "Edit Offline"),
-                "Edit Offline is available for user with Consumer role");
+            "Edit Offline is available for user with Consumer role");
     }
 
-    @TestRail(id = "C8905")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    @TestRail (id = "C8905")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
 
     public void consumerEditInGoogleDocs()
     {
@@ -264,11 +264,11 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.mouseOverContentItem(fileC8905);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8905), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8905, "Edit in Google Docs™"),
-                "Edit in Google Docs™ is available for user with Consumer role");
+            "Edit in Google Docs™ is available for user with Consumer role");
     }
 
-    @TestRail(id = "C8902")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8902")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerCancelEditingLockedByOtherUser()
     {
@@ -285,11 +285,11 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.mouseOverContentItem(fileC8902);
         Assert.assertFalse(documentLibraryPage.isMoreMenuDisplayed(fileC8902), "More menu is available for user with Consumer role");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileC8902, "Cancel Editing"),
-                "Cancel Editing is available for user with Consumer role");
+            "Cancel Editing is available for user with Consumer role");
     }
 
-    @TestRail(id = "C8903")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8903")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerViewOriginalDocument()
     {
@@ -310,8 +310,8 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         // Assert.assertEquals(documentDetailsPage.getContentText(), testContent, "Document content is not correct");
     }
 
-    @TestRail(id = "C8904")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8904")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void consumerViewWorkingCopy()
     {
         LOG.info("Step 1: Login with admin user and Mouse over testFile and click Edit Offline");
@@ -336,8 +336,8 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         // Assert.assertEquals(documentDetailsPage.getContentText(), testContent, "Document content is not correct");
     }
 
-    @TestRail(id = "C8906")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8906")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerStartWorkflow()
     {
@@ -352,8 +352,8 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Start Workflow", "User is not redirected to the Start Workflow page");
     }
 
-    @TestRail(id = "C8907")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8907")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerLocateFile()
     {
@@ -373,8 +373,8 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertEquals(documentLibraryPage.getBreadcrumbList(), "[Documents]", "Folder was not identified as beeing in Documents folder");
     }
 
-    @TestRail(id = "C8908")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8908")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerDownloadPreviousVersion()
     {
@@ -406,8 +406,8 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(download.isFileInDirectory(fileC8908, null), "The file was not found in the specified location");
     }
 
-    @TestRail(id = "C8909")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8909")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void consumerRevertToPreviousVersion()
     {
@@ -435,8 +435,8 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
         Assert.assertFalse(documentDetailsPage.isRevertButtonAvailable(), "Revert button is available for user with Consumer rights");
     }
 
-    @TestRail(id = "C8898")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    @TestRail (id = "C8898")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void consumerCheckoutToGoogleDocsFileCreateByOtherUser() throws Exception
     {
         googleDocsCommon.loginToGoogleDocs();

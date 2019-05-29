@@ -28,7 +28,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
     private String user3 = String.format("testUser3%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
@@ -40,24 +40,24 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
 
-        userService.delete(adminUser,adminPassword, user3);
+        userService.delete(adminUser, adminPassword, user3);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user3);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C2816")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2816")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void listAllSiteMembers()
     {
@@ -65,7 +65,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
         siteUsersPage.navigate(siteName);
 
         LOG.info("STEP2: Check that all site members are displayed.",
-                "Expected Result: '" + user1 + "' with 'Manager' role and 'Remove' button is displayed");
+            "Expected Result: '" + user1 + "' with 'Manager' role and 'Remove' button is displayed");
         assertTrue(siteUsersPage.isASiteMember(user1 + " " + user1), "Expected user '" + user1 + "' is present on the page.");
         assertTrue(siteUsersPage.isRoleSelected("Manager", user1), "User '" + user1 + "' is expected to have 'Collaborator' role.");
         assertTrue(siteUsersPage.isRemoveButtonEnabled(user1), "User '" + user1 + "' is expected to have 'Remove' button.");
@@ -84,8 +84,8 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
         assertTrue(getBrowser().getCurrentUrl().endsWith("/user/" + user2 + "/profile"));
     }
 
-    @TestRail(id = "C2817")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2817")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void searchForMembersUsingPartialName()
     {
         LOG.info("Navigate to 'Site Members' page of site '" + siteName + "'.");
@@ -96,7 +96,7 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
         siteUsersPage.clickSearch();
 
         LOG.info("STEP 2:Check that all site members are displayed.",
-                "Expected Result: '" + user1 + "' with 'Manager' role and 'Remove' button is displayed");
+            "Expected Result: '" + user1 + "' with 'Manager' role and 'Remove' button is displayed");
         assertTrue(siteUsersPage.isASiteMember(user1 + " " + user1), "Expected user '" + user1 + "' is present on the page.");
         assertTrue(siteUsersPage.isRoleSelected("Manager", user1), "User '" + user1 + "' is expected to have 'Collaborator' role.");
         assertTrue(siteUsersPage.isRemoveButtonEnabled(user1), "User '" + user1 + "' is expected to have 'Remove' button.");
@@ -114,8 +114,8 @@ public class ReviewingSiteMembersTest extends ContextAwareWebTest
         assertTrue(getBrowser().getCurrentUrl().endsWith("/user/" + user2 + "/profile"));
     }
 
-    @TestRail(id = "C2818")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2818")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void searchForMembersUsingFullName()
     {
         LOG.info("STEP 1: Navigate to 'Site Members' page of site '" + siteName + "'.");

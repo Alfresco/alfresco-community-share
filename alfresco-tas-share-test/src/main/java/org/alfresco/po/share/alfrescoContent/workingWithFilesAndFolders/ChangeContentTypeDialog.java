@@ -20,17 +20,17 @@ public class ChangeContentTypeDialog extends ShareDialog
     @Autowired
     DocumentDetailsPage documentDetailsPage;
 
-    @FindBy(css = "div[id*='changeType-dialogTitle']")
+    @FindBy (css = "div[id*='changeType-dialogTitle']")
     private WebElement dialogTitle;
 
-    @FindBy(css = "button[id*='changeType']")
+    @FindBy (css = "button[id*='changeType']")
     private List<WebElement> buttonsList;
 
     @RenderWebElement
-    @FindBy(css = "select[id*='changeType']")
+    @FindBy (css = "select[id*='changeType']")
     private WebElement typeDropdown;
 
-    @FindBy(css = "form div[class='yui-u']")
+    @FindBy (css = "form div[class='yui-u']")
     private WebElement mandatory;
 
     /**
@@ -69,7 +69,7 @@ public class ChangeContentTypeDialog extends ShareDialog
 
     /**
      * Verify mandatory "New Type" dropdown
-     * 
+     *
      * @return true if mandatory element is displayed
      */
     public boolean isDropdownMandatory()
@@ -79,7 +79,7 @@ public class ChangeContentTypeDialog extends ShareDialog
 
     /**
      * Verify presence of button on form
-     * 
+     *
      * @param buttonName to be checked
      * @return true if button is displayed
      */

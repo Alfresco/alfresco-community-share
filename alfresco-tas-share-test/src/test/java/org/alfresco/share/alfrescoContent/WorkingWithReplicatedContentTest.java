@@ -30,36 +30,46 @@ import static org.testng.Assert.assertTrue;
  */
 public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
 {
-    @Autowired private LoginPage loginPage;
+    @Autowired
+    private LoginPage loginPage;
 
-    @Autowired private CreateSiteDialog createSiteDialog;
+    @Autowired
+    private CreateSiteDialog createSiteDialog;
 
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private SiteDashboardPage siteDashboardPage;
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
 
-    @Autowired private NewContentDialog newContentDialog;
+    @Autowired
+    private NewContentDialog newContentDialog;
 
-    @Autowired private AdminToolsPage adminToolsPage;
+    @Autowired
+    private AdminToolsPage adminToolsPage;
 
-    @Autowired private RepositoryPage repositoryPage;
+    @Autowired
+    private RepositoryPage repositoryPage;
 
-    @Autowired private EditPropertiesDialog editPropertiesDialog;
+    @Autowired
+    private EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired private ReplicationJobsPage replicationJobsPage;
+    @Autowired
+    private ReplicationJobsPage replicationJobsPage;
 
-    @Autowired private CreateEditReplicationJobPage createEditReplicationJobPage;
+    @Autowired
+    private CreateEditReplicationJobPage createEditReplicationJobPage;
 
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String site = "site-C7600-" + uniqueIdentifier;
     private final String folder = "C7600-folder";
     private final String document = "C7600-doc";
     private final List<String> explorerPanelPath = new ArrayList<>(
-            Arrays.asList("Repository", "Data Dictionary", "Transfers", "Transfer Target Groups", "Default Group"));
+        Arrays.asList("Repository", "Data Dictionary", "Transfers", "Transfer Target Groups", "Default Group"));
     private final String pathForTransferTargetFolder = "Data Dictionary/Transfers/Transfer Target Groups/Default Group";
     private final String transferTargetFolder = "TransferFolder-" + uniqueIdentifier;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         siteService.create(adminUser, adminPassword, domain, site, site, SiteService.Visibility.PUBLIC);
@@ -71,8 +81,8 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         getBrowser().navigate().to(properties.getShare2Url());
         loginPage.login(adminUser, adminPassword);
         createSiteDialog.navigateByMenuBar();
-       // createSiteDialog.typeDetails(site, "");
-       // createSiteDialog.clickSaveButton();
+        // createSiteDialog.typeDetails(site, "");
+        // createSiteDialog.clickSaveButton();
         siteDashboardPage.renderedPage();
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
         documentLibraryPage.setCurrentSiteName(site);
@@ -97,13 +107,14 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         editPropertiesDialog.updateFolderDetailsForReplication(properties.getServer2Url(), properties.getServer2Port(), adminUser, adminPassword);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        siteService.delete(adminUser, adminPassword,site);
+        siteService.delete(adminUser, adminPassword, site);
     }
-   // @TestRail(id = "C7600")
-   // @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled = false)
+
+    // @TestRail(id = "C7600")
+    // @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled = false)
     public void verifyContentAfterReplication()
     {
         String name = "C7600-jobName-" + uniqueIdentifier;
@@ -135,7 +146,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         createEditReplicationJobPage.clickSelectTransferTargetButton();
 
         LOG.info("STEP7: Navigate to 'Data Dictionary->Transfers->Transfer Target Groups->Default Group' and click 'Add' button for" + transferTargetFolder
-                + " .Click 'OK' button");
+            + " .Click 'OK' button");
         createEditReplicationJobPage.clickAddIconFromList(transferTargetFolder);
         createEditReplicationJobPage.clickTargetOkButton();
         assertEquals(createEditReplicationJobPage.getSelectedTransferTarget(), transferTargetFolder, "Payload: Source Items=");
@@ -147,7 +158,7 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         LOG.info("STEP9: Click 'Create Job' button");
         createEditReplicationJobPage.clickCreateJobButton();
         assertEquals(adminToolsPage.getCurrentUrl(), properties.getShareUrl() + replicationJobsPage.getRelativePath() + "?jobName=" + name,
-                "User is redirected to=");
+            "User is redirected to=");
         assertTrue(replicationJobsPage.isJobDisplayedInList(name), name + " job is displayed in 'Jobs' section.");
 
         LOG.info("STEP10: Click 'Run Job' button");

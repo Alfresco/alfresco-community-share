@@ -20,13 +20,13 @@ public class EditGroupPage extends SharePage<EditGroupPage>
     @RenderWebElement
     private By cancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
 
-    @FindBy(css="input[id$='_default-update-displayname']")
+    @FindBy (css = "input[id$='_default-update-displayname']")
     private WebElement displayNameInputField;
 
-    @FindBy(css="span[id$='_default-update-shortname']")
+    @FindBy (css = "span[id$='_default-update-shortname']")
     private WebElement identifierField;
 
-    @FindBy(css="div[id$='_default-update'] div.title")
+    @FindBy (css = "div[id$='_default-update'] div.title")
     private WebElement pageTitle;
 
     @Override

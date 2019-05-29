@@ -13,7 +13,8 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 
-public class ConsoleExampleTest extends ContextAwareWebTest {
+public class ConsoleExampleTest extends ContextAwareWebTest
+{
     @Autowired
     ActivitiesFeedPage activitiesFeed;
 
@@ -29,18 +30,21 @@ public class ConsoleExampleTest extends ContextAwareWebTest {
     @Autowired
     DirectoryManagementPage directoryManagementPage;
 
-    @Test(groups = {"unit"})
-    public void testingAdminConsole() {
+    @Test (groups = { "unit" })
+    public void testingAdminConsole()
+    {
         nodeBrowser.setBrowser(getBrowser());
         nodeBrowser.navigate();
 
-        for (NavigationLink link : NavigationLink.values()) {
+        for (NavigationLink link : NavigationLink.values())
+        {
             nodeBrowser.getNavigator().goTo(link, applicationContext);
         }
     }
 
-    @Test(groups = {"unit"})
-    public void testRows() throws TestConfigurationException {
+    @Test (groups = { "unit" })
+    public void testRows() throws TestConfigurationException
+    {
         setupAuthenticatedSession(adminUser, adminPassword);
         nodeBrowser.setBrowser(getBrowser());
         nodeBrowser.navigate();
@@ -61,8 +65,9 @@ public class ConsoleExampleTest extends ContextAwareWebTest {
         nodeBrowser.assertAspectsArePresent(expectedAspects);
     }
 
-    @Test(groups = {"unit"})
-    public void testingDirectoryManagement() {
+    @Test (groups = { "unit" })
+    public void testingDirectoryManagement()
+    {
         directoryManagementPage.setBrowser(getBrowser());
         directoryManagementPage.navigate();
         directoryManagementPage.getAuthenticationDetails();

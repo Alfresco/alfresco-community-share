@@ -31,29 +31,38 @@ import static org.testng.Assert.assertTrue;
  */
 public class ChangeContentTypeTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired private ChangeContentTypeDialog changeContentTypeDialog;
+    @Autowired
+    private ChangeContentTypeDialog changeContentTypeDialog;
 
-    @Autowired private EditPropertiesPage editPropertiesPage;
+    @Autowired
+    private EditPropertiesPage editPropertiesPage;
 
-    @Autowired AdminToolsPage adminToolsPage;
+    @Autowired
+    AdminToolsPage adminToolsPage;
 
-    @Autowired ModelManagerPage modelManagerPage;
+    @Autowired
+    ModelManagerPage modelManagerPage;
 
-    @Autowired CreateModelDialogPage createModelDialogPage;
+    @Autowired
+    CreateModelDialogPage createModelDialogPage;
 
-    @Autowired ModelDetailsPage modelDetailsPage;
+    @Autowired
+    ModelDetailsPage modelDetailsPage;
 
-    @Autowired CreateCustomTypeDialog createCustomTypeDialog;
+    @Autowired
+    CreateCustomTypeDialog createCustomTypeDialog;
 
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
     private final String siteName = String.format("Site-%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
@@ -61,17 +70,17 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C7163")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7163")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelChangeType()
     {
         String docName = String.format("Doc-C7163-%s", RandomData.getRandomAlphanumeric());
@@ -98,8 +107,8 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertEquals(editPropertiesPage.checkPropertiesAreNotDisplayed(propertiesList), "Given list isn't displayed", " property is displayed.");
     }
 
-    @TestRail(id = "C7166")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7166")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void changeTypeFolder()
     {
 
@@ -131,7 +140,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertTrue(changeContentTypeDialog.isButtonDisplayed("Cancel"), "'Cancel' button is displayed.");
 
 
-      //  changeContentTypeDialog.clickButton("Cancel");
+        //  changeContentTypeDialog.clickButton("Cancel");
 
         /*
         LOG.info("STEP5: Select 'ws:website' from 'New Type' dropdown and click 'Ok' button");
@@ -150,8 +159,8 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     }
 
     //the word modifcation is spelled wrongly, but in case the bug will never be fixed, I changed the test to pass
-    @TestRail(id = "C7167")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7167")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void changeTypeFile()
     {
         String docName = String.format("Doc-C7167-%s", RandomData.getRandomAlphanumeric());
@@ -186,13 +195,13 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         documentDetailsPage.renderedPage();
 
         assertTrue(documentDetailsPage.arePropertiesDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Last thumbnail modifcation data", "Description", "Creator", "Name",
-                "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Author", "Encoding", "Size", "Mimetype"), "Displayed properties:");
+            "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Author", "Encoding", "Size", "Mimetype"), "Displayed properties:");
 
 
         LOG.info("STEP6: Click 'Edit Properties' option from 'Document Actions' section");
         documentDetailsPage.clickEditProperties();
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
         assertTrue(editPropertiesPage.arePropertiesDisplayed("Auto Version - on update properties only", "Created Date", "Title", "Last thumbnail modifcation data", "Description", "Creator", "Name",
-               "Content", "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Author", "Encoding", "Size", "Mimetype"), "Displayed properties:");
+            "Content", "Locale", "Version Label", "Modifier", "Modified Date", "Auto Version", "Version Type", "Initial Version", "Last Accessed Date", "Author", "Encoding", "Size", "Mimetype"), "Displayed properties:");
     }
 }

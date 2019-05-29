@@ -23,15 +23,17 @@ import static org.testng.Assert.*;
  */
 public class OrganizingFoldersTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private NewContentDialog newContentDialog;
+    @Autowired
+    private NewContentDialog newContentDialog;
 
     private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String userName = "User-" + uniqueId;
     private final String description = "Description-" + uniqueId;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         String lastName = "LastName";
@@ -40,16 +42,16 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
 
-    @TestRail(id = "C6276")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6276")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createNewFolderUsingMenu()
     {
         String siteName1 = "Site-C6276-" + uniqueId;
@@ -87,12 +89,12 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb= ");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[]", "Folders displayed in " + folderName);
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Files displayed in " + folderName);
-        siteService.delete(adminUser, adminPassword,siteName1);
+        siteService.delete(adminUser, adminPassword, siteName1);
 
     }
 
-    @TestRail(id = "C6277")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6277")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createFolderLink()
     {
         String siteName1 = "Site-C6277-" + uniqueId;
@@ -119,12 +121,12 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents list.");
         ArrayList<String> foldersExpected = new ArrayList<>(Arrays.asList("Documents", folderName));
         assertEquals(documentLibraryPage.getExplorerPanelDocuments(), foldersExpected.toString(), "Document Library explorer panel: Library->Documents: ");
-        siteService.delete(adminUser, adminPassword,siteName1);
+        siteService.delete(adminUser, adminPassword, siteName1);
 
     }
 
-    @TestRail(id = "C6278")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6278")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelCreatingFolder()
     {
         String siteName1 = "Site-C6278-" + uniqueId;
@@ -145,12 +147,12 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         newContentDialog.clickCancelButton();
         assertFalse(newContentDialog.isCancelButtonDisplayed(), "'Cancel' button is displayed.");
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName), folderName + " displayed in Documents list.");
-        siteService.delete(adminUser, adminPassword,siteName1);
+        siteService.delete(adminUser, adminPassword, siteName1);
 
     }
 
-    @TestRail(id = "C6291")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6291")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkFolderStructure()
     {
         String siteName1 = "Site-C6291-" + uniqueId;
@@ -206,7 +208,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
         ArrayList<String> breadcrumbExpected4 = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected4.toString(), "Document Library breadcrumb=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[" + folderName1 + "]", "Folders displayed in Documents=");
-        siteService.delete(adminUser, adminPassword,siteName1);
+        siteService.delete(adminUser, adminPassword, siteName1);
 
     }
 }

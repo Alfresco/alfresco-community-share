@@ -20,11 +20,14 @@ import org.testng.annotations.Test;
 public class EditFilesPropertiesTest extends ContextAwareWebTest
 {
 
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private EditPropertiesDialog editFilePropertiesDialog;
+    @Autowired
+    private EditPropertiesDialog editFilePropertiesDialog;
 
-    @Autowired private SelectDialog selectDialog;
+    @Autowired
+    private SelectDialog selectDialog;
 
 
     private String uniqueIdentifier;
@@ -54,8 +57,8 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
     }
 
 
-    @TestRail(id = "C7005")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7005")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editFileProperties()
     {
         LOG.info("Starting test C7005");
@@ -90,13 +93,13 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
         Assert.assertEquals(documentLibraryPage.getItemDescription("DocEditName"), "DocEditDescription", "The description of edited document is not correct");
         Assert.assertEquals(documentLibraryPage.getTags("DocEditName"), "[edittag" + uniqueIdentifier + "]", "The tag of the edited document is not correct");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7013")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7013")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editFolderProperties()
     {
         LOG.info("Starting test C7005");
@@ -129,12 +132,12 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("FolderEditName"), "Edited document name is not found");
         Assert.assertEquals(documentLibraryPage.getItemTitle("FolderEditName"), "(FolderEditTitle)", "The title of edited document is not correct");
         Assert.assertEquals(documentLibraryPage.getItemDescription("FolderEditName"), "FolderEditDescription",
-                "The description of edited document is not correct");
+            "The description of edited document is not correct");
         Assert.assertEquals(documentLibraryPage.getTags("FolderEditName"), "[edittag" + uniqueIdentifier + "]",
-                "The tag of the edited document is not correct");
+            "The tag of the edited document is not correct");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 }

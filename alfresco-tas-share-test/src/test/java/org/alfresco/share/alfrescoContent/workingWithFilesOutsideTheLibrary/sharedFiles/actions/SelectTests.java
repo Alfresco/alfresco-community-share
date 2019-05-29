@@ -20,9 +20,11 @@ import static org.testng.Assert.*;
  */
 public class SelectTests extends ContextAwareWebTest
 {
-    @Autowired private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
 
-    @Autowired private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
 
     @Autowired
     DeleteDialog deleteDialog;
@@ -33,7 +35,7 @@ public class SelectTests extends ContextAwareWebTest
     private final String docName = "DocC8004-" + uniqueIdentifier;
     private final String folderName = "FolderC8005-" + uniqueIdentifier;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
@@ -45,8 +47,8 @@ public class SelectTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
     }
 
-    @TestRail(id = "C8004")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8004")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectFile()
     {
         LOG.info("STEP1: Click on Select -> Documents option");
@@ -79,8 +81,8 @@ public class SelectTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentSelected(docName), docName + " is selected.");
     }
 
-    @TestRail(id = "C8005")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8005")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectFolder()
     {
         LOG.info("STEP1: Click on Select -> Folders option");

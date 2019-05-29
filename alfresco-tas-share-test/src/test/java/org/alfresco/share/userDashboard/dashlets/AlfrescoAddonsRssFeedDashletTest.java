@@ -12,6 +12,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 import java.util.ArrayList;
 
 /**
@@ -28,8 +29,8 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    @TestRail(id = "C2168")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2168")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void verifyAlfrescoAddonsNewsFeedDashlet()
     {
         String userName = String.format("C2168-%s", RandomData.getRandomAlphanumeric());
@@ -68,14 +69,13 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
         getBrowser().waitInSeconds(5);
 
         //Switch to new window opened
-        for(String winHandle : getBrowser().getWindowHandles())
+        for (String winHandle : getBrowser().getWindowHandles())
         {
             getBrowser().switchTo().window(winHandle);
             if (getBrowser().getCurrentUrl().contains("https://www.reuters.com"))
             {
                 break;
-            }
-            else
+            } else
             {
                 getBrowser().switchTo().window(currentWindow);
             }
@@ -84,7 +84,7 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("https://www.reuters.com"), "After clicking on RSS link, the title is: " + getBrowser().getCurrentUrl());
         closeWindowAndSwitchBack();
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 }

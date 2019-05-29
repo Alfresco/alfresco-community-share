@@ -22,20 +22,20 @@ public class UserSitesListPage extends SharePage<UserSitesListPage> implements A
 {
     @Autowired
     SiteDashboardPage siteDashboardPage;
-    
-    @FindBy(id = "HEADER_SITES_MENU")
+
+    @FindBy (id = "HEADER_SITES_MENU")
     private Link sitesMenuLink;
 
-    @FindBy(id = "HEADER_SITES_MENU_MY_SITES")
+    @FindBy (id = "HEADER_SITES_MENU_MY_SITES")
     private Link mySitesLink;
 
-    @FindBy(css = "div.viewcolumn p")
+    @FindBy (css = "div.viewcolumn p")
     private TextBlock noSitesMessage;
 
-    @FindBy(css = "ul[id$='default-sites'] li")
+    @FindBy (css = "ul[id$='default-sites'] li")
     private Table sitesList;
 
-    @FindAll(@FindBy(css = "p a"))
+    @FindAll (@FindBy (css = "p a"))
     protected List<WebElement> sitesLinksList;
 
     @Override
@@ -50,7 +50,7 @@ public class UserSitesListPage extends SharePage<UserSitesListPage> implements A
         return (UserSitesListPage) navigate();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
     public UserSitesListPage navigateByMenuBar()
     {
@@ -61,7 +61,7 @@ public class UserSitesListPage extends SharePage<UserSitesListPage> implements A
 
     /**
      * Open User Sites list page from the my profile navigation links
-     * 
+     *
      * @param myProfileNavigation
      * @return {@link UserSitesListPage}
      */
@@ -81,9 +81,8 @@ public class UserSitesListPage extends SharePage<UserSitesListPage> implements A
 
     /**
      * Retrieves the link that match the site name.
-     * 
-     * @param name
-     *            identifier
+     *
+     * @param name identifier
      * @return {@link Link} that matches siteName
      */
     public WebElement getSite(final String siteName)
@@ -93,7 +92,7 @@ public class UserSitesListPage extends SharePage<UserSitesListPage> implements A
 
     /**
      * Verify if a site name is displayed in User Profile --> Sites
-     * 
+     *
      * @param siteName
      * @return True if Site exists
      */
@@ -104,7 +103,7 @@ public class UserSitesListPage extends SharePage<UserSitesListPage> implements A
 
     /**
      * Open site dashboard
-     * 
+     *
      * @param siteName
      * @return
      */

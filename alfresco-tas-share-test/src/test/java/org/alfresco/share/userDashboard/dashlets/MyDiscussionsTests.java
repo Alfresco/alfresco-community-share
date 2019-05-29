@@ -20,13 +20,13 @@ public class MyDiscussionsTests extends ContextAwareWebTest
 
     @Autowired
     UserDashboardPage userDashboardPage;
-    
+
     @Autowired
     MyDiscussionsDashlet myDiscussionsDashlet;
-    
+
     private String userName;
-    
-    @BeforeClass(alwaysRun = true)
+
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -36,35 +36,35 @@ public class MyDiscussionsTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
-    
-    @TestRail(id = "C2774")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+
+    @TestRail (id = "C2774")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void myDiscussionsDashlet()
-    { 
+    {
         userDashboardPage.navigate(userName);
-        
+
         LOG.info("Step 1: Verify 'My Discussions' dahslet");
         Assert.assertEquals(myDiscussionsDashlet.getDashletTitle(), "My Discussions");
         Assert.assertEquals(myDiscussionsDashlet.getDefaultMessage(), "There are no topics matching your filters.");
-        
+
         LOG.info("Step 2: Verify 'My Topics' filter");
         getBrowser().refresh();
         Assert.assertTrue(myDiscussionsDashlet.checkTopicDropdownOptions());
-        
+
         LOG.info("Step 3: Verify 'Topics updated in the last day' filter");
         Assert.assertTrue(myDiscussionsDashlet.checkHistoryDropdownOptions());
-        
+
         LOG.info("Step 4: Click Help icon");
         myDiscussionsDashlet.clickOnHelpIcon(DashletHelpIcon.MY_DISCUSSIONS);
         Assert.assertTrue(myDiscussionsDashlet.isBalloonDisplayed());
         Assert.assertEquals(myDiscussionsDashlet.getHelpBalloonMessage(), "Discussion Forum dashlet.\nView your latest posts on the Discussion Forum.");
-        
+
         LOG.info("Step 5: Close ballon popup");
         myDiscussionsDashlet.closeHelpBalloon();
         Assert.assertFalse(myDiscussionsDashlet.isBalloonDisplayed());

@@ -42,16 +42,16 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
 
     private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
-     DateTime today;
-     DateTime endDate;
-     DateTime aWeekAgo;
-     DateTime nextWeek;
-     DateTime aMonthAgo;
-     DateTime nextMonth;
+    DateTime today;
+    DateTime endDate;
+    DateTime aWeekAgo;
+    DateTime nextWeek;
+    DateTime aMonthAgo;
+    DateTime nextMonth;
     private String clientATimeZone = "tzutil /s \"GTB Standard Time\"";
     private String clientBTimeZone = "tzutil /s \"GMT Standard Time\"";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -60,7 +60,7 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void setupMethod()
     {
         today = new DateTime();
@@ -71,12 +71,12 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         nextMonth = today.plusMonths(1);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
@@ -96,9 +96,9 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         }
     }
 
-    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
-    @TestRail(id = "C5973")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @TestRail (id = "C5973")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void singleDayEvent()
     {
         String currentEventName = "testEvent-C5973";
@@ -127,8 +127,8 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
     }
 
 
-    @TestRail(id = "C5974")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5974")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void singleDayAllDayEvent()
     {
         String currentEventName = "testEvent-C5974";
@@ -155,9 +155,9 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getEndDateTime(), today.toString("EEEE, d MMMM, yyyy"), "Following information is available: Time section with End Date");
     }
 
-    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
-    @TestRail(id = "C5975")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @TestRail (id = "C5975")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleDaysEvent()
     {
         String currentEventName = "testEvent-C5975";
@@ -186,8 +186,8 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(endDate, "3:25 PM"), "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5976")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5976")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleDaysAllDayEvent()
     {
         String currentEventName = "testEvent-C5976";
@@ -215,9 +215,9 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getEndDateTime(), endDate.toString("EEEE, d MMMM, yyyy"), "Following information is available: Time section with End Date");
     }
 
-    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
-    @TestRail(id = "C5977")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @TestRail (id = "C5977")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleWeeksEvent()
     {
         String currentEventName = "testEvent-C5977";
@@ -247,8 +247,8 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(nextWeek, "3:25 PM"), "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5978")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5978")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleWeeksAllDayEvent()
     {
         String currentEventName = "testEvent-C5978";
@@ -277,9 +277,9 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getEndDateTime(), nextWeek.toString("EEEE, d MMMM, yyyy"), "Following information is available: Time section with End Date");
     }
 
-    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
-    @TestRail(id = "C5979")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @TestRail (id = "C5979")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleMonthsEvent()
     {
         String currentEventName = "testEvent-C5979";
@@ -308,8 +308,8 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(nextMonth, "3:25 PM"), "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5980")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5980")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleMonthsAllDayEvent()
     {
         String currentEventName = "testEvent-C5980";

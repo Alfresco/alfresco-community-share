@@ -16,20 +16,20 @@ import java.util.concurrent.TimeUnit;
 public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 {
     @RenderWebElement
-    @FindBy(xpath = "//div[normalize-space(.) = 'Image Preview']")
+    @FindBy (xpath = "//div[normalize-space(.) = 'Image Preview']")
     protected HtmlElement dashletContainer;
 
-    @FindBy(css = "div[id*='default-images'] img[src*='document-view-details']")
+    @FindBy (css = "div[id*='default-images'] img[src*='document-view-details']")
     private WebElement viewDetailsIcon;
 
-    @FindBy(css = "div[id*='default-images'] img[src*='download']")
+    @FindBy (css = "div[id*='default-images'] img[src*='download']")
     private WebElement downloadIcon;
 
     @RenderWebElement
-    @FindBy(xpath = "//div[starts-with(@class,'dashlet resizable')] // div[@class='title']")
+    @FindBy (xpath = "//div[starts-with(@class,'dashlet resizable')] // div[@class='title']")
     private WebElement dashletTitle;
 
-    @FindBy(xpath = "//div[starts-with(@class,'dashlet resizable')] //div[@class='titleBarActionIcon help']")
+    @FindBy (xpath = "//div[starts-with(@class,'dashlet resizable')] //div[@class='titleBarActionIcon help']")
     private WebElement helpIcon;
 
     private String dashletHelpIcon = "//div[starts-with(@class,'dashlet resizable')] //div[@class='titleBarActionIcon help']";
@@ -37,16 +37,16 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
     private String helpBallon = "div[style*='visible']>div.bd>div.balloon";
 
     // @RenderWebElement
-    @FindBy(css = "div[style*='visible']>div.bd>div.balloon")
+    @FindBy (css = "div[style*='visible']>div.bd>div.balloon")
     private WebElement helpBalloon;
 
-    @FindBy(css = "div[style*='visible']>div.bd>div.balloon>div.text")
+    @FindBy (css = "div[style*='visible']>div.bd>div.balloon>div.text")
     private WebElement helpBalloonText;
 
     private String imageLink = "//img[contains(@title,'";
     private static By helpBalloonCloseButton = By.cssSelector("div[style*='visible']>div.bd>div.balloon>div.closeButton");
 
-    @FindAll(@FindBy(xpath = ".//div[@class='thumbnail']/a"))
+    @FindAll (@FindBy (xpath = ".//div[@class='thumbnail']/a"))
     protected List<WebElement> ImagePreviewLinks;
 
     @Override
@@ -57,7 +57,7 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 
     /**
      * Get the text from the title
-     * 
+     *
      * @return String dashlet title text
      */
     public String getDashletTitleText()
@@ -67,7 +67,7 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 
     /**
      * Verify if Help Icon is displayed
-     * 
+     *
      * @return true if displayed
      */
 
@@ -107,7 +107,7 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 
     /**
      * Get the text from the Help Balloon
-     * 
+     *
      * @return String help balloon text
      */
     public String getHelpBalloonText()

@@ -28,7 +28,8 @@ import static org.testng.Assert.*;
 /**
  * @author Laura.Capsa
  */
-public class WorkingWithLinksTests extends ContextAwareWebTest {
+public class WorkingWithLinksTests extends ContextAwareWebTest
+{
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
 
@@ -80,8 +81,9 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
     private final String folderC42631 = "C42631-" + uniqueIdentifier;
     private final String linkC42631 = "Link to " + folderC42631;
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName1, description, SiteService.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteName2, description, SiteService.Visibility.PRIVATE);
@@ -96,18 +98,19 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName1);
-        siteService.delete(adminUser, adminPassword,siteName2);
+        siteService.delete(adminUser, adminPassword, siteName1);
+        siteService.delete(adminUser, adminPassword, siteName2);
     }
 
-    @TestRail(id = "C42624")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
-    public void verifyDisabledActionsForCreatedLink() {
+    @TestRail (id = "C42624")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyDisabledActionsForCreatedLink()
+    {
         LOG.info("STEP1: Go to Document Library of the site");
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP2: For a file/folder, click on \"Copy to\", select a destination folder");
@@ -125,9 +128,10 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         assertFalse(sharedFilesPage.isShareButtonDisplayed(linkC42624), linkC42624 + " 'Share' button is displayed.");
     }
 
-    @TestRail(id = "C42625")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
-    public void linkToFileRedirectsToDocDetailsPage() {
+    @TestRail (id = "C42625")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void linkToFileRedirectsToDocDetailsPage()
+    {
         documentLibraryPage.navigate(siteName1);
         LOG.info("From Document actions, click on \"Copy to\" option");
         documentLibraryPage.mouseOverContentItem(fileC42625);
@@ -146,9 +150,10 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         assertEquals(documentDetailsPage.getFileName(), fileC42625, "Document name=");
     }
 
-    @TestRail(id = "C42626")
-    @Test(groups ={TestGroup.SANITY, TestGroup.CONTENT})
-    public void linkToFolderRedirectsToFolderContentsPage() {
+    @TestRail (id = "C42626")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void linkToFolderRedirectsToFolderContentsPage()
+    {
         documentLibraryPage.navigate(siteName1);
         LOG.info("From Document actions, click on \"Copy to\" option");
         documentLibraryPage.mouseOverContentItem(folderC42626);
@@ -169,9 +174,10 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         assertEquals(repositoryPage.getBreadcrumbList(), breadcrumb.toString(), "Breadcrumb=");
     }
 
-    @TestRail(id = "C42627")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void linkToLockedDocRedirectsToOriginalDoc() {
+    @TestRail (id = "C42627")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void linkToLockedDocRedirectsToOriginalDoc()
+    {
         logger.info("Precondition1: Login to Share/Google Docs and navigate to Document Library page for the test site; upload a .docx file");
         setupAuthenticatedSession(userName, password);
         LOG.info("Precondition2: Go to Document Library of the site. Create link for document");
@@ -194,10 +200,11 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         assertEquals(documentDetailsPage.getFileName(), fileNameC42627, "Document name=");
     }
 
-    @Bug(id="MNT-18059",status = Bug.Status.FIXED)
-    @TestRail(id = "C42628")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
-    public void linkToMultipleVersionsDocRedirectsToLastVersion() {
+    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
+    @TestRail (id = "C42628")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void linkToMultipleVersionsDocRedirectsToLastVersion()
+    {
         documentLibraryPage.navigate(siteName1);
         LOG.info("Precondition1: 'Upload new version' for a file");
         documentLibraryPage.clickDocumentLibraryItemAction(fileC42628, "Upload New Version", uploadContent);
@@ -218,9 +225,10 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         assertEquals(documentDetailsPage.getFileName(), newFileC42628, "Document name=");
     }
 
-    @TestRail(id = "C42629")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
-    public void verifyDisplayedActionsForLinkToFile() {
+    @TestRail (id = "C42629")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyDisplayedActionsForLinkToFile()
+    {
         LOG.info("Precondition: For a file click 'Copy to' option");
         documentLibraryPage.navigate(siteName2);
         documentLibraryPage.mouseOverContentItem(fileC42629);
@@ -235,18 +243,19 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         assertTrue(documentLibraryPage.isContentNameDisplayed(linkC42629), linkC42629 + " is displayed in destination of copy file, Shared Files.");
         LOG.info("STEP2: Verify available actions for " + linkC42629);
         assertTrue(sharedFilesPage.isActionAvailableForLibraryItem(linkC42629, language.translate("documentLibrary.contentActions.locateLinkedItem")),
-                "'Locate Linked Item' action is displayed for " + linkC42629);
+            "'Locate Linked Item' action is displayed for " + linkC42629);
         assertTrue(sharedFilesPage.isActionAvailableForLibraryItem(linkC42629, language.translate("documentLibrary.contentActions.deleteLink")),
-                "'Delete Link' action is displayed for " + linkC42629);
+            "'Delete Link' action is displayed for " + linkC42629);
         assertTrue(sharedFilesPage.isActionAvailableForLibraryItem(linkC42629, language.translate("documentLibrary.contentActions.copyTo")),
-                "'Copy to...' action is displayed for " + linkC42629);
+            "'Copy to...' action is displayed for " + linkC42629);
         assertTrue(sharedFilesPage.isActionAvailableForLibraryItem(linkC42629, language.translate("documentLibrary.contentActions.moveTo")),
-                "'Move to...' action is displayed for " + linkC42629);
+            "'Move to...' action is displayed for " + linkC42629);
     }
 
-    @TestRail(id = "C42630")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
-    public void verifyLocateLinkedItemRedirectsToOriginalDoc() {
+    @TestRail (id = "C42630")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyLocateLinkedItemRedirectsToOriginalDoc()
+    {
         LOG.info("Precondition: For a file click 'Copy to' option");
         documentLibraryPage.navigate(siteName2);
         documentLibraryPage.mouseOverContentItem(fileC42630);
@@ -262,12 +271,14 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         LOG.info("STEP2: Mouse over the link and click on 'Locate Linked Item' option");
         sharedFilesPage.clickDocumentLibraryItemAction(linkC42630, language.translate("documentLibrary.contentActions.locateLinkedItem"), repositoryPage);
         assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "Displayed page=");
-  //      assertTrue(repositoryPage.isContentSelected(fileC42630), fileC42630 + " is selected");
+        //      assertTrue(repositoryPage.isContentSelected(fileC42630), fileC42630 + " is selected");
     }
-    @Bug(id = "MNT-17556", description = "Step 2: folder is not selected")
-    @TestRail(id = "C42631")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
-    public void verifyLocateLinkedItemRedirectsToFolder() {
+
+    @Bug (id = "MNT-17556", description = "Step 2: folder is not selected")
+    @TestRail (id = "C42631")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyLocateLinkedItemRedirectsToFolder()
+    {
         LOG.info("Precondition: For a file click 'Copy to' option");
         documentLibraryPage.navigate(siteName2);
         documentLibraryPage.mouseOverContentItem(folderC42631);
@@ -283,13 +294,14 @@ public class WorkingWithLinksTests extends ContextAwareWebTest {
         LOG.info("STEP2: Mouse over the link and click on 'Locate Linked Item' option");
         sharedFilesPage.clickDocumentLibraryItemAction(linkC42631, language.translate("documentLibrary.contentActions.locateLinkedItem"), repositoryPage);
         assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "Displayed page=");
-  //      assertTrue(repositoryPage.isContentSelected(folderC42631), folderC42631 + " is selected");
+        //      assertTrue(repositoryPage.isContentSelected(folderC42631), folderC42631 + " is selected");
     }
 
-    @Bug(id="MNT-17556", description = "Step 2: folder is not selected")
-    @TestRail(id = "C42632")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
-    public void deleteLinkRemovesLink() {
+    @Bug (id = "MNT-17556", description = "Step 2: folder is not selected")
+    @TestRail (id = "C42632")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void deleteLinkRemovesLink()
+    {
         LOG.info("Precondition: For a file click 'Copy to' option");
         documentLibraryPage.navigate(siteName2);
         documentLibraryPage.mouseOverContentItem(folderC42631);

@@ -11,28 +11,28 @@ import java.util.List;
 @PageObject
 public class ToolbarSitesMenu extends Toolbar
 {
-    @FindBy(css = "#HEADER_SITES_MENU_dropdown .alf-menu-group:first-child > *:first-child")
+    @FindBy (css = "#HEADER_SITES_MENU_dropdown .alf-menu-group:first-child > *:first-child")
     private WebElement recentSitesSection;
 
-    @FindAll(@FindBy(css = "td[id^='HEADER_SITES_MENU_RECENT_']"))
+    @FindAll (@FindBy (css = "td[id^='HEADER_SITES_MENU_RECENT_']"))
     private List<WebElement> recentSitesRowList;
 
-    @FindBy(css = "#HEADER_SITES_MENU_dropdown .alf-menu-group:last-child > *:first-child")
+    @FindBy (css = "#HEADER_SITES_MENU_dropdown .alf-menu-group:last-child > *:first-child")
     private WebElement usefulSection;
 
-    @FindBy(id = "HEADER_SITES_MENU_MY_SITES_text")
+    @FindBy (id = "HEADER_SITES_MENU_MY_SITES_text")
     private WebElement mySites;
 
-    @FindBy(id = "HEADER_SITES_MENU_SITE_FINDER_text")
+    @FindBy (id = "HEADER_SITES_MENU_SITE_FINDER_text")
     private WebElement siteFinder;
 
-    @FindBy(id = "HEADER_SITES_MENU_CREATE_SITE_text")
+    @FindBy (id = "HEADER_SITES_MENU_CREATE_SITE_text")
     private WebElement createSite;
 
-    @FindBy(id = "HEADER_SITES_MENU_FAVOURITES_text")
+    @FindBy (id = "HEADER_SITES_MENU_FAVOURITES_text")
     private WebElement favorites;
 
-    @FindAll(@FindBy(css = "td[id^='HEADER_SITES_MENU_FAVOURITE_']"))
+    @FindAll (@FindBy (css = "td[id^='HEADER_SITES_MENU_FAVOURITE_']"))
     private List<WebElement> favoriteSitesRowList;
 
     private By addCurrentSiteToFavorites = By.id("HEADER_SITES_MENU_ADD_FAVOURITE_text");

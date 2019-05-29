@@ -28,27 +28,27 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
     private TopicViewPage topicViewPage;
 
     @RenderWebElement
-    @FindBy(css = ".page-form-header>h1")
+    @FindBy (css = ".page-form-header>h1")
     protected WebElement pageHeader;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='discussions-createtopic_x0023_default-submit-button']")
+    @FindBy (css = "button[id$='discussions-createtopic_x0023_default-submit-button']")
     protected WebElement saveButton;
 
-    @FindBy(css = "button[id$='discussions-createtopic_x0023_default-cancel-button']")
+    @FindBy (css = "button[id$='discussions-createtopic_x0023_default-cancel-button']")
     protected WebElement cancelButton;
 
     @RenderWebElement
-    @FindBy(css = "input[id$='discussions-createtopic_x0023_default-title']")
+    @FindBy (css = "input[id$='discussions-createtopic_x0023_default-title']")
     protected WebElement topicTitle;
 
-    @FindBy(css = "input[id$='discussions-createtopic_x0023_default-tag-input-field']")
+    @FindBy (css = "input[id$='discussions-createtopic_x0023_default-tag-input-field']")
     protected WebElement tagInput;
 
-    @FindBy(css = "button[id*='discussions-createtopic_x0023_default-add-tag-button']")
+    @FindBy (css = "button[id*='discussions-createtopic_x0023_default-add-tag-button']")
     protected WebElement addTagButton;
 
-    @FindAll(@FindBy(css = "ul[id$='discussions-createtopic_x0023_default-current-tags'] .taglibrary-action"))
+    @FindAll (@FindBy (css = "ul[id$='discussions-createtopic_x0023_default-current-tags'] .taglibrary-action"))
     protected List<WebElement> currentTagList;
 
     protected By topicContent = By.cssSelector("iframe[id*='discussions-createtopic_x0023_default-content']");

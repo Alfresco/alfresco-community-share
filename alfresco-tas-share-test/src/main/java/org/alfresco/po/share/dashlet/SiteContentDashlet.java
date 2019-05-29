@@ -21,25 +21,25 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     DocumentDetailsPage documentDetailsPage;
 
     @RenderWebElement
-    @FindBy(css = "div.dashlet.docsummary")
+    @FindBy (css = "div.dashlet.docsummary")
     private WebElement dashletContainer;
 
-    @FindBy(css = "div.dashlet.docsummary span[class$='first-child'] [title='Simple View']")
+    @FindBy (css = "div.dashlet.docsummary span[class$='first-child'] [title='Simple View']")
     private WebElement simpleViewButton;
 
-    @FindBy(css = " div.dashlet.docsummary span[class$='first-child'] [title='Detailed View']")
+    @FindBy (css = " div.dashlet.docsummary span[class$='first-child'] [title='Detailed View']")
     private WebElement detailedViewButton;
 
-    @FindAll(@FindBy(css = ".filename>a"))
+    @FindAll (@FindBy (css = ".filename>a"))
     protected List<WebElement> documentsLinksList;
 
-    @FindAll(@FindBy(css = ".bd>img"))
+    @FindAll (@FindBy (css = ".bd>img"))
     private WebElement bigPreview;
 
-    @FindAll(@FindBy(css = ".yuimenuitemlabel.yuimenuitemlabel"))
+    @FindAll (@FindBy (css = ".yuimenuitemlabel.yuimenuitemlabel"))
     protected List<WebElement> filters;
 
-    @FindBy(css = "[id$='default-filters']")
+    @FindBy (css = "[id$='default-filters']")
     private WebElement defaultFilterButton;
 
     private By addToFavoritesLink = By.cssSelector("a[title = 'Add document to favorites']");
@@ -103,9 +103,8 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     /**
      * Retrieves the link that matches a file name.
-     * 
-     * @param fileName
-     *            identifier
+     *
+     * @param fileName identifier
      * @return {@link Link} that matches fileName
      */
 
@@ -117,7 +116,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     /**
      * Verify if a link for a file is displayed in Site Content dashlet
-     * 
+     *
      * @param fileName
      * @return True if user exists
      */
@@ -142,7 +141,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     /**
      * Open document details page for a file
-     * 
+     *
      * @param fileName
      * @return
      */
@@ -154,13 +153,13 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     /**
      * Open user profile page
-     * 
+     *
      * @param fileName
      * @return
      */
     public DocumentDetailsPage clickBigThumbnailForFile(String fileName)
     {
-        String bigThumbnail =StringUtils.deleteWhitespace(String.format(bigThumbnailIcon, fileName));
+        String bigThumbnail = StringUtils.deleteWhitespace(String.format(bigThumbnailIcon, fileName));
         browser.findElement(By.xpath(bigThumbnail)).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
@@ -188,7 +187,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     /**
      * Verify if a document details section is displayed
-     * 
+     *
      * @param document
      * @return True if details are displayed
      */
@@ -202,7 +201,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
         String details = getFileLink(fileName).findElement(docDetails).getText();
         return (details.contains("Modified") || details.contains("Created")) && details.contains("in " + siteName)
-                && ((details.contains("just now") || (details.contains("ago"))));
+            && ((details.contains("just now") || (details.contains("ago"))));
 
     }
 
@@ -257,10 +256,10 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     public void addFileToFavorites(String fileName)
     {
         Parameter.checkIsMandotary("File", selectItem(fileName));
-        browser.waitUntilElementVisible( selectItem(fileName).findElement(addToFavoritesLink)).click();
+        browser.waitUntilElementVisible(selectItem(fileName).findElement(addToFavoritesLink)).click();
         //selectItem(fileName).findElement(addToFavoritesLink).click();
         int counter = 0;
-        while(!isFileAddedToFavorites(fileName) && counter < 5)
+        while (!isFileAddedToFavorites(fileName) && counter < 5)
         {
             browser.waitInSeconds(1);
             counter++;
@@ -272,7 +271,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         Parameter.checkIsMandotary("File", selectItem(fileName));
         selectItem(fileName).findElement(removeFromFavoritesLink).click();
         int counter = 0;
-        while(!isAddToFavoritesLinkDisplayed(fileName) && counter < 5)
+        while (!isAddToFavoritesLinkDisplayed(fileName) && counter < 5)
         {
             browser.waitInSeconds(1);
             counter++;
@@ -284,7 +283,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         Parameter.checkIsMandotary("File", selectItem(fileName));
         selectItem(fileName).findElement(like).click();
         int counter = 0;
-        while(!isUnlikeLinkDisplayed(fileName) && counter < 5)
+        while (!isUnlikeLinkDisplayed(fileName) && counter < 5)
         {
             browser.waitInSeconds(1);
             counter++;
@@ -296,7 +295,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         Parameter.checkIsMandotary("File", selectItem(fileName));
         selectItem(fileName).findElement(unlike).click();
         int counter = 0;
-        while(!isLikeButtonDisplayed(fileName) && counter < 5)
+        while (!isLikeButtonDisplayed(fileName) && counter < 5)
         {
             browser.waitInSeconds(1);
             counter++;
@@ -318,10 +317,11 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         return browser.isElementDisplayed(selectItem(fileName), addToFavoritesLink);
     }
 
-    public boolean isCommentLinkDisplayed(String fileName) {
+    public boolean isCommentLinkDisplayed(String fileName)
+    {
         return browser.isElementDisplayed(selectItem(fileName), commentLink);
     }
-    
+
     public DocumentDetailsPage clickCommentLink(String fileName)
     {
         browser.waitUntilElementIsDisplayedWithRetry(commentLink, 3);
@@ -332,7 +332,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     public boolean isFileVersionDisplayed(String fileName, String fileVersion)
     {
         browser.mouseOver(selectItem(fileName));
-        if(browser.isElementDisplayed(selectItem(fileName), documentVersion))
+        if (browser.isElementDisplayed(selectItem(fileName), documentVersion))
             return selectItem(fileName).findElement(documentVersion).getText().equals(fileVersion);
         return false;
     }

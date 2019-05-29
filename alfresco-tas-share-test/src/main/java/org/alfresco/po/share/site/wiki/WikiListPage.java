@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @PageObject
-public class WikiListPage extends SiteCommon<WikiListPage> {
+public class WikiListPage extends SiteCommon<WikiListPage>
+{
     @Autowired
     EditWikiPage editWikiPage;
 
@@ -24,36 +25,36 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
     WikiDetailsPage wikiDetailsPage;
 
     @RenderWebElement
-    @FindBy(css = "span.forwardLink>a")
+    @FindBy (css = "span.forwardLink>a")
     private WebElement mainPageLink;
 
     @RenderWebElement
-    @FindBy(css = "span.first-child button[id$=default-create-button-button]")
+    @FindBy (css = "span.first-child button[id$=default-create-button-button]")
     private WebElement newPage;
 
-    @FindAll(@FindBy(css = "div.wikipage"))
+    @FindAll (@FindBy (css = "div.wikipage"))
     private List<WebElement> wikiPagesList;
 
-    @FindAll(@FindBy(css = "div.pageTitle a"))
+    @FindAll (@FindBy (css = "div.pageTitle a"))
     private List<WebElement> wikiPagesTitleList;
 
     @RenderWebElement
-    @FindBy(css = "[id$=default-pagelist] div")
+    @FindBy (css = "[id$=default-pagelist] div")
     private WebElement noWikiPage;
 
-    @FindAll(@FindBy(css = "[id$=default-ul] li:not(:first-child)"))
+    @FindAll (@FindBy (css = "[id$=default-ul] li:not(:first-child)"))
     private List<WebElement> tagsList;
 
-    @FindBy(css = "[id=prompt]")
+    @FindBy (css = "[id=prompt]")
     private WebElement deletePopUp;
 
-    @FindBy(xpath = "//a[text()='Show All Items']")
+    @FindBy (xpath = "//a[text()='Show All Items']")
     private WebElement showAllTagsFilter;
 
-    @FindBy(css = "span[class='all'] a")
+    @FindBy (css = "span[class='all'] a")
     private WebElement allPagesFilter;
 
-    @FindBy(css = "span[class='myPages'] a")
+    @FindBy (css = "span[class='myPages'] a")
     private WebElement myPagesFilter;
 
 
@@ -72,9 +73,11 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      * @return list of wiki page titles
      */
 
-    public List<String> getWikiPageTitlesList() {
+    public List<String> getWikiPageTitlesList()
+    {
         List<String> wikiPageTitles = new ArrayList<>();
-        for (WebElement wikiPageTitle : wikiPagesTitleList) {
+        for (WebElement wikiPageTitle : wikiPagesTitleList)
+        {
             wikiPageTitles.add(wikiPageTitle.getText());
         }
         return wikiPageTitles;
@@ -86,7 +89,8 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      * @return list of wiki page titles
      */
 
-    public int getWikiPageTitlesListSize() {
+    public int getWikiPageTitlesListSize()
+    {
 
         browser.refresh();
         return getWikiPageTitlesList().size();
@@ -98,7 +102,8 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      *
      * @return
      */
-    public String noWikiPageDisplayed() {
+    public String noWikiPageDisplayed()
+    {
         browser.refresh();
         return noWikiPage.getText();
     }
@@ -109,30 +114,36 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      *
      * @return
      */
-    public List<String> getTagsList() {
+    public List<String> getTagsList()
+    {
         browser.refresh();
         List<String> tags = new ArrayList<>();
-        for (WebElement tag : tagsList) {
+        for (WebElement tag : tagsList)
+        {
             tags.add(tag.getText());
         }
         return tags;
     }
 
-    public WebElement selectWikiDetailsRow(String wikiPage) {
+    public WebElement selectWikiDetailsRow(String wikiPage)
+    {
         return browser.findFirstElementWithValue(wikiPagesList, wikiPage);
     }
 
-    public EditWikiPage clickEdit(String wikiPage) {
+    public EditWikiPage clickEdit(String wikiPage)
+    {
         selectWikiDetailsRow(wikiPage).findElement(editPage).click();
         return (EditWikiPage) editWikiPage.renderedPage();
     }
 
-    public WikiPage clickPageName(String wikiPageTitle) {
+    public WikiPage clickPageName(String wikiPageTitle)
+    {
         selectWikiDetailsRow(wikiPageTitle).findElement(pageName).click();
         return (WikiPage) wikiPage.renderedPage();
     }
 
-    public boolean clickDeletePage(String wikiPage) {
+    public boolean clickDeletePage(String wikiPage)
+    {
         selectWikiDetailsRow(wikiPage).findElement(deletePage).click();
         return deletePopUp.isDisplayed();
     }
@@ -147,10 +158,12 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      * @param wikiPage The name of the specific wiki page
      * @return
      */
-    private List<String> getDetailsOfWikiPage(String wikiPage) {
+    private List<String> getDetailsOfWikiPage(String wikiPage)
+    {
         List<String> stringDetails = new ArrayList<>();
         List<WebElement> webDetails = selectWikiDetailsRow(wikiPage).findElements(wikiRowDetails);
-        for (int i = 0; i < webDetails.size(); i++) {
+        for (int i = 0; i < webDetails.size(); i++)
+        {
             if (webDetails.get(i).getText().equals("Created by:"))
                 stringDetails.add(webDetails.get(i + 1).findElement(By.cssSelector("a")).getText());
             if (webDetails.get(i).getText().equals("Created on:"))
@@ -163,7 +176,8 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
         return stringDetails;
     }
 
-    public String getWikiPageCreator(String wikiPage) {
+    public String getWikiPageCreator(String wikiPage)
+    {
         List<String> details = getDetailsOfWikiPage(wikiPage);
         return details.get(0);
     }
@@ -174,7 +188,8 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      * @param wikiPage
      * @return
      */
-    public String getWikiPageCreationDate(String wikiPage) {
+    public String getWikiPageCreationDate(String wikiPage)
+    {
         List<String> details = getDetailsOfWikiPage(wikiPage);
         String date = details.get(1);
         int indexofLast = date.lastIndexOf(":");
@@ -182,7 +197,8 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
         return date;
     }
 
-    public String getWikiPageModifier(String wikiPage) {
+    public String getWikiPageModifier(String wikiPage)
+    {
         List<String> details = getDetailsOfWikiPage(wikiPage);
         return details.get(2);
     }
@@ -193,7 +209,8 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      * @param wikiPage
      * @return
      */
-    public String getWikiPageModificationDate(String wikiPage) {
+    public String getWikiPageModificationDate(String wikiPage)
+    {
         List<String> details = getDetailsOfWikiPage(wikiPage);
         String date = details.get(3);
         int indexofLast = date.lastIndexOf(":");
@@ -201,11 +218,13 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
         return date;
     }
 
-    public String getWikiPageContent(String wikiPage) {
+    public String getWikiPageContent(String wikiPage)
+    {
         return selectWikiDetailsRow(wikiPage).findElement(wikiPageContent).getText();
     }
 
-    public List<String> getWikiPageTags(String wikiPage) {
+    public List<String> getWikiPageTags(String wikiPage)
+    {
         List<String> stringTags = new ArrayList<>();
         List<WebElement> webTags = selectWikiDetailsRow(wikiPage).findElements(wikiPageTags);
         for (WebElement webTag : webTags)
@@ -216,7 +235,8 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
         return stringTags;
     }
 
-    public String getMissingPageTextColor(String wikiPage) {
+    public String getMissingPageTextColor(String wikiPage)
+    {
         String color = selectWikiDetailsRow(wikiPage).findElement(missingWikiPage).getCssValue("color");
 
         String[] hexValue = color.replace("rgb(", "").replace(")", "").split(",");
@@ -230,13 +250,15 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
         return String.format("#%02x%02x%02x", hexValue1, hexValue2, hexValue3);
     }
 
-    public WikiDetailsPage clickDetails(String wikiPage) {
+    public WikiDetailsPage clickDetails(String wikiPage)
+    {
         selectWikiDetailsRow(wikiPage).findElement(pageDetails).click();
         return (WikiDetailsPage) wikiDetailsPage.renderedPage();
     }
 
     @Override
-    public String getRelativePath() {
+    public String getRelativePath()
+    {
         return String.format("share/page/site/%s/wiki", getCurrentSiteName());
     }
 
@@ -246,14 +268,16 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      * @param wikiPage
      * @return 'true' if all actions are available
      */
-    public boolean areActionsAvailableForPage(String wikiPage) {
+    public boolean areActionsAvailableForPage(String wikiPage)
+    {
 
         return selectWikiDetailsRow(wikiPage).findElement(editPage).isDisplayed() &&
-                selectWikiDetailsRow(wikiPage).findElement(deletePage).isDisplayed() &&
-                selectWikiDetailsRow(wikiPage).findElement(pageDetails).isDisplayed();
+            selectWikiDetailsRow(wikiPage).findElement(deletePage).isDisplayed() &&
+            selectWikiDetailsRow(wikiPage).findElement(pageDetails).isDisplayed();
     }
 
-    public void clickMainPageButton() {
+    public void clickMainPageButton()
+    {
         mainPageLink.click();
     }
 
@@ -262,7 +286,8 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      *
      * @param tagName
      */
-    public void clickSpecificTag(String tagName) {
+    public void clickSpecificTag(String tagName)
+    {
         browser.findElement(By.cssSelector("a[rel='" + tagName + "']")).click();
     }
 
@@ -272,19 +297,23 @@ public class WikiListPage extends SiteCommon<WikiListPage> {
      * @param wikiPageName
      * @return
      */
-    public boolean isWikiPageDisplayed(String wikiPageName) {
+    public boolean isWikiPageDisplayed(String wikiPageName)
+    {
         return browser.isElementDisplayed(browser.findElement(By.xpath("//a[text()='" + wikiPageName + "']")));
     }
 
-    public void clickShowAllTags() {
+    public void clickShowAllTags()
+    {
         showAllTagsFilter.click();
     }
 
-    public void clickAllPagesFilter() {
+    public void clickAllPagesFilter()
+    {
         allPagesFilter.click();
     }
 
-    public void clickMyPagesFilter() {
+    public void clickMyPagesFilter()
+    {
         myPagesFilter.click();
     }
 

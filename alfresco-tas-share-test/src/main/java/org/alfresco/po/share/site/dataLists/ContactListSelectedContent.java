@@ -14,7 +14,7 @@ import java.util.List;
 public class ContactListSelectedContent extends ListItemSelectedContent
 {
     @RenderWebElement
-    @FindBy(css = "div[id$='default-grid'] table thead tr")
+    @FindBy (css = "div[id$='default-grid'] table thead tr")
     private List<WebElement> listItemsTableHead;
 
     private By noListItems = By.cssSelector("div[id$='default-grid'] table tbody tr");

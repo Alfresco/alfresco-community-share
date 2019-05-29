@@ -13,16 +13,16 @@ import java.util.List;
 @PageObject
 public class CreateFileFromTemplate extends WebDriverAware
 {
-    @FindBy(css = "li[class$='first-of-type'] a.yuimenuitemlabel.yuimenuitemlabel-hassubmenu span")
+    @FindBy (css = "li[class$='first-of-type'] a.yuimenuitemlabel.yuimenuitemlabel-hassubmenu span")
     protected List<WebElement> createDocumentFromTemplateLink;
 
-    @FindBy(css = "ul.first-of-type span[title=\"\"]")
+    @FindBy (css = "ul.first-of-type span[title=\"\"]")
     protected List<WebElement> documentTemplates;
 
-    @FindBy(css = ".create-content button")
+    @FindBy (css = ".create-content button")
     protected WebElement createContentButton;
 
-    @FindBy(css = "span.message")
+    @FindBy (css = "span.message")
     protected WebElement message;
 
     public void clickCreateContentButton()

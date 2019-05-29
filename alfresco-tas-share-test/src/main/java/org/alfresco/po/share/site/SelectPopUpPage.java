@@ -17,19 +17,19 @@ import java.util.List;
 public class SelectPopUpPage extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(css = ".yui-dialog[style*='visibility: visible'] [id$='cntrl-ok-button']")
+    @FindBy (css = ".yui-dialog[style*='visibility: visible'] [id$='cntrl-ok-button']")
     private WebElement okButton;
 
-    @FindBy(css = "[id$='issueAssignedTo-cntrl-cancel-button']")
+    @FindBy (css = "[id$='issueAssignedTo-cntrl-cancel-button']")
     private WebElement cancelButton;
 
-    @FindBy(css = ".yui-dialog[style*='visibility: visible'] input[id*='cntrl-picker-searchText']")
+    @FindBy (css = ".yui-dialog[style*='visibility: visible'] input[id*='cntrl-picker-searchText']")
     private WebElement searchInput;
 
-    @FindBy(css = ".yui-dialog[style*='visibility: visible'] button[id$='searchButton-button']")
+    @FindBy (css = ".yui-dialog[style*='visibility: visible'] button[id$='searchButton-button']")
     private WebElement searchButton;
 
-    @FindAll(@FindBy(css = ".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] [class$='dt-data'] tr"))
+    @FindAll (@FindBy (css = ".yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] [class$='dt-data'] tr"))
     protected List<WebElement> resultsList;
 
     private By addIcon = By.cssSelector(".yui-dialog[style*='visibility: visible'] [class*='addIcon']");
@@ -68,7 +68,7 @@ public class SelectPopUpPage extends ShareDialog
         getBrowser().waitInSeconds(5);
         browser.waitUntilElementClickable(searchButton).click();
         int counter = 0;
-        while(!browser.isElementDisplayed(addIcon) && counter < 2)
+        while (!browser.isElementDisplayed(addIcon) && counter < 2)
         {
             LOG.info("Search: " + counter);
             searchButton.click();

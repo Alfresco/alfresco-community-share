@@ -22,13 +22,13 @@ public class SiteCalendarDashlet extends Dashlet<SiteCalendarDashlet>
     CalendarPage calendarPage;
 
     @RenderWebElement
-    @FindBy(css = "div.dashlet.calendar")
+    @FindBy (css = "div.dashlet.calendar")
     private HtmlElement dashletContainer;
 
-    @FindAll(@FindBy(css = "div.dashlet.calendar .detail-list-item span>a"))
+    @FindAll (@FindBy (css = "div.dashlet.calendar .detail-list-item span>a"))
     private List<WebElement> siteEventsNameList;
 
-    @FindBy(css = "div.dashlet.calendar .dashlet-padding>h3")
+    @FindBy (css = "div.dashlet.calendar .dashlet-padding>h3")
     private WebElement dashletMessage;
 
     private By eventStartDate = By.xpath("ancestor::*[@class='details2']//a");

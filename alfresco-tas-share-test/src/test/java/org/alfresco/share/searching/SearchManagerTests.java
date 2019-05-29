@@ -71,7 +71,7 @@ public class SearchManagerTests extends ContextAwareWebTest
     private String filterId;
     private String filterName;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, modifier1.split(" ")[0], modifier1.split(" ")[1]);
@@ -116,7 +116,8 @@ public class SearchManagerTests extends ContextAwareWebTest
 
 
     @AfterClass
-    public void removeAddedFiles() {
+    public void removeAddedFiles()
+    {
         userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
         userService.delete(adminUser, adminPassword, user2);
@@ -130,16 +131,15 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
 
-
-    @TestRail(id = "C6274")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6274")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifySearchManagerPage()
     {
         List<String> expectedTableColumns = Arrays.asList("Filter ID", "Filter Name", "Filter Property", "Filter Type", "Show with Search Results",
-                "Default Filter", "Filter Availability");
+            "Default Filter", "Filter Availability");
         List<String> defaultFilters = Arrays.asList("faceted-search.facet-menu.facet.creator", "faceted-search.facet-menu.facet.formats",
-                "faceted-search.facet-menu.facet.created", "faceted-search.facet-menu.facet.size", "faceted-search.facet-menu.facet.modifier",
-                "faceted-search.facet-menu.facet.modified");
+            "faceted-search.facet-menu.facet.created", "faceted-search.facet-menu.facet.size", "faceted-search.facet-menu.facet.modifier",
+            "faceted-search.facet-menu.facet.modified");
 
         LOG.info("Step 1: Open 'Advanced Search' page and click 'Search' button.");
         advancedSearchPage.navigate();
@@ -159,9 +159,9 @@ public class SearchManagerTests extends ContextAwareWebTest
         }
     }
 
-    @Bug(id = "ACE-5698")
-    @TestRail(id = "C6275")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Bug (id = "ACE-5698")
+    @TestRail (id = "C6275")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void createNewSearchFilter()
     {
         filterId = String.format("filter.site%s", RandomData.getRandomAlphanumeric());
@@ -200,8 +200,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         LOG.info("STEP 7: Click on " + site1 + " option.");
         searchPage.clickFilterOption(site1, filterId);
         assertTrue(searchPage.isSearchResultsAsExpected(
-                Arrays.asList(documentName + "1", documentName + "2", documentName + "21", documentName + "22", documentName + "23", documentName + "31")),
-                "Only site1 files are displayed on the search results.");
+            Arrays.asList(documentName + "1", documentName + "2", documentName + "21", documentName + "22", documentName + "23", documentName + "31")),
+            "Only site1 files are displayed on the search results.");
 
         LOG.info("STEP 8: Click on " + site2 + " option.");
         getBrowser().navigate().back();
@@ -210,7 +210,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(5);
 
         assertTrue(searchPage.isSearchResultsAsExpected(Arrays.asList(documentName + "3", documentName + "4")),
-                "Only site2 files are displayed on the search results.");
+            "Only site2 files are displayed on the search results.");
 
         LOG.info("STEP 9: Click on " + site3 + " option.");
         getBrowser().navigate().back();
@@ -220,11 +220,11 @@ public class SearchManagerTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(5);
 
         assertTrue(searchPage.isSearchResultsAsExpected(Arrays.asList(documentName + "5", documentName + "6")),
-                "Only site 3 files are displayed on the search results.");
+            "Only site 3 files are displayed on the search results.");
     }
 
-    @TestRail(id = "C6283")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6283")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyFilterAvailabilityProperty()
     {
         filterId = String.format("tag-filter%s", RandomData.getRandomAlphanumeric());
@@ -246,11 +246,11 @@ public class SearchManagerTests extends ContextAwareWebTest
         createNewFilterPopup.selectFromFilterAvailability("Selected sites");
 
         LOG.info(
-                "STEP 5: Click 'Add a new entry' button from 'Sites' section and select 'site1' from the drop-down list with available sites. Click 'Save the current entry' icon for 'site1'.");
+            "STEP 5: Click 'Add a new entry' button from 'Sites' section and select 'site1' from the drop-down list with available sites. Click 'Save the current entry' icon for 'site1'.");
         createNewFilterPopup.addSite(site1);
 
         LOG.info(
-                "STEP 6: Click 'Add a new entry' button from 'Sites' section and select 'site2' from the drop-down list with available sites. Click 'Save the current entry' icon for 'site2'.");
+            "STEP 6: Click 'Add a new entry' button from 'Sites' section and select 'site2' from the drop-down list with available sites. Click 'Save the current entry' icon for 'site2'.");
         createNewFilterPopup.addSite(site2);
 
         LOG.info("STEP 7: Click 'Save' button.");
@@ -297,11 +297,11 @@ public class SearchManagerTests extends ContextAwareWebTest
         LOG.info("STEP 11: Select 'site1' option in 'Search in' filter.");
         searchPage.selectOptionFromSearchIn(site3);
         assertFalse(searchPage.isFilterTypePresent(filterName),
-                "The new filter ('tagFilter') should not be displayed on 'Search Results' page, on 'Filter by' section");
+            "The new filter ('tagFilter') should not be displayed on 'Search Results' page, on 'Filter by' section");
     }
 
-    @TestRail(id = "C6307")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6307")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyNumberOfFiltersProperty()
     {
         filterId = "filter_modifier";
@@ -340,8 +340,8 @@ public class SearchManagerTests extends ContextAwareWebTest
     }
 
 
-    @TestRail(id = "C6308")
-    @Test(enabled = false, groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6308")
+    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyMinimumFilterLengthProperty()
     {
         //test skipped due to edge case where minimufilterlengthproperty does not work, but no bug was opened
@@ -368,8 +368,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertTrue(searchPage.isFilterOptionDisplayed(filterId, modifier3), modifier3 + " option is displayed under the Modifier filter.");
     }
 
-    @TestRail(id = "C6309")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6309")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyMinimumRequiredResultsProperty()
     {
         filterId = "filter_modifier";
@@ -395,8 +395,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertFalse(searchPage.isFilterOptionDisplayed(filterId, modifier3), modifier3 + " option is not displayed under the Modifier filter.");
     }
 
-    @TestRail(id = "C6288")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6288")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void createNewSearchFilterWithoutSaving()
     {
         filterId = String.format("close-filter%s", RandomData.getRandomAlphanumeric());
@@ -419,8 +419,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertFalse(searchManagerPage.isFilterAvailable(filterName), "The new filter is not displayed on 'Search Manager' page.");
     }
 
-    @TestRail(id = "C6287")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6287")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void cancelCreatingNewSearchFilter()
     {
         filterId = String.format("cancel-filter%s", RandomData.getRandomAlphanumeric());
@@ -443,8 +443,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertFalse(searchManagerPage.isFilterAvailable(filterName), "The new filter is not displayed on 'Search Manager' page.");
     }
 
-    @TestRail(id = "C6284")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6284")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void modifyExistingSearchFilter()
     {
         filterId = String.format("filterC6284%s", RandomData.getRandomAlphanumeric());
@@ -454,8 +454,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         searchManagerPage.navigate();
 
         LOG.info("STEP 1: Create a new filter with following properties:\n" + "- Filter ID: filter1\n" + "- Filter Name: testFilter1\n"
-                + "- Show with Search Results: Yes\n" + "- Filter Property: Site\n" + "- Sort By: A-Z\n" + "- Number of Filters: 10\n"
-                + "- Minimum Filter Length: 1\n" + "- Minimum Required Results: 1\n" + "- Filter Availability: Everywhere");
+            + "- Show with Search Results: Yes\n" + "- Filter Property: Site\n" + "- Sort By: A-Z\n" + "- Number of Filters: 10\n"
+            + "- Minimum Filter Length: 1\n" + "- Minimum Required Results: 1\n" + "- Filter Availability: Everywhere");
         searchManagerPage.createNewFilter();
         createNewFilterPopup.typeFilterId(filterId);
         createNewFilterPopup.typeFilterName(filterName);
@@ -467,9 +467,9 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertEquals(searchManagerPage.getFilterAvailability(filterId), "Everywhere", "Filter availability has default value.");
 
         LOG.info("STEP 2: On 'Search Manager' page, click on the new filter's id ('filter1'). Modify the filter's properties as below:\n"
-                + "- Filter Name: testFilter2\n" + "- Show with Search Results: No\n" + "- Filter Property: Tag\n" + "- Sort By: Z-A\n"
-                + "- Number of Filters: 7\n" + "- Minimum Filter Length: 3\n" + "- Minimum Required Results: 3\n"
-                + "- Filter Availability: Selected Sites (Sites: site1, site2)");
+            + "- Filter Name: testFilter2\n" + "- Show with Search Results: No\n" + "- Filter Property: Tag\n" + "- Sort By: Z-A\n"
+            + "- Number of Filters: 7\n" + "- Minimum Filter Length: 3\n" + "- Minimum Required Results: 3\n"
+            + "- Filter Availability: Selected Sites (Sites: site1, site2)");
         searchManagerPage.clickFilterId(filterId);
         assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
         editFilterPopup.typeFilterName(newFilterName);
@@ -505,8 +505,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertEqualsNoOrder(editFilterPopup.getCurrentSelectedSites(), expectedSelectedSites, "Selected Sites (Sites: site1, site2)");
     }
 
-    @TestRail(id = "C6314")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6314")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void modifySearchFilterWithoutSaving()
     {
         filterId = String.format("filterC6314%s", RandomData.getRandomAlphanumeric());
@@ -516,8 +516,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         searchManagerPage.navigate();
 
         LOG.info("STEP 1: Create a new filter with following properties:\n" + "- Filter ID: filter1\n" + "- Filter Name: testFilter1\n"
-                + "- Show with Search Results: Yes\n" + "- Filter Property: Site\n" + "- Sort By: A-Z\n" + "- Number of Filters: 10\n"
-                + "- Minimum Filter Length: 1\n" + "- Minimum Required Results: 1\n" + "- Filter Availability: Everywhere");
+            + "- Show with Search Results: Yes\n" + "- Filter Property: Site\n" + "- Sort By: A-Z\n" + "- Number of Filters: 10\n"
+            + "- Minimum Filter Length: 1\n" + "- Minimum Required Results: 1\n" + "- Filter Availability: Everywhere");
         searchManagerPage.createNewFilter();
         createNewFilterPopup.typeFilterId(filterId);
         createNewFilterPopup.typeFilterName(filterName);
@@ -529,9 +529,9 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertEquals(searchManagerPage.getFilterAvailability(filterId), "Everywhere", "Filter availability has default value.");
 
         LOG.info("STEP 2: On 'Search Manager' page, click on the new filter's id ('filter1'). Modify the filter's properties as below:\n"
-                + "- Filter Name: testFilter2\n" + "- Show with Search Results: No\n" + "- Filter Property: Tag\n" + "- Sort By: Z-A\n"
-                + "- Number of Filters: 7\n" + "- Minimum Filter Length: 3\n" + "- Minimum Required Results: 3\n"
-                + "- Filter Availability: Selected Sites (Sites: site1, site2)");
+            + "- Filter Name: testFilter2\n" + "- Show with Search Results: No\n" + "- Filter Property: Tag\n" + "- Sort By: Z-A\n"
+            + "- Number of Filters: 7\n" + "- Minimum Filter Length: 3\n" + "- Minimum Required Results: 3\n"
+            + "- Filter Availability: Selected Sites (Sites: site1, site2)");
         searchManagerPage.clickFilterId(filterId);
         assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
         editFilterPopup.typeFilterName(newFilterName);
@@ -565,8 +565,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertEquals(editFilterPopup.getFilterAvailability(), "Everywhere", "Filter Availability: Everywhere");
     }
 
-    @TestRail(id = "C6299")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6299")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void cancelModifyingExistingSearchFilter()
     {
         filterId = String.format("filterC6299%s", RandomData.getRandomAlphanumeric());
@@ -576,8 +576,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         searchManagerPage.navigate();
 
         LOG.info("STEP 1: Create a new filter with following properties:\n" + "- Filter ID: filter1\n" + "- Filter Name: testFilter1\n"
-                + "- Show with Search Results: Yes\n" + "- Filter Property: Site\n" + "- Sort By: A-Z\n" + "- Number of Filters: 10\n"
-                + "- Minimum Filter Length: 1\n" + "- Minimum Required Results: 1\n" + "- Filter Availability: Everywhere");
+            + "- Show with Search Results: Yes\n" + "- Filter Property: Site\n" + "- Sort By: A-Z\n" + "- Number of Filters: 10\n"
+            + "- Minimum Filter Length: 1\n" + "- Minimum Required Results: 1\n" + "- Filter Availability: Everywhere");
         searchManagerPage.createNewFilter();
         createNewFilterPopup.typeFilterId(filterId);
         createNewFilterPopup.typeFilterName(filterName);
@@ -589,9 +589,9 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertEquals(searchManagerPage.getFilterAvailability(filterId), "Everywhere", "Filter availability has default value.");
 
         LOG.info("STEP 2: On 'Search Manager' page, click on the new filter's id ('filter1'). Modify the filter's properties as below:\n"
-                + "- Filter Name: testFilter2\n" + "- Show with Search Results: No\n" + "- Filter Property: Tag\n" + "- Sort By: Z-A\n"
-                + "- Number of Filters: 7\n" + "- Minimum Filter Length: 3\n" + "- Minimum Required Results: 3\n"
-                + "- Filter Availability: Selected Sites (Sites: site1, site2)");
+            + "- Filter Name: testFilter2\n" + "- Show with Search Results: No\n" + "- Filter Property: Tag\n" + "- Sort By: Z-A\n"
+            + "- Number of Filters: 7\n" + "- Minimum Filter Length: 3\n" + "- Minimum Required Results: 3\n"
+            + "- Filter Availability: Selected Sites (Sites: site1, site2)");
         searchManagerPage.clickFilterId(filterId);
         assertTrue(editFilterPopup.isDialogDisplayed(filterId), "The dialog box for editing the filter is opened.");
         editFilterPopup.typeFilterName(newFilterName);
@@ -609,7 +609,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         editFilterPopup.clickCancel();
         assertTrue(searchManagerPage.isFilterAvailable(filterId), "The new filter is displayed on 'Search Manager' page.");
         assertEquals(searchManagerPage.getFilterName(filterId), filterName, "Filter name hasn't changed.");
-        assertEquals(searchManagerPage.getFilterProperty(filterId,"Site"), "Site", "Filter property hasn't changed.");
+        assertEquals(searchManagerPage.getFilterProperty(filterId, "Site"), "Site", "Filter property hasn't changed.");
         assertEquals(searchManagerPage.getShowWithSearchResults(filterId), "Yes", "Filter Show hasn't changed.");
         assertEquals(searchManagerPage.getFilterAvailability(filterId), "Everywhere", "Filter availability hasn't changed.");
 
@@ -625,8 +625,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertEquals(editFilterPopup.getFilterAvailability(), "Everywhere", "Filter Availability: Everywhere");
     }
 
-    @TestRail(id = "C6286")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6286")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void switchOnOffShowWithSearchResults()
     {
         filterId = "filter_creator";
@@ -664,8 +664,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertTrue(searchPage.isFilterTypePresent(filterName), "The 'Creator' filter is displayed on 'Filter by:' section.");
     }
 
-    @TestRail(id = "C6311")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6311")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void modifySearchFilterName()
     {
         filterId = String.format("filterC6311%s", RandomData.getRandomAlphanumeric());
@@ -682,13 +682,13 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertTrue(searchManagerPage.isFilterAvailable(filterName), "The new filter is displayed on 'Search Manager' page.");
 
         LOG.info("STEP 2: Hover over the 'Filter Name' for the '" + filterName + "' filter. Click on 'Edit' icon and modify the filter name to '"
-                + newFilterName + "'. Click 'Save' button.");
+            + newFilterName + "'. Click 'Save' button.");
         searchManagerPage.editFilterName(filterName, newFilterName);
         assertTrue(searchManagerPage.isFilterAvailable(newFilterName), "The new filter is displayed on 'Search Manager' page.");
     }
 
-    @TestRail(id = "C6312")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6312")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void cancelModifyingSearchFilterName()
     {
         filterId = String.format("filterC6312%s", RandomData.getRandomAlphanumeric());
@@ -705,13 +705,13 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertTrue(searchManagerPage.isFilterAvailable(filterName), "The new filter is displayed on 'Search Manager' page.");
 
         LOG.info("STEP 2: Hover over the 'Filter Name' for the '" + filterName + "' filter. Click on 'Edit' icon and modify the filter name to '"
-                + newFilterName + "'. Click 'Save' button.");
+            + newFilterName + "'. Click 'Save' button.");
         searchManagerPage.cancelEditFilterName(filterName, newFilterName);
         assertFalse(searchManagerPage.isFilterAvailable(newFilterName), "The new filter is displayed on 'Search Manager' page.");
     }
 
-    @TestRail(id = "C6303")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6303")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void deleteSearchFilter()
     {
         filterId = String.format("filterC6303%s", RandomData.getRandomAlphanumeric());
@@ -729,21 +729,21 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Try to delete any default filter available on 'Search Manager' page");
         assertFalse(searchManagerPage.isFilterDeletable(defaultFilter),
-                "There is no 'Delete' button present for the filter, as default filters can't be deleted.");
+            "There is no 'Delete' button present for the filter, as default filters can't be deleted.");
 
         LOG.info("STEP 3: Click on 'Delete' button for the custom filter created.");
         searchManagerPage.deleteFilter(filterId);
         assertEquals(confirmDeletionDialog.getDialogTitle(), language.translate("confirmDeletion.title"), "Popup is displayed.");
         assertEquals(confirmDeletionDialog.getDialogMessage(), String.format(language.translate("confirmDeletion.message"), filterId),
-                "Popup message is displayed.");
+            "Popup message is displayed.");
         LOG.info("STEP 4: Click 'Yes' button.");
         confirmDeletionDialog.clickOKButton();
         getBrowser().waitInSeconds(5);
         assertFalse(searchManagerPage.isFilterAvailable(filterId), "Filter is no longer listed on 'Search Manager' page.");
     }
 
-    @TestRail(id = "C6305")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6305")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void cancelDeletingSearchFilter()
     {
         filterId = String.format("filterC6305%s", RandomData.getRandomAlphanumeric());
@@ -762,7 +762,7 @@ public class SearchManagerTests extends ContextAwareWebTest
         searchManagerPage.deleteFilter(filterId);
         assertEquals(confirmDeletionDialog.getDialogTitle(), language.translate("confirmDeletion.title"), "Popup is displayed.");
         assertEquals(confirmDeletionDialog.getDialogMessage(), String.format(language.translate("confirmDeletion.message"), filterId),
-                "Popup message is displayed.");
+            "Popup message is displayed.");
 
         LOG.info("STEP 3: Click 'No' button.");
         confirmDeletionDialog.clickNoButton();
@@ -772,15 +772,15 @@ public class SearchManagerTests extends ContextAwareWebTest
         searchManagerPage.deleteFilter(filterId);
         assertEquals(confirmDeletionDialog.getDialogTitle(), language.translate("confirmDeletion.title"), "Popup is displayed.");
         assertEquals(confirmDeletionDialog.getDialogMessage(), String.format(language.translate("confirmDeletion.message"), filterId),
-                "Popup message is displayed.");
+            "Popup message is displayed.");
 
         LOG.info("STEP 5: Click 'Close' button.");
         confirmDeletionDialog.clickCloseButton();
         assertTrue(searchManagerPage.isFilterAvailable(filterId), "Filter is still listed on 'Search Manager' page.");
     }
 
-    @TestRail(id = "C6285")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6285")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void changeSearchFiltersOrder()
     {
         filterId = "filter_creator";
@@ -796,31 +796,30 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Hover over 'Move-Down' icon for any existing filter.");
         assertEquals(searchManagerPage.getDownTooltipForFilter(filterId), String.format(language.translate("searchManager.reorder.down"), filterId),
-                "Down tooltip");
+            "Down tooltip");
 
         LOG.info("STEP 3: Move up 'filter_modifier' and move down 'filter_created'");
         int filterIdPosition = searchManagerPage.getFilterPosition(filterId);
         int filterId2Position = searchManagerPage.getFilterPosition(filterId2);
-        if(filterIdPosition < filterId2Position)
+        if (filterIdPosition < filterId2Position)
         {
-        	searchManagerPage.moveFilterUp(filterId2);
-        	filterId2Position--;
-        	while(filterIdPosition < filterId2Position)
-        	{
-        		searchManagerPage.moveFilterDown(filterId);
-        		filterIdPosition ++;
-        	}
-        }
-        else
+            searchManagerPage.moveFilterUp(filterId2);
+            filterId2Position--;
+            while (filterIdPosition < filterId2Position)
+            {
+                searchManagerPage.moveFilterDown(filterId);
+                filterIdPosition++;
+            }
+        } else
         {
-        	searchManagerPage.moveFilterDown(filterId2);
-        	filterId2Position++;
-        	while(filterIdPosition > filterId2Position)
-        	{
-        		searchManagerPage.moveFilterUp(filterId);
-        		filterIdPosition --;
-        	}
-        	result = true;
+            searchManagerPage.moveFilterDown(filterId2);
+            filterId2Position++;
+            while (filterIdPosition > filterId2Position)
+            {
+                searchManagerPage.moveFilterUp(filterId);
+                filterIdPosition--;
+            }
+            result = true;
         }
 
         filterIdPosition = searchManagerPage.getFilterPosition(filterId);
@@ -831,19 +830,18 @@ public class SearchManagerTests extends ContextAwareWebTest
         LOG.info("STEP 4: Type '" + documentName + "' on the search box from 'Alfresco Toolbar' and press 'Enter' key.");
         toolbar.renderedPage();
         toolbar.search(documentName);
-        if(result)
+        if (result)
         {
-        	assertTrue(searchPage.getFilterTypePosition(filterName) < searchPage.getFilterTypePosition(filterName2), "The 'Created' filter should be on top of the 'Modifier' filter.");
-        }
-        else
+            assertTrue(searchPage.getFilterTypePosition(filterName) < searchPage.getFilterTypePosition(filterName2), "The 'Created' filter should be on top of the 'Modifier' filter.");
+        } else
         {
-        	assertTrue(searchPage.getFilterTypePosition(filterName) > searchPage.getFilterTypePosition(filterName2), "The 'Modifier' filter should be on top of the 'Created' filter.");
+            assertTrue(searchPage.getFilterTypePosition(filterName) > searchPage.getFilterTypePosition(filterName2), "The 'Modifier' filter should be on top of the 'Created' filter.");
         }
-        
+
     }
 
-    @TestRail(id = "C6313")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6313")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifySitesSection()
     {
         searchManagerPage.navigate();
@@ -855,17 +853,17 @@ public class SearchManagerTests extends ContextAwareWebTest
         createNewFilterPopup.selectFromFilterAvailability("Selected sites");
 
         LOG.info(
-                "STEPS 3-5: Click 'Add a new entry' button from 'Sites' section and select 'site1' from the drop-down list with available sites. Click 'Save the current entry' icon for 'site1'.");
+            "STEPS 3-5: Click 'Add a new entry' button from 'Sites' section and select 'site1' from the drop-down list with available sites. Click 'Save the current entry' icon for 'site1'.");
         createNewFilterPopup.addSite(site1);
         assertEquals(createNewFilterPopup.getCurrentSelectedSites()[0], site1, "'site1' is successfully added to 'Sites' section. ");
 
         LOG.info(
-                "STEPS 6-7: Click on 'Edit the current entry' icon () for 'site1' and choose another site from the drop-down list (e.g.: 'site2'). Click 'Save the current entry' icon for 'site1'.");
+            "STEPS 6-7: Click on 'Edit the current entry' icon () for 'site1' and choose another site from the drop-down list (e.g.: 'site2'). Click 'Save the current entry' icon for 'site1'.");
         createNewFilterPopup.editSite(site1, site2);
         assertEquals(createNewFilterPopup.getCurrentSelectedSites()[0], site2, "'site2' is successfully added to 'Sites' section (instead of 'site1').");
 
         LOG.info(
-                "STEPS 8-9: Click on 'Edit the current entry' icon () for 'site2' and choose another site from the drop-down list (e.g.: 'site3'). Click 'Cancel editing the current entry' icon");
+            "STEPS 8-9: Click on 'Edit the current entry' icon () for 'site2' and choose another site from the drop-down list (e.g.: 'site3'). Click 'Cancel editing the current entry' icon");
         createNewFilterPopup.cancelEditSite(site2, site3);
         assertEquals(createNewFilterPopup.getCurrentSelectedSites()[0], site2, "'site2' is successfully added to 'Sites' section (instead of 'site1').");
 
@@ -874,16 +872,16 @@ public class SearchManagerTests extends ContextAwareWebTest
         assertEquals(createNewFilterPopup.getCurrentSelectedSites().length, 0, "'site2' is removed from 'Sites' section.");
 
         LOG.info(
-                "STEPS 11-12: Click 'Add a new entry' button from 'Sites' section and select 'site3' from the drop-down list with available sites. Click 'Cancel editing the current entry' icon");
+            "STEPS 11-12: Click 'Add a new entry' button from 'Sites' section and select 'site3' from the drop-down list with available sites. Click 'Cancel editing the current entry' icon");
         createNewFilterPopup.cancelAddSite(site3);
         assertEquals(createNewFilterPopup.getCurrentSelectedSites().length, 0, "'site3' is not added to 'Sites' section.");
     }
-    
-    @AfterClass(alwaysRun=true)
+
+    @AfterClass (alwaysRun = true)
     public void deleteFilters()
     {
-    	searchManagerPage.navigate();
-    	searchManagerPage.deleteAllNonDefaultFilters();
+        searchManagerPage.navigate();
+        searchManagerPage.deleteAllNonDefaultFilters();
     }
-    
+
 }

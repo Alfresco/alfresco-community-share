@@ -70,7 +70,7 @@ public class EditTests extends ContextAwareWebTest
     @Autowired
     public CmisWrapper cmisApi;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest() throws Exception
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -82,8 +82,8 @@ public class EditTests extends ContextAwareWebTest
         //cmisApi.authenticateUser(new UserModel(adminUser, adminPassword)).usingShared().createFile(file1);
     }
 
-    @TestRail(id = "C7953")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7953")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editFileProperties()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -119,11 +119,11 @@ public class EditTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getItemTitle(updatedDocName1), "(" + updatedTitle + ")", updatedDocName1 + " - document's title=");
         assertEquals(sharedFilesPage.getItemDescription(updatedDocName1), updatedDescription, updatedDocName1 + "- document's description=");
         assertEquals(sharedFilesPage.getTags(updatedDocName1), Collections.singletonList(tagName.toLowerCase()).toString(),
-                updatedDocName1 + "- document's tag=");
+            updatedDocName1 + "- document's tag=");
     }
 
-    @TestRail(id = "C7958")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7958")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editFolderProperties()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -132,7 +132,7 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Hover over file and click 'Edit Properties'");
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.editProperties"),
-                editFilePropertiesDialog);
+            editFilePropertiesDialog);
         assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -160,11 +160,11 @@ public class EditTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getItemTitle(updatedFolderName), "(" + updatedTitle + ")", updatedFolderName + " - document's title=");
         assertEquals(sharedFilesPage.getItemDescription(updatedFolderName), updatedDescription, updatedFolderName + "- document's description=");
         assertEquals(sharedFilesPage.getTags(updatedFolderName), Collections.singletonList(tagName.toLowerCase()).toString(),
-                updatedFolderName + "- document's tag=");
+            updatedFolderName + "- document's tag=");
     }
 
-    @TestRail(id = "C7979")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7979")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editFileInAlfresco()
     {
         String updatedContent = "Content updated C7979";
@@ -199,8 +199,8 @@ public class EditTests extends ContextAwareWebTest
         assertTrue(documentDetailsPage.isPropertyValueDisplayed(updatedDescription), "Updated description is not displayed");
     }
 
-    @TestRail(id = "C7994")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
+    @TestRail (id = "C7994")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void editFileInGoogleDocs() throws Exception
     {
         googleDocsCommon.loginToGoogleDocs();
@@ -244,17 +244,16 @@ public class EditTests extends ContextAwareWebTest
         LOG.info("Steps8: Click on the document title and verify it's preview");
         sharedFilesPage.clickOnFile(editedInGoogleDocsTitle);
         assertTrue(documentDetailsPage.getContentText().replaceAll("\\s+", "").contains("Edited"),
-                String.format("Document: %s has incorrect contents.", editedInGoogleDocsTitle));
+            String.format("Document: %s has incorrect contents.", editedInGoogleDocsTitle));
 
         cleanupAuthenticatedSession();
-        contentService.deleteContentByPath(adminUser, adminPassword,  "/" + path + "/contents" + editedInGoogleDocsTitle);
-
+        contentService.deleteContentByPath(adminUser, adminPassword, "/" + path + "/contents" + editedInGoogleDocsTitle);
 
 
     }
 
-    @TestRail(id = "C13760")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C13760")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void optionNotDisplayed()
     {
         setupAuthenticatedSession(user, password);
@@ -265,11 +264,11 @@ public class EditTests extends ContextAwareWebTest
         sharedFilesPage.mouseOverContentItem(docName3);
         assertFalse(sharedFilesPage.isMoreMenuDisplayed(docName3), "More menu displayed.");
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName3, language.translate("documentLibrary.contentActions.editInGoogleDocs")),
-                language.translate("documentLibrary.contentActions.editInGoogleDocs") + " option is displayed for " + docName3);
+            language.translate("documentLibrary.contentActions.editInGoogleDocs") + " option is displayed for " + docName3);
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName3, language.translate("documentLibrary.contentActions.editProperties")),
-                language.translate("documentLibrary.contentActions.editProperties") + " option is displayed for " + docName3);
+            language.translate("documentLibrary.contentActions.editProperties") + " option is displayed for " + docName3);
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName3, language.translate("documentLibrary.contentActions.editInAlfresco")),
-                language.translate("documentLibrary.contentActions.editInAlfresco") + " option is displayed for " + docName3);
+            language.translate("documentLibrary.contentActions.editInAlfresco") + " option is displayed for " + docName3);
 
         cleanupAuthenticatedSession();
     }
@@ -281,7 +280,7 @@ public class EditTests extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
 
-        contentService.deleteContentByPath(adminUser, adminPassword,  "/" + path + "/" + updatedDocName1);
+        contentService.deleteContentByPath(adminUser, adminPassword, "/" + path + "/" + updatedDocName1);
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + updatedDocName2);
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + docName3);
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + updatedFolderName);

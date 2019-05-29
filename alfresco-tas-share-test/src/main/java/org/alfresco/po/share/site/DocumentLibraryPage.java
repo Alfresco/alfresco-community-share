@@ -30,36 +30,36 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     @Autowired
     DocumentDetailsPage documentDetailsPage;
 
-    @FindAll(@FindBy(css = "a.filter-link"))
+    @FindAll (@FindBy (css = "a.filter-link"))
     private List<WebElement> documentsFilterOptions;
 
     @RenderWebElement
-    @FindBy(css = "div[id$='default-navBar']")
+    @FindBy (css = "div[id$='default-navBar']")
     private WebElement navigationBar;
 
     @RenderWebElement
-    @FindBy(css = "div[id$='default-paginatorBottom']")
+    @FindBy (css = "div[id$='default-paginatorBottom']")
     private WebElement paginator;
 
     @RenderWebElement
-    @FindBy(css = "div[id$='_default-dl-body']")
+    @FindBy (css = "div[id$='_default-dl-body']")
     private WebElement docListContainer;
 
-    @FindBy(css = ".documents[id$='_default-documents']")
+    @FindBy (css = ".documents[id$='_default-documents']")
     private WebElement documentList;
 
-    @FindBy(css = "button[id*='createContent']")
+    @FindBy (css = "button[id*='createContent']")
     private WebElement createButton;
 
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
 
-    @FindBy(css = "[id$='default-fileUpload-button-button']")
+    @FindBy (css = "[id$='default-fileUpload-button-button']")
     protected WebElement uploadButton;
 
-    @FindBy(css = ".folder-file")
+    @FindBy (css = ".folder-file")
     private WebElement folderLink;
 
-    @FindBy(css = "div[id$='default-options-menu'] span")
+    @FindBy (css = "div[id$='default-options-menu'] span")
     private List<WebElement> optionsList;
 
 
@@ -67,91 +67,91 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private By displayedOptionsListBy = By.xpath("//div[contains(@id, 'default-options-menu')]//li[not(contains(@class, 'hidden'))]");
 
     @RenderWebElement
-    @FindBy(css = "button[id$='default-options-button-button']")
+    @FindBy (css = "button[id$='default-options-button-button']")
     protected WebElement optionsMenu;
 
-    @FindBy(xpath = "//span[contains(text(), 'More...')]")
+    @FindBy (xpath = "//span[contains(text(), 'More...')]")
     protected WebElement moreLink;
 
-    @FindBy(css = ".hideFolders")
+    @FindBy (css = ".hideFolders")
     protected WebElement hideFoldersMenuOption;
 
-    @FindAll(@FindBy(css = ".filter-change:nth-child(1)"))
+    @FindAll (@FindBy (css = ".filter-change:nth-child(1)"))
     private List<WebElement> foldersList;
 
     private By filesList = By.cssSelector(".filename a[href*='document-details']");
     private By documentLibraryItemsList = By.cssSelector("[class*='data'] tr");
 
-    @FindAll(@FindBy(css = ".crumb .folder"))
+    @FindAll (@FindBy (css = ".crumb .folder"))
     private List<WebElement> breadcrumbList;
 
-    @FindBy(css = ".crumb .label a")
+    @FindBy (css = ".crumb .label a")
     private WebElement breadcumbCurrentFolder;
 
-    @FindBy(css = "button[id*='folderUp']")
+    @FindBy (css = "button[id*='folderUp']")
     private WebElement folderUpButton;
 
     private By contentNameInputField = By.cssSelector("input[id*='form-field']");
 
-    @FindBy(css = ".insitu-edit a")
+    @FindBy (css = ".insitu-edit a")
     private List<WebElement> buttonsFromRenameContent;
 
-    @FindBy(css = ".inlineTagEditAutoCompleteWrapper input")
+    @FindBy (css = ".inlineTagEditAutoCompleteWrapper input")
     private WebElement editTagInputField;
 
-    @FindBy(css = "form[class='insitu-edit'] a")
+    @FindBy (css = "form[class='insitu-edit'] a")
     private List<WebElement> editTagButtons;
 
-    @FindBy(css = ".inlineTagEditAutoCompleteWrapper input")
+    @FindBy (css = ".inlineTagEditAutoCompleteWrapper input")
     private WebElement tagToBeEdited;
 
-    @FindBy(css = "div[class ='google-map']")
+    @FindBy (css = "div[class ='google-map']")
     private WebElement googleMap;
 
-    @FindBy(css = "div[id*='_default-info'] div[class='thumbnail'] a[href*='document-details']")
+    @FindBy (css = "div[id*='_default-info'] div[class='thumbnail'] a[href*='document-details']")
     private WebElement googleMapPopUp;
 
-    @FindBy(css = "div[class ='status'] img[title ='Geolocation metadata available']")
+    @FindBy (css = "div[class ='status'] img[title ='Geolocation metadata available']")
     private WebElement geolocationMetadataIcon;
 
-    @FindBy(css = "div[class='info-banner'] a")
+    @FindBy (css = "div[class='info-banner'] a")
     private WebElement lockedByUser;
 
-    @FindBy(css = "span[class ='setDefaultView']")
+    @FindBy (css = "span[class ='setDefaultView']")
     private WebElement setDefaultView;
 
-    @FindBy(css = "span[class ='removeDefaultView']")
+    @FindBy (css = "span[class ='removeDefaultView']")
     private WebElement removeDefaultView;
 
-    @FindBy(css = "div[class ='alf-gallery-item']")
+    @FindBy (css = "div[class ='alf-gallery-item']")
     private WebElement galleryViewItem;
 
-    @FindBy(css = "div[id*='_default-filmstrip-nav-handle']")
+    @FindBy (css = "div[id*='_default-filmstrip-nav-handle']")
     private WebElement downArrowPointer;
 
-    @FindBy(css = "div[class ='alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-next']")
+    @FindBy (css = "div[class ='alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-next']")
     private WebElement rightArrowPointer;
 
-    @FindBy(css = "div[class ='alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-prev']")
+    @FindBy (css = "div[class ='alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-prev']")
     private WebElement leftArrowPointer;
 
-    @FindBy(css = "button[id*='_default-sortAscending-button-button']")
+    @FindBy (css = "button[id*='_default-sortAscending-button-button']")
     private WebElement sortButton;
 
-    @FindBy(css = "button[id*='_default-sortField-button-button']")
+    @FindBy (css = "button[id*='_default-sortField-button-button']")
     private WebElement sortByFieldButton;
 
-    @FindBy(css = "span.yui-pg-current")
+    @FindBy (css = "span.yui-pg-current")
     private WebElement currentPage;
 
-    @FindAll(@FindBy(css = ".documentDroppable .ygtvlabel"))
+    @FindAll (@FindBy (css = ".documentDroppable .ygtvlabel"))
     private List<WebElement> explorerPanelDocumentsList;
 
-    @FindBy(css = "a[title^='Locate']")
+    @FindBy (css = "a[title^='Locate']")
     private WebElement locateFolder;
 
 
-    @FindBy(css = ".yui-dt-col-fileName")
+    @FindBy (css = ".yui-dt-col-fileName")
     private List<WebElement> nrOfSharedElements;
 
 
@@ -164,6 +164,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         return browser.findElement(By.xpath("//div[contains(@class, 'alf-filmstrip-nav-item-thumbnail')]//div[text()='" + contentName + "']"));
     }
+
     public int getNrOfSharedElements()
     {
         return nrOfSharedElements.size();
@@ -233,8 +234,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
             WebElement webElement = selectDocumentLibraryItemRow(contentName);
             getBrowser().waitUntilWebElementIsDisplayedWithRetry(selectDocumentLibraryItemRow(contentName), 5);
             state = browser.isElementDisplayed(webElement);
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             state = false;
         }
@@ -409,8 +409,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
                 mouseOverContentItem(fileName);
                 clickMoreMenu(fileName);
                 selectDocumentLibraryItemRow(fileName).findElement(uploadNewVersion).click();
-            }
-            catch (NoSuchElementException | TimeoutException e)
+            } catch (NoSuchElementException | TimeoutException e)
             {
                 LOG.error("Action not found:" + e);
             }
@@ -529,7 +528,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
             WebElement moreMenu = selectDocumentLibraryItemRow(libraryItem).findElement(moreMenuSelector);
             browser.waitUntilElementClickable(moreMenu, 30).click();
             browser.waitUntilElementVisible(
-                    browser.findElement(By.xpath("//div[contains(@id, 'default-actions-yui') and not(@class='hidden')]/div[contains(@class,'action-set')]")));
+                browser.findElement(By.xpath("//div[contains(@id, 'default-actions-yui') and not(@class='hidden')]/div[contains(@class,'action-set')]")));
         }
     }
 
@@ -553,7 +552,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
             WebElement actionElement = browser.findFirstElementWithValue(availableActions, "More...");
             actionElement.sendKeys(Keys.ENTER);
         }
-        LOG.info("Available actions are: "+ actionsSet);
+        LOG.info("Available actions are: " + actionsSet);
         return selectDocumentLibraryItemRow(libraryItem).findElements(actionsSet);
     }
 
@@ -570,7 +569,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         {
             if (browser.findFirstElementWithValue(availableActions, action) == null)
             {
-                LOG.info("Available actions are: "+ availableActions.toString());
+                LOG.info("Available actions are: " + availableActions.toString());
                 LOG.info(String.format("Action '%s' is not available!", action));
                 return false;
             }
@@ -598,8 +597,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      * This method is used for actions that redirect to a page!
      *
      * @param contentItem content item to apply action
-     * @param action to be clicked on
-     * @param page to be rendered after click
+     * @param action      to be clicked on
+     * @param page        to be rendered after click
      * @return render redirected page
      */
     public HtmlPage clickDocumentLibraryItemAction(String contentItem, String action, HtmlPage page)
@@ -614,14 +613,13 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         {
             LOG.info(String.format("Click on '%s' action.", action));
             actionElement.click();
-        }
-        else
+        } else
         {
             actionElement = browser.findFirstElementWithValue(availableActions, "More...");
             if (actionElement != null)
             {
                 LOG.info("Click on 'More...'");
-                LOG.info("Button to be pressed: "+ actionElement.getText());
+                LOG.info("Button to be pressed: " + actionElement.getText());
                 actionElement.sendKeys(Keys.ENTER);
                 availableActions = libraryItem.findElements(By.cssSelector(".more-actions>div>a"));
                 actionElement = browser.findFirstElementWithValue(availableActions, action);
@@ -637,9 +635,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     /**
      * Click on action selected.
      * To be used for actions that do not redirect to a page
-     * 
+     *
      * @param libraryItem content item to apply action
-     * @param action to be clicked on
+     * @param action      to be clicked on
      */
     public void clickOnAction(String libraryItem, String action)
     {
@@ -650,10 +648,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         WebElement actionLink = browser.findFirstElementWithValue(availableActions, action);
         actionLink.click();
     }
+
     public void clickOnLocateFolder()
     {
-       getBrowser().waitUntilElementVisible(locateFolder);
-       getBrowser().waitUntilElementClickable(locateFolder).click();
+        getBrowser().waitUntilElementVisible(locateFolder);
+        getBrowser().waitUntilElementClickable(locateFolder).click();
     }
 
 
@@ -683,10 +682,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         return selectDocumentLibraryItemRow(fileName).findElement(favoriteLink).getAttribute("class").contains("enabled");
     }
 
-    public boolean isRenameIconDisplayed(String content) {
+    public boolean isRenameIconDisplayed(String content)
+    {
         int nrOfTimes = 0;
         mouseOverContentItem(content);
-        while (!browser.isElementDisplayed(selectDocumentLibraryItemRow(content), renameIcon) && nrOfTimes < 5) {
+        while (!browser.isElementDisplayed(selectDocumentLibraryItemRow(content), renameIcon) && nrOfTimes < 5)
+        {
             mouseOverContentItem(content);
             browser.isElementDisplayed(selectDocumentLibraryItemRow(content), renameIcon);
             nrOfTimes++;
@@ -864,8 +865,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         while (counter < retryCount)
         {
             try
-            {   browser.waitInSeconds(20);
-            browser.refresh();
+            {
+                browser.waitInSeconds(20);
+                browser.refresh();
                 By tagRows = By.cssSelector("ul.filterLink li span.tag a");
                 getBrowser().waitUntilElementsVisible(tagRows);
                 for (WebElement tagsElem : browser.findElements(tagRows))
@@ -873,8 +875,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
                     allTagsNames.add(tagsElem.getText());
                 }
                 break;
-            }
-            catch (TimeoutException | NoSuchElementException e)
+            } catch (TimeoutException | NoSuchElementException e)
             {
                 browser.refresh();
                 counter++;
@@ -886,7 +887,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     /**
      * For a content, click on any tag and type a valid tag name
      *
-     * @param tagName tag to be edited
+     * @param tagName    tag to be edited
      * @param newTagName new value for tag
      */
     public void editTag(String tagName, String newTagName)
@@ -912,8 +913,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
             {
                 WebElement noTags = selectDocumentLibraryItemRow(contentName).findElement(noTagsSelector);
                 return browser.isElementDisplayed(noTags);
-            }
-            catch (TimeoutException | NoSuchElementException e)
+            } catch (TimeoutException | NoSuchElementException e)
             {
                 LOG.error("Action not found:" + e);
             }
@@ -976,7 +976,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public void clickOnTag(String tagName)
     {
         browser.waitUntilElementVisible(
-                By.xpath("//ul[contains(@class,'filterLink')]/li/span[contains(@class,'tag')]/a[contains(text(),'" + tagName.toLowerCase() + "')]")).click();
+            By.xpath("//ul[contains(@class,'filterLink')]/li/span[contains(@class,'tag')]/a[contains(text(),'" + tagName.toLowerCase() + "')]")).click();
     }
 
     /**
@@ -1230,18 +1230,19 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         browser.waitUntilElementVisible(createButton).click();
     }
+
     public boolean isFileDisplayed(String fileName)
     {
-       try {
-           getBrowser().waitUntilElementIsDisplayedWithRetry(By.cssSelector("td[class$='yui-dt-col-fileName']"), 5);
-           WebElement webElement = selectDocumentLibraryItemRow(fileName);
+        try
+        {
+            getBrowser().waitUntilElementIsDisplayedWithRetry(By.cssSelector("td[class$='yui-dt-col-fileName']"), 5);
+            WebElement webElement = selectDocumentLibraryItemRow(fileName);
 
-           return browser.isElementDisplayed(webElement);
-       }
-
-       catch(NoSuchElementException ex) {
-           LOG.info("Element not found "+ ex.getMessage().toString());
-           return false;
-       }
+            return browser.isElementDisplayed(webElement);
+        } catch (NoSuchElementException ex)
+        {
+            LOG.info("Element not found " + ex.getMessage().toString());
+            return false;
+        }
     }
 }

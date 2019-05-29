@@ -22,14 +22,17 @@ import java.util.List;
 
 public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
     @Autowired
     PreviewFileActionsSection documentActions;
-    
-    @Autowired private ContentAspects contentAspects;
+
+    @Autowired
+    private ContentAspects contentAspects;
 
     private final String user = String.format("C5920User%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C5920SiteName%s", RandomData.getRandomAlphanumeric());
@@ -38,8 +41,8 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
     private final String folderName = "testFolder";
     private final double longitude = 47.1585;
     private final double latitude = 27.6014;
-    
-    @BeforeClass(alwaysRun = true)
+
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
 
@@ -50,12 +53,13 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
         contentAspects.addGeographicAspect(user, password, siteName, docName, longitude, latitude);
         setupAuthenticatedSession(user, password);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 

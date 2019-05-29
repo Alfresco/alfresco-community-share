@@ -23,21 +23,21 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
     RenameSitePageDialog renameSiteDialog;
 
     @RenderWebElement
-    @FindBy(css = "select[id$='default-theme-menu']")
+    @FindBy (css = "select[id$='default-theme-menu']")
     private WebElement siteThemeSelect;
 
     @RenderWebElement
-    @FindBy(css = "ul[id$='default-availablePages-ul']")
+    @FindBy (css = "ul[id$='default-availablePages-ul']")
     private WebElement availableSitePagesArea;
 
     @RenderWebElement
-    @FindBy(css = "ul[id$='default-currentPages-ul']")
+    @FindBy (css = "ul[id$='default-currentPages-ul']")
     private WebElement currentSitePagesArea;
 
-    @FindBy(css = "button[id$='save-button-button']")
+    @FindBy (css = "button[id$='save-button-button']")
     private Button okButton;
 
-    @FindBy(css = "button[id$='cancel-button-button']")
+    @FindBy (css = "button[id$='cancel-button-button']")
     private Button cancelButton;
     private String renameAction = ".actions > a[name='.onRenameClick']";
     private String removeAction = ".actions > a[name='.onRemoveClick']";
@@ -50,7 +50,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     /**
      * Verify if Site Theme drop-down is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isSiteThemeDisplayed()
@@ -64,8 +64,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
         if (theme.equals(Theme.APPLICATION_SET))
         {
             themeType.selectByVisibleText("Application Set Theme");
-        }
-        else
+        } else
         {
             themeType.selectByValue(theme.selectValue);
         }
@@ -123,12 +122,12 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     public void clickCancel()
     {
-       getBrowser().waitUntilElementClickable(cancelButton).click();
+        getBrowser().waitUntilElementClickable(cancelButton).click();
     }
 
     /**
      * Verify if rename action is displayed for a current page
-     * 
+     *
      * @param SitePageType page
      * @return true if displayed
      */
@@ -139,7 +138,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     /**
      * Verify if remove action is displayed for a current page
-     * 
+     *
      * @param SitePageType page
      * @return true if displayed
      */
@@ -150,7 +149,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     /**
      * Drag and drop available page to current site pages
-     * 
+     *
      * @param page SitePageType page to add
      */
     public void addPageToSite(SitePageType page)
@@ -164,7 +163,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     /**
      * Verify if a page is addded in Current Site Pages
-     * 
+     *
      * @param page
      * @return
      */
@@ -175,7 +174,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     /**
      * Remove page added in Current Site Pages
-     * 
+     *
      * @param page SitePageType page to remove
      */
     public void removePage(SitePageType page)
@@ -186,8 +185,8 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     /**
      * Rename page from added in Current Site Pages
-     * 
-     * @param page SitePageType page to edit
+     *
+     * @param page    SitePageType page to edit
      * @param newName String new name
      */
     public void renamePage(SitePageType page, String newName)
@@ -201,7 +200,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
 
     /**
      * Get the display name for a page
-     * 
+     *
      * @param page SitePageType the page
      * @return String display name
      */

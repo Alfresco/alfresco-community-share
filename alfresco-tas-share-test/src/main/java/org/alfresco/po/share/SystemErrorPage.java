@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class SystemErrorPage extends HtmlPage
 {
-    @FindBy(css = ".alf-error-header")
+    @FindBy (css = ".alf-error-header")
     private WebElement errorHeader;
 
     public String getErrorHeader()

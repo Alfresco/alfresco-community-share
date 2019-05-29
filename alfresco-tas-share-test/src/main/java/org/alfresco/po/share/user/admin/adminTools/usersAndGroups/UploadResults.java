@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 public class UploadResults extends SharePage<UploadResults>
 {
     @RenderWebElement
-    @FindBy(css = "button[id*='default-csv-goback-button-button']")
+    @FindBy (css = "button[id*='default-csv-goback-button-button']")
     private WebElement goBackButton;
 
     public void clickGoBack()

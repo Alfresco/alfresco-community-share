@@ -33,26 +33,27 @@ public class WelcomePanelTests extends ContextAwareWebTest
     private String userName2 = "User2" + RandomData.getRandomAlphanumeric();
     private String userName3 = "User3" + RandomData.getRandomAlphanumeric();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName1, password, "@tests.com", userName1, userName1);
         userService.create(adminUser, adminPassword, userName2, password, "@tests.com", userName2, userName2);
         userService.create(adminUser, adminPassword, userName3, password, "@tests.com", userName3, userName3);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName1);
+        userService.delete(adminUser, adminPassword, userName1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser,adminPassword, userName2);
+        userService.delete(adminUser, adminPassword, userName2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-        userService.delete(adminUser,adminPassword, userName3);
+        userService.delete(adminUser, adminPassword, userName3);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName3);
     }
 
-    @TestRail(id = "C202855")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C202855")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyWelcomePanel()
     {
 
@@ -67,14 +68,14 @@ public class WelcomePanelTests extends ContextAwareWebTest
         Assert.assertTrue(welcomePanel.isAlfrescoTutorialDisplayed(), "Alfresco tutorial page displayed");
     }
 
-    @TestRail(id = "C202856")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C202856")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void hideWelcomePanel()
     {
         logger.info("Step1: Login to Share and verify Get Started panel");
         setupAuthenticatedSession(userName2, password);
         Assert.assertTrue(welcomePanel.isWelcomePanelDisplayed(), "Welcome panel displayed");
-        Assert.assertEquals(welcomePanel.getWelcomeMessage(),welcomeMessage, "Correct welcome message");
+        Assert.assertEquals(welcomePanel.getWelcomeMessage(), welcomeMessage, "Correct welcome message");
         Assert.assertTrue(welcomePanel.isHideButtonDisplayed(), "Hide button displayed");
 
         logger.info("Step2: Click on the Hide button and verify Get Started Panel is not displayed anymore");
@@ -84,8 +85,8 @@ public class WelcomePanelTests extends ContextAwareWebTest
         Assert.assertFalse(welcomePanel.isWelcomePanelDisplayed(), "Welcome panel displayed");
     }
 
-    @TestRail(id = "C202857")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C202857")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void restoreWelcomePanel()
     {
         logger.info("Step1: Login to Share and verify Get Started panel");

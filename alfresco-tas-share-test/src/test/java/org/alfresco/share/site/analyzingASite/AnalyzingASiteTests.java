@@ -31,7 +31,8 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
     @Autowired
     SiteFileTypeBreakdownDashlet siteFileTypeBreakdownDashlet;
 
-    @Autowired SiteContributorBreakdownDashlet siteContributorBreackdownDashlet;
+    @Autowired
+    SiteContributorBreakdownDashlet siteContributorBreackdownDashlet;
 
     private String user = String.format("user2233-%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("C2233%s", RandomData.getRandomAlphanumeric());
@@ -60,21 +61,21 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
     private String fileContentDocx1 = "Content for .docx file 1";
     private String picture = "Lighthouse";
 
-    private String fileName1User1 = "File1"+ RandomData.getRandomAlphanumeric();
-    private String fileName2User1 = "File2"+ RandomData.getRandomAlphanumeric();
-    private String fileName3User1 = "File3"+ RandomData.getRandomAlphanumeric();
+    private String fileName1User1 = "File1" + RandomData.getRandomAlphanumeric();
+    private String fileName2User1 = "File2" + RandomData.getRandomAlphanumeric();
+    private String fileName3User1 = "File3" + RandomData.getRandomAlphanumeric();
     private String fileContentUser1 = "Content User 1";
-    private String fileName1User2 = "File1User2"+ RandomData.getRandomAlphanumeric();
-    private String fileName2User2 = "File2User2"+ RandomData.getRandomAlphanumeric();
-    private String fileName3User2 = "File3User2"+ RandomData.getRandomAlphanumeric();
+    private String fileName1User2 = "File1User2" + RandomData.getRandomAlphanumeric();
+    private String fileName2User2 = "File2User2" + RandomData.getRandomAlphanumeric();
+    private String fileName3User2 = "File3User2" + RandomData.getRandomAlphanumeric();
     private String fileContentUser2 = "Content User 2";
-    private String fileName1User3 = "File1User3"+ RandomData.getRandomAlphanumeric();
+    private String fileName1User3 = "File1User3" + RandomData.getRandomAlphanumeric();
     private String fileContentUser3 = "Content User 3";
     private String fileContentUser4 = "Content User 4";
-    private String fileName1User4 = "File1User4"+ RandomData.getRandomAlphanumeric();
-    private String fileName2User4 = "File2User4"+ RandomData.getRandomAlphanumeric();
+    private String fileName1User4 = "File1User4" + RandomData.getRandomAlphanumeric();
+    private String fileName2User4 = "File2User4" + RandomData.getRandomAlphanumeric();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         //C2233
@@ -116,31 +117,31 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
         contentService.createDocument(user4C2234, password, siteNameC2234, CMISUtil.DocumentType.HTML, fileName2User4, fileContentUser4);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
-        userService.delete(adminUser,adminPassword, user1C2234);
+        userService.delete(adminUser, adminPassword, user1C2234);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1C2234);
 
-        userService.delete(adminUser,adminPassword, user2C2234);
+        userService.delete(adminUser, adminPassword, user2C2234);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2C2234);
 
-        userService.delete(adminUser,adminPassword, user3C2234);
+        userService.delete(adminUser, adminPassword, user3C2234);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user3C2234);
 
-        userService.delete(adminUser,adminPassword, user4C2234);
+        userService.delete(adminUser, adminPassword, user4C2234);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user4C2234);
 
-        siteService.delete(adminUser,adminPassword,siteName );
-        siteService.delete(adminUser,adminPassword,siteNameC2234 );
+        siteService.delete(adminUser, adminPassword, siteName);
+        siteService.delete(adminUser, adminPassword, siteNameC2234);
 
     }
 
-    @TestRail(id="C2233")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2233")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void verifySiteFileTypeBreakdownDashlet()
     {
@@ -171,8 +172,8 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id="C2234")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2234")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void verifySiteContributorBreakdownDashlet()
     {
@@ -187,20 +188,20 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(10);
 
         Map<String, String> fileDetails = siteContributorBreackdownDashlet.getPieChartSliceTooltip();
-        assertTrue(fileDetails.containsKey(user3C2234), user3C2234+" contribution is not displayed");
-        assertTrue(fileDetails.get(user3C2234).contains("1 items (11.1%)"), user3C2234+" user contribution number of files in not correct");
-        assertTrue(fileDetails.get(user3C2234).contains("Size: 14 bytes"),user3C2234+ " user contribution file size is not correct");
+        assertTrue(fileDetails.containsKey(user3C2234), user3C2234 + " contribution is not displayed");
+        assertTrue(fileDetails.get(user3C2234).contains("1 items (11.1%)"), user3C2234 + " user contribution number of files in not correct");
+        assertTrue(fileDetails.get(user3C2234).contains("Size: 14 bytes"), user3C2234 + " user contribution file size is not correct");
 
-        assertTrue(fileDetails.containsKey(user2C2234), user2C2234+" contribution is not displayed");
-        assertTrue(fileDetails.get(user2C2234).contains("3 items (33.3%)"), user2C2234+" user contribution number of files in not correct");
-        assertTrue(fileDetails.get(user2C2234).contains("Size: 42 bytes"),user2C2234+ " user contribution file size is not correct");
+        assertTrue(fileDetails.containsKey(user2C2234), user2C2234 + " contribution is not displayed");
+        assertTrue(fileDetails.get(user2C2234).contains("3 items (33.3%)"), user2C2234 + " user contribution number of files in not correct");
+        assertTrue(fileDetails.get(user2C2234).contains("Size: 42 bytes"), user2C2234 + " user contribution file size is not correct");
 
-        assertTrue(fileDetails.containsKey(user4C2234), user4C2234+" contribution is not displayed");
-        assertTrue(fileDetails.get(user4C2234).contains("2 items (22.2%)"), user4C2234+" user contribution number of files in not correct");
-        assertTrue(fileDetails.get(user4C2234).contains("Size: 28 bytes"),user4C2234+ " user contribution file size is not correct");
+        assertTrue(fileDetails.containsKey(user4C2234), user4C2234 + " contribution is not displayed");
+        assertTrue(fileDetails.get(user4C2234).contains("2 items (22.2%)"), user4C2234 + " user contribution number of files in not correct");
+        assertTrue(fileDetails.get(user4C2234).contains("Size: 28 bytes"), user4C2234 + " user contribution file size is not correct");
 
-        assertTrue(fileDetails.containsKey(user1C2234), user1C2234+" contribution is not displayed");
-        assertTrue(fileDetails.get(user1C2234).contains("3 items (33.3%)"), user1C2234+" user contribution number of files in not correct");
-        assertTrue(fileDetails.get(user1C2234).contains("Size: 42 bytes"),user1C2234+ " user contribution file size is not correct");
+        assertTrue(fileDetails.containsKey(user1C2234), user1C2234 + " contribution is not displayed");
+        assertTrue(fileDetails.get(user1C2234).contains("3 items (33.3%)"), user1C2234 + " user contribution number of files in not correct");
+        assertTrue(fileDetails.get(user1C2234).contains("Size: 42 bytes"), user1C2234 + " user contribution file size is not correct");
     }
 }

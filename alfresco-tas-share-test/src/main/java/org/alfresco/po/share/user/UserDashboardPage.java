@@ -20,27 +20,27 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     @Autowired
     CustomizeUserDashboardPage customizeUserDashboardPage;
 
-    @FindBy(id = "HEADER_CUSTOMIZE_USER_DASHBOARD")
+    @FindBy (id = "HEADER_CUSTOMIZE_USER_DASHBOARD")
     public WebElement customizeUserDashboard;
 
-    @FindBy(css = "div[id$='get-started-panel-container']")
+    @FindBy (css = "div[id$='get-started-panel-container']")
     private WebElement getStartedPanel;
 
     @RenderWebElement
-    @FindBy(id = "HEADER_HOME")
+    @FindBy (id = "HEADER_HOME")
     private Link homeMenuLink;
 
-    @FindBy(css = "div[class*='grid columnSize']")
+    @FindBy (css = "div[class*='grid columnSize']")
     private WebElement dashboardLayout;
 
-    @FindBy(xpath = "//img[@src='/share/res/components/images/alfresco-logo.svg']")
+    @FindBy (xpath = "//img[@src='/share/res/components/images/alfresco-logo.svg']")
     private WebElement alfrescoLogo;
 
-    @FindBy(xpath ="/share/res/components/images/alfresco-share-logo-enterprise.png']")
+    @FindBy (xpath = "/share/res/components/images/alfresco-share-logo-enterprise.png']")
     private WebElement oldAlfrescoLogo;
 
     @RenderWebElement
-    @FindBy(css="div[id='HEADER_LOGO']")
+    @FindBy (css = "div[id='HEADER_LOGO']")
     private WebElement alfrescoLogoContainer;
 
     @Override
@@ -48,8 +48,8 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     {
         return setRelativePathForUserPage("share/page/user/%s/dashboard", getUserName());
     }
-    
-    @SuppressWarnings("unchecked")
+
+    @SuppressWarnings ("unchecked")
     @Override
     public UserDashboardPage navigateByMenuBar()
     {
@@ -59,7 +59,7 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
 
     /**
      * Navigate to user dashbord for a specific user
-     * 
+     *
      * @param userName String user name
      * @return {@link UserDashboardPage}
      */
@@ -79,7 +79,7 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
 
     /**
      * Verify if get started panel is displayed on user dashsboard page
-     * 
+     *
      * @return true if displayed
      */
     public boolean isGetStartedPanelDisplayed()
@@ -89,17 +89,17 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
 
     /**
      * Verify if customize user dashboard button is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isCustomizeUserDashboardDisplayed()
     {
         return browser.isElementDisplayed(customizeUserDashboard);
     }
-    
+
     /**
      * Get the number of columns from User Dashboard page
-     * 
+     *
      * @return number of columns
      */
     public int getNumerOfColumns()
@@ -107,11 +107,12 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
         String strCol = dashboardLayout.getAttribute("class");
         return Character.getNumericValue(strCol.charAt(strCol.length() - 1));
     }
-    
+
     /**
      * Verify if a dashlet is located in the right column
-     * @param dashlet Dashlets dashlet to verify
-     * @param column int column (must be > 0 <=4)
+     *
+     * @param dashlet          Dashlets dashlet to verify
+     * @param column           int column (must be > 0 <=4)
      * @param locationInColumn int location in column (must be > 0 <=5)
      * @return true if found
      */
@@ -128,13 +129,13 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
             return browser.isElementDisplayed(By.xpath(String.format("//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column,
-                    locationInColumn)));
+                locationInColumn)));
         }
         String dashletLocation = String.format("//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]", dashlet.getDashletName(), column,
-                locationInColumn);
+            locationInColumn);
         return browser.isElementDisplayed(By.xpath(dashletLocation));
     }
-    
+
     public WebElement getCustomizeUserDashboard()
     {
         return customizeUserDashboard;
@@ -148,7 +149,7 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
     public boolean isNewAlfrescoLogoDisplayed()
 
     {
-          return browser.isElementDisplayed(alfrescoLogo);
+        return browser.isElementDisplayed(alfrescoLogo);
     }
 
     /**

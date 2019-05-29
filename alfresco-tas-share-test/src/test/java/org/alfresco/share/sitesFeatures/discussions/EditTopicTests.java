@@ -43,7 +43,7 @@ public class EditTopicTests extends ContextAwareWebTest
     private String topicTag1 = "tag1";
     private String topicTag2 = "tag2";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lName1");
@@ -54,16 +54,16 @@ public class EditTopicTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "6220")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6220")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editTopicFromDiscussionsTopicListPage()
     {
         //precondition
@@ -90,8 +90,8 @@ public class EditTopicTests extends ContextAwareWebTest
         assertEquals(topicListPage.getTopicTags(topic1Title), topicTag1, "tag1 is also displayed in the tags list.");
     }
 
-    @TestRail(id = "6336")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6336")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editTopicFromTopicViewPage()
     {
         //precondition
@@ -121,8 +121,8 @@ public class EditTopicTests extends ContextAwareWebTest
         assertEquals(topicListPage.getTopicTags(topicNewTitle), topicTag2, "Only tag2 is displayed in the tags list.");
     }
 
-    @TestRail(id = "6221")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6221")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEditingTopic()
     {
         //precondition

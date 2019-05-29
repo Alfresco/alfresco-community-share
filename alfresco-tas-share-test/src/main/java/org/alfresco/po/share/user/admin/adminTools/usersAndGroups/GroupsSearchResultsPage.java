@@ -15,18 +15,18 @@ import org.openqa.selenium.support.FindBy;
 public class GroupsSearchResultsPage extends SharePage<GroupsSearchResultsPage>
 {
     @RenderWebElement
-    @FindBy(css="button[id$='_default-search-button-button']")
+    @FindBy (css = "button[id$='_default-search-button-button']")
     private WebElement searchButton;
 
     @RenderWebElement
-    @FindBy(css="button[id$='_default-browse-button-button']")
+    @FindBy (css = "button[id$='_default-browse-button-button']")
     private WebElement browseButton;
 
     @RenderWebElement
-    @FindBy(css="input[id$='_default-show-all']")
+    @FindBy (css = "input[id$='_default-show-all']")
     private WebElement showSystemGroups;
 
-    public WebElement identifier( String identifierName)
+    public WebElement identifier(String identifierName)
     {
         return browser.findElement(By.xpath("//div[text()='" + identifierName + "']"));
     }

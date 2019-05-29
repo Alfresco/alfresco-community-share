@@ -26,17 +26,23 @@ import static org.testng.Assert.assertEquals;
  */
 public class DeleteRuleTest extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private ManageRulesPage manageRulesPage;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
 
-    @Autowired private EditRulesPage editRulesPage;
+    @Autowired
+    private EditRulesPage editRulesPage;
 
-    @Autowired private RuleDetailsPage ruleDetailsPage;
+    @Autowired
+    private RuleDetailsPage ruleDetailsPage;
 
-    @Autowired private SelectDestinationDialog selectDestinationDialog;
+    @Autowired
+    private SelectDestinationDialog selectDestinationDialog;
 
-    @Autowired private DeleteDialog deleteDialog;
+    @Autowired
+    private DeleteDialog deleteDialog;
 
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "user-" + random;
@@ -46,7 +52,7 @@ public class DeleteRuleTest extends ContextAwareWebTest
     private final String ruleName = "rule-C7254-" + random;
     private final String folderName = "Folder-C7254-" + random;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
@@ -79,16 +85,17 @@ public class DeleteRuleTest extends ContextAwareWebTest
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         editRulesPage.cleanupSelectedValues();
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7254")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7254")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void deleteRule()
     {
         LOG.info("STEP1: Click 'Delete' button for rule");

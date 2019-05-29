@@ -31,16 +31,17 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
     @Autowired
     BlogPostViewPage blogPostView;
 
-    @Autowired DeleteDialog deleteDialog;
+    @Autowired
+    DeleteDialog deleteDialog;
 
     private String user = String.format("C5955User%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("C5955SiteName%s",RandomData.getRandomAlphanumeric());
-    private String description = String.format("C5955SiteDescription%s",RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("C5955SiteName%s", RandomData.getRandomAlphanumeric());
+    private String description = String.format("C5955SiteDescription%s", RandomData.getRandomAlphanumeric());
     private String blogPostContentText = "first post content text";
     private List<String> tags = Collections.singletonList("tag1");
     private String blogPostTitleC5955 = "C5955 blog post title";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -49,17 +50,17 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C5955")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5955")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void deletingABlogDirectlyFromBlogPage()
     {
@@ -76,8 +77,8 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
     }
 
-    @TestRail(id = "C5957")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5957")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void deletingADraftBlogPostDirectlyFromBlogPage()
     {
@@ -103,15 +104,15 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
     }
 
-    @TestRail(id = "C5959")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5959")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void deletingABlogPostFromBlogPostView()
     {
         LOG.info("Test Setup");
         String blogPostTitleC5959 = "C5959 blog post title";
         sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC5959, blogPostContentText, false, tags);
-        
+
         blogPage.navigate(siteName);
         blogPage.clickOnThePostTitle(blogPostTitleC5959);
         LOG.info("Test Steps");
@@ -128,10 +129,10 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "All Posts");
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
     }
-    
-    @TestRail(id ="C5967")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    
+
+    @TestRail (id = "C5967")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+
     public void deletingABlogDraftPostFromBlogPostView()
     {
         LOG.info("Test Setup");
@@ -140,12 +141,12 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         blogPage.navigate(siteName);
         blogPage.clickMyDraftsFilter();
         blogPage.clickReadBlogPost(blogPostTitleC5967);
-        
+
         LOG.info("Test Steps");
         LOG.info("Step 1: Click Delete for blog post");
         blogPostView.clickDeleteButton();
         Assert.assertEquals(deleteDialog.getMessage(), "Do you really want to delete blog post 'C5967 blog post title'?");
-        
+
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
         deleteDialog.clickDelete();
         // TODO get popup text for Post Deleted

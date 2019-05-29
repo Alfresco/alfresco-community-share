@@ -29,7 +29,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     @Autowired
     private GoogleDocsCommon googleDocs;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createUserAndSite()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -37,17 +37,17 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C6990")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    @TestRail (id = "C6990")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createGoogleDocsDocument() throws Exception
     {
         googleDocs.loginToGoogleDocs();
@@ -76,11 +76,11 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C6991")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    @TestRail (id = "C6991")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createGoogleDocsSpreadsheet() throws Exception
     {
-  //      googleDocs.loginToGoogleDocs();
+        //      googleDocs.loginToGoogleDocs();
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
         documentLibraryPage.navigate(siteName);
 
@@ -104,11 +104,11 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
         Assert.assertFalse(googleDocs.isGoogleDriveIconDisplayed(), "Google Drive icon displayed");
     }
 
-    @TestRail(id = "C6992")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    @TestRail (id = "C6992")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void createGoogleDocsPresentation() throws Exception
     {
- //       googleDocs.loginToGoogleDocs();
+        //       googleDocs.loginToGoogleDocs();
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to test site's Document Library page");
         documentLibraryPage.navigate(siteName);
 

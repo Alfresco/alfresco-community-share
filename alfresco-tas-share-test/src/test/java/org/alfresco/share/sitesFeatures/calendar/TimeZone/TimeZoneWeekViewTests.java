@@ -42,29 +42,29 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
     private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
-     DateTime today;
-     DateTime tomorrow;
-     DateTime dayAfterTomorrow;
-     DateTime aWeekAgo;
-     DateTime nextWeek;
-     DateTime aMonthAgo;
-     DateTime nextMonth;
+    DateTime today;
+    DateTime tomorrow;
+    DateTime dayAfterTomorrow;
+    DateTime aWeekAgo;
+    DateTime nextWeek;
+    DateTime aMonthAgo;
+    DateTime nextMonth;
     private String clientATimeZone = "tzutil /s \"GTB Standard Time\"";
     private String clientBTimeZone = "tzutil /s \"GMT Standard Time\"";
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void setupMethod()
     {
         today = new DateTime();
-        tomorrow =  today.plusDays(1);
-        dayAfterTomorrow =today.plusDays(2);
+        tomorrow = today.plusDays(1);
+        dayAfterTomorrow = today.plusDays(2);
         aWeekAgo = today.minusWeeks(1);
         nextWeek = today.plusWeeks(1);
         aMonthAgo = today.minusMonths(1);
         nextMonth = today.plusMonths(1);
     }
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -73,12 +73,12 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
@@ -92,16 +92,15 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         try
         {
             Runtime.getRuntime().exec(command);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
     }
 
-    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
-    @TestRail(id = "C5960")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @TestRail (id = "C5960")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void singleDayEvent()
     {
         String currentEventName = "testEvent-C5960";
@@ -127,12 +126,12 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(today, "12:30 PM"),
-                "Following information is available: Time section with Start Date");
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(today, "3:30 PM"), "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5961")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5961")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void singleDayAllDayEvent()
     {
         String currentEventName = "testEvent-C5961";
@@ -157,14 +156,14 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), today.toString("EEEE, d MMMM, yyyy"),
-                "Following information is available: Time section with Start Date");
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), today.toString("EEEE, d MMMM, yyyy"),
-                "Following information is available: Time section with End Date");
+            "Following information is available: Time section with End Date");
     }
 
-    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
-    @TestRail(id = "C5962")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @TestRail (id = "C5962")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleDaysEvent()
     {
         String currentEventName = "testEvent-C5962";
@@ -191,13 +190,13 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(today, "12:30 PM"),
-                "Following information is available: Time section with Start Date");
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(dayAfterTomorrow, "3:25 PM"),
-                "Following information is available: Time section with End Date");
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5963")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5963")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleDaysFAllDayEvent()
     {
         String currentEventName = "testEvent-C5963";
@@ -223,15 +222,15 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), today.toString("EEEE, d MMMM, yyyy"),
-                "Following information is available: Time section with Start Date");
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), dayAfterTomorrow.toString("EEEE, d MMMM, yyyy"),
-                "Following information is available: Time section with End Date");
+            "Following information is available: Time section with End Date");
         changeTimeZone(clientATimeZone);
     }
 
-    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
-    @TestRail(id = "C5964")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @TestRail (id = "C5964")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleWeeksEvent()
     {
         String currentEventName = "testEvent-C5964";
@@ -259,12 +258,12 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(aWeekAgo, "12:30 PM"),
-                "Following information is available: Time section with Start Date");
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(nextWeek, "3:25 PM"), "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5965")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5965")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleWeeksAllDayEvent()
     {
         String currentEventName = "testEvent-C5965";
@@ -292,14 +291,14 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), aWeekAgo.toString("EEEE, d MMMM, yyyy"),
-                "Following information is available: Time section with Start Date");
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), nextWeek.toString("EEEE, d MMMM, yyyy"),
-                "Following information is available: Time section with End Date");
+            "Following information is available: Time section with End Date");
     }
 
-    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
-    @TestRail(id = "C5966")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @TestRail (id = "C5966")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleMonthsEvent()
     {
         String currentEventName = "testEvent-C5966";
@@ -326,13 +325,13 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(aMonthAgo, "12:30 PM"),
-                "Following information is available: Time section with Start Date");
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(nextMonth, "3:25 PM"),
-                "Following information is available: Time section with End Date");
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5968")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5968")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleMonthsAllDayEvent()
     {
         String currentEventName = "testEvent-C5968";
@@ -359,14 +358,14 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), aMonthAgo.toString("EEEE, d MMMM, yyyy"),
-                "Following information is available: Time section with Start Date");
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), nextMonth.toString("EEEE, d MMMM, yyyy"),
-                "Following information is available: Time section with End Date");
+            "Following information is available: Time section with End Date");
     }
 
-    @Bug(id="SHA-2165", status = Bug.Status.OPENED)
-    @TestRail(id = "C5969")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @TestRail (id = "C5969")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void specificScenario()
     {
         String currentEventName = "testEvent-C5969";
@@ -393,7 +392,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.clickOnEvent(currentEventName);
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(today, "12:30 PM"),
-                "Following information is available: Time section with Start Date");
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(today, "11:59 PM"), "Following information is available: Time section with End Date");
     }
 }

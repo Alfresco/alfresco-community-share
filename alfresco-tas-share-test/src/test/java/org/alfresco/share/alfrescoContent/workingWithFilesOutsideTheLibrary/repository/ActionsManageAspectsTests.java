@@ -14,16 +14,18 @@ import org.testng.annotations.Test;
 
 public class ActionsManageAspectsTests extends ContextAwareWebTest
 {
-    @Autowired private RepositoryPage repositoryPage;
+    @Autowired
+    private RepositoryPage repositoryPage;
 
-    @Autowired private AspectsForm aspectsForm;
+    @Autowired
+    private AspectsForm aspectsForm;
 
     private String nonAdminUser;
     private String folderInRepoUserHomes;
     private String folderInRepoMainPath;
     private String repositoryUserHomesPath;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         nonAdminUser = String.format("nonAdminUser%s", RandomData.getRandomAlphanumeric());
@@ -34,17 +36,17 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         contentService.createFolderInRepository(nonAdminUser, password, folderInRepoUserHomes, "User Homes/" + nonAdminUser);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, nonAdminUser);
+        userService.delete(adminUser, adminPassword, nonAdminUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, folderInRepoMainPath);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + nonAdminUser);
 
     }
 
-    @TestRail(id = "C8254")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8254")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkAspectsForm()
     {
         setupAuthenticatedSession(nonAdminUser, password);
@@ -64,8 +66,8 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         Assert.assertTrue(aspectsForm.isCloseButtonDisplayed(), "Close button is not displayed");
     }
 
-    @TestRail(id = "C8250")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8250")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void manageAspectsApplyChanges()
     {
         setupAuthenticatedSession(nonAdminUser, password);
@@ -89,8 +91,8 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C13763")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C13763")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void manageAspectsForNonAdminOnRepositoryMainFolder()
     {
         setupAuthenticatedSession(nonAdminUser, password);
@@ -101,8 +103,8 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         Assert.assertEquals(repositoryPage.isActionAvailableForLibraryItem(folderInRepoMainPath, "Manage Aspects"), false);
     }
 
-    @TestRail(id = "C13764")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C13764")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void manageAspectsAdminOnRepositoryMainFolder()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

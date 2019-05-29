@@ -6,7 +6,8 @@ import org.openqa.selenium.By;
 import java.util.List;
 
 @PageObject
-public class NoListItemSelectedContent extends Content {
+public class NoListItemSelectedContent extends Content
+{
 
     protected By selectItemsButtonSelector = By.cssSelector("button[id*='selectedItems']");
     protected By newItemButtonSelector = By.cssSelector("button[id*='newRowButton']");
@@ -17,81 +18,103 @@ public class NoListItemSelectedContent extends Content {
     protected By confirmDeleteButtonSelector = By.cssSelector("span[class*='alf-primary-button'] button");
     protected By cancelDeleteButtonSelector = By.cssSelector("span[class*='yui-push-button default'] button");
 
-    public NoListItemSelectedContent() {
+    public NoListItemSelectedContent()
+    {
     }
 
-    public boolean isNewItemButtonDisplayed() {
+    public boolean isNewItemButtonDisplayed()
+    {
         return browser.isElementDisplayed(browser.findElement(newItemButtonSelector));
     }
 
     @Override
-    public boolean allFilterOptionsAreDisplayed() {
+    public boolean allFilterOptionsAreDisplayed()
+    {
         return false;
     }
 
-    public boolean isSelectButtonDisplayed() {
+    public boolean isSelectButtonDisplayed()
+    {
         return browser.isElementDisplayed(browser.findElement(selectButtonSelector));
     }
 
-    public boolean isSelectItemsButtonDisplayed() {
+    public boolean isSelectItemsButtonDisplayed()
+    {
         return browser.findElement(selectItemsButtonSelector).isDisplayed();
     }
 
-    public boolean isSelectItemsButtonEnabled() {
+    public boolean isSelectItemsButtonEnabled()
+    {
         return browser.findElement(selectItemsButtonSelector).isEnabled();
     }
 
-    public boolean isDuplicateItemsDisplayed() {
+    public boolean isDuplicateItemsDisplayed()
+    {
         return browser.findElement(duplicateItemsSelector).isDisplayed();
     }
 
-    public boolean isDeleteSelectedItemsDisplayed() {
+    public boolean isDeleteSelectedItemsDisplayed()
+    {
         return browser.findElement(deleteItemsSelector).isDisplayed();
     }
 
-    public boolean isDeselectSelectedItemsDisplayed() {
+    public boolean isDeselectSelectedItemsDisplayed()
+    {
         return browser.findElement(deselectAllItemsSelector).isDisplayed();
     }
 
-    public void editItem(List<String> listDetails) {
+    public void editItem(List<String> listDetails)
+    {
     }
 
-    public void duplicateItem(List<String> listDetails) {
+    public void duplicateItem(List<String> listDetails)
+    {
     }
 
-    public void deleteItem(List<String> listDetails) {
+    public void deleteItem(List<String> listDetails)
+    {
     }
 
-    public String messageDisplayed() {
+    public String messageDisplayed()
+    {
         return null;
     }
 
-    public boolean duplicatedRows(List<String> listDetails) {
+    public boolean duplicatedRows(List<String> listDetails)
+    {
         return false;
     }
 
-    public void clickSelectButton() {
+    public void clickSelectButton()
+    {
     }
 
-    public void clickSelectAllOption() {
+    public void clickSelectAllOption()
+    {
     }
 
-    public void clickInvertSelectionOption() {
+    public void clickInvertSelectionOption()
+    {
     }
 
-    public void clickSelectNoneOption() {
+    public void clickSelectNoneOption()
+    {
     }
 
-    public void clickSelectedItemsButton() {
+    public void clickSelectedItemsButton()
+    {
     }
 
-    public void clickDuplicateItemsOption() {
+    public void clickDuplicateItemsOption()
+    {
     }
 
-    public void clickDeleteItemsOption() {
+    public void clickDeleteItemsOption()
+    {
     }
 
-    public void clickDeselectAllItemsOption() {
+    public void clickDeselectAllItemsOption()
+    {
     }
 
 }

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import static java.util.Arrays.asList;
+
 import static org.testng.Assert.*;
 
 /**
@@ -26,13 +27,17 @@ import static org.testng.Assert.*;
  */
 public class CopyingContentTests extends ContextAwareWebTest
 {
-    @Autowired private Toolbar toolbar;
+    @Autowired
+    private Toolbar toolbar;
 
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
 
-    @Autowired private CopyMoveUnzipToDialog copyMoveToDialog;
+    @Autowired
+    private CopyMoveUnzipToDialog copyMoveToDialog;
 
     private final String userName = String.format("profileUser1-%s", RandomData.getRandomAlphanumeric());
     private final String firstName = "FirstName";
@@ -41,22 +46,24 @@ public class CopyingContentTests extends ContextAwareWebTest
     private final String docContent = "content of the file.";
     private final String copyAction = "Copy to...";
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
 
-    @TestRail(id = "C7377")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void copyFileToSharedFiles() {
+    @TestRail (id = "C7377")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void copyFileToSharedFiles()
+    {
         String siteName = String.format("Site-C7377-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("Doc-C7377-%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
@@ -78,15 +85,16 @@ public class CopyingContentTests extends ContextAwareWebTest
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         assertTrue(sharedFilesPage.isContentNameDisplayed(docName),
-                docName + " displayed in 'Shared Files'. List of 'Shared Files' documents=" + sharedFilesPage.getFilesList().toString());
+            docName + " displayed in 'Shared Files'. List of 'Shared Files' documents=" + sharedFilesPage.getFilesList().toString());
         cleanupAuthenticatedSession();
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C7378")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void cancelCopyFileToSharedFiles() {
+    @TestRail (id = "C7378")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void cancelCopyFileToSharedFiles()
+    {
         String siteName = String.format("Site-C7378-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("Doc-C7378-%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
@@ -108,13 +116,14 @@ public class CopyingContentTests extends ContextAwareWebTest
         toolbar.clickSharedFiles();
         assertFalse(sharedFilesPage.isContentNameDisplayed(docName), docName + " displayed in 'Shared Files'");
         cleanupAuthenticatedSession();
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C7388")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void copyFolderToPublicSite() {
+    @TestRail (id = "C7388")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void copyFolderToPublicSite()
+    {
         String siteName1 = String.format("Site1-C7388-%s", RandomData.getRandomAlphanumeric());
         String siteName2 = String.format("Site2-C7388-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("TestDoc-C7388-%s", RandomData.getRandomAlphanumeric());
@@ -146,8 +155,8 @@ public class CopyingContentTests extends ContextAwareWebTest
         ArrayList<String> expectedFolderList = new ArrayList<>(Collections.singletonList(folderName));
         assertEquals(documentLibraryPage.getFoldersList().toString(), expectedFolderList.toString(), "Displayed folders=");
         cleanupAuthenticatedSession();
-        siteService.delete(adminUser, adminPassword,siteName1);
-        siteService.delete(adminUser, adminPassword,siteName2);
+        siteService.delete(adminUser, adminPassword, siteName1);
+        siteService.delete(adminUser, adminPassword, siteName2);
 
     }
 }

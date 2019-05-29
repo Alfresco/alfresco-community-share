@@ -20,34 +20,34 @@ import static org.alfresco.utility.report.log.Step.STEP;
 
 /**
  * handle common cases related to a share page
- * 
+ *
  * @author Paul.Brodner
  */
 public abstract class SharePage<T> extends HtmlPage
 {
-    @RenderWebElement(state = ElementState.PAGE_LOADED)
-    @FindBy(id = "Share")
+    @RenderWebElement (state = ElementState.PAGE_LOADED)
+    @FindBy (id = "Share")
     private WebElement body;
 
     @Autowired
     AboutPopUpPage pop;
-    
-    @RenderWebElement(state=ElementState.PRESENT)
-    @FindBy(id = "HEADER_TITLE")
+
+    @RenderWebElement (state = ElementState.PRESENT)
+    @FindBy (id = "HEADER_TITLE")
     private TextBlock pageHeader;
 
-    @FindBy(id = "HEADER_LOGO")
+    @FindBy (id = "HEADER_LOGO")
     private Image headerLogo;
 
-    @FindBy(css = ".copyright>a>img")
+    @FindBy (css = ".copyright>a>img")
     private WebElement alfrescoOneFooterLogo;
-    
-    @FindBy(id = "HEADER_USER_MENU_POPUP")
+
+    @FindBy (id = "HEADER_USER_MENU_POPUP")
     private WebElement userMenu;
-    
-    @FindBy(id = "HEADER_USER_MENU_LOGOUT")
+
+    @FindBy (id = "HEADER_USER_MENU_LOGOUT")
     private WebElement logoutLink;
-    
+
     public String userName;
 
     public String getUserName()
@@ -83,8 +83,7 @@ public abstract class SharePage<T> extends HtmlPage
         {
             relativeURI = properties.getShareUrl().toURI().resolve(getRelativePath());
             return relativeURI.toURL();
-        }
-        catch (URISyntaxException | MalformedURLException me)
+        } catch (URISyntaxException | MalformedURLException me)
         {
             throw new RuntimeException("URI: " + relativeURI + " invalid url");
         }
@@ -92,9 +91,8 @@ public abstract class SharePage<T> extends HtmlPage
 
     /**
      * Navigate directly to relative path of the object based on {@link #getRelativePath()} constructed
-     * 
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     public T navigate()
     {
         getBrowser().waitInSeconds(15);
@@ -126,7 +124,7 @@ public abstract class SharePage<T> extends HtmlPage
 
     /**
      * Get the current url
-     * 
+     *
      * @return String url
      */
     public String getCurrentUrl()
@@ -136,7 +134,7 @@ public abstract class SharePage<T> extends HtmlPage
 
     /**
      * Verify if alfresco logo is displayed on the page footer
-     * 
+     *
      * @return true if displayed
      */
     public boolean isAlfrescoLogoDisplayed()
@@ -146,9 +144,9 @@ public abstract class SharePage<T> extends HtmlPage
 
     /**
      * Set the relative path for a page that contains the user name in the url
-     * 
-     * @param username String user name
-     * @param url String page url
+     *
+     * @param username         String user name
+     * @param url              String page url
      * @param exceptionMessage exception if user is null
      * @return String page url
      */
@@ -157,21 +155,20 @@ public abstract class SharePage<T> extends HtmlPage
         if (!StringUtils.isEmpty(username))
         {
             return String.format(pageUrl, username);
-        }
-        else
+        } else
         {
             throw new RuntimeException(String.format("Set the user name to navigate to %s page", this.getClass().getSimpleName()));
         }
     }
-    
+
     /**
      * Get background color of element or color of element (font color)
-     * 
-     * @param locator By
+     *
+     * @param locator    By
      * @param background if needed to find color of element's background - param must be true
-     *            if needed to find color of element itself - param must be false
+     *                   if needed to find color of element itself - param must be false
      * @return hex
-     *         return color in Hex color model
+     * return color in Hex color model
      */
     public String getColor(WebElement element, boolean background)
     {
@@ -182,8 +179,7 @@ public abstract class SharePage<T> extends HtmlPage
             if (background)
             {
                 color = element.getCssValue("background-color");
-            }
-            else
+            } else
             {
                 color = element.getCssValue("color");
             }
@@ -195,11 +191,10 @@ public abstract class SharePage<T> extends HtmlPage
             numbers[2] = numbers[2].trim();
             int number3 = Integer.parseInt(numbers[2]);
             hex = String.format("#%02x%02x%02x", number1, number2, number3);
-        }
-        catch (TimeoutException e)
+        } catch (TimeoutException e)
         {
-                LOG.error("Exceeded time to find " + element);
-            
+            LOG.error("Exceeded time to find " + element);
+
         }
         return hex;
     }

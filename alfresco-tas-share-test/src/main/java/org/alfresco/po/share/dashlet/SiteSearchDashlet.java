@@ -14,19 +14,19 @@ import java.util.List;
 public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
 {
     @RenderWebElement
-    @FindBy(css = "div.dashlet.sitesearch")
+    @FindBy (css = "div.dashlet.sitesearch")
     private WebElement dashletContainer;
 
-    @FindBy(css = "[id*=default-search-text]")
+    @FindBy (css = "[id*=default-search-text]")
     private WebElement searchField;
 
-    @FindBy(css = "span.first-child  [id*=default-search-button]")
+    @FindBy (css = "span.first-child  [id*=default-search-button]")
     private WebElement searchButton;
 
-    @FindBy(css = "[id$='default-resultSize-button']")
+    @FindBy (css = "[id$='default-resultSize-button']")
     private WebElement filterButton;
 
-    @FindAll(@FindBy(css = "div.sitesearch div.bd ul.first-of-type li a"))
+    @FindAll (@FindBy (css = "div.sitesearch div.bd ul.first-of-type li a"))
     private List<WebElement> dropDownFilterList;
 
     private By noResults = By.cssSelector("div[id$=search-results] tbody.yui-dt-message div");
@@ -100,7 +100,7 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     public boolean isMessageDisplayedInDashlet(String message)
     {
         int counter = 0;
-        while(!browser.findElement(noResults).getText().equals(message) && counter < 5)
+        while (!browser.findElement(noResults).getText().equals(message) && counter < 5)
         {
             browser.waitInSeconds(1);
             counter++;

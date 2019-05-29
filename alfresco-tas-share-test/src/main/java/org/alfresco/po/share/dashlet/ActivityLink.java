@@ -5,7 +5,7 @@ import ru.yandex.qatools.htmlelements.element.Link;
 
 public class ActivityLink
 {
-    
+
     private final String description;
     private final WebElement user;
     private final WebElement document;
@@ -13,10 +13,10 @@ public class ActivityLink
 
     /**
      * Constructor.
-     * 
-     * @param user {@link Link} user link
+     *
+     * @param user     {@link Link} user link
      * @param document {@link Link} document link
-     * @param site {@link Link} site link
+     * @param site     {@link Link} site link
      */
     public ActivityLink(final WebElement user, final WebElement document, final WebElement site, final String description)
     {
@@ -40,7 +40,7 @@ public class ActivityLink
 
     /**
      * Constructor.
-     * 
+     *
      * @param user {@link Link} user link
      * @param site {@link Link} site link
      */
@@ -64,7 +64,6 @@ public class ActivityLink
      * Constructor.
      *
      * @param user {@link Link} user link
-     *
      */
     public ActivityLink(final WebElement user, final String description)
     {

@@ -21,66 +21,67 @@ public class CreateContent extends SiteCommon<CreateContent>
     @Autowired
     TinyMceEditor tinyMceEditor;
 
-    @Autowired GoogleDocsCommon googleDocs;
+    @Autowired
+    GoogleDocsCommon googleDocs;
 
     @Autowired
     DocumentDetailsPage documentDetailsPage;
 
-    @FindBy(css = "span.folder-file")
+    @FindBy (css = "span.folder-file")
     private WebElement createFolderLink;
 
-    @FindBy(css = "span.text-file")
+    @FindBy (css = "span.text-file")
     private WebElement plainTextButton;
 
-    @FindBy(css = "span.html-file")
+    @FindBy (css = "span.html-file")
     private WebElement htmlButton;
 
-    @FindBy(css = "span.xml-file")
+    @FindBy (css = "span.xml-file")
     private WebElement xmlButton;
 
-    @FindBy(css = "span.document-file")
+    @FindBy (css = "span.document-file")
     private WebElement googleDocsDoc;
 
-    @FindBy(css = "span.spreadsheet-file")
+    @FindBy (css = "span.spreadsheet-file")
     private WebElement googleDocsSpreadsheet;
 
-    @FindBy(css = "span.presentation-file")
+    @FindBy (css = "span.presentation-file")
     private WebElement googleDocsPresentation;
 
-    @FindBy(css = "div[id*='_default-form-fields']")
+    @FindBy (css = "div[id*='_default-form-fields']")
     private WebElement createForm;
 
-    @FindBy(css = "input[id*='prop_cm_name']")
+    @FindBy (css = "input[id*='prop_cm_name']")
     private WebElement nameField;
 
-    @FindBy(css = "textarea[id*='prop_cm_content']")
+    @FindBy (css = "textarea[id*='prop_cm_content']")
     private WebElement contentField;
 
-    @FindBy(css = "input[id*='prop_cm_title']")
+    @FindBy (css = "input[id*='prop_cm_title']")
     private WebElement titleField;
 
-    @FindBy(css = "textarea[id*='prop_cm_description']")
+    @FindBy (css = "textarea[id*='prop_cm_description']")
     private WebElement descriptionField;
 
-    @FindBy(xpath = "//div[@class ='form-field']//label[contains(@for,'_default_prop_cm_name')]//span[@class = 'mandatory-indicator']")
+    @FindBy (xpath = "//div[@class ='form-field']//label[contains(@for,'_default_prop_cm_name')]//span[@class = 'mandatory-indicator']")
     private WebElement nameFieldIsMandatoryMarker;
 
-    @FindBy(css = "button[id*='form-submit-button']")
+    @FindBy (css = "button[id*='form-submit-button']")
     private WebElement submitButton;
 
-    @FindBy(css = "button[id*='form-cancel-button']")
+    @FindBy (css = "button[id*='form-cancel-button']")
     private WebElement cancelButton;
 
-    @FindBy(css = "div[class ='mce-edit-area mce-container mce-panel mce-stack-layout-item'] iframe")
+    @FindBy (css = "div[class ='mce-edit-area mce-container mce-panel mce-stack-layout-item'] iframe")
     private WebElement htmlContentField;
 
-    @FindBy(css = "div[id*='_default-createFolder-dialog_c']")
+    @FindBy (css = "div[id*='_default-createFolder-dialog_c']")
     private WebElement createFolderDialog;
-    
-    @FindBy(css = "div[id*='_default-createFolder-dialog_c'] div[id*='_default-createFolder-dialogTitle']")
+
+    @FindBy (css = "div[id*='_default-createFolder-dialog_c'] div[id*='_default-createFolder-dialogTitle']")
     private WebElement createFolderDialogTitle;
 
-    @FindAll(@FindBy(css=".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible span"))
+    @FindAll (@FindBy (css = ".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible span"))
     private List<WebElement> templatesList;
 
     public By message = By.cssSelector("span.message span.wait");
@@ -88,7 +89,7 @@ public class CreateContent extends SiteCommon<CreateContent>
     private WebElement selectCreateFromTemplateButton(String buttonName)
     {
         return browser.findElement(By.xpath(""
-                + "//span[text()='" + buttonName + "']"));
+            + "//span[text()='" + buttonName + "']"));
     }
 
     public WebElement selectTemplate(String templateName)
@@ -306,7 +307,7 @@ public class CreateContent extends SiteCommon<CreateContent>
 
     /**
      * Method to send input to the HTML content field
-     * 
+     *
      * @param inputHTMLContent
      */
     public void sendInputForHTMLContent(String inputHTMLContent)
@@ -324,7 +325,7 @@ public class CreateContent extends SiteCommon<CreateContent>
 
     /**
      * Method to check if the Content field is marked as mandatory
-     * 
+     *
      * @return
      */
     public boolean isContentMarkedAsMandatory()
@@ -383,7 +384,7 @@ public class CreateContent extends SiteCommon<CreateContent>
     {
         browser.waitUntilElementClickable(selectCreateFromTemplateButton(btnName));
         selectCreateFromTemplateButton(btnName).click();
-        if(browser.isElementDisplayed(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible"))== false)
+        if (browser.isElementDisplayed(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible")) == false)
         {
             browser.mouseOver(selectCreateFromTemplateButton(btnName));
         }
@@ -395,12 +396,13 @@ public class CreateContent extends SiteCommon<CreateContent>
         WebElement button = selectCreateFromTemplateButton(btnName);
         browser.mouseOver(button);
     }
+
     /**
      * Method to select document template
      */
-    public HtmlPage clickOnDocumentTemplate(String templateName, HtmlPage page )
+    public HtmlPage clickOnDocumentTemplate(String templateName, HtmlPage page)
     {
-       // browser.mouseOver(browser.findElement(By.cssSelector("li[class$='yuimenuitem-hassubmenu first-of-type']")));
+        // browser.mouseOver(browser.findElement(By.cssSelector("li[class$='yuimenuitem-hassubmenu first-of-type']")));
         browser.waitUntilElementVisible(selectTemplate(templateName)).click();
         return page.renderedPage();
     }
@@ -413,9 +415,10 @@ public class CreateContent extends SiteCommon<CreateContent>
     {
         browser.waitUntilElementsVisible(templatesList);
         browser.findFirstElementWithValue(templatesList, templateName).click();
-       // browser.waitUntilElementVisible(selectTemplate(templateName)).click();
+        // browser.waitUntilElementVisible(selectTemplate(templateName)).click();
         return page.renderedPage();
     }
+
     /**
      * Method to check if the template is present
      */
@@ -423,15 +426,15 @@ public class CreateContent extends SiteCommon<CreateContent>
     {
         List<String> templatesName = new ArrayList<>();
         browser.waitUntilElementsVisible(templatesList);
-        for(WebElement template: templatesList)
+        for (WebElement template : templatesList)
         {
             templatesName.add(template.getText());
         }
 
-        System.out.println("templates available are: "+ templatesName.toArray());
+        System.out.println("templates available are: " + templatesName.toArray());
         return templatesName.contains(templateName);
 
-       // browser.findFirstElementWithValue(templatesList, templateName);
+        // browser.findFirstElementWithValue(templatesList, templateName);
 
 //        browser.mouseOver(browser.waitUntilElementVisible(By.cssSelector("li[class$='yuimenuitem-hassubmenu']")));
 //        if(!selectTemplate(templateName).isDisplayed())
@@ -451,14 +454,14 @@ public class CreateContent extends SiteCommon<CreateContent>
         }
         return selectTemplate(templateName).isDisplayed();
     }
-    
+
     public boolean isCreateFolderDialogDisplayed()
     {
-    	return browser.isElementDisplayed(createFolderDialog);
+        return browser.isElementDisplayed(createFolderDialog);
     }
-    
+
     public String getCreateFolderDialogTitle()
     {
-    	return createFolderDialogTitle.getText();
+        return createFolderDialogTitle.getText();
     }
 }

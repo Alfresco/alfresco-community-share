@@ -52,15 +52,15 @@ public class AddEventsTests extends ContextAwareWebTest
     Notification notification;
 
     private String user1 = String.format("user1-%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("SiteName-%s",RandomData.getRandomAlphanumeric());
-    private String siteName2 = String.format("SiteName-C5452%s",RandomData.getRandomAlphanumeric());
-    private String siteName3 = String.format("SiteName-C5465%s",RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("SiteName-%s", RandomData.getRandomAlphanumeric());
+    private String siteName2 = String.format("SiteName-C5452%s", RandomData.getRandomAlphanumeric());
+    private String siteName3 = String.format("SiteName-C5465%s", RandomData.getRandomAlphanumeric());
     DateTime today;
     private String eventTitle = "testEvent";
     private String defaultStartTime = "12:00 PM";
     private String defaultEndTime = "1:00 PM";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
@@ -75,25 +75,25 @@ public class AddEventsTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser,adminPassword,siteName );
-        siteService.delete(adminUser,adminPassword,siteName2 );
-        siteService.delete(adminUser,adminPassword,siteName3 );
+        siteService.delete(adminUser, adminPassword, siteName);
+        siteService.delete(adminUser, adminPassword, siteName2);
+        siteService.delete(adminUser, adminPassword, siteName3);
 
     }
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void setupMethod()
     {
         today = new DateTime();
     }
 
-    @TestRail(id = "C3086")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C3086")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyAddEventForm()
     {
         calendarPage.navigate(siteName3);
@@ -104,17 +104,17 @@ public class AddEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Verify the items present on 'Add Event' form.");
         assertTrue(addEventDialog.checkEventDetailsSectionContainsFields(),
-                "'Event Details' section contains: 'What' field (mandatory), 'Where' and 'Description' fields.");
+            "'Event Details' section contains: 'What' field (mandatory), 'Where' and 'Description' fields.");
         assertTrue(addEventDialog.checkTimeSectionDefaultValues(today),
-                "'Time' section contains: 'All Day' check box unchecked, 'Start Date' and 'End Date' fields.");
+            "'Time' section contains: 'All Day' check box unchecked, 'Start Date' and 'End Date' fields.");
         assertTrue(addEventDialog.isTagsSectionDisplayed(), "Tags section is displayed.");
         assertTrue(addEventDialog.isSaveButtonEnabled(), "Save button is available on the form.");
         assertTrue(addEventDialog.isCancelButtonEnabled(), "Cancel button is available on the form.");
         assertTrue(addEventDialog.isCloseButtonDisplayed(), "Close button is available on the form.");
     }
 
-    @TestRail(id = "C5451")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5451")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addEventUsingAddEventButton()
     {
         String currentEventName = eventTitle + "C5451";
@@ -143,8 +143,8 @@ public class AddEventsTests extends ContextAwareWebTest
         assertTrue(siteCalendarDashlet.isEventPresentInList(currentEventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
-    @TestRail(id = "C3156")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C3156")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addEventByClickingOnTheCalendar()
     {
         calendarPage.navigate(siteName);
@@ -183,8 +183,8 @@ public class AddEventsTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C5452")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5452")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void agendaViewAddAnEventToThisCalendar()
     {
         calendarPage.navigate(siteName2);
@@ -203,8 +203,8 @@ public class AddEventsTests extends ContextAwareWebTest
         assertTrue(calendarPage.isEventPresentInAgenda(currentEventName), "Event is created and displayed on the 'Calendar' page.");
     }
 
-    @TestRail(id = "C5464")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5464")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void requiredFieldsForAddingAnEvent()
     {
         String currentEventName = eventTitle + "C5464";
@@ -227,8 +227,8 @@ public class AddEventsTests extends ContextAwareWebTest
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is created and displayed on the 'Calendar' page.");
     }
 
-    @TestRail(id = "C5460")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5460")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addAllDayEvent()
     {
         String currentEventName = eventTitle + "C5460";
@@ -253,8 +253,8 @@ public class AddEventsTests extends ContextAwareWebTest
         assertTrue(calendarPage.isAllDayEvent(currentEventName), "Only the event's name is displayed, starting time is not displayed.");
     }
 
-    @TestRail(id = "C3091")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C3091")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addSeveralDaysDurationEvent()
     {
         calendarPage.navigate(siteName);
@@ -285,25 +285,25 @@ public class AddEventsTests extends ContextAwareWebTest
         siteDashboardPage.navigate(siteName);
         assertTrue(siteCalendarDashlet.isEventPresentInList(currentEventName), "The event is displayed on 'Site Calendar' dashlet.");
         assertEquals(siteCalendarDashlet.getEventStartDate(currentEventName), startDate.toString("EEEE, d MMMM, yyyy"),
-                "Following information is available for the event: start day, date, month, year (e.g. Monday, 4 July, 2016)");
+            "Following information is available for the event: start day, date, month, year (e.g. Monday, 4 July, 2016)");
         assertEquals(siteCalendarDashlet.getEventDetails(currentEventName),
-                "12:00 PM " + currentEventName + " (until: " + endDate.toString("EEEE, d MMMM, yyyy") + " 1:00 PM)",
-                "The event has expected details displayed on 'Site Calendar' dashlet.");
+            "12:00 PM " + currentEventName + " (until: " + endDate.toString("EEEE, d MMMM, yyyy") + " 1:00 PM)",
+            "The event has expected details displayed on 'Site Calendar' dashlet.");
 
         LOG.info("STEP 6: Go to user's dashboard and verify 'My Calendar' dashlet.");
         userDashboardPage.navigate(user1);
         assertTrue(myCalendarDashlet.isEventPresentInList(currentEventName), "The event is displayed on 'My Calendar' dashlet.");
         assertEquals(myCalendarDashlet.getEventDetails(currentEventName),
-                startDate.toString("dd MMMM, yyyy") + " 12:00 PM - " + endDate.toString("dd MMMM, yyyy") + " 1:00 PM",
-                "The event has expected details displayed on 'My Calendar' dashlet.");
+            startDate.toString("dd MMMM, yyyy") + " 12:00 PM - " + endDate.toString("dd MMMM, yyyy") + " 1:00 PM",
+            "The event has expected details displayed on 'My Calendar' dashlet.");
     }
 
-    @TestRail(id = "C5462")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5462")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addEventWithTags()
     {
         String currentEventName = eventTitle + "C5462";
-        String siteNameForEventWithTags = String.format("SiteName-%s",RandomData.getRandomAlphanumeric());
+        String siteNameForEventWithTags = String.format("SiteName-%s", RandomData.getRandomAlphanumeric());
         siteService.create(user1, password, domain, siteNameForEventWithTags, siteNameForEventWithTags, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteNameForEventWithTags, Page.CALENDAR, null);
         calendarPage.navigate(siteNameForEventWithTags);
@@ -355,8 +355,8 @@ public class AddEventsTests extends ContextAwareWebTest
         assertEquals(calendarPage.getTagLink("tag3"), "tag3" + " (1)", "Following tags are displayed on 'Tags' section: tag3 (1)");
     }
 
-    @TestRail(id = "C5478")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5478")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addEventWithoutSaving()
     {
         String currentEventName = eventTitle + "C5478";
@@ -376,8 +376,8 @@ public class AddEventsTests extends ContextAwareWebTest
         assertFalse(calendarPage.isEventPresentInCalendar(currentEventName), "Event is not created and not displayed on the 'Calendar' page.");
     }
 
-    @TestRail(id = "C5477")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5477")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelAddingEvent()
     {
         String currentEventName = eventTitle + "C5477";
@@ -398,8 +398,8 @@ public class AddEventsTests extends ContextAwareWebTest
         assertFalse(calendarPage.isEventPresentInCalendar(currentEventName), "Event is not created and not displayed on the 'Calendar' page.");
     }
 
-    @TestRail(id = "C5465")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5465")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyDefaultStartEndDatesForEvents()
     {
         calendarPage.navigate(siteName3);

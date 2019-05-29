@@ -32,35 +32,35 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     BlogPromptWindow blogPromptWindow;
 
     @RenderWebElement
-    @FindBy(css = "div[id*='_blog-postview'] div.nodeTitle>a")
+    @FindBy (css = "div[id*='_blog-postview'] div.nodeTitle>a")
     private WebElement blogPostTitle;
 
     //@RenderWebElement
-    @FindBy(css = "div[id*='_blog-postview'] div.content")
+    @FindBy (css = "div[id*='_blog-postview'] div.content")
     private WebElement blogPostContent;
 
-    @FindBy(css = ".published .nodeAttrValue>a")
+    @FindBy (css = ".published .nodeAttrValue>a")
     private WebElement blogPostAuthor;
 
-    @FindBy(css = ".nodeTitle .nodeStatus")
+    @FindBy (css = ".nodeTitle .nodeStatus")
     private WebElement blogPostNote;
 
-    @FindBy(css = "div[id*='_blog-postview'] .backLink>a")
+    @FindBy (css = "div[id*='_blog-postview'] .backLink>a")
     private WebElement blogPostListButton;
 
-    @FindBy(css = "button[id$='_default-create-button-button']")
+    @FindBy (css = "button[id$='_default-create-button-button']")
     private WebElement newPostButton;
 
-    @FindBy(css = ".onEditBlogPost>a")
+    @FindBy (css = ".onEditBlogPost>a")
     private WebElement editButton;
 
-    @FindBy(css = ".onDeleteBlogPost>a")
+    @FindBy (css = ".onDeleteBlogPost>a")
     private WebElement deleteButton;
 
-    @FindBy(css = ".onAddCommentClick button")
+    @FindBy (css = ".onAddCommentClick button")
     private WebElement addCommentButton;
 
-    @FindAll(@FindBy( css = ".tag>a"))
+    @FindAll (@FindBy (css = ".tag>a"))
     private List<WebElement> blogTags;
 
     private By commentAuthorName = By.xpath("//span[@class = 'info']/a");
@@ -71,7 +71,7 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 
     private By deleteCommentButton = By.xpath("//a[@title = 'Delete Comment']");
 
-    @FindBy(xpath ="//tbody[@class = 'yui-dt-message']//div[@class = 'yui-dt-liner']")
+    @FindBy (xpath = "//tbody[@class = 'yui-dt-message']//div[@class = 'yui-dt-liner']")
     public WebElement noCommentsText;
 
     @Override
@@ -113,6 +113,7 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 
     /**
      * Method to get the blog post (Draft) note for the blog post that needs to be checked
+     *
      * @return
      */
     public String getBlogPostNote()
@@ -177,12 +178,13 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 
     /**
      * Method to get the blog post Tags
+     *
      * @return
      */
     public List<String> getBlogPostTags()
     {
         List<String> tagsList = new ArrayList<>();
-        for (WebElement tag : blogTags )
+        for (WebElement tag : blogTags)
         {
             tagsList.add(tag.getText());
         }
@@ -207,16 +209,16 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     {
         return selectComment(user).findElement(commentText).getText();
     }
-    
+
     /**
      * Method to click on the Edit button for comment
      */
     public void clickEditComment(String user)
-    {       
-       browser.mouseOver(selectComment(user));
-       browser.findElement(editCommentButton).click();
+    {
+        browser.mouseOver(selectComment(user));
+        browser.findElement(editCommentButton).click();
     }
-    
+
     /**
      * Method to click on the Delete button for comment
      */
@@ -226,11 +228,11 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
         browser.findElement(deleteCommentButton).click();
         return (DeleteDialog) deleteDialog.renderedPage();
     }
-    
+
     /**
      * Method to get the text displayed for comments when no comments are available
      */
-    
+
     public String getNoCommentsText()
     {
         return noCommentsText.getText();

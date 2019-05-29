@@ -49,7 +49,7 @@ public class EnteringSiteTests extends ContextAwareWebTest
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private String description = String.format("description%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
@@ -59,58 +59,58 @@ public class EnteringSiteTests extends ContextAwareWebTest
     }
 
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2977")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2977")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingMySitesDashlet()
     {
         userDashboardPage.navigate(user1);
         LOG.info("STEP 1: Verify 'My Sites' dashlet.");
         assertTrue(mySitesDashlet.isSitePresent(siteName), siteName + " should be displayed in 'My Sites' dashlet.");
 
-        LOG.info("STEP 2: Click on '"+siteName+"' link.");
+        LOG.info("STEP 2: Click on '" + siteName + "' link.");
         mySitesDashlet.accessSite(siteName);
-        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
     }
 
-    @TestRail(id = "C2978")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2978")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSiteFinderPage()
     {
         userDashboardPage.navigate(user1);
         siteFinderPage.navigate();
 
-        LOG.info("STEP 1: Search for '"+siteName+"'.");
+        LOG.info("STEP 1: Search for '" + siteName + "'.");
         siteFinderPage.searchSiteWithRetry(siteName);
         assertTrue(siteFinderPage.checkSiteWasFound(siteName), siteName + " should be found.");
 
-        LOG.info("STEP 2: Click on '"+siteName+"' link.");
+        LOG.info("STEP 2: Click on '" + siteName + "' link.");
         siteFinderPage.accessSite(siteName);
-        assertTrue(siteFinderPage.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        assertTrue(siteFinderPage.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
     }
 
-    @TestRail(id = "C2979")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2979")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSitesMenuFavorites()
     {
         userDashboardPage.navigate(user1);
         LOG.info("Click on 'Sites' menu -> 'Favorites' link.");
         assertTrue(toolbarSitesMenu.isSiteFavorite(siteName), siteName + " is expected to be displayed in the list of sites from 'Favorites'.");
 
-        LOG.info("STEP 2: Click on '"+siteName+"' link.");
+        LOG.info("STEP 2: Click on '" + siteName + "' link.");
         toolbarSitesMenu.clickFavoriteSite(siteName);
-        assertTrue(siteFinderPage.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        assertTrue(siteFinderPage.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
     }
 
-    @TestRail(id = "C2980")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2980")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSitesMenuRecentSites()
     {
         //precondition: site is recently accessed by current user
@@ -120,13 +120,13 @@ public class EnteringSiteTests extends ContextAwareWebTest
         LOG.info("Click on 'Sites' and verify 'Recent Sites' section.");
         assertTrue(toolbarSitesMenu.isSiteInRecentSites(siteName), siteName + " is expected to be displayed in the list of sites from 'Recent Sites'.");
 
-        LOG.info("STEP 2: Click on '"+siteName+"' link.");
+        LOG.info("STEP 2: Click on '" + siteName + "' link.");
         toolbarSitesMenu.clickRecentSite(siteName);
-        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
     }
 
-    @TestRail(id = "C2981")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2981")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingMyProfileSites()
     {
         userSitesListPage.navigate(user1);
@@ -134,13 +134,13 @@ public class EnteringSiteTests extends ContextAwareWebTest
         LOG.info("STEP 1: Verify 'User Sites List' from 'My Profile' - 'Sites' page.");
         assertTrue(userSitesListPage.isSitePresent(siteName), siteName + " should be found.");
 
-        LOG.info("STEP 2: Click on '"+siteName+"' link.");
+        LOG.info("STEP 2: Click on '" + siteName + "' link.");
         userSitesListPage.clickSite(siteName);
-        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
     }
 
-    @TestRail(id = "C2982")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2982")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSitesMenuMySites()
     {
         userDashboardPage.navigate(user1);
@@ -150,11 +150,11 @@ public class EnteringSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click on '" + siteName + "' link.");
         userSitesListPage.clickSite(siteName);
-        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
     }
 
-    @TestRail(id = "C3006")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C3006")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void accessSiteUsingSearchBoxOnTheToolbar()
     {
         userDashboardPage.navigate(user1);
@@ -165,6 +165,6 @@ public class EnteringSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click on '" + siteName + "' link.");
         toolbar.clickResult(siteName, siteDashboardPage);
-        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/"+siteName+"/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
+        assertTrue(mySitesDashlet.getCurrentUrl().endsWith("site/" + siteName + "/dashboard"), "User should be redirected to " + siteName + "'s dashboard page.");
     }
 }

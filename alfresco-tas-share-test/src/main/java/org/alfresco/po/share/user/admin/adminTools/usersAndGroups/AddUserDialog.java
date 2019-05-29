@@ -17,21 +17,21 @@ import java.util.List;
 public class AddUserDialog extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(css = "span[id*='peoplepicker']")
+    @FindBy (css = "span[id*='peoplepicker']")
     private WebElement dialogTitle;
 
     @RenderWebElement
-    @FindBy(css = "div[id*='search-peoplefinder'] input")
+    @FindBy (css = "div[id*='search-peoplefinder'] input")
     private WebElement searchInputField;
 
     @RenderWebElement
-    @FindBy(css = "div[id*='search-peoplefinder'] button[id*='search']")
+    @FindBy (css = "div[id*='search-peoplefinder'] button[id*='search']")
     private WebElement searchButton;
 
-    @FindAll(@FindBy(css = ".itemname"))
+    @FindAll (@FindBy (css = ".itemname"))
     private List<WebElement> searchResultsList;
 
-    @FindAll(@FindBy(css = "td[class*='actions'] button"))
+    @FindAll (@FindBy (css = "td[class*='actions'] button"))
     private List<WebElement> addButtonsList;
 
     /**
@@ -70,10 +70,10 @@ public class AddUserDialog extends ShareDialog
      */
     public void searchGroup(String userToSearch)
     {
-      getBrowser().waitInSeconds(10);
-            fillInSearchInput(userToSearch);
-            clickSearchButton();
-            renderedPage();
+        getBrowser().waitInSeconds(10);
+        fillInSearchInput(userToSearch);
+        clickSearchButton();
+        renderedPage();
     }
 
     /**

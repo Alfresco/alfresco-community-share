@@ -51,35 +51,35 @@ public class EditEventAgendaItemTest extends ContextAwareWebTest
     String newItemAudience = "Updated Audience";
     String newItemNotes = "Updated Notes";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.EVENT_AGENDA, listName, "Event Agenda list description.");
-        
+
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + file);
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + fileToAttach);
         dataListsService.addEventAgendaItem(userName, password, siteName, listName, itemReference, null, null, itemSessionName, null, null, null,
-                Collections.singletonList(file));
+            Collections.singletonList(file));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         dataListsPage.clickEventAgendaListItem(listName);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C10537")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C10537")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyPossibilityToEditItem()
     {
         LOG.info("STEP1: Click Edit icon for the item");
@@ -104,6 +104,6 @@ public class EditEventAgendaItemTest extends ContextAwareWebTest
         editItemPopUp.clickSave();
         assertEquals(dataListsPage.currentContent.messageDisplayed(), "Data Item updated successfully", "Edited Data Item message");
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(Arrays.asList(newItemReference, updatedItemStartTime, updatedItemEndTime, newItemSessionName,
-                newItemPresenter, newItemAudience, newItemNotes, fileToAttach)), "Event agenda item " + newItemReference + " - Data updated");
+            newItemPresenter, newItemAudience, newItemNotes, fileToAttach)), "Event agenda item " + newItemReference + " - Data updated");
     }
 }

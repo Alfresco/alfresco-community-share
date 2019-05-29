@@ -16,35 +16,41 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 
 import static java.util.Arrays.asList;
+
 import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
-public class MovingContentTests extends ContextAwareWebTest {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
-    @Autowired private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
+public class MovingContentTests extends ContextAwareWebTest
+{
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
 
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
 
-    @TestRail(id = "C7345")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void moveFile() {
+    @TestRail (id = "C7345")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void moveFile()
+    {
         String siteName = String.format("Site-C7345-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("Doc-C7345-%s", RandomData.getRandomAlphanumeric());
         String folderName = String.format("Folder-C7345-%s", RandomData.getRandomAlphanumeric());
@@ -71,13 +77,14 @@ public class MovingContentTests extends ContextAwareWebTest {
         LOG.info("STEP5: Open the folder created in preconditions");
         documentLibraryPage.clickOnFolderName(folderName);
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Displayed files in " + folderName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C7346")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void moveFolder() {
+    @TestRail (id = "C7346")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void moveFolder()
+    {
         String siteName = String.format("Site-C7346-%s", RandomData.getRandomAlphanumeric());
         String docName = String.format("TestDoc-C7346-%s", RandomData.getRandomAlphanumeric());
         String folderName1 = String.format("folderName1-%s", RandomData.getRandomAlphanumeric());
@@ -108,7 +115,7 @@ public class MovingContentTests extends ContextAwareWebTest {
         LOG.info("STEP5: Open the folder created in preconditions");
         documentLibraryPage.clickOnFolderName(folderName2);
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[" + folderName1 + "]", "Displayed folders in " + folderName2);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

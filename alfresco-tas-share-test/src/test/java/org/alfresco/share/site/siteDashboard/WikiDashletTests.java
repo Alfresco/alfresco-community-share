@@ -37,22 +37,22 @@ public class WikiDashletTests extends ContextAwareWebTest
     private String wikiPageTitle1 = String.format("C5553%s", RandomData.getRandomAlphanumeric());
     private String wikiContent1 = String.format("C5553WikiContent%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
-    @TestRail(id = "C5428")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5428")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void wikiDashletNoWikiPageCreated()
     {
         //precondition
@@ -74,7 +74,7 @@ public class WikiDashletTests extends ContextAwareWebTest
         wikiDashlet.clickOnHelpIcon(DashletHelpIcon.WIKI);
         Assert.assertTrue(wikiDashlet.isBalloonDisplayed(), "Wiki Help balloon is displayed.");
         assertEquals(wikiDashlet.getHelpBalloonMessage(),
-                "This dashlet shows a page selected from the site's wiki." + "\nNavigate to the wiki to see all related content.");
+            "This dashlet shows a page selected from the site's wiki." + "\nNavigate to the wiki to see all related content.");
 
         LOG.info("Step 5: Close balloon popup");
         wikiDashlet.closeHelpBalloon();
@@ -87,12 +87,12 @@ public class WikiDashletTests extends ContextAwareWebTest
         LOG.info("Step 7: Close the Edit Pop-up by clicking the X button");
         selectWikiPage.clickCloseButton();
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C5433")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5433")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void configureWikiDashletOneWikiPageAvailable()
     {
@@ -136,7 +136,7 @@ public class WikiDashletTests extends ContextAwareWebTest
         selectWikiPage.clickOkButton();
 
         LOG.info(
-                "Step 7: Site Dashboard page is displayed, Site Wiki dashlet has the name of chosen wiki page, wiki page content is displayed on the dashlet.");
+            "Step 7: Site Dashboard page is displayed, Site Wiki dashlet has the name of chosen wiki page, wiki page content is displayed on the dashlet.");
         getBrowser().waitInSeconds(2);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboard.getRelativePath(), expectedRelativePath, "User is redirected to site dashboard");
@@ -148,13 +148,13 @@ public class WikiDashletTests extends ContextAwareWebTest
          * Cleanup
          */
         sitePagesService.deleteWikiPage(adminUser, adminPassword, siteName, wikiPageTitle);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
 
     }
 
-    @TestRail(id = "C5553")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5553")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void configureWikiDashletMultipleWikiPagesAvailable()
 
@@ -192,7 +192,7 @@ public class WikiDashletTests extends ContextAwareWebTest
          */
         sitePagesService.deleteWikiPage(adminUser, adminPassword, siteName, wikiPageTitle);
         sitePagesService.deleteWikiPage(adminUser, adminPassword, siteName, wikiPageTitle1);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

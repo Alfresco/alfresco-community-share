@@ -20,15 +20,17 @@ import static org.testng.Assert.assertTrue;
  */
 public class ViewingFolderDetailsTest extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
     private final String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = "testFolder";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "C5850", "C5850");
@@ -37,16 +39,16 @@ public class ViewingFolderDetailsTest extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5850")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C5850")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void viewFolderDetails()
     {
         LOG.info("Step 1 - Navigate to 'Document Library' page for 'testSite'.");

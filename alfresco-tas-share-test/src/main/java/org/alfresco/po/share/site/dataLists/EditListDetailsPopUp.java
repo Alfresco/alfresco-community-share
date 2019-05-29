@@ -12,67 +12,67 @@ public class EditListDetailsPopUp extends ShareDialog
 {
     @Autowired
     DataListsPage dataListsPage;
-    
+
     @RenderWebElement
-    @FindBy(css = "input[id$='editList_prop_cm_title']")
+    @FindBy (css = "input[id$='editList_prop_cm_title']")
     protected WebElement titleField;
-    
+
     @RenderWebElement
-    @FindBy(css = "textarea[id$='editList_prop_cm_description']")
+    @FindBy (css = "textarea[id$='editList_prop_cm_description']")
     protected WebElement descriptionField;
-    
-    @FindBy(css = "button[id$='editList-form-submit-button']")
+
+    @FindBy (css = "button[id$='editList-form-submit-button']")
     protected WebElement saveButton;
-    
-    @FindBy(css = "button[id$='editList-form-cancel-button']")
+
+    @FindBy (css = "button[id$='editList-form-cancel-button']")
     protected WebElement cancelButton;
-    
-    @FindBy(css = "div[id$='editList-dialog'] a")
+
+    @FindBy (css = "div[id$='editList-dialog'] a")
     protected WebElement closeButton;
-    
+
     public void modifyTitle(String newTitle)
     {
         titleField.clear();
         titleField.sendKeys(newTitle);
     }
-    
+
     public void modifyDescription(String newDescription)
     {
         descriptionField.clear();
         descriptionField.sendKeys(newDescription);
     }
-    
+
     public DataListsPage clickSaveButton()
     {
         saveButton.click();
         return (DataListsPage) dataListsPage.renderedPage();
     }
-    
+
     public DataListsPage clickCancelButton()
     {
         cancelButton.click();
         return (DataListsPage) dataListsPage.renderedPage();
     }
-    
+
     public DataListsPage clickCloseButton()
     {
         closeButton.click();
         return (DataListsPage) dataListsPage.renderedPage();
     }
-    
+
     public boolean isSaveButtonDisplayed()
     {
         return browser.isElementDisplayed(saveButton);
     }
-    
+
     public boolean isCancelButtonDisplayed()
     {
         return browser.isElementDisplayed(cancelButton);
     }
-    
+
     public boolean isCloseButtonDisplayed()
     {
         return browser.isElementDisplayed(closeButton);
     }
-    
+
 }

@@ -21,16 +21,16 @@ import java.util.Map;
 public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownDashlet>
 {
     @RenderWebElement
-    @FindBy(id = "DASHLET")
+    @FindBy (id = "DASHLET")
     private HtmlElement dashletContainer;
 
-    @FindBy(css = "#DASHLET svg text")
+    @FindBy (css = "#DASHLET svg text")
     private HtmlElement dashletMessage;
 
-    @FindAll(@FindBy(css= "div[id^='alfresco_charts_ccc_PieChart'] path[transform]"))
+    @FindAll (@FindBy (css = "div[id^='alfresco_charts_ccc_PieChart'] path[transform]"))
     private List<WebElement> pieChartSlices;
 
-    @FindBy(css = "div[id^='tipsyPvBehavior']")
+    @FindBy (css = "div[id^='tipsyPvBehavior']")
     private WebElement sliceTooltip;
 
     @Override
@@ -59,10 +59,11 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
     public Map<String, String> getPieChartSliceTooltip()
     {
         Map<String, String> slicesTooltip = new HashMap<>();
-        for(WebElement slice : pieChartSlices){
+        for (WebElement slice : pieChartSlices)
+        {
             browser.mouseOver(slice);
             String tooltip = sliceTooltip.getAttribute("original-title");
-            slicesTooltip.put(tooltip.substring(tooltip.indexOf("<strong>")+8, tooltip.indexOf("</strong>")), tooltip.substring(tooltip.indexOf("<br/>"), tooltip.indexOf("</div>")));
+            slicesTooltip.put(tooltip.substring(tooltip.indexOf("<strong>") + 8, tooltip.indexOf("</strong>")), tooltip.substring(tooltip.indexOf("<br/>"), tooltip.indexOf("</div>")));
         }
         return slicesTooltip;
     }

@@ -10,7 +10,8 @@ public class EditPassthruDirectoryDialog extends EditDirectoryDialog
 {
     public static final String PASSTHRU_AUTHENTICATION_OBJECT = "Alfresco:Category=Authentication,Type=Configuration,id1=managed,id2=passthru1";
 
-    public enum PASSTHRUFields{
+    public enum PASSTHRUFields
+    {
         useLocalServer("Use Local Server:", "passthru.authentication.useLocalServer"),
         allowGuestLogin("Allow Guest Login:", "passthru.authentication.guestAccess"),
         authenticateFTP("Authenticate FTP:", "passthru.authentication.authenticateFTP"),

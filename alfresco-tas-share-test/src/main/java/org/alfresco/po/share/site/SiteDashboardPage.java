@@ -19,23 +19,23 @@ import java.util.List;
 public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 {
     @RenderWebElement
-    @FindBy(css = "div[class*='grid columnSize']")
+    @FindBy (css = "div[class*='grid columnSize']")
     private WebElement dashboardLayout;
 
-    @FindBy(css = ".msg.dashlet-padding>h2")
+    @FindBy (css = ".msg.dashlet-padding>h2")
     private WebElement welcomeMessage;
 
-    @FindBy(css = "div[class*='colleagues']")
+    @FindBy (css = "div[class*='colleagues']")
     private WebElement siteMembersBox;
 
     @RenderWebElement
-    @FindBy(css = "div[id='HEADER_TITLE_VISIBILITY'] span")
-    private WebElement siteVisibility; 
+    @FindBy (css = "div[id='HEADER_TITLE_VISIBILITY'] span")
+    private WebElement siteVisibility;
 
-    @FindAll(@FindBy(css = "div[style*='visible'] tr[id^='HEADER']>td[id$='text']"))
+    @FindAll (@FindBy (css = "div[style*='visible'] tr[id^='HEADER']>td[id$='text']"))
     private List<WebElement> siteConfigurationOptions;
 
-    @FindBy(id = "HEADER_SITE_MORE_PAGES")
+    @FindBy (id = "HEADER_SITE_MORE_PAGES")
     private WebElement morePagesDropDown;
 
     private By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
@@ -48,7 +48,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     /**
      * Get the number of columns from Site Dashboard
-     * 
+     *
      * @return number of columns
      */
     public int getNumerOfColumns()
@@ -59,9 +59,9 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     /**
      * Verify if a dashlet is located in the right column
-     * 
-     * @param dashlet Dashlets dashlet to verify
-     * @param column int column (must be > 0 <=4)
+     *
+     * @param dashlet          Dashlets dashlet to verify
+     * @param column           int column (must be > 0 <=4)
      * @param locationInColumn int location in column (must be > 0 <=5)
      * @return true if found
      */
@@ -78,16 +78,16 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
             return browser
-                    .isElementDisplayed(By.xpath(String.format("//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column, locationInColumn)));
+                .isElementDisplayed(By.xpath(String.format("//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column, locationInColumn)));
         }
         String dashletLocation = String.format("//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]", dashlet.getDashletName(), column,
-                locationInColumn);
+            locationInColumn);
         return browser.isElementDisplayed(By.xpath(dashletLocation));
     }
 
     /**
      * Get the "Welcome" message from "Site Profile" dashlet
-     * 
+     *
      * @return String message
      */
     public String getWelcomeMessageText()
@@ -103,7 +103,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     /**
      * Search for an option in Site Configuration Options dropdown list
-     * 
+     *
      * @param option String - option to be found in dropdown list
      * @return Boolean true if entry is found, false if not
      */
@@ -119,7 +119,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
             if (siteConfigurationOption.getText().equals(option))
                 return true;
         }
-        LOG.info("Available options are: "+ availableOptions.toString());
+        LOG.info("Available options are: " + availableOptions.toString());
         return false;
     }
 
@@ -142,12 +142,11 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         }
         getBrowser().waitUntilElementDisappears(By.cssSelector("span.message"));
     }
-    
+
     /**
      * Click on 'Customize Site' option from Site Configuration Options dropdown list
-     *
      */
-    public void clickCustomizeSite() 
+    public void clickCustomizeSite()
     {
         browser.waitUntilElementVisible(SiteConfigurationOptions.CUSTOMIZE_SITE.getOptionLocator()).click();
     }
@@ -160,7 +159,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
      */
     public boolean isLinkDisplayedInMoreMenu(String link)
     {
-        List<WebElement> moreOptionsList  = browser.waitUntilElementsVisible(moreOptions);
+        List<WebElement> moreOptionsList = browser.waitUntilElementsVisible(moreOptions);
         for (WebElement option : moreOptionsList)
         {
             if (option.getText().equals(link))
@@ -180,7 +179,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     public void clickLinkFromMoreMenu(String link)
     {
         clickMoreLink();
-        List<WebElement> moreOptionsList  = browser.waitUntilElementsVisible(moreOptions);
+        List<WebElement> moreOptionsList = browser.waitUntilElementsVisible(moreOptions);
         for (WebElement option : moreOptionsList)
         {
             if (option.getText().equals(link))
@@ -193,7 +192,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     /**
      * Verify if a page is added to site dashboard
-     * 
+     *
      * @param page SitePageType the page
      * @return true if page is added
      */
@@ -202,8 +201,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         if (browser.isElementDisplayed(page.getDashboardLocator()) == true)
         {
             return true;
-        }
-        else
+        } else
         {
             if (isMoreLinkDisplayed())
             {
@@ -234,7 +232,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     /**
      * Verify if More link is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isMoreLinkDisplayed()
@@ -244,7 +242,7 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     /**
      * Get the display name for a page
-     * 
+     *
      * @param page SitePageType the page
      * @return String display name
      */

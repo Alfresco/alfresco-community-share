@@ -16,7 +16,9 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import static org.alfresco.utility.constants.UserRole.SiteManager;
+
 import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -48,11 +50,13 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     @Autowired
     private EditTaskPage editTaskPage;
 
-    @Autowired DataSite siteApi;
+    @Autowired
+    DataSite siteApi;
 
-    @Autowired DataUser dataUser;
+    @Autowired
+    DataUser dataUser;
 
-    private String  userName2, userName3, user2, group, task;
+    private String userName2, userName3, user2, group, task;
     private final String firstName = "firstName";
     private final String lastName = "lastName";
     private final String email = firstName + domain;
@@ -84,30 +88,29 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         userService.requestSiteMembership(userName2, password, moderated.getTitle());
 
 
-
         groupService.createGroup(adminUser, adminPassword, group);
         groupService.changeGroupRole(userName1.getUsername(), password, moderated.getTitle(), group, UserRole.SiteManager.toString());
         groupService.addUserToGroup(adminUser, adminPassword, group, userName3);
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName1.getUsername());
+        userService.delete(adminUser, adminPassword, userName1.getUsername());
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1.getUsername());
 
-        userService.delete(adminUser,adminPassword, userName2);
+        userService.delete(adminUser, adminPassword, userName2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-        userService.delete(adminUser,adminPassword, userName3);
+        userService.delete(adminUser, adminPassword, userName3);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName3);
 
-        siteService.delete(adminUser,adminPassword, moderated.getTitle() );
+        siteService.delete(adminUser, adminPassword, moderated.getTitle());
 
     }
 
-    @Bug(id = "TBD")
-    @TestRail(id = "C14280")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Bug (id = "TBD")
+    @TestRail (id = "C14280")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelSitePendingRequest()
     {
         LOG.info("Precondition: Cancel request");
@@ -124,9 +127,9 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
 
-    @Bug(id = "TBD")
-    @TestRail(id = "C14283")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Bug (id = "TBD")
+    @TestRail (id = "C14283")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsGroupManager()
     {
         setupAuthenticatedSession(userName1.getUsername(), password);
@@ -153,9 +156,9 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
 
-    @Bug(id = "TBD")
-    @TestRail(id = "C14284")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Bug (id = "TBD")
+    @TestRail (id = "C14284")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void releaseToPoolRequestPendingTaskAsGroupManager()
     {
         setupAuthenticatedSession(userName1.getUsername(), password);
@@ -186,9 +189,9 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
 
-    @Bug(id = "TBD")
-    @TestRail(id = "C14285")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Bug (id = "TBD")
+    @TestRail (id = "C14285")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsGroupManagerAndRemoveUserFromGroup()
     {
         setupAuthenticatedSession(userName3, password);
@@ -213,9 +216,9 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequests.toString(), "Pending Requests=");
     }
 
-    @Bug(id = "TBD")
-    @TestRail(id = "C14286")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Bug (id = "TBD")
+    @TestRail (id = "C14286")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsSiteManager()
     {
         String userName4 = "user4" + RandomData.getRandomAlphanumeric();
@@ -245,7 +248,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPageTitle(), "Alfresco » Pending", "Displayed page=");
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
 
-        userService.delete(adminUser,adminPassword, userName4);
+        userService.delete(adminUser, adminPassword, userName4);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName4);
     }
 }

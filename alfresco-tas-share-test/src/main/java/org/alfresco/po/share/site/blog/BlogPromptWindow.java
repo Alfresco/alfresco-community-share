@@ -16,7 +16,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
     TinyMceEditor tinyMceEditor;
 
     @RenderWebElement
-    @FindBy(xpath = "//div[@class = 'comment-form']//h2[text()='Add Your Comment...']")
+    @FindBy (xpath = "//div[@class = 'comment-form']//h2[text()='Add Your Comment...']")
     private WebElement addCommentBoxLabel;
 
     private By addCommentButton = By.xpath("//button[contains(@id, '_default-add-submit-button')]");
@@ -43,7 +43,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
     public void writeComment(String blogComment)
     {
         browser.switchTo().frame(browser.findElement(By.xpath(
-                "//div[@class = 'comment-form']//form[contains(@id, '_default-add-form')]//div[@class = 'mce-tinymce mce-container mce-panel']//iframe")));
+            "//div[@class = 'comment-form']//form[contains(@id, '_default-add-form')]//div[@class = 'mce-tinymce mce-container mce-panel']//iframe")));
         WebElement element = browser.findElement(By.id("tinymce"));
         element.clear();
         element.sendKeys(blogComment);
@@ -114,6 +114,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
 
     /**
      * Method to edit comment
+     *
      * @param comment
      */
     public void testEditComment(String comment)

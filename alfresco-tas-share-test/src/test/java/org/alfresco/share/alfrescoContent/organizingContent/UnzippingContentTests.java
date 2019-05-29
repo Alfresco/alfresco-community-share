@@ -22,24 +22,31 @@ import static org.testng.Assert.assertTrue;
 /**
  * Created by Claudia Agache on 9/13/2016.
  */
-public class UnzippingContentTests extends ContextAwareWebTest {
+public class UnzippingContentTests extends ContextAwareWebTest
+{
 
-    @Autowired private DocumentLibraryPage documentLibraryPage;
-    @Autowired private DocumentDetailsPage documentDetailsPage;
-    @Autowired private CopyMoveUnzipToDialog unzipToDialog;
-    @Autowired private SiteDashboardPage siteDashboardPage;
-    @Autowired private SiteContentDashlet siteContentDashlet;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private CopyMoveUnzipToDialog unzipToDialog;
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
+    @Autowired
+    private SiteContentDashlet siteContentDashlet;
 
-    private final String testUser = String.format("testUser%s",RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+    private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private String siteName1 = "siteName1" + RandomData.getRandomAlphanumeric();
     private final String zipFile = "archiveC7409.zip";
     private final String fileName = "fileC7409";
     private final String acpFile = "archiveC7410.acp";
     private final String fileName1 = "fileC7410";
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.create(testUser, password, domain, siteName1, siteName1, SiteService.Visibility.PUBLIC);
@@ -49,20 +56,21 @@ public class UnzippingContentTests extends ContextAwareWebTest {
         setupAuthenticatedSession(testUser, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
-        siteService.delete(adminUser, adminPassword,siteName1);
+        siteService.delete(adminUser, adminPassword, siteName);
+        siteService.delete(adminUser, adminPassword, siteName1);
 
     }
 
 
-    @TestRail(id = "C7409")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void unzipZipFileToDocumentLibraryOfTheSameSite() {
+    @TestRail (id = "C7409")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void unzipZipFileToDocumentLibraryOfTheSameSite()
+    {
         documentLibraryPage.navigate(siteName);
         LOG.info("STEP1: Click archive name, e.g: testArchive");
         documentLibraryPage.clickOnFile(zipFile);
@@ -83,9 +91,10 @@ public class UnzippingContentTests extends ContextAwareWebTest {
         assertTrue(siteContentDashlet.getDocDetails(fileName).contains(siteName), "Timestamp and site name are the ones set when folder was unzipped");
     }
 
-    @TestRail(id = "C7410")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void unzipAcpFileToDocumentLibraryOfTheSameSite() {
+    @TestRail (id = "C7410")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void unzipAcpFileToDocumentLibraryOfTheSameSite()
+    {
         documentLibraryPage.navigate(siteName);
         LOG.info("STEP1: Click archive name, e.g: testArchive");
         documentLibraryPage.clickOnFile(acpFile);
@@ -106,10 +115,11 @@ public class UnzippingContentTests extends ContextAwareWebTest {
         assertTrue(siteContentDashlet.isFileLinkPresent(fileName1), "Content of unzipped archive is displayed, e.g: testFile");
         assertTrue(siteContentDashlet.getDocDetails(fileName1).contains(siteName), "Timestamp and site name are the ones set when folder was unzipped");
     }
-    
-    @TestRail(id = "C202869")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void cancelUnzipAcpFile() {
+
+    @TestRail (id = "C202869")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void cancelUnzipAcpFile()
+    {
         String acpFolderName = acpFile.substring(0, acpFile.indexOf("."));
         LOG.info("Preconditions: Log into Alfresco Share as a user created in preconditions and go to acp document details page");
         documentLibraryPage.navigate(siteName1);

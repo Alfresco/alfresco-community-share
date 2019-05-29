@@ -10,14 +10,14 @@ import org.openqa.selenium.support.FindBy;
 public class SelectAssigneePopUp extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(css = "[id*=default-peopleFinder-search-text]")
+    @FindBy (css = "[id*=default-peopleFinder-search-text]")
     private WebElement userFinderSearchTextInput;
 
     @RenderWebElement
-    @FindBy(css = "[id*=default-peopleFinder-search-button-button]")
+    @FindBy (css = "[id*=default-peopleFinder-search-button-button]")
     private WebElement userFinderSearchButton;
-    
-    @FindBy(css = "[class*=button-button]")
+
+    @FindBy (css = "[class*=button-button]")
     private WebElement selectButton;
 
     public void enterUserToSearch(String user)
@@ -29,7 +29,7 @@ public class SelectAssigneePopUp extends ShareDialog
     {
         userFinderSearchButton.click();
     }
-    
+
     public void clickOnSelectButton()
     {
         selectButton.click();

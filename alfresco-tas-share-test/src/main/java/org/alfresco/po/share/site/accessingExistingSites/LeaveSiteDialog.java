@@ -11,16 +11,16 @@ import ru.yandex.qatools.htmlelements.element.Button;
  * Created by Claudia Agache on 7/5/2016.
  */
 @PageObject
-public class LeaveSiteDialog  extends ConfirmationDialog
+public class LeaveSiteDialog extends ConfirmationDialog
 {
-    @FindBy(id = "ALF_SITE_SERVICE_DIALOG")
+    @FindBy (id = "ALF_SITE_SERVICE_DIALOG")
     private WebElement dialogContainer;
 
     @RenderWebElement
-    @FindBy(id = "ALF_SITE_SERVICE_DIALOG_title")
+    @FindBy (id = "ALF_SITE_SERVICE_DIALOG_title")
     private WebElement dialogTitle;
 
-    @FindBy(css = "div[id='ALF_SITE_SERVICE_DIALOG'] span[class$='alfresco-buttons-AlfButton'] span[id^='alfresco_buttons_AlfButton']")
+    @FindBy (css = "div[id='ALF_SITE_SERVICE_DIALOG'] span[class$='alfresco-buttons-AlfButton'] span[id^='alfresco_buttons_AlfButton']")
     private Button dialogCancelButton;
 
     /**
@@ -43,12 +43,14 @@ public class LeaveSiteDialog  extends ConfirmationDialog
         return dialogCancelButton.isDisplayed();
     }
 
-    public void clickCancelButton() {
+    public void clickCancelButton()
+    {
         dialogCancelButton.click();
         getBrowser().waitUntilElementDisappears(By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG']"));
     }
 
-    public boolean isLeaveSiteDialogDisplayed() {
+    public boolean isLeaveSiteDialogDisplayed()
+    {
         return getBrowser().isElementDisplayed(dialogContainer);
     }
 }

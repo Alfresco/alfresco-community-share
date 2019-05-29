@@ -14,13 +14,13 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 public class EnterFeedURLPopUp extends DashletPopUp
 {
     @RenderWebElement
-    @FindBy(css = "input[id$='url']")
+    @FindBy (css = "input[id$='url']")
     private TextInput urlField;
 
-    @FindBy(css = "input[id$='default-configDialog-new_window']")
+    @FindBy (css = "input[id$='default-configDialog-new_window']")
     private CheckBox newWindowCheckbox;
 
-    @FindBy(css = "select[id$='default-configDialog-limit']")
+    @FindBy (css = "select[id$='default-configDialog-limit']")
     private Select noItemsToDisplay;
 
     public void fillUrlField(String URL)

@@ -56,7 +56,7 @@ public class EditIssueItemTest extends ContextAwareWebTest
     String newItemPriority = CMISUtil.Priority.High.toString();
     String attachedFile = "testDoc.txt";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -64,29 +64,30 @@ public class EditIssueItemTest extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.ISSUE_LIST, listName, "Issue List description");
-        
+
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + itemFile);
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + attachedFile);
         dataListsService.addIssueListItem(adminUser, adminPassword, siteName, listName, itemId, itemTitle, Collections.singletonList(userName), itemStatus, itemPriority,
-                itemDescription, null, itemComment, Collections.singletonList(itemFile));
+            itemDescription, null, itemComment, Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         dataListsPage.clickIssueListItem(listName);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        userService.delete(adminUser,adminPassword, userAssignee);
+        userService.delete(adminUser, adminPassword, userAssignee);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userAssignee);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C6713")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6713")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void saveEditItem()
     {
         LOG.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");
@@ -110,7 +111,7 @@ public class EditIssueItemTest extends ContextAwareWebTest
         editItemPopUp.clickSave();
         List<String> attachmentsList = Arrays.asList(attachedFile, itemFile);
         List<String> expectedItem = Arrays.asList(newItemID, newItemTitle, userAssignee, newItemStatus, newItemPriority, newItemDescription, updatedItemDate,
-                newItemComments, attachmentsList.toString());
+            newItemComments, attachmentsList.toString());
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedItem), newItemTitle + " issue list item is displayed.");
     }
 }

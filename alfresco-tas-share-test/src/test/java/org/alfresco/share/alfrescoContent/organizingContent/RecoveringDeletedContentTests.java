@@ -26,25 +26,31 @@ import static org.testng.Assert.*;
  */
 public class RecoveringDeletedContentTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
 
-    @Autowired private DeleteDialog deleteDialog;
+    @Autowired
+    private DeleteDialog deleteDialog;
 
-    @Autowired private UserProfilePage userProfilePage;
+    @Autowired
+    private UserProfilePage userProfilePage;
 
-    @Autowired private MyProfileNavigation myProfileNavigation;
+    @Autowired
+    private MyProfileNavigation myProfileNavigation;
 
-    @Autowired private UserTrashcanPage userTrashcanPage;
+    @Autowired
+    private UserTrashcanPage userTrashcanPage;
 
     private final String firstName = "FirstName";
     private final String lastName = "LastName";
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
 
-    @TestRail(id = "C7570")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7570")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void recoverDeletedDocument()
     {
         String random = RandomData.getRandomAlphanumeric();
@@ -71,7 +77,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedSelectedContent1), expectedSelectedContent1.toString(), "Selected content=");
         ArrayList<String> expectedNotSelectedContent1 = new ArrayList<>(Collections.singletonList(fileName3));
         assertEquals(documentLibraryPage.verifyContentItemsNotSelected(expectedNotSelectedContent1), expectedNotSelectedContent1.toString(),
-                "Not selected content=");
+            "Not selected content=");
         headerMenuBar.clickSelectedItemsMenu();
         headerMenuBar.clickSelectedItemsOption("Delete");
         deleteDialog.clickDelete();
@@ -102,13 +108,13 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName2), fileName2 + " isn't displayed in Document Library.");
 
         cleanupAuthenticatedSession();
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7571")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7571")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void recoverDeletedFolder()
     {
         String random = RandomData.getRandomAlphanumeric();
@@ -135,7 +141,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedSelectedContent1), expectedSelectedContent1.toString(), "Selected content=");
         ArrayList<String> expectedNotSelectedContent1 = new ArrayList<>(Collections.singletonList(folderName3));
         assertEquals(documentLibraryPage.verifyContentItemsNotSelected(expectedNotSelectedContent1), expectedNotSelectedContent1.toString(),
-                "Not selected content=");
+            "Not selected content=");
         headerMenuBar.clickSelectedItemsMenu();
         headerMenuBar.clickSelectedItemsOption("Delete");
         deleteDialog.clickDelete();
@@ -164,8 +170,8 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.getFoldersList().contains(folderName2), folderName2 + " isn't displayed in Document Library.");
 
         cleanupAuthenticatedSession();
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 }

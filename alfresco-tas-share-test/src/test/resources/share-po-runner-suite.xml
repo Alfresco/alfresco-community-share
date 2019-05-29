@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="SharePoSuite" parallel="false" preserve-order="true" thread-count="1">
-    <listeners>
-        <listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
-        <listener class-name="org.alfresco.utility.testrail.TestRailExecutorListener"></listener>
-        <listener class-name="org.alfresco.utility.testng.OSTestMethodSelector"></listener>
-    </listeners>
+   <listeners>
+      <listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
+      <listener class-name="org.alfresco.utility.testrail.TestRailExecutorListener"></listener>
+      <listener class-name="org.alfresco.utility.testng.OSTestMethodSelector"></listener>
+   </listeners>
 
-    <test name="Share">
-        <method-selectors>
-            <!-- -DincludeGroups=sanity,comments,people -DexcludeGroups=networks,othergroup -DrunBugs=true -DupdateTestRail=true-->
-            <method-selector>
-                <script language="beanshell"><![CDATA[
+   <test name="Share">
+      <method-selectors>
+         <!-- -DincludeGroups=sanity,comments,people -DexcludeGroups=networks,othergroup -DrunBugs=true -DupdateTestRail=true-->
+         <method-selector>
+            <script language="beanshell"><![CDATA[
                 includedGroups = System.getProperty("includeGroups");
                 excludedGroups = System.getProperty("excludeGroups");
 
@@ -42,12 +42,12 @@
                 }
                 return false;
                 ]]>
-                </script>
-            </method-selector>
-        </method-selectors>
-        <packages>
-            <package name="org.alfresco.share.*"/>
-        </packages>
+            </script>
+         </method-selector>
+      </method-selectors>
+      <packages>
+         <package name="org.alfresco.share.*" />
+      </packages>
 
-    </test> <!-- Test -->
+   </test> <!-- Test -->
 </suite> <!-- Suite -->

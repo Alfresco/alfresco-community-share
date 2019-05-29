@@ -53,13 +53,13 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         sitePagesService.createBlogPost(userName, password, siteName, identifier + " blog 4", "hello" + identifier, false, null);
 
         sitePagesService.addCalendarEvent(userName, password, siteName, "test" + identifier + " event 1", "", "test" + identifier, today.toDate(),
-                tomorrow.toDate(), "", "", false, null);
+            tomorrow.toDate(), "", "", false, null);
         sitePagesService.addCalendarEvent(userName, password, siteName, "test" + identifier + " event 2", "", "hello" + identifier, today.toDate(),
-                tomorrow.toDate(), "", "", false, null);
+            tomorrow.toDate(), "", "", false, null);
         sitePagesService.addCalendarEvent(userName, password, siteName, identifier + " event 3", "", "test" + identifier, today.toDate(),
-                tomorrow.toDate(), "", "", false, null);
+            tomorrow.toDate(), "", "", false, null);
         sitePagesService.addCalendarEvent(userName, password, siteName, identifier + " event 4", "", "hello" + identifier, today.toDate(),
-                tomorrow.toDate(), "", "", false, null);
+            tomorrow.toDate(), "", "", false, null);
 
         sitePagesService.createDiscussion(userName, password, siteName, "test" + identifier + " topic 1", "test" + identifier, null);
         sitePagesService.createDiscussion(userName, password, siteName, "test" + identifier + " topic 2", "hello" + identifier, null);
@@ -67,12 +67,12 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         sitePagesService.createDiscussion(userName, password, siteName, identifier + " topic 4", "hello" + identifier, null);
 
         sitePagesService.createLink(userName, password, siteName, "test" + identifier + " link 1", "https://www.alfresco.com", "test" + identifier,
-                false, null);
+            false, null);
         sitePagesService.createLink(userName, password, siteName, "test" + identifier + " link 2", "https://www.alfresco.com", "hello" + identifier,
-                false, null);
+            false, null);
         sitePagesService.createLink(userName, password, siteName, identifier + " link 3", "https://www.alfresco.com", "test" + identifier, false, null);
         sitePagesService.createLink(userName, password, siteName, identifier + " link 4", "https://www.alfresco.com", "hello" + identifier, false,
-                null);
+            null);
 
         dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, "test" + identifier + " list 1", "test" + identifier);
         dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, "test" + identifier + " list 2", "hello" + identifier);
@@ -80,8 +80,8 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.TODO_LIST, identifier + " list 4", "hello" + identifier);
     }
 
-    @TestRail(id = "C5888")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5888")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyAdvancedSearchPage()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -99,9 +99,9 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         LOG.info("STEP 3 - Verify \"look for\" drop-down");
         advancedSearchPage.clickOnLookForDropdown();
         Assert.assertTrue(advancedSearchPage.isLookForDropdownOptionDisplayed(language.translate("advancedSearchPage.lookForDropDown.content.label"),
-                language.translate("advancedSearchPage.lookForDropDown.content.description")));
+            language.translate("advancedSearchPage.lookForDropDown.content.description")));
         Assert.assertTrue(advancedSearchPage.isLookForDropdownOptionDisplayed(language.translate("advancedSearchPage.lookForDropDown.folders.label"),
-                language.translate("advancedSearchPage.lookForDropDown.folders.description")));
+            language.translate("advancedSearchPage.lookForDropDown.folders.description")));
 
         LOG.info("STEP 4 - Choose \"Content\" from \"Look for\" drop-down");
         advancedSearchPage.clickOnLookForDropdownOption(language.translate("advancedSearchPage.lookForDropDown.content.label"));
@@ -131,9 +131,9 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
-    @Bug(id = "ACE-5789")
-    @TestRail(id = "C5891")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Bug (id = "ACE-5789")
+    @TestRail (id = "C5891")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByKeyword()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -195,9 +195,9 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
 
     }
 
-    @Bug(id = "ACE-5789")
-    @TestRail(id = "C5907")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Bug (id = "ACE-5789")
+    @TestRail (id = "C5907")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByName()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -235,9 +235,9 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @Bug(id = "ACE-5789")
-    @TestRail(id = "C5908")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Bug (id = "ACE-5789")
+    @TestRail (id = "C5908")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByTitle()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -282,8 +282,8 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5909")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5909")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByDescription()
     {
         String identifier = RandomData.getRandomAlphanumeric();

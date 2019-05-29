@@ -21,9 +21,11 @@ import java.io.File;
 
 public class PreviewFileTest extends ContextAwareWebTest
 {
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
@@ -31,7 +33,7 @@ public class PreviewFileTest extends ContextAwareWebTest
     private final String docName = "MultiPageDocument.docx";
     private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC5884" + File.separator;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
@@ -41,17 +43,17 @@ public class PreviewFileTest extends ContextAwareWebTest
         contentService.uploadFilesInFolder(testDataFolder, testUser, password, siteName, folderName);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C5883")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C5883")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void previewFile()
     {
         LOG.info("STEP 1: Navigate to 'Document Library' page for 'siteName'");
@@ -89,7 +91,7 @@ public class PreviewFileTest extends ContextAwareWebTest
         documentLibraryPage.clickOnFile(docName);
         getBrowser().waitInSeconds(5);
         Assert.assertEquals(documentDetailsPage.getScaleValue(), newScaleValue, "Wrong scale value! expected " + documentDetailsPage.getScaleValue()
-                + "but found " + newScaleValue);
+            + "but found " + newScaleValue);
         documentDetailsPage.clickOnZoomOutButton();
         Assert.assertFalse(documentDetailsPage.getScaleValue().equals(newScaleValue), "Scale value should be different");
 

@@ -31,7 +31,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
     @Autowired
     HeaderMenuBar headerMenuBar;
-    
+
     @Autowired
     StartWorkflowPage startWorkflowPage;
 
@@ -52,7 +52,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
     private String docContent = String.format("docContent%s", RandomData.getRandomAlphanumeric());
     private String startWorkflowAction = "Start Workflow";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void testSetup()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
@@ -62,19 +62,19 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.HTML, docName1, docContent);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-            siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @Bug(id = "MNT-17015 won't fix")
-    @TestRail(id = "C8344")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @Bug (id = "MNT-17015 won't fix")
+    @TestRail (id = "C8344")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void createNewTaskAndAssignToYourself()
     {
         LOG.info("Precondition");
@@ -100,9 +100,9 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
     }
 
-    @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
-    @TestRail(id = "C8345")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
+    @TestRail (id = "C8345")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void createNewTaskAndAssignToAnotherUser()
     {
         LOG.info("Precondition");
@@ -135,9 +135,9 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
-    @TestRail(id = "C8376")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
+    @TestRail (id = "C8376")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void cancelStartingWorkflow()
     {
         LOG.info("Precondition");
@@ -163,9 +163,9 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         Assert.assertTrue(getBrowser().getCurrentUrl().endsWith("documentlibrary"), "User is successfully redirected to document library page");
     }
 
-    @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
-    @TestRail(id = "C8388")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
+    @TestRail (id = "C8388")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void startWorkflowForMultipleFiles()
     {
         LOG.info("Precondition");

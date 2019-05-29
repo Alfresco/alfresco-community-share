@@ -20,11 +20,11 @@ public class ListItemSelectedContent extends NoListItemSelectedContent
     }
 
     @RenderWebElement
-    @FindBy(css = "h2[id$='default-title']")
+    @FindBy (css = "h2[id$='default-title']")
     private WebElement listTitle;
 
     @RenderWebElement
-    @FindBy(css = "div[id$='default-paginatorBottom']")
+    @FindBy (css = "div[id$='default-paginatorBottom']")
     private WebElement paginatorBottom;
 
     private By successfullyCreatedMessage = By.cssSelector("div[id='message_c'] span[class='message']");

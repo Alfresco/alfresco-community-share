@@ -14,24 +14,24 @@ public class EditTagDialog extends ShareDialog
     private TagManagerPage tagManagerPage;
 
     @RenderWebElement
-    @FindBy(css = "div[id*='edit-tag-dialogTitle']")
+    @FindBy (css = "div[id*='edit-tag-dialogTitle']")
     private WebElement dialogTitle;
 
-    @FindBy(css = "form[id*='edit-tag'] label")
+    @FindBy (css = "form[id*='edit-tag'] label")
     private WebElement renameLabel;
 
-    @FindBy(css = "form[id*='edit-tag'] div[class='yui-u']")
+    @FindBy (css = "form[id*='edit-tag'] div[class='yui-u']")
     private WebElement requiredSymbol;
 
     @RenderWebElement
-    @FindBy(css = "input[id*='edit-tag']")
+    @FindBy (css = "input[id*='edit-tag']")
     private WebElement editTagInputField;
 
     @RenderWebElement
-    @FindBy(css = "button[id*='ok']")
+    @FindBy (css = "button[id*='ok']")
     private WebElement okButton;
 
-    @FindBy(css = "button[id*='tag-cancel']")
+    @FindBy (css = "button[id*='tag-cancel']")
     private WebElement cancelButton;
 
     public String getDialogTitle()

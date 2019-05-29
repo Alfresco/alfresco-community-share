@@ -23,38 +23,41 @@ import java.util.List;
 @PageObject
 public class ModelManagerPage extends AdminToolsPage
 {
-    @Autowired CreateModelDialogPage createModelDialogPage;
-    @Autowired ImportModelDialogPage importModelDialogPage;
-    @Autowired ModelDetailsPage modelDetailsPage;
+    @Autowired
+    CreateModelDialogPage createModelDialogPage;
+    @Autowired
+    ImportModelDialogPage importModelDialogPage;
+    @Autowired
+    ModelDetailsPage modelDetailsPage;
 
     @RenderWebElement
-    @FindBy (css="span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
+    @FindBy (css = "span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
     private WebElement createModelButton;
 
     @RenderWebElement
-    @FindBy (css="span[class*='importButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
+    @FindBy (css = "span[class*='importButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
     private WebElement importModelButton;
 
     private By nameColumn = By.cssSelector("th[class*=' nameColumn '] span");
 
-    private By namespaceColumn =  By.cssSelector("th[class*=' namespaceColumn '] span");
+    private By namespaceColumn = By.cssSelector("th[class*=' namespaceColumn '] span");
 
     private By statusColumn = By.cssSelector("th[class*=' statusColumn '] span");
 
     private By actionsColumn = By.cssSelector("th[class*=' actionsColumn '] span");
 
-    private By modelsList =  By.cssSelector("tr[id^='alfresco_lists_views_layouts_Row']");
+    private By modelsList = By.cssSelector("tr[id^='alfresco_lists_views_layouts_Row']");
 
     public By actionsButton = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup']");
 
     public By status = By.xpath(".//td[contains(@class, 'statusColumn ')]//span[@class='value']");
-    
+
     private String modelRow = "//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='%s']/../../../..";
 
-    @FindBy (css="div.alfresco-lists-views-AlfListView__no-data")
+    @FindBy (css = "div.alfresco-lists-views-AlfListView__no-data")
     private WebElement noModelsText;
 
-    @FindAll(@FindBy (css= "tr[id^='alfresco_lists_views_layouts_Row']"))
+    @FindAll (@FindBy (css = "tr[id^='alfresco_lists_views_layouts_Row']"))
     private List<WebElement> modelItemsList;
 
     @Override
@@ -101,11 +104,11 @@ public class ModelManagerPage extends AdminToolsPage
     public CreateModelDialogPage clickCreateModelButton()
     {
         getBrowser().waitUntilElementVisible(createModelButton);
-       getBrowser().waitUntilElementClickable(createModelButton).click();
+        getBrowser().waitUntilElementClickable(createModelButton).click();
         return (CreateModelDialogPage) createModelDialogPage.renderedPage();
     }
 
-    public WebElement selectRow (String modelName)
+    public WebElement selectRow(String modelName)
     {
         browser.waitUntilElementVisible(modelsList);
         browser.waitUntilElementIsDisplayedWithRetry(modelsList, 6);
@@ -115,8 +118,8 @@ public class ModelManagerPage extends AdminToolsPage
 
     public WebElement selectModelByName(String modelName)
     {
-    	By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-    	return browser.waitUntilElementVisible(modelRowLocator);
+        By modelRowLocator = By.xpath(String.format(modelRow, modelName));
+        return browser.waitUntilElementVisible(modelRowLocator);
     }
 
     public boolean isModelDisplayed(String modelName)
@@ -201,9 +204,9 @@ public class ModelManagerPage extends AdminToolsPage
     {
         List<WebElement> actionsOptions = browser.findElements(By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup_'] td[class ='dijitReset dijitMenuItemLabel']"));
         browser.waitUntilElementsVisible(actionsOptions);
-        for(WebElement action: actionsOptions)
+        for (WebElement action : actionsOptions)
         {
-            if(action.getText().equals(actionName))
+            if (action.getText().equals(actionName))
             {
                 browser.mouseOver(action);
                 action.click();
@@ -226,8 +229,7 @@ public class ModelManagerPage extends AdminToolsPage
         {
             browser.switchTo().alert();
             return true;
-        }
-        catch (NoAlertPresentException noAlertPresentException)
+        } catch (NoAlertPresentException noAlertPresentException)
         {
             return false;
         }

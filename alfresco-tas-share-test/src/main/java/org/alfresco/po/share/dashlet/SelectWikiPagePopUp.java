@@ -8,18 +8,18 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class SelectWikiPagePopUp extends DashletPopUp
 {
-    @FindBy(css = "div[style*='cursor: move']")
+    @FindBy (css = "div[style*='cursor: move']")
     private WebElement selectWikiPage;
 
-    @FindBy(css = "div[class$='yui-u']")
+    @FindBy (css = "div[class$='yui-u']")
     private WebElement selectWikiPageText;
 
-    @FindBy(css = "select[name='wikipage']")
+    @FindBy (css = "select[name='wikipage']")
     private WebElement selectAPageDropDown;
 
     /**
      * Method to get the Configure dashlet (Edit) PopUp text on Wiki dashlet
-     * 
+     *
      * @return the Configure Wiki Dashlet form text displayed.
      */
 
@@ -30,7 +30,7 @@ public class SelectWikiPagePopUp extends DashletPopUp
 
     /**
      * Method to check if the Select a Page drop-down is displayed on the Select Wiki Page form.
-     * 
+     *
      * @return true if select a page drop down is found on the Select a Wiki pafe form
      */
     public boolean isSelectAPageDropDownDisplayed()
@@ -48,7 +48,7 @@ public class SelectWikiPagePopUp extends DashletPopUp
 
     /**
      * Method to get the name of the Wiki Page from the Select a Page drop down list.
-     * 
+     *
      * @return the Wiki Page name from the Select a Page drop down
      */
 
@@ -68,7 +68,7 @@ public class SelectWikiPagePopUp extends DashletPopUp
 
     /**
      * Method to check that the Select Wiki Page Form is displayed (Configure Dashlet(Edit))
-     * 
+     *
      * @return Select Wiki Page form title
      */
 

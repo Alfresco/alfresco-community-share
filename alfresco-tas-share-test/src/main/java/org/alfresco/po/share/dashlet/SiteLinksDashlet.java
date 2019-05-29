@@ -27,16 +27,16 @@ public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
     LinkDetailsViewPage linkDetailsViewPage;
 
     @RenderWebElement
-    @FindBy(css = "div.dashlet.site-links")
+    @FindBy (css = "div.dashlet.site-links")
     private HtmlElement dashletContainer;
 
-    @FindBy(css = "a[href='links-linkedit']")
+    @FindBy (css = "a[href='links-linkedit']")
     private Link createLink;
 
-    @FindAll(@FindBy(css = "div.dashlet.site-links .link>a"))
+    @FindAll (@FindBy (css = "div.dashlet.site-links .link>a"))
     private List<WebElement> siteLinksList;
 
-    @FindBy(css = "div.dashlet.site-links .detail-list-item span")
+    @FindBy (css = "div.dashlet.site-links .detail-list-item span")
     private HtmlElement emptyDashletMessage;
 
     private By linkDetails = By.xpath("../following-sibling::*[@class = 'actions']/a");

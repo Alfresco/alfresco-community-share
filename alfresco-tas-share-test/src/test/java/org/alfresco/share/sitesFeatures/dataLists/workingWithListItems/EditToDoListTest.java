@@ -49,7 +49,7 @@ public class EditToDoListTest extends ContextAwareWebTest
     String itemFile = "testFile1";
     String attachedFile = "testDoc.txt";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -61,25 +61,25 @@ public class EditToDoListTest extends ContextAwareWebTest
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsService.createDataList(userName, password, siteName, DataList.TODO_LIST, todoListName, dataListDescription);
         dataListsService.addToDoItem(userName, password, siteName, todoListName, itemTitle, dueDateToday, priority, status, notes, null,
-                Collections.singletonList(itemFile));
+            Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         dataListsPage.clickToDoListItem(todoListName);
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        userService.delete(adminUser,adminPassword, asigneeName);
+        userService.delete(adminUser, adminPassword, asigneeName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + asigneeName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C10352")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C10352")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyPossibilityToEditItem()
     {
         titleInputToEdit = "test edited title";
@@ -117,14 +117,14 @@ public class EditToDoListTest extends ContextAwareWebTest
         editItemPopUp.addAssignedToToDo(asigneeName);
 
         LOG.info(
-                "Step 9: Edit the Attachments filed, add new attachment.f.e. from the Select... window navigate to data list (click Document Library and select data list). "
-                        + "Click the + button for the documentLibrary and Ok button.");
+            "Step 9: Edit the Attachments filed, add new attachment.f.e. from the Select... window navigate to data list (click Document Library and select data list). "
+                + "Click the + button for the documentLibrary and Ok button.");
         editItemPopUp.addAttachmentFromDocumentLibrary(attachedFile);
 
         LOG.info("Step 10: Click on Save");
         editItemPopUp.clickSave();
         List<String> expectedItem = Arrays.asList(titleInputToEdit, dueDateTomorrowStringformated + " " + dueTime, priorityEdited, newItemStatus,
-                notesEdited, asigneeName, attachedFile);
+            notesEdited, asigneeName, attachedFile);
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedItem), titleInputToEdit + " issue list item is displayed.");
     }
 }

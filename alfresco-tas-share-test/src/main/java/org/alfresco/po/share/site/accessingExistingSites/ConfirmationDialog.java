@@ -13,19 +13,19 @@ public abstract class ConfirmationDialog extends HtmlPage
 {
     //@RenderWebElement
     //@FindBy(xpath = "//div[contains(@class, 'dialogDisplayed')]//span[contains(@id, 'alfresco_buttons_AlfButton') and (text()='OK' or text()='Yes')]")
-    @FindBy (id ="ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM_label")
+    @FindBy (id = "ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM_label")
     protected Button dialogOkButton;
 
-    @FindBy(css ="div.dialog-body")
+    @FindBy (css = "div.dialog-body")
     //@FindBy(css = "div.dialogDisplayed div.dijitDialogPaneContent>div.dialog-body")
     protected WebElement dialogMessage;
 
-    @FindBy(css ="span.dijitDialogCloseIcon")
+    @FindBy (css = "span.dijitDialogCloseIcon")
     //@FindBy(css = "div.dialogDisplayed span.dijitDialogCloseIcon")
     protected WebElement dialogCloseButton;
 
 
-    @FindBy(css ="span[widgetid='ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM'] >span")
+    @FindBy (css = "span[widgetid='ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM'] >span")
     protected WebElement confirmDeletionButton;
 
 
@@ -42,7 +42,8 @@ public abstract class ConfirmationDialog extends HtmlPage
     /**
      * Click on the OK button
      */
-    public void clickOKButton() {
+    public void clickOKButton()
+    {
         getBrowser().waitUntilElementClickable(confirmDeletionButton).click();
         getBrowser().clickJS(confirmDeletionButton);
     }

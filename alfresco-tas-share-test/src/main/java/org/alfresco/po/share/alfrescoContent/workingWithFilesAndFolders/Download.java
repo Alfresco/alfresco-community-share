@@ -33,8 +33,7 @@ public class Download extends SiteCommon<Download>
             {
                 if (aDirectoryContent.getName().equals(fileName))
                     return true;
-            }
-            else
+            } else
             {
                 if (aDirectoryContent.getName().equals(fileName + extension))
                     return true;

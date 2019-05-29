@@ -19,16 +19,16 @@ public class ReplicationJobsPage extends AdminToolsPage
     CreateEditReplicationJobPage createEditReplicationJobPage;
 
     @RenderWebElement
-    @FindBy(css = "a[id*='create']")
+    @FindBy (css = "a[id*='create']")
     private WebElement createJobButton;
 
-    @FindBy(css = "button[id*='run']")
+    @FindBy (css = "button[id*='run']")
     private WebElement runJobButton;
 
-    @FindBy(css = "[id*='jobsList'] a")
+    @FindBy (css = "[id*='jobsList'] a")
     private List<WebElement> jobsList;
 
-    @FindBy(css = "[id*='jobStatus']")
+    @FindBy (css = "[id*='jobStatus']")
     private WebElement status;
 
     @Override
@@ -50,7 +50,7 @@ public class ReplicationJobsPage extends AdminToolsPage
 
     /**
      * Verify presence of job in "Jobs" section
-     * 
+     *
      * @param jobName name of the job to be checked
      * @return true if job is displayed
      */

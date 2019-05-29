@@ -32,25 +32,25 @@ public class ModuleBrowserTests extends ContextAwareWebTest
     @Autowired
     Toolbar toolbar;
 
-    private String userName = "C9498User"+ RandomData.getRandomAlphanumeric();
+    private String userName = "C9498User" + RandomData.getRandomAlphanumeric();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
 
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void afterClass()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
 
-    @TestRail(id ="C9498")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9498")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void accessModuleBrowserPage()
     {
@@ -75,8 +75,8 @@ public class ModuleBrowserTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id ="C9499")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9499")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
 
     public void verifyTheAccessModuleBrowserPageInfo()
     {

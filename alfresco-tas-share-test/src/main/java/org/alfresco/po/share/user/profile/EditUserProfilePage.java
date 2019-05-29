@@ -27,63 +27,63 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
     private UploadFileDialog uploadDialog;
 
     @RenderWebElement
-    @FindBy(css = "input[id$='input-firstName']")
+    @FindBy (css = "input[id$='input-firstName']")
     private WebElement firstNameInput;
     @RenderWebElement
-    @FindBy(css = "input[id$='input-lastName']")
+    @FindBy (css = "input[id$='input-lastName']")
     private WebElement lastNameInput;
     @RenderWebElement
-    @FindBy(css = "input[id$='input-jobtitle']")
+    @FindBy (css = "input[id$='input-jobtitle']")
     private WebElement jobTitleInput;
     @RenderWebElement
-    @FindBy(css = "input[id$='input-location']")
+    @FindBy (css = "input[id$='input-location']")
     private WebElement locationInput;
-    @FindBy(css = "textarea[id$='input-bio']")
+    @FindBy (css = "textarea[id$='input-bio']")
     private WebElement summaryInput;
-    @FindBy(css = "button[@id$='button-upload-button']")
+    @FindBy (css = "button[@id$='button-upload-button']")
     private WebElement uploadAvatar;
-    @FindBy(css = "input[id$='input-telephone']")
+    @FindBy (css = "input[id$='input-telephone']")
     private WebElement telephoneInput;
-    @FindBy(css = "input[id$='input-mobile']")
+    @FindBy (css = "input[id$='input-mobile']")
     private WebElement mobileInput;
-    @FindBy(css = "input[id$='input-email']")
+    @FindBy (css = "input[id$='input-email']")
     private WebElement emailInput;
-    @FindBy(css = "input[id$='input-skype']")
+    @FindBy (css = "input[id$='input-skype']")
     private WebElement skypeInput;
-    @FindBy(css = "input[id$='input-instantmsg']")
+    @FindBy (css = "input[id$='input-instantmsg']")
     private WebElement instantmsgInput;
-    @FindBy(css = "input[id$='input-googleusername']")
+    @FindBy (css = "input[id$='input-googleusername']")
     private WebElement googleUserNameInput;
-    @FindBy(css = "input[id$='input-organization']")
+    @FindBy (css = "input[id$='input-organization']")
     private WebElement companyNameInput;
-    @FindBy(css = "input[id$='input-companyaddress1']")
+    @FindBy (css = "input[id$='input-companyaddress1']")
     private WebElement companyAddress1Input;
-    @FindBy(css = "input[id$='input-companyaddress2']")
+    @FindBy (css = "input[id$='input-companyaddress2']")
     private WebElement companyAddress2Input;
-    @FindBy(css = "input[id$='input-companyaddress3']")
+    @FindBy (css = "input[id$='input-companyaddress3']")
     private WebElement companyAddress3Input;
-    @FindBy(css = "input[id$='input-companypostcode']")
+    @FindBy (css = "input[id$='input-companypostcode']")
     private WebElement companyPostCodeInput;
-    @FindBy(css = "input[id$='input-companytelephone']")
+    @FindBy (css = "input[id$='input-companytelephone']")
     private WebElement companyTelephoneInput;
-    @FindBy(css = "input[id$='input-companyemail']")
+    @FindBy (css = "input[id$='input-companyemail']")
     private WebElement companyEmailInput;
-    @FindBy(css = "input[id$='input-companyfax']")
+    @FindBy (css = "input[id$='input-companyfax']")
     private WebElement companyFaxInput;
-    @FindBy(css = ".photoimg")
+    @FindBy (css = ".photoimg")
     private WebElement avatar;
 
-    @FindBy(css = "button[id$='button-clearphoto-button']")
+    @FindBy (css = "button[id$='button-clearphoto-button']")
     private Button useDefaultPhoto;
-    @FindBy(css = "button[id$='default-button-upload-button']")
+    @FindBy (css = "button[id$='default-button-upload-button']")
     private Button uploadPhoto;
 
-    @FindAll(@FindBy(css = ".phototxt"))
+    @FindAll (@FindBy (css = ".phototxt"))
     private List<WebElement> imageInstructions;
-    
-    @FindBy(css = "button[id$='button-cancel-button']")
+
+    @FindBy (css = "button[id$='button-cancel-button']")
     private Button cancel;
-    @FindBy(css = "span[id$='button-save']")
+    @FindBy (css = "span[id$='button-save']")
     private Button save;
 
     @Override
@@ -114,8 +114,8 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
         typeUserDetail(locationInput, aboutUser.getLocation());
         typeUserDetail(summaryInput, aboutUser.getSummary());
     }
-    
-    public void setContactInformation(String telephone, String mobile, String email, 
+
+    public void setContactInformation(String telephone, String mobile, String email,
                                       String skype, String im, String googleUserName)
     {
         ContactInformation contactInfo = new ContactInformation(telephone, mobile, email, skype, im, googleUserName);
@@ -126,7 +126,7 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
         typeUserDetail(instantmsgInput, contactInfo.getIm());
         typeUserDetail(googleUserNameInput, contactInfo.getGoogleUserName());
     }
-    
+
     public void setCompanyDetails(String name, String address1, String address2, String address3, String postCode,
                                   String telephone, String fax, String email)
     {
@@ -140,17 +140,17 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
         typeUserDetail(companyFaxInput, companyDetails.getFax());
         typeUserDetail(companyEmailInput, companyDetails.getEmail());
     }
-    
+
     public boolean isFirstNameDisplayed()
     {
         return browser.isElementDisplayed(firstNameInput);
     }
-    
+
     public boolean isLastNameDisplayed()
     {
         return browser.isElementDisplayed(lastNameInput);
     }
-    
+
     public boolean isJobTitleDisplayed()
     {
         return browser.isElementDisplayed(jobTitleInput);
@@ -160,77 +160,77 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
     {
         return browser.isElementDisplayed(locationInput);
     }
-    
+
     public boolean isSummaryDisplayed()
     {
         return browser.isElementDisplayed(summaryInput);
     }
-    
+
     public boolean isTelephoneDisplayed()
     {
         return browser.isElementDisplayed(telephoneInput);
     }
-    
+
     public boolean isMobileDisplayed()
     {
         return browser.isElementDisplayed(mobileInput);
     }
-    
+
     public boolean isEmailDisplayed()
     {
         return browser.isElementDisplayed(emailInput);
     }
-    
+
     public boolean isSkypeDisplayed()
     {
         return browser.isElementDisplayed(skypeInput);
     }
-    
+
     public boolean isIMDisplayed()
     {
         return browser.isElementDisplayed(instantmsgInput);
     }
-    
+
     public boolean isGoogleUserNameDisplayed()
     {
         return browser.isElementDisplayed(googleUserNameInput);
     }
-    
+
     public boolean isCompanyNameDisplayed()
     {
         return browser.isElementDisplayed(companyNameInput);
     }
-    
+
     public boolean isCompanyAddress1Displayed()
     {
         return browser.isElementDisplayed(companyAddress1Input);
     }
-    
+
     public boolean isCompanyAddress2Displayed()
     {
         return browser.isElementDisplayed(companyAddress2Input);
     }
-    
+
     public boolean isCompanyAddress3Displayed()
     {
         return browser.isElementDisplayed(companyAddress3Input);
     }
-    
+
     public boolean isCompanyPostCodeDisplayed()
     {
         return browser.isElementDisplayed(companyPostCodeInput);
     }
-    
+
     public boolean isCompanyTelephoneDisplayed()
     {
         return browser.isElementDisplayed(companyTelephoneInput);
     }
-    
+
     public boolean isCompanyFaxDisplayed()
     {
         return browser.isElementDisplayed(companyFaxInput);
     }
-    
+
     public boolean isCompanyEmailDisplayed()
     {
         return browser.isElementDisplayed(companyEmailInput);
@@ -240,7 +240,7 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
     {
         useDefaultPhoto.click();
     }
-    
+
     public boolean isPhotoDisplayed()
     {
         return avatar.isEnabled();
@@ -251,7 +251,7 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
         clickUpload().uploadFile(pathToPhoto);
         return (EditUserProfilePage) this.renderedPage();
     }
-    
+
     public UploadFileDialog clickUpload()
     {
         uploadPhoto.click();
@@ -267,20 +267,20 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
         }
         return instructionValue;
     }
-    
+
     public UserProfilePage clickCancel()
     {
         cancel.click();
         return (UserProfilePage) userProfilePage.renderedPage();
     }
-    
+
     public UserProfilePage clickSave()
     {
-     //   ((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
+        //   ((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
         save.click();
         return (UserProfilePage) userProfilePage.renderedPage();
     }
-    
+
     public String getPhotoSrc()
     {
         return avatar.getAttribute("src");

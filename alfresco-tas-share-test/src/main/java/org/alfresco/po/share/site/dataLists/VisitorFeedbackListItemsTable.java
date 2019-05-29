@@ -15,37 +15,37 @@ public class VisitorFeedbackListItemsTable extends ListItemTable
     protected By assigneeColumn = By.cssSelector("td[class*='assignee'] div");
     protected By attachmentsColumn = By.cssSelector("td[class*='cm_attachments'] div");
     protected By checkColumn = By.cssSelector("input[id*='checkbox']");
-    
+
     public VisitorFeedbackListItemsTable(WebElement webElement, WebBrowser browser)
     {
         super(webElement, browser);
     }
-    
+
     public WebElement getTitleColumn()
     {
         return webElement.findElement(titleColumn);
     }
-    
+
     public WebElement getDueDateColumn()
     {
         return webElement.findElement(dueDateColumn);
     }
-    
+
     public WebElement getPriorityColumn()
     {
         return webElement.findElement(priorityColumn);
     }
-    
+
     public WebElement getStatusColumn()
     {
         return webElement.findElement(statusColumn);
     }
-    
+
     public WebElement getAssigneeColumn()
     {
         return webElement.findElement(assigneeColumn);
     }
-    
+
     public WebElement getAttachmentsColumn()
     {
         return webElement.findElement(attachmentsColumn);

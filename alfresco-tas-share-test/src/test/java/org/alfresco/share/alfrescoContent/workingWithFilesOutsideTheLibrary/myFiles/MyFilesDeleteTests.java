@@ -21,32 +21,32 @@ import static org.testng.Assert.*;
 public class MyFilesDeleteTests extends ContextAwareWebTest
 {
     private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-    private final String testFile = String.format("testFile%s",RandomData.getRandomAlphanumeric());
-    private final String folderName = String.format("testFolder%s",RandomData.getRandomAlphanumeric());
+    private final String testFile = String.format("testFile%s", RandomData.getRandomAlphanumeric());
+    private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
     private final String myFilesPath = "User Homes/" + user;
     @Autowired
     private MyFilesPage myFilesPage;
     @Autowired
     private DeleteDocumentOrFolderDialog deleteDialog;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createUser()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
     }
 
 
-    @TestRail(id = "C7896")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C7896")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesDeleteDocument()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
@@ -67,8 +67,8 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         assertFalse(myFilesPage.isContentNameDisplayed(testFile), "Documents item list is refreshed and is empty");
     }
 
-    @TestRail(id = "C7896")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C7896")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesDeleteFolder()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");

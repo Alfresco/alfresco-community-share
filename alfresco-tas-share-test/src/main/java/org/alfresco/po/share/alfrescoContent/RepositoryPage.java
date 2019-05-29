@@ -18,7 +18,7 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
         return "share/page/repository";
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
     public RepositoryPage navigateByMenuBar()
     {

@@ -52,7 +52,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     private String eventName;
     private DateFormat df = new SimpleDateFormat("EEEE, d MMMM, yyyy");
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
@@ -62,16 +62,16 @@ public class DeleteEventsTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C3174")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C3174")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteEventMonthView()
     {
         // precondition
@@ -89,7 +89,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Delete' button.");
         eventInformationDialog.clickDeleteButton();
         assertEquals(deleteEventDialog.getMessage(), "Are you sure you want to delete '" + eventName + "' on " + df.format(startDate) + "?",
-                "'Delete Event' confirmation pop-up is displayed.");
+            "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 4: Click 'Delete' button.");
         deleteEventDialog.confirmEventDelete();
@@ -100,8 +100,8 @@ public class DeleteEventsTests extends ContextAwareWebTest
         assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
-    @TestRail(id = "C5400")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5400")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingEventMonthView()
     {
         // precondition
@@ -119,7 +119,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Delete' button.");
         eventInformationDialog.clickDeleteButton();
         assertEquals(deleteEventDialog.getMessage(), "Are you sure you want to delete '" + eventName + "' on " + df.format(startDate) + "?",
-                "'Delete Event' confirmation pop-up is displayed.");
+            "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 4: Click 'Cancel' button.");
         deleteEventDialog.clickCancel();
@@ -133,8 +133,8 @@ public class DeleteEventsTests extends ContextAwareWebTest
         assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
-    @TestRail(id = "C5415")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5415")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteEventDayView()
     {
         // precondition
@@ -153,7 +153,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Delete' button.");
         eventInformationDialog.clickDeleteButton();
         assertEquals(deleteEventDialog.getMessage(), "Are you sure you want to delete '" + eventName + "' on " + df.format(startDate) + "?",
-                "'Delete Event' confirmation pop-up is displayed.");
+            "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 4: Click 'Delete' button.");
         deleteEventDialog.confirmEventDelete();
@@ -164,8 +164,8 @@ public class DeleteEventsTests extends ContextAwareWebTest
         assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
-    @TestRail(id = "C5416")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5416")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingEventDayView()
     {
         // precondition
@@ -184,7 +184,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Delete' button.");
         eventInformationDialog.clickDeleteButton();
         assertEquals(deleteEventDialog.getMessage(), "Are you sure you want to delete '" + eventName + "' on " + df.format(startDate) + "?",
-                "'Delete Event' confirmation pop-up is displayed.");
+            "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 4: Click 'Cancel' button.");
         deleteEventDialog.clickCancel();
@@ -198,8 +198,8 @@ public class DeleteEventsTests extends ContextAwareWebTest
         assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
-    @TestRail(id = "C5417")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5417")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteEventWeekView()
     {
         // precondition
@@ -218,7 +218,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Delete' button.");
         eventInformationDialog.clickDeleteButton();
         assertEquals(deleteEventDialog.getMessage(), "Are you sure you want to delete '" + eventName + "' on " + df.format(startDate) + "?",
-                "'Delete Event' confirmation pop-up is displayed.");
+            "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 4: Click 'Delete' button.");
         deleteEventDialog.confirmEventDelete();
@@ -229,8 +229,8 @@ public class DeleteEventsTests extends ContextAwareWebTest
         assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
-    @TestRail(id = "C5418")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5418")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingEventWeekView()
     {
         // precondition
@@ -249,7 +249,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Delete' button.");
         eventInformationDialog.clickDeleteButton();
         assertEquals(deleteEventDialog.getMessage(), "Are you sure you want to delete '" + eventName + "' on " + df.format(startDate) + "?",
-                "'Delete Event' confirmation pop-up is displayed.");
+            "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 4: Click 'Cancel' button.");
         deleteEventDialog.clickCancel();
@@ -263,8 +263,8 @@ public class DeleteEventsTests extends ContextAwareWebTest
         assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
-    @TestRail(id = "C5419")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5419")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteEventByClickingOnTheEventAgendaView()
     {
         // precondition
@@ -283,7 +283,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Delete' button.");
         eventInformationDialog.clickDeleteButton();
         assertEquals(deleteEventDialog.getMessage(), "Are you sure you want to delete '" + eventName + "' on " + df.format(startDate) + "?",
-                "'Delete Event' confirmation pop-up is displayed.");
+            "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 4: Click 'Delete' button.");
         deleteEventDialog.confirmEventDelete();
@@ -294,8 +294,8 @@ public class DeleteEventsTests extends ContextAwareWebTest
         assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
-    @TestRail(id = "C5420")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5420")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingEventByClickingOnTheEventAgendaView()
     {
         // precondition
@@ -314,7 +314,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'Delete' button.");
         eventInformationDialog.clickDeleteButton();
         assertEquals(deleteEventDialog.getMessage(), "Are you sure you want to delete '" + eventName + "' on " + df.format(startDate) + "?",
-                "'Delete Event' confirmation pop-up is displayed.");
+            "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 4: Click 'Cancel' button.");
         deleteEventDialog.clickCancel();
@@ -328,8 +328,8 @@ public class DeleteEventsTests extends ContextAwareWebTest
         assertTrue(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
-    @TestRail(id = "C6080")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6080")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteEventByClickingDeleteIconAgendaView()
     {
         // precondition
@@ -341,7 +341,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("Step 1: Click on 'Delete' button.");
         calendarPage.clickDeleteIcon(eventName);
         assertEquals(deleteEventDialog.getMessage(), "Are you sure you want to delete '" + eventName + "' on " + df.format(startDate) + "?",
-                "'Delete Event' confirmation pop-up is displayed.");
+            "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 2: Click 'Delete' button.");
         deleteEventDialog.confirmEventDelete();
@@ -353,8 +353,8 @@ public class DeleteEventsTests extends ContextAwareWebTest
         assertFalse(siteCalendarDashlet.isEventPresentInList(eventName), "The event is displayed on 'Site Calendar' dashlet.");
     }
 
-    @TestRail(id = "C6084")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6084")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingEventByClickingDeleteIconAgendaView()
     {
         // precondition
@@ -366,7 +366,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
         LOG.info("Step 1: Click on 'Delete' button.");
         calendarPage.clickDeleteIcon(eventName);
         assertEquals(deleteEventDialog.getMessage(), "Are you sure you want to delete '" + eventName + "' on " + df.format(startDate) + "?",
-                "'Delete Event' confirmation pop-up is displayed.");
+            "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 2: Click 'Cancel' button.");
         deleteEventDialog.clickCancel();

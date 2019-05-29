@@ -31,51 +31,51 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     private CreateNewTopicPage createNewTopicPage;
 
     @RenderWebElement
-    @FindBy(css = ".topiclist")
+    @FindBy (css = ".topiclist")
     private WebElement discussionsContainer;
 
-    @FindBy(css = "div.new-topic button[id$='default-create-button-button']")
+    @FindBy (css = "div.new-topic button[id$='default-create-button-button']")
     private Button newTopicButton;
 
     @RenderWebElement
-    @FindBy(css = "button[id*='discussions-topiclist_x0023_default-simpleView-button']")
+    @FindBy (css = "button[id*='discussions-topiclist_x0023_default-simpleView-button']")
     private WebElement viewButton;
 
     @RenderWebElement
-    @FindBy(className = "listTitle")
+    @FindBy (className = "listTitle")
     private WebElement listTitle;
 
-    @FindAll(@FindBy(css = "tr.yui-dt-rec td.yui-dt-col-topics"))
+    @FindAll (@FindBy (css = "tr.yui-dt-rec td.yui-dt-col-topics"))
     private List<WebElement> topicsList;
 
-    @FindAll(@FindBy(css = "ul[id$='discussions-topiclist_x0023_default-tags'] .tag>a"))
+    @FindAll (@FindBy (css = "ul[id$='discussions-topiclist_x0023_default-tags'] .tag>a"))
     private List<WebElement> tagsList;
 
-    @FindBy(css = "ul.filterLink .new>a")
+    @FindBy (css = "ul.filterLink .new>a")
     private Link newTopics;
 
-    @FindBy(css = "ul.filterLink .hot>a")
+    @FindBy (css = "ul.filterLink .hot>a")
     private Link mostActiveTopics;
 
-    @FindBy(css = "ul.filterLink .all>a")
+    @FindBy (css = "ul.filterLink .all>a")
     private Link allTopics;
 
-    @FindBy(css = "ul.filterLink .mine>a")
+    @FindBy (css = "ul.filterLink .mine>a")
     private Link myTopics;
 
-    @FindBy(css = ".yui-dt-empty div")
+    @FindBy (css = ".yui-dt-empty div")
     private WebElement noTopicsMessage;
 
     private By title = By.cssSelector(".nodeTitle>a");
     private By status = By.cssSelector(".nodeStatus");
     private By topicPublished = By.cssSelector(".published");
-    private By topicContent= By.cssSelector(".content");
-    private By topicReplies= By.cssSelector(".replyTo+span");
-    private By topicTags= By.cssSelector(".tagLabel+span");
-    private By readTopic= By.cssSelector("div.nodeFooter span.nodeAttrValue>a");
-    private By viewTopic= By.cssSelector(".onViewTopic a");
-    private By editTopic= By.cssSelector(".onEditTopic a");
-    private By deleteTopic= By.cssSelector(".onDeleteTopic a");
+    private By topicContent = By.cssSelector(".content");
+    private By topicReplies = By.cssSelector(".replyTo+span");
+    private By topicTags = By.cssSelector(".tagLabel+span");
+    private By readTopic = By.cssSelector("div.nodeFooter span.nodeAttrValue>a");
+    private By viewTopic = By.cssSelector(".onViewTopic a");
+    private By editTopic = By.cssSelector(".onEditTopic a");
+    private By deleteTopic = By.cssSelector(".onDeleteTopic a");
 
     @Override
     public String getRelativePath()
@@ -221,6 +221,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
 
     /**
      * Click on delete button for the specified topic
+     *
      * @param topicTitle
      * @return
      */
@@ -232,17 +233,17 @@ public class TopicListPage extends SiteCommon<TopicListPage>
 
     /**
      * Click on Simple/Detailed View button
+     *
      * @return
      */
     public TopicListPage toggleBetweenSimpleAndDetailedView()
     {
         String viewButtonText = viewButton.getText();
         viewButton.click();
-        if(viewButtonText.equals("Simple View"))
+        if (viewButtonText.equals("Simple View"))
         {
             browser.waitUntilElementVisible(By.cssSelector(".node.topic.simple"));
-        }
-        else
+        } else
         {
             browser.waitUntilElementDeletedFromDom(By.cssSelector(".node.topic.simple"));
         }
@@ -291,8 +292,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
         try
         {
             browser.isElementDisplayed(getTopicElement(topic), topicContent);
-        }
-        catch (NoSuchElementException se)
+        } catch (NoSuchElementException se)
         {
             return false;
         }
@@ -304,8 +304,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
         try
         {
             browser.isElementDisplayed(getTopicElement(topic), topicReplies);
-        }
-        catch (NoSuchElementException se)
+        } catch (NoSuchElementException se)
         {
             return false;
         }
@@ -317,8 +316,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
         try
         {
             browser.isElementDisplayed(getTopicElement(topic), topicTags);
-        }
-        catch (NoSuchElementException se)
+        } catch (NoSuchElementException se)
         {
             return false;
         }
@@ -330,8 +328,7 @@ public class TopicListPage extends SiteCommon<TopicListPage>
         try
         {
             browser.isElementDisplayed(getTopicElement(topic), readTopic);
-        }
-        catch (NoSuchElementException se)
+        } catch (NoSuchElementException se)
         {
             return false;
         }
@@ -358,11 +355,21 @@ public class TopicListPage extends SiteCommon<TopicListPage>
     {
         switch (option)
         {
-            case "New": newTopics.click(); break;
-            case "Most Active": mostActiveTopics.click(); break;
-            case "All": allTopics.click(); break;
-            case "My Topics": myTopics.click(); break;
-            default: newTopics.click(); break;
+            case "New":
+                newTopics.click();
+                break;
+            case "Most Active":
+                mostActiveTopics.click();
+                break;
+            case "All":
+                allTopics.click();
+                break;
+            case "My Topics":
+                myTopics.click();
+                break;
+            default:
+                newTopics.click();
+                break;
         }
         browser.waitInSeconds(2);
         return (TopicListPage) this.renderedPage();

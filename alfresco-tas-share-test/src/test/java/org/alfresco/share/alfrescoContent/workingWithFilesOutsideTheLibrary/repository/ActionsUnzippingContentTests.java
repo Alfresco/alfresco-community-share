@@ -18,38 +18,44 @@ import java.util.Collections;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class ActionsUnzippingContentTests extends ContextAwareWebTest {
-    @Autowired private RepositoryPage repositoryPage;
-    @Autowired private CopyMoveUnzipToDialog unzipToDialog;
-    @Autowired private DocumentDetailsPage documentDetailsPage;
-  
+public class ActionsUnzippingContentTests extends ContextAwareWebTest
+{
+    @Autowired
+    private RepositoryPage repositoryPage;
+    @Autowired
+    private CopyMoveUnzipToDialog unzipToDialog;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+
     private final String user = String.format("C8256TestUser%s", RandomData.getRandomAlphanumeric());
     private final String zipFile = "testFileC8256.zip";
     private final String zipContent = "testFile1";
     private final String acpFile = "archiveC8257.acp";
-    private final String acpContent= "fileC8257";
-   
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    private final String acpContent = "fileC8257";
+
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
         contentService.uploadFileInRepository(adminUser, adminPassword, null, testDataFolder + zipFile);
         contentService.uploadFileInRepository(adminUser, adminPassword, null, testDataFolder + acpFile);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        contentService.deleteContentByPath(adminUser, adminPassword,  zipFile);
-        contentService.deleteContentByPath(adminUser, adminPassword,  acpFile);
-        userService.delete(adminUser,adminPassword, user);
+        contentService.deleteContentByPath(adminUser, adminPassword, zipFile);
+        contentService.deleteContentByPath(adminUser, adminPassword, acpFile);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
 
-    @TestRail(id = "C8256")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void unzipZipFileToRepository() {
+    @TestRail (id = "C8256")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void unzipZipFileToRepository()
+    {
         LOG.info("Upload zip archive");
         repositoryPage.navigate();
         assertTrue(repositoryPage.isContentNameDisplayed(zipFile), "Repository: list of files=");
@@ -72,11 +78,12 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest {
 
 
     }
-    
-    @TestRail(id ="C8257")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    
-    public void unzipAcpFileToRepository() {
+
+    @TestRail (id = "C8257")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+
+    public void unzipAcpFileToRepository()
+    {
         LOG.info("Upload acp archive");
         repositoryPage.navigate();
         assertTrue(repositoryPage.isContentNameDisplayed(acpFile), "Repository: list of files=");
@@ -97,11 +104,11 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest {
         repositoryPage.clickOnFolderName(user);
         repositoryPage.getDocumentListHeader();
         repositoryPage.selectDocumentLibraryItemRow("fileC8257");
-        assertTrue(repositoryPage.isContentNameDisplayed("fileC8257"), acpFile + " is not displayed " );
+        assertTrue(repositoryPage.isContentNameDisplayed("fileC8257"), acpFile + " is not displayed ");
 
-   //     contentService.deleteContentByPath(adminUser, adminPassword,  "User Homes/"+ user+"/"+acpContent);
+        //     contentService.deleteContentByPath(adminUser, adminPassword,  "User Homes/"+ user+"/"+acpContent);
 
-   //     contentService.deleteContentByPath(adminUser, adminPassword,  "User Homes/"+ user);
+        //     contentService.deleteContentByPath(adminUser, adminPassword,  "User Homes/"+ user);
 
     }
 }

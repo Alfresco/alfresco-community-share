@@ -41,7 +41,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
     private String author1 = user1 + " " + user1;
     private String author2 = user2 + " " + user2;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
@@ -55,22 +55,22 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         sitePagesService.createBlogPost(user2, password, siteName, blogTitleUser2Draft, blogContent1, true, tags);
         sitePagesService.createBlogPost(user1, password, siteName, blogTitleUser1Published + "C6008", blogContent + "C6008", false, tags);
         sitePagesService.createBlogPost(user1, password, siteName, blogTitleUser1Published + "C6008SecondTag", blogContent + "C6008SecondTag", false,
-                tagsSecondPost);
+            tagsSecondPost);
         setupAuthenticatedSession(user1, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C6001")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6001")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPosts()
     {
         // Precondition
@@ -91,8 +91,8 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser2Draft), "Draft blog post of user 2 is displayed");
     }
 
-    @TestRail(id = "C6004")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6004")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPostsLatestPosts()
     {
         blogPage.navigate(siteName);
@@ -111,8 +111,8 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser1Draft), "blog post is displayed");
     }
 
-    @TestRail(id = "C6005")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6005")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPostsMyDrafts()
     {
         blogPage.navigate(siteName);
@@ -128,8 +128,8 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser2Draft), "Draft blog post User 2 is displayed");
     }
 
-    @TestRail(id = "C6006")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6006")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPostsMyPublishedPosts()
     {
         blogPage.navigate(siteName);
@@ -146,8 +146,8 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser1Draft), "Draft blog post of User 1 is displayed");
     }
 
-    @TestRail(id = "C6008")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6008")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPostsByTags()
     {
         blogPage.navigate(siteName);
@@ -180,8 +180,8 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser2Draft), "Draft blog post of User 2 is displayed");
     }
 
-    @TestRail(id = "C6010")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6010")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPostsArchive()
     {
         // Can not create blog posts in the past, can not check for posts from previous month

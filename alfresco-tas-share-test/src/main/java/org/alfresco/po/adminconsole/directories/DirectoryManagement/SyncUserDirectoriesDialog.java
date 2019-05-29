@@ -16,7 +16,8 @@ public class SyncUserDirectoriesDialog extends AdminConsoleDialog
     private By syncButton = By.className("inline");
     private By syncMessage = By.id("sync-message");
 
-    public String clickSync() {
+    public String clickSync()
+    {
         STEP("Click Sync button");
         browser.switchTo().frame(dialogFrame);
         browser.waitUntilElementClickable(syncButton, properties.getExplicitWait()).click();

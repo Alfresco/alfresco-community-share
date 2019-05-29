@@ -27,30 +27,31 @@ public class MyTasksTest extends ContextAwareWebTest
 
     @Autowired
     StartWorkflowPage startWorkFlowPage;
-    
+
     @Autowired
     ActiveTasksPage activeTasksPage;
-    
+
     @Autowired
     CompletedTasksPage completedTasksPage;
-    
+
     @Autowired
     EditTaskPage editTaskPage;
-    
+
     @Autowired
     ViewTaskPage viewTaskPage;
-    
+
     @Autowired
     UserDashboardPage userDashboardPage;
-    
-    @Autowired WorkflowService workflowService;
-    
+
+    @Autowired
+    WorkflowService workflowService;
+
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     private String taskName = "NewTask";
     private Date taskDate = new Date();
     private String taskTypeAndStatus = "Task, Not Yet Started";
-    
-    @BeforeClass(alwaysRun = true)
+
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
@@ -58,21 +59,21 @@ public class MyTasksTest extends ContextAwareWebTest
         workflowService.startNewTask(userName, password, taskName, taskDate, userName, Priority.Low, null, true);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
-    
-    @TestRail(id="C2122")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+
+    @TestRail (id = "C2122")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void someTasksAssigned()
     {
 
         LOG.info("Step 1: Verify My Tasks dashlet");
         userDashboardPage.navigate(userName);
-        Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks");  
+        Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks");
         myTasksDashlet.isStartWorkFlowLinkDisplayed();
         myTasksDashlet.isActiveTasksLinkDisplayed();
         myTasksDashlet.isCompletedTasksLinkDisplayed();
@@ -81,7 +82,7 @@ public class MyTasksTest extends ContextAwareWebTest
         Assert.assertEquals(myTasksDashlet.getTaskNavigation(), "1 - " + myTasksDashlet.getNoOfTasks() + " of " + myTasksDashlet.getNoOfTasks());
         myTasksDashlet.checkEditAndViewIconsForEachTask();
         myTasksDashlet.isHelpIconDisplayed(DashletHelpIcon.MY_TASKS);
-        
+
         LOG.info("Step 2: Verify info for the created task");
         Assert.assertTrue(myTasksDashlet.getTaskNamesList().get(0).equals(taskName), "Wrong task name!");
         Assert.assertTrue(myTasksDashlet.getTaskTypeAndStatusList().get(0).equals(taskTypeAndStatus), "Wrong type and status!");
@@ -92,27 +93,27 @@ public class MyTasksTest extends ContextAwareWebTest
         LOG.info("Step 3: Click Start WorkFlow link");
         myTasksDashlet.clickOnStartWorkFlowLink();
         Assert.assertTrue(startWorkFlowPage.getPageTitle().equals("Alfresco » Start Workflow"), "Start Workflow page should be displayed!");
-        
+
         LOG.info("Step 4: Go back to User Dashboard. Click Active Tasks link.");
         userDashboardPage.navigate(userName);
         myTasksDashlet.clickOnActiveTasksLink();
         Assert.assertTrue(activeTasksPage.getPageTitle().equals("Alfresco » My Tasks"), "My Tasks page should be displayed!");
-        
+
         LOG.info("Step 5: Go back to User Dashboard. Click Completed Tasks link.");
         userDashboardPage.navigate(userName);
         myTasksDashlet.clickOnCompletedTasksLink();
         Assert.assertTrue(completedTasksPage.getPageTitle().equals("Alfresco » My Tasks"), "My Tasks page should be displayed!");
-        
+
         LOG.info("Step 6: Go back to User Dashboard. Click on task's name link.");
         userDashboardPage.navigate(userName);
         myTasksDashlet.clickOnTaskNameLink(taskName);
         Assert.assertTrue(editTaskPage.getPageTitle().equals("Alfresco » Edit Task"), "Edit task page should be displayed!");
-        
+
         LOG.info("Step 7: Go back to User Dashboard. Click Edit Task icon near the task");
         userDashboardPage.navigate(userName);
         myTasksDashlet.clickEditTask(taskName);
         Assert.assertTrue(editTaskPage.getPageTitle().equals("Alfresco » Edit Task"), "Edit task page should be displayed!");
-        
+
         LOG.info("Step 7: Go back to User Dashboard. Click View Task icon");
         userDashboardPage.navigate(userName);
         myTasksDashlet.clickViewTask(taskName);

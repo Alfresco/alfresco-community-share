@@ -15,7 +15,7 @@ import org.openqa.selenium.support.FindBy;
 public class ImportModelDialogPage extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(id = "CMM_IMPORT_DIALOG_OK")
+    @FindBy (id = "CMM_IMPORT_DIALOG_OK")
     private WebElement importButton;
 
     @RenderWebElement
@@ -27,7 +27,7 @@ public class ImportModelDialogPage extends ShareDialog
     @RenderWebElement
     private By importModelWindow = By.id("CMM_IMPORT_DIALOG");
 
-    @FindBy(css ="div[class='dijitDialogTitleBar'] span[id ='CMM_IMPORT_DIALOG_title']")
+    @FindBy (css = "div[class='dijitDialogTitleBar'] span[id ='CMM_IMPORT_DIALOG_title']")
     private WebElement importModelTitle;
 
     private By closeButton = By.cssSelector("span[class='dijitDialogCloseIcon']");

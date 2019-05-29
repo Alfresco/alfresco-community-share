@@ -14,6 +14,6 @@ public class LanguageTest extends ContextAwareWebTest
     public void testSimpleTranslate()
     {
         Assert.assertEquals("Your authentication details have not been recognized or Alfresco may not be available at this time.",
-                language.translate("login.authError"));
+            language.translate("login.authError"));
     }
 }

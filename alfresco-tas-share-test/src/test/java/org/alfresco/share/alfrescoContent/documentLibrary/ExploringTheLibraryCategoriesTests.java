@@ -15,15 +15,17 @@ import org.testng.annotations.Test;
 
 public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DocumentsFilters filters;
+    @Autowired
+    private DocumentsFilters filters;
 
     private final String user = String.format("C6910User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C6910SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C6910SiteName%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
 
     public void setupTest()
     {
@@ -32,16 +34,16 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C6910")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6910")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void verifyCategoryRootTreeNodes()
     {
@@ -59,14 +61,14 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
         Assert.assertTrue(filters.isCategoryDisplayed("Software Document Classification"), "Software Document Classification category is not displayed");
         Assert.assertTrue(filters.isCategoryDisplayed("Tags"), "Tags category is not displayed");
     }
-    
-    @TestRail(id="C10595")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    
+
+    @TestRail (id = "C10595")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+
     public void expandCollapseNodeInCategoriesTree()
     {
         documentLibraryPage.navigate(siteName);
-        
+
         LOG.info("Step 1: Click on Category Root");
         filters.clickCategoryRootIcon();
         getBrowser().waitInSeconds(1);
@@ -74,7 +76,7 @@ public class ExploringTheLibraryCategoriesTests extends ContextAwareWebTest
         Assert.assertTrue(filters.isCategoryDisplayed("Regions"), "Regions category is not displayed");
         Assert.assertTrue(filters.isCategoryDisplayed("Software Document Classification"), "Software Document Classification category is not displayed");
         Assert.assertTrue(filters.isCategoryDisplayed("Tags"), "Tags category is not displayed");
-        
+
         LOG.info("Step 2: Click on Category Root again to collapse folders");
         filters.clickCategoryRootIcon();
         getBrowser().waitInSeconds(1);

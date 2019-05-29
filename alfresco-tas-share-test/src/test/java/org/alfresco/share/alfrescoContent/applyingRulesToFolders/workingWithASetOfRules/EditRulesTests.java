@@ -27,7 +27,8 @@ import static org.testng.Assert.assertFalse;
 /**
  * @author Laura.Capsa
  */
-public class EditRulesTests extends ContextAwareWebTest {
+public class EditRulesTests extends ContextAwareWebTest
+{
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
 
@@ -49,8 +50,9 @@ public class EditRulesTests extends ContextAwareWebTest {
     private final String path = "Documents";
     private String folderName, ruleName;
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         ruleName = "rule-" + RandomData.getRandomAlphanumeric();
         folderName = "folder-" + RandomData.getRandomAlphanumeric();
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
@@ -78,17 +80,18 @@ public class EditRulesTests extends ContextAwareWebTest {
     }
 
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7254")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void editRuleDetails() {
+    @TestRail (id = "C7254")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void editRuleDetails()
+    {
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
 
@@ -100,7 +103,7 @@ public class EditRulesTests extends ContextAwareWebTest {
         LOG.info("STEP2: Fill in Create Rule details with new details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(1, 0, 2);
         editRulesPage.typeRuleDetails(updatedRuleName, updatedDescription, indexOfOptionFromDropdown);
- //       editRulesPage.clickCopySelectButton();
+        //       editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();
@@ -117,9 +120,10 @@ public class EditRulesTests extends ContextAwareWebTest {
         editRulesPage.cleanupSelectedValues();
     }
 
-    @TestRail(id = "C7258")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void disableRule() {
+    @TestRail (id = "C7258")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void disableRule()
+    {
         String fileName = "fileC7258-" + RandomData.getRandomAlphanumeric();
         LOG.info("STEP1: Click 'Edit' button for rule");
         ruleDetailsPage.clickButton("edit");

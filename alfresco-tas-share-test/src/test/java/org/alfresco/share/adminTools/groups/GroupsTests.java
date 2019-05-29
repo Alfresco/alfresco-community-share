@@ -46,7 +46,7 @@ public class GroupsTests extends ContextAwareWebTest
     private final String userName = "user" + uniqueIdentifier;
     private final String siteName = String.format("C9460site%s", uniqueIdentifier);
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void beforeClass()
     {
         userService.create(adminUser, adminPassword, userName, password, domain, "name", uniqueIdentifier);
@@ -67,20 +67,20 @@ public class GroupsTests extends ContextAwareWebTest
         groupService.removeGroup(adminUser, adminPassword, C9469group);
         groupService.removeGroup(adminUser, adminPassword, C9471group);
         groupService.removeGroup(adminUser, adminPassword, C9460group);
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C9462")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9462")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteGroup()
     {
         groupsPage.navigate();
         groupsPage.clickBrowseButton();
-        
+
         groupsPage.checkGroupIsInList(C9462group);
- 
+
         LOG.info("Step 1: Delete the group created in Precondition.");
         groupsPage.deleteGroup(C9462group, true);
 
@@ -88,8 +88,8 @@ public class GroupsTests extends ContextAwareWebTest
         groupsPage.checkGroupIsRemoved(C9462group);
     }
 
-    @TestRail(id = "C9465")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9465")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editGroup()
     {
         groupsPage.navigate();
@@ -106,22 +106,23 @@ public class GroupsTests extends ContextAwareWebTest
         groupsPage.checkGroupIsRemoved(C9465group);
     }
 
-    @TestRail(id = "C9469")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9469")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createGroup()
     {
         groupsPage.navigate();
         groupsPage.clickBrowseButton();
-        
+
         LOG.info("Step1: Create a group from Admin Tools page.");
         groupsPage.createGroup(C9469group);
 
         LOG.info("Step 2: Verify the group is present in the groups list.");
-        groupsPage.checkGroupIsInList(C9462group);;
+        groupsPage.checkGroupIsInList(C9462group);
+        ;
     }
 
-    @TestRail(id = "C9471")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9471")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void searchForAGroup()
     {
         groupsPage.navigate();
@@ -134,8 +135,8 @@ public class GroupsTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Verify the group is present in the search result list.");
         Assert.assertTrue(groupsPage.isGroupPresentInSearchResult(C9471group));
-        Assert.assertEquals(groupsPage.getSeachBarText(), String.format("Search for '%s' found 1 results.",C9471group));
-    
+        Assert.assertEquals(groupsPage.getSeachBarText(), String.format("Search for '%s' found 1 results.", C9471group));
+
         groupsPage.writeInSearchInput("*" + uniqueIdentifier);
         groupsPage.clickSearchButton();
         groupsPage.waitUntilSearchElementDisplayed();
@@ -144,8 +145,8 @@ public class GroupsTests extends ContextAwareWebTest
         Assert.assertTrue(groupsPage.isGroupPresentInSearchResult(C9471group1));
     }
 
-    @TestRail(id = "C9460")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9460")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyAddedToSiteGroupPresence()
     {
         setupAuthenticatedSession(userName, password);
@@ -166,7 +167,7 @@ public class GroupsTests extends ContextAwareWebTest
         groupsPage.navigate();
         assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
         groupsPage.clickBrowseButton();
-        
-        groupsPage.checkGroupIsInList(C9460group);        
+
+        groupsPage.checkGroupIsInList(C9460group);
     }
 }

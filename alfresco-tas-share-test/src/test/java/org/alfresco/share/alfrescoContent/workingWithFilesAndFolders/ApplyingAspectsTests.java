@@ -17,17 +17,20 @@ import org.testng.annotations.Test;
 
 public class ApplyingAspectsTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired private AspectsForm aspectsForm;
+    @Autowired
+    private AspectsForm aspectsForm;
 
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private String fileName = String.format("testFile%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -35,16 +38,17 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, "testContent");
         setupAuthenticatedSession(userName, password);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7109")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7109")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkAspectsForm()
     {
         LOG.info("Precondition: Navigate to Document Details page for the test file");
@@ -65,27 +69,27 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C7105")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7105")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void manageAspectsApplyChanges()
     {
-    LOG.info("Preconditions: Navigate to Document Details page for the test file");
-    documentLibraryPage.navigate(siteName);
-    documentLibraryPage.clickOnFile(fileName);
+        LOG.info("Preconditions: Navigate to Document Details page for the test file");
+        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.clickOnFile(fileName);
 
-    LOG.info("Step1: Click Actions -> Manage Aspects option");
-    documentDetailsPage.clickManageAspects();
+        LOG.info("Step1: Click Actions -> Manage Aspects option");
+        documentDetailsPage.clickManageAspects();
 
-    LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
-    aspectsForm.addAspect("Audio");
-    Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Audio"), "Aspect is not added to 'Currently Selected' list");
-    Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Audio"), "Aspect is present on 'Available to Add' list");
+        LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
+        aspectsForm.addAspect("Audio");
+        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Audio"), "Aspect is not added to 'Currently Selected' list");
+        Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Audio"), "Aspect is present on 'Available to Add' list");
 
-    LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
-    aspectsForm.clickApplyChangesButton(documentDetailsPage);
-    Assert.assertTrue(documentDetailsPage.isAspectDisplayed("Audio"), "Audio aspect is added");
-    documentDetailsPage.clickManageAspects();
-    Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Audio"), "Aspect is not added to 'Currently Selected' list");
-    Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Audio"), "Aspect is present on 'Available to Add' list");
-}
+        LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
+        aspectsForm.clickApplyChangesButton(documentDetailsPage);
+        Assert.assertTrue(documentDetailsPage.isAspectDisplayed("Audio"), "Audio aspect is added");
+        documentDetailsPage.clickManageAspects();
+        Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Audio"), "Aspect is not added to 'Currently Selected' list");
+        Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Audio"), "Aspect is present on 'Available to Add' list");
+    }
 }

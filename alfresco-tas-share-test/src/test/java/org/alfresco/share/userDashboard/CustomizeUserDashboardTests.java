@@ -31,8 +31,8 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     @Autowired
     SavedSearchDashlet savedSearchDashlet;
 
-    @TestRail(id = "C2853")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2853")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void changeDefaultDashlets()
     {
         String userName = String.format("user2853-%s%s", RandomData.getRandomAlphanumeric(), domain);
@@ -42,7 +42,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         customizeUserDashboard.navigate();
         Assert.assertTrue(customizeUserDashboard.getCurrentLayout().equals(Layout.TWO_COLUMNS_WIDE_RIGHT.description),
-                "Two columns wide right layout is not displayed");
+            "Two columns wide right layout is not displayed");
 
         LOG.info("Step 2 - Click 'Add Dashlets' to display the available dashlets");
         customizeUserDashboard.clickAddDashlet();
@@ -74,12 +74,12 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(userDashboard.isDashletAddedInPosition(Dashlets.MY_DOCUMENTS, 2, 1), "My Documents dashlet is not in column 2 position 1");
         Assert.assertTrue(userDashboard.isDashletAddedInPosition(Dashlets.MY_ACTIVITIES, 2, 2), "My Activities dashlet is not in column 2 position 2");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
-    @TestRail(id = "C2855")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2855")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void changeDashboardLayout()
     {
         String userName = "user2855-" + RandomData.getRandomAlphanumeric() + domain;
@@ -118,12 +118,12 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(userDashboard.isCustomizeUserDashboardDisplayed(), "User Dashboard page is not opened " + getBrowser().getCurrentUrl());
         Assert.assertTrue(userDashboard.getNumerOfColumns() == 3, "User Dashboard page doesn't have 3 columns");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
-    @TestRail(id = "C2857")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2857")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void expandNarrowDashlets()
     {
         String userName = "user2855-" + RandomData.getRandomAlphanumeric() + domain;
@@ -148,20 +148,20 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
         LOG.info("Step 5 - Try to expand all possible dashlets");
         int sizeBeforeMyProfile = mySitesDashlet.getDashletHeight();
         int sizeBeforeMyDiscussions = savedSearchDashlet.getDashletHeight();
-        mySitesDashlet.resizeDashlet(500,1);
-   //     savedSearchDashlet.resizeDashlet(600);
+        mySitesDashlet.resizeDashlet(500, 1);
+        //     savedSearchDashlet.resizeDashlet(600);
         int sizeAfterMyMeeting = mySitesDashlet.getDashletHeight();
-    //   int sizeAfterMyDiscussions = savedSearchDashlet.getDashletHeight();
+        //   int sizeAfterMyDiscussions = savedSearchDashlet.getDashletHeight();
         Assert.assertTrue(sizeAfterMyMeeting > sizeBeforeMyProfile);
-    //    Assert.assertTrue(sizeAfterMyDiscussions > sizeBeforeMyDiscussions);
+        //    Assert.assertTrue(sizeAfterMyDiscussions > sizeBeforeMyDiscussions);
 
         LOG.info("Step 6 - Try to narrow all possible dashlets at the minimum size");
-        mySitesDashlet.resizeDashlet(-400,0);
-  //      savedSearchDashlet.resizeDashlet(-400);
+        mySitesDashlet.resizeDashlet(-400, 0);
+        //      savedSearchDashlet.resizeDashlet(-400);
         Assert.assertTrue(mySitesDashlet.getDashletHeight() < sizeAfterMyMeeting);
-   //     Assert.assertTrue(savedSearchDashlet.getDashletHeight() < sizeAfterMyDiscussions);
+        //     Assert.assertTrue(savedSearchDashlet.getDashletHeight() < sizeAfterMyDiscussions);
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 }

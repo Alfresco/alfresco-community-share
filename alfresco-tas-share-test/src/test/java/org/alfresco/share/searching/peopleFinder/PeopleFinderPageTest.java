@@ -22,8 +22,8 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
     @Autowired
     Notification notification;
 
-    @TestRail(id = "C5823")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5823")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyPeopleFinderPage()
     {
         String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -39,16 +39,16 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
         LOG.info("STEP 2 - Verify Search section");
         Assert.assertTrue(peopleFinderPage.isSearchInputFieldDisplayed(), "Search input is displayed");
         Assert.assertEquals(peopleFinderPage.getSearchInputFieldPlaceholder(),
-                language.translate("peopleFinder.searchPlaceholder"), "Search input placeholder");
+            language.translate("peopleFinder.searchPlaceholder"), "Search input placeholder");
         Assert.assertTrue(peopleFinderPage.isSearchButtonDisplayed(), "\"Search\" button is displayed");
         Assert.assertTrue(peopleFinderPage.isHelpMessageDisplayed(), "Help message is displayed");
         Assert.assertEquals(peopleFinderPage.getSearchHelpMessage(),
-                language.translate("peopleFinder.searchResultsMessage"), "Search results message");
+            language.translate("peopleFinder.searchResultsMessage"), "Search results message");
 
         LOG.info("STEP 3 - Fill in search field (e.g: user2) and click \"search\" button");
         peopleFinderPage.search(userName2);
         Assert.assertEquals(peopleFinderPage.getSearchResultsInfo(),
-                String.format(language.translate("peopleFinder.searchResultsInfo"), userName2, "1"), "Search results info");
+            String.format(language.translate("peopleFinder.searchResultsInfo"), userName2, "1"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isFollowButtonDisplayed(userName2), "\"Follow\" button is displayed");
         Assert.assertEquals(peopleFinderPage.getNumberOfSearchResults(), 1, "Number of search results");
         Assert.assertTrue(peopleFinderPage.isUserAvatarDisplayed(userName2), userName2 + " avatar is displayed");
@@ -63,8 +63,8 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C5824")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5824")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void noResultsFound()
     {
         String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -83,8 +83,8 @@ public class PeopleFinderPageTest extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
     }
 
-    @TestRail(id = "C5825")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5825")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void emptyInputSearchField()
     {
         String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());

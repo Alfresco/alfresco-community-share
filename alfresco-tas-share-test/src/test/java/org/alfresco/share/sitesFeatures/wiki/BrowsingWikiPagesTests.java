@@ -36,8 +36,9 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
     private String siteTitle2;
     private String siteTag;
 
-    @BeforeClass(alwaysRun = true)
-    public void setup() throws DataPreparationException {
+    @BeforeClass (alwaysRun = true)
+    public void setup() throws DataPreparationException
+    {
         super.setup();
 
         uniqueIdentifier = RandomData.getRandomAlphanumeric();
@@ -59,18 +60,18 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName1, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName1);
+        userService.delete(adminUser, adminPassword, userName1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser,adminPassword, userName2);
+        userService.delete(adminUser, adminPassword, userName2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5548")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5548")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseWikiByTagTest()
     {
         LOG.info("Starting test C5548");
@@ -113,8 +114,8 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         assertTrue(wikiListPage.isWikiPageDisplayed("Page1"), "Wiki 'Page1' is not displayed");
     }
 
-    @TestRail(id = "C5549")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5549")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseWikiPagesAllPagesTest()
     {
 
@@ -160,8 +161,8 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         }
     }
 
-    @TestRail(id = "C5550")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5550")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseWikiPagesMyPagesTest()
     {
         cleanupAuthenticatedSession();
@@ -187,20 +188,19 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(8);
         try
         {
-            assertTrue(wikiListPage.isWikiPageDisplayed("U1-"+siteTitle1), "Wiki 'U1Page1' is displayed");
-            assertTrue(wikiListPage.isWikiPageDisplayed("U1-"+siteTitle2), "Wiki 'U1Page2' is displayed");
-        }
-        catch (NoSuchElementException e)
+            assertTrue(wikiListPage.isWikiPageDisplayed("U1-" + siteTitle1), "Wiki 'U1Page1' is displayed");
+            assertTrue(wikiListPage.isWikiPageDisplayed("U1-" + siteTitle2), "Wiki 'U1Page2' is displayed");
+        } catch (NoSuchElementException e)
         {
             getBrowser().refresh();
             wikiListPage.renderedPage();
-            assertTrue(wikiListPage.isWikiPageDisplayed("U1-"+siteTitle1), "Wiki 'U1Page1' is displayed");
-            assertTrue(wikiListPage.isWikiPageDisplayed("U1-"+siteTitle2), "Wiki 'U1Page2' is displayed");
+            assertTrue(wikiListPage.isWikiPageDisplayed("U1-" + siteTitle1), "Wiki 'U1Page1' is displayed");
+            assertTrue(wikiListPage.isWikiPageDisplayed("U1-" + siteTitle2), "Wiki 'U1Page2' is displayed");
         }
     }
 
-    @TestRail(id = "C5554")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5554")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyPageSummaryFromWikiListTest()
     {
         LOG.info("Starting C5554");
@@ -220,7 +220,7 @@ public class BrowsingWikiPagesTests extends ContextAwareWebTest
         assertTrue(wikiListPage.isWikiPageDisplayed(pageName), "Wiki page is not displayed");
         assertEquals(wikiListPage.getWikiPageCreator(pageName), userName1, "Wiki page creator is not correct");
         assertEquals(wikiListPage.getWikiPageCreationDate(pageName), wikiListPage.getWikiPageModificationDate(pageName),
-                "The creation and modification dates are different");
+            "The creation and modification dates are different");
         assertEquals(wikiListPage.getWikiPageContent(pageName), pageContent, "Wiki page content is not correct");
         siteDisplayedTags = wikiListPage.getWikiPageTags(pageName);
         assertEquals(siteDisplayedTags.size(), 1, "More ore less than one tag is displayed");

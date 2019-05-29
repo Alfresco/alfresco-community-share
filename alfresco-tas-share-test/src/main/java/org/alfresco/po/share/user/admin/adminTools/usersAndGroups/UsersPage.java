@@ -31,35 +31,35 @@ public class UsersPage extends AdminToolsPage
     private AdminToolsUserProfile adminToolsUserProfile;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='_default-newuser-button-button']")
+    @FindBy (css = "button[id$='_default-newuser-button-button']")
     private WebElement newUserButton;
 
     @RenderWebElement
-    @FindBy(css = "button[id*='uploadusers']")
+    @FindBy (css = "button[id*='uploadusers']")
     private WebElement uploadUsersButton;
 
-    @FindBy(css = "input[id*='search-text']")
+    @FindBy (css = "input[id*='search-text']")
     private WebElement userSearchInputField;
 
-    @FindBy(css = "button[id*='search']")
+    @FindBy (css = "button[id*='search']")
     private WebElement searchButton;
 
-    @FindAll(@FindBy(xpath = "//div[contains(@class, 'yui-dt-liner')]"))
+    @FindAll (@FindBy (xpath = "//div[contains(@class, 'yui-dt-liner')]"))
     protected List<WebElement> usersData;
 
-    @FindAll(@FindBy(css = "img[src*='account_disabled.png']"))
+    @FindAll (@FindBy (css = "img[src*='account_disabled.png']"))
     private List<WebElement> accountsDisabled;
 
-    @FindAll(@FindBy(css = "td[class*='userName']"))
+    @FindAll (@FindBy (css = "td[class*='userName']"))
     protected List<WebElement> usersList;
 
-    @FindAll(@FindBy(css = "td[class*='fullName']"))
+    @FindAll (@FindBy (css = "td[class*='fullName']"))
     protected List<WebElement> usersNamesList;
 
-    @FindBy(css = "input[id*='default-filedata-file']")
+    @FindBy (css = "input[id*='default-filedata-file']")
     private FileInput fileInput;
 
-    @FindBy(css = "#template_x002e_html-upload_x002e_console_x0023_default-upload-button-button")
+    @FindBy (css = "#template_x002e_html-upload_x002e_console_x0023_default-upload-button-button")
     private WebElement uploadButton;
 
     @Override
@@ -126,7 +126,6 @@ public class UsersPage extends AdminToolsPage
      * Retrieves the user's full name that matches the text from the search box
      *
      * @param fullname full name String
-     * @return
      * @return WebElement that matches the user's full name
      */
     public WebElement selectUserName(final String fullname)
@@ -196,8 +195,7 @@ public class UsersPage extends AdminToolsPage
         {
             fileInput.setFileToUpload(fileToUpload.getCanonicalPath());
             uploadButton.click();
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -216,18 +214,15 @@ public class UsersPage extends AdminToolsPage
                     OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), Charset.forName("UTF-8").newEncoder());
                     writer.write(contents);
                     writer.close();
-                }
-                else
+                } else
                 {
                     file.createNewFile();
                 }
-            }
-            else
+            } else
             {
                 // to be written
             }
-        }
-        catch (java.io.IOException e)
+        } catch (java.io.IOException e)
         {
             e.printStackTrace();
         }

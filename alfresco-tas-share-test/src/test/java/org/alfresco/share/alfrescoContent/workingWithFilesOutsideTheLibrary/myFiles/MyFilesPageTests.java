@@ -20,9 +20,11 @@ import java.util.List;
  */
 public class MyFilesPageTests extends ContextAwareWebTest
 {
-    @Autowired private MyFilesPage myFilesPage;
+    @Autowired
+    private MyFilesPage myFilesPage;
 
-    @Autowired private DocumentsFilters filters;
+    @Autowired
+    private DocumentsFilters filters;
 
     private final String user = String.format("C7659User%s", RandomData.getRandomAlphanumeric());
     private final String nonAdminFile = String.format("nonAdminDoc%s", RandomData.getRandomAlphanumeric());
@@ -30,7 +32,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
     private final String tag1 = "testTag" + RandomData.getRandomAlphanumeric().toLowerCase();
     //private final String tag2 = "testTag" + RandomData.getRandomAlphanumeric().toLowerCase();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -42,20 +44,20 @@ public class MyFilesPageTests extends ContextAwareWebTest
         LOG.info("Precondition: User uploads a file in My Files and adds a tag to it.");
         String userMyFiles = "User Homes/" + user;
         contentService.createDocumentInRepository(user, password, userMyFiles, CMISUtil.DocumentType.TEXT_PLAIN, nonAdminFile, "some content");
-        contentAction.addSingleTag(user, password, userMyFiles + "/" +  nonAdminFile, tag1);
+        contentAction.addSingleTag(user, password, userMyFiles + "/" + nonAdminFile, tag1);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        contentService.deleteContentByPath(adminUser, adminPassword,  "/" + adminFile);
+        contentService.deleteContentByPath(adminUser, adminPassword, "/" + adminFile);
 
     }
 
-    @TestRail(id = "C7659")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7659")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyMyFilesMainPage()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -78,8 +80,8 @@ public class MyFilesPageTests extends ContextAwareWebTest
         Assert.assertTrue(filters.checkIfTagsFilterIsPresent(), "Tags filter is not present");
     }
 
-    @TestRail(id = "C7660")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7660")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyMyFilesPageTags()
     {
         LOG.info("Step1: Login as admin and navigate to My Files page.");
@@ -88,7 +90,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
 
         LOG.info("Step2: Verify the list of tags in the tags section.");
         List<String> tags = myFilesPage.getAllTagNames();
-        LOG.info("Tags: "+ tags.toString());
+        LOG.info("Tags: " + tags.toString());
         Assert.assertTrue(tags.contains(tag1.toLowerCase()), String.format("Tag: %s is not found", tag1));
 
         LOG.info("Step3: Click on the tag and verify the files are displayed.");

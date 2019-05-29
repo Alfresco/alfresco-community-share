@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static java.util.Collections.singletonList;
+
 import static org.testng.Assert.*;
 
 /**
@@ -49,7 +50,7 @@ public class SubgroupsTests extends ContextAwareWebTest
     private final String groupNameToDelete = "_C42773Group" + uniqueIdentifier;
     private final String displayName = "C9476name" + uniqueIdentifier;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userAdmin, password, domain, name, userAdmin);
@@ -67,15 +68,15 @@ public class SubgroupsTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
     }
 
-    @TestRail(id = "C9476")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9476")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createSubgroup()
     {
         String identifier = "C9476id" + uniqueIdentifier;
 
         groupsPage.navigate();
         assertEquals(groupsPage.getSectionTitle(), language.translate("adminTools.groups.title"), "Displayed section=");
-        
+
         groupsPage.writeInSearchInput(group0);
         groupsPage.clickBrowseButton();
         groupsPage.clickItemFromList(group0);
@@ -89,7 +90,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         assertTrue(groupsPage.isIdentifierInputFieldDisplayed(), "Properties: 'Identifier' input field is displayed.");
         assertTrue(groupsPage.isDisplayNameInputFieldDisplayed(), "Properties: 'Display Name' input field is displayed.");
         expectedList = new ArrayList<>(Arrays.asList(language.translate("adminTools.groups.newGroupProperties.identifier"),
-                language.translate("adminTools.groups.newGroupProperties.displayName")));
+            language.translate("adminTools.groups.newGroupProperties.displayName")));
         assertEquals(groupsPage.getNewGroupPropertiesLabels(), expectedList, "New Group -> Properties form labels=");
         expectedList.clear();
         assertTrue(groupsPage.isCreateNewGroupButtonDisplayed(), "New Group: 'Create Group' button is displayed.");
@@ -108,8 +109,8 @@ public class SubgroupsTests extends ContextAwareWebTest
         assertEquals(groupsPage.getSecondColumnItemsList().toString(), expectedList.toString(), "Groups in " + group0 + "= ");
     }
 
-    @TestRail(id = "C9491")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9491")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addGroup()
     {
         groupsPage.navigate();
@@ -131,7 +132,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         addGroupDialog.searchGroup(groupNameToAdd);
         expectedList = new ArrayList<>(singletonList(groupNameToAdd));
         assertEquals(addGroupDialog.getSearchResultsName(), expectedList,
-                "'Add Group' dialog -> search for " + groupNameToAdd + " returns group name results=");
+            "'Add Group' dialog -> search for " + groupNameToAdd + " returns group name results=");
         expectedList.clear();
         expectedList = new ArrayList<>(singletonList("ID: " + "GROUP_" + groupNameToAdd));
         assertEquals(addGroupDialog.getSearchResultsId(), expectedList, "'Add Group' dialog -> search for " + groupNameToAdd + " returns group id results=");
@@ -147,8 +148,8 @@ public class SubgroupsTests extends ContextAwareWebTest
         assertEquals(groupsPage.getSecondColumnItemsList(), expectedList, "Groups in " + group1 + "= ");
     }
 
-    @TestRail(id = "C9481")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9481")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addUser()
     {
         String user = name + " " + userToAdd + " (" + userToAdd + ")";
@@ -186,8 +187,8 @@ public class SubgroupsTests extends ContextAwareWebTest
         assertEquals(groupsPage.getSecondColumnItemsList(), expectedList, "Users in " + group2 + "= ");
     }
 
-    @TestRail(id = "C9490")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9490")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void removeUser()
     {
         groupsPage.navigate();
@@ -204,7 +205,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.clickRemoveUserIcon(user);
         assertEquals(removeUserFromGroupDialog.getDialogHeader(), language.translate("adminTools.groups.removeUser.title"), "Displayed dialog=");
         assertEquals(removeUserFromGroupDialog.getDialogMessage(), String.format(language.translate("adminTools.groups.removeUser.message"), user),
-                "Dialog message=");
+            "Dialog message=");
         assertTrue(removeUserFromGroupDialog.isYesButtonDisplayed(), "'Remove user from Group' dialog: 'Yes' button is displayed.");
         assertTrue(removeUserFromGroupDialog.isNoButtonDisplayed(), "'Remove user from Group' dialog: 'No' button is displayed.");
 
@@ -216,8 +217,8 @@ public class SubgroupsTests extends ContextAwareWebTest
         assertFalse(groupsPage.getSecondColumnItemsList().contains(user), user + " is displayed for " + group3);
     }
 
-    @TestRail(id = "C42773")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C42773")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteSubgroup()
     {
         groupsPage.navigate();
@@ -233,12 +234,12 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.clickDeleteGroupButtonFromSecondColumn(groupNameToDelete);
         assertEquals(deleteGroupDialog.getDialogHeader(), language.translate("adminTools.groups.deleteGroup.header"), "Displayed dialog=");
         assertEquals(deleteGroupDialog.getMultiparentMessage(),
-                String.format(language.translate("adminTools.groups.deleteGroup.multiparentMessage"), groupNameToDelete), "Displayed message=");
+            String.format(language.translate("adminTools.groups.deleteGroup.multiparentMessage"), groupNameToDelete), "Displayed message=");
         assertEquals(deleteGroupDialog.getParent(), group3, "'Delete Group' dialog: Parent of " + groupNameToDelete + " =");
         assertEquals(deleteGroupDialog.getRemoveRow(), String.format(language.translate("adminTools.groups.deleteGroup.removeRow"), groupNameToDelete, group3),
-                "'Delete Group' dialog: remove row=");
+            "'Delete Group' dialog: remove row=");
         assertEquals(deleteGroupDialog.getDeleteRow(), String.format(language.translate("adminTools.groups.deleteGroup.deleteRow"), groupNameToDelete),
-                "'Delete Group' dialog: delete row=");
+            "'Delete Group' dialog: delete row=");
         assertTrue(deleteGroupDialog.isDeleteButtonDisplayed(), "'Delete Group' dialog: 'Delete' button is displayed.");
         assertTrue(deleteGroupDialog.isCancelButtonDisplayed(), "'Delete Group' dialog: 'Cancel' button is displayed.");
         assertTrue(deleteGroupDialog.isRemoveRadioButtonDisplayed(), "Remove radio button is displayed.");
@@ -265,11 +266,11 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupService.removeGroup(adminUser, adminPassword, group3);
         groupService.removeGroup(adminUser, adminPassword, groupNameToAdd);
         groupService.removeGroup(adminUser, adminPassword, displayName);
-        userService.delete(adminUser,adminPassword, userAdmin);
+        userService.delete(adminUser, adminPassword, userAdmin);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userAdmin);
-        siteService.delete(adminUser, adminPassword,userModelAdmin);
+        siteService.delete(adminUser, adminPassword, userModelAdmin);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userModelAdmin);
-        siteService.delete(adminUser, adminPassword,userToAdd);
+        siteService.delete(adminUser, adminPassword, userToAdd);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userToAdd);
 
     }

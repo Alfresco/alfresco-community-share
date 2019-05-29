@@ -28,24 +28,29 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
     private String editedTitle;
     private String editedDescription;
 
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DocumentDetailsPage detailsPage;
+    @Autowired
+    private DocumentDetailsPage detailsPage;
 
-    @SuppressWarnings("rawtypes")
-    @Autowired private DocumentCommon documentCommon;
+    @SuppressWarnings ("rawtypes")
+    @Autowired
+    private DocumentCommon documentCommon;
 
-    @Autowired private EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired
+    private EditInAlfrescoPage editInAlfrescoPage;
 
-    @Autowired private GoogleDocsCommon docsCommon;
+    @Autowired
+    private GoogleDocsCommon docsCommon;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void setupTest()
     {
         LOG.info("Preconditions for Editing files in Google Docs tests");
 
         userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-        siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
 
         fileName = "testFile";
         fileContent = "testContent";
@@ -61,16 +66,16 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7036")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7036")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editFileInAlfresco()
     {
         LOG.info("Preconditions: Navigate to document library page for the test site");
@@ -78,7 +83,7 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
 
         LOG.info("Step1: Hover over the test file and click Edit in Alfresco option");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentActions.editInAlfresco"),
-                editInAlfrescoPage);
+            editInAlfrescoPage);
 
         LOG.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.sendDocumentDetailsFields(editedName, editedContent, editedTitle, editedDescription);

@@ -12,13 +12,13 @@ public class WelcomePanel extends org.alfresco.utility.web.HtmlPage
     HideWelcomePanelDialogue hideWelcomePanelDialogue;
 
     @org.alfresco.utility.web.annotation.RenderWebElement
-    @FindBy(css = "[id$=get-started-panel-container]")
+    @FindBy (css = "[id$=get-started-panel-container]")
     private WebElement welcomePanel;
 
-    @FindBy(css = ".welcome-info")
+    @FindBy (css = ".welcome-info")
     private WebElement welcomeInfo;
 
-    @FindBy(css = "button[id$='_default-hide-button-button']")
+    @FindBy (css = "button[id$='_default-hide-button-button']")
     private WebElement hideButton;
 
     /**

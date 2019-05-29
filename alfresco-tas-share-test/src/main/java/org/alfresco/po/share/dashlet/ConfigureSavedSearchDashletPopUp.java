@@ -12,47 +12,46 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 public class ConfigureSavedSearchDashletPopUp extends DashletPopUp
 {
     @RenderWebElement
-    @FindBy(css = "input[id$='searchTerm']")
+    @FindBy (css = "input[id$='searchTerm']")
     protected TextInput searchTermField;
-    
-    @FindBy(css = "input[id$='configDialog-title']")
+
+    @FindBy (css = "input[id$='configDialog-title']")
     protected TextInput titleField;
-    
-    @FindBy(css = "select[name='limit']")
+
+    @FindBy (css = "select[name='limit']")
     protected Select searchLimit;
-    
+
     public void setSearchTermField(String searchTerm)
     {
         searchTermField.sendKeys(searchTerm);
     }
-    
+
     public void setTitleField(String title)
     {
         titleField.sendKeys(title);
     }
-    
+
     public void setSearchLimitField(String searchLimit)
     {
         try
         {
             this.searchLimit.selectByValue(searchLimit);
-        }
-        catch (NoSuchElementException e)
+        } catch (NoSuchElementException e)
         {
             throw new PageOperationException("Unable to find the Search Term box.");
         }
     }
-    
+
     public boolean isSearchTermFieldDisplayed()
     {
         return searchTermField.isDisplayed();
-    }   
-    
+    }
+
     public boolean isTitleFieldDisplayed()
     {
         return titleField.isDisplayed();
     }
-    
+
     public boolean isSearchLimitDisplayed()
     {
         return searchLimit.isDisplayed();

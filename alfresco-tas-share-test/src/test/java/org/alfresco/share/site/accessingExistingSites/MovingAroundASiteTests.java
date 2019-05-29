@@ -31,22 +31,22 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
     private String user = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String siteName;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
-    @TestRail(id = "C3034")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C3034")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultAreas()
     {
         siteName = String.format("Site-C3034-%s", RandomData.getRandomAlphanumeric());
@@ -69,13 +69,13 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         LOG.info("STEP 4: Click on 'Site Dashboard' link.");
         siteDashboard.clickSiteDashboard();
         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/dashboard"), "'Site Dashboard' page is opened.");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
     //this tests usually fails because of the draganddrop method
-    @TestRail(id = "C3035")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C3035")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addAdditionalFeatures()
     {
         siteName = String.format("Site-C3035-%s", RandomData.getRandomAlphanumeric());
@@ -130,12 +130,12 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         LOG.info("STEP 9: Click on 'Data Lists' link from 'More' menu.");
         siteDashboard.clickLinkFromMoreMenu("Data Lists");
         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/data-lists"), "'Data Lists' page is opened.");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C3036")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C3036")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteFeaturesAreAvailableOnAnyPageFromTheSite()
     {
         siteName = String.format("Site-C3036-%s", RandomData.getRandomAlphanumeric());
@@ -160,7 +160,7 @@ public class MovingAroundASiteTests extends ContextAwareWebTest
         assertTrue(siteDashboard.isSiteDashboardLinkDisplayed(), "Site Dashboard is a default area on the site.");
         assertTrue(siteDashboard.isDocumentLibraryLinkDisplayed(), "Document Library is a default area on the site.");
         assertTrue(siteDashboard.isSiteMembersLinkDisplayed(), "Site Members is a default area on the site.");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

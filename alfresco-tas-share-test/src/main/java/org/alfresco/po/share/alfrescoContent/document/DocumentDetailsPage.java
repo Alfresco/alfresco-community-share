@@ -20,132 +20,195 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-@PageObject public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
+@PageObject
+public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 {
-    @Autowired SiteDashboardPage siteDashboardPage;
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
 
-    @Autowired EditPropertiesPage editPropertiesPage;
+    @Autowired
+    EditPropertiesPage editPropertiesPage;
 
-    @Autowired AspectsForm aspectsForm;
+    @Autowired
+    AspectsForm aspectsForm;
 
-    @Autowired DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
 
-    @Autowired TinyMceEditor tinyMceEditor;
+    @Autowired
+    TinyMceEditor tinyMceEditor;
 
-    @FindBy(css = ".filename") protected WebElement fileListLocator;
+    @FindBy (css = ".filename")
+    protected WebElement fileListLocator;
 
-    @FindBy(css = ".folder-actions.folder-details-panel a[title='Manage Permissions']") protected WebElement managePermissionsLink;
+    @FindBy (css = ".folder-actions.folder-details-panel a[title='Manage Permissions']")
+    protected WebElement managePermissionsLink;
 
-    @FindAll(@FindBy(css = ".filename [href*=document-details]")) private List<WebElement> filesList;
+    @FindAll (@FindBy (css = ".filename [href*=document-details]"))
+    private List<WebElement> filesList;
 
-    @FindBy(css = "div[class='node-info'] h1") protected WebElement documentTitle;
+    @FindBy (css = "div[class='node-info'] h1")
+    protected WebElement documentTitle;
 
-    @RenderWebElement @FindBy(css = ".node-header") protected WebElement docDetailsPageHeader;
+    @RenderWebElement
+    @FindBy (css = ".node-header")
+    protected WebElement docDetailsPageHeader;
 
-    @FindBy(linkText = "Download") protected WebElement downloadDocument;
+    @FindBy (linkText = "Download")
+    protected WebElement downloadDocument;
 
-    @FindBy(css = "div[class='node-social']") protected WebElement socialBar;
+    @FindBy (css = "div[class='node-social']")
+    protected WebElement socialBar;
 
-    @FindBy(css = "[class*=like-action]") protected WebElement likeUnlikeAction;
+    @FindBy (css = "[class*=like-action]")
+    protected WebElement likeUnlikeAction;
 
-    @FindBy(css = "[class=likes-count]") protected WebElement likesCount;
+    @FindBy (css = "[class=likes-count]")
+    protected WebElement likesCount;
 
-    @FindBy(css = ".item-modifier a") protected WebElement itemModifier;
+    @FindBy (css = ".item-modifier a")
+    protected WebElement itemModifier;
 
-    @FindBy(css = ".item-modifier span") protected WebElement modifyDate;
+    @FindBy (css = ".item-modifier span")
+    protected WebElement modifyDate;
 
-    @FindBy(css = "div[class='node-info'] h1 span") protected WebElement documentVersion;
+    @FindBy (css = "div[class='node-info'] h1 span")
+    protected WebElement documentVersion;
 
-    @FindBy(css = "[class*=favourite-action]") protected WebElement favoriteUnfavoriteAction;
+    @FindBy (css = "[class*=favourite-action]")
+    protected WebElement favoriteUnfavoriteAction;
 
-    @FindBy(css = "[name*='commentNode']") protected WebElement commentDocument;
+    @FindBy (css = "[name*='commentNode']")
+    protected WebElement commentDocument;
 
-    @FindBy(css = "[class=comment-form]") protected WebElement commentForm;
+    @FindBy (css = "[class=comment-form]")
+    protected WebElement commentForm;
 
-    @FindBy(css = "[id*='default-add-submit-button']") protected WebElement addCommentButton;
+    @FindBy (css = "[id*='default-add-submit-button']")
+    protected WebElement addCommentButton;
 
-    @FindBy(css = "[class=comment-content]") protected WebElement commentContent;
+    @FindBy (css = "[class=comment-content]")
+    protected WebElement commentContent;
 
-    @FindBy(css = "[class*=quickshare-action] [class=bd]") protected WebElement sharePopUp;
+    @FindBy (css = "[class*=quickshare-action] [class=bd]")
+    protected WebElement sharePopUp;
 
-    @FindBy(css = "[title*='Share document']") protected WebElement shareDocument;
+    @FindBy (css = "[title*='Share document']")
+    protected WebElement shareDocument;
 
-    @FindBy(css = "[id*=default-fullpage-button]") protected WebElement maximizeButton;
+    @FindBy (css = "[id*=default-fullpage-button]")
+    protected WebElement maximizeButton;
 
-    @FindBy(css = "[id*=zoomIn-button]") protected WebElement zoomInButton;
+    @FindBy (css = "[id*=zoomIn-button]")
+    protected WebElement zoomInButton;
 
-    @FindBy(css = "[id*=zoomOut-button]") protected WebElement zoomOutButton;
+    @FindBy (css = "[id*=zoomOut-button]")
+    protected WebElement zoomOutButton;
 
-    @FindBy(css = "[id*=default-scaleSelectBtn-button]") protected WebElement scaleButton;
+    @FindBy (css = "[id*=default-scaleSelectBtn-button]")
+    protected WebElement scaleButton;
 
-    @FindBy(css = "[id*=default-next-button]") protected WebElement nextButton;
+    @FindBy (css = "[id*=default-next-button]")
+    protected WebElement nextButton;
 
-    @FindBy(css = "[id*=default-previous-button]") protected WebElement previousButton;
+    @FindBy (css = "[id*=default-previous-button]")
+    protected WebElement previousButton;
 
-    @FindBy(css = "[id*=default-pageNumber]") protected WebElement pageNumber;
+    @FindBy (css = "[id*=default-pageNumber]")
+    protected WebElement pageNumber;
 
-    @FindBy(css = "[id*=searchBarToggle-button]") protected WebElement searchButton;
+    @FindBy (css = "[id*=searchBarToggle-button]")
+    protected WebElement searchButton;
 
-    @FindBy(css = "[class*=searchDialog]") protected WebElement searchDialog;
+    @FindBy (css = "[class*=searchDialog]")
+    protected WebElement searchDialog;
 
-    @FindAll(@FindBy(css = "[id*=comment-container]")) private List<WebElement> commentsList;
+    @FindAll (@FindBy (css = "[id*=comment-container]"))
+    private List<WebElement> commentsList;
 
-    @FindBy(css = "[id*=default-paginator-top] [id*=page-report]") protected WebElement pageReport;
+    @FindBy (css = "[id*=default-paginator-top] [id*=page-report]")
+    protected WebElement pageReport;
 
-    @FindBy(css = "[id*=default-paginator-top] [class*=next]") protected WebElement nextPage;
+    @FindBy (css = "[id*=default-paginator-top] [class*=next]")
+    protected WebElement nextPage;
 
-    @FindBy(css = "[id*=default-paginator-top] [class*=previous]") protected WebElement previousPage;
+    @FindBy (css = "[id*=default-paginator-top] [class*=previous]")
+    protected WebElement previousPage;
 
-    @RenderWebElement @FindBy(css = ".viewmode-label")
+    @RenderWebElement
+    @FindBy (css = ".viewmode-label")
     protected List<WebElement> propertiesList;
 
-    @FindBy(css = ".viewmode-value") protected List<WebElement> propertiesValuesList;
+    @FindBy (css = ".viewmode-value")
+    protected List<WebElement> propertiesValuesList;
 
-    @FindBy(css = "span[class='yui-button yui-link-button onDownloadDocumentClick']") private WebElement downloadButton;
+    @FindBy (css = "span[class='yui-button yui-link-button onDownloadDocumentClick']")
+    private WebElement downloadButton;
 
-    @FindBy(css = ".folder-tags.folder-details-panel") protected WebElement tagsFeaturePanel;
+    @FindBy (css = ".folder-tags.folder-details-panel")
+    protected WebElement tagsFeaturePanel;
 
-    @FindBy(css = ".folder-actions.folder-details-panel") protected WebElement folderActionsPanel;
+    @FindBy (css = ".folder-actions.folder-details-panel")
+    protected WebElement folderActionsPanel;
 
-    @FindBy(css = ".folder-metadata-header.folder-details-panel") protected WebElement filePropertiesdetailsPanel;
+    @FindBy (css = ".folder-metadata-header.folder-details-panel")
+    protected WebElement filePropertiesdetailsPanel;
 
-    @FindBy(css = ".folder-links.folder-details-panel") protected WebElement socialFeaturesPanel;
+    @FindBy (css = ".folder-links.folder-details-panel")
+    protected WebElement socialFeaturesPanel;
 
-    @FindBy(css = ".folder-link.folder-closed a") protected WebElement folderLinkFromBreadcrumbTrail;
+    @FindBy (css = ".folder-link.folder-closed a")
+    protected WebElement folderLinkFromBreadcrumbTrail;
 
-    @FindBy(xpath = "//span[@class='comment-actions']//a[@title = 'Delete Comment']") private WebElement deleteCommentButton;
+    @FindBy (xpath = "//span[@class='comment-actions']//a[@title = 'Delete Comment']")
+    private WebElement deleteCommentButton;
 
-    @FindBy(xpath = "//span[@class='comment-actions']//a[@title = 'Edit Comment']") private WebElement editCommentButton;
+    @FindBy (xpath = "//span[@class='comment-actions']//a[@title = 'Edit Comment']")
+    private WebElement editCommentButton;
 
-    @FindBy(xpath = "//span[@class='button-group']//span[@class = 'yui-button yui-push-button']//button") private WebElement deleteButtonOnPrompt;
+    @FindBy (xpath = "//span[@class='button-group']//span[@class = 'yui-button yui-push-button']//button")
+    private WebElement deleteButtonOnPrompt;
 
-    @FindBy(id = "prompt_h") private WebElement deleteCommentPrompt;
+    @FindBy (id = "prompt_h")
+    private WebElement deleteCommentPrompt;
 
-    @FindBy(css = "div[id*='_default-comments-list'] td[class ='yui-dt-empty']") public WebElement noComments;
+    @FindBy (css = "div[id*='_default-comments-list'] td[class ='yui-dt-empty']")
+    public WebElement noComments;
 
-    @FindBy(xpath = "//h2[text()= 'Edit Comment...']") private WebElement editCommentBoxTitle;
+    @FindBy (xpath = "//h2[text()= 'Edit Comment...']")
+    private WebElement editCommentBoxTitle;
 
-    @FindBy(xpath = "//button[text()='Save']") private WebElement saveButtonEditComment;
+    @FindBy (xpath = "//button[text()='Save']")
+    private WebElement saveButtonEditComment;
 
-    @FindBy(css = "div[class ='textLayer']>div") private WebElement contentText;
+    @FindBy (css = "div[class ='textLayer']>div")
+    private WebElement contentText;
 
-    @FindBy(xpath = ".//*[@id='onActionManageAspects']/a/span") protected WebElement manageAspectsButton;
+    @FindBy (xpath = ".//*[@id='onActionManageAspects']/a/span")
+    protected WebElement manageAspectsButton;
 
-    @FindBy(xpath = "//a[contains(@title,'Edit Properties')]") protected WebElement editPropertiesLink;
+    @FindBy (xpath = "//a[contains(@title,'Edit Properties')]")
+    protected WebElement editPropertiesLink;
 
-    @FindBy(css = "div[id$='_default-olderVersions'] div.version-panel-right a.download") private WebElement downloadPreviousVersion;
+    @FindBy (css = "div[id$='_default-olderVersions'] div.version-panel-right a.download")
+    private WebElement downloadPreviousVersion;
 
-    @FindBy(css = "div[id$='_default-olderVersions'] div.version-panel-right a[class$='_default revert']") private WebElement revertButton;
+    @FindBy (css = "div[id$='_default-olderVersions'] div.version-panel-right a[class$='_default revert']")
+    private WebElement revertButton;
 
-    @FindBy(xpath = "//iframe[contains(@title,'Rich Text Area')]") private WebElement CommentTextArea;
+    @FindBy (xpath = "//iframe[contains(@title,'Rich Text Area')]")
+    private WebElement CommentTextArea;
 
-    @FindBy(xpath = ".//span[contains(@class,'locked')]") private WebElement lockedMessage;
+    @FindBy (xpath = ".//span[contains(@class,'locked')]")
+    private WebElement lockedMessage;
 
-    @FindBy(css = "#alfresco-revertVersion-instance-ok-button-button") private WebElement okOnRevertPopup;
+    @FindBy (css = "#alfresco-revertVersion-instance-ok-button-button")
+    private WebElement okOnRevertPopup;
 
-    @FindBy(css = ".message") private WebElement contentError;
+    @FindBy (css = ".message")
+    private WebElement contentError;
 
-    @FindBy(css="span[id$='_default-numPages']")
+    @FindBy (css = "span[id$='_default-numPages']")
     private WebElement defaultPageNumber;
 
     private By fileLocation = By.xpath("//span[@class= 'folder-link folder-open']//a");
@@ -164,7 +227,8 @@ import java.util.List;
     private By olderVersion = By.cssSelector("div[id$='_default-olderVersions'] span.document-version");
     private By latestVersion = By.cssSelector("div[id$='_default-latestVersion'] span.document-version");
 
-    @Override public String getRelativePath()
+    @Override
+    public String getRelativePath()
     {
         return String.format("share/page/site/%s/document-details", getCurrentSiteName());
     }
@@ -179,7 +243,7 @@ import java.util.List;
     {
         browser.waitUntilWebElementIsDisplayedWithRetry(socialBar, 5);
         return browser.waitUntilElementsVisible(By.cssSelector("a[class$='favourite-document']")).get(0).getAttribute("title")
-                .equals("Add document to favorites");
+                      .equals("Add document to favorites");
     }
 
     public boolean isAddCommentBlockDisplayed()
@@ -204,8 +268,7 @@ import java.util.List;
         try
         {
             return browser.isElementDisplayed(By.xpath("//iframe[contains(@title,'Rich Text Area')]"));
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             LOG.info("The comment box is not displayed " + ex.getStackTrace());
             return false;
@@ -725,15 +788,13 @@ import java.util.List;
         {
             browser.waitUntilElementVisible(contentText);
             content = contentText.getText();
-        }
-        catch (TimeoutException e1)
+        } catch (TimeoutException e1)
         {
             LOG.info(e1.toString());
             try
             {
                 content = contentError.getText();
-            }
-            catch (NoSuchElementException e2)
+            } catch (NoSuchElementException e2)
             {
                 LOG.info(e2.toString());
                 content = "Content not loaded";

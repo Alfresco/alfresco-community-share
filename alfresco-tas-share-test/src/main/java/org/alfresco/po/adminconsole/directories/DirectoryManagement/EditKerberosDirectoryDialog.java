@@ -10,7 +10,8 @@ public class EditKerberosDirectoryDialog extends EditDirectoryDialog
 {
     public static final String KERBEROS_AUTHENTICATION_OBJECT = "Alfresco:Type=Configuration,Category=Authentication,id1=managed,id2=alfrescoKerb1";
 
-    public enum KERBEROSFields{
+    public enum KERBEROSFields
+    {
         userConfigEntryName("User Config Entry Name:", "kerberos.authentication.user.configEntryName"),
         cifsConfigEntryName("CIFS Config Entry Name:", "kerberos.authentication.cifs.configEntryName"),
         cifsPassword("CIFS Password:", "kerberos.authentication.cifs.password"),

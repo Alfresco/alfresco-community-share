@@ -61,7 +61,7 @@ public class UserProfileTests extends ContextAwareWebTest
     private String c9434User = String.format("c9434user" + RandomData.getRandomAlphanumeric());
     private String authenticationError;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void beforeClass()
     {
         authenticationError = language.translate("login.authError");
@@ -74,28 +74,29 @@ public class UserProfileTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, c9434User, password, c9434User + domain, "c9434firstName", "c9434lastName");
         setupAuthenticatedSession(adminUser, adminPassword);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void afterClass()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        userService.delete(adminUser,adminPassword, c9416User);
+        userService.delete(adminUser, adminPassword, c9416User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9416User);
-        userService.delete(adminUser,adminPassword, c9417User);
+        userService.delete(adminUser, adminPassword, c9417User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9417User);
-        userService.delete(adminUser,adminPassword, c9427User);
+        userService.delete(adminUser, adminPassword, c9427User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9427User);
-        userService.delete(adminUser,adminPassword, c9426User);
+        userService.delete(adminUser, adminPassword, c9426User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9426User);
-        userService.delete(adminUser,adminPassword, c9434User);
+        userService.delete(adminUser, adminPassword, c9434User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9434User);
 
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9431User);
 
     }
 
-    @TestRail(id = "C9415")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9415")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void browsingNewUserPage()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -150,8 +151,8 @@ public class UserProfileTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C9416")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9416")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void browsingEditUserPage()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -190,8 +191,8 @@ public class UserProfileTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C9417")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9417")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editingUser()
     {
         String firstName = "c9417editedFN";
@@ -218,8 +219,8 @@ public class UserProfileTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C9431")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9431")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deletingAUser()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -232,10 +233,10 @@ public class UserProfileTests extends ContextAwareWebTest
         userProfileAdminToolsPage.clickDelete();
         Assert.assertTrue(deleteUserDialogPage.isDeleteUserWindowDisplayed(), "Delete User window is not displayed");
         Assert.assertEquals(
-                deleteUserDialogPage.getDeleteUserWindowText(),
-                "Click Delete User to remove this user.\n" +
-                        "\n" +
-                        "Deleting a user removes their permissions from the repository. If you create a user with the same userid as a previously deleted user, the new user gets access to the original user's files but not their permissions as they are removed upon user deletion.");
+            deleteUserDialogPage.getDeleteUserWindowText(),
+            "Click Delete User to remove this user.\n" +
+                "\n" +
+                "Deleting a user removes their permissions from the repository. If you create a user with the same userid as a previously deleted user, the new user gets access to the original user's files but not their permissions as they are removed upon user deletion.");
 
         LOG.info("Step 2: Click the Delete button on the Delete User pop-up window");
         getBrowser().waitInSeconds(5);
@@ -253,8 +254,8 @@ public class UserProfileTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C9427")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9427")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addingQuotaToUser()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -272,8 +273,8 @@ public class UserProfileTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C9426")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9426")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void enablingAccount()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -283,7 +284,7 @@ public class UserProfileTests extends ContextAwareWebTest
         usersPage.clickUserLink(fullName);
         userProfileAdminToolsPage.clickEditUserButton();
         editUserPage.clickDisabledAccount();
-    //    getBrowser().waitInSeconds(9);
+        //    getBrowser().waitInSeconds(9);
         editUserPage.clickSaveChangesButton();
         getBrowser().waitUntilElementContainsText(userProfileAdminToolsPage.accountStatus, "Disabled");
         Assert.assertEquals(userProfileAdminToolsPage.getAccountStatus(), "Disabled", "Account is not disabled");
@@ -304,8 +305,8 @@ public class UserProfileTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C9434")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9434")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void removeGroupFromUserProfile()
     {
         String fullName = "c9434firstName" + " " + "c9434lastName";

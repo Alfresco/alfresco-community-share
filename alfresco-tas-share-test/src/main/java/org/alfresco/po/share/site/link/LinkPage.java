@@ -26,74 +26,74 @@ public class LinkPage extends SiteCommon<LinkPage>
     EditLinkPage editLinkPage;
 
     @RenderWebElement
-    @FindBy(css = "button[id*='default-create-link']")
+    @FindBy (css = "button[id*='default-create-link']")
     private Button newLinkButton;
 
     @RenderWebElement
-    @FindBy(css = ".filter.links-filter")
+    @FindBy (css = ".filter.links-filter")
     private WebElement linksFilter;
 
     @RenderWebElement
-    @FindBy(css = "[class=list-title]")
+    @FindBy (css = "[class=list-title]")
     private WebElement linksListTitle;
 
-    @FindAll(@FindBy(css = "[class=link-title]"))
+    @FindAll (@FindBy (css = "[class=link-title]"))
     private List<WebElement> linksTitleList;
 
-    @FindAll(@FindBy(css = "[id*=default-links] tr"))
+    @FindAll (@FindBy (css = "[id*=default-links] tr"))
     private List<WebElement> linksList;
 
-    @FindAll(@FindBy(css = "[class=item] a"))
+    @FindAll (@FindBy (css = "[class=item] a"))
     private List<WebElement> listOfLinksURL;
 
-    @FindBy(css = "[id*=viewMode-button-button]")
+    @FindBy (css = "[id*=viewMode-button-button]")
     private WebElement viewModeButton;
 
-    @FindBy(css = "[class=all] a")
+    @FindBy (css = "[class=all] a")
     private WebElement allLinksFilter;
 
-    @FindBy(css = "[class=user] a")
+    @FindBy (css = "[class=user] a")
     private WebElement myLinksFilter;
 
-    @FindBy(css = "[class=recent] a")
+    @FindBy (css = "[class=recent] a")
     private WebElement recentLinksFilter;
 
-    @FindBy(css = ".datatable-msg-empty")
+    @FindBy (css = ".datatable-msg-empty")
     private WebElement dataTableMsgEmpty;
 
-    @FindBy(css = "[id=prompt]")
+    @FindBy (css = "[id=prompt]")
     private WebElement deleteLinkPrompt;
 
-    @FindBy(css = "[id*=default-selected-i-dd-button]")
+    @FindBy (css = "[id*=default-selected-i-dd-button]")
     private Button selectedItemsButton;
 
-    @FindBy(css = "[id*=default-select-button-button]")
+    @FindBy (css = "[id*=default-select-button-button]")
     private Button selectButton;
 
-    @FindAll(@FindBy(css = "[id*=default-selecItems-menu] li span"))
+    @FindAll (@FindBy (css = "[id*=default-selecItems-menu] li span"))
     private List<WebElement> selectItems;
 
-    @FindBy(css = "[class=links-action-select-all]")
+    @FindBy (css = "[class=links-action-select-all]")
     private WebElement selectAllOption;
 
-    @FindBy(css = "[class=links-action-invert-selection]")
+    @FindBy (css = "[class=links-action-invert-selection]")
     private WebElement selectInvertSelectionOption;
 
-    @FindBy(css = "[id*=default-selecItems-menu] li:nth-last-child(1)")
+    @FindBy (css = "[id*=default-selecItems-menu] li:nth-last-child(1)")
     private WebElement selectNoneOption;
-    
-    @FindBy(css = "[class=links-action-delete]")
+
+    @FindBy (css = "[class=links-action-delete]")
     private WebElement selectDeleteOption;
-    
-    @FindBy(css = "[class*=deselect-item] span")
+
+    @FindBy (css = "[class*=deselect-item] span")
     private WebElement selectDeselectAllDeleteOption;
 
-    @FindBy(css = "td[class*='yui-dt-col-title'] h3[class ='link-title']")
+    @FindBy (css = "td[class*='yui-dt-col-title'] h3[class ='link-title']")
     private WebElement linkTitle;
-    
+
     private By linkDetails = By.cssSelector("span[class=item]");
     private By linkTags = By.cssSelector(".detail [class=tag] a");
-    
+
     @Override
     public String getRelativePath()
     {
@@ -338,17 +338,18 @@ public class LinkPage extends SiteCommon<LinkPage>
     {
         selectedItemsButton.click();
     }
-    
+
     public void clickOnDeselectAllOption()
     {
         selectDeselectAllDeleteOption.click();
     }
-    
-    public boolean clickOnSelectDeleteOption(){
+
+    public boolean clickOnSelectDeleteOption()
+    {
         selectDeleteOption.click();
         return deleteLinkPrompt.isDisplayed();
     }
-    
+
     public String getLinkTitle()
     {
         return linkTitle.getText();

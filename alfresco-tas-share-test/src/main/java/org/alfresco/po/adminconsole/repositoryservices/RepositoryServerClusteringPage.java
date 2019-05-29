@@ -16,7 +16,7 @@ public class RepositoryServerClusteringPage extends AdminConsolePage<RepositoryS
     }
 
     @RenderWebElement
-    @FindBy(className = "intro")
+    @FindBy (className = "intro")
     WebElement intro;
 
     @Override

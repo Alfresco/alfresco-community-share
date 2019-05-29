@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Utility class for generating input data for tests
- * 
+ *
  * @author Cristina.Axinte
  */
 
@@ -37,8 +37,7 @@ public class DataUtil
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormats);
             Date parsedDate = simpleDateFormat.parse(date);
             return parsedDate.getTime();
-        }
-        catch (ParseException e)
+        } catch (ParseException e)
         {
             return 0;
         }

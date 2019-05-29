@@ -22,6 +22,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
@@ -31,48 +32,60 @@ import static org.testng.Assert.assertFalse;
 
 public class DeleteSiteTests extends ContextAwareWebTest
 {
-    @Autowired EnvProperties envProperties;
+    @Autowired
+    EnvProperties envProperties;
 
-    @Autowired ToolbarSitesMenu toolbarSitesMenu;
+    @Autowired
+    ToolbarSitesMenu toolbarSitesMenu;
 
-    @Autowired Toolbar toolbar;
+    @Autowired
+    Toolbar toolbar;
 
-    @Autowired SiteFinderPage siteFinderPage;
+    @Autowired
+    SiteFinderPage siteFinderPage;
 
-    @Autowired DeleteSiteDialog deleteSiteDialog;
+    @Autowired
+    DeleteSiteDialog deleteSiteDialog;
 
-    @Autowired SearchPage searchFromToolbarPage;
+    @Autowired
+    SearchPage searchFromToolbarPage;
 
-    @Autowired SystemErrorPage systemErrorPage;
+    @Autowired
+    SystemErrorPage systemErrorPage;
 
-    @Autowired MySitesDashlet mySitesDashlet;
+    @Autowired
+    MySitesDashlet mySitesDashlet;
 
-    @Autowired SitesManagerPage sitesManagerPage;
+    @Autowired
+    SitesManagerPage sitesManagerPage;
 
-    @Autowired SiteDashboardPage siteDashboardPage;
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
 
-    @Autowired UserDashboardPage userDashboardPage;
+    @Autowired
+    UserDashboardPage userDashboardPage;
 
     String userC2280 = String.format("userC2280%s", RandomData.getRandomAlphanumeric());
-    String siteNameC2280_1 = String.format("SiteNameC2280%s",RandomData.getRandomAlphanumeric());
-    String fileNameC2280 = String.format("fileC2280-%s",RandomData.getRandomAlphanumeric());
-    String fileNameC2280_1 = String.format("fileC2280-%s",RandomData.getRandomAlphanumeric());
-    String siteNameC2280_2 = String.format("siteName%s",RandomData.getRandomAlphanumeric());
-    String description = String.format("description%s",RandomData.getRandomAlphanumeric());
-    String userC2281 = String.format("1UserC2281%s",RandomData.getRandomAlphanumeric());
-    String siteNameUserCanNotDelete = String.format("siteName%s",RandomData.getRandomAlphanumeric());
-    String userc2282 = String.format("1UserC2282%s",RandomData.getRandomAlphanumeric());
-    String userC2283 = String.format("1UserC2283%s",RandomData.getRandomAlphanumeric());
-    String userC2284 = String.format("UserC2284%s",RandomData.getRandomAlphanumeric());
-    String siteNameC2284 = String.format("siteName%s",RandomData.getRandomAlphanumeric());
-    String userC2289_1 = String.format("1UserC2289%s",RandomData.getRandomAlphanumeric());
-    String userC2289_2 = String.format("2UserC2289%s",RandomData.getRandomAlphanumeric());
-    String userC2291 = String.format("userC2291%s",RandomData.getRandomAlphanumeric());
-    String siteNameC2291 = String.format("0-C2291-%s",RandomData.getRandomAlphanumeric());
-    String siteNameC2292 = String.format("0-C2292-%s",RandomData.getRandomAlphanumeric());
+    String siteNameC2280_1 = String.format("SiteNameC2280%s", RandomData.getRandomAlphanumeric());
+    String fileNameC2280 = String.format("fileC2280-%s", RandomData.getRandomAlphanumeric());
+    String fileNameC2280_1 = String.format("fileC2280-%s", RandomData.getRandomAlphanumeric());
+    String siteNameC2280_2 = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    String description = String.format("description%s", RandomData.getRandomAlphanumeric());
+    String userC2281 = String.format("1UserC2281%s", RandomData.getRandomAlphanumeric());
+    String siteNameUserCanNotDelete = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    String userc2282 = String.format("1UserC2282%s", RandomData.getRandomAlphanumeric());
+    String userC2283 = String.format("1UserC2283%s", RandomData.getRandomAlphanumeric());
+    String userC2284 = String.format("UserC2284%s", RandomData.getRandomAlphanumeric());
+    String siteNameC2284 = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    String userC2289_1 = String.format("1UserC2289%s", RandomData.getRandomAlphanumeric());
+    String userC2289_2 = String.format("2UserC2289%s", RandomData.getRandomAlphanumeric());
+    String userC2291 = String.format("userC2291%s", RandomData.getRandomAlphanumeric());
+    String siteNameC2291 = String.format("0-C2291-%s", RandomData.getRandomAlphanumeric());
+    String siteNameC2292 = String.format("0-C2292-%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
-            public void testSetup() {
+    @BeforeClass (alwaysRun = true)
+    public void testSetup()
+    {
         userService.create(adminUser, adminPassword, userC2280, password, userC2280 + domain, "firstName", "lastName");
         siteService.create(userC2280, password, domain, siteNameC2280_1, description, SiteService.Visibility.PUBLIC);
         siteService.create(userC2280, password, domain, siteNameC2280_2, description, SiteService.Visibility.PUBLIC);
@@ -93,43 +106,45 @@ public class DeleteSiteTests extends ContextAwareWebTest
         siteService.create(userC2291, password, domain, siteNameC2291, description, SiteService.Visibility.PUBLIC);
         siteService.create(adminUser, adminPassword, domain, siteNameC2292, description, SiteService.Visibility.PUBLIC);
     }
+
     SoftAssert softAssert = new SoftAssert();
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userC2280);
+        userService.delete(adminUser, adminPassword, userC2280);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2280);
-        userService.delete(adminUser,adminPassword, userC2281);
+        userService.delete(adminUser, adminPassword, userC2281);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2281);
-        userService.delete(adminUser,adminPassword, userc2282);
+        userService.delete(adminUser, adminPassword, userc2282);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userc2282);
-        userService.delete(adminUser,adminPassword, userC2283);
+        userService.delete(adminUser, adminPassword, userC2283);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2283);
-        userService.delete(adminUser,adminPassword, userC2284);
+        userService.delete(adminUser, adminPassword, userC2284);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2284);
 
-        userService.delete(adminUser,adminPassword, userC2289_1);
+        userService.delete(adminUser, adminPassword, userC2289_1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2289_1);
-        userService.delete(adminUser,adminPassword, userC2289_2);
+        userService.delete(adminUser, adminPassword, userC2289_2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2289_2);
-        userService.delete(adminUser,adminPassword, userC2291);
+        userService.delete(adminUser, adminPassword, userC2291);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC2291);
 
 
-        siteService.delete(adminUser,adminPassword,siteNameC2280_1 );
-        siteService.delete(adminUser,adminPassword,siteNameC2280_2 );
-        siteService.delete(adminUser,adminPassword,siteNameUserCanNotDelete );
-        siteService.delete(adminUser,adminPassword,siteNameC2284 );
-        siteService.delete(adminUser,adminPassword,siteNameC2291 );
-        siteService.delete(adminUser,adminPassword,siteNameC2292 );
+        siteService.delete(adminUser, adminPassword, siteNameC2280_1);
+        siteService.delete(adminUser, adminPassword, siteNameC2280_2);
+        siteService.delete(adminUser, adminPassword, siteNameUserCanNotDelete);
+        siteService.delete(adminUser, adminPassword, siteNameC2284);
+        siteService.delete(adminUser, adminPassword, siteNameC2291);
+        siteService.delete(adminUser, adminPassword, siteNameC2292);
 
 
     }
 
-    @TestRail(id = "C2280")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void deleteSiteAsManagerFromSiteFinder() {
+    @TestRail (id = "C2280")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void deleteSiteAsManagerFromSiteFinder()
+    {
         setupAuthenticatedSession(userC2280, password);
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         siteFinderPage.navigateByMenuBar();
@@ -143,10 +158,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
         LOG.info("STEP4: Click on 'Delete' button");
         siteFinderPage.clickSiteButton(siteNameC2280_1, "Delete");
         assertEquals(deleteSiteDialog.isPopupDisplayed(), true, "Delete popup is displayed.");
-        assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2280_1 + "''?"), true,"Confirm delete message is correct.");
+        assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2280_1 + "''?"), true, "Confirm delete message is correct.");
         LOG.info("STEP5: Click on \"Delete\" button from popup");
         deleteSiteDialog.clickDelete();
-        assertEquals(deleteSiteDialog.getConfirmMessage().contains(language.translate("deleteSite.confirmAgain")), true,"Second confirm delete message is correct");
+        assertEquals(deleteSiteDialog.getConfirmMessage().contains(language.translate("deleteSite.confirmAgain")), true, "Second confirm delete message is correct");
         LOG.info("STEP6: Click \"Yes\" button");
         deleteSiteDialog.clickYes();
         getBrowser().waitInSeconds(9);
@@ -162,9 +177,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C2286")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void deleteSiteAsManagerFromDashlet() {
+    @TestRail (id = "C2286")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void deleteSiteAsManagerFromDashlet()
+    {
         setupAuthenticatedSession(userC2280, password);
         LOG.info("STEP1&2: Hover over the created site from \"My sites\" dashlet. Click on \"Delete\" button");
         getBrowser().refresh();
@@ -189,9 +205,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C2281, C2287")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void deleteSiteAsContributorFromSiteFinder() {
+    @TestRail (id = "C2281, C2287")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void deleteSiteAsContributorFromSiteFinder()
+    {
         setupAuthenticatedSession(userC2281, password);
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         toolbarSitesMenu.clickSiteFinder();
@@ -210,9 +227,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C2282, C2288")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void deleteSiteAsCollaboratorFromSiteFinder() {
+    @TestRail (id = "C2282, C2288")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void deleteSiteAsCollaboratorFromSiteFinder()
+    {
         setupAuthenticatedSession(userc2282, password);
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         toolbarSitesMenu.clickSiteFinder();
@@ -231,9 +249,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C2283, C2289")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void deleteSiteAsConsumerFromSiteFinder() {
+    @TestRail (id = "C2283, C2289")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void deleteSiteAsConsumerFromSiteFinder()
+    {
         setupAuthenticatedSession(userC2283, password);
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         siteFinderPage.navigateByMenuBar();
@@ -252,9 +271,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C2284")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void cancelDeleteSiteFromSiteFinder() {
+    @TestRail (id = "C2284")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void cancelDeleteSiteFromSiteFinder()
+    {
         setupAuthenticatedSession(userC2284, password);
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         siteFinderPage.navigateByMenuBar();
@@ -265,7 +285,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         LOG.info("STEP3: Click on 'Delete' button");
         siteFinderPage.clickSiteButton(siteNameC2284, "Delete");
         assertEquals(deleteSiteDialog.isPopupDisplayed(), true, "Delete popup is displayed.");
-        assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2284 + "''?"), true,"Confirm delete message is correct.");
+        assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2284 + "''?"), true, "Confirm delete message is correct.");
         LOG.info("STEP4: Click on 'Cancel' button");
         deleteSiteDialog.clickCancel();
         siteFinderPage.searchSiteWithRetry(siteNameC2284);
@@ -276,15 +296,17 @@ public class DeleteSiteTests extends ContextAwareWebTest
         assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2284 + "''?"), true, "Confirm delete message is correct.");
         LOG.info("STEP6: Click on 'Delete' button");
         deleteSiteDialog.clickDelete();
-        assertEquals(deleteSiteDialog.getConfirmMessage().contains(language.translate("deleteSite.confirmAgain")), true,"Second confirm delete message is correct");
+        assertEquals(deleteSiteDialog.getConfirmMessage().contains(language.translate("deleteSite.confirmAgain")), true, "Second confirm delete message is correct");
         deleteSiteDialog.clickNo();
         siteFinderPage.searchSiteWithRetry(siteNameC2284);
         assertEquals(siteFinderPage.checkSiteWasFound(siteNameC2284), true, "Site is found, it wasn't deleted.");
         cleanupAuthenticatedSession();
     }
-    @TestRail(id = "C2291")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void deleteSiteAsAdminFromSiteManager() {
+
+    @TestRail (id = "C2291")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void deleteSiteAsAdminFromSiteManager()
+    {
         setupAuthenticatedSession(adminUser, adminPassword);
         LOG.info("STEP1: Open \"Site Manager\" page");
         sitesManagerPage.navigate();
@@ -302,9 +324,10 @@ public class DeleteSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C2292")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void cancelDeleteSiteFromSitesManager() {
+    @TestRail (id = "C2292")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void cancelDeleteSiteFromSitesManager()
+    {
         setupAuthenticatedSession(adminUser, adminPassword);
         LOG.info("STEP1: Open \"Site Manager\" page");
         sitesManagerPage.navigate();
@@ -318,7 +341,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
         LOG.info("STEP4: Open the created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteNameC2292 + "/dashboard";
         getBrowser().navigate().to(url);
-        assertEquals(siteDashboardPage.getCurrentUrl(), url.replace(":80/","/"), "User is successfully redirected to the site dashboard.");
+        assertEquals(siteDashboardPage.getCurrentUrl(), url.replace(":80/", "/"), "User is successfully redirected to the site dashboard.");
         cleanupAuthenticatedSession();
     }
 

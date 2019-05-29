@@ -20,55 +20,56 @@ public class EditUserPage extends SharePage<EditUserPage>
     @Autowired
     UserProfileAdminToolsPage userProfileAdminToolsPage;
 
-    @FindBy(css ="button[id$='_default-update-groupfinder-group-search-button-button']")
+    @FindBy (css = "button[id$='_default-update-groupfinder-group-search-button-button']")
     private WebElement searchGroupButton;
 
     @RenderWebElement
-    @FindBy(css ="button[id$='_default-updateuser-clearphoto-button-button']")
+    @FindBy (css = "button[id$='_default-updateuser-clearphoto-button-button']")
     private WebElement useDefaultButton;
 
     @RenderWebElement
-    @FindBy(css ="button[id$='_default-updateuser-save-button-button']")
+    @FindBy (css = "button[id$='_default-updateuser-save-button-button']")
     private WebElement saveChangesButton;
 
-    @FindBy(css ="button[id$='_default-updateuser-cancel-button-button']")
+    @FindBy (css = "button[id$='_default-updateuser-cancel-button-button']")
     private WebElement cancelButton;
 
-    @FindBy(css ="span[id$='_default-update-title']")
+    @FindBy (css = "span[id$='_default-update-title']")
     private WebElement userNameInEditUserPageTitle;
 
-    @FindAll(@FindBy(css="form[id$='_default-update-form'] div.header-bar"))
+    @FindAll (@FindBy (css = "form[id$='_default-update-form'] div.header-bar"))
     private List<WebElement> userProfileHeaderList;
 
-    @FindBy(css="input[id$='_default-update-firstname']")
+    @FindBy (css = "input[id$='_default-update-firstname']")
     private WebElement firstNameField;
 
-    @FindBy(css ="input[id$='_default-update-lastname']")
+    @FindBy (css = "input[id$='_default-update-lastname']")
     private WebElement lastNameField;
 
-    @FindBy(css ="input[id$='_default-update-email']")
+    @FindBy (css = "input[id$='_default-update-email']")
     private WebElement emailField;
 
-    @FindBy(css ="input[id$='_default-update-groupfinder-search-text']")
+    @FindBy (css = "input[id$='_default-update-groupfinder-search-text']")
     private WebElement groupsInputField;
 
-    @FindBy(css="input[id$='_default-update-quota']")
+    @FindBy (css = "input[id$='_default-update-quota']")
     private WebElement quotaField;
 
-    @FindBy(css = "input[id$='_default-update-password']")
+    @FindBy (css = "input[id$='_default-update-password']")
     private WebElement newPasswordField;
 
-    @FindBy(css = "input[id$='_default-update-verifypassword']")
+    @FindBy (css = "input[id$='_default-update-verifypassword']")
     private WebElement verifyPasswordField;
 
-    @FindBy(css="input[id$='_default-update-disableaccount']")
+    @FindBy (css = "input[id$='_default-update-disableaccount']")
     private WebElement disableAccount;
 
-    @FindBy(css ="img[id$='_default-update-photoimg']")
+    @FindBy (css = "img[id$='_default-update-photoimg']")
     private WebElement photoField;
 
     @Override
-    public String getRelativePath() {
+    public String getRelativePath()
+    {
         return null;
     }
 
@@ -108,6 +109,7 @@ public class EditUserPage extends SharePage<EditUserPage>
         }
         return false;
     }
+
     public boolean isFirstNameFieldDisplayed()
     {
         return browser.isElementDisplayed(firstNameField);
@@ -176,7 +178,7 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     public boolean isVerifyPasswordFieldDisplayed()
     {
-        return  browser.isElementDisplayed(verifyPasswordField);
+        return browser.isElementDisplayed(verifyPasswordField);
     }
 
     public void editVerifyPasswordFieldDisplayed(String verifyPassword)
@@ -210,7 +212,7 @@ public class EditUserPage extends SharePage<EditUserPage>
     public void addGroup(String groupName)
     {
         getBrowser().waitUntilElementClickable(searchGroupButton).click();
-        browser.waitUntilElementVisible(By.xpath(String.format("//td[contains(@class,'col-description')]//h3[@class='itemname' and text()='%s']//ancestor::tr//td[contains(@class,'col-actions')]//button[contains(text(),'Add')]",groupName))).click();
+        browser.waitUntilElementVisible(By.xpath(String.format("//td[contains(@class,'col-description')]//h3[@class='itemname' and text()='%s']//ancestor::tr//td[contains(@class,'col-actions')]//button[contains(text(),'Add')]", groupName))).click();
     }
 
     public void removeGroup(String groupName)

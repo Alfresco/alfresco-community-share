@@ -30,7 +30,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
     String category9298 = String.format("categoryC9298%s", RandomData.getRandomAlphanumeric());
     String categoryEdited = String.format("categoryEdited%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void beforeClass()
     {
         userService.createRootCategory(adminUser, adminPassword, category9301);
@@ -41,7 +41,6 @@ public class CategoryManagerTests extends ContextAwareWebTest
     }
 
 
-
     @AfterClass
     public void afterClassDeleteAddedCategories()
     {
@@ -49,13 +48,13 @@ public class CategoryManagerTests extends ContextAwareWebTest
         userService.deleteCategory(adminUser, adminPassword, categoryEdited);
 
         for (String categoryName : Arrays.asList(category9295, categoryEdited))
-            if( userService.categoryExists(adminUser, adminPassword, categoryName))
+            if (userService.categoryExists(adminUser, adminPassword, categoryName))
                 userService.deleteCategory(adminUser, adminPassword, categoryName);
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C9294")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9294")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyCategoryManagerPage()
     {
         LOG.info("Step 1: Verify if the 'Category Manager' page has the specific links displayed.");
@@ -67,8 +66,8 @@ public class CategoryManagerTests extends ContextAwareWebTest
         Assert.assertTrue(categoryManagerPage.isTagsLinkDisplayed(), "Tags link is displayed.");
     }
 
-    @TestRail(id = "C9295")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9295")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addNewCategory()
     {
         LOG.info("Step 1: Add a new category in the 'Category Manager' page.");
@@ -80,8 +79,8 @@ public class CategoryManagerTests extends ContextAwareWebTest
         Assert.assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category displayed");
     }
 
-    @TestRail(id = "C9301")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9301")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteCategory()
     {
         LOG.info("Step 1: Delete the category.");
@@ -91,8 +90,8 @@ public class CategoryManagerTests extends ContextAwareWebTest
         Assert.assertTrue(categoryManagerPage.isCategoryNotDisplayed(category9301));
     }
 
-    @TestRail(id = "C9298")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9298")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void editCategory()
     {
         LOG.info("Step 1: Edit the category.");

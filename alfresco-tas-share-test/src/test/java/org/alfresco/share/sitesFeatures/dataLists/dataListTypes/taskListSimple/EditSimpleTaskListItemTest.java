@@ -50,7 +50,7 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
 
     String newDateString = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -58,23 +58,23 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.TASKS_SIMPLE, taskListSimple, "Simple Task list description");
         dataListsService.addTaskSimpleItem(adminUser, adminPassword, siteName, taskListSimple, itemTitle, itemDescription, null, itemPriority, itemStatus,
-                itemComment);
+            itemComment);
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         dataListsPage.clickSimpleTaskListItem(taskListSimple);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C6588")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6588")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyEditDataItem()
     {
         LOG.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");

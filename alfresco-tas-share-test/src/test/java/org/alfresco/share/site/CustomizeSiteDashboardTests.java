@@ -28,8 +28,8 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     @Autowired
     SiteContentDashlet siteContentDashlet;
 
-    @TestRail(id = "C2198")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2198")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeSiteDashboardLayout()
     {
         String userName = "user2198-" + RandomData.getRandomAlphanumeric() + domain;
@@ -113,13 +113,13 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.WIKI, 3, 1));
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_SEARCH, 4, 1));
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2200")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2200")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addNewDashlet()
     {
         String userName = "user2200-" + RandomData.getRandomAlphanumeric() + domain;
@@ -142,15 +142,15 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_PROFILE, 2, 3), "Dashlet " + Dashlets.SITE_PROFILE.getDashletName() + " is missing");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_LINKS, 1, 3), "Dashlet " + Dashlets.SITE_LINKS.getDashletName() + " is missing");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C2202")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2202")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyCustomizeSiteDashboardPage()
     {
         String userName = "user2202-" + RandomData.getRandomAlphanumeric() + domain;
@@ -196,14 +196,14 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         customizeSite.clickCloseAvailabeDashlets();
         Assert.assertFalse(customizeSite.isAvailableDashletListDisplayed(), "Available dashlets list is not closed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2203")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2203")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void moveOrReorderDashlets()
     {
         String userName = "user2203-" + RandomData.getRandomAlphanumeric() + domain;
@@ -229,14 +229,14 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_CONTENT, 1, 1), "Site Content dashlet is not in column 1 first position");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_MEMBERS, 1, 2), "Site Members dashlet is not in column 2 first position");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2207")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2207")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultLayoutAndDashlets()
     {
         String userName = "user2207-" + RandomData.getRandomAlphanumeric() + domain;
@@ -256,14 +256,14 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_CONTENT, 2, 1), "Site Content dashlet is not in column 2 first position");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_ACTIVITIES, 2, 2), "Site Activities dashlet is not in column 2 second position");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2208")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2208")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void resizeDashlet()
     {
         String userName = "user2208-" + RandomData.getRandomAlphanumeric() + domain;
@@ -277,13 +277,13 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
 
         LOG.info("Step 2 - Resize any dashlet from the 'Site Dashboard',by dragging the bottom edge of the dashlet.");
         int sizeBefore = siteContentDashlet.getDashletHeight();
-        siteContentDashlet.resizeDashlet(300,0);
+        siteContentDashlet.resizeDashlet(300, 0);
         int sizeAfter = siteContentDashlet.getDashletHeight();
         Assert.assertTrue(sizeBefore < sizeAfter, "Height is not changed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 }

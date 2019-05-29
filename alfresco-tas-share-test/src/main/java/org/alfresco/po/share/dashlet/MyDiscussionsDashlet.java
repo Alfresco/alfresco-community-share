@@ -16,60 +16,60 @@ import java.util.List;
 public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
 {
     @RenderWebElement
-    @FindBy(css = "div.dashlet.forumsummary")
+    @FindBy (css = "div.dashlet.forumsummary")
     protected HtmlElement dashletContainer;
-    
-    @FindBy(css = "div.dashlet.forumsummary td div[class$='yui-dt-liner']")
+
+    @FindBy (css = "div.dashlet.forumsummary td div[class$='yui-dt-liner']")
     protected static HtmlElement defaultDashletMessage;
-    
-    @FindBy(css = "button[id$='default-topics-button']")
+
+    @FindBy (css = "button[id$='default-topics-button']")
     private Button topicsButton;
-    
-    @FindBy(css = "button[id$='default-history-button']")
+
+    @FindBy (css = "button[id$='default-history-button']")
     private Button historyButton;
-    
-    @FindAll(@FindBy(css = "div.forumsummary div.visible ul.first-of-type li a"))
+
+    @FindAll (@FindBy (css = "div.forumsummary div.visible ul.first-of-type li a"))
     private List<WebElement> dropDownOptionsList;
-    
+
     @Override
     public String getDashletTitle()
     {
         getBrowser().waitUntilElementVisible(dashletTitle);
         return dashletContainer.findElement(dashletTitle).getText();
     }
-    
+
     /**
      * Retrieves the default dashlet message.
-     * 
+     *
      * @return String
      */
     public String getDefaultMessage()
     {
         return defaultDashletMessage.getText();
     }
-    
+
     public void clickOnTopicButton()
     {
         getBrowser().waitUntilElementClickable(topicsButton);
         topicsButton.click();
     }
-    
+
     public void clickHistoryButton()
     {
         historyButton.click();
     }
-    
+
     private List<String> getCurrentOptions()
     {
         List<String> options = new ArrayList<>();
-        for(WebElement option: dropDownOptionsList)
+        for (WebElement option : dropDownOptionsList)
         {
             options.add(option.getText());
         }
-        
+
         return options;
     }
-    
+
     public Boolean checkTopicDropdownOptions()
     {
         clickOnTopicButton();
@@ -81,14 +81,14 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
         }
         for (String option : currentOptions)
         {
-            if(!expectedValues.contains(option))
+            if (!expectedValues.contains(option))
             {
                 return false;
             }
         }
         return true;
     }
-    
+
     public Boolean checkHistoryDropdownOptions()
     {
         clickHistoryButton();
@@ -100,7 +100,7 @@ public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
         }
         for (String option : currentOptions)
         {
-            if(!expectedValues.contains(option))
+            if (!expectedValues.contains(option))
             {
                 return false;
             }

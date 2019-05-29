@@ -33,7 +33,7 @@ public class TagManagerTests extends ContextAwareWebTest
 
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
-    
+
     @Autowired
     private EditTagDialog editTagDialog;
 
@@ -49,7 +49,7 @@ public class TagManagerTests extends ContextAwareWebTest
     private final String tag2 = "tag2" + uniqueIdentifier;
     private final String tag3 = "tag3" + uniqueIdentifier;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupClass()
     {
         userService.create(adminUser, adminPassword, user, password, domain, user, user);
@@ -60,25 +60,25 @@ public class TagManagerTests extends ContextAwareWebTest
         contentAction.addMultipleTags(user, password, site, fileName, Arrays.asList(tag1, tag2, tag3));
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        userService.delete(adminUser,adminPassword, userAdmin);
+        userService.delete(adminUser, adminPassword, userAdmin);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userAdmin);
-        siteService.delete(adminUser, adminPassword,site);
+        siteService.delete(adminUser, adminPassword, site);
     }
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     private void preconditionsTest()
     {
         setupAuthenticatedSession(userAdmin, password);
         tagManagerPage.navigate();
     }
 
-    @TestRail(id = "C9383")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9383")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void renamingTag()
     {
         LOG.info("STEP1: Click 'Edit tag' for content");
@@ -97,8 +97,8 @@ public class TagManagerTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.getTags(fileName).contains(updatedTag), "Tags found =" + documentLibraryPage.getTags(fileName));
     }
 
-    @TestRail(id = "C9385")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9385")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyTagManagerPage()
     {
         LOG.info("STEP1: Verify 'Tag Manager' page");
@@ -117,8 +117,8 @@ public class TagManagerTests extends ContextAwareWebTest
         assertEquals(tagManagerPage.getRequiredInput(), " *", "'Edit Tag' dialog: Rename tag is marked as required field with=");
     }
 
-    @TestRail(id = "C9388")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9388")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deleteTag()
     {
         LOG.info("STEP1: Hover any tag and click \"Delete\" button");

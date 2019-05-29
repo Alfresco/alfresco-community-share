@@ -14,37 +14,37 @@ public class InboundEmailPage extends AdminConsolePage<InboundEmailPage>
         return "alfresco/s/enterprise/admin/admin-inboundemail";
     }
 
-    @FindBy(className = "intro")
+    @FindBy (className = "intro")
     WebElement intro;
 
-    @FindBy(className = "info")
+    @FindBy (className = "info")
     WebElement info;
 
-    @FindBy(id = "emailEnabled")
+    @FindBy (id = "emailEnabled")
     WebElement enabled;
 
-    @FindBy(name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.inbound.unknownUser")
+    @FindBy (name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.inbound.unknownUser")
     WebElement unknownuser;
 
-    @FindBy(name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.server.allowed.senders")
+    @FindBy (name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.server.allowed.senders")
     WebElement allowedsenders;
 
-    @FindBy(name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.server.connections.max")
+    @FindBy (name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.server.connections.max")
     WebElement maximumserverconnections;
 
-    @FindBy(id = "email.server.auth.enabled")
+    @FindBy (id = "email.server.auth.enabled")
     WebElement smtpauthenticationenabled;
 
-    @FindBy(name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.server.port")
+    @FindBy (name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.server.port")
     WebElement emailserverport;
 
-    @FindBy(name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.server.domain")
+    @FindBy (name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.server.domain")
     WebElement emailserverdomain;
 
-    @FindBy(name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.server.blocked.senders")
+    @FindBy (name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.server.blocked.senders")
     WebElement blockedsenders;
 
-    @FindBy(name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.inbound.emailContributorsAuthority")
+    @FindBy (name = "Alfresco:Type=Configuration,Category=email,id1=inbound|email.inbound.emailContributorsAuthority")
     WebElement emailauthenticationgroup;
 
     @Override

@@ -15,45 +15,45 @@ import java.util.List;
 @PageObject
 public class SiteGroupsPage extends SiteMembersPage
 {
-    @FindBy(css = "a[id*='addGroups']")
+    @FindBy (css = "a[id*='addGroups']")
     private WebElement addGroups;
 
     @RenderWebElement
-    @FindBy(css = "input[class*='search-term']")
+    @FindBy (css = "input[class*='search-term']")
     private TextInput searchGroupField;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='site-groups_x0023_default-button-button']")
+    @FindBy (css = "button[id$='site-groups_x0023_default-button-button']")
     private Button searchButton;
 
-    @FindBy(css="input[id$='_default-search-text']")
+    @FindBy (css = "input[id$='_default-search-text']")
     private WebElement searchInputBox;
 
-    @FindBy(css="button[id$='_default-group-search-button-button']")
+    @FindBy (css = "button[id$='_default-group-search-button-button']")
     private WebElement searchButtonGroup;
 
-    @FindBy(css="span[class$='-button-button'] button")
+    @FindBy (css = "span[class$='-button-button'] button")
     private WebElement addButton;
 
-    @FindAll(@FindBy(css="a.yuimenuitemlabel"))
+    @FindAll (@FindBy (css = "a.yuimenuitemlabel"))
     private List<WebElement> roles;
 
-    @FindBy(css="td.yui-dt7-col-role.yui-dt-col-role button")
+    @FindBy (css = "td.yui-dt7-col-role.yui-dt-col-role button")
     private WebElement selectRoleButton;
 
-    @FindBy(css="button[id$='_default-add-button-button']")
+    @FindBy (css = "button[id$='_default-add-button-button']")
     private WebElement addGroupsButton;
 
-    @FindAll(@FindBy(css = "span.attr-value"))
+    @FindAll (@FindBy (css = "span.attr-value"))
     private List<WebElement> groupId;
 
-    @FindAll(@FindBy(css = "td+td>div.yui-dt-liner>h3"))
+    @FindAll (@FindBy (css = "td+td>div.yui-dt-liner>h3"))
     private List<WebElement> groupNameList;
 
-    @FindBy(css="div.detail span")
+    @FindBy (css = "div.detail span")
     private WebElement idLabel;
 
-    @FindAll(@FindBy(css="div.detail"))
+    @FindAll (@FindBy (css = "div.detail"))
     private List<WebElement> idInSearchResults;
 
     public By waitMessage = By.cssSelector("span.wait");
@@ -94,7 +94,7 @@ public class SiteGroupsPage extends SiteMembersPage
 
     /**
      * Method returns if 'Remove' button is displayed for a specified group
-     * 
+     *
      * @param groupName String
      * @return True if button is displayed
      */
@@ -116,7 +116,7 @@ public class SiteGroupsPage extends SiteMembersPage
 
     /**
      * Checks whether add groups button is visible or not
-     * 
+     *
      * @return
      */
     public boolean isAddGroupsButtonDisplayed()

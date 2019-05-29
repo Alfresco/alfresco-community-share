@@ -27,42 +27,42 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
     @Autowired
     ToolbarUserMenu toolbarUserMenu;
 
-    @FindBy(css = "button[id$='button-edit-button']")
+    @FindBy (css = "button[id$='button-edit-button']")
     private Button editProfile;
-    
+
     @RenderWebElement
-    @FindBy(css = "[id*=default-profile-link]")
+    @FindBy (css = "[id*=default-profile-link]")
     private WebElement infoLink;
-    
+
     @RenderWebElement
-    @FindBy(css = "[id*=default-user-sites-link]")
+    @FindBy (css = "[id*=default-user-sites-link]")
     private WebElement sitesLink;
 
-    @FindBy(css = ".header-bar:nth-child(1)")
+    @FindBy (css = ".header-bar:nth-child(1)")
     private HtmlElement aboutHeader;
 
     @RenderWebElement
-    @FindBy(css = ".alfresco-layout-LeftAndRight__left")
+    @FindBy (css = ".alfresco-layout-LeftAndRight__left")
     private HtmlElement userProfilePageHeader;
 
-    @FindBy(xpath = "//div[contains(text(), 'Contact Information')]")
+    @FindBy (xpath = "//div[contains(text(), 'Contact Information')]")
     private HtmlElement contactInfoHeader;
 
-    @FindBy(xpath = "//div[contains(text(), 'Company Details')]")
+    @FindBy (xpath = "//div[contains(text(), 'Company Details')]")
     private HtmlElement companyDetails;
 
     @RenderWebElement
-    @FindBy(css = ".namelabel")
+    @FindBy (css = ".namelabel")
     private WebElement nameLabel;
 
-    @FindBy(css = ".biorow>div")
+    @FindBy (css = ".biorow>div")
     private WebElement summary;
 
-    @FindAll(@FindBy(css = ".fieldlabel"))
+    @FindAll (@FindBy (css = ".fieldlabel"))
     private List<WebElement> aboutUserDetails;
 
     // Contact and Company Information
-    @FindAll(@FindBy(css = ".viewcolumn .row"))
+    @FindAll (@FindBy (css = ".viewcolumn .row"))
     private List<WebElement> userInformations;
 
     @Override
@@ -77,7 +77,7 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
         return (UserProfilePage) navigate();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
     public UserProfilePage navigateByMenuBar()
     {
@@ -87,7 +87,7 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     /**
      * Open User Info page from the my profile navigation links
-     * 
+     *
      * @param myProfileNavigation
      * @return {@link UserProfilePage}
      */
@@ -99,7 +99,7 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     /**
      * Verify if About header is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isAboutHeaderDisplayed()
@@ -109,7 +109,7 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     /**
      * Verify if Contact Information header is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isContactInfoHeaderDisplayed()
@@ -119,7 +119,7 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     /**
      * Verify if Company Details header is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isCompanyDetailsHeaderDisplayed()
@@ -129,7 +129,7 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     /**
      * Verify if "User Profile Page" header is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isUserProfilePageHeaderDisplayed()
@@ -167,7 +167,7 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
 
     /**
      * Get the Contact Informations and Company Details
-     * 
+     *
      * @return Map<String, String> field label and value
      */
     public Map<String, String> getUserInformation()
@@ -184,8 +184,7 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
                     if (userInfo.get("Telephone") != null)
                     {
                         userInfo.put("CompanyTelephone", value);
-                    }
-                    else
+                    } else
                     {
                         userInfo.put(key, value);
                     }
@@ -194,8 +193,7 @@ public class UserProfilePage extends SharePage<UserProfilePage> implements Acces
                     if (userInfo.get("Email") != null)
                     {
                         userInfo.put("CompanyEmail", value);
-                    }
-                    else
+                    } else
                     {
                         userInfo.put(key, value);
                     }

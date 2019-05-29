@@ -37,7 +37,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
     Notification notification;
 
     private String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("Site1%s",RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
     private String topic1Title = "Topic1";
     private String topic2Title = "Topic2";
     private String topicContent = "Some content";
@@ -45,7 +45,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
     private String topicTag2 = "tag2";
     private String topicReply = "Reply content";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lName1");
@@ -58,16 +58,16 @@ public class DeleteTopicTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "6244")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6244")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteTopicFromDiscussionsTopicListPage()
     {
         //precondition
@@ -85,8 +85,8 @@ public class DeleteTopicTests extends ContextAwareWebTest
         assertFalse(topicListPage.isTopicDisplayed(topic1Title), "Topic1 is deleted.");
     }
 
-    @TestRail(id = "6246")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6246")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteTopicFromTopicViewPage()
     {
         //precondition
@@ -105,8 +105,8 @@ public class DeleteTopicTests extends ContextAwareWebTest
         assertFalse(topicListPage.isTagDisplayed(topicTag2), "tag1 is not displayed, the list of tags is empty.");
     }
 
-    @TestRail(id = "6245")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6245")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingTopic()
     {
         //precondition

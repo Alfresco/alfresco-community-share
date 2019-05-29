@@ -25,59 +25,59 @@ public class CreateUsers extends SharePage<CreateUsers>
     AdminToolsPage adminToolsPage;
 
     @RenderWebElement
-    @FindBy(xpath = "//div[contains(text(),'New User')]")
+    @FindBy (xpath = "//div[contains(text(),'New User')]")
     private WebElement newUserLabel;
 
-    @FindBy(xpath = "//div[contains(@class, 'yui-dt-liner') and text()='Enter a search term to find groups']")
+    @FindBy (xpath = "//div[contains(@class, 'yui-dt-liner') and text()='Enter a search term to find groups']")
     private WebElement searchForGroupsMessage;
 
-    @FindBy(css = "input[id*='firstname']")
+    @FindBy (css = "input[id*='firstname']")
     private WebElement firstNameInputField;
 
-    @FindBy(css = "input[id*='lastname']")
+    @FindBy (css = "input[id*='lastname']")
     private WebElement lastNameInputField;
 
-    @FindBy(css = "input[id*='email']")
+    @FindBy (css = "input[id*='email']")
     private WebElement emailInputField;
 
-    @FindBy(css = "input[id*='default-create-username']")
+    @FindBy (css = "input[id*='default-create-username']")
     private WebElement usernameInputField;
 
-    @FindBy(css = "input[id*='password']")
+    @FindBy (css = "input[id*='password']")
     private WebElement passwordInputField;
 
-    @FindBy(css = "input[id*='verifypassword']")
+    @FindBy (css = "input[id*='verifypassword']")
     private WebElement verifypasswordInputField;
 
-    @FindBy(css = "input[id*='groupfinder']")
+    @FindBy (css = "input[id*='groupfinder']")
     private WebElement groupFinderInputField;
 
-    @FindBy(css = "button[id*='groupfinder']")
+    @FindBy (css = "button[id*='groupfinder']")
     private WebElement searchButton;
 
-    @FindBy(css = "input[id*='quota']")
+    @FindBy (css = "input[id*='quota']")
     private WebElement quotaInputField;
 
-    @FindBy(css = "select[id*='quotatype']")
+    @FindBy (css = "select[id*='quotatype']")
     private Select quotaType;
 
-    @FindBy(css = "input[id*='disableaccount']")
+    @FindBy (css = "input[id*='disableaccount']")
     private WebElement dissableAccountCheckBox;
 
     @RenderWebElement
-    @FindBy(xpath = "//button[contains(text(),'Create User')]")
+    @FindBy (xpath = "//button[contains(text(),'Create User')]")
     private WebElement createUserButton;
 
-    @FindBy(css = "button[id*='another']")
+    @FindBy (css = "button[id*='another']")
     private WebElement createUserAndStartAnotherButton;
 
-    @FindBy(css = "button[id='page_x002e_ctool_x002e_admin-console_x0023_default-createuser-cancel-button-button']")
+    @FindBy (css = "button[id='page_x002e_ctool_x002e_admin-console_x0023_default-createuser-cancel-button-button']")
     private WebElement cancelButton;
 
-    @FindBy(xpath = ".//*[@id='message']/div/span")
+    @FindBy (xpath = ".//*[@id='message']/div/span")
     private WebElement passwordsDontMatchNotification;
 
-    @FindAll(@FindBy(css = "span[id*='default_group']"))
+    @FindAll (@FindBy (css = "span[id*='default_group']"))
     protected List<WebElement> addedGroupsList;
 
     @Override
@@ -250,7 +250,7 @@ public class CreateUsers extends SharePage<CreateUsers>
         String quota = quotaInputField.getAttribute("value");
 
         return firstName.length() == 0 && lastName.length() == 0 && email.length() == 0 && password.length() == 0 && verifyPassword.length() == 0
-                && groupFinder.length() == 0 && quota.length() == 0;
+            && groupFinder.length() == 0 && quota.length() == 0;
 
     }
 

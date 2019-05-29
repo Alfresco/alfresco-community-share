@@ -64,7 +64,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     String blogPost = "BlogPost-" + uniqueIdentifier;
     String link = "Link-" + uniqueIdentifier;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, firstName, lastName1);
@@ -74,14 +74,14 @@ public class BasicSearchTests extends ContextAwareWebTest
         contentService.createDocument(userName1, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName1, docContent);
         contentService.createDocument(userName1, password, siteName1, CMISUtil.DocumentType.TEXT_PLAIN, docName2, docContent);
         sitePagesService.addCalendarEvent(userName1, password, siteName1, calendarEvent, "EventLocation", "description of the event",
-                calendarUtility.firstDayOfCW(), calendarUtility.firstDayOfCW(), "", "", false, "tag");
+            calendarUtility.firstDayOfCW(), calendarUtility.firstDayOfCW(), "", "", false, "tag");
         sitePagesService.createWiki(userName1, password, siteName1, wikiPage, "content of the wiki page", null);
         sitePagesService.createDiscussion(userName1, password, siteName1, discussion, "text", null);
         sitePagesService.createBlogPost(userName1, password, siteName1, blogPost, "content of the blog", false, null);
         sitePagesService.createLink(userName1, password, siteName1, link, "url", "description of link", false, null);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, userName1);
@@ -93,8 +93,8 @@ public class BasicSearchTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName2);
     }
 
-    @TestRail(id = "C5933")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5933")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyLiveSearchableContent()
     {
         setupAuthenticatedSession(userName1, password);
@@ -153,16 +153,16 @@ public class BasicSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Bug(id = "TBD")
-    @TestRail(id = "C5945")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Bug (id = "TBD")
+    @TestRail (id = "C5945")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifySearchPage()
     {
         setupAuthenticatedSession(userName1, password);
         LOG.info("STEP1: Enter the document name in the toolbar search field and press Enter");
         toolbar.search(docName1);
         assertEquals(searchPage.getRelativePath(), "share/page/dp/ws/faceted-search#searchTerm=%s&scope=repo&sortField=Relevance",
-                "User is redirected to Search page.");
+            "User is redirected to Search page.");
 
         LOG.info("STEP2: Verify page title");
         assertEquals(searchPage.getPageHeader(), "Search", "Search page title:");
@@ -183,11 +183,11 @@ public class BasicSearchTests extends ContextAwareWebTest
         {
             assertTrue(searchPage.getFilterTypeList().contains(anExpectedList), "Filter is not present in 'Filter by' section!");
         }
-        
+
         LOG.info("STEP6: Click 'Sort' dropdown");
         searchPage.clickSortDropdown();
         assertTrue(searchPage.isSortDropdownComplete(),
-                "Dropdown for results sorting is displayed with options: \"Relevance\", \"Name\", \"Title\", \"Description\", \"Author\", \"Modifier\", \"Modified date\", \"Creator\", \"Created date\", \"Size\", \"Mime type\" and \"Type\" ");
+            "Dropdown for results sorting is displayed with options: \"Relevance\", \"Name\", \"Title\", \"Description\", \"Author\", \"Modifier\", \"Modified date\", \"Creator\", \"Created date\", \"Size\", \"Mime type\" and \"Type\" ");
 
         LOG.info("STEP7: Click \"Views\" dropdown");
         searchPage.clickViewsDropdown();
@@ -202,8 +202,8 @@ public class BasicSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C7706")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C7706")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifySearchInDropdownOptions()
     {
         setupAuthenticatedSession(userName1, password);
@@ -228,8 +228,8 @@ public class BasicSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C6168")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6168")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void defaultPlaceholderText()
     {
         setupAuthenticatedSession(userName1, password);
@@ -238,8 +238,8 @@ public class BasicSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C8145")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C8145")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyDetailedView()
     {
         setupAuthenticatedSession(userName1, password);
@@ -247,7 +247,7 @@ public class BasicSearchTests extends ContextAwareWebTest
         LOG.info("STEP1: Enter the document name in the toolbar search field and press 'Enter'");
         toolbar.search(docName1);
         assertEquals(searchPage.getRelativePath(), "share/page/dp/ws/faceted-search#searchTerm=%s&scope=repo&sortField=Relevance",
-                "User is redirected to Search page.");
+            "User is redirected to Search page.");
 
         LOG.info("STEP2: Verify the default view");
         assertTrue(searchPage.isSearchResultsListInDetailedView(), "Detailed view is displayed.");
@@ -266,15 +266,15 @@ public class BasicSearchTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C8146")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C8146")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void verifyGalleryView()
     {
         setupAuthenticatedSession(userName1, password);
         LOG.info("STEP1: Enter the document name in the toolbar search field and press Enter");
         toolbar.search(docName1);
         assertEquals(searchPage.getRelativePath(), "share/page/dp/ws/faceted-search#searchTerm=%s&scope=repo&sortField=Relevance",
-                "User is redirected to Search page.");
+            "User is redirected to Search page.");
 
         LOG.info("STEP2: Change the view to \"Gallery View\" from 'Views' dropdown and verify results section");
         searchPage.clickGalleryView();
@@ -283,7 +283,7 @@ public class BasicSearchTests extends ContextAwareWebTest
         assertTrue(searchPage.getNumberOfResultsText().contains(" - results found"), "Number of results");
         searchPage.clickSortDropdown();
         assertTrue(searchPage.isSortDropdownComplete(),
-                "Dropdown for results sorting is displayed with options: \"Relevance\", \"Name\", \"Title\", \"Description\", \"Author\", \"Modifier\", \"Modified date\", \"Creator\", \"Created date\", \"Size\", \"Mime type\" and \"Type\" ");
+            "Dropdown for results sorting is displayed with options: \"Relevance\", \"Name\", \"Title\", \"Description\", \"Author\", \"Modifier\", \"Modified date\", \"Creator\", \"Created date\", \"Size\", \"Mime type\" and \"Type\" ");
         searchPage.clickViewsDropdown();
         ArrayList<String> expectedViewsDropdown = new ArrayList<>(Arrays.asList("Detailed View", "Gallery View"));
         assertEquals(searchPage.getViewsDropdownOptions().toString(), expectedViewsDropdown.toString(), "Views dropdown option=");

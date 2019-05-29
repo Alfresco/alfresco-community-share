@@ -16,7 +16,7 @@ public class IndexServerShardingPage extends AdminConsolePage<IndexServerShardin
     }
 
     @RenderWebElement
-    @FindBy(className = "intro")
+    @FindBy (className = "intro")
     WebElement intro;
 
     @Override

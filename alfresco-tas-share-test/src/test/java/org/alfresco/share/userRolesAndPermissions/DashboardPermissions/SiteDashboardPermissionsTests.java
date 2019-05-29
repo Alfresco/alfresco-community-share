@@ -21,13 +21,13 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
     SiteDashboardPage siteDashboardPage;
 
     private String userConsumer = String.format("C8723ConsumerUser%s", RandomData.getRandomAlphanumeric());
-    private String userContributor = "C8724ContributorUser"+RandomData.getRandomAlphanumeric();
-    private String userCollaborator = "C8725CollaboratorUser"+ RandomData.getRandomAlphanumeric();
-    private String userSiteManager = "C8726SiteManagerUser"+RandomData.getRandomAlphanumeric();
+    private String userContributor = "C8724ContributorUser" + RandomData.getRandomAlphanumeric();
+    private String userCollaborator = "C8725CollaboratorUser" + RandomData.getRandomAlphanumeric();
+    private String userSiteManager = "C8726SiteManagerUser" + RandomData.getRandomAlphanumeric();
     private String description = String.format("C8723SiteDescription%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("C8723%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userConsumer, password, userConsumer + domain, userConsumer, userConsumer);
@@ -41,23 +41,23 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
         userService.createSiteMember(adminUser, adminPassword, userSiteManager, siteName, "SiteManager");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userConsumer);
+        userService.delete(adminUser, adminPassword, userConsumer);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userConsumer);
-        userService.delete(adminUser,adminPassword, userContributor);
+        userService.delete(adminUser, adminPassword, userContributor);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
-        userService.delete(adminUser,adminPassword, userCollaborator);
+        userService.delete(adminUser, adminPassword, userCollaborator);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userCollaborator);
-        userService.delete(adminUser,adminPassword, userSiteManager);
+        userService.delete(adminUser, adminPassword, userSiteManager);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userSiteManager);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id ="C8723")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8723")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void siteDashboardPermissionsConsumerRole()
     {
         setupAuthenticatedSession(userConsumer, password);
@@ -74,8 +74,8 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id ="C8724")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8724")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void siteDashboardPermissionsContributorRole()
     {
@@ -93,8 +93,8 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id ="C8725")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8725")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void siteDashboardPermissionsCollaboratorRole()
     {
@@ -112,8 +112,8 @@ public class SiteDashboardPermissionsTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id ="C8726")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8726")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
     public void siteDashboardPermissionsSiteManagerRole()
     {

@@ -9,26 +9,26 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 public class MyMeetingWorkspacesDashlet extends Dashlet<MyMeetingWorkspacesDashlet>
 {
     @RenderWebElement
-    @FindBy(css = "div.dashlet.my-meeting-workspaces")
+    @FindBy (css = "div.dashlet.my-meeting-workspaces")
     protected HtmlElement dashletContainer;
 
-    @FindBy(css = "div.dashlet-padding h3")
+    @FindBy (css = "div.dashlet-padding h3")
     protected static HtmlElement defaultDashletMessage;
-    
+
     @Override
     public String getDashletTitle()
     {
         return dashletContainer.findElement(dashletTitle).getText();
     }
-    
+
     /**
      * Retrieves the default dashlet message.
-     * 
+     *
      * @return String
      */
     public String getDefaultMessage()
     {
         return defaultDashletMessage.getText();
     }
-    
+
 }

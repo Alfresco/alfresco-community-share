@@ -23,30 +23,30 @@ public class CreateCustomTypeDialog extends ShareDialog
     @Autowired
     ModelDetailsPage modelDetailsPage;
     @RenderWebElement
-    @FindBy(id="CMM_CREATE_TYPE_DIALOG")
+    @FindBy (id = "CMM_CREATE_TYPE_DIALOG")
     private WebElement createCustomTypeWindow;
 
     @RenderWebElement
-    @FindBy(css="span[widgetid='CMM_CREATE_TYPE_DIALOG_OK']>span")
+    @FindBy (css = "span[widgetid='CMM_CREATE_TYPE_DIALOG_OK']>span")
     private WebElement createButton;
 
     @RenderWebElement
-    @FindBy(id="CMM_CREATE_TYPE_DIALOG_CANCEL_label")
+    @FindBy (id = "CMM_CREATE_TYPE_DIALOG_CANCEL_label")
     private WebElement cancelButton;
 
-    @FindBy(xpath ="//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='name']")
+    @FindBy (xpath = "//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='name']")
     private WebElement nameField;
 
-    @FindBy(xpath ="//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='title']")
+    @FindBy (xpath = "//div[@id ='CMM_CREATE_TYPE_DIALOG']//input[@name='title']")
     private WebElement displayLabelField;
 
-    @FindBy(xpath = "//div[@id ='CMM_CREATE_TYPE_DIALOG']//div[@class='control']//textarea")
+    @FindBy (xpath = "//div[@id ='CMM_CREATE_TYPE_DIALOG']//div[@class='control']//textarea")
     private WebElement descriptionField;
 
-    @FindBy(css = ".dijitSelectLabel")
+    @FindBy (css = ".dijitSelectLabel")
     private WebElement parentTypeElement;
 
-    @FindAll(@FindBy(css = "table[role='listbox'] > tbody > tr[id^='dijit_MenuItem']"))
+    @FindAll (@FindBy (css = "table[role='listbox'] > tbody > tr[id^='dijit_MenuItem']"))
     private List<WebElement> parentTypeElements;
 
     public ModelDetailsPage clickCreateButton()
@@ -59,10 +59,10 @@ public class CreateCustomTypeDialog extends ShareDialog
 
     public void selectParentType(String parentType)
     {
-       getBrowser().waitUntilElementVisible(parentTypeElement).click();
-        for(WebElement type : parentTypeElements)
+        getBrowser().waitUntilElementVisible(parentTypeElement).click();
+        for (WebElement type : parentTypeElements)
         {
-            if(type.getAttribute("aria-label").equals(parentType))
+            if (type.getAttribute("aria-label").equals(parentType))
             {
                 getBrowser().clickJS(type);
             }

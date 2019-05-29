@@ -24,13 +24,17 @@ import static org.testng.Assert.assertTrue;
 
 public class DocumentLibraryTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
 
-    @Autowired private DocumentsFilters filters;
+    @Autowired
+    private DocumentsFilters filters;
 
-    @Autowired private SiteDashboardPage sitePage;
+    @Autowired
+    private SiteDashboardPage sitePage;
 
     private final String random = RandomData.getRandomAlphanumeric();
     private final String user = "User" + random;
@@ -38,7 +42,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     private final String siteName = String.format("C6907Site-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "C6936 Doc content";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -46,16 +50,16 @@ public class DocumentLibraryTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C6907")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6907")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void accessTheDocumentLibrary()
     {
         LOG.info("Step 1: Navigate to testSite's dashboard page.");
@@ -68,8 +72,8 @@ public class DocumentLibraryTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library");
     }
 
-    @TestRail(id = "C6908")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6908")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyTheDocumentLibraryMainPage()
     {
         LOG.info("Step 1: Navigate to testSite's dashboard and click on Document Library link.");
@@ -102,8 +106,8 @@ public class DocumentLibraryTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isPaginationDisplayed(), "Page number is not displayed");
     }
 
-    @TestRail(id = "C6935")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6935")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkAvailableOptionsForFolder()
     {
         String folderName = "folder-C6935-" + random;
@@ -123,8 +127,8 @@ public class DocumentLibraryTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(folderName, expectedActions), "Expected actions");
     }
 
-    @TestRail(id = "C6936")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6936")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkAvailableOptionsForFile()
     {
         String docName = "docName-C6936-" + random;
@@ -143,12 +147,12 @@ public class DocumentLibraryTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Hover over the created file.");
         List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™", "Edit Properties", "Upload New Version", "Edit in Alfresco",
-                "Edit Offline", "Copy to...", "Move to...", "Delete Document", "Start Workflow", "Manage Permissions");
+            "Edit Offline", "Copy to...", "Move to...", "Delete Document", "Start Workflow", "Manage Permissions");
         assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
     }
 
-    @TestRail(id = "C6938")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6938")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void viewFolderContents()
     {
         String folderNameC6938 = "C6938-folder-" + random;

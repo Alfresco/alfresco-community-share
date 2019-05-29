@@ -19,22 +19,22 @@ public class CreateAspectDialogPage extends ShareDialog
     ModelDetailsPage modelDetailsPage;
 
     @RenderWebElement
-    @FindBy(id="CMM_CREATE_PROPERTYGROUP_DIALOG")
+    @FindBy (id = "CMM_CREATE_PROPERTYGROUP_DIALOG")
     private WebElement createAspectWidow;
 
     private By createButton = By.id("CMM_CREATE_PROPERTYGROUP_DIALOG_OK_label");
 
     @RenderWebElement
-    @FindBy(id="CMM_CREATE_PROPERTYGROUP_DIALOG_CANCEL_label")
+    @FindBy (id = "CMM_CREATE_PROPERTYGROUP_DIALOG_CANCEL_label")
     private WebElement cancelButton;
 
-    @FindBy(xpath ="//div[@id ='CMM_CREATE_PROPERTYGROUP_DIALOG']//input[@name='name']")
+    @FindBy (xpath = "//div[@id ='CMM_CREATE_PROPERTYGROUP_DIALOG']//input[@name='name']")
     private WebElement nameField;
 
-    @FindBy(xpath ="//div[@id ='CMM_CREATE_PROPERTYGROUP_DIALOG']//input[@name='title']")
+    @FindBy (xpath = "//div[@id ='CMM_CREATE_PROPERTYGROUP_DIALOG']//input[@name='title']")
     private WebElement displayLabelField;
 
-    @FindBy(xpath = "//div[@id ='CMM_CREATE_PROPERTYGROUP_DIALOG']//div[@class='control']//textarea")
+    @FindBy (xpath = "//div[@id ='CMM_CREATE_PROPERTYGROUP_DIALOG']//div[@class='control']//textarea")
     private WebElement descriptionField;
 
     public boolean isCreateAspectWindowDisplayed()

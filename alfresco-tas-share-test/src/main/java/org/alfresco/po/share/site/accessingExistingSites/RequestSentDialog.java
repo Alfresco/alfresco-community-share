@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class RequestSentDialog extends ConfirmationDialog
 {
-    @FindBy(css = "div.dijitDialogTitleBar")
+    @FindBy (css = "div.dijitDialogTitleBar")
     private WebElement dialogTitle;
 
     /**
@@ -23,7 +23,7 @@ public class RequestSentDialog extends ConfirmationDialog
     {
         return dialogTitle.getText();
     }
-    
+
     /**
      * Click on the OK button
      */

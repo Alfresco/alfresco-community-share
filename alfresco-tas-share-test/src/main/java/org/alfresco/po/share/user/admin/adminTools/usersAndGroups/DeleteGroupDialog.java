@@ -17,35 +17,35 @@ public class DeleteGroupDialog extends ShareDialog
     private GroupsPage groupsPage;
 
     @RenderWebElement
-    @FindBy(css = "div[id*='deletegroupdialog_h']")
+    @FindBy (css = "div[id*='deletegroupdialog_h']")
     private WebElement dialogHeader;
 
     @RenderWebElement
-    @FindBy(css = "span[id*='multiparent-message']")
+    @FindBy (css = "span[id*='multiparent-message']")
     private WebElement multiparentMessage;
 
     @RenderWebElement
-    @FindBy(css = "div[id*='multiparent'] div[id*='parent']")
+    @FindBy (css = "div[id*='multiparent'] div[id*='parent']")
     private WebElement parent;
 
     @RenderWebElement
-    @FindBy(css = "span[id*='remove-message']")
+    @FindBy (css = "span[id*='remove-message']")
     private WebElement removeRow;
 
-    @FindBy(css = "div[id*='multiparent'] div[id*='-deleterow']")
+    @FindBy (css = "div[id*='multiparent'] div[id*='-deleterow']")
     private WebElement deleteRow;
 
     @RenderWebElement
-    @FindBy(css = "button[id*='remove']")
+    @FindBy (css = "button[id*='remove']")
     private WebElement deleteButton;
 
-    @FindBy(css = "div[id*='deletegroupdialog'] button[id*='cancel']")
+    @FindBy (css = "div[id*='deletegroupdialog'] button[id*='cancel']")
     private WebElement cancelButton;
 
-    @FindBy(css = "input[id*='remove']")
+    @FindBy (css = "input[id*='remove']")
     private WebElement removeRadioButton;
 
-    @FindBy(css = "input[id*='delete']")
+    @FindBy (css = "input[id*='delete']")
     private WebElement deleteRadioButton;
 
     public String getDialogHeader()

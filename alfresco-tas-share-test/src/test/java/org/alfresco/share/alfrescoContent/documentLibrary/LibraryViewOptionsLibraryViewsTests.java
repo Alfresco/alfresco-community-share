@@ -16,9 +16,11 @@ import org.testng.annotations.Test;
 
 public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
-    
-    @Autowired private TableView tableView;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+
+    @Autowired
+    private TableView tableView;
 
 
     private final String user = String.format("C6909User%s", RandomData.getRandomAlphanumeric());
@@ -29,7 +31,8 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
     private final String folderName = "C6909 test folder";
     private final String docName1 = "testFile1";
     private final String docName2 = "testFile2";
-    @BeforeClass(alwaysRun = true)
+
+    @BeforeClass (alwaysRun = true)
 
     public void setupTest()
     {
@@ -42,18 +45,18 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
 
-    @TestRail(id = "C6909")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6909")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void verifyDocumentLibraryViewOptions()
     {
@@ -71,10 +74,10 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isviewOptionDisplayed("Media View"), "Media View option is not available under options");
 
     }
-    
-    @TestRail(id ="C6955")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    
+
+    @TestRail (id = "C6955")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+
     public void checkThatDefaultViewIsDetailedView()
     {
         String expectedText = "Set \"Detailed View\" as default for this folder";
@@ -85,17 +88,17 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isLikeButtonDisplayed(docName), "Like button is not displayed, file is not displayed in Detailed View");
         Assert.assertTrue(documentLibraryPage.isCommentButtonDisplayed(docName), "Comment button is not displayed, file is not displayed in Detailed View");
         Assert.assertTrue(documentLibraryPage.isShareButtonDisplayed(docName), "Share button is not displayed, file is not displayed in Detailed View");
-        
+
         LOG.info("Step 2: Click Options menu and check the text displayed for set as default option");
         documentLibraryPage.clickOptionsButton();
         Assert.assertTrue(documentLibraryPage.getAllOptionsText().contains(hideFolders), "The Hide Folders is not displayed");
         Assert.assertTrue(documentLibraryPage.getAllOptionsText().contains(expectedText), "The Set detailed view for this folder message is not displayed");
         Assert.assertEquals(documentLibraryPage.getOptionsSetDefaultViewText(expectedText), expectedText, "The Set detailed view for this folder message is not displayed");
     }
-    
-    @TestRail(id ="C6953")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    
+
+    @TestRail (id = "C6953")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+
     public void setCurrentViewAsDefault()
     {
         String expectedText = "Set \"Table View\" as default for this folder";
@@ -103,7 +106,7 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
         String docNameC6953 = "C6953 test file";
         contentService.createFolder(user, password, folderNameC6953, siteName);
         contentService.createDocumentInFolder(user, password, siteName, folderNameC6953, DocumentType.TEXT_PLAIN, docNameC6953, "Document content");
-        
+
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Verify current view is detailed view");
         Assert.assertTrue(documentLibraryPage.isFavoriteLinkPresent(docName), "Favorite link is not present, file is not displayed in Detailed View");
@@ -113,7 +116,7 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
         getBrowser().waitUntilElementVisible(tableView.removeDefaultView);
         Assert.assertEquals(documentLibraryPage.getRemoveDefaultViewText(), "Remove \"Detailed View\" as default for this folder");
         documentLibraryPage.clickFolderFromExplorerPanel(folderName);
-        
+
         LOG.info("Step 2: Select Table view ");
         documentLibraryPage.clickOptionsButton();
         documentLibraryPage.clickOptionsButton();
@@ -122,17 +125,17 @@ public class LibraryViewOptionsLibraryViewsTests extends ContextAwareWebTest
         Assert.assertTrue(tableView.isTableViewDisplayed(), "Table view is not displayed");
         documentLibraryPage.clickOptionsButton();
         getBrowser().waitUntilElementVisible(tableView.setDefaultView);
-        
+
         LOG.info("Step 3: Select Set Table view as default for this folder");
-        Assert.assertEquals(documentLibraryPage.getOptionsSetDefaultViewText(expectedText), expectedText, expectedText+" is not displayed");
+        Assert.assertEquals(documentLibraryPage.getOptionsSetDefaultViewText(expectedText), expectedText, expectedText + " is not displayed");
         documentLibraryPage.clickSetDefaultView();
         documentLibraryPage.clickOptionsButton();
         getBrowser().waitUntilElementVisible(tableView.removeDefaultView);
         Assert.assertEquals(documentLibraryPage.getRemoveDefaultViewText(), "Remove \"Table View\" as default for this folder");
-        
+
         LOG.info("Step 4: Navigate to another folder");
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isFavoriteLinkPresent(docName), "Favorite link is not present, file is not displayed in Detailed View");
-        
+
     }
 }

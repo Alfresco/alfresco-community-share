@@ -35,11 +35,10 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     private String user = String.format("C3155User%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("C3155SiteName%s", RandomData.getRandomAlphanumeric());
     private String description = String.format("C3155SiteDescription%s", RandomData.getRandomAlphanumeric());
-     DateTime today ;
-     DateTime yesterday;
-     DateTime tomorrow ;
-     Date startDate ;
-
+    DateTime today;
+    DateTime yesterday;
+    DateTime tomorrow;
+    Date startDate;
 
 
     Calendar refferenceCalendar = Calendar.getInstance();
@@ -51,7 +50,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     private String eventLocation = "Iasi C5805";
     private String eventDescription = "Event description C5805";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -59,31 +58,31 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         siteService.addPageToSite(adminUser, adminPassword, siteName, Page.CALENDAR, null);
         setupAuthenticatedSession(adminUser, adminPassword);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-
-    @TestRail(id = "C5805")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5805")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void changeTheMainCalendarView()
     {
         today = new DateTime();
         yesterday = today.minusDays(1);
         tomorrow = today.plusDays(1);
-         startDate = today.toDate();
+        startDate = today.toDate();
         LOG.info("Precondition:  Add calendar event");
 
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle, eventLocation, eventDescription, startDate, startDate, "", "", false, "tag1");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle2, eventLocation, eventDescription, calendarUtility.firstDayOfCW(),
-                calendarUtility.firstDayOfCW(), "", "", false, "tag1");
+            calendarUtility.firstDayOfCW(), "", "", false, "tag1");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle3, eventLocation, eventDescription, calendarUtility.firstDayOfCM(),
-                calendarUtility.firstDayOfCM(), "", "", false, "tag1");
+            calendarUtility.firstDayOfCM(), "", "", false, "tag1");
 
         LOG.info("Step 1: Navigate to the Calendar page for Site.");
         calendarPage.navigate(siteName);
@@ -112,8 +111,8 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C5806")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5806")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void moveForwardThroughTheCalendar()
     {
         /**
@@ -132,15 +131,15 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, startDate, startDate, "", "", false, "tag1");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle2, eventLocation, eventDescription, calendarUtility.tomorrow(),
-                calendarUtility.tomorrow(), "", "", false, "tag2");
+            calendarUtility.tomorrow(), "", "", false, "tag2");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle3, eventLocation, eventDescription, calendarUtility.dayAfterTomorrow(),
-                calendarUtility.dayAfterTomorrow(), "", "", false, "tag3");
+            calendarUtility.dayAfterTomorrow(), "", "", false, "tag3");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle4, eventLocation, eventDescription, calendarUtility.dayOfNextWeek(),
-                calendarUtility.dayOfNextWeek(), "", "", false, "tag4");
+            calendarUtility.dayOfNextWeek(), "", "", false, "tag4");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle5, eventLocation, eventDescription, calendarUtility.firstDayOfCM(),
-                calendarUtility.firstDayOfCM(), "", "", false, "tag5");
+            calendarUtility.firstDayOfCM(), "", "", false, "tag5");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle6, eventLocation, eventDescription, calendarUtility.firstDayOfNextMonth(),
-                calendarUtility.firstDayOfNextMonth(), "", "", false, "tag6");
+            calendarUtility.firstDayOfNextMonth(), "", "", false, "tag6");
 
         /**
          * Test Steps
@@ -161,7 +160,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Switch to Week view.");
         calendarPage.clickWeekButton();
-        if(tomorrow.dayOfWeek().getAsText(Locale.ENGLISH).equals("Sunday"))
+        if (tomorrow.dayOfWeek().getAsText(Locale.ENGLISH).equals("Sunday"))
         {
             Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle1));
             Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle2));
@@ -173,8 +172,8 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         Assert.assertEquals(calendarPage.getSelectedViewName(), "Week");
         Assert.assertTrue(calendarPage.viewDisplayed().contains("view=week"));
         String firstDayOfCurrentWeek = (today.dayOfWeek().getAsText(Locale.ENGLISH).equals("Sunday"))
-                ? new SimpleDateFormat("d MMMM yyyy", Locale.ENGLISH).format(calendarUtility.firstDayOfNextWeek())
-                : new SimpleDateFormat("d MMMM yyyy", Locale.ENGLISH).format(calendarUtility.firstDayOfCW());
+            ? new SimpleDateFormat("d MMMM yyyy", Locale.ENGLISH).format(calendarUtility.firstDayOfNextWeek())
+            : new SimpleDateFormat("d MMMM yyyy", Locale.ENGLISH).format(calendarUtility.firstDayOfCW());
         Assert.assertEquals(calendarPage.getCalendarHeader(), firstDayOfCurrentWeek);
         // TODO Still need to check the current day is highlighted on the calendar. Not implemented for now as it is not a sanity check
 
@@ -193,8 +192,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         {
             Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.refferenceNextMonth());
             calendarPage.isEventPresentInCalendar(eventTitle6);
-        }
-        else
+        } else
         {
             Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.currentMonthReference());
             Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle5));
@@ -206,8 +204,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         if (calendarUtility.currentMonth() != calendarUtility.monthOfNextWeek())
         {
             Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.monthAfterNextMonth());
-        }
-        else
+        } else
         {
             Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.refferenceNextMonth());
             Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle6));
@@ -218,8 +215,8 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         Assert.assertEquals(calendarPage.getNextButtonState(), "true");
     }
 
-    @TestRail(id = "C5807")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5807")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void moveBackwardsThroughTheCalendar()
     {
         /**
@@ -241,15 +238,15 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, startDate, startDate, "", "", false, "tag1");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle2, eventLocation, eventDescription, yesterday.toDate(), yesterday.toDate(), "",
-                "", false, "tag2");
+            "", false, "tag2");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle3, eventLocation, eventDescription, tomorrow.toDate(), tomorrow.toDate(), "", "",
-                false, "tag3");
+            false, "tag3");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle4, eventLocation, eventDescription, calendarUtility.randomDayOfLastWeek(),
-                calendarUtility.randomDayOfLastWeek(), "", "", false, "tag4");
+            calendarUtility.randomDayOfLastWeek(), "", "", false, "tag4");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle5, eventLocation, eventDescription, calendarUtility.firstDayOfCurrentMonth(),
-                calendarUtility.firstDayOfCurrentMonth(), "", "", false, "tag5");
+            calendarUtility.firstDayOfCurrentMonth(), "", "", false, "tag5");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle6, eventLocation, eventDescription, calendarUtility.dayFromPreviousMonth(),
-                calendarUtility.dayFromPreviousMonth(), "", "", false, "tag6");
+            calendarUtility.dayFromPreviousMonth(), "", "", false, "tag6");
 
         /**
          * Test steps
@@ -267,7 +264,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         calendarPage.clickOnPreviousButton();
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle2));
         Assert.assertEquals(calendarPage.getCalendarHeader(), yesterday.toString("EE, dd, MMMM yyyy"),
-                "The day before current date is displayed on the Calendar page.");
+            "The day before current date is displayed on the Calendar page.");
 
         LOG.info("Step 3: Click on Today button. Switch to Week view.");
         calendarPage.clickTodayButton();
@@ -300,8 +297,8 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         Assert.assertEquals(calendarPage.getNextButtonState(), "true", "Previous button is disabled.");
     }
 
-    @TestRail(id = "C5809")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5809")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void displayUpcomingEvents()
     {
         /**
@@ -312,11 +309,11 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         String eventTitle3 = "testEvent3";
 
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, calendarUtility.tomorrow(),
-                calendarUtility.tomorrow(), "", "", false, "tag1");
+            calendarUtility.tomorrow(), "", "", false, "tag1");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle2, eventLocation, eventDescription, calendarUtility.dayAfterTomorrow(),
-                calendarUtility.dayAfterTomorrow(), "", "", false, "tag1");
+            calendarUtility.dayAfterTomorrow(), "", "", false, "tag1");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle3, eventLocation, eventDescription, calendarUtility.dayOfNextWeek(),
-                calendarUtility.dayOfNextWeek(), "", "", false, "tag1");
+            calendarUtility.dayOfNextWeek(), "", "", false, "tag1");
         today = new DateTime();
         yesterday = today.minusDays(1);
         tomorrow = today.plusDays(1);
@@ -333,8 +330,8 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         Assert.assertTrue(calendarPage.isEventPresentInAgenda(eventTitle3));
     }
 
-    @TestRail(id = "C5905")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5905")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browserEventsByTags()
     {
         /**
@@ -354,11 +351,11 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         Calendar dayBeforeMidDate = calendarUtility.midDateOfTheMonth();
         dayBeforeMidDate.add(Calendar.DAY_OF_MONTH, -1);
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, calendarUtility.midDateOfTheMonth().getTime(),
-                calendarUtility.midDateOfTheMonth().getTime(), "", "", false, "tag1");
+            calendarUtility.midDateOfTheMonth().getTime(), "", "", false, "tag1");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle2, eventLocation, eventDescription, dayAfterMidDate.getTime(),
-                dayAfterMidDate.getTime(), "", "", false, "tag2");
+            dayAfterMidDate.getTime(), "", "", false, "tag2");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle3, eventLocation, eventDescription, dayBeforeMidDate.getTime(),
-                dayBeforeMidDate.getTime(), "", "", false, "tag3");
+            dayBeforeMidDate.getTime(), "", "", false, "tag3");
 
         calendarPage.navigate(siteName);
         getBrowser().waitInSeconds(2);
@@ -394,8 +391,8 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         Assert.assertTrue(calendarPage.isEventPresentInCalendar(eventTitle3));
     }
 
-    @TestRail(id = "C5808")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5808")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void displayTodayEvents()
     {
         /**
@@ -485,8 +482,8 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         Assert.assertEquals(calendarPage.getTodayButtonState(), "true");
     }
 
-    @TestRail(id = "C3155")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C3155")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyTheMiniCalendar()
     {
         today = new DateTime();
@@ -505,7 +502,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
         miniCalendar.clickOnPreviousMonthButtonMiniCalendar();
         Assert.assertEquals(miniCalendar.getCurrentMonthMiniCalendar(), calendarUtility.refferencePreviousMonth(),
-                "Previous month is displayed on the mini-calendar.");
+            "Previous month is displayed on the mini-calendar.");
 
         LOG.info("Step 3: Click on any day from the mini-calendar.");
         miniCalendar.clickOnRandomDate();
@@ -527,8 +524,8 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         // TODO Still need to check The selected day is highlighted on the mini-calendar. Not implemented for now as it is not a sanity check
     }
 
-    @TestRail(id = "C5833")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5833")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void showAllHours()
     {
         /**
@@ -544,13 +541,13 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         String eventTitle4 = "testEvent4";
 
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle1, eventLocation, eventDescription, startDate, startDate, "20:00", "23:00",
-                false, "tag1");
+            false, "tag1");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle2, eventLocation, eventDescription, startDate, startDate, "10:00", "12:00",
-                false, "tag2");
+            false, "tag2");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle3, eventLocation, eventDescription, calendarUtility.firstDayOfCW(),
-                calendarUtility.firstDayOfCW(), "20:00", "23:00", false, "tag3");
+            calendarUtility.firstDayOfCW(), "20:00", "23:00", false, "tag3");
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle4, eventLocation, eventDescription, calendarUtility.firstDayOfCW(),
-                calendarUtility.firstDayOfCW(), "10:00", "12:00", false, "tag4");
+            calendarUtility.firstDayOfCW(), "10:00", "12:00", false, "tag4");
 
         calendarPage.navigate(siteName);
         getBrowser().waitInSeconds(2);

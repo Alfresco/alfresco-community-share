@@ -15,29 +15,29 @@ import org.springframework.context.annotation.Primary;
 public class NewContentDialog extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(css = "div[id*='_default-createFolder-dialogTitle']")
+    @FindBy (css = "div[id*='_default-createFolder-dialogTitle']")
     protected WebElement dialogTitle;
 
     @RenderWebElement
-    @FindBy(css = "button[id*='submit']")
+    @FindBy (css = "button[id*='submit']")
     private WebElement saveButton;
 
-    @FindBy(css = "button[id*='form-cancel']")
+    @FindBy (css = "button[id*='form-cancel']")
     private WebElement cancelButton;
 
-    @FindBy(css = ".form-field input[id*='name']")
+    @FindBy (css = ".form-field input[id*='name']")
     private WebElement nameField;
 
-    @FindBy(css = ".form-field input[id*='title']")
+    @FindBy (css = ".form-field input[id*='title']")
     private WebElement titleField;
 
-    @FindBy(css = ".form-field textarea[id*='description']")
+    @FindBy (css = ".form-field textarea[id*='description']")
     private WebElement descriptionField;
 
-    @FindBy(css = "label .mandatory-indicator")
+    @FindBy (css = "label .mandatory-indicator")
     private WebElement mandatoryIndicator;
 
-    @FindBy(css = ".text div")
+    @FindBy (css = ".text div")
     private WebElement tooltipErrorMessage;
 
     public boolean isSaveButtonDisplayed()
@@ -85,7 +85,7 @@ public class NewContentDialog extends ShareDialog
 
     public void fillInNameField(String name)
     {
-    	renderedPage();
+        renderedPage();
         nameField.clear();
         nameField.sendKeys(name);
     }

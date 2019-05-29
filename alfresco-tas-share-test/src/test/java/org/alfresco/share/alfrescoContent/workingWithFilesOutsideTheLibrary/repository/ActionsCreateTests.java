@@ -22,15 +22,20 @@ import static org.testng.Assert.assertEquals;
 
 public class ActionsCreateTests extends ContextAwareWebTest
 {
-    @Autowired private CreateContent create;
+    @Autowired
+    private CreateContent create;
 
-    @Autowired private RepositoryPage repository;
+    @Autowired
+    private RepositoryPage repository;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired private CreateFolderFromTemplate createFolderFromTemplate;
+    @Autowired
+    private CreateFolderFromTemplate createFolderFromTemplate;
 
-    @Autowired private Notification notification;
+    @Autowired
+    private Notification notification;
 
     private final String user = String.format("C8156User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C8156SiteDescription%s", RandomData.getRandomAlphanumeric());
@@ -41,7 +46,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     private final String pathFolderTemplate = "Data Dictionary/Space Templates";
     private final String folderName = String.format("C8158%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
 
     public void setupTest()
     {
@@ -53,18 +58,18 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
-        contentService.deleteContentByPath(adminUser, adminPassword, path+"/"+docName);
-        contentService.deleteContentByPath(adminUser, adminPassword, pathFolderTemplate+"/"+folderName);
+        userService.delete(adminUser, adminPassword, user);
+        contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + docName);
+        contentService.deleteContentByPath(adminUser, adminPassword, pathFolderTemplate + "/" + folderName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
     }
 
-    @TestRail(id = "C8156")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8156")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void createPlainTextDocumentInRepository()
     {
@@ -109,8 +114,8 @@ public class ActionsCreateTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getFileName(), "C8156 name", "\"C8156 name\" is not the file name for the file in preview");
     }
 
-    @TestRail(id = "C8161")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8161")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void createHTMLDocumentInRepository()
     {
@@ -154,8 +159,8 @@ public class ActionsCreateTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getFileName(), "C8161 test name", "\"C8161 test name\" is not the file name for the file in preview");
     }
 
-    @TestRail(id = "C8162")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8162")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void createXMLFile()
     {
@@ -197,12 +202,12 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 6: Verify the document's preview");
         Assert.assertEquals(documentDetailsPage.getContentText().trim(), "C8162 test content",
-                "\"C8162 test content \" is not the content displayed in preview");
+            "\"C8162 test content \" is not the content displayed in preview");
         Assert.assertEquals(documentDetailsPage.getFileName(), "C8162 test name", "\"C8162 test name\" is not the file name for the file in preview");
     }
 
-    @TestRail(id = "C8159")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8159")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void createDocumentFromTemplate()
     {
@@ -225,8 +230,8 @@ public class ActionsCreateTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getContentText(), docContent);
     }
 
-    @TestRail(id = "C8158")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8158")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void createFolderFromTemplateInRepository()
     {
@@ -252,13 +257,13 @@ public class ActionsCreateTests extends ContextAwareWebTest
         createFolderFromTemplate.clickSaveButton();
 
         //assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName));
-       // notification.waitUntilNotificationDisappears();
+        // notification.waitUntilNotificationDisappears();
         Assert.assertTrue(repository.getFoldersList().contains(folderName), "Subfolder not found");
         Assert.assertTrue(repository.getExplorerPanelDocuments().contains(folderName), "Subfolder not found in Documents explorer panel");
     }
 
-    @TestRail(id ="C13745")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C13745")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkThatUserWithoutAdminPermissionsCannotCreateInMainRepository()
     {
         setupAuthenticatedSession(user, password);
@@ -273,8 +278,8 @@ public class ActionsCreateTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id =" C13746")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = " C13746")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void checkThatTheCreateOptionIsAvailableForAdminInMainRepository()
     {
@@ -290,7 +295,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkAllCreateAvailableActions()
     {
         SoftAssert softAssert = new SoftAssert();

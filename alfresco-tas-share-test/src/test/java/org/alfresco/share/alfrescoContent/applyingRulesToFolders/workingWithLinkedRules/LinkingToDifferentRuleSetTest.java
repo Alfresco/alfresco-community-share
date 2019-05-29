@@ -50,8 +50,9 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
     private final String folderName2 = "Folder2-C7327-" + random;
     private final String ruleName1 = "rule-C7327-" + random;
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName);
@@ -85,17 +86,18 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
         assertEquals(manageRulesPage.getRuleTitle(), folderName2 + ": Rules", "Rule title=");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7327")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void linkToRuleSet() {
+    @TestRail (id = "C7327")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void linkToRuleSet()
+    {
         LOG.info("STEP1: Click on 'Link to Rule Set' link\n" + "Set path to 'Folder1'.\n" + "Click 'Link' button");
         manageRulesPage.clickLinkToRuleSet();
         selectDestinationDialog.clickPathFolder(folderName);

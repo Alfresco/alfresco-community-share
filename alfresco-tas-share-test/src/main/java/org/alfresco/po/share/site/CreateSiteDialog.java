@@ -17,87 +17,87 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class CreateSiteDialog extends ShareDialog
 {
-    @FindBy(css = "label[for='alfresco-createSite-instance-shortName']")
+    @FindBy (css = "label[for='alfresco-createSite-instance-shortName']")
     private WebElement urlNameLabel;
 
-    @FindBy(css="div[id='CREATE_SITE_FIELD_SHORTNAME'] div[class*='dijitInputField'] input")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_SHORTNAME'] div[class*='dijitInputField'] input")
     private WebElement siteIDInput;
 
-    @FindBy(css = "div[id='CREATE_SITE_FIELD_SHORTNAME'] div.description")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_SHORTNAME'] div.description")
     private WebElement urlNameDescription;
 
-    @FindBy(css = "div[id='CREATE_SITE_FIELD_TITLE'] span[class='requirementIndicator required']")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_TITLE'] span[class='requirementIndicator required']")
     private WebElement nameMandatory;
 
-    @FindBy(css = "div[id='CREATE_SITE_FIELD_SHORTNAME'] span[class='requirementIndicator required']")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_SHORTNAME'] span[class='requirementIndicator required']")
     private WebElement siteIDMandatory;
 
     @RenderWebElement
-    @FindBy(id = "CREATE_SITE_DIALOG")
+    @FindBy (id = "CREATE_SITE_DIALOG")
     private WebElement createSiteDialog;
 
     //@RenderWebElement
-    @FindBy(css = "span[id='CREATE_SITE_DIALOG_OK_label']")
+    @FindBy (css = "span[id='CREATE_SITE_DIALOG_OK_label']")
     private WebElement createButton;
 
     @RenderWebElement
-    @FindBy(id = "CREATE_SITE_DIALOG_CANCEL_label")
+    @FindBy (id = "CREATE_SITE_DIALOG_CANCEL_label")
     private WebElement cancelButton;
 
-    @FindBy(css="div[id='CREATE_SITE_FIELD_TITLE'] div[class*='dijitInputField'] input")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_TITLE'] div[class*='dijitInputField'] input")
     private WebElement nameInputField;
 
-    @FindBy(css ="div[id='CREATE_SITE_FIELD_TITLE'] label ")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_TITLE'] label ")
     private WebElement nameFieldLabel;
 
-    @FindBy(css ="div[id='CREATE_SITE_FIELD_DESCRIPTION'] textarea")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_DESCRIPTION'] textarea")
     private WebElement descriptionInputField;
 
-    @FindBy(css="div[id='CREATE_SITE_FIELD_DESCRIPTION'] label")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_DESCRIPTION'] label")
     private WebElement descriptionLabel;
 
-    @FindBy(css="div[id='CREATE_SITE_FIELD_SHORTNAME'] label")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_SHORTNAME'] label")
     private WebElement siteIDLabel;
-    @FindBy(css="div[id='CREATE_SITE_FIELD_VISIBILITY'] label")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_VISIBILITY'] label")
     private WebElement visibilityLabel;
 
-    @FindBy(css ="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] input")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] input")
     private WebElement publicVisibilityRadioButton;
 
-    @FindBy(css="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] input")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] input")
     private WebElement moderatedVisibilityButton;
 
-    @FindBy(css ="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] input")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] input")
     private WebElement privateVisibilityButton;
 
-    @FindBy(css="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] .alfresco-forms-controls-RadioButtons__description")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] .alfresco-forms-controls-RadioButtons__description")
     private WebElement publicVisibilityDescription;
 
-    @FindBy(css ="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] .alfresco-forms-controls-RadioButtons__description")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] .alfresco-forms-controls-RadioButtons__description")
     private WebElement moderatedVisibilityDescription;
 
-    @FindBy(css="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] .alfresco-forms-controls-RadioButtons__description")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] .alfresco-forms-controls-RadioButtons__description")
     private WebElement privateVisibilityDescription;
 
-    @FindBy(css="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] div[class*='dijitRadioChecked']")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] div[class*='dijitRadioChecked']")
     private WebElement publicVisibilityRadioButtonChecked;
 
-    @FindBy(css="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] div[class*='dijitRadioChecked']")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] div[class*='dijitRadioChecked']")
     private WebElement moderatedVisibilityRadioButtonChecked;
 
-    @FindBy(css ="div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] div[class*='dijitRadioChecked']")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] div[class*='dijitRadioChecked']")
     private WebElement privateVisibilityRadioButtonChecked;
 
-    @FindBy(css ="span.dijitDialogCloseIcon")
+    @FindBy (css = "span.dijitDialogCloseIcon")
     private WebElement closeXButton;
 
-    @FindBy(css="div[id='CREATE_SITE_FIELD_PRESET'] label.label")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_PRESET'] label.label")
     private WebElement typeLabel;
 
-    @FindBy(css="table[id='CREATE_SITE_FIELD_PRESET_CONTROL'] div[class$='dijitButtonText'] span")
+    @FindBy (css = "table[id='CREATE_SITE_FIELD_PRESET_CONTROL'] div[class$='dijitButtonText'] span")
     private WebElement typeLabelValue;
 
-    @FindBy(css="div[id='CREATE_SITE_FIELD_TITLE'] div[class$='__warning-row'] div")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_TITLE'] div[class$='__warning-row'] div")
     private WebElement nameFieldWarningMessage;
 
     private By urlErrorMessage = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] span.validation-message");
@@ -109,7 +109,7 @@ public class CreateSiteDialog extends ShareDialog
     @Autowired
     ToolbarSitesMenu toolbarSitesMenu;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
 
     public CreateSiteDialog navigateByMenuBar()
     {
@@ -139,9 +139,9 @@ public class CreateSiteDialog extends ShareDialog
     }
 
     public String getSiteIDDescriptionText()
-   {
-       return urlNameDescription.getText();
-   }
+    {
+        return urlNameDescription.getText();
+    }
 
     public void clearUrlNameInput()
     {
@@ -182,7 +182,7 @@ public class CreateSiteDialog extends ShareDialog
 
     public String getNameFieldLabel()
     {
-       return browser.waitUntilElementVisible(nameFieldLabel).getText();
+        return browser.waitUntilElementVisible(nameFieldLabel).getText();
     }
 
     public boolean isDescriptionInputFieldDisplayed()
@@ -202,7 +202,7 @@ public class CreateSiteDialog extends ShareDialog
 
     public String isPublicVisibilityButtonDisplayed()
     {
-       return publicVisibilityRadioButton.getAttribute("value").toString().trim();
+        return publicVisibilityRadioButton.getAttribute("value").toString().trim();
     }
 
     public String isModeratedVisibilityButtonDisplayed()
@@ -219,10 +219,12 @@ public class CreateSiteDialog extends ShareDialog
     {
         return getBrowser().waitUntilElementVisible(publicVisibilityDescription).getText();
     }
+
     public String getModeratedVisibilityDescription()
     {
         return getBrowser().waitUntilElementVisible(moderatedVisibilityDescription).getText();
     }
+
     public String getPrivateVisibilityDescription()
     {
         return getBrowser().waitUntilElementVisible(privateVisibilityDescription).getText();
@@ -265,11 +267,14 @@ public class CreateSiteDialog extends ShareDialog
         return nameInputField.getText();
     }
 
-    public String getNameInputText() { return nameInputField.getAttribute("value"); }
+    public String getNameInputText()
+    {
+        return nameInputField.getAttribute("value");
+    }
 
     public void selectPublicVisibility()
     {
-       publicVisibilityRadioButton.click();
+        publicVisibilityRadioButton.click();
     }
 
     public void selectModeratedVisibility()
@@ -279,8 +284,9 @@ public class CreateSiteDialog extends ShareDialog
 
     public void selectPrivateVisibility()
     {
-       privateVisibilityButton.click();
+        privateVisibilityButton.click();
     }
+
     public boolean isPublicVisibilityRadioButtonChecked()
     {
         return getBrowser().isElementDisplayed(publicVisibilityRadioButtonChecked);

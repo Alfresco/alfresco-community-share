@@ -50,35 +50,35 @@ public class EditMeetingAgendaItemTest extends ContextAwareWebTest
     String newOwner = "Updated Owner";
     String fileToAttach = "testDoc.txt";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.MEETING_AGENDA, meetingAgendaList,
-                "Meeting Agenda list description.");
+            "Meeting Agenda list description.");
 
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + itemFile);
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + fileToAttach);
         dataListsService.addMeetingItem(userName, password, siteName, meetingAgendaList, itemReference, itemTitle, itemDescription, null, userName,
-                Collections.singletonList(itemFile));
+            Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         dataListsPage.clickMeetingAgendaListItem(meetingAgendaList);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C10356")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C10356")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyPossibilityToEditItem()
     {
         LOG.info("STEP1: Click Edit icon for the item");

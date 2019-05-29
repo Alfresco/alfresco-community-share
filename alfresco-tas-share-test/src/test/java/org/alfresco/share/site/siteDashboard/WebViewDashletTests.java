@@ -32,8 +32,8 @@ public class WebViewDashletTests extends ContextAwareWebTest
     private String linkTitle;
     private String url;
 
-    @TestRail(id = "C5449")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5449")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void checkWebViewDashlet()
 
     {
@@ -63,8 +63,8 @@ public class WebViewDashletTests extends ContextAwareWebTest
         LOG.info("Step 2: Click '?' icon");
         webViewDashlet.clickOnHelpIcon(DashletHelpIcon.WEB_VIEW);
         assertEquals(webViewDashlet.getHelpBalloonMessage(),
-                "This dashlet shows the website of your choice. Click the edit icon on the dashlet to change the web address."
-                        + "\nClicking the dashlet title opens the website in a separate window.");
+            "This dashlet shows the website of your choice. Click the edit icon on the dashlet to change the web address."
+                + "\nClicking the dashlet title opens the website in a separate window.");
 
         LOG.info("Step 3: Click 'X' icon.");
         webViewDashlet.closeHelpBalloon();
@@ -86,15 +86,15 @@ public class WebViewDashletTests extends ContextAwareWebTest
         configureWebViewPopUp.clickCloseButton();
         Assert.assertFalse(webViewDashlet.isConfigureWebViewWindowDisplayed());
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
 
     }
 
-    @TestRail(id = "C5450")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5450")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void configureWebViewDashlet()
     {
@@ -111,7 +111,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
 
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");
         siteService.create(adminUser, adminPassword, user, siteName, description, SiteService.Visibility.PUBLIC);
-        siteService.addDashlet(user, user,   siteName, SiteDashlet.WEB_VIEW, DashletLayout.THREE_COLUMNS, 3, 1);
+        siteService.addDashlet(user, user, siteName, SiteDashlet.WEB_VIEW, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(adminUser, adminPassword);
 
         /**
@@ -132,13 +132,13 @@ public class WebViewDashletTests extends ContextAwareWebTest
         String expectedSource = getBrowser().findElement(By.cssSelector("iframe[class$='iframe-body']")).getAttribute("src");
         assertEquals(expectedSource, url);
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5453")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5453")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void configureWebViewDashletCancel()
     {
@@ -177,14 +177,14 @@ public class WebViewDashletTests extends ContextAwareWebTest
         assertEquals(webViewDashlet.getDefaultMessage(), "No web page to display.");
         assertEquals(webViewDashlet.getDashletTitle(), "Web View");
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
-    
-    @TestRail(id = "C5459")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    
+
+    @TestRail (id = "C5459")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+
     public void configureWebViewDashletDisplayHTTPSPages()
     {
         linkTitle = "test";
@@ -196,21 +196,21 @@ public class WebViewDashletTests extends ContextAwareWebTest
         String user = String.format("C5459User%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("C5459SiteName%s", RandomData.getRandomAlphanumeric());
         String description = String.format("C5459SiteDescription%s", RandomData.getRandomAlphanumeric());
-        
+
         LOG.info("Create Site C5459");
         userService.create(adminUser, adminPassword, user, user, user + domain, "firstName", "lastName");
         siteService.create(adminUser, adminPassword, user, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(user, user, siteName, SiteDashlet.WEB_VIEW, DashletLayout.THREE_COLUMNS, 3, 1);
         setupAuthenticatedSession(adminUser, adminPassword);
-        
+
         LOG.info("Step 1: Navigate to site dashboard and click on Edit icon for 'Web View' dashlet.");
         siteDashboard.navigate(siteName);
         webViewDashlet.renderedPage();
         webViewDashlet.clickOnConfigureDashletIcon();
-        
+
         LOG.info("Step 2: Provide Input for fields Link Title and URL and click OK");
         webViewDashlet.configureWebViewDashlet(linkTitle, url);
-        
+
         LOG.info("Step 3: Verify that user is redirected to Site Dashboard and the information displayed by the Web View Dashlet");
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
         assertEquals(siteDashboard.getRelativePath(), expectedRelativePath, "User is redirected to site dashboard");
@@ -218,9 +218,9 @@ public class WebViewDashletTests extends ContextAwareWebTest
         String expectedSource = getBrowser().findElement(By.cssSelector("iframe[class$='iframe-body']")).getAttribute("src");
         assertEquals(expectedSource, url);
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
-    
+
 }

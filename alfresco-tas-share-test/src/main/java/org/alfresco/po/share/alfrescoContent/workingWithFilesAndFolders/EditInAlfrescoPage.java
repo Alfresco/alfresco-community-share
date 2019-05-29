@@ -17,29 +17,29 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
     @Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @FindBy(css = ".heading")
+    @FindBy (css = ".heading")
     private WebElement editContentHeader;
 
-    @FindBy(css = "input[id*='name']")
+    @FindBy (css = "input[id*='name']")
     private WebElement nameInput;
 
     @RenderWebElement
-    @FindBy(css = "textarea[id*='_content']")
+    @FindBy (css = "textarea[id*='_content']")
     private WebElement contentTextarea;
 
-    @FindBy(css = "input[id*='title']")
+    @FindBy (css = "input[id*='title']")
     private WebElement titleInput;
 
-    @FindBy(css = "textarea[id*='description']")
+    @FindBy (css = "textarea[id*='description']")
     private WebElement descriptionTextarea;
 
-    @FindBy(css = "button[id*='submit']")
+    @FindBy (css = "button[id*='submit']")
     protected WebElement saveButton;
 
-    @FindBy(css = "button[id*='cancel']")
+    @FindBy (css = "button[id*='cancel']")
     protected WebElement cancelButton;
 
-    @FindBy(css = "button[id*='form']")
+    @FindBy (css = "button[id*='form']")
     private List<WebElement> buttonsList;
 
     @Override

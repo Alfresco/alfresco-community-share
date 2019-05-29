@@ -66,7 +66,6 @@ public class CreateLinksTests extends ContextAwareWebTest
     private SearchPage searchPage;
 
 
-
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String userName = "user" + uniqueIdentifier;
     private final String firstName = "user";
@@ -82,8 +81,9 @@ public class CreateLinksTests extends ContextAwareWebTest
     private final String linkFile2 = "Link to " + fileName2;
     private final String linkFile3 = "Link to " + fileName3;
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName1, description, SiteService.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
@@ -96,19 +96,20 @@ public class CreateLinksTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName1);
-        siteService.delete(adminUser, adminPassword,siteName2);
+        siteService.delete(adminUser, adminPassword, siteName1);
+        siteService.delete(adminUser, adminPassword, siteName2);
 
     }
 
-    @TestRail(id = "C42605")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyCreateLinkButtonFromDocLibraryActions() {
+    @TestRail (id = "C42605")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyCreateLinkButtonFromDocLibraryActions()
+    {
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: From Document actions, click on \"Copy to\" option");
         documentLibraryPage.mouseOverContentItem(fileName1);
@@ -116,12 +117,13 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
         LOG.info("STEP2: Verify \"Copy to\" dialog");
         assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
-                "'Copy to...' dialog: 'Create Link' button is displayed.");
+            "'Copy to...' dialog: 'Create Link' button is displayed.");
     }
 
-    @TestRail(id = "C42606")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyCreateLinkButtonFromDocLibrarySelectedItemsSingleItem() {
+    @TestRail (id = "C42606")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyCreateLinkButtonFromDocLibrarySelectedItemsSingleItem()
+    {
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: Select a file/folder and from 'Selected Items' menu, click on \"Copy to\" option");
         documentLibraryPage.clickCheckBox(fileName1);
@@ -130,12 +132,13 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy 1 items to...", "Displayed dialog=");
         LOG.info("STEP2: Verify \"Copy to\" dialog");
         assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
-                "'Copy to...' dialog: 'Create Link' button is displayed.");
+            "'Copy to...' dialog: 'Create Link' button is displayed.");
     }
 
-    @TestRail(id = "C42607")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyCreateLinkButtonFromDocLibrarySelectedItemsMultipleItems() {
+    @TestRail (id = "C42607")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyCreateLinkButtonFromDocLibrarySelectedItemsMultipleItems()
+    {
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: Select multiple content and from 'Selected Items' menu, click on \"Copy to\" option");
         headerMenuBar.clickSelectMenu();
@@ -145,12 +148,13 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy 3 items to...", "Displayed dialog=");
         LOG.info("STEP2: Verify \"Copy to\" dialog");
         assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
-                "'Copy to...' dialog: 'Create Link' button is displayed.");
+            "'Copy to...' dialog: 'Create Link' button is displayed.");
     }
 
-    @TestRail(id = "C42608")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyCreateLinkButtonFromDocumentDetailsActions() {
+    @TestRail (id = "C42608")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyCreateLinkButtonFromDocumentDetailsActions()
+    {
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: Open Document Details for a file");
         documentLibraryPage.clickOnFile(fileName1);
@@ -159,12 +163,13 @@ public class CreateLinksTests extends ContextAwareWebTest
         documentDetailsPage.clickDocumentActionsOption(language.translate("documentLibrary.contentActions.copyTo"));
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
         assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
-                "'Copy to...' dialog: 'Create Link' button is displayed.");
+            "'Copy to...' dialog: 'Create Link' button is displayed.");
     }
 
-    @TestRail(id = "C42609")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyCreateLinkButtonFromSearchResultsActions() {
+    @TestRail (id = "C42609")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyCreateLinkButtonFromSearchResultsActions()
+    {
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: Search for a document");
         toolbar.search(fileName2);
@@ -175,9 +180,10 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertTrue(copyMoveUnzipToDialog.isCreateLinkDisplayedInCopyToDialogFromSearchPage(), "Create link button displayed in 'Copy to' dialog.");
     }
 
-    @TestRail(id = "C42610")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyCreateLinkButtonFromSearchResultsSingleItemSelected() {
+    @TestRail (id = "C42610")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyCreateLinkButtonFromSearchResultsSingleItemSelected()
+    {
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: Search for a document");
         toolbar.search(fileName2);
@@ -190,9 +196,10 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertTrue(copyMoveUnzipToDialog.isCreateLinkDisplayedInCopyToDialogFromSearchPage(), "Create link button displayed in 'Copy to' dialog.");
     }
 
-    @TestRail(id = "C42611")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyCreateLinkButtonFromSearchResultsMultipleItemsSelected() {
+    @TestRail (id = "C42611")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyCreateLinkButtonFromSearchResultsMultipleItemsSelected()
+    {
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: Search for a document");
         toolbar.search(uniqueIdentifier);
@@ -207,9 +214,10 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertTrue(copyMoveUnzipToDialog.isCreateLinkDisplayedInCopyToDialogFromSearchPage(), "Create link button displayed in 'Copy to' dialog.");
     }
 
-    @TestRail(id = "C42613")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyCreateLinkButtonInMoveToDialog() {
+    @TestRail (id = "C42613")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyCreateLinkButtonInMoveToDialog()
+    {
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: From Document actions, click \"Move to\" option");
         documentLibraryPage.mouseOverContentItem(fileName1);
@@ -219,9 +227,10 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertFalse(copyMoveUnzipToDialog.isCreateLinkButtonDisplayed(), "'Move to...' dialog: 'Create Link' button is not displayed.");
     }
 
-    @TestRail(id = "C42614")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void verifyLinkIsCreatedAtDestination() {
+    @TestRail (id = "C42614")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void verifyLinkIsCreatedAtDestination()
+    {
         documentLibraryPage.navigate(siteName1);
         LOG.info("STEP1: From Document actions, click on \"Copy to\" option");
         documentLibraryPage.mouseOverContentItem(fileName1);
@@ -236,9 +245,10 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(linkFile1), linkFile1 + " is displayed in destination of copy file, Shared Files.");
     }
 
-    @TestRail(id = "C42620")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void duplicateLinksAreNotAllowed() {
+    @TestRail (id = "C42620")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void duplicateLinksAreNotAllowed()
+    {
         documentLibraryPage.navigate(siteName2);
         LOG.info("STEP1: For a file/folder, click 'Copy to' option, select a destination folder and click 'Create Link' button");
         documentLibraryPage.mouseOverContentItem(fileName2);
@@ -260,9 +270,10 @@ public class CreateLinksTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C42621")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void createdLinkDisplayedInMyActivitiesDashlet() {
+    @TestRail (id = "C42621")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void createdLinkDisplayedInMyActivitiesDashlet()
+    {
         String name = firstName + " " + lastName;
         String activity = name + " created link to " + fileName3 + " in " + siteName2;
         documentLibraryPage.navigate(siteName2);
@@ -275,16 +286,17 @@ public class CreateLinksTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickCreateLink();
         documentLibraryPage.selectDocumentLibraryItemRow(linkFile3);
         assertTrue(documentLibraryPage.isContentNameDisplayed(linkFile3),
-                linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
+            linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
         LOG.info("STEP2: Navigate to User Dashboard page");
         userDashboardPage.navigate(userName);
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
         assertTrue(myActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), activity + " is displayed in 'My Activities' dashlet.");
     }
 
-    @TestRail(id = "C42622")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void createdLinkDisplayedInSiteActivitiesDashlet() {
+    @TestRail (id = "C42622")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void createdLinkDisplayedInSiteActivitiesDashlet()
+    {
         String name = firstName + " " + lastName;
         String activity = name + " created link to " + fileName3;
         documentLibraryPage.navigate(siteName2);
@@ -297,11 +309,11 @@ public class CreateLinksTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickCreateLink();
         documentLibraryPage.selectDocumentLibraryItemRow(linkFile3);
         assertTrue(documentLibraryPage.isContentNameDisplayed(linkFile3),
-                linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
+            linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
         LOG.info("STEP2: Navigate to Site Dashboard page and verify Site Activities dashlet");
         siteDashboardPage.navigate(siteName2);
         assertEquals(siteDashboardPage.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
         assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity),
-                "Activity: '" + activity + "' is displayed in 'Site Activities' dashlet.");
+            "Activity: '" + activity + "' is displayed in 'Site Activities' dashlet.");
     }
 }

@@ -45,7 +45,7 @@ public class CreateSiteTests extends ContextAwareWebTest
     String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     String testSiteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
@@ -54,14 +54,15 @@ public class CreateSiteTests extends ContextAwareWebTest
     }
 
     @AfterClass
-    public void removeAddedFiles() {
+    public void removeAddedFiles()
+    {
         userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
         siteService.delete(adminUser, adminPassword, testSiteName);
     }
 
-    @TestRail(id = "C2103")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2103")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyItemsPresentOnForm()
     {
         userDashboardPage.navigate(user);
@@ -92,11 +93,11 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Verify the available \"Visibility\" options");
         assertEquals(createSiteDialog.getPublicVisibilityDescription(), language.translate("siteDetails.publicVisibilityDescription"),
-                "Public option description-");
+            "Public option description-");
         assertEquals(createSiteDialog.getModeratedVisibilityDescription(), language.translate("siteDetails.moderatedVisibilityDescription"),
-                "Moderated option description-");
+            "Moderated option description-");
         assertEquals(createSiteDialog.getPrivateVisibilityDescription(), language.translate("siteDetails.privateVisibilityDescription"),
-                "Private option description-");
+            "Private option description-");
 
         LOG.info("STEP4: Verify the available buttons from \"Create Site\" form");
         assertTrue(createSiteDialog.isCreateButtonDisplayed(), "Save button is displayed.");
@@ -104,8 +105,8 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(createSiteDialog.isCloseXButtonDisplayed(), true, "Close button is displayed.");
     }
 
-    @TestRail(id = "C2104")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2104")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPublicSiteFromToolbar()
     {
         String siteName = String.format("siteC2104-%s", RandomData.getRandomAlphanumeric());
@@ -119,7 +120,7 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.typeInNameInput(siteName);
         createSiteDialog.typeInSiteID(siteName);
         createSiteDialog.typeInDescription(description);
-       // assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
+        // assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Select \"Public\" visibility");
         createSiteDialog.selectPublicVisibility();
@@ -137,13 +138,13 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(adminUser, adminPassword);
         sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName,"Delete Site",deleteSiteDialog);
+        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
         deleteSiteDialog.clickDeleteFromSitesManager();
 
     }
 
     @TestRail (id = "C43380")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createSiteWithoutDescription()
     {
         String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
@@ -169,14 +170,14 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(adminUser, adminPassword);
         sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName,"Delete Site",deleteSiteDialog);
+        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
         deleteSiteDialog.clickDeleteFromSitesManager();
 
 
     }
 
-    @TestRail(id = "C2105")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2105")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createModeratedSiteFromToolbar()
     {
         String siteName = String.format("siteC2105-%s", RandomData.getRandomAlphanumeric());
@@ -209,14 +210,14 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(adminUser, adminPassword);
         sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName,"Delete Site",deleteSiteDialog);
+        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
         deleteSiteDialog.clickDeleteFromSitesManager();
 
 
     }
 
-    @TestRail(id = "C2106")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2106")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPrivateSiteFromToolbar()
     {
         String siteName = String.format("siteC2106-%s", RandomData.getRandomAlphanumeric());
@@ -248,13 +249,13 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(adminUser, adminPassword);
         sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName,"Delete Site",deleteSiteDialog);
+        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
         deleteSiteDialog.clickDeleteFromSitesManager();
 
     }
 
-    @TestRail(id = "C2107")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2107")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPublicSiteFromDashlet()
     {
         String siteName = String.format("siteC2107-%s", RandomData.getRandomAlphanumeric());
@@ -286,13 +287,13 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(adminUser, adminPassword);
         sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName,"Delete Site",deleteSiteDialog);
+        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
         deleteSiteDialog.clickDeleteFromSitesManager();
 
     }
 
-    @TestRail(id = "C2108")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2108")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createModeratedSiteFromDashlet()
     {
         String siteName = String.format("siteC2108-%s", RandomData.getRandomAlphanumeric());
@@ -324,13 +325,13 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(adminUser, adminPassword);
         sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName,"Delete Site",deleteSiteDialog);
+        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
         deleteSiteDialog.clickDeleteFromSitesManager();
 
     }
 
-    @TestRail(id = "C2109")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2109")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void createPrivateSiteFromDashlet()
     {
         String siteName = String.format("siteC2109-%s", RandomData.getRandomAlphanumeric());
@@ -362,12 +363,12 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(adminUser, adminPassword);
         sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName,"Delete Site",deleteSiteDialog);
+        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
         deleteSiteDialog.clickDeleteFromSitesManager();
     }
 
-    @TestRail(id = "C2124")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2124")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelCreatingSite()
     {
         String siteName = String.format("siteC2124-%s", RandomData.getRandomAlphanumeric());
@@ -390,8 +391,8 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(getBrowser().getTitle(), "Alfresco » User Dashboard", "User is on Home page");
     }
 
-    @TestRail(id = "C2125")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2125")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyCloseButton()
     {
         String siteName = String.format("siteC2125-%s", RandomData.getRandomAlphanumeric());
@@ -405,15 +406,15 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.typeInNameInput(siteName);
         createSiteDialog.typeInSiteID(siteName);
         createSiteDialog.typeInDescription(description);
-       // assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
+        // assertEquals(createSiteDialog.getTitleInputText(), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Click \"Close\" button");
         createSiteDialog.clickCloseXButton();
         assertFalse(createSiteDialog.isNameInputFieldDisplayed(), "Form is not closed.");
     }
 
-    @TestRail(id = "C2130")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2130")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void urlNameAlreadyExists()
     {
         String siteName = String.format("siteC2130-%s", RandomData.getRandomAlphanumeric());
@@ -441,8 +442,8 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertFalse(siteService.exists(siteName, user, password), "Site isn't created.");
     }
 
-    @TestRail(id ="C13767")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C13767")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void verifyItemsPresentOnCreateSiteForm()
     {
@@ -456,15 +457,15 @@ public class CreateSiteTests extends ContextAwareWebTest
         LOG.info("Step 2&3: Verify the available fields from \"Create Site\" form and Verify the available \"Visibility\" options");
         Assert.assertTrue(createSiteDialog.isTypeLabelDisplayed(), "Type label is not displayed");
         Assert.assertEquals(createSiteDialog.getTypeLabelValue(), "Collaboration Site", "Collaboration Site is not the label displayed on Create Site Dialog");
-        Assert.assertEquals(createSiteDialog.getNameFieldLabel(),"Name", "The Name label is not displayed");
+        Assert.assertEquals(createSiteDialog.getNameFieldLabel(), "Name", "The Name label is not displayed");
         Assert.assertTrue(createSiteDialog.isTitleMandatory(), " The Name is not mandatory");
-        Assert.assertEquals(createSiteDialog.getSiteIDFieldLabel(),"Site ID", "The Site ID label is not displayed");
-        Assert.assertEquals(createSiteDialog.getDescriptionLabel(),"Description", "The Description label is not displayed");
-        Assert.assertEquals(createSiteDialog.getVisibilityLabel(),"Visibility", "The Visibility label is not displayed");
+        Assert.assertEquals(createSiteDialog.getSiteIDFieldLabel(), "Site ID", "The Site ID label is not displayed");
+        Assert.assertEquals(createSiteDialog.getDescriptionLabel(), "Description", "The Description label is not displayed");
+        Assert.assertEquals(createSiteDialog.getVisibilityLabel(), "Visibility", "The Visibility label is not displayed");
         Assert.assertEquals(createSiteDialog.getPublicVisibilityDescription(), language.translate("siteDetails.publicVisibilityDescription"), "The Public visibility option is not present");
-        Assert.assertEquals(createSiteDialog.getModeratedVisibilityDescription(),language.translate("siteDetails.moderatedVisibilityDescription"), "The Moderate visibility option is not present");
+        Assert.assertEquals(createSiteDialog.getModeratedVisibilityDescription(), language.translate("siteDetails.moderatedVisibilityDescription"), "The Moderate visibility option is not present");
         Assert.assertEquals(createSiteDialog.getPrivateVisibilityDescription(), language.translate("siteDetails.privateVisibilityDescription"), "The Private visibility option is not present");
-        Assert.assertEquals(createSiteDialog.getSiteIDDescriptionText(), "This is part of the site address. Use numbers and letters only."," The description text for Site ID is not correct");
+        Assert.assertEquals(createSiteDialog.getSiteIDDescriptionText(), "This is part of the site address. Use numbers and letters only.", " The description text for Site ID is not correct");
 
         LOG.info("Step 4: Verify the available buttons from \"Create Site\" form");
         Assert.assertTrue(createSiteDialog.isCreateButtonDisplayed(), "Create button is not displayed");
@@ -477,26 +478,26 @@ public class CreateSiteTests extends ContextAwareWebTest
         Assert.assertTrue(createSiteDialog.isCreateSiteDialogDisplayed(), "The create site dialog is not displayed");
         Assert.assertTrue(createSiteDialog.isTypeLabelDisplayed(), "Type label is not displayed");
         Assert.assertEquals(createSiteDialog.getTypeLabelValue(), "Collaboration Site", "Collaboration Site is not the label displayed on Create Site Dialog");
-        Assert.assertEquals(createSiteDialog.getNameFieldLabel(),"Name", "The Name label is not displayed");
+        Assert.assertEquals(createSiteDialog.getNameFieldLabel(), "Name", "The Name label is not displayed");
         Assert.assertTrue(createSiteDialog.isTitleMandatory(), " The Name is not mandatory");
-        Assert.assertEquals(createSiteDialog.getSiteIDFieldLabel(),"Site ID", "The Site ID label is not displayed");
-        Assert.assertEquals(createSiteDialog.getDescriptionLabel(),"Description", "The Description label is not displayed");
-        Assert.assertEquals(createSiteDialog.getVisibilityLabel(),"Visibility", "The Visibility label is not displayed");
+        Assert.assertEquals(createSiteDialog.getSiteIDFieldLabel(), "Site ID", "The Site ID label is not displayed");
+        Assert.assertEquals(createSiteDialog.getDescriptionLabel(), "Description", "The Description label is not displayed");
+        Assert.assertEquals(createSiteDialog.getVisibilityLabel(), "Visibility", "The Visibility label is not displayed");
         Assert.assertEquals(createSiteDialog.getPublicVisibilityDescription(), language.translate("siteDetails.publicVisibilityDescription"), "The Public visibility option is not present");
         Assert.assertEquals(createSiteDialog.getModeratedVisibilityDescription(), language.translate("siteDetails.moderatedVisibilityDescription"), "The Moderate visibility option is not present");
         Assert.assertEquals(createSiteDialog.getPrivateVisibilityDescription(), language.translate("siteDetails.privateVisibilityDescription"), "The Private visibility option is not present");
-        Assert.assertEquals(createSiteDialog.getSiteIDDescriptionText(), "This is part of the site address. Use numbers and letters only."," The description text for Site ID is not correct");
+        Assert.assertEquals(createSiteDialog.getSiteIDDescriptionText(), "This is part of the site address. Use numbers and letters only.", " The description text for Site ID is not correct");
         Assert.assertTrue(createSiteDialog.isCreateButtonDisplayed(), "Create button is not displayed");
         Assert.assertTrue(createSiteDialog.isCancelButtonDisplayed(), "Cancel button is not displayed");
         Assert.assertTrue(createSiteDialog.isCloseXButtonDisplayed(), "Close button is not displayed");
     }
 
-    @TestRail(id="C14004")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C14004")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void createSiteWithANameThatIsInUse()
     {
-        String siteName = "C14004SiteName"+ RandomData.getRandomAlphanumeric();
+        String siteName = "C14004SiteName" + RandomData.getRandomAlphanumeric();
         String siteID = RandomData.getRandomAlphanumeric();
         String description = "description";
         siteService.create(user, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
@@ -517,7 +518,7 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(adminUser, adminPassword);
         sitesManagerPage.navigate();
-        sitesManagerPage.clickActionForManagedSiteRow(siteName,"Delete Site",deleteSiteDialog);
+        sitesManagerPage.clickActionForManagedSiteRow(siteName, "Delete Site", deleteSiteDialog);
         deleteSiteDialog.clickDeleteFromSitesManager();
         siteService.delete(adminUser, adminPassword, siteName);
 

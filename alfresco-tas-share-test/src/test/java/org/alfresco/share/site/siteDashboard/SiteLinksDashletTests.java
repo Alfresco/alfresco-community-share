@@ -45,23 +45,23 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     private String linkTitle = "google";
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
     }
 
-    @TestRail(id = "C5525")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5525")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletHelpNotification()
     {
         siteName = String.format("SiteName-C5525-%s", RandomData.getRandomAlphanumeric());
@@ -84,12 +84,12 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
         LOG.info("Step 3: Click 'X' icon on balloon popup");
         siteLinksDashlet.closeHelpBalloon();
         assertFalse(siteLinksDashlet.isBalloonDisplayed(), "Help balloon isn't displayed");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C5534")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5534")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletCreateLink()
     {
         siteName = String.format("SiteName-C5534-%s", RandomData.getRandomAlphanumeric());
@@ -123,12 +123,12 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
         siteDashboard.navigate(siteName);
         assertTrue(siteLinksDashlet.isLinkPresentInList(linkTitle), "Link title is displayed in dashlet.");
         assertTrue(siteLinksDashlet.hasLinkDetailsButton(linkTitle));
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C5804")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5804")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteLinksDashletDetailsButton()
     {
         siteName = String.format("SiteName-C5804-%s", RandomData.getRandomAlphanumeric());
@@ -149,7 +149,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
         assertEquals(linkDetailsViewPage.getCreatedBy(), user + " " + user, "User that created the link is current user.");
         assertTrue(linkDetailsViewPage.isTagDisplayedInTagsList("tag1"), "Tag1 is displayed.");
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

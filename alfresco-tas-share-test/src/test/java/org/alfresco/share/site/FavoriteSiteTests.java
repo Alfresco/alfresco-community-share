@@ -21,7 +21,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class FavoriteSiteTests extends ContextAwareWebTest {
+public class FavoriteSiteTests extends ContextAwareWebTest
+{
     @Autowired
     UserDashboardPage userDashboardPage;
 
@@ -40,22 +41,26 @@ public class FavoriteSiteTests extends ContextAwareWebTest {
     @Autowired
     DataSite dataSite;
 
-    private String userName = "favoriteSitesUser" +RandomData.getRandomAlphanumeric();
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    private String userName = "favoriteSitesUser" + RandomData.getRandomAlphanumeric();
+
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
-    @TestRail(id = "C2216")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void addCurrentSiteToFavoritesUsingSitesMenu() throws DataPreparationException {
+
+    @TestRail (id = "C2216")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void addCurrentSiteToFavoritesUsingSitesMenu() throws DataPreparationException
+    {
         UserModel testUser = dataUser.createRandomTestUser();
         SiteModel testSite = dataSite.createPublicRandomSite();
         dataUser.addUserToSite(testUser, testSite, UserRole.SiteManager);
@@ -85,10 +90,11 @@ public class FavoriteSiteTests extends ContextAwareWebTest {
 
     }
 
-    @TestRail(id = "C2217")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void removeCurrentSiteFromFavoritesUsingSitesMenu() {
-        String siteName = String.format("Site1%s",RandomData.getRandomAlphanumeric());
+    @TestRail (id = "C2217")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void removeCurrentSiteFromFavoritesUsingSitesMenu()
+    {
+        String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         LOG.info("STEP 1 - Navigate to the created site. Click \"Sites\" menu from Alfresco Toolbar");
@@ -109,9 +115,10 @@ public class FavoriteSiteTests extends ContextAwareWebTest {
 
     }
 
-    @TestRail(id = "C2220")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void addSiteToFavoritesUsingMySitesDashlet() throws DataPreparationException {
+    @TestRail (id = "C2220")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void addSiteToFavoritesUsingMySitesDashlet() throws DataPreparationException
+    {
         UserModel testUser = dataUser.createRandomTestUser();
         SiteModel testSite = dataSite.createPublicRandomSite();
         dataUser.addUserToSite(testUser, testSite, UserRole.SiteManager);
@@ -131,10 +138,11 @@ public class FavoriteSiteTests extends ContextAwareWebTest {
         siteService.delete(adminUser, adminPassword, testSite.getTitle());
     }
 
-    @TestRail(id = "C2221")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void removeSiteFromFavoritesUsingMySitesDashlet() {
-        String siteName = String.format("Site1%s",RandomData.getRandomAlphanumeric());
+    @TestRail (id = "C2221")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void removeSiteFromFavoritesUsingMySitesDashlet()
+    {
+        String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         siteService.setFavorite(userName, password, siteName);
         setupAuthenticatedSession(userName, password);

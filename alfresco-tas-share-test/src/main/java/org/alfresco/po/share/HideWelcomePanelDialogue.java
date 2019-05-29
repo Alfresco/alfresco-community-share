@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 public class HideWelcomePanelDialogue extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(xpath = "//*[text() = 'OK']")
+    @FindBy (xpath = "//*[text() = 'OK']")
     private WebElement okButton;
 
     /**

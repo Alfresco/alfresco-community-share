@@ -22,7 +22,8 @@ import static org.testng.Assert.assertTrue;
  */
 public class EditTagTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     private final String random = RandomData.getRandomAlphanumeric();
     private final String siteName1 = "site1-" + random;
@@ -33,7 +34,7 @@ public class EditTagTests extends ContextAwareWebTest
     private final String fileName = "file-" + random;
     private final String userName = "profileUser-" + random;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
@@ -49,17 +50,17 @@ public class EditTagTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName1);
-        siteService.delete(adminUser, adminPassword,siteName2);
+        siteService.delete(adminUser, adminPassword, siteName1);
+        siteService.delete(adminUser, adminPassword, siteName2);
     }
 
-    @TestRail(id = "C7460")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7460")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editTagFile()
     {
         setupAuthenticatedSession(userName, password);
@@ -82,21 +83,20 @@ public class EditTagTests extends ContextAwareWebTest
         try
         {
             assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(newTagName.toLowerCase()).toString(),
-                    tagName.toLowerCase() + " is updated with value:");
-        }
-        catch (AssertionError e)
+                tagName.toLowerCase() + " is updated with value:");
+        } catch (AssertionError e)
         {
             getBrowser().refresh();
             documentLibraryPage.renderedPage();
         }
         assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(newTagName.toLowerCase()).toString(),
-                tagName.toLowerCase() + " is updated with value:");
+            tagName.toLowerCase() + " is updated with value:");
 
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C10529")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C10529")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editTagFolder()
     {
         setupAuthenticatedSession(userName, password);
@@ -119,15 +119,14 @@ public class EditTagTests extends ContextAwareWebTest
         try
         {
             assertEquals(documentLibraryPage.getTags(folderName), Collections.singletonList(newTagName.toLowerCase()).toString(),
-                    tagName.toLowerCase() + " is updated with value:");
-        }
-        catch (AssertionError e)
+                tagName.toLowerCase() + " is updated with value:");
+        } catch (AssertionError e)
         {
             getBrowser().refresh();
             documentLibraryPage.renderedPage();
         }
         assertEquals(documentLibraryPage.getTags(folderName), Collections.singletonList(newTagName.toLowerCase()).toString(),
-                tagName.toLowerCase() + " is updated with value:");
+            tagName.toLowerCase() + " is updated with value:");
 
         cleanupAuthenticatedSession();
     }

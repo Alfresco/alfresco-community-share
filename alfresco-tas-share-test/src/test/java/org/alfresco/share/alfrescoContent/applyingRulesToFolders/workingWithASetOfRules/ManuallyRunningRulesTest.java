@@ -27,15 +27,20 @@ import static org.testng.Assert.assertTrue;
  */
 public class ManuallyRunningRulesTest extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private ManageRulesPage manageRulesPage;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
 
-    @Autowired private EditRulesPage editRulesPage;
+    @Autowired
+    private EditRulesPage editRulesPage;
 
-    @Autowired private RuleDetailsPage ruleDetailsPage;
+    @Autowired
+    private RuleDetailsPage ruleDetailsPage;
 
-    @Autowired private DocumentCommon documentCommon;
+    @Autowired
+    private DocumentCommon documentCommon;
 
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "user-" + random;
@@ -45,7 +50,7 @@ public class ManuallyRunningRulesTest extends ContextAwareWebTest
     private final String folderName = "Folder-C7320-" + random;
     private final String fileName = "FileName-C7320-" + random;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
@@ -76,16 +81,16 @@ public class ManuallyRunningRulesTest extends ContextAwareWebTest
         editRulesPage.cleanupSelectedValues();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7320")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7320")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void runRule()
     {
         LOG.info("STEP1: Click 'Run' button for rule");

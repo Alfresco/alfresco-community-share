@@ -54,12 +54,13 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     private String testFilePath;
     private String newVersionFilePath;
     private String smartFolderTestFile = "SmartFolderTestData.docx";
-    private String filePath =testDataFolder + smartFolderTestFile;
+    private String filePath = testDataFolder + smartFolderTestFile;
     private String pptxFile = "SmartFolderTest Presentation.pptx";
-    private String pptxPath = testDataFolder+pptxFile;
+    private String pptxPath = testDataFolder + pptxFile;
 
-    @BeforeClass(alwaysRun = true)
-    public void createUserAndSite() {
+    @BeforeClass (alwaysRun = true)
+    public void createUserAndSite()
+    {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         testFilePath = testDataFolder + testFileName;
@@ -69,17 +70,18 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @BeforeMethod(alwaysRun = true)
-    public void createFolder() {
+    @BeforeMethod (alwaysRun = true)
+    public void createFolder()
+    {
         folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
         contentService.createFolder(userName, password, folderName, siteName);
         contentAspects.addAspect(userName, password, siteName, folderName, CMISUtil.DocumentAspect.SYSTEM_SMART_FOLDER);
@@ -95,9 +97,10 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFolderName(folderName);
     }
 
-    @TestRail(id = "C8648")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT ,"SmartFolders"})
-    public void addFileToSmartFolder() {
+    @TestRail (id = "C8648")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders" })
+    public void addFileToSmartFolder()
+    {
         LOG.info("Steps5: Click Upload button and select a pdf file.");
         uploadContent.uploadContent(testFilePath);
         LOG.info("Step6: Go to My Content -> All site content -> Documents -> PDF Documents and verify that the uploaded file is displayed");
@@ -108,9 +111,10 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("test.pdf"), "The uploaded file displayed in PDF Documents list");
     }
 
-    @TestRail(id = "C8649")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT , "SmartFolders"})
-    public void createFileInSmartFolder() throws Exception {
+    @TestRail (id = "C8649")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders" })
+    public void createFileInSmartFolder() throws Exception
+    {
         googleDocs.loginToGoogleDocs();
         LOG.info("Step5: Press Create button -> Google Docs Document");
         documentLibraryPage.clickCreateButton();
@@ -129,10 +133,11 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
     }
 
-    @Bug(id="MNT-18059",status = Bug.Status.FIXED)
-    @TestRail(id = "C8650")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,"SmartFolders" })
-    public void updateFileInSmartFolder() throws Exception {
+    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
+    @TestRail (id = "C8650")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders" })
+    public void updateFileInSmartFolder() throws Exception
+    {
         googleDocs.loginToGoogleDocs();
         LOG.info("Step5: Press Create button -> Google Docs Document");
         documentLibraryPage.clickCreateButton();
@@ -161,21 +166,23 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getFileVersion(), "1.1", String.format("Version of %s is wrong.", newVersionFileName));
     }
 
-    @TestRail(id = "C8663")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,"SmartFolders" })
-    public void checkSmartFolderStructure() {
+    @TestRail (id = "C8663")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders" })
+    public void checkSmartFolderStructure()
+    {
         LOG.info("Step5: Click on 'My content' the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(mainSmartFolder);
         List<String> expectedContentList = Arrays.asList("All site content", "Contributions", "My content modified by other users", "User home",
-                "Tagged 'Confidential'", "My Categorized Files", "Recent updates");
+            "Tagged 'Confidential'", "My Categorized Files", "Recent updates");
         for (String expectedContent : expectedContentList)
             Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(expectedContent), expectedContent + " folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(8), "SF icon displayed for all folders");
     }
 
-    @TestRail(id = "C8664")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,"SmartFolders" })
-    public void checkFilesAreCorrectlyFilled() {
+    @TestRail (id = "C8664")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders" })
+    public void checkFilesAreCorrectlyFilled()
+    {
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFolderName(folderName);
         LOG.info("Step5: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
@@ -186,9 +193,10 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(pptxFile), "The uploaded file displayed in Office Documents list");
     }
 
-    @TestRail(id = "C8647")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders"})
-    public void checkAvailableActions() {
+    @TestRail (id = "C8647")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders" })
+    public void checkAvailableActions()
+    {
         LOG.info("Step5: Go to My Content -> All site content -> Documents -> Office Documents and verify the created file is displayed");
         documentLibraryPage.clickOnFolderName("My content");
         documentLibraryPage.clickOnFolderName("All site content");
@@ -197,9 +205,9 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(smartFolderTestFile), "The uploaded file displayed in Office Documents list");
         LOG.info("Step6: Hover over the created document and check available actions");
         List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit Properties", "Upload New Version", "Edit in Microsoft Office™",
-                "Edit Offline", "Start Workflow");
+            "Edit Offline", "Start Workflow");
         List<String> notExpectedActions = Arrays.asList("Delete Document", "Unzip to...", "Sync to Cloud", "Locate File", "Move to...", "Copy to...",
-                "Manage permissions");
+            "Manage permissions");
         Assert.assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(smartFolderTestFile, expectedActions), "Expected actions");
         Assert.assertTrue(documentLibraryPage.areActionsNotAvailableForLibraryItem(smartFolderTestFile, notExpectedActions), "Not expected actions");
     }

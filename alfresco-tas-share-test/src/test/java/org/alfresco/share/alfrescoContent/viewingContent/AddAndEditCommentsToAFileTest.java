@@ -19,22 +19,25 @@ import java.text.ParseException;
 
 /**
  * @author iulia.cojocea
- *         This test doesn't work with with selenium version 2.46.0. I should be enabled on 2.53.0 version.
+ * This test doesn't work with with selenium version 2.46.0. I should be enabled on 2.53.0 version.
  */
 public class AddAndEditCommentsToAFileTest extends ContextAwareWebTest
 {
-    @Autowired private SiteDashboardPage siteDashboardPage;
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
-    
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = "testFolder";
     private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
@@ -44,16 +47,16 @@ public class AddAndEditCommentsToAFileTest extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled = false)
-    @TestRail(id = "C5885")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
+    @TestRail (id = "C5885")
     public void addAndEditCommentsToAFile() throws ParseException
     {
 

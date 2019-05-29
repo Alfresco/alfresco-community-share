@@ -101,12 +101,12 @@ public class MyActivitiesTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
-        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, documentName, documentName + " content"); 
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, documentName, documentName + " content");
         sitePagesService.createBlogPost(userName, password, siteName, blogTitle, blogTitle + " content", false, null); //TODO check why blog creation isn't in My Activities dashlet
         sitePagesService.addCalendarEvent(userName, password, siteName, eventName, "Where " + eventName, "description " + eventName, today.toDate(), today.toDate(), "6:00 PM",
-                "8:00 PM", false, null);
+            "8:00 PM", false, null);
         dataListsService.createDataList(userName, password, siteName, DataList.CONTACT_LIST, datalistName, "Contact list for user " + userName); //TODO check why data list creation isn't in My Activities dashlet
-        sitePagesService.createDiscussion(userName, password, siteName, discussionTitle, discussionTitle + " content", null);       
+        sitePagesService.createDiscussion(userName, password, siteName, discussionTitle, discussionTitle + " content", null);
         //contentService.uploadFileInSite(userName, password, siteName, testDataFolder + fileName);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileName);
 
@@ -121,17 +121,16 @@ public class MyActivitiesTests extends ContextAwareWebTest
         dataListsService.updateDataList(userName, password, siteName, datalistName, "New" + datalistName, "New contact list for user " + userName);
         sitePagesService.updateDiscussion(userName, password, siteName, discussionTitle, "New" + discussionTitle, "New " + discussionTitle + " content", null);
         contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, documentName, "New " + documentName + " content");
-       contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, "New  content");
+        contentService.updateDocumentContent(userName, password, siteName, DocumentType.TEXT_PLAIN, fileName, "New  content");
 
         FileModel fileNameModel = new FileModel(fileName, FileType.TEXT_PLAIN);
-        fileNameModel.setCmisLocation(Utility.buildPath(cmisApi.getSitesPath(), siteName,"/documentLibrary/", fileName));
+        fileNameModel.setCmisLocation(Utility.buildPath(cmisApi.getSitesPath(), siteName, "/documentLibrary/", fileName));
         FileModel documentModel = new FileModel(documentName, FileType.TEXT_PLAIN);
-        documentModel.setCmisLocation(Utility.buildPath(cmisApi.getSitesPath(),  siteName, "/documentLibrary/", documentName));
+        documentModel.setCmisLocation(Utility.buildPath(cmisApi.getSitesPath(), siteName, "/documentLibrary/", documentName));
 
         cmisApi.authenticateUser(new UserModel(userName, password))
-                .usingResource(fileNameModel).setContent("New Content").assertThat().contentIs("New Content")
-                    .then().usingResource(documentModel).setContent("New" + documentName + " content");
-
+               .usingResource(fileNameModel).setContent("New Content").assertThat().contentIs("New Content")
+               .then().usingResource(documentModel).setContent("New" + documentName + " content");
 
 
         sitePagesService.updateLink(userName, password, siteName, linkTitle, "New" + linkTitle, "www.google.com", linkTitle + " description", true, null);
@@ -142,7 +141,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     {
         sitePagesService.deleteBlogPost(userName, password, siteName, blogTitle, false);
         sitePagesService.removeEvent(userName, password, siteName, eventName, "Where " + eventName, today.toDate(), today.toDate(), "6:00 PM", "8:00 PM", false);
-        dataListsService.deleteDataList(userName, password, siteName, datalistName);   
+        dataListsService.deleteDataList(userName, password, siteName, datalistName);
         contentService.deleteDocument(userName, password, siteName, documentName);
         contentService.deleteDocument(userName, password, siteName, fileName);
         sitePagesService.deleteLink(userName, password, siteName, linkTitle);
@@ -150,8 +149,8 @@ public class MyActivitiesTests extends ContextAwareWebTest
         sitePagesService.deleteDiscussion(userName, password, siteName, discussionTitle);
     }
 
-    @TestRail(id = "C2111")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2111")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void noActivitiesCreated()
     {
         // preconditions
@@ -172,9 +171,9 @@ public class MyActivitiesTests extends ContextAwareWebTest
         assertTrue(myActivitiesDashlet.isRssFeedButtonDisplayed(), "Subscribe to RSS Feed button is displayed");
         assertTrue(myActivitiesDashlet.isHelpIconDisplayed(DashletHelpIcon.MY_ACTIVITIES), "Help icon is displayed.");
         List<String> expectedUserActivities = Arrays.asList(language.translate("siteActivities.filter.mine"), language.translate("siteActivities.filter.everyoneElse"),
-                language.translate("siteActivities.filter.everyone"), language.translate("siteActivities.filter.meFollowing"));
+            language.translate("siteActivities.filter.everyone"), language.translate("siteActivities.filter.meFollowing"));
         assertEquals(myActivitiesDashlet.getMyActivitiesFilterOptions(), expectedUserActivities,
-                "User Activities dropdown options are as expected.");
+            "User Activities dropdown options are as expected.");
         assertTrue(myActivitiesDashlet.isMyActivitiesOptionSelected(language.translate("siteActivities.filter.everyone")), "'Everyone's activities' option is selected by default.");
         assertTrue(myActivitiesDashlet.isHistoryOptionSelected(SiteActivitiesDaysRangeFilter.SEVEN_DAYS), "'in the last 7 days' option is selected by default.");
 
@@ -187,14 +186,14 @@ public class MyActivitiesTests extends ContextAwareWebTest
         myActivitiesDashlet.closeHelpBalloon();
         assertFalse(myActivitiesDashlet.isBalloonDisplayed(), "Help balloon isn't displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2112")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2112")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void someActivitiesCreated()
     {
         // preconditions
@@ -222,15 +221,17 @@ public class MyActivitiesTests extends ContextAwareWebTest
         userDashboardPage.navigate(userName);
 
         LOG.info("STEP 1-Verify type icon for every activity");
-        for(String activityName: activitiesObjects.keySet())
+        for (String activityName : activitiesObjects.keySet())
         {
             String activity = String.format("%s %s created %s %s in %s", userName, userName, activityName, activitiesObjects.get(activityName), siteName);
-            switch(activityName)
+            switch (activityName)
             {
                 case "document":
-                    activity = activity.replace("created", "added"); break;
+                    activity = activity.replace("created", "added");
+                    break;
                 case "discussion":
-                    activity = activity.replace("created", "started"); break;
+                    activity = activity.replace("created", "started");
+                    break;
                 case "file":
                 {
                     activity = activity.replace("created", "added");
@@ -238,49 +239,50 @@ public class MyActivitiesTests extends ContextAwareWebTest
                     break;
                 }
                 case "data list":
-                    activity = activity.replace(activitiesObjects.get(activityName), activitiesObjects.get(activityName) + " (Contact List)"); break;
+                    activity = activity.replace(activitiesObjects.get(activityName), activitiesObjects.get(activityName) + " (Contact List)");
+                    break;
             }
             assertTrue(myActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity link: " + activity + " is present in My Activities dashlet.");
         }
 
-         LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
+        LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
 
-         myActivitiesDashlet.clickOnItemNameFromActivityList(eventName, calendarPage);
-         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
+        myActivitiesDashlet.clickOnItemNameFromActivityList(eventName, calendarPage);
+        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
 
-         LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
-         userDashboardPage.navigateByMenuBar();
-         myActivitiesDashlet.clickOnItemNameFromActivityList(discussionTitle, topicViewPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topicview"), "'Discussions' page is opened.");
+        LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
+        userDashboardPage.navigateByMenuBar();
+        myActivitiesDashlet.clickOnItemNameFromActivityList(discussionTitle, topicViewPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topicview"), "'Discussions' page is opened.");
 
-         LOG.info("STEP6-Go back to User Dashboard. Click content's name link");
-         userDashboardPage.navigateByMenuBar();
-         myActivitiesDashlet.clickOnItemNameFromActivityList(fileName, docDetailsPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
+        LOG.info("STEP6-Go back to User Dashboard. Click content's name link");
+        userDashboardPage.navigateByMenuBar();
+        myActivitiesDashlet.clickOnItemNameFromActivityList(fileName, docDetailsPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
 
-         LOG.info("STEP7-Go back to User Dashboard. Click document's name link");
-         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(documentName, docDetailsPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
+        LOG.info("STEP7-Go back to User Dashboard. Click document's name link");
+        menuNavigationBar.goTo(userDashboardPage);
+        myActivitiesDashlet.clickOnItemNameFromActivityList(documentName, docDetailsPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
 
-         LOG.info("STEP8-Go back to User Dashboard. Click link's name link");
-         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(linkTitle, linkPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
+        LOG.info("STEP8-Go back to User Dashboard. Click link's name link");
+        menuNavigationBar.goTo(userDashboardPage);
+        myActivitiesDashlet.clickOnItemNameFromActivityList(linkTitle, linkPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
 
-         LOG.info("STEP9-Go back to User Dashboard. Click wiki page's name link");
-         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle, wikiPage);
-         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/wiki-page?title=" + wikiTitle), "'Wiki' page is opened.");
+        LOG.info("STEP9-Go back to User Dashboard. Click wiki page's name link");
+        menuNavigationBar.goTo(userDashboardPage);
+        myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle, wikiPage);
+        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/wiki-page?title=" + wikiTitle), "'Wiki' page is opened.");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-         siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C2113")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2113")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void someActivitiesUpdated() throws Exception
     {
         // preconditions
@@ -308,52 +310,52 @@ public class MyActivitiesTests extends ContextAwareWebTest
         userDashboardPage.navigate(userName);
 
         LOG.info("STEP 1-Verify type icon for every activity");
-        for(String activityName: activitiesObjects.keySet())
+        for (String activityName : activitiesObjects.keySet())
         {
             String activity = String.format("%s %s updated %s %s in %s", userName, userName, activityName, activitiesObjects.get(activityName), siteName);
-            if(activityName.equals("file"))
+            if (activityName.equals("file"))
                 activity = activity.replace("file", "document");
 
             assertTrue(myActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity link: " + activity + " is present in My Activities dashlet.");
         }
 
-         LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
-         myActivitiesDashlet.clickOnItemNameFromActivityList(eventName, calendarPage);
-         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
+        LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
+        myActivitiesDashlet.clickOnItemNameFromActivityList(eventName, calendarPage);
+        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
 
-         LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
-         userDashboardPage.navigateByMenuBar();
-         myActivitiesDashlet.clickOnItemNameFromActivityList("New" + discussionTitle, topicViewPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topicview"), "'Discussions' page is opened.");
+        LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
+        userDashboardPage.navigateByMenuBar();
+        myActivitiesDashlet.clickOnItemNameFromActivityList("New" + discussionTitle, topicViewPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topicview"), "'Discussions' page is opened.");
 
-         LOG.info("STEP6-Go back to User Dashboard. Click content's name link");
-         userDashboardPage.navigateByMenuBar();
-         myActivitiesDashlet.clickOnItemNameFromActivityList(fileName, docDetailsPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
+        LOG.info("STEP6-Go back to User Dashboard. Click content's name link");
+        userDashboardPage.navigateByMenuBar();
+        myActivitiesDashlet.clickOnItemNameFromActivityList(fileName, docDetailsPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
 
-         LOG.info("STEP7-Go back to User Dashboard. Click document's name link");
-         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(documentName, docDetailsPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
+        LOG.info("STEP7-Go back to User Dashboard. Click document's name link");
+        menuNavigationBar.goTo(userDashboardPage);
+        myActivitiesDashlet.clickOnItemNameFromActivityList(documentName, docDetailsPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/document-details"), "'Document details' page is opened.");
 
-         LOG.info("STEP8-Go back to User Dashboard. Click link's name link");
-         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList("New" + linkTitle, linkPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
+        LOG.info("STEP8-Go back to User Dashboard. Click link's name link");
+        menuNavigationBar.goTo(userDashboardPage);
+        myActivitiesDashlet.clickOnItemNameFromActivityList("New" + linkTitle, linkPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
 
-         LOG.info("STEP9-Go back to User Dashboard. Click wiki page's name link");
-         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle, wikiPage);
-         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/wiki-page?title=" + wikiTitle), "'Wiki' page is opened.");
+        LOG.info("STEP9-Go back to User Dashboard. Click wiki page's name link");
+        menuNavigationBar.goTo(userDashboardPage);
+        myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle, wikiPage);
+        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/wiki-page?title=" + wikiTitle), "'Wiki' page is opened.");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C2114")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2114")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void someActivitiesDeleted()
     {
         // preconditions
@@ -383,56 +385,56 @@ public class MyActivitiesTests extends ContextAwareWebTest
         userDashboardPage.navigate(userName);
 
         LOG.info("STEP 1-Verify type icon for every activity");
-        for(String activityName: activitiesObjects.keySet())
+        for (String activityName : activitiesObjects.keySet())
         {
             String activity = String.format("%s %s deleted %s %s in %s", userName, userName, activityName, activitiesObjects.get(activityName), siteName);
-            if(activityName.equals("file"))
+            if (activityName.equals("file"))
                 activity = activity.replace("file", "document");
 
             assertTrue(myActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity link: " + activity + " is present in My Activities dashlet.");
         }
 
-         LOG.info("STEP 2-Click blog post's name link");
-         myActivitiesDashlet.clickOnItemNameFromActivityList(blogTitle, blogPostPage);
-         assertTrue(getBrowser().getCurrentUrl().contains("blog-postlist"), "'Blog' page is opened.");
+        LOG.info("STEP 2-Click blog post's name link");
+        myActivitiesDashlet.clickOnItemNameFromActivityList(blogTitle, blogPostPage);
+        assertTrue(getBrowser().getCurrentUrl().contains("blog-postlist"), "'Blog' page is opened.");
 
-         LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
-         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(eventName, calendarPage);
-         assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
+        LOG.info("STEP 3-Go back to User Dashboard. Click event's name link");
+        menuNavigationBar.goTo(userDashboardPage);
+        myActivitiesDashlet.clickOnItemNameFromActivityList(eventName, calendarPage);
+        assertTrue(getBrowser().getCurrentUrl().endsWith(siteName + "/calendar?date=" + today.toString("YYYY-MM-dd")), "'Calendar' page is opened.");
 
-         LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
-         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(discussionTitle, topicListPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topiclist"), "'Discussions' page is opened.");
+        LOG.info("STEP5-Go back to User Dashboard. Click topic's name link");
+        menuNavigationBar.goTo(userDashboardPage);
+        myActivitiesDashlet.clickOnItemNameFromActivityList(discussionTitle, topicListPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/discussions-topiclist"), "'Discussions' page is opened.");
 
-         LOG.info("STEP6-Go back to User Dashboard. Click content's name link");
-         userDashboardPage.navigateByMenuBar();
-         myActivitiesDashlet.clickOnItemNameFromActivityList(fileName, documentLibraryPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/documentlibrary"), "'Document Library' page is opened.");
+        LOG.info("STEP6-Go back to User Dashboard. Click content's name link");
+        userDashboardPage.navigateByMenuBar();
+        myActivitiesDashlet.clickOnItemNameFromActivityList(fileName, documentLibraryPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/documentlibrary"), "'Document Library' page is opened.");
 
-         LOG.info("STEP7-Go back to User Dashboard. Click document's name link");
-         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(documentName, documentLibraryPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/documentlibrary"), "'Document Library' page is opened.");
+        LOG.info("STEP7-Go back to User Dashboard. Click document's name link");
+        menuNavigationBar.goTo(userDashboardPage);
+        myActivitiesDashlet.clickOnItemNameFromActivityList(documentName, documentLibraryPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/documentlibrary"), "'Document Library' page is opened.");
 
-         LOG.info("STEP8-Go back to User Dashboard. Click link's name link");
-         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(linkTitle, linkPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
+        LOG.info("STEP8-Go back to User Dashboard. Click link's name link");
+        menuNavigationBar.goTo(userDashboardPage);
+        myActivitiesDashlet.clickOnItemNameFromActivityList(linkTitle, linkPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/links"), "'Links' page is opened.");
 
-         LOG.info("STEP9-Go back to User Dashboard. Click wiki page's name link");
-         menuNavigationBar.goTo(userDashboardPage);
-         myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle, wikiListPage);
-         assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/wiki"), "'Wiki' page is opened.");
+        LOG.info("STEP9-Go back to User Dashboard. Click wiki page's name link");
+        menuNavigationBar.goTo(userDashboardPage);
+        myActivitiesDashlet.clickOnItemNameFromActivityList(wikiTitle, wikiListPage);
+        assertTrue(getBrowser().getCurrentUrl().contains(siteName + "/wiki"), "'Wiki' page is opened.");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2117")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2117")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void checkUsersFilter()
     {
         String uniqueIdentifier = String.format("-C2117%s", RandomData.getRandomAlphanumeric());
@@ -468,10 +470,10 @@ public class MyActivitiesTests extends ContextAwareWebTest
         assertTrue(myActivitiesDashlet.isActivityPresentInActivitiesDashlet(activityUserA), "Activity link: " + activityUserA + " is present in My Activities dashlet.");
         assertTrue(myActivitiesDashlet.isActivityPresentInActivitiesDashlet(activityUserB), "Activity link: " + activityUserB + " is present in My Activities dashlet.");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        userService.delete(adminUser,adminPassword, userNameB);
+        userService.delete(adminUser, adminPassword, userNameB);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userNameB);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 }

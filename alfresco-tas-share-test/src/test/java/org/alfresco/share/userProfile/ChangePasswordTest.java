@@ -29,22 +29,22 @@ public class ChangePasswordTest extends ContextAwareWebTest
     private final String user = "user" + uniqueIdentifier;
     private final String newPasswordText = "newpassword" + uniqueIdentifier;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
-    @TestRail(id = "C2226")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C2226")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void changeUserPassword()
     {
         LOG.info("STEP1: Navigate to 'Change Password' page");

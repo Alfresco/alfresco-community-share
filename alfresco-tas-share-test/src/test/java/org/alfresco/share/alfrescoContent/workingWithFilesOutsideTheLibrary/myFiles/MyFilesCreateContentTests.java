@@ -24,17 +24,23 @@ import static org.testng.Assert.assertEquals;
  */
 public class MyFilesCreateContentTests extends ContextAwareWebTest
 {
-    @Autowired private MyFilesPage myFilesPage;
+    @Autowired
+    private MyFilesPage myFilesPage;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired private CreateContent createContent;
+    @Autowired
+    private CreateContent createContent;
 
-    @Autowired private CreateFolderFromTemplate createFolderFromTemplate;
+    @Autowired
+    private CreateFolderFromTemplate createFolderFromTemplate;
 
-    @Autowired private GoogleDocsCommon googleDocs;
+    @Autowired
+    private GoogleDocsCommon googleDocs;
 
-    @Autowired private Notification notification;
+    @Autowired
+    private Notification notification;
 
     private final String folderTemplateName = "Software Engineering Project";
     private final String fileTemplateName = String.format("fileTemplate%s", RandomData.getRandomAlphanumeric());
@@ -45,7 +51,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     private final String docContent = "googleDoccontent";
     private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createPrecondition()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -53,17 +59,18 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(user, password);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        contentService.deleteContentByPath(adminUser, adminPassword,  "Data Dictionary/Node Templates/" + fileTemplateName);
+        contentService.deleteContentByPath(adminUser, adminPassword, "Data Dictionary/Node Templates/" + fileTemplateName);
 
     }
 
-    @TestRail(id = "C7650")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7650")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesCreatePlainTextFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -112,8 +119,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getFileName(), "C7650 test name", "\"C7650 test name\" is not the file name for the file in preview");
     }
 
-    @TestRail(id = "C7696")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7696")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesCreateHTMLFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -153,8 +160,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getFileName(), "C7696 test name", "\"C7696 test name\" is not the file name for the file in preview");
     }
 
-    @TestRail(id = "C7697")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7697")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesCreateXMLFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -195,8 +202,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getFileName(), "C7697 test name", "\"C6978 test name\" is not the file name for the file in preview");
     }
 
-    @TestRail(id = "C7653")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7653")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesCreateFolderFromTemplate()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -221,8 +228,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         Assert.assertTrue(myFilesPage.getExplorerPanelDocuments().contains("Test Folder"), "Subfolder not found in Documents explorer panel");
     }
 
-    @TestRail(id = "C12858")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C12858")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesCreateFileFromTemplate()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -241,8 +248,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(fileTemplateName), String.format("Content: %s is not displayed.", fileTemplateName));
     }
 
-    @TestRail(id = "C7693")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
+    @TestRail (id = "C7693")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void myFilesCreateGoogleDocsDocument() throws Exception
     {
         googleDocs.loginToGoogleDocs();
@@ -271,8 +278,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocName));
     }
 
-    @TestRail(id = "C7694")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
+    @TestRail (id = "C7694")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void myFilesCreateGoogleDocsSpreadsheet() throws Exception
     {
         googleDocs.loginToGoogleDocs();
@@ -300,8 +307,8 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(googleDocSpreadsheet));
     }
 
-    @TestRail(id = "C7695")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
+    @TestRail (id = "C7695")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void myFilesCreateGoogleDocsPresentation() throws Exception
     {
         googleDocs.loginToGoogleDocs();

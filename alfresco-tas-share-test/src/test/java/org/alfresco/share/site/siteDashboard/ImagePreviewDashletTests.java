@@ -17,7 +17,9 @@ import org.testng.annotations.Test;
 
 import static org.alfresco.dataprep.DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT;
 import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet.IMAGE_PREVIEW;
+
 import org.alfresco.dataprep.SiteService;
+
 import static org.testng.Assert.*;
 
 public class ImagePreviewDashletTests extends ContextAwareWebTest
@@ -41,10 +43,10 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     private String siteName2 = String.format("Site2-%s", RandomData.getRandomAlphanumeric());
     private String siteName3 = String.format("Site3-%s", RandomData.getRandomAlphanumeric());
     private final String fileName = "newavatar.jpg";
-   protected String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
+    protected String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
 
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -59,16 +61,16 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName3 );
+        siteService.delete(adminUser, adminPassword, siteName3);
     }
 
-    @TestRail(id = "C5414")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5414")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void imagePreviewDashletWithNoImage()
     {
         LOG.info("STEP 1 - View \"Image Preview\" dashlet");
@@ -87,8 +89,8 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
         assertFalse(imagePreviewDashlet.isBallonDisplayedNoWait(), "Help Balloon is displayed.");
     }
 
-    @TestRail(id = "C5421")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5421")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void imagePreviewDashletWithSomeImages()
     {
         LOG.info("STEP 1 - Create images in the \"Document Library\" of the site");
@@ -111,8 +113,8 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
         assertTrue(imagePreviewDashlet.isImageDisplayed("newavatar.png"), ".png image displayed");
     }
 
-    @TestRail(id = "C5422")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5422")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void imagePreviewAvailableActions()
     {
         LOG.info("Precondition: Navigate to site's dashboard");

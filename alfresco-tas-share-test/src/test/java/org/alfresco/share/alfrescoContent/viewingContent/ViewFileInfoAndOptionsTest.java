@@ -23,17 +23,19 @@ import java.io.File;
  */
 public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
     private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = "testFolder";
-    private final String docName = String.format("testDoc%s",RandomData.getRandomAlphanumeric());
+    private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
     private final DateTime currentDate = new DateTime();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
@@ -42,16 +44,17 @@ public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
         contentService.createDocumentInFolder(testUser, password, siteName, folderName, DocumentType.TEXT_PLAIN, docName, "Document content");
         setupAuthenticatedSession(testUser, password);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5883")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C5883")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void viewFileInfoAndOptions()
     {
         LOG.info("STEP 1: Navigate to 'Document Library' page for 'siteName'");

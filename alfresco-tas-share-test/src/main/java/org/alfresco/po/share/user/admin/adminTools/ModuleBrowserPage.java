@@ -15,11 +15,11 @@ import java.util.List;
 public class ModuleBrowserPage extends AdminToolsPage
 {
     @RenderWebElement
-    @FindBy(id ="LIST_WITH_HEADER_ITEMS")
+    @FindBy (id = "LIST_WITH_HEADER_ITEMS")
     private WebElement moduleContent;
 
     @RenderWebElement
-    private By  titleTableHeader = By.id("titleTableHeader");
+    private By titleTableHeader = By.id("titleTableHeader");
 
     @RenderWebElement
     private By descriptionTableHeader = By.id("descriptionTableHeader");
@@ -29,11 +29,12 @@ public class ModuleBrowserPage extends AdminToolsPage
 
     private By modulesList = By.cssSelector("tr[id*=alfresco_lists_views_layouts_Row]");
 
-    @FindBy(id="HEADER_TITLE")
+    @FindBy (id = "HEADER_TITLE")
     private WebElement modelManagerPageTitle;
 
     @Override
-    public String getRelativePath() {
+    public String getRelativePath()
+    {
         return null;
     }
 

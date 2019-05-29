@@ -49,9 +49,9 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     private DateTime today = new DateTime();
     private DateTime tomorrow = today.plusDays(1);
 
-    @Bug(id = "ACE-5789")
-    @TestRail(id = "C5951")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Bug (id = "ACE-5789")
+    @TestRail (id = "C5951")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByAWordOrPhraseAnywhereItExists()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -138,9 +138,9 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @Bug(id = "ACE-5789")
-    @TestRail(id = "C5970")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Bug (id = "ACE-5789")
+    @TestRail (id = "C5970")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByMultipleWords()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -169,21 +169,21 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePagesService.createWiki(userName, password, siteName, word1 + " " + word2 + " " + word3 + " wiki", word3 + " " + word2 + " " + word1, null);
         sitePagesService.createWiki(userName, password, siteName, word3 + " " + word2 + " " + word1 + " wiki", word1 + " " + word2 + " " + word3, null);
         sitePagesService.createBlogPost(userName, password, siteName, word1 + " " + word2 + " " + word3 + " blog", word3 + " " + word2 + " " + word1, false,
-                null);
+            null);
         sitePagesService.createBlogPost(userName, password, siteName, word3 + " " + word2 + " " + word1 + " blog", word1 + " " + word2 + " " + word3, false,
-                null);
+            null);
         sitePagesService.addCalendarEvent(userName, password, siteName, word1 + " " + word2 + " " + word3 + " calendar", "", word3 + " " + word2 + " " + word1,
-                today.toDate(), tomorrow.toDate(), "", "", false, null);
+            today.toDate(), tomorrow.toDate(), "", "", false, null);
         sitePagesService.addCalendarEvent(userName, password, siteName, word3 + " " + word2 + " " + word1 + " calendar", "", word1 + " " + word2 + " " + word3,
-                today.toDate(), tomorrow.toDate(), "", "", false, null);
+            today.toDate(), tomorrow.toDate(), "", "", false, null);
         sitePagesService.createDiscussion(userName, password, siteName, word1 + " " + word2 + " " + word3 + " discussion", word3 + " " + word2 + " " + word1,
-                null);
+            null);
         sitePagesService.createDiscussion(userName, password, siteName, word3 + " " + word2 + " " + word1 + " discussion", word1 + " " + word2 + " " + word3,
-                null);
+            null);
         sitePagesService.createLink(userName, password, siteName, word1 + " " + word2 + " " + word3 + " link", "https://www.alfresco.com",
-                word3 + " " + word2 + " " + word1, false, null);
+            word3 + " " + word2 + " " + word1, false, null);
         sitePagesService.createLink(userName, password, siteName, word3 + " " + word2 + " " + word1 + " link", "https://www.alfresco.com",
-                word1 + " " + word2 + " " + word3, false, null);
+            word1 + " " + word2 + " " + word3, false, null);
 
         setupAuthenticatedSession(userName, password);
 
@@ -198,7 +198,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         documentDetailsPage.addComment(word3 + " " + word2 + " " + word1);
 
         LOG.info(
-                "STEP 1 - Fill in search field with words (e.g: \"word1 word2 word3\" or \"word1 AND word2 AND word3\") and click \"Search\" button or \"Enter\"");
+            "STEP 1 - Fill in search field with words (e.g: \"word1 word2 word3\" or \"word1 AND word2 AND word3\") and click \"Search\" button or \"Enter\"");
         getBrowser().waitInSeconds(10);
         toolbar.search(word1 + " AND " + word2 + " AND " + word3);
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchPage.searchResult, (int) properties.getImplicitWait());
@@ -242,9 +242,9 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @Bug(id = "ACE-5789")
-    @TestRail(id = "C5971")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Bug (id = "ACE-5789")
+    @TestRail (id = "C5971")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByAnyWords()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -274,7 +274,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePagesService.createBlogPost(userName, password, siteName, identifier + " blog", word3, false, null);
         sitePagesService.addCalendarEvent(userName, password, siteName, word3 + " calendar", "", "", today.toDate(), tomorrow.toDate(), "", "", false, null);
         sitePagesService.addCalendarEvent(userName, password, siteName, identifier + " calendar", "", word2, today.toDate(), tomorrow.toDate(), "", "", false,
-                null);
+            null);
         sitePagesService.createDiscussion(userName, password, siteName, word3 + " discussion", "", null);
         sitePagesService.createLink(userName, password, siteName, word2 + " link", "https://www.alfresco.com", "", false, null);
         sitePagesService.createLink(userName, password, siteName, identifier + " link", "https://www.alfresco.com", word1, false, null);
@@ -307,8 +307,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5935")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5935")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyTitle()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -342,8 +342,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5936")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5936")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyName()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -384,8 +384,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5937")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5937")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyDescription()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -424,8 +424,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5938")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5938")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyCreated()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -457,7 +457,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(identifier + ".txt"), identifier + ".txt" + " is displayed");
 
         LOG.info("STEP 3 - Enter a query using: now/NOW(today/TODAY)\n" + "(e.g: created: [\"2010-01-12\" TO TODAY], created: [\"2010-01-12\" TO NOW] )\n"
-                + "and click Search button");
+            + "and click Search button");
         toolbar.search("created:[\"2010-01-12\" TO NOW]");
         searchPage.clickSearchInDropdown();
         searchPage.selectOptionFromSearchIn("All Sites");
@@ -471,8 +471,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5939")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5939")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyModified()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -503,7 +503,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(identifier + ".txt"), identifier + ".txt" + " is displayed");
 
         LOG.info("STEP 3 - Enter a query using: now/NOW(today/TODAY)\n" + "(e.g: created: [\"2010-01-12\" TO TODAY], created: [\"2010-01-12\" TO NOW] )\n"
-                + "and click Search button");
+            + "and click Search button");
         toolbar.search("modified:[\"2010-01-12\" TO NOW]");
         searchPage.clickSearchInDropdown();
         searchPage.selectOptionFromSearchIn("All Sites");
@@ -517,8 +517,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5940")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5940")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyCreator()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -539,7 +539,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePagesService.createWiki(userName, password, siteName, "wiki" + identifier, "", null);
         sitePagesService.createBlogPost(userName, password, siteName, "blog" + identifier, "", false, null);
         sitePagesService.addCalendarEvent(userName, password, siteName, "calendar" + identifier, "", "", today.toDate(), tomorrow.toDate(), "", "", false,
-                null);
+            null);
         sitePagesService.createDiscussion(userName, password, siteName, "discussion" + identifier, "", null);
         sitePagesService.createLink(userName, password, siteName, "link" + identifier, "https://www.alfresco.com", "", false, null);
 
@@ -561,8 +561,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5941")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5941")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyModifier()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -583,7 +583,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         sitePagesService.createWiki(userName, password, siteName, "wiki" + identifier, "", null);
         sitePagesService.createBlogPost(userName, password, siteName, "blog" + identifier, "", false, null);
         sitePagesService.addCalendarEvent(userName, password, siteName, "calendar" + identifier, "", "", today.toDate(), tomorrow.toDate(), "", "", false,
-                null);
+            null);
         sitePagesService.createDiscussion(userName, password, siteName, "discussion" + identifier, "", null);
         sitePagesService.createLink(userName, password, siteName, "link" + identifier, "https://www.alfresco.com", "", false, null);
 
@@ -605,8 +605,8 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5950")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5950")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPropertyText()
     {
         String identifier = RandomData.getRandomAlphanumeric();

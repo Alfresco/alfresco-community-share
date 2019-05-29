@@ -16,7 +16,7 @@ public class TransformationServicesPage extends AdminConsolePage<TransformationS
     }
 
     @RenderWebElement
-    @FindBy(className = "intro")
+    @FindBy (className = "intro")
     WebElement intro;
 
     @Override

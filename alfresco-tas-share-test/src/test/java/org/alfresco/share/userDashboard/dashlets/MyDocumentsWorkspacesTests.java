@@ -22,8 +22,8 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
     @Autowired
     UserDashboardPage userDashboardPage;
 
-    @TestRail(id = "C2432")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2432")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void noDocumentsAdded()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -34,17 +34,17 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
 
         String file = "TestDoc1";
         Assert.assertFalse(contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
-                file + " document creation failed");
+            file + " document creation failed");
         contentService.updateDocumentContent(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphabetic(10));
 
         file = "TestDoc2";
         Assert.assertFalse(contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
-                file + " document creation failed");
+            file + " document creation failed");
         contentAction.checkOut(userName, password, siteName, file);
 
         file = "TestDoc3";
         Assert.assertFalse(contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
-                file + " document creation failed");
+            file + " document creation failed");
         contentAction.setFileAsFavorite(userName, password, siteName, file);
         getBrowser().waitInSeconds(10);
         myDocumentsDashlet.waitForDocument();
@@ -85,9 +85,9 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
         Assert.assertFalse(myDocumentsDashlet.isDocumentPresent("TestDoc1"), "\"TestDoc1\" isn't displayed");
         Assert.assertFalse(myDocumentsDashlet.isDocumentPresent("TestDoc2"), "\"TestDoc2\" isn't displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

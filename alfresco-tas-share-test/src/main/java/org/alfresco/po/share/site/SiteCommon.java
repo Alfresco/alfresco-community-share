@@ -15,28 +15,28 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
 {
     private String currentSiteName;
 
-    @FindBy(css = "img.alf-user-icon")
+    @FindBy (css = "img.alf-user-icon")
     protected Button addUser;
 
-    @FindBy(css = "#HEADER_SITE_DASHBOARD a")
+    @FindBy (css = "#HEADER_SITE_DASHBOARD a")
     protected Link dashboard;
 
-    @FindBy(css = "#HEADER_SITE_DOCUMENTLIBRARY a")
+    @FindBy (css = "#HEADER_SITE_DOCUMENTLIBRARY a")
     protected Link documentLibrary;
 
-    @FindBy(css = "#HEADER_SITE_MEMBERS a")
+    @FindBy (css = "#HEADER_SITE_MEMBERS a")
     protected Link members;
 
-    @FindBy(id = "HEADER_SITE_CONFIGURATION_DROPDOWN")
+    @FindBy (id = "HEADER_SITE_CONFIGURATION_DROPDOWN")
     protected WebElement siteConfiguration;
 
-    @FindBy(css = "span[id='HEADER_MY_FILES_text'] a")
+    @FindBy (css = "span[id='HEADER_MY_FILES_text'] a")
     protected WebElement myFilesButton;
 
-    @FindBy(css = "span[id='HEADER_REPOSITORY_text'] a")
+    @FindBy (css = "span[id='HEADER_REPOSITORY_text'] a")
     protected WebElement repositoryButton;
 
-    @FindBy(css = "#yui-gen48")
+    @FindBy (css = "#yui-gen48")
     protected WebElement errorButton;
 
     public void setCurrentSiteName(String currentSiteName)
@@ -118,7 +118,7 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
         return new AddSiteUsersPage();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     public T navigate(String siteId)
     {
         setCurrentSiteName(siteId);
@@ -149,7 +149,7 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
 
     public void navigateErrorClick()
     {
-        if(getBrowser().isElementDisplayed(errorButton))
+        if (getBrowser().isElementDisplayed(errorButton))
             errorButton.click();
     }
 

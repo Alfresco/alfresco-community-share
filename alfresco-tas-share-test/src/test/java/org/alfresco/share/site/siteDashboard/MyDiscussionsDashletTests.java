@@ -22,14 +22,14 @@ public class MyDiscussionsDashletTests extends ContextAwareWebTest
 
     @Autowired
     SiteDashboardPage siteDashboardPage;
-    
+
     @Autowired
     MyDiscussionsDashlet myDiscussionsDashlet;
 
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-    
-    @BeforeClass(alwaysRun = true)
+
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
@@ -38,16 +38,16 @@ public class MyDiscussionsDashletTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
-    
-    @TestRail(id = "C2791")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+
+    @TestRail (id = "C2791")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void myDiscussionsDashlet()
     {
         siteDashboardPage.navigate(siteName);
@@ -56,18 +56,18 @@ public class MyDiscussionsDashletTests extends ContextAwareWebTest
 
         assertEquals(myDiscussionsDashlet.getDashletTitle(), "My Discussions");
         assertEquals(myDiscussionsDashlet.getDefaultMessage(), "There are no topics matching your filters.");
-        
+
         LOG.info("Step 2: Verify 'My Topics' filter");
         assertTrue(myDiscussionsDashlet.checkTopicDropdownOptions());
-        
+
         LOG.info("Step 3: Verify 'Topics updated in the last day' filter");
         assertTrue(myDiscussionsDashlet.checkHistoryDropdownOptions());
-        
+
         LOG.info("Step 4: Click Help icon");
         myDiscussionsDashlet.clickOnHelpIcon(DashletHelpIcon.MY_DISCUSSIONS);
         assertTrue(myDiscussionsDashlet.isBalloonDisplayed());
         assertEquals(myDiscussionsDashlet.getHelpBalloonMessage(), "Discussion Forum dashlet.\nView your latest posts on the Discussion Forum.");
-        
+
         LOG.info("Step 5: Close ballon popup");
         myDiscussionsDashlet.closeHelpBalloon();
         assertFalse(myDiscussionsDashlet.isBalloonDisplayed());

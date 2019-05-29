@@ -15,14 +15,14 @@ import java.util.List;
 public class EmptyTrashcanDialog extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(id = "prompt_h")
+    @FindBy (id = "prompt_h")
     private WebElement header;
 
     @RenderWebElement
-    @FindBy(css = "#prompt .bd")
+    @FindBy (css = "#prompt .bd")
     private WebElement message;
 
-    @FindBy(css = ".button-group button")
+    @FindBy (css = ".button-group button")
     private List<WebElement> buttonsList;
 
     public String getDialogHeader()
@@ -39,7 +39,7 @@ public class EmptyTrashcanDialog extends ShareDialog
 
     /**
      * Click on a form button
-     * 
+     *
      * @param buttonName to be clicked: OK, Cancel
      */
     public void clickButton(String buttonName)

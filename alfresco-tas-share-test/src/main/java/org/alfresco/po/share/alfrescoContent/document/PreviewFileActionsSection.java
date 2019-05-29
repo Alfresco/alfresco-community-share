@@ -8,67 +8,67 @@ import org.openqa.selenium.support.FindBy;
 public class PreviewFileActionsSection extends DocumentCommon<PreviewFileActionsSection>
 {
 
-    @FindBy(css = "div[id*= '_document-actions']")
+    @FindBy (css = "div[id*= '_document-actions']")
     private WebElement documentActionsBlock;
 
-    @FindBy(css = "div[class= 'document-view-content alf-action-group-end']  a")
+    @FindBy (css = "div[class= 'document-view-content alf-action-group-end']  a")
     private WebElement viewInBrowser;
 
-    @FindBy(id = "onGoogledocsActionEdit")
+    @FindBy (id = "onGoogledocsActionEdit")
     private WebElement editInGoogleDocs;
 
-    @FindBy(id = "onActionEditOnlineAos")
+    @FindBy (id = "onActionEditOnlineAos")
     private WebElement editInMicrosoftOffice;
 
-    @FindBy(id = "onActionEditOffline")
+    @FindBy (id = "onActionEditOffline")
     private WebElement editOffline;
 
-    @FindBy(id = "onActionUploadNewVersion")
+    @FindBy (id = "onActionUploadNewVersion")
     private WebElement uploadNewVersion;
 
-    @FindBy(css = "div[class ='document-edit-metadata alf-action-group-end']")
+    @FindBy (css = "div[class ='document-edit-metadata alf-action-group-end']")
     private WebElement editProperties;
 
-    @FindBy(id = "onActionMoveTo")
+    @FindBy (id = "onActionMoveTo")
     private WebElement moveTo;
 
-    @FindBy(id = "onActionCopyTo")
+    @FindBy (id = "onActionCopyTo")
     private WebElement copyTo;
 
-    @FindBy(id = "onActionDelete")
+    @FindBy (id = "onActionDelete")
     private WebElement deleteDocument;
 
-    @FindBy(id = "onActionAssignWorkflow")
+    @FindBy (id = "onActionAssignWorkflow")
     private WebElement startWorkflow;
 
-    @FindBy(css = "div[class ='document-manage-granular-permissions']")
+    @FindBy (css = "div[class ='document-manage-granular-permissions']")
     private WebElement managePermissions;
 
-    @FindBy(id = "onActionTakeOwnership")
+    @FindBy (id = "onActionTakeOwnership")
     private WebElement becomeOwner;
 
-    @FindBy(id = "onActionManageAspects")
+    @FindBy (id = "onActionManageAspects")
     private WebElement manageAspects;
 
-    @FindBy(id = "onActionChangeType")
+    @FindBy (id = "onActionChangeType")
     private WebElement changeType;
 
-    @FindBy(css = "div[id*='document-tags']")
+    @FindBy (css = "div[id*='document-tags']")
     private WebElement tagsBlock;
 
-    @FindBy(css = "div[id*='document-links']")
+    @FindBy (css = "div[id*='document-links']")
     private WebElement shareBlock;
 
-    @FindBy(css = "input[id*='document-links']")
+    @FindBy (css = "input[id*='document-links']")
     private WebElement shareLink;
 
-    @FindBy(css = "div[class = 'document-metadata-header document-details-panel']")
+    @FindBy (css = "div[class = 'document-metadata-header document-details-panel']")
     private WebElement propertiesBlock;
 
-    @FindBy(css = "div[id*='_document-workflows_']")
+    @FindBy (css = "div[id*='_document-workflows_']")
     private WebElement workflowsBlock;
 
-    @FindBy(css = "div[id*='_document-versions_']")
+    @FindBy (css = "div[id*='_document-versions_']")
     private WebElement versionHistory;
 
     @Override

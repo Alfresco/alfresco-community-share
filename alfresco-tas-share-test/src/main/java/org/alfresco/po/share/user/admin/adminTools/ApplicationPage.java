@@ -19,22 +19,22 @@ import ru.yandex.qatools.htmlelements.element.Select;
 @PageObject
 public class ApplicationPage extends AdminToolsPage
 {
-    @FindBy(className="dnd-file-selection-button")
+    @FindBy (className = "dnd-file-selection-button")
     private FileInput fileInput;
 
     @RenderWebElement
-    @FindBy(css = "select#console-options-theme-menu")
+    @FindBy (css = "select#console-options-theme-menu")
     private Select themeDropdown;
-   
-    
-    @FindBy(css = "button[id$='apply-button-button']")
+
+
+    @FindBy (css = "button[id$='apply-button-button']")
     private WebElement applyButton;
-    
+
     @FindBy (xpath = "//img[contains(@id, '_default-logoimg') and contains(@src, 'app-logo-48.png')]")
     private WebElement defaultAlfrescoImage;
 
-  //  @FindBy(xpath= "/html/body/div[9]/div[1]/div[2]/div[1]/div[1]/div/div/div/div/div/div[2]")
-    @FindBy(css= ".info")
+    //  @FindBy(xpath= "/html/body/div[9]/div[1]/div[2]/div[1]/div[1]/div/div/div/div/div/div[2]")
+    @FindBy (css = ".info")
     private WebElement mainText;
 
 
@@ -42,13 +42,13 @@ public class ApplicationPage extends AdminToolsPage
     @FindBy (css = "button[id$='reset-button-button']")
     private Button resetButton;
 
-    @FindBy(css="div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")
+    @FindBy (css = "div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")
     private WebElement okButton;
 
     @RenderWebElement
-    @FindBy(css = "form[id$=_default-options-form] button[id$=upload-button-button]")
+    @FindBy (css = "form[id$=_default-options-form] button[id$=upload-button-button]")
     private WebElement uploadButton;
-    
+
     public enum Theme
     {
         YELLOW_THEME("yellowTheme"),
@@ -60,11 +60,13 @@ public class ApplicationPage extends AdminToolsPage
 
         private String theme;
 
-        Theme(String theme) {
+        Theme(String theme)
+        {
             this.theme = theme;
         }
 
-        public String getTheme() {
+        public String getTheme()
+        {
             return this.theme;
         }
     }
@@ -74,9 +76,11 @@ public class ApplicationPage extends AdminToolsPage
     protected String mainTextString = "";
 
 
-
     //    @OverridenoDocumentsAdded
-    public String getRelativePath() { return "share/page/console/admin-console/application"; }
+    public String getRelativePath()
+    {
+        return "share/page/console/admin-console/application";
+    }
 
     public void uploadImage()
     {
@@ -88,7 +92,7 @@ public class ApplicationPage extends AdminToolsPage
 
         fileInput.setFileToUpload(testFilePath);
         browser.waitInSeconds(5);
-        if(browser.isElementDisplayed(By.cssSelector("div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")))
+        if (browser.isElementDisplayed(By.cssSelector("div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")))
         {
             getBrowser().waitInSeconds(5);
             getBrowser().waitUntilElementClickable(okButton).click();

@@ -10,15 +10,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.testng.annotations.Test;
 
-public class SeleniumValidationTest extends ContextAwareWebTest {
+public class SeleniumValidationTest extends ContextAwareWebTest
+{
 
-	@Test
-	public void checkIfSeleniumIsWorking() throws IOException {
-		getBrowser().navigate().to("http://google.com");
+    @Test
+    public void checkIfSeleniumIsWorking() throws IOException
+    {
+        getBrowser().navigate().to("http://google.com");
 
-		WebDriver augmentedDriver = new Augmenter().augment(getBrowser());
-		File source = ((TakesScreenshot) augmentedDriver).getScreenshotAs(OutputType.FILE);
-		FileUtils.copyFile(source, new File("./target", source.getName()));
-	}
+        WebDriver augmentedDriver = new Augmenter().augment(getBrowser());
+        File source = ((TakesScreenshot) augmentedDriver).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(source, new File("./target", source.getName()));
+    }
 
 }

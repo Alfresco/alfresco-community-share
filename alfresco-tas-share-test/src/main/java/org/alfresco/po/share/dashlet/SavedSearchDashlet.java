@@ -12,34 +12,34 @@ import java.util.List;
 public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
 {
     @RenderWebElement
-    @FindBy(css = "div.dashlet.savedsearch")
+    @FindBy (css = "div.dashlet.savedsearch")
     protected HtmlElement dashletContainer;
-    
-    @FindBy(css = "div.dashlet.savedsearch td div[class$='yui-dt-liner']")
+
+    @FindBy (css = "div.dashlet.savedsearch td div[class$='yui-dt-liner']")
     protected static HtmlElement defaultDashletMessage;
-    
-    @FindBy(css = "div.dashlet.savedsearch div[class$='titleBarActionIcon edit']")
+
+    @FindBy (css = "div.dashlet.savedsearch div[class$='titleBarActionIcon edit']")
     protected static List<WebElement> configureDashletIcon;
-    
-    @FindBy(css = "div.dashlet.savedsearch div[class$='titleBarActions']")
+
+    @FindBy (css = "div.dashlet.savedsearch div[class$='titleBarActions']")
     protected static WebElement titleBar;
-    
+
     @Override
     public String getDashletTitle()
     {
         return dashletContainer.findElement(dashletTitle).getText();
     }
-    
+
     /**
      * Retrieves the default dashlet message.
-     * 
+     *
      * @return String
      */
     public String getDefaultMessage()
     {
         return defaultDashletMessage.getText();
     }
-    
+
     /**
      * Returns if configure dashlet icon is displayed on this dashlet.
      *
@@ -48,9 +48,9 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
     public boolean isConfigureDashletIconDisplayed()
     {
         browser.mouseOver(titleBar);
-        return configureDashletIcon.size()>0;
+        return configureDashletIcon.size() > 0;
     }
-    
+
     /**
      * Click on configure dashlet icon.
      */

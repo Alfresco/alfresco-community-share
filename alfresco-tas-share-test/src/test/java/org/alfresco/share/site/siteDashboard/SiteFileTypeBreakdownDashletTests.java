@@ -34,15 +34,15 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     private final String siteNameC5785 = String.format("SiteName-C5785-%s", RandomData.getRandomAlphanumeric());
     private final String fileName = "File-C5785";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         siteService.create(user, password, domain, siteNameC5785, siteNameC5785, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteNameC5785, DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
-        contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + fileName+".docx");
-        contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + fileName+".txt");
+        contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + fileName + ".docx");
+        contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + fileName + ".txt");
         contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + "newavatar.jpg");
         contentService.uploadFileInSite(user, password, siteNameC5785, testDataFolder + "newavatar.bmp");
 
@@ -51,18 +51,18 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteNameC5785 );
-        siteService.delete(adminUser,adminPassword,siteNameC5783 );
+        siteService.delete(adminUser, adminPassword, siteNameC5785);
+        siteService.delete(adminUser, adminPassword, siteNameC5783);
 
     }
 
-    @TestRail(id = "C5783")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5783")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void checkSiteFileTypeBreakdownDashletWithNoFiles()
     {
         LOG.info("STEP 1:Check the dashlet title for Site File Type Breakdown.");
@@ -70,8 +70,8 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
         assertEquals(siteFileTypeBreakdownDashlet.getDashletMessage(), "No data found", "The text: 'No data found' is displayed.");
     }
 
-    @TestRail(id = "C5785")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5785")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void multipleFileTypesAvailableInTheSiteLibrary()
     {
         siteDashboard.navigate(siteNameC5785);

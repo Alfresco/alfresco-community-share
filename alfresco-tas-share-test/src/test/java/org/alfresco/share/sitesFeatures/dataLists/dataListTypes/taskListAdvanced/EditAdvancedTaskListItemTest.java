@@ -33,7 +33,7 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
 
     @Autowired
     EditItemPopUp editItemPopUp;
-    
+
     String userName = String.format("User-%s", RandomData.getRandomAlphanumeric());
     String userAssignee = String.format("UserA-%s", RandomData.getRandomAlphanumeric());
     String siteName = String.format("SiteName-%s", RandomData.getRandomAlphanumeric());
@@ -56,7 +56,7 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
     String date = "29/09/2016";
     String date2 = "Thu 29 Sep 2016";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -68,25 +68,25 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + attachedFile);
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + itemFile);
         dataListsService.addTaskAdvancedItem(adminUser, adminPassword, siteName, listName, itemTitle, itemDescription, null, null, Collections.singletonList(userName),
-                itemPriority, itemStatus, 0, itemComment, Collections.singletonList(itemFile));
+            itemPriority, itemStatus, 0, itemComment, Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         dataListsPage.clickAdvancedTaskListItem(listName);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        userService.delete(adminUser,adminPassword, userAssignee);
+        userService.delete(adminUser, adminPassword, userAssignee);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userAssignee);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C10354")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C10354")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyEditDataItem()
     {
         LOG.info("STEP1: Click 'Edit' icon for the advanced task list item to be edited");
@@ -128,7 +128,7 @@ public class EditAdvancedTaskListItemTest extends ContextAwareWebTest
         List<String> attachments = Arrays.asList(attachedFile, itemFile);
 
         List<String> item = Arrays.asList(newItemTitle, newItemDescription, date2, date2, userAssignee, newItemPriority, newItemStatus, newComplete,
-                newComments, attachments.toString());
+            newComments, attachments.toString());
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(item), newItemTitle + " Advanced task list item is displayed.");
     }
 }

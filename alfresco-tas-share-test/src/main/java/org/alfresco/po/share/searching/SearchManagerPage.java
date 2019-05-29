@@ -22,23 +22,23 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
     ConfirmDeletionDialog confirmDeletionDialog;
 
     @RenderWebElement
-    @FindBy(id = "CREATE_FACET_BUTTON_label")
+    @FindBy (id = "CREATE_FACET_BUTTON_label")
     private WebElement createNewFilter;
 
     //@RenderWebElement
     //@FindAll(@FindBy(css = "#SEARCH_CONFIG_FACET_LIST_VIEW_ITEMS > tr"))
-    @FindAll(@FindBy(css = "#SEARCH_CONFIG_FACET_LIST_VIEW_ROW"))
+    @FindAll (@FindBy (css = "#SEARCH_CONFIG_FACET_LIST_VIEW_ROW"))
     private List<WebElement> filters;
 
-    @FindAll(@FindBy(css = "#SEARCH_CONFIG_FACET_LIST_VIEW th>span.label"))
+    @FindAll (@FindBy (css = "#SEARCH_CONFIG_FACET_LIST_VIEW th>span.label"))
     private List<WebElement> filterTableColumns;
-    
-    @FindBy(css ="input.dijitReset.dijitInputField.dijitArrowButtonInner")
+
+    @FindBy (css = "input.dijitReset.dijitInputField.dijitArrowButtonInner")
     private WebElement filterPropertyDropDownArrow;
-    
-    @FindAll(@FindBy(css ="div[id ='SEARCH_CONFIG_FACET_QNAME_ITEM_0_SELECT_CONTROL_dropdown'] tbody.dijitReset"))
+
+    @FindAll (@FindBy (css = "div[id ='SEARCH_CONFIG_FACET_QNAME_ITEM_0_SELECT_CONTROL_dropdown'] tbody.dijitReset"))
     private List<WebElement> filterPropertyOptions;
-    
+
     private static final By FILTER_ROWS = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
 
     private static final By FILTER_REORDER_UP = By.cssSelector("td:nth-of-type(1) span.up>img");
@@ -55,7 +55,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
     private static final By EDIT_ICON = By.cssSelector("img.editIcon");
     private static final By EDIT_INPUT = By.cssSelector("input.dijitInputInner");
     private static final By EDIT_DROPDOWN = By.cssSelector("div.control-row table.dijitSelect");
-    private static final By EDITPROPERTY_DROPDOWN =By.cssSelector("div.control-row table.dijitDownArrowButton");
+    private static final By EDITPROPERTY_DROPDOWN = By.cssSelector("div.control-row table.dijitDownArrowButton");
     private static final By EDIT_DROPDOWN_POPUP = By.cssSelector("div[id$='_CONTROL_dropdown']");
     private static final By EDIT_DROPDOWN_ITEM = By.cssSelector("table[id$='_CONTROL_menu'] tr.dijitMenuItem td.dijitMenuItemLabel");
     private static final By EDIT_SAVE = By.cssSelector("span[class*='alfresco-buttons-AlfButton confirmationButton'] span");
@@ -67,6 +67,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
         browser.waitUntilElementVisible(By.xpath("//div[contains(@id, 'SEARCH_CONFIG_FACET_QNAME_ITEM_')]//td[text()='" + filterPropertyText + "']"));
         return browser.findElement(By.xpath("//div[contains(@id, 'SEARCH_CONFIG_FACET_QNAME_ITEM_')]//td[text()='" + filterPropertyText + "']"));
     }
+
     @Override
     public String getRelativePath()
     {
@@ -77,7 +78,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
     {
         return browser.findFirstElementWithValue(filters, filterId);
     }
-    
+
     /**
      * Method gets default filters table columns titles
      *
@@ -86,9 +87,9 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
     public List<String> getFiltersTableColumns()
     {
         List<String> columnsTitle = new ArrayList<>();
-        for(WebElement column: filterTableColumns)
+        for (WebElement column : filterTableColumns)
         {
-            if(!column.getText().isEmpty())
+            if (!column.getText().isEmpty())
             {
                 columnsTitle.add(column.getText());
             }
@@ -114,7 +115,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
      */
     public boolean isFilterAvailable(String filter)
     {
-    	browser.waitUntilElementIsDisplayedWithRetry(FILTER_ROWS);
+        browser.waitUntilElementIsDisplayedWithRetry(FILTER_ROWS);
         return browser.findFirstElementWithValue(filters, filter) != null;
     }
 
@@ -184,6 +185,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
     {
         return getFilterById(filterId).findElement(FILTER_SHOW).getText();
     }
+
     /**
      * Get Filter Availability for the given filterId
      *
@@ -211,9 +213,10 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
         getFilterById(filterId).findElement(FILTER_DELETE_IMAGE).click();
         return (ConfirmDeletionDialog) confirmDeletionDialog.renderedPage();
     }
-    
+
     /**
      * Change the given filterName with the newFilterName value and click on Save button
+     *
      * @param filterName
      * @param newFilterName
      * @return
@@ -229,9 +232,9 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
         filterParent.findElement(EDIT_SAVE).click();
         return (SearchManagerPage) this.renderedPage();
     }
-    
+
     /**
-     *  Change the given filterProperty and click on Save button
+     * Change the given filterProperty and click on Save button
      */
 
     public SearchManagerPage editFilterProperty(String filterProperty, String newFilterProperty)
@@ -246,8 +249,10 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
         filterParent.findElement(EDIT_SAVE).click();
         return (SearchManagerPage) this.renderedPage();
     }
+
     /**
      * Change the given filterName with the newFilterName value and click on Cancel button
+     *
      * @param filterName
      * @param newFilterName
      * @return
@@ -266,6 +271,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
 
     /**
      * Get the tooltip for the filter's up image
+     *
      * @param filterId
      * @return
      */
@@ -276,6 +282,7 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
 
     /**
      * Get the tooltip for the filter's down image
+     *
      * @param filterId
      * @return
      */
@@ -312,22 +319,23 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
     {
         return browser.findFirstElementWithValue(FILTER_ID, filterId).findElements(By.xpath("ancestor::tr/preceding-sibling::*")).size() + 1;
     }
-    
+
     public void deleteAllNonDefaultFilters()
     {
-    	int i=0, maxTimes= filters.size()*2;
-    	while(i < filters.size() && maxTimes > 0)
-    	{
-    		if(filters.get(i).findElement(FILTER_DEFAULT).getText().equals("No"))
-    		{
-    			this.deleteFilter(filters.get(i).findElement(FILTER_ID).getText());
-    			confirmDeletionDialog.clickOKButton();
-    			browser.refresh();
-    			browser.waitUntilElementIsDisplayedWithRetry(FILTER_ROWS);
-    			filters = browser.findElements(FILTER_ROWS);
-    			i--;
-    		}
-    		i++; maxTimes--;
-    	}
+        int i = 0, maxTimes = filters.size() * 2;
+        while (i < filters.size() && maxTimes > 0)
+        {
+            if (filters.get(i).findElement(FILTER_DEFAULT).getText().equals("No"))
+            {
+                this.deleteFilter(filters.get(i).findElement(FILTER_ID).getText());
+                confirmDeletionDialog.clickOKButton();
+                browser.refresh();
+                browser.waitUntilElementIsDisplayedWithRetry(FILTER_ROWS);
+                filters = browser.findElements(FILTER_ROWS);
+                i--;
+            }
+            i++;
+            maxTimes--;
+        }
     }
 }

@@ -14,8 +14,8 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     @Autowired
     PeopleFinderPage peopleFinderPage;
 
-    @TestRail(id = "C6655")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6655")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByUsernameOrName()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -32,7 +32,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         LOG.info("STEP 2 - Click \"Search\" button");
         peopleFinderPage.clickSearchAndWaitForResults();
         Assert.assertEquals(peopleFinderPage.getSearchResultsInfo(),
-                String.format(language.translate("peopleFinder.searchResultsInfo"), "firstName" + identifier, "2"), "Search results info");
+            String.format(language.translate("peopleFinder.searchResultsInfo"), "firstName" + identifier, "2"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("test" + identifier), "User " + "test" + identifier + " is displayed");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user2" + identifier), "User " + "user2" + identifier + " is displayed");
 
@@ -43,7 +43,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         LOG.info("STEP 4 - Click \"Search\" button");
         peopleFinderPage.clickSearchAndWaitForResults();
         Assert.assertEquals(peopleFinderPage.getSearchResultsInfo(),
-                String.format(language.translate("peopleFinder.searchResultsInfo"), "lastName" + identifier, "2"), "Search results info");
+            String.format(language.translate("peopleFinder.searchResultsInfo"), "lastName" + identifier, "2"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("test" + identifier), "User " + "test" + identifier + " is displayed");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user1" + identifier), "User " + "user1" + identifier + " is displayed");
 
@@ -54,7 +54,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         LOG.info("STEP 6 - Click \"Search\" button");
         peopleFinderPage.clickSearchAndWaitForResults();
         Assert.assertEquals(peopleFinderPage.getSearchResultsInfo(),
-                String.format(language.translate("peopleFinder.searchResultsInfo"), "test" + identifier, "3"), "Search results info");
+            String.format(language.translate("peopleFinder.searchResultsInfo"), "test" + identifier, "3"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("test" + identifier), "User " + "test" + identifier + " is displayed");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user1" + identifier), "User " + "user1" + identifier + " is displayed");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user2" + identifier), "User " + "user2" + identifier + " is displayed");
@@ -67,8 +67,8 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C6451")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6451")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByFullUsername()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -84,7 +84,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         LOG.info("STEP 2 - Click 'Search' button");
         peopleFinderPage.clickSearchAndWaitForResults();
         Assert.assertEquals(peopleFinderPage.getSearchResultsInfo(),
-                String.format(language.translate("peopleFinder.searchResultsInfo"), "user2" + identifier, "1"), "Search results info");
+            String.format(language.translate("peopleFinder.searchResultsInfo"), "user2" + identifier, "1"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user2" + identifier), "User " + "user2" + identifier + " is displayed");
 
         userService.delete(adminUser, adminPassword, "user1" + identifier);
@@ -93,8 +93,8 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user2" + identifier);
     }
 
-    @TestRail(id = "C6455")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C6455")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPartialUsername()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -110,7 +110,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         LOG.info("STEP 2 - Click \"Search\" button");
         peopleFinderPage.clickSearchAndWaitForResults();
         Assert.assertEquals(peopleFinderPage.getSearchResultsInfo(),
-                String.format(language.translate("peopleFinder.searchResultsInfo"), "user" + identifier, "2"), "Search results info");
+            String.format(language.translate("peopleFinder.searchResultsInfo"), "user" + identifier, "2"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user" + identifier + "1"), "User " + "user" + identifier + "1" + " is displayed");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user" + identifier + "2"), "User " + "user" + identifier + "2" + " is displayed");
         userService.delete(adminUser, adminPassword, "user" + identifier + "1");
@@ -119,8 +119,8 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user" + identifier + "2");
     }
 
-    @TestRail(id = "C5822")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5822")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByFullName()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -136,7 +136,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         LOG.info("STEP 2 - Click \"Search\" button");
         peopleFinderPage.clickSearchAndWaitForResults();
         Assert.assertEquals(peopleFinderPage.getSearchResultsInfo(),
-                String.format(language.translate("peopleFinder.searchResultsInfo"), "firstName" + identifier + " lastName" + identifier, "1"), "Search results info");
+            String.format(language.translate("peopleFinder.searchResultsInfo"), "firstName" + identifier + " lastName" + identifier, "1"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user2" + identifier), "User " + "user2" + identifier + " is displayed");
 
         LOG.info("STEP 3 - Fill in search field with user's full name (e.g.: \"lastName firstName\")");
@@ -146,7 +146,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         LOG.info("STEP 4 - Click \"Search\" button");
         peopleFinderPage.clickSearchAndWaitForResults();
         Assert.assertEquals(peopleFinderPage.getSearchResultsInfo(),
-                String.format(language.translate("peopleFinder.searchResultsInfo"), "lastName" + identifier + " firstName" + identifier, "1"), "Search results info");
+            String.format(language.translate("peopleFinder.searchResultsInfo"), "lastName" + identifier + " firstName" + identifier, "1"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user2" + identifier), "User " + "user2" + identifier + " is displayed");
 
         userService.delete(adminUser, adminPassword, "user1" + identifier);
@@ -155,8 +155,8 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + "user2" + identifier);
     }
 
-    @TestRail(id = "C5832")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5832")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void searchByPartialName()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -172,7 +172,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
         LOG.info("STEP 2 - Click \"Search\" button");
         peopleFinderPage.clickSearchAndWaitForResults();
         Assert.assertEquals(peopleFinderPage.getSearchResultsInfo(),
-                String.format(language.translate("peopleFinder.searchResultsInfo"), "firstName" + identifier, "2"), "Search results info");
+            String.format(language.translate("peopleFinder.searchResultsInfo"), "firstName" + identifier, "2"), "Search results info");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user" + identifier + "1"), "User " + "user" + identifier + "1" + " is displayed");
         Assert.assertTrue(peopleFinderPage.isUserDisplayed("user" + identifier + "2"), "User " + "user" + identifier + "2" + " is displayed");
         userService.delete(adminUser, adminPassword, "user" + identifier + "1");

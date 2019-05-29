@@ -35,16 +35,16 @@ public class SearchManagerTests extends ContextAwareWebTest
     Toolbar toolbar;
 
     private String UserC8703 = String.format("UserC8703%s", RandomData.getRandomAlphanumeric());
-    private String userC8704 = String.format("UserC8704%s",RandomData.getRandomAlphanumeric());
-    private String userC8713 = String.format("UserC8713%s",RandomData.getRandomAlphanumeric());
+    private String userC8704 = String.format("UserC8704%s", RandomData.getRandomAlphanumeric());
+    private String userC8713 = String.format("UserC8713%s", RandomData.getRandomAlphanumeric());
     private String modifier1 = "firstName1 lastName1";
     private String alfrescoAdminsGroupName = "ALFRESCO_ADMINISTRATORS";
     private String alfrescoSearchAdministrators = "ALFRESCO_SEARCH_ADMINISTRATORS";
-    private String siteC8703 = String.format("siteC8703%s",RandomData.getRandomAlphanumeric());
+    private String siteC8703 = String.format("siteC8703%s", RandomData.getRandomAlphanumeric());
     private String description = "siteC8703 description";
-    private String documentName = String.format("Doc%s",RandomData.getRandomAlphanumeric());
+    private String documentName = String.format("Doc%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, UserC8703, password, UserC8703 + domain, modifier1.split(" ")[0], modifier1.split(" ")[1]);
@@ -56,23 +56,23 @@ public class SearchManagerTests extends ContextAwareWebTest
         setupAuthenticatedSession(userC8713, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, UserC8703);
+        userService.delete(adminUser, adminPassword, UserC8703);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + UserC8703);
 
-        userService.delete(adminUser,adminPassword, userC8704);
+        userService.delete(adminUser, adminPassword, userC8704);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC8704);
 
-        userService.delete(adminUser,adminPassword, userC8713);
+        userService.delete(adminUser, adminPassword, userC8713);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userC8713);
 
-        siteService.delete(adminUser,adminPassword,siteC8703);
+        siteService.delete(adminUser, adminPassword, siteC8703);
     }
 
-    @TestRail(id = "C8703")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8703")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void userHasSearchManagerRightsWhenAddedToALFRESCO_ADMINISTRATORS()
     {
         setupAuthenticatedSession(UserC8703, password);
@@ -99,8 +99,8 @@ public class SearchManagerTests extends ContextAwareWebTest
         Assert.assertEquals(searchManagerPage.getPageTitle(), "Alfresco » Search Manager", "Search Manager page is not accessed");
     }
 
-    @TestRail(id = "C8704")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8704")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void userHasSearchManagerRightsWhenAddedToALFRESCO_SEARCH_ADMINISTRATORS()
     {
         setupAuthenticatedSession(userC8704, password);
@@ -126,17 +126,17 @@ public class SearchManagerTests extends ContextAwareWebTest
         Assert.assertEquals(searchManagerPage.getPageTitle(), "Alfresco » Search Manager", "Search Manager page is not accessed");
     }
 
-    @TestRail(id = "C8713")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8713")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void editFilterProperty()
     {
         searchManagerPage.navigate();
         LOG.info("Step 1: Edit filter property and save changes");
         searchManagerPage.editFilterProperty("cm:created (Created Date)", "audio:album (Album)");
-        
+
         LOG.info("Step 2: Check new filter property is present");
         getBrowser().refresh();
         Assert.assertEquals(searchManagerPage.getFilterProperty("filter_created", "audio:album (Album)"), "audio:album (Album)");
     }
-    
+
 }

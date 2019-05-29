@@ -22,28 +22,28 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
     TinyMceEditor tinyMceEditor;
 
     @RenderWebElement
-    @FindBy(css = "div[class*='notice-dashlet']")
+    @FindBy (css = "div[class*='notice-dashlet']")
     protected HtmlElement dashletContainer;
 
-    @FindBy(css = "div[class*='notice-dashlet'] div[class*='edit']")
+    @FindBy (css = "div[class*='notice-dashlet'] div[class*='edit']")
     private WebElement editIcon;
 
-    @FindBy(xpath = "//div[contains(text(),'Configure Site Notice')]")
+    @FindBy (xpath = "//div[contains(text(),'Configure Site Notice')]")
     private WebElement configurePanelTitle;
 
-    @FindBy(css = "a.container-close")
+    @FindBy (css = "a.container-close")
     private WebElement configurePanelCloseButton;
 
-    @FindBy(css = "input[name='title']")
+    @FindBy (css = "input[name='title']")
     private WebElement titleInput;
 
-    @FindAll(@FindBy(css = "div[class*='notice-dashlet'] div[class*='text-content'] p"))
+    @FindAll (@FindBy (css = "div[class*='notice-dashlet'] div[class*='text-content'] p"))
     private List<WebElement> noticeText;
 
-    @FindBy(css = "button[id*='configDialog-ok-button']")
+    @FindBy (css = "button[id*='configDialog-ok-button']")
     private WebElement configPanelOk;
 
-    @FindBy(css = "button[id*='configDialog-cancel-button']")
+    @FindBy (css = "button[id*='configDialog-cancel-button']")
     private WebElement configPanelCancel;
 
     @Override
@@ -101,8 +101,8 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 
     public void clickOkButton()
     {
-    getBrowser().waitUntilElementVisible(configPanelOk);
-    getBrowser().waitUntilElementClickable(configPanelOk).click();
+        getBrowser().waitUntilElementVisible(configPanelOk);
+        getBrowser().waitUntilElementClickable(configPanelOk).click();
 
     }
 

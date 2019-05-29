@@ -25,33 +25,33 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
     WorkflowDetailsPage workflowDetailsPage;
 
     @RenderWebElement
-    @FindBy(css = "[id$='default-startWorkflow-button-button']")
+    @FindBy (css = "[id$='default-startWorkflow-button-button']")
     private WebElement startWorkflow;
 
     @RenderWebElement
-    @FindBy(css = ".alfresco-datatable.workflows")
+    @FindBy (css = ".alfresco-datatable.workflows")
     private WebElement workflowBody;
 
-    @FindAll(@FindBy(css = "div[id$='_default-workflows'] tr[class*='yui-dt-rec']"))
+    @FindAll (@FindBy (css = "div[id$='_default-workflows'] tr[class*='yui-dt-rec']"))
     protected List<WebElement> workflowRowList;
 
-    @FindBy(css = "div[id*='_all-filter'] div h2")
+    @FindBy (css = "div[id*='_all-filter'] div h2")
     private WebElement workflowsFilter;
 
-    @FindBy(css = "div[id*='_due-filter'] div h2")
+    @FindBy (css = "div[id*='_due-filter'] div h2")
     private WebElement dueFilter;
 
-    @FindBy(css = "div[id*='_started-filter'] div h2")
+    @FindBy (css = "div[id*='_started-filter'] div h2")
     private WebElement startedFilter;
 
-    @FindBy(css = "div[id*='_priority-filter'] div h2")
+    @FindBy (css = "div[id*='_priority-filter'] div h2")
     private WebElement priorityFilter;
 
-    @FindBy(css = "div[id*='_workflow-type-filter'] div h2")
+    @FindBy (css = "div[id*='_workflow-type-filter'] div h2")
     private WebElement workflowTypeFilter;
 
     @RenderWebElement
-    @FindBy(css = "div[class*='workflow-list-bar'] div h2")
+    @FindBy (css = "div[class*='workflow-list-bar'] div h2")
     private WebElement activeWorkflows;
 
 
@@ -65,7 +65,7 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
     protected By deleteWorkflowYesButton = By.xpath("//div[text()='Delete workflow']/..//button[text()='Yes']");
     protected By deleteWorkflowNoButton = By.xpath("//div[text()='Delete workflow']/..//button[text()='No']");
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
     public WorkflowsIveStartedPage navigateByMenuBar()
     {
@@ -116,8 +116,7 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
         if (areYouSure)
         {
             browser.findElement(cancelWorkflowYesButton).click();
-        }
-        else browser.findElement(cancelWorkflowNoButton).click();
+        } else browser.findElement(cancelWorkflowNoButton).click();
         browser.refresh();
         return (WorkflowsIveStartedPage) this.renderedPage();
     }
@@ -138,8 +137,7 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
         if (areYouSure)
         {
             browser.waitUntilElementVisible(deleteWorkflowYesButton).click();
-        }
-        else browser.findElement(deleteWorkflowNoButton).click();
+        } else browser.findElement(deleteWorkflowNoButton).click();
         browser.refresh();
         return (WorkflowsIveStartedPage) this.renderedPage();
     }

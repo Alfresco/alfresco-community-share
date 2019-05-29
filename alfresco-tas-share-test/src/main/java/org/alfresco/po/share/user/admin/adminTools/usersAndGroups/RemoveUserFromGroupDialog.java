@@ -20,14 +20,14 @@ public class RemoveUserFromGroupDialog extends ShareDialog
     private GroupsPage groupsPage;
 
     @RenderWebElement
-    @FindBy(css = "#prompt_h")
+    @FindBy (css = "#prompt_h")
     private WebElement dialogHeader;
 
     @RenderWebElement
-    @FindBy(css = "#prompt .bd")
+    @FindBy (css = "#prompt .bd")
     private WebElement dialogMessage;
 
-    @FindAll(@FindBy(css = ".button-group button"))
+    @FindAll (@FindBy (css = ".button-group button"))
     private List<WebElement> buttonsList;
 
     public String getDialogHeader()

@@ -37,10 +37,10 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
 
     private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
-    private DateTime today =  new DateTime();
+    private DateTime today = new DateTime();
     private DateTime tomorrow = today.plusDays(1);
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
@@ -52,16 +52,16 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5492")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5492")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteCalendarDashletWithNoEvents()
     {
         siteDashboard.navigate(siteName);
@@ -81,8 +81,8 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
         assertFalse(siteCalendarDashlet.isBalloonDisplayed(), "Help balloon isn't displayed");
     }
 
-    @TestRail(id = "C5499")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5499")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteCalendarDashletWithSomeEvents()
     {
         String format = "EEEE, d MMMM, yyyy";
@@ -114,7 +114,7 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
         format = "EE, dd, MMMM yyyy";
         LOG.info("STEP 2: Click on 'Event1'");
         siteCalendarDashlet.clickEvent("Event1");
-        assertEquals(calendarPage.getCalendarHeader(), today.toString(format) );
+        assertEquals(calendarPage.getCalendarHeader(), today.toString(format));
         assertTrue(calendarPage.isEventPresentInCalendar("Event1"), "'Event1' is displayed on calendar page.");
         assertTrue(calendarPage.isAllDayEvent("Event1"), "'Event1' is an all day event.");
         assertTrue(calendarPage.isEventPresentInCalendar("Event2"), "'Event2' is displayed on calendar page.");

@@ -20,29 +20,29 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
     @Autowired
     EditRulesPage editRulesPage;
 
-    @FindBy(css = ".rule-details [id*='title']")
+    @FindBy (css = ".rule-details [id*='title']")
     private WebElement ruleTitle;
 
-    @FindBy(css = "span[id*='description']")
+    @FindBy (css = "span[id*='description']")
     private WebElement ruleDescription;
 
     private By detailsSelector = By.cssSelector("div[id*='default-display'] div[class*='behaviour']");
 
     //@RenderWebElement
-    @FindBy(css = "ul[id*='ruleConfigType'] .name span")
+    @FindBy (css = "ul[id*='ruleConfigType'] .name span")
     private WebElement whenCondition;
 
     @RenderWebElement
-    @FindBy(css = "ul[id*='ruleConfigIfCondition'] .name span")
+    @FindBy (css = "ul[id*='ruleConfigIfCondition'] .name span")
     private WebElement ifAllCriteriaCondition;
 
-    @FindBy(xpath = ".//ul[contains(@id, 'ruleConfigAction')]//div[@class='parameters']")
+    @FindBy (xpath = ".//ul[contains(@id, 'ruleConfigAction')]//div[@class='parameters']")
     private WebElement performAction;
 
-    @FindBy(css = ".rules-list-container .title")
+    @FindBy (css = ".rules-list-container .title")
     private List<WebElement> rulesList;
 
-    @FindBy(css = ".rules-actions .yuimenuitemlabel")
+    @FindBy (css = ".rules-actions .yuimenuitemlabel")
     private List<WebElement> runRulesOptions;
 
     private String buttonSelector = "button[id*='%s']";
@@ -117,7 +117,7 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
 
     /**
      * Click on any button from page
-     * 
+     *
      * @param buttonId id used in selector to find the button, can be: edit, delete, view, change, unlink, inheritButton, runRules, newRule, done
      * @return
      */
@@ -128,14 +128,14 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
             editRulesPage.renderedPage();
         if (buttonId.equals("unlink"))
         {
-        	browser.refresh();
-        	browser.waitInSeconds(3);
+            browser.refresh();
+            browser.waitInSeconds(3);
         }
     }
 
     /**
      * Click on any option from "Run Rules..." menu
-     * 
+     *
      * @param indexOfOption 0 = Run rules for this folder; 1 = Run rules for this folder and its subfolders
      */
     public void clickOnRunRulesOption(int indexOfOption)

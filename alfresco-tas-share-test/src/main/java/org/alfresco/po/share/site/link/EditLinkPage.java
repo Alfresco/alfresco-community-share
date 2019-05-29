@@ -21,43 +21,43 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
 {
     @Autowired
     LinkDetailsViewPage linkDetailsViewPage;
-    
+
     @Autowired
     LinkPage linkPage;
 
     @RenderWebElement
-    @FindBy(css = "[id*=default-ok-button]")
+    @FindBy (css = "[id*=default-ok-button]")
     private Button updateButton;
 
     @RenderWebElement
-    @FindBy(css = "[id*=default-title]")
+    @FindBy (css = "[id*=default-title]")
     private TextInput linkTitle;
 
     @RenderWebElement
-    @FindBy(css = "[id*=default-url]")
+    @FindBy (css = "[id*=default-url]")
     private TextInput linkURL;
 
-    @FindBy(css = "[id*=default-description]")
+    @FindBy (css = "[id*=default-description]")
     private WebElement linkDescription;
 
-    @FindBy(css = "input[id$='default-internal']")
+    @FindBy (css = "input[id$='default-internal']")
     private CheckBox linkInternal;
 
-    @FindBy(css = "[id*=default-tag-input-field]")
+    @FindBy (css = "[id*=default-tag-input-field]")
     private TextInput linkTag;
 
-    @FindBy(css = "[id*=default-add-tag-button-button]")
+    @FindBy (css = "[id*=default-add-tag-button-button]")
     private Button addTagButton;
 
-    @FindAll(@FindBy(css = "ul[id$='links-linkedit_x0023_default-current-tags'] .taglibrary-action>span"))
+    @FindAll (@FindBy (css = "ul[id$='links-linkedit_x0023_default-current-tags'] .taglibrary-action>span"))
     private List<WebElement> currentTagList;
 
-    @FindBy(css = "[id*=default-load-popular-tags-link]")
+    @FindBy (css = "[id*=default-load-popular-tags-link]")
     private Link popularTagsLink;
 
-    @FindBy(css = "[id*=default-cancel-button]")
+    @FindBy (css = "[id*=default-cancel-button]")
     private Button cancelButton;
-    @FindAll(@FindBy(css = "li.onRemoveTag a"))
+    @FindAll (@FindBy (css = "li.onRemoveTag a"))
     private List<WebElement> tagsList;
 
     private By removeTag = By.cssSelector("span.remove");
@@ -114,12 +114,12 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
         actions.click();
         actions.perform();
     }
-    
+
     public void uncheckLinkInternal()
     {
         linkInternal.deselect();
     }
-    
+
     public LinkPage clickOnCancelButton()
     {
         cancelButton.click();

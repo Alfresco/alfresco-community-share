@@ -27,25 +27,33 @@ import static org.testng.Assert.assertTrue;
 
 public class ActionsEditTests extends ContextAwareWebTest
 {
-    @Autowired private RepositoryPage repositoryPage;
+    @Autowired
+    private RepositoryPage repositoryPage;
 
-    @Autowired private SiteDashboardPage sitePage;
+    @Autowired
+    private SiteDashboardPage sitePage;
 
-    @Autowired private DocumentDetailsPage detailsPage;
+    @Autowired
+    private DocumentDetailsPage detailsPage;
 
-    @Autowired private EditPropertiesDialog editFilePropertiesDialog;
+    @Autowired
+    private EditPropertiesDialog editFilePropertiesDialog;
 
-    @Autowired private SelectDialog selectDialog;
+    @Autowired
+    private SelectDialog selectDialog;
 
     @Autowired
     NewContentDialog newContentDialog;
 
-    @Autowired private EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired
+    private EditInAlfrescoPage editInAlfrescoPage;
 
-    @Autowired private GoogleDocsCommon docsCommon;
+    @Autowired
+    private GoogleDocsCommon docsCommon;
 
-    @SuppressWarnings("rawtypes")
-    @Autowired private DocumentCommon documentCommon;
+    @SuppressWarnings ("rawtypes")
+    @Autowired
+    private DocumentCommon documentCommon;
 
     private String uniqueIdentifier;
     private String folderName;
@@ -68,7 +76,7 @@ public class ActionsEditTests extends ContextAwareWebTest
     private String editInAlfrescoPath;
     private String editFileInGDPath;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
 
     {
@@ -105,13 +113,13 @@ public class ActionsEditTests extends ContextAwareWebTest
         contentService.createFolderInRepository(editFolderUsr, password, folderName, editFolderPath);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, editFileUsr);
-        userService.delete(adminUser,adminPassword, editFolderUsr);
-        userService.delete(adminUser,adminPassword, editInAlfUsr);
-        userService.delete(adminUser,adminPassword, editFileInGDUsr);
+        userService.delete(adminUser, adminPassword, editFileUsr);
+        userService.delete(adminUser, adminPassword, editFolderUsr);
+        userService.delete(adminUser, adminPassword, editInAlfUsr);
+        userService.delete(adminUser, adminPassword, editFileInGDUsr);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + editFileUsr);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + editFolderUsr);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + editInAlfUsr);
@@ -119,8 +127,8 @@ public class ActionsEditTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C7737")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7737")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void repositoryEditFilesProperties()
     {
         LOG.info("Precondition: Login to share and navigate to Repository->User Homes->Test User page ");
@@ -163,8 +171,8 @@ public class ActionsEditTests extends ContextAwareWebTest
         assertEquals(repositoryPage.getTags(editedFileName), Collections.singletonList(tagName.toLowerCase()).toString(), editedFileName + "- document's tag=");
     }
 
-    @TestRail(id = "C7745")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7745")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void repositoryEditFolderProperties()
     {
         LOG.info("Precondition: Login to Share and navigate to Repository->User Homes->Test User page");
@@ -206,8 +214,8 @@ public class ActionsEditTests extends ContextAwareWebTest
         getBrowser().cleanUpAuthenticatedSession();
     }
 
-    @TestRail(id = "C7767")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7767")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void repositoryEditFileInAlfresco()
     {
         LOG.info("Precondition: Precondition: Login to Share and navigate to Repository->User Homes->Test User page");
@@ -242,8 +250,8 @@ public class ActionsEditTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C7782")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
+    @TestRail (id = "C7782")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void repositoryEditFilesInGoogleDocs() throws Exception
     {
         LOG.info("Precondition: Precondition: Login to Share and navigate to Repository->User Homes->Test User page");

@@ -19,31 +19,31 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     UserProfilePage userProfilePage;
 
     @RenderWebElement
-    @FindBy(css = "div.dashlet.site-profile")
+    @FindBy (css = "div.dashlet.site-profile")
     protected HtmlElement dashletContainer;
 
     @RenderWebElement
-    @FindBy(css = ".msg.dashlet-padding>h2")
+    @FindBy (css = ".msg.dashlet-padding>h2")
     private WebElement welcomeMessage;
 
     @RenderWebElement
-    @FindBy(xpath = "//span[normalize-space(.) = 'Site Manager(s):']")
+    @FindBy (xpath = "//span[normalize-space(.) = 'Site Manager(s):']")
     private WebElement siteManagersLabel;
 
     @RenderWebElement
-    @FindBy(xpath = "//span[normalize-space(.) = 'Visibility:']")
+    @FindBy (xpath = "//span[normalize-space(.) = 'Visibility:']")
     private WebElement visibilityLabel;
 
     @RenderWebElement
-    @FindBy(xpath = "//div[normalize-space(.) = 'This dashlet displays the site details. Only the site manager can change this information.']")
+    @FindBy (xpath = "//div[normalize-space(.) = 'This dashlet displays the site details. Only the site manager can change this information.']")
     private WebElement helpText;
 
     @RenderWebElement
-    @FindAll(@FindBy(css = "p"))
+    @FindAll (@FindBy (css = "p"))
     protected List<WebElement> sitesProfileLabels;
 
     @RenderWebElement
-    @FindAll(@FindBy(css = "p a"))
+    @FindAll (@FindBy (css = "p a"))
     protected List<WebElement> siteManagersList;
 
     @Override
@@ -54,7 +54,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     /**
      * Get the "Welcome" message from "Site Profile" dashlet
-     * 
+     *
      * @return String message
      */
     public String getWelcomeMessageText()
@@ -82,7 +82,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     /**
      * Retrieves the label that match the site description.
-     * 
+     *
      * @param description
      * @return {@link Link} that matches description
      */
@@ -94,7 +94,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     /**
      * Verify if a site description is displayed in User Profile --> Sites
-     * 
+     *
      * @param description
      * @return True if description exists
      */
@@ -106,9 +106,8 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     /**
      * Retrieves the link that match the user's name.
-     * 
-     * @param name
-     *            identifier
+     *
+     * @param name identifier
      * @return {@link Link} that matches userName
      */
 
@@ -119,7 +118,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     /**
      * Verify if a user name is displayed in Site Profile dashlet
-     * 
+     *
      * @param siteMAnager
      * @return True if user exists
      */
@@ -131,7 +130,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     /**
      * Verify if site "Site Managers" label is displayed in Site Profile dashlet
-     * 
+     *
      * @return True if "Site Managers" label exists
      */
 
@@ -142,7 +141,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     /**
      * Verify if site visibility label is displayed in Site Profile dashlet
-     * 
+     *
      * @return True if site visibility exists
      */
 
@@ -153,7 +152,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     /**
      * Retrieves the label that match the site name.
-     * 
+     *
      * @param siteVisibility @return label that matches site's visibility
      */
 
@@ -164,7 +163,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     /**
      * Verify if site visibility is displayed in Site Profile dashlet
-     * 
+     *
      * @param siteVisibility
      * @return True if Site exists
      */
@@ -175,7 +174,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 
     /**
      * Open user profile page
-     * 
+     *
      * @param managerName
      * @return
      */

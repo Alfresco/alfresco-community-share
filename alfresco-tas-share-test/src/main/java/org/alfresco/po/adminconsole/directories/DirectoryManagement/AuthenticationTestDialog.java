@@ -33,10 +33,10 @@ public class AuthenticationTestDialog extends AdminConsoleDialog
         browser.switchTo().frame(dialogFrame);
         browser.waitUntilElementClickable(runTestButton, properties.getExplicitWait()).click();
         String result = browser.waitUntilElementVisible(resultLocator).getText();
-        if(browser.isElementDisplayed(messageLocator))
+        if (browser.isElementDisplayed(messageLocator))
         {
             message = browser.waitUntilElementVisible(messageLocator).getText();
-            for (WebElement diagnosticRow: browser.waitUntilElementsVisible(diagnosticLocator))
+            for (WebElement diagnosticRow : browser.waitUntilElementsVisible(diagnosticLocator))
             {
                 diagnostic.put(diagnosticRow.findElement(By.cssSelector("td:nth-of-type(1)")).getText(), diagnosticRow.findElement(By.cssSelector("td:nth-of-type(2)")).getText());
             }
@@ -45,11 +45,13 @@ public class AuthenticationTestDialog extends AdminConsoleDialog
         return result;
     }
 
-    public String getMessage() {
+    public String getMessage()
+    {
         return message;
     }
 
-    public HashMap<String, String> getDiagnostic() {
+    public HashMap<String, String> getDiagnostic()
+    {
         return diagnostic;
     }
 }

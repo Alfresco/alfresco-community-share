@@ -25,76 +25,76 @@ public class CreateNewFilterPopup extends ShareDialog
     SearchManagerPage searchManagerPage;
 
     @RenderWebElement
-    @FindBy(className = "dijitDialogTitle")
+    @FindBy (className = "dijitDialogTitle")
     protected WebElement dialogTitle;
 
-    @FindBy(id = "FORM_FILTER_ID")
+    @FindBy (id = "FORM_FILTER_ID")
     protected WebElement filterId;
 
-    @FindBy(id = "FORM_DISPLAY_NAME")
+    @FindBy (id = "FORM_DISPLAY_NAME")
     protected WebElement filterName;
 
-    @FindBy(css = "input[name='isEnabled']")
+    @FindBy (css = "input[name='isEnabled']")
     protected CheckBox showWithSearch;
 
-    @FindBy(id = "FORM_FACET_QNAME_CONTROL")
+    @FindBy (id = "FORM_FACET_QNAME_CONTROL")
     protected WebElement filterPropertyInput;
 
     protected By filterPropertyDropdown = By.id("widget_FORM_FACET_QNAME_CONTROL_dropdown");
 
-    @FindBy(css = "div[id^='FORM_FACET_QNAME_CONTROL_popup'].dijitMenuItem")
+    @FindBy (css = "div[id^='FORM_FACET_QNAME_CONTROL_popup'].dijitMenuItem")
     protected List<WebElement> filterPropertyOptions;
 
-    @FindBy(css = "table#FORM_SORTBY_CONTROL  div.dijitButtonText")
+    @FindBy (css = "table#FORM_SORTBY_CONTROL  div.dijitButtonText")
     protected WebElement sortByInput;
 
-    @FindBy(css = "table#FORM_SORTBY_CONTROL input.dijitArrowButtonInner")
+    @FindBy (css = "table#FORM_SORTBY_CONTROL input.dijitArrowButtonInner")
     protected WebElement sortByArrow;
 
     protected By sortByDropdown = By.id("FORM_SORTBY_CONTROL_dropdown");
 
-    @FindBy(css = "div#FORM_MAX_FILTERS input[role='spinbutton']")
+    @FindBy (css = "div#FORM_MAX_FILTERS input[role='spinbutton']")
     protected TextInput noFilters;
 
-    @FindBy(css = "div#FORM_MIN_FILTER_VALUE_LENGTH input[role='spinbutton']")
+    @FindBy (css = "div#FORM_MIN_FILTER_VALUE_LENGTH input[role='spinbutton']")
     protected TextInput minFilterLength;
 
-    @FindBy(css = "div#FORM_HIT_THRESHOLD input[role='spinbutton']")
+    @FindBy (css = "div#FORM_HIT_THRESHOLD input[role='spinbutton']")
     protected TextInput minRequiredResults;
 
-    @FindBy(css = "div#FORM_SCOPE div.dijitButtonText")
+    @FindBy (css = "div#FORM_SCOPE div.dijitButtonText")
     protected WebElement filterAvailabilityInput;
 
-    @FindBy(css = "div#FORM_SCOPE input.dijitArrowButtonInner")
+    @FindBy (css = "div#FORM_SCOPE input.dijitArrowButtonInner")
     protected WebElement filterAvailabilityArrow;
 
     protected By filterAvailabilityDropdown = By.id("FORM_SCOPE_CONTROL_dropdown");
 
-    @FindBy(css = "#FORM_SCOPED_SITES div.button.add>img")
+    @FindBy (css = "#FORM_SCOPED_SITES div.button.add>img")
     private WebElement sitesAddButton;
 
-    @FindBy(xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='button doneEditing']/img")
+    @FindBy (xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='button doneEditing']/img")
     protected WebElement sitesDoneEditingButton;
 
-    @FindBy(xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='button cancelEditing']/img")
+    @FindBy (xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='button cancelEditing']/img")
     protected WebElement sitesCancelEditingButton;
 
-    @FindBy(xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='edit-display']//input[contains(@class, 'dijitArrowButtonInner')]")
+    @FindBy (xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='edit-display']//input[contains(@class, 'dijitArrowButtonInner')]")
     protected WebElement sitesSiteNameArrow;
 
     protected By sitesSiteNameDropdown = By.xpath("//div[contains(@id,'alfresco_forms_controls_') and @class='dijitPopup dijitMenuPopup' and not(contains(@style, 'display: none;'))]");
 
-    @FindAll(@FindBy(css = "div.entries div.read-display"))
+    @FindAll (@FindBy (css = "div.entries div.read-display"))
     protected List<WebElement> currentSitesEntries;
 
     @RenderWebElement
-    @FindBy(css = "span[id$='_OK_label']")
+    @FindBy (css = "span[id$='_OK_label']")
     protected WebElement saveButton;
 
-    @FindBy(css = "span[id$='_CANCEL_label']")
+    @FindBy (css = "span[id$='_CANCEL_label']")
     protected WebElement cancelButton;
 
-    @FindBy(xpath = "//div[@role='dialog' and not(contains(@style, 'display: none'))]//span[@class='dijitDialogCloseIcon']")
+    @FindBy (xpath = "//div[@role='dialog' and not(contains(@style, 'display: none'))]//span[@class='dijitDialogCloseIcon']")
     protected WebElement closeButton;
 
     protected By fieldValue = By.cssSelector("input.dijitInputInner+span");
@@ -172,7 +172,7 @@ public class CreateNewFilterPopup extends ShareDialog
     {
         int i = 0;
         String[] currentSelectedSites = new String[currentSitesEntries.size()];
-        for(WebElement entry : currentSitesEntries)
+        for (WebElement entry : currentSitesEntries)
         {
             currentSelectedSites[i] = entry.getText();
             i++;
@@ -277,11 +277,10 @@ public class CreateNewFilterPopup extends ShareDialog
      */
     public void clickShowWithSearchResults()
     {
-        if(isShowWithSearchResultsChecked())
+        if (isShowWithSearchResultsChecked())
         {
             showWithSearch.deselect();
-        }
-        else
+        } else
         {
             showWithSearch.select();
         }
@@ -299,7 +298,7 @@ public class CreateNewFilterPopup extends ShareDialog
      */
     public SearchManagerPage clickSave()
     {
-    //    browser.waitInSeconds(5);
+        //    browser.waitInSeconds(5);
         browser.waitUntilElementClickable(saveButton);
         saveButton.click();
         browser.waitInSeconds(5);
@@ -320,7 +319,6 @@ public class CreateNewFilterPopup extends ShareDialog
 
     /**
      * Click on Close button
-     *
      */
     public void clickClose()
     {
@@ -329,6 +327,7 @@ public class CreateNewFilterPopup extends ShareDialog
 
     /**
      * Add site in 'Sites' section which appears after selecting 'Selected Sites' option from 'Filter Availability' dropdown
+     *
      * @param siteName
      */
     public void addSite(String siteName)
@@ -342,6 +341,7 @@ public class CreateNewFilterPopup extends ShareDialog
 
     /**
      * Cancel Adding site in 'Sites' section which appears after selecting 'Selected Sites' option from 'Filter Availability' dropdown
+     *
      * @param siteName
      */
     public void cancelAddSite(String siteName)
@@ -355,6 +355,7 @@ public class CreateNewFilterPopup extends ShareDialog
 
     /**
      * Edit current selected site siteNameToBeEdited by changing it with newSiteName
+     *
      * @param siteNameToBeEdited
      * @param newSiteName
      */
@@ -370,6 +371,7 @@ public class CreateNewFilterPopup extends ShareDialog
 
     /**
      * Change current selected site siteNameToBeEdited with newSiteName and then cancel the editing
+     *
      * @param siteNameToBeEdited
      * @param newSiteName
      */
@@ -385,6 +387,7 @@ public class CreateNewFilterPopup extends ShareDialog
 
     /**
      * Delete the specified site from current selected sites
+     *
      * @param siteName
      */
     public void deleteSite(String siteName)

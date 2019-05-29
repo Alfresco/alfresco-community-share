@@ -14,35 +14,35 @@ import ru.yandex.qatools.htmlelements.element.Button;
 public class EventInformationDialog extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(id= "eventInfoPanel_c")
+    @FindBy (id = "eventInfoPanel_c")
     private WebElement eventInformationPanel;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='_defaultContainer-cancel-button-button']")
+    @FindBy (css = "button[id$='_defaultContainer-cancel-button-button']")
     private Button cancelButton;
 
-    @FindBy(css = "button[id$='edit-button-button']")
+    @FindBy (css = "button[id$='edit-button-button']")
     private Button editButton;
 
-    @FindBy(css = "button[id$='delete-button-button']")
+    @FindBy (css = "button[id$='delete-button-button']")
     private Button deleteButton;
 
-    @FindBy(css = "div[id$='_defaultContainer-startdate']")
+    @FindBy (css = "div[id$='_defaultContainer-startdate']")
     private WebElement startDateTime;
 
-    @FindBy(css = "div[id$='_defaultContainer-enddate']")
+    @FindBy (css = "div[id$='_defaultContainer-enddate']")
     private WebElement endDateTime;
 
-    @FindBy(xpath = "//div[contains(text(),'What:')]/following-sibling::div")
+    @FindBy (xpath = "//div[contains(text(),'What:')]/following-sibling::div")
     private WebElement whatDetails;
 
-    @FindBy(xpath = "//div[contains(text(),'Where:')]/following-sibling::div")
+    @FindBy (xpath = "//div[contains(text(),'Where:')]/following-sibling::div")
     private WebElement whereDetails;
 
-    @FindBy(xpath = "//div[contains(text(),'Description:')]/following-sibling::div")
+    @FindBy (xpath = "//div[contains(text(),'Description:')]/following-sibling::div")
     private WebElement descriptionDetails;
 
-    @FindBy(xpath = "//div[contains(text(),'Tags:')]/following-sibling::div")
+    @FindBy (xpath = "//div[contains(text(),'Tags:')]/following-sibling::div")
     private WebElement tagsDetails;
 
     public String getStartDateTime()

@@ -49,14 +49,14 @@ public class AdminNavigator extends HtmlPage implements Navigator
     public static final String TenantConsole = "Tenant Console";
 
     @RenderWebElement
-    @FindBy(linkText = "System Summary")
+    @FindBy (linkText = "System Summary")
     Link systemSymmary;
 
     @RenderWebElement
-    @FindBy(linkText = "Model and Messages Console")
+    @FindBy (linkText = "Model and Messages Console")
     Link modelAndMessagesConsole;
 
-    @FindBy(className = "selected")
+    @FindBy (className = "selected")
     WebElement selected;
 
     @Override
@@ -65,7 +65,7 @@ public class AdminNavigator extends HtmlPage implements Navigator
         return new Link(selected);
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings ("rawtypes")
     public void goTo(NavigationLink link, ApplicationContext applicationContext)
     {
 
@@ -73,8 +73,7 @@ public class AdminNavigator extends HtmlPage implements Navigator
         if (!browser.isElementDisplayed(locator))
         {
             LOG.error("Cannot find navigation link identified by title: {}", link.getTitle());
-        }
-        else
+        } else
         {
             WebElement e = browser.findElement(locator);
             e.click();

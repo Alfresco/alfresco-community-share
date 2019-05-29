@@ -28,7 +28,7 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
@@ -37,17 +37,17 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C2775")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2775")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void siteSearchDashletTest()
     {
         LOG.info("Step 1: Verify Site Search dashlet");
@@ -61,8 +61,8 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
         siteSearchDashlet.clickOnHelpIcon(DashletHelpIcon.SITE_SEARCH);
         assertTrue(siteSearchDashlet.isBalloonDisplayed(), "Help balloon is expected to be displayed.");
         assertEquals(
-                siteSearchDashlet.getHelpBalloonMessage(),
-                "Use this dashlet to perform a site search and view the results.\nClicking the item name takes you to the details page so you can preview or work with the item.");
+            siteSearchDashlet.getHelpBalloonMessage(),
+            "Use this dashlet to perform a site search and view the results.\nClicking the item name takes you to the details page so you can preview or work with the item.");
 
         LOG.info("Step 3: Click on \"X\" icon");
         siteSearchDashlet.closeHelpBalloon();

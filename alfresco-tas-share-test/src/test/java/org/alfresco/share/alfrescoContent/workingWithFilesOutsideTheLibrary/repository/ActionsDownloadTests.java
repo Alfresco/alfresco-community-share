@@ -18,9 +18,11 @@ import java.io.File;
 
 public class ActionsDownloadTests extends ContextAwareWebTest
 {
-    @Autowired private RepositoryPage repositoryPage;
+    @Autowired
+    private RepositoryPage repositoryPage;
 
-    @Autowired private DocumentCommon documentCommon;
+    @Autowired
+    private DocumentCommon documentCommon;
 
     private final String user = String.format("C8240TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC8240 = "C8240 file";
@@ -42,8 +44,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
             {
                 if (aDirectoryContent.getName().equals(fileName))
                     return true;
-            }
-            else
+            } else
             {
                 if (aDirectoryContent.getName().equals(fileName + extension))
                     return true;
@@ -53,7 +54,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
         return false;
     }
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -64,15 +65,15 @@ public class ActionsDownloadTests extends ContextAwareWebTest
     }
 
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
-    @TestRail(id = "C8240")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8240")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void downloadFileFromAlfresco()
     {
@@ -95,8 +96,8 @@ public class ActionsDownloadTests extends ContextAwareWebTest
         Assert.assertTrue(isFileInDirectory(fileNameC8240, null), "The file was not found in the specified location");
     }
 
-    @TestRail(id = " C8243")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = " C8243")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void downloadFolder()
     {
@@ -115,7 +116,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
             alert.accept();
         }
         LOG.info("Step 2: Check the folder was saved locally");
-getBrowser().waitInSeconds(5);
+        getBrowser().waitInSeconds(5);
         Assert.assertTrue(isFileInDirectory(folderNameC8243, ".zip"), "The folder was not found in the specified location");
     }
 }

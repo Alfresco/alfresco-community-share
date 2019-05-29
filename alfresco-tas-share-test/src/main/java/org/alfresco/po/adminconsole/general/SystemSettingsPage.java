@@ -10,33 +10,34 @@ import org.openqa.selenium.support.FindBy;
 public class SystemSettingsPage extends AdminConsolePage<SystemSettingsPage>
 {
     @RenderWebElement
-    @FindBy(className = "title")
+    @FindBy (className = "title")
     WebElement title;
-    
+
     @RenderWebElement
-    @FindBy(className = "intro")
+    @FindBy (className = "intro")
     WebElement intro;
-    
+
     @RenderWebElement
-    @FindBy(className = "info")
+    @FindBy (className = "info")
     WebElement info;
-    
+
     public static final String SYSTEM_SETTINGS_OBJECT = "Alfresco:Type=Configuration,Category=sysAdmin,id1=default";
-    
-    public enum SYSTEM_SETTINGS_LABELS {
-        REPOSITORY_CONTEXT ("Repository Context:", "alfresco.context"),
-        REPOSITORY_HOSTNAME ("Repository Hostname:", "alfresco.host"),
-        SERVER_ALLOW_WRITES ("Server Allow Writes:", "server.allowWrite"),
-        ALFRESCO_PROTOCOL ("Protocol:", "alfresco.protocol"),
-        ALFRESCO_PORT ("Port:", "alfresco.port"),
-        ALLOWED_USERS ("Allowed Users:", "server.allowedusers"),
-        MAXIMUM_USERS ("Maximum Users:", "server.maxusers"),
-        SHARE_CONTEXT ("Share Context:", "share.context"),
-        SHARE_PORT ("Port:", "share.port"),
-        SHARE_PROTOCOL ("Protocol:", "share.protocol"),
-        SHARE_HOSTNAME ("Share Hostname:", "share.host"),
-        SITE_PUBLIC_GROUPS ("Site Public Group:", "site.public.group"); 
-        
+
+    public enum SYSTEM_SETTINGS_LABELS
+    {
+        REPOSITORY_CONTEXT("Repository Context:", "alfresco.context"),
+        REPOSITORY_HOSTNAME("Repository Hostname:", "alfresco.host"),
+        SERVER_ALLOW_WRITES("Server Allow Writes:", "server.allowWrite"),
+        ALFRESCO_PROTOCOL("Protocol:", "alfresco.protocol"),
+        ALFRESCO_PORT("Port:", "alfresco.port"),
+        ALLOWED_USERS("Allowed Users:", "server.allowedusers"),
+        MAXIMUM_USERS("Maximum Users:", "server.maxusers"),
+        SHARE_CONTEXT("Share Context:", "share.context"),
+        SHARE_PORT("Port:", "share.port"),
+        SHARE_PROTOCOL("Protocol:", "share.protocol"),
+        SHARE_HOSTNAME("Share Hostname:", "share.host"),
+        SITE_PUBLIC_GROUPS("Site Public Group:", "site.public.group");
+
         private String label, jmxAttribute;
 
         SYSTEM_SETTINGS_LABELS(String label, String jmxAttribute)
@@ -49,14 +50,14 @@ public class SystemSettingsPage extends AdminConsolePage<SystemSettingsPage>
         {
             return label;
         }
+
         public String getJmxAttribute()
         {
             return jmxAttribute;
         }
     }
-    
-    
-    
+
+
     @Override
     public String getInfoPage()
     {
@@ -68,9 +69,9 @@ public class SystemSettingsPage extends AdminConsolePage<SystemSettingsPage>
     {
         return intro.getText();
     }
-    
+
     @Override
-    public String getPageTitle() 
+    public String getPageTitle()
     {
         return title.getText();
     }
@@ -80,5 +81,5 @@ public class SystemSettingsPage extends AdminConsolePage<SystemSettingsPage>
     {
         return "alfresco/s/enterprise/admin/admin-systemsettings";
     }
-    
+
 }

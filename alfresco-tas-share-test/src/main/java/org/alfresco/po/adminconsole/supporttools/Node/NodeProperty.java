@@ -13,9 +13,11 @@ import java.util.List;
  * Created by Mirela Tifui on 7/3/2017.
  * This class is modeling the "Properties" table of a Node found on /alfresco/s/admin/admin-nodebrowser
  */
-public class NodeProperty {
+public class NodeProperty
+{
 
-    public enum Properties {
+    public enum Properties
+    {
         username("usr:username"),
         accountExpires("usr:accountExpires"),
         salt("usr:salt"),
@@ -33,7 +35,7 @@ public class NodeProperty {
 
         private String label;
 
-        Properties (String label)
+        Properties(String label)
         {
             this.label = label;
         }
@@ -53,29 +55,35 @@ public class NodeProperty {
         this.browser = browser;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return rowInfo.get(0).getText();
     }
 
-    public String getType() {
+    public String getType()
+    {
         return rowInfo.get(1).getText();
     }
 
-    public String getValue() {
+    public String getValue()
+    {
         return rowInfo.get(2).getText();
     }
 
-    public String getResidual() {
+    public String getResidual()
+    {
         return rowInfo.get(3).getText();
     }
 
-    public void clickDelete() {
+    public void clickDelete()
+    {
         rowInfo.get(4).click();
         browser.handleModalDialogAcceptingAlert();
     }
 
-    public String toString(){
+    public String toString()
+    {
         return String.format("\nvalue=%s,type=%s",
-        getValue(),getType());
+            getValue(), getType());
     }
 }

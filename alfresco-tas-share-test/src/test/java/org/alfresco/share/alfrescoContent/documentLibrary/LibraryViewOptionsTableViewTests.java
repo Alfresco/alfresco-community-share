@@ -16,9 +16,11 @@ import org.testng.annotations.Test;
 
 public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private TableView tableView;
+    @Autowired
+    private TableView tableView;
 
     private final String user = String.format("C2266User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C2266SiteDescription%s", RandomData.getRandomAlphanumeric());
@@ -27,7 +29,8 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
     private final String docContent = "C2266 content";
     private final String folderName = "C2266 test folder";
     private final String docName1 = "testFile1";
-    @BeforeClass(alwaysRun = true)
+
+    @BeforeClass (alwaysRun = true)
 
     public void setupTest()
     {
@@ -39,49 +42,49 @@ public class LibraryViewOptionsTableViewTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id="C2266")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    
+    @TestRail (id = "C2266")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+
     public void tableViewOption()
     {
         documentLibraryPage.navigate(siteName);
-        
+
         LOG.info("Step 1: Expand the Options menu and check that the Table View is present");
-        
+
         Assert.assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "Options menu is not displayed");
         documentLibraryPage.clickOptionsButton();
         Assert.assertTrue(documentLibraryPage.isviewOptionDisplayed("Table View"), "Table view is not displayed");
     }
-    
-    @TestRail(id ="C2267")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    
+
+    @TestRail (id = "C2267")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+
     public void tableViewDisplayingItems()
     {
         documentLibraryPage.navigate(siteName);
-        
+
         LOG.info("Step 1: Check the table view action presence in the Options menu.");
-  
+
         Assert.assertTrue(documentLibraryPage.isOptionsMenuDisplayed(), "Options menu is not displayed");
         documentLibraryPage.clickOptionsButton();
         Assert.assertTrue(documentLibraryPage.isviewOptionDisplayed("Table View"), "Table view is not displayed");
-        
+
         LOG.info("Step 2: Click on Table view action.");
         documentLibraryPage.clickOptionsButton();
         documentLibraryPage.selectViewFromOptionsMenu("Table View");
         getBrowser().waitInSeconds(2);
         Assert.assertTrue(tableView.isTableViewDisplayed());
         Assert.assertEquals(tableView.getContentNameTableView(docName), docName, "testFile1 is not displayed in table view");
-        Assert.assertEquals(tableView.getContentNameTableView(folderName), folderName, "C2266 test folder is not displayed in table view");    
+        Assert.assertEquals(tableView.getContentNameTableView(folderName), folderName, "C2266 test folder is not displayed in table view");
         Assert.assertTrue(tableView.isSelectedColumnDisplayed(), "Selected column is not displayed in table view");
         Assert.assertTrue(tableView.isStatusColumnDisplayed(), "Status column is not displayed in table view");
         Assert.assertTrue(tableView.isThumbnailColumnDisplayed(), "Thumbnail column is not displayed in table view");

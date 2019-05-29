@@ -29,7 +29,7 @@ public class UserProfileSitesTests extends ContextAwareWebTest
     private String siteName4 = String.format("Site4%s", RandomData.getRandomAlphanumeric());
     private String role = "SiteConsumer";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName1, userName1, userName1 + domain, "fName1", "lName1");
@@ -46,20 +46,20 @@ public class UserProfileSitesTests extends ContextAwareWebTest
     @AfterClass
     public void tearDown()
     {
-        userService.delete(adminUser,adminPassword, userName1);
+        userService.delete(adminUser, adminPassword, userName1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser,adminPassword, userName2);
+        userService.delete(adminUser, adminPassword, userName2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
 
-        siteService.delete(adminUser,adminPassword,siteName1 );
-        siteService.delete(adminUser,adminPassword,siteName2 );
-        siteService.delete(adminUser,adminPassword,siteName3 );
-        siteService.delete(adminUser,adminPassword,siteName4 );
+        siteService.delete(adminUser, adminPassword, siteName1);
+        siteService.delete(adminUser, adminPassword, siteName2);
+        siteService.delete(adminUser, adminPassword, siteName3);
+        siteService.delete(adminUser, adminPassword, siteName4);
     }
 
 
-    @TestRail(id = "C2154")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C2154")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void viewSitesWhereUserHasMembership()
     {
         LOG.info("STEP1: Go to 'User Profile' --> 'Sites' page for User1");
@@ -68,7 +68,7 @@ public class UserProfileSitesTests extends ContextAwareWebTest
         LOG.info("STEP2: Verify list of sites displayed for User1");
         Assert.assertTrue(userSites.isSitePresent(siteName1), "Site " + siteName1 + " is not available");
         Assert.assertFalse(userSites.isSitePresent(siteName2), "Site " + siteName2 + " should not be available");
- //       Assert.assertTrue(userSites.isSitePresent(siteName3), "Site " + siteName3 + " is not be available");
+        //       Assert.assertTrue(userSites.isSitePresent(siteName3), "Site " + siteName3 + " is not be available");
         Assert.assertFalse(userSites.isSitePresent(siteName4), "Site " + siteName4 + " should not be available");
 
         LOG.info("STEP3: Go to 'My Profile' --> 'Sites' page");

@@ -17,16 +17,16 @@ import org.testng.annotations.Test;
 
 public class MyMeetingWorkspacesTests extends ContextAwareWebTest
 {
-    
+
     @Autowired
     UserDashboardPage userDashboardPage;
-    
+
     @Autowired
     MyMeetingWorkspacesDashlet myMeetingWorkspacesDashlet;
-    
+
     private String userName;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -35,29 +35,29 @@ public class MyMeetingWorkspacesTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-      }
-    
-    @TestRail(id = "C2772")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    }
+
+    @TestRail (id = "C2772")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void meetingWorkspacesDashlet()
-    {  
+    {
         userDashboardPage.navigate(userName);
-        
+
         LOG.info("Step 1: Verify 'My Meeting Workspaces' dahslet");
         Assert.assertEquals(myMeetingWorkspacesDashlet.getDashletTitle(), "My Meeting Workspaces");
         Assert.assertEquals(myMeetingWorkspacesDashlet.getDefaultMessage(), "No meeting workspaces to display");
-        
+
         LOG.info("Step 2: Click Help icon");
         myMeetingWorkspacesDashlet.clickOnHelpIcon(DashletHelpIcon.MY_MEETING_WORKSPACES);
         Assert.assertTrue(myMeetingWorkspacesDashlet.isBalloonDisplayed());
         Assert.assertEquals(myMeetingWorkspacesDashlet.getHelpBalloonMessage(), "A Meeting Workspace is a type of site that is created outside of Alfresco Content Services. This dashlet lists all of your Meeting Workspace sites."
-               +"\nFrom here you can navigate to a Meeting Workspace site. You can also delete a site, if you have the correct permissions.");
-        
+            + "\nFrom here you can navigate to a Meeting Workspace site. You can also delete a site, if you have the correct permissions.");
+
         LOG.info("Step 3: Close ballon popup");
         myMeetingWorkspacesDashlet.closeHelpBalloon();
         Assert.assertFalse(myMeetingWorkspacesDashlet.isBalloonDisplayed());

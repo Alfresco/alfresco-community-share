@@ -30,33 +30,33 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     WorkflowDetailsPage workflowDetailsPage;
 
     @RenderWebElement
-    @FindBy(css = "h2[id$='default-filterTitle']")
+    @FindBy (css = "h2[id$='default-filterTitle']")
     private WebElement activeTasksBar;
 
     @RenderWebElement
-    @FindBy(css = ".alfresco-datatable.tasks")
+    @FindBy (css = ".alfresco-datatable.tasks")
     private WebElement tasksBody;
 
-    @FindBy(css = "div[id$='default-tasks'] tr[class*='yui-dt-rec']")
+    @FindBy (css = "div[id$='default-tasks'] tr[class*='yui-dt-rec']")
     protected List<WebElement> taskRowList;
 
-    @FindBy(css = "a[rel='completed']")
+    @FindBy (css = "a[rel='completed']")
     private WebElement completedTasksButton;
 
-    @FindBy(css = "[id$='default-startWorkflow-button-button']")
+    @FindBy (css = "[id$='default-startWorkflow-button-button']")
     private WebElement startWorkflow;
 
-    @FindBy(css = "div[id*='_all-filter'] div h2")
+    @FindBy (css = "div[id*='_all-filter'] div h2")
     private WebElement tasksFilter;
 
-    @FindBy(css = "div[id*='_due-filter'] div h2")
+    @FindBy (css = "div[id*='_due-filter'] div h2")
     private WebElement dueFilter;
 
-    @FindBy(css = "div[id*='_priority-filter'] div h2")
+    @FindBy (css = "div[id*='_priority-filter'] div h2")
     private WebElement priorityFilter;
 
     @RenderWebElement
-    @FindBy(css = "div[id*='_assignee-filter'] div h2")
+    @FindBy (css = "div[id*='_assignee-filter'] div h2")
     private WebElement assigneeFilter;
 
     protected By editTaskLink = By.cssSelector("div[class*='task-edit'] a");
@@ -66,7 +66,7 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     protected String completeTaskName = "Request to join %s site";
     protected String status = "//a[@title = 'Edit Task' and text() = '%s']/../../div[@class = 'status']/span";
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
     public MyTasksPage navigateByMenuBar()
     {
@@ -82,7 +82,7 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
 
     /**
      * Retrieves the link that match the task name.
-     * 
+     *
      * @param taskName String
      * @return WebElement that match the task name
      */
@@ -93,7 +93,7 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
 
     /**
      * Check if the task was found
-     * 
+     *
      * @param taskName String
      * @return true if the task was found, else return false
      */

@@ -19,5 +19,5 @@ public interface ControlObject
     String getDescription();
 
     String getType();
-   
+
 }

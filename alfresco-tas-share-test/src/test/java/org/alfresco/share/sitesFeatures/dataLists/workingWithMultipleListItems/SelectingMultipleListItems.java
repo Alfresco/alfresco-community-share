@@ -36,7 +36,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
     private String contactList;
     private List<String> contacts = new ArrayList<>();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createUser()
     {
         userName = String.format("User%s", RandomData.getRandomAlphanumeric());
@@ -44,15 +44,16 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
 
-    public void setup(String id) {
+    public void setup(String id)
+    {
 
         LOG.info("Preconditions for test " + id);
         uniqueIdentifier = String.format("-%s-%s", id, RandomData.getRandomAlphanumeric());
@@ -63,9 +64,10 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, DashboardCustomization.Page.DATALISTS, null);
         dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.CONTACT_LIST, contactList, description);
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 9; i++)
+        {
             dataListsService.addContactListItem(userName, password, siteName, contactList, "FirstName" + i, "LastName" + i,
-                    "E-mail" + i, "Company" + i, "JobTitle" + i, "PhoneOffice" + i, "PhoneMobile" + i, "Notes" + i);
+                "E-mail" + i, "Company" + i, "JobTitle" + i, "PhoneOffice" + i, "PhoneMobile" + i, "Notes" + i);
         }
 
         dataListsPage.navigate(siteName);
@@ -74,9 +76,10 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         contactListSelectedContent.setBrowser(getBrowser());
     }
 
-    @TestRail(id = "C6403")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void selectAllItemsTest() {
+    @TestRail (id = "C6403")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void selectAllItemsTest()
+    {
 
         LOG.info("Starting test C6403");
         setup("C6403");
@@ -88,7 +91,8 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         Assert.assertTrue(contactListSelectedContent.isSelectNoneButtonOptionDisplayed(), "None option is not displayed");
 
         LOG.info("Verifying that all items are unselected");
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 9; i++)
+        {
             contacts.add("FirstName" + i);
             contacts.add("LastName" + i);
             contacts.add("E-mail" + i);
@@ -104,7 +108,8 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         LOG.info("Step 2: Click 'Select All' and verify that all items have been selected");
         contactListSelectedContent.clickSelectAllOption();
 
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 9; i++)
+        {
             contacts.add("FirstName" + i);
             contacts.add("LastName" + i);
             contacts.add("E-mail" + i);
@@ -116,13 +121,14 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             Assert.assertTrue(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is not checked");
             contacts.clear();
         }
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C6404")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void selectAllByUsingInvertSelection() {
+    @TestRail (id = "C6404")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void selectAllByUsingInvertSelection()
+    {
 
         LOG.info("Starting test C6404");
         setup("C6404");
@@ -134,7 +140,8 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         Assert.assertTrue(contactListSelectedContent.isSelectNoneButtonOptionDisplayed(), "None option is not displayed");
 
         LOG.info("Verifying that all items are unselected");
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 9; i++)
+        {
             contacts.add("FirstName" + i);
             contacts.add("LastName" + i);
             contacts.add("E-mail" + i);
@@ -150,7 +157,8 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         LOG.info("Step 2: Click 'Invert Selection' and verify that all items have been selected");
         contactListSelectedContent.clickInvertSelectionOption();
 
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 9; i++)
+        {
             contacts.add("FirstName" + i);
             contacts.add("LastName" + i);
             contacts.add("E-mail" + i);
@@ -162,13 +170,14 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             Assert.assertTrue(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is not checked");
             contacts.clear();
         }
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C6405")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void deselectByUsingInvertSelection() {
+    @TestRail (id = "C6405")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void deselectByUsingInvertSelection()
+    {
         LOG.info("Starting test C6405");
         setup("C6405");
         contactListSelectedContent.clickSelectAllOption();
@@ -180,7 +189,8 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         Assert.assertTrue(contactListSelectedContent.isSelectNoneButtonOptionDisplayed(), "None option is not displayed");
 
         LOG.info("Verifying that all items are selected");
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 9; i++)
+        {
             contacts.add("FirstName" + i);
             contacts.add("LastName" + i);
             contacts.add("E-mail" + i);
@@ -196,7 +206,8 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         LOG.info("Step 2: Click 'Invert Selection' and verify that all items have been unselected");
         contactListSelectedContent.clickInvertSelectionOption();
 
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 9; i++)
+        {
             contacts.add("FirstName" + i);
             contacts.add("LastName" + i);
             contacts.add("E-mail" + i);
@@ -208,13 +219,14 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             Assert.assertFalse(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is checked");
             contacts.clear();
         }
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C6406")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void deselectByUsingSelectNone() {
+    @TestRail (id = "C6406")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void deselectByUsingSelectNone()
+    {
         LOG.info("Starting test C6406");
         setup("C6406");
         contactListSelectedContent.clickSelectAllOption();
@@ -226,7 +238,8 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         Assert.assertTrue(contactListSelectedContent.isSelectNoneButtonOptionDisplayed(), "None option is not displayed");
 
         LOG.info("Verifying that all items are selected");
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 9; i++)
+        {
             contacts.add("FirstName" + i);
             contacts.add("LastName" + i);
             contacts.add("E-mail" + i);
@@ -242,7 +255,8 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         LOG.info("Step 2: Click 'None' and verify that all items have been unselected");
         contactListSelectedContent.clickSelectNoneOption();
 
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 9; i++)
+        {
             contacts.add("FirstName" + i);
             contacts.add("LastName" + i);
             contacts.add("E-mail" + i);
@@ -254,7 +268,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
             Assert.assertFalse(contactListSelectedContent.isItemChecked(contacts), "Item at line " + i + " is checked");
             contacts.clear();
         }
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
 
     }

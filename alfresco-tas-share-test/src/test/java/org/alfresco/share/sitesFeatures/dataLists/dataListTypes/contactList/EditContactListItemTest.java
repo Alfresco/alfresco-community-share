@@ -31,7 +31,7 @@ public class EditContactListItemTest extends ContextAwareWebTest
 
     @Autowired
     EditItemPopUp editItemPopUp;
-    
+
     String userName = String.format("User-%s", RandomData.getRandomAlphanumeric());
     String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
     String contactListName = "contactList";
@@ -44,7 +44,7 @@ public class EditContactListItemTest extends ContextAwareWebTest
     String editedPhoneMobile = "0123456780";
     String editedNotes = "editedNotes";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -52,29 +52,29 @@ public class EditContactListItemTest extends ContextAwareWebTest
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.CONTACT_LIST, contactListName, "Contact list description");
         dataListsService.addContactListItem(adminUser, adminPassword, siteName, contactListName, "firstName", "lastName", "test@test.com", "companyName", "jobTitle",
-                "123456", "+41256422", "testNotes");
+            "123456", "+41256422", "testNotes");
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(contactListName);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C6549")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6549")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyPossibilityToEditItem()
     {
         LOG.info("STEP1: Click the 'Edit' icon for the contact list item to be edited");
         dataListsPage.currentContent
-                .editItem(Arrays.asList("firstName", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes"));
+            .editItem(Arrays.asList("firstName", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes"));
 
         LOG.info("STEP2: Edit the First Name");
         editItemPopUp.editContent(ContactListFields.FirstName.toString(), editedFirstName);
@@ -104,7 +104,7 @@ public class EditContactListItemTest extends ContextAwareWebTest
         editItemPopUp.clickSave();
         assertEquals(dataListsPage.currentContent.messageDisplayed(), "Data Item updated successfully", "The pop-up message isn't as expected.");
         List<String> expectedList = Arrays.asList(editedFirstName, editedLastName, editedEmail, editedCompany, editedJobTitle, editedPhoneOffice,
-                editedPhoneMobile, editedNotes);
+            editedPhoneMobile, editedNotes);
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedList), "Data list item is updated.");
     }
 }

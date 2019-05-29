@@ -27,10 +27,10 @@ public class NodeBrowserTests extends ContextAwareWebTest
     private String siteName = String.format("nodeBrowserTests%s", RandomData.getRandomAlphanumeric());
     private String fileName = String.format("nodeBrowserTests.xml%s", RandomData.getRandomAlphanumeric());
     private String content = "nodeBrowserTestsContent";
-    private String xpathSearchTerm = String.format("/app:company_home/st:sites/cm:%s/cm:documentLibrary/cm:%s",siteName,fileName);
-    private String cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'",fileName);
+    private String xpathSearchTerm = String.format("/app:company_home/st:sites/cm:%s/cm:documentLibrary/cm:%s", siteName, fileName);
+    private String cmisSearchTerm = String.format("SELECT * from cmis:document where cmis:name =  '%s'", fileName);
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void beforeClass()
     {
         siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
@@ -39,14 +39,15 @@ public class NodeBrowserTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         nodeBrowserPage.navigate();
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void afterClass()
     {
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C9309")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9309")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void luceneSearch()
     {
         LOG.info("Step 1: Do a 'lucene' search.");
@@ -59,8 +60,8 @@ public class NodeBrowserTests extends ContextAwareWebTest
         assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
-    @TestRail(id = "C9307")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9307")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void nodeRefSearch()
     {
         LOG.info("Step 1: Do a 'nodeRef' search.");
@@ -74,8 +75,8 @@ public class NodeBrowserTests extends ContextAwareWebTest
         assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
-    @TestRail(id = "C9308")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9308")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void xpathSearch()
     {
         LOG.info("Step 1: Do a 'xpath' search.");
@@ -88,8 +89,8 @@ public class NodeBrowserTests extends ContextAwareWebTest
         assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
-    @TestRail(id = "C9310")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9310")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void ftsAlfrescoSearch()
     {
         LOG.info("Step 1: Do a 'fts-alfresco' search.");
@@ -102,8 +103,8 @@ public class NodeBrowserTests extends ContextAwareWebTest
         assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
-    @TestRail(id = "C9311")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9311")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void cmisStrictSearch()
     {
         LOG.info("Step 1: Do a 'cmis-strict' search.");
@@ -116,8 +117,8 @@ public class NodeBrowserTests extends ContextAwareWebTest
         assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
-    @TestRail(id = "C9312")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9312")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void cmisAlfrescoSearch()
     {
         LOG.info("Step 1: Do a 'cmis-alfresco' search.");
@@ -130,8 +131,8 @@ public class NodeBrowserTests extends ContextAwareWebTest
         assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
-    @TestRail(id = "C9306")
-    @Test(groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @TestRail (id = "C9306")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void checkNodeBrowserPage()
     {
         LOG.info("Step 2: Verify if the items on the page are displayed correctly.");

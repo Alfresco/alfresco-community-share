@@ -52,7 +52,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
     private String taskName = String.format("taskName%s", RandomData.getRandomAlphanumeric());
     private String taskTypeAndStatus = "Task, In Progress";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void testSetup()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
@@ -63,20 +63,20 @@ public class ManagingTasksTests extends ContextAwareWebTest
         workflow.startNewTask(testUser, password, taskName, new Date(), testUser, Priority.High, siteName, docs, false);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C8520")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8520")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void editTaskFromTasksDashletChangeStatus()
     {
         LOG.info("Precondition");
@@ -90,11 +90,11 @@ public class ManagingTasksTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(5);
         startWorkflowPage.saveAndClose();
         assertTrue(myTasksDashlet.getTaskTypeAndStatus(taskName).equals(taskTypeAndStatus),
-                "Wrong type and status! Expected " + taskTypeAndStatus + "but found: " + myTasksDashlet.getTaskTypeAndStatus(taskName));
+            "Wrong type and status! Expected " + taskTypeAndStatus + "but found: " + myTasksDashlet.getTaskTypeAndStatus(taskName));
     }
 
-    @TestRail(id = "C8521")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8521")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void editTaskFromTasksDashletReassign()
     {
         LOG.info("Precondition");

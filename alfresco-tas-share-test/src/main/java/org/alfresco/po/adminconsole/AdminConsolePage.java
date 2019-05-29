@@ -20,7 +20,7 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
 {
     protected abstract String relativePathToURL();
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     public T navigate()
     {
         String baseUrl = String.format("%s://%s:%s@%s:%s", properties.getScheme(), properties.getAdminUser(), properties.getAdminPassword(), properties.getServer(), properties.getPort());
@@ -36,22 +36,22 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
     @Autowired
     protected AdminNavigator navigator;
 
-    @FindBy(tagName = "h1")
+    @FindBy (tagName = "h1")
     WebElement header;
-    
-    @FindBy(className = "message")
+
+    @FindBy (className = "message")
     WebElement message;
 
     /*
      * save all web elements that contains "control" keyword - these are custom web elements for admin Pages
      */
-    @FindAll(@FindBy(css = "div[class~=control]"))
+    @FindAll (@FindBy (css = "div[class~=control]"))
     List<WebElement> pageControls;
 
-    @FindBy(css = ".submission.buttons>input[type='submit']")
+    @FindBy (css = ".submission.buttons>input[type='submit']")
     WebElement saveButton;
 
-    @FindBy(css = ".submission.buttons>input.cancel")
+    @FindBy (css = ".submission.buttons>input.cancel")
     WebElement cancelButton;
 
     @Override
@@ -71,7 +71,7 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
     {
         return message.getText().trim();
     }
-    
+
     @Override
     public List<ControlObject> getPageFields()
     {
@@ -111,11 +111,12 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
 
     public ControlObject getPageField(String fieldLabel) throws Exception
     {
-        for(ControlObject field: getPageFields())
+        for (ControlObject field : getPageFields())
         {
-            if(field.getLabel().equals(fieldLabel))
+            if (field.getLabel().equals(fieldLabel))
                 return field;
-        } throw new Exception(String.format("Could not find admin console field with label %s", fieldLabel));
+        }
+        throw new Exception(String.format("Could not find admin console field with label %s", fieldLabel));
     }
 
     public String getFieldValue(String fieldLabel) throws Exception
@@ -142,8 +143,7 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
         try
         {
             getPageField(fieldLabel).getInput().click();
-        }
-        catch (NoSuchElementException noSuchElementExp)
+        } catch (NoSuchElementException noSuchElementExp)
         {
             LOG.error(String.format("Could not find admin console field with label %s", fieldLabel), noSuchElementExp);
         }
@@ -156,8 +156,7 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
             WebElement input = getPageField(fieldLabel).getInput();
             input.clear();
             input.sendKeys(value);
-        }
-        catch (NoSuchElementException noSuchElementExp)
+        } catch (NoSuchElementException noSuchElementExp)
         {
             LOG.error(String.format("Could not find admin console field with label [%s]", fieldLabel), noSuchElementExp);
         }

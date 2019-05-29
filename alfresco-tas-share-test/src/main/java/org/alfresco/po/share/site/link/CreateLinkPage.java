@@ -28,39 +28,39 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
     LinkPage linkPage;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='links-linkedit_x0023_default-ok-button']")
+    @FindBy (css = "button[id$='links-linkedit_x0023_default-ok-button']")
     private Button saveButton;
 
     @RenderWebElement
-    @FindBy(css = "input[id$='links-linkedit_x0023_default-title']")
+    @FindBy (css = "input[id$='links-linkedit_x0023_default-title']")
     private TextInput linkTitle;
 
     @RenderWebElement
-    @FindBy(css = "input[id$='links-linkedit_x0023_default-url']")
+    @FindBy (css = "input[id$='links-linkedit_x0023_default-url']")
     private TextInput linkURL;
 
-    @FindBy(css = "textarea[id$='links-linkedit_x0023_default-description']")
+    @FindBy (css = "textarea[id$='links-linkedit_x0023_default-description']")
     private WebElement linkDescription;
 
-    @FindBy(css = "input[id$='default-internal']")
+    @FindBy (css = "input[id$='default-internal']")
     private CheckBox linkInternal;
 
-    @FindBy(css = "input[id$='links-linkedit_x0023_default-tag-input-field']")
+    @FindBy (css = "input[id$='links-linkedit_x0023_default-tag-input-field']")
     private TextInput linkTag;
 
-    @FindBy(css = "button[id*='links-linkedit_x0023_default-add-tag-button']")
+    @FindBy (css = "button[id*='links-linkedit_x0023_default-add-tag-button']")
     private Button addTagButton;
 
-    @FindAll(@FindBy(css = "ul[id$='links-linkedit_x0023_default-current-tags'] .taglibrary-action>span"))
+    @FindAll (@FindBy (css = "ul[id$='links-linkedit_x0023_default-current-tags'] .taglibrary-action>span"))
     private List<WebElement> currentTagList;
 
-    @FindBy(css = "a[id$='links-linkedit_x0023_default-load-popular-tags-link']")
+    @FindBy (css = "a[id$='links-linkedit_x0023_default-load-popular-tags-link']")
     private Link popularTagsLink;
 
-    @FindBy(css = "button[id$='links-linkedit_x0023_default-cancel-button']")
+    @FindBy (css = "button[id$='links-linkedit_x0023_default-cancel-button']")
     private Button cancelButton;
 
-    @FindBy(css = "[id*=default-load-popular-tags-link]")
+    @FindBy (css = "[id*=default-load-popular-tags-link]")
     private Button choosePopularTags;
 
     @Override

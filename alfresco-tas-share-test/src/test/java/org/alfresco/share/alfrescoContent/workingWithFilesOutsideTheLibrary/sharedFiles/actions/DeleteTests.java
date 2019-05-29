@@ -19,9 +19,11 @@ import static org.testng.Assert.*;
  */
 public class DeleteTests extends ContextAwareWebTest
 {
-    @Autowired private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
 
-    @Autowired private DeleteDialog deleteDialog;
+    @Autowired
+    private DeleteDialog deleteDialog;
 
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String user = "User" + uniqueIdentifier;
@@ -32,7 +34,7 @@ public class DeleteTests extends ContextAwareWebTest
     private final String folderName2 = "FolderC13759-" + uniqueIdentifier;
     private final String path = "Shared/";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -43,8 +45,8 @@ public class DeleteTests extends ContextAwareWebTest
     }
 
 
-    @TestRail(id = "C8014")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8014")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void deleteDocument()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -65,8 +67,8 @@ public class DeleteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C8015")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8015")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void deleteFolder()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -78,7 +80,7 @@ public class DeleteTests extends ContextAwareWebTest
         sharedFilesPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.deleteFolder"), deleteDialog);
 
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), folderName),
-                "Delete dialog message= ");
+            "Delete dialog message= ");
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete' button is displayed.");
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is displayed.");
 
@@ -89,8 +91,8 @@ public class DeleteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C13759")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C13759")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void optionNotDisplayed()
     {
         setupAuthenticatedSession(user, password);
@@ -99,11 +101,11 @@ public class DeleteTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over " + docName2);
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName2, language.translate("documentLibrary.contentActions.deleteDocument")),
-                language.translate("documentLibrary.contentActions.deleteDocument") + " option is displayed for " + docName2);
+            language.translate("documentLibrary.contentActions.deleteDocument") + " option is displayed for " + docName2);
 
         LOG.info("STEP1: Hover over " + folderName2);
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(folderName2, language.translate("documentLibrary.contentActions.deleteDocument")),
-                language.translate("documentLibrary.contentActions.deleteDocument") + " option is displayed for " + folderName2);
+            language.translate("documentLibrary.contentActions.deleteDocument") + " option is displayed for " + folderName2);
     }
 
     @AfterClass

@@ -47,7 +47,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     private String group = String.format("testGroup%s", RandomData.getRandomAlphanumeric());
     private String startWorkflowAction = "Start Workflow";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName1", "lastName1");
@@ -60,21 +60,21 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         groupService.addUserToGroup(adminUser, adminPassword, group, user1);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-        userService.delete(adminUser,adminPassword, user3);
+        userService.delete(adminUser, adminPassword, user3);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user3);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C8351")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @TestRail (id = "C8351")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void createNewReviewAndApproveSingleReviewer()
     {
         LOG.info("Precondition");
@@ -106,8 +106,8 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksDashlet.isTaskPresent("WorkflowTest"), "Task is not present in Active tasks");
     }
 
-    @TestRail(id = "C8349")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @TestRail (id = "C8349")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void createNewReviewAndApproveOneOrMoreReviewers()
     {
         LOG.info("Precondition");
@@ -149,8 +149,8 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C8348")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @TestRail (id = "C8348")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void createNewReviewAndApproveGroupReview()
     {
         LOG.info("Precondition");
@@ -181,8 +181,8 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksDashlet.isTaskPresent("WorkflowTest"), "Task is not present in Active tasks");
     }
 
-    @TestRail(id = "C8350")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @TestRail (id = "C8350")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void createNewReviewAndApprovePooledReview()
     {
         LOG.info("Precondition");

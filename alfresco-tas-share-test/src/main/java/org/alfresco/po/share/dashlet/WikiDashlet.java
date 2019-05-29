@@ -10,12 +10,12 @@ import org.openqa.selenium.support.FindBy;
 public class WikiDashlet extends Dashlet<WikiDashlet>
 {
     @RenderWebElement
-    @FindBy(css = "div.dashlet.wiki")
+    @FindBy (css = "div.dashlet.wiki")
     private WebElement dashletContainer;
 
     private By configureDashlet = By.cssSelector("div.dashlet.wiki [class$='edit']");
 
-    @FindBy(css = "div.dashlet.wiki [class$='rich-content dashlet-padding']")
+    @FindBy (css = "div.dashlet.wiki [class$='rich-content dashlet-padding']")
     private WebElement defaultDashletMessage;
 
     private By wikiDashletTitle = By.cssSelector("div.dashlet.wiki [class$='title']");
@@ -30,7 +30,7 @@ public class WikiDashlet extends Dashlet<WikiDashlet>
 
     /**
      * Method to verify that configure this dashlet icon is displayed
-     * 
+     *
      * @return true if Configure Dashlet icon is displayed on the Wiki dashlet.
      */
 
@@ -60,7 +60,7 @@ public class WikiDashlet extends Dashlet<WikiDashlet>
 
     /**
      * Method to get the Wiki dashlet title.
-     * 
+     *
      * @return the Wiki Dashlet title displayed
      */
     public String getWikiDashletTitle()
@@ -72,7 +72,7 @@ public class WikiDashlet extends Dashlet<WikiDashlet>
 
     /**
      * Method to get the text displayed on the Wiki Dashlet content.
-     * 
+     *
      * @return the text displayed on the Wiki dashlet on Site Dashboard.
      */
     public String getWikiDashletContentText()

@@ -24,9 +24,11 @@ import static org.testng.Assert.*;
  */
 public class DeletingContentTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DeleteDocumentOrFolderDialog deleteDialog;
+    @Autowired
+    private DeleteDocumentOrFolderDialog deleteDialog;
 
     @Autowired
     Notification notification;
@@ -37,9 +39,9 @@ public class DeletingContentTests extends ContextAwareWebTest
     private final String subFolder = String.format("delSubfolder%s", RandomData.getRandomAlphanumeric());
     private final String folderNameC = String.format("cancelFolder%s", RandomData.getRandomAlphanumeric());
     private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
-    private final String folderPathInRepository = "Sites/"+siteName+"/documentLibrary/";
+    private final String folderPathInRepository = "Sites/" + siteName + "/documentLibrary/";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
@@ -47,17 +49,17 @@ public class DeletingContentTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C9544")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C9544")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void deleteDocument()
     {
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, "Document content");
@@ -76,12 +78,12 @@ public class DeletingContentTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.isContentNameDisplayed(docName), "Documents item list is refreshed and is empty");
     }
 
-    @TestRail(id = "C6968")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6968")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void deleteFolder()
     {
         contentService.createFolder(testUser, password, folderNameD, siteName);
-        contentService.createFolderInRepository(adminUser, adminPassword, subFolder, folderPathInRepository+folderNameD+"/");
+        contentService.createFolderInRepository(adminUser, adminPassword, subFolder, folderPathInRepository + folderNameD + "/");
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP1: Hover over the file. STEP2: Click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
@@ -97,12 +99,12 @@ public class DeletingContentTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.getExplorerPanelDocuments().contains(subFolder), "'DelSubfolder' is not visible in 'Library' section of the browsing pane.");
     }
 
-    @TestRail(id = "C6968")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6968")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelDeletingFolder()
     {
         contentService.createFolder(testUser, password, folderNameC, siteName);
-        contentService.createFolderInRepository(adminUser, adminPassword, subFolder, folderPathInRepository+folderNameC+"/");
+        contentService.createFolderInRepository(adminUser, adminPassword, subFolder, folderPathInRepository + folderNameC + "/");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickFolderFromExplorerPanel(folderNameC);
 

@@ -22,15 +22,20 @@ import java.net.URL;
 
 public class SharingFilesTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private SocialFeatures social;
+    @Autowired
+    private SocialFeatures social;
 
-    @Autowired private LoginPage loginPage;
+    @Autowired
+    private LoginPage loginPage;
 
-    @Autowired private DocumentDetailsPage documentDetails;
-    
-    @Autowired private EnvProperties envProperties;
+    @Autowired
+    private DocumentDetailsPage documentDetails;
+
+    @Autowired
+    private EnvProperties envProperties;
 
     private final String user = String.format("C7095User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C7095SiteDescription%s", RandomData.getRandomAlphanumeric());
@@ -48,7 +53,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     private String windowToSwitchToAlfresco;
     private String windowToCloseGPlus;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -64,160 +69,161 @@ public class SharingFilesTests extends ContextAwareWebTest
         //setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteNameC7093);
-        siteService.delete(adminUser, adminPassword,siteNameC7649);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteNameC7093);
+        siteService.delete(adminUser, adminPassword, siteNameC7649);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-   @TestRail(id = "C7095")
-   @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7095")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void shareWithFacebook()
     {
-            setupAuthenticatedSession(user, password);
-            documentLibraryPage.navigate(siteName);
+        setupAuthenticatedSession(user, password);
+        documentLibraryPage.navigate(siteName);
 
-            LOG.info("Step 1: Check that the Share button is available and click Share");
-            Assert.assertTrue(social.isShareButtonDisplayed(fileNameC7095), "The Share button is not displayed");
-            Assert.assertEquals(social.getShareButtonTooltip(fileNameC7095), "Share document", "Share button tooltip is not correct");
-            social.clickShareButton(fileNameC7095);
-            getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
-            Assert.assertTrue(social.isQuickshareWindowDisplayed(), "Quickshare window is not displayed");
-            Assert.assertTrue(social.isPublicLinkDisplayed(), "public link is not displayed");
+        LOG.info("Step 1: Check that the Share button is available and click Share");
+        Assert.assertTrue(social.isShareButtonDisplayed(fileNameC7095), "The Share button is not displayed");
+        Assert.assertEquals(social.getShareButtonTooltip(fileNameC7095), "Share document", "Share button tooltip is not correct");
+        social.clickShareButton(fileNameC7095);
+        getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
+        Assert.assertTrue(social.isQuickshareWindowDisplayed(), "Quickshare window is not displayed");
+        Assert.assertTrue(social.isPublicLinkDisplayed(), "public link is not displayed");
 
-            LOG.info("Step 2: Click Facebook icon");
-            social.clickShareWithFacebook();
-            getBrowser().switchWindow();
+        LOG.info("Step 2: Click Facebook icon");
+        social.clickShareWithFacebook();
+        getBrowser().switchWindow();
         getBrowser().waitInSeconds(5);
 
         getBrowser().waitUntilElementIsDisplayedWithRetry(social.facebookHomeLink, 2);
-            Assert.assertEquals(social.getFacebookWindowTitle(), "Facebook", "User is not redirected to the Facebook page");
-            social.loginFacebook();
-     //       Assert.assertTrue(social.isShareLinkDisplayedOnFacebook(), "Share link is not displayed on Facebook");
-     //       getBrowser().closeWindowAcceptingModalDialog();
-            cleanupAuthenticatedSession();
+        Assert.assertEquals(social.getFacebookWindowTitle(), "Facebook", "User is not redirected to the Facebook page");
+        social.loginFacebook();
+        //       Assert.assertTrue(social.isShareLinkDisplayedOnFacebook(), "Share link is not displayed on Facebook");
+        //       getBrowser().closeWindowAcceptingModalDialog();
+        cleanupAuthenticatedSession();
     }
 
-     @TestRail(id = "C7096")
-     @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7096")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void shareWithTwitter()
     {
-            setupAuthenticatedSession(user, password);
-            documentLibraryPage.navigate(siteName);
-            URL url2 = envProperties.getShareUrl();
-            String expectedLink = "File" + " " + fileNameC7096 + " " + "shared from Alfresco Content Services " + url2.toString().replace(":80/","/") + "/s";
-            documentLibraryPage.getRelativePath();
+        setupAuthenticatedSession(user, password);
+        documentLibraryPage.navigate(siteName);
+        URL url2 = envProperties.getShareUrl();
+        String expectedLink = "File" + " " + fileNameC7096 + " " + "shared from Alfresco Content Services " + url2.toString().replace(":80/", "/") + "/s";
+        documentLibraryPage.getRelativePath();
 
-            LOG.info("Step 1: Check that the Share button is available and click Share");
-            Assert.assertTrue(social.isShareButtonDisplayed(fileNameC7096), "The Share button is not displayed");
-            Assert.assertEquals(social.getShareButtonTooltip(fileNameC7096), "Share document", "Share button tooltip is not correct");
-            social.clickShareButton(fileNameC7096);
-            getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
-            Assert.assertTrue(social.isQuickshareWindowDisplayed(), "Quickshare window is not displayed");
-            Assert.assertTrue(social.isPublicLinkDisplayed(), "public link is not displayed");
+        LOG.info("Step 1: Check that the Share button is available and click Share");
+        Assert.assertTrue(social.isShareButtonDisplayed(fileNameC7096), "The Share button is not displayed");
+        Assert.assertEquals(social.getShareButtonTooltip(fileNameC7096), "Share document", "Share button tooltip is not correct");
+        social.clickShareButton(fileNameC7096);
+        getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
+        Assert.assertTrue(social.isQuickshareWindowDisplayed(), "Quickshare window is not displayed");
+        Assert.assertTrue(social.isPublicLinkDisplayed(), "public link is not displayed");
 
-            LOG.info("Step 2: Click Twitter icon");
-            social.clickTwitterIcon();
-            getBrowser().waitInSeconds(5);
-            //Switch to new window opened
-            getBrowser().switchWindow("https://twitter.com");
-            Assert.assertEquals(social.getPageTitle(), "Share a link on Twitter", "User is not redirected to Twitter");
-            Assert.assertEquals(social.getTwitterShareLink(), expectedLink, "Share link is not correct");
-            Assert.assertEquals(social.getTwitterPageTitle(), "Share a link with your followers");
-            getBrowser().closeWindowAndSwitchBack();
-            cleanupAuthenticatedSession();
+        LOG.info("Step 2: Click Twitter icon");
+        social.clickTwitterIcon();
+        getBrowser().waitInSeconds(5);
+        //Switch to new window opened
+        getBrowser().switchWindow("https://twitter.com");
+        Assert.assertEquals(social.getPageTitle(), "Share a link on Twitter", "User is not redirected to Twitter");
+        Assert.assertEquals(social.getTwitterShareLink(), expectedLink, "Share link is not correct");
+        Assert.assertEquals(social.getTwitterPageTitle(), "Share a link with your followers");
+        getBrowser().closeWindowAndSwitchBack();
+        cleanupAuthenticatedSession();
     }
-/*
+
+    /*
 
 
-// The consumer version of Google+ is shutting down in April 2019. This test is now disabled.
-  @Bug(id = "ACE-5768")
-  @TestRail(id = "C7097")
-  @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    // The consumer version of Google+ is shutting down in April 2019. This test is now disabled.
+      @Bug(id = "ACE-5768")
+      @TestRail(id = "C7097")
+      @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
 
-    public void shareWithGooglePlus() {
+        public void shareWithGooglePlus() {
 
-    {
-        try {
-            setupAuthenticatedSession(user, password);
-            documentLibraryPage.navigate(siteName);
-            String url = getBrowser().getCurrentUrl();
-            String server = url.substring(7, 26);
-            String expectedLink = "http://" + server + "/share/s";
-            windowToSwitchToAlfresco = getBrowser().getWindowHandle();
-            LOG.info("Step 1: For file click Share icon");
-            social.clickShareButton(fielNameC7097);
-            getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
-            Assert.assertTrue(social.isQuickshareWindowDisplayed(), "Quickshare window is not displayed");
-            Assert.assertTrue(social.isPublicLinkDisplayed(), "public link is not displayed");
-
-            LOG.info("Step 2: Click Google+ icon");
-            social.clickGooglePlus();
-
-            getBrowser().switchWindow();
-            social.loginToGoogleAccount();
-            windowToCloseGPlus = getBrowser().getWindowHandle();
-            getBrowser().waitInSeconds(6);
-            Assert.assertEquals(getBrowser().getCurrentUrl().substring(0, 24), "https://plus.google.com/");
-            Assert.assertEquals(social.getLinkSharedWithGooglePlus(), expectedLink, "Link shared on Google Plus is not corerct");
-            getBrowser().closeWindowAndSwitchBack();
-            cleanupAuthenticatedSession();
-        }
-        finally
         {
-            getBrowser().closeWindowAndSwitchBackParametrized(windowToSwitchToAlfresco, windowToCloseGPlus);
-        }
+            try {
+                setupAuthenticatedSession(user, password);
+                documentLibraryPage.navigate(siteName);
+                String url = getBrowser().getCurrentUrl();
+                String server = url.substring(7, 26);
+                String expectedLink = "http://" + server + "/share/s";
+                windowToSwitchToAlfresco = getBrowser().getWindowHandle();
+                LOG.info("Step 1: For file click Share icon");
+                social.clickShareButton(fielNameC7097);
+                getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
+                Assert.assertTrue(social.isQuickshareWindowDisplayed(), "Quickshare window is not displayed");
+                Assert.assertTrue(social.isPublicLinkDisplayed(), "public link is not displayed");
 
+                LOG.info("Step 2: Click Google+ icon");
+                social.clickGooglePlus();
+
+                getBrowser().switchWindow();
+                social.loginToGoogleAccount();
+                windowToCloseGPlus = getBrowser().getWindowHandle();
+                getBrowser().waitInSeconds(6);
+                Assert.assertEquals(getBrowser().getCurrentUrl().substring(0, 24), "https://plus.google.com/");
+                Assert.assertEquals(social.getLinkSharedWithGooglePlus(), expectedLink, "Link shared on Google Plus is not corerct");
+                getBrowser().closeWindowAndSwitchBack();
+                cleanupAuthenticatedSession();
+            }
+            finally
+            {
+                getBrowser().closeWindowAndSwitchBackParametrized(windowToSwitchToAlfresco, windowToCloseGPlus);
+            }
+
+        }
     }
-}
-*/
-   @TestRail(id = "C7099")
-   @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    */
+    @TestRail (id = "C7099")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void unshareDocument()
     {
         /**
          * Precondition - File is shared
          */
 
-            cleanupAuthenticatedSession();
-            setupAuthenticatedSession(user, password);
-            documentLibraryPage.navigate(siteName);
-            social.clickShareButton(fileNameC7099);
+        cleanupAuthenticatedSession();
+        setupAuthenticatedSession(user, password);
+        documentLibraryPage.navigate(siteName);
+        social.clickShareButton(fileNameC7099);
 
-            LOG.info("Step 1: Mouse over Share icon and get the Share tooltip message");
-            documentLibraryPage.navigate(siteName);
-            Assert.assertEquals(social.getShareButtonTooltip(fileNameC7099), "This document is shared (click for more options)", "Tootltip message is not correct");
+        LOG.info("Step 1: Mouse over Share icon and get the Share tooltip message");
+        documentLibraryPage.navigate(siteName);
+        Assert.assertEquals(social.getShareButtonTooltip(fileNameC7099), "This document is shared (click for more options)", "Tootltip message is not correct");
 
-            LOG.info("Step 2: Click the Share icon");
-            social.clickShareButton(fileNameC7099);
-            getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
-            Assert.assertTrue(social.isQuickshareWindowDisplayed(), "Quickshare window is not displayed");
+        LOG.info("Step 2: Click the Share icon");
+        social.clickShareButton(fileNameC7099);
+        getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
+        Assert.assertTrue(social.isQuickshareWindowDisplayed(), "Quickshare window is not displayed");
 
-            LOG.info("Step 3: Click Unshare link");
-            social.clickUnshareButton();
-            Assert.assertEquals(social.getShareButtonTooltip(fileNameC7099), "Share document", "Share button tooltip is not correct");
-            cleanupAuthenticatedSession();
-        }
+        LOG.info("Step 3: Click Unshare link");
+        social.clickUnshareButton();
+        Assert.assertEquals(social.getShareButtonTooltip(fileNameC7099), "Share document", "Share button tooltip is not correct");
+        cleanupAuthenticatedSession();
+    }
 
-    @TestRail(id = "C7093")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7093")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void shareFolder()
 
     {
-        setupAuthenticatedSession(user,password);
+        setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Check that Share is not available for folders");
         documentLibraryPage.navigate(siteNameC7093);
         Assert.assertFalse(social.checkShareButtonAvailability(), "The Share button is displayed for folder");
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C7649")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7649")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void sharedFilesContentAvailability()
 
     {

@@ -25,7 +25,8 @@ public class SynchronizationStatus
         userCreation("6 User Creation and Association"),
         authorityDeletion("7 Authority Deletion");
 
-        public String getName() {
+        public String getName()
+        {
             return name;
         }
 
@@ -59,7 +60,8 @@ public class SynchronizationStatus
     public String getEndTime() throws ParseException
     {
         SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy HH:mm:ss");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");;
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        ;
         Date endDate = sdf.parse(getTime().split(": ")[2]);
         return sdf2.format(endDate);
     }
@@ -68,7 +70,8 @@ public class SynchronizationStatus
     {
         String text = getTime().split(": ")[1];
         SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy HH:mm:ss");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");;
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        ;
         Date startDate = sdf.parse(text.substring(0, text.indexOf("\n")));
         return sdf2.format(startDate);
     }
@@ -88,6 +91,7 @@ public class SynchronizationStatus
         String text = getSuccessfulFailed().split(":")[1];
         return Integer.valueOf(text.substring(1, text.indexOf("F") - 1));
     }
+
     public int getFailedValue()
     {
         return Integer.parseInt(getSuccessfulFailed().split(": ")[2]);

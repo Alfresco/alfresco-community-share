@@ -27,18 +27,18 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     EditBlogPostPage editBlogPostPage;
 
     @RenderWebElement
-    @FindBy(css = "div.new-blog span[id*='_default-create-button']")
+    @FindBy (css = "div.new-blog span[id*='_default-create-button']")
     private WebElement newPostButton;
 
     @RenderWebElement
-    @FindBy(className = "listTitle")
+    @FindBy (className = "listTitle")
     public WebElement pageTitle;
 
     @RenderWebElement
-    @FindBy(css ="div[id$='_default-postlist']")
+    @FindBy (css = "div[id$='_default-postlist']")
     private WebElement defaultBlogPostList;
 
-    @FindAll(@FindBy(css = "div[id*='archives'] a.filter-link"))
+    @FindAll (@FindBy (css = "div[id*='archives'] a.filter-link"))
     private List<WebElement> archivesMonths;
 
     public By blogPageContent = By.cssSelector("tbody.yui-dt-message");
@@ -63,14 +63,14 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private WebElement selectTagsByTagName(String tag)
     {
         return browser.findElement(By.xpath(
-                "//div[@id = 'alf-filters']//div[contains(@id, '_blog-postlist')]//div[@class = 'filter']//span[@class = 'tag']/a[text() = '" + tag + "']"));
+            "//div[@id = 'alf-filters']//div[contains(@id, '_blog-postlist')]//div[@class = 'filter']//span[@class = 'tag']/a[text() = '" + tag + "']"));
     }
 
     private WebElement selectArchiveMonth(String month)
     {
         return browser.findFirstElementWithValue(archivesMonths, month);
     }
-    
+
     public WebElement blogPostTitle(String title)
     {
         return browser.findElement(By.xpath("//div[@class ='nodeContent']//span[@class = 'nodeTitle']//a[text() = '" + title + "']"));
@@ -84,7 +84,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to get the Blog page content or if no content message: "No blog posts found" is returned
-     * 
+     *
      * @return
      */
     public String getBlogContentText()
@@ -94,7 +94,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to check if the New Post button is displayed on the Blog Page
-     * 
+     *
      * @return
      */
     public boolean isNewPostButtonDisplayed()
@@ -104,7 +104,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to check if the Simple view button is displayed on the Blog Page
-     * 
+     *
      * @return
      */
     public boolean isSimpleViewButtonDisplayed()
@@ -114,7 +114,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to get the text displayed on the blog link from the site dashboard page.
-     * 
+     *
      * @return
      */
     public String blogPageLinkName()
@@ -142,8 +142,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         if (viewButtonText.equals("Simple View"))
         {
             browser.waitUntilElementVisible(By.cssSelector(".node.post.simple"));
-        }
-        else
+        } else
         {
             browser.waitUntilElementDeletedFromDom(By.cssSelector(".node.post.simple"));
         }
@@ -152,7 +151,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to get the published on date and time for the blog post under test
-     * 
+     *
      * @param title
      * @return
      */
@@ -163,7 +162,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to check if the edit button is available for the blog post under test
-     * 
+     *
      * @param title
      * @return
      */
@@ -174,7 +173,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to check if the delete button is available for the blog post under test
-     * 
+     *
      * @param title
      * @return
      */
@@ -186,7 +185,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     /**
      * Method to check if the blog post published date and time is correct. The method is not exact as can not get the timestamp for when the event is created.
      * The method checks if between the reference timestamp and the published on date and time is a difference of under 60 seconds.
-     * 
+     *
      * @param title
      * @return
      */
@@ -204,8 +203,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
         {
             System.out.println("Blog Date older. BlogDate: " + BlogDate + " MyDate: " + MyDate);
             return false;
-        }
-        else
+        } else
         {
             System.out.println("Blog Date is ok " + BlogDate);
             return true;
@@ -214,7 +212,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to get the blog post author for the blog post under test
-     * 
+     *
      * @param title
      * @return
      */
@@ -237,7 +235,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to get the blog post title for the blog post under test
-     * 
+     *
      * @param title
      * @return
      */
@@ -250,7 +248,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to get the blog post status for the blog post under test
-     * 
+     *
      * @param title
      * @return
      */
@@ -262,7 +260,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to get the blog post content for the blog post under test
-     * 
+     *
      * @param title
      * @return
      */
@@ -274,7 +272,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to get the blog post number of replies for the blog post under test
-     * 
+     *
      * @param title
      * @return
      */
@@ -285,7 +283,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to get the blog post tags label text when no tags are available for the blog post under test
-     * 
+     *
      * @param title
      * @return
      */
@@ -296,7 +294,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to get the blog post tags when tags are available for the blog post under test
-     * 
+     *
      * @param title
      * @return
      */
@@ -315,7 +313,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to check if the blog post is displayed
-     * 
+     *
      * @param title
      * @return
      */
@@ -377,7 +375,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Click on Archive Month filter
-     * 
+     *
      * @param month
      */
     public void clickArchiveMonth(String month)
@@ -392,14 +390,14 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public BlogPostViewPage clickReadBlogPost(String title)
     {
-        browser.waitUntilWebElementIsDisplayedWithRetry( selectBlogPostFooter(title));
+        browser.waitUntilWebElementIsDisplayedWithRetry(selectBlogPostFooter(title));
         selectBlogPostFooter(title).findElement(By.xpath(".//div[@class = 'nodeFooter']//span[@class = 'nodeAttrValue']//a[text() ='Read']")).click();
         return (BlogPostViewPage) blogPostViewPage.renderedPage();
     }
 
     /**
      * Method to check if the blog post content is displayed while on the Blog Post List page
-     * 
+     *
      * @param title
      * @return
      */
@@ -410,7 +408,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to get the button name displayed for Simple View/ Detailed View button
-     * 
+     *
      * @return
      */
     public String getButtonName()
@@ -420,7 +418,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to click on the blog post title
-     * 
+     *
      * @param title
      */
     public BlogPostViewPage clickOnThePostTitle(String title)
@@ -431,7 +429,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to click the Edit button for the selected blog post that needs to be edited. The blog post is selected by title
-     * 
+     *
      * @param title
      */
     public EditBlogPostPage clickEditButton(String title)
@@ -451,7 +449,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 
     /**
      * Method to click on the Delete button for the selected blog post
-     * 
+     *
      * @param title
      */
     public void clickDeleteButton(String title)

@@ -33,38 +33,38 @@ public class RenameWikiPageTests extends ContextAwareWebTest
     private String wikiMainPageContent = "Wiki main page content";
     private String wikiMainPagetTitle = "Main Page";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createUser()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
     }
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void createSite()
     {
-        siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
+        siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
 
         siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(testUser, password, siteName, Page.WIKI, null);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
     public void cleanupMethod()
     {
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5500")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5500")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void renameWikiMainPage()
     {
         LOG.info("Preconditions: create site and update wiki main page content");
@@ -93,12 +93,12 @@ public class RenameWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 5: Click on 'Wiki Page List' link");
         wikiMainPage.clickOnWikiListLink();
         Assert.assertEquals(wikiListPage.getWikiPageTitlesListSize(), 2, "2 pages should be listed.");
-        Assert.assertTrue(wikiListPage.getWikiPageTitlesList().contains(newWikiMainPageTitle), newWikiMainPageTitle +" page is not listed.");
+        Assert.assertTrue(wikiListPage.getWikiPageTitlesList().contains(newWikiMainPageTitle), newWikiMainPageTitle + " page is not listed.");
         Assert.assertTrue(wikiListPage.getWikiPageTitlesList().contains("Main Page"), "Main Page is not listed.");
     }
 
-    @TestRail(id = "C5501")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5501")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelRenameWikiMainPage()
     {
         LOG.info("Preconditions: create site and update wiki main page content");
@@ -115,8 +115,8 @@ public class RenameWikiPageTests extends ContextAwareWebTest
         Assert.assertTrue(wikiMainPage.getWikiPageContent().equals(wikiMainPageContent), "Wiki main page content is not correct!");
     }
 
-    @TestRail(id = "C5502")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5502")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void renameWikiPage()
     {
         LOG.info("Preconditions: create site and two wiki pages");
@@ -139,7 +139,7 @@ public class RenameWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click on 'Wiki Page Link' link");
         wikiMainPage.clickOnWikiListLink();
         Assert.assertTrue(wikiListPage.getWikiPageTitlesList().contains("Page1") && wikiListPage.getWikiPageTitlesList().contains("Page2")
-                && wikiListPage.getWikiPageTitlesList().contains("NewPage1"), "Pages are not listed.");
+            && wikiListPage.getWikiPageTitlesList().contains("NewPage1"), "Pages are not listed.");
 
         LOG.info("STEP 3: Click on 'Page1' link");
         wikiListPage.clickPageName("Page1");
@@ -152,8 +152,8 @@ public class RenameWikiPageTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C5503")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5503")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelRenameWikiPage()
     {
         LOG.info("Preconditions: create site and a wiki page");

@@ -8,83 +8,89 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
+
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 /**
  * Simple Page Object class
- * 
+ *
  * @author Paul.Brodner
  */
 @PageObject
 public class LoginPage extends HtmlPage
 {
-    @FindBy(css = "[id$='default-username']")
+    @FindBy (css = "[id$='default-username']")
     private WebElement usernameInput;
 
-    @FindBy(css = "[id$='default-password']")
+    @FindBy (css = "[id$='default-password']")
     private WebElement passwordInput;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='_default-submit-button']")
+    @FindBy (css = "button[id$='_default-submit-button']")
     private WebElement submit;
 
     @RenderWebElement
-    @FindBy(css = ".theme-company-logo")
+    @FindBy (css = ".theme-company-logo")
     private Image alfrescoLogo;
 
-    @FindBy(css = ".login-copy")
+    @FindBy (css = ".login-copy")
     private TextBlock copyright;
 
-    @FindBy(css = ".error")
+    @FindBy (css = ".error")
     private WebElement errorLogin;
 
-    @FindBy(css = ".login-tagline")
+    @FindBy (css = ".login-tagline")
     private WebElement newTrademark;
 
-    @FindBy(css = ".sticky-wrapper")
+    @FindBy (css = ".sticky-wrapper")
     private WebElement stickyWrapper;
 
-    @FindBy(css = ".sticky-footer")
+    @FindBy (css = ".sticky-footer")
     private WebElement stickyFooter;
 
-    @FindBy(css = "#Share")
+    @FindBy (css = "#Share")
     private WebElement bodyShare;
 
-    @FindBy(css = " .product-tagline")
+    @FindBy (css = " .product-tagline")
     private WebElement productTagline;
 
-    @FindBy(css = ".sticky-push")
+    @FindBy (css = ".sticky-push")
     private WebElement stickyPush;
 
-    @FindBy(css = ".product-name")
+    @FindBy (css = ".product-name")
     private WebElement alfrescoShare;
 
-    @FindBy(css=".theme-trademark")
+    @FindBy (css = ".theme-trademark")
     private WebElement trademark;
 
-    @FindBy(css="theme-company-logo.logo-ent")
+    @FindBy (css = "theme-company-logo.logo-ent")
     private WebElement oldLogo;
+
     public String getRelativePath()
     {
         return "/page";
     }
 
-    public void navigate() {
+    public void navigate()
+    {
         browser.navigate().to(properties.getShareUrl().toString());
         renderedPage();
     }
 
     /**
      * Type user name
+     *
      * @param userName
      */
-    public void typeUserName(String userName) {
+    public void typeUserName(String userName)
+    {
         usernameInput.clear();
         usernameInput.sendKeys(userName);
     }
 
-    public void autoCompleteUsername(String startCharsUser) {
+    public void autoCompleteUsername(String startCharsUser)
+    {
         typeUserName(startCharsUser);
         browser.waitInSeconds(1);
         usernameInput.sendKeys(Keys.ARROW_DOWN);
@@ -93,9 +99,11 @@ public class LoginPage extends HtmlPage
 
     /**
      * Type password
+     *
      * @param password to be filled in
      */
-    public void typePassword(String password) {
+    public void typePassword(String password)
+    {
         passwordInput.clear();
         passwordInput.sendKeys(password);
     }
@@ -110,28 +118,33 @@ public class LoginPage extends HtmlPage
 
     /**
      * Login on Share using login form
+     *
      * @param username to be filled in
      * @param password to be filled in
      * @throws URISyntaxException
      * @throws MalformedURLException
      */
-    public void login(String username, String password) {
+    public void login(String username, String password)
+    {
         typeUserName(username);
         typePassword(password);
-        clickLogin();        
+        clickLogin();
     }
 
     /**
      * Get the error when the login fails
+     *
      * @return String error message
      */
-    public String getAuthenticationError() {
+    public String getAuthenticationError()
+    {
         browser.waitUntilWebElementIsDisplayedWithRetry(errorLogin);
         return errorLogin.getText();
     }
 
     /**
      * Verify if the login error is displayed
+     *
      * @return true if displayed
      */
     public boolean isAuthenticationErrorDisplayed()
@@ -141,6 +154,7 @@ public class LoginPage extends HtmlPage
 
     /**
      * Verify if copyright is displayed
+     *
      * @return true if displayed
      */
     public boolean isCopyrightDisplayed()
@@ -150,6 +164,7 @@ public class LoginPage extends HtmlPage
 
     /**
      * Verify if alfresco logo is displayed
+     *
      * @return true if displayed
      */
     public boolean isLogoDisplayed()
@@ -159,16 +174,18 @@ public class LoginPage extends HtmlPage
 
     /**
      * Verify if the old Alfresco logo is displayed
+     *
      * @return true if displayed
      */
 
     public boolean isOldLogoDisplayed()
     {
-     return getBrowser().isElementDisplayed(oldLogo);
+        return getBrowser().isElementDisplayed(oldLogo);
     }
 
     /**
      * Verify if alfresco 'make business flow' is displayed
+     *
      * @return true if displayed
      */
     public boolean isMakeBusinessFlowDisplayed()
@@ -178,15 +195,17 @@ public class LoginPage extends HtmlPage
 
     /**
      * Verify if 'Simple+Smart' is displayed
+     *
      * @return true if displayed
      */
 
     public boolean isSimpleSmartDisplayed()
     {
-       return getBrowser().isElementDisplayed(trademark);
+        return getBrowser().isElementDisplayed(trademark);
     }
 
-    public String[] getBackgroundColour() {
+    public String[] getBackgroundColour()
+    {
 
         String colourBodyShare = bodyShare.getCssValue("background-color");
         String colourProductTagline = productTagline.getCssValue("color");
@@ -194,13 +213,15 @@ public class LoginPage extends HtmlPage
         return colours;
     }
 
-    public String getAlfrescoShareColour() {
+    public String getAlfrescoShareColour()
+    {
         String colour = alfrescoShare.getCssValue("color");
         return colour;
     }
 
     /**
      * Get the text from the copyright
+     *
      * @return String copyright text
      */
     public String getCopyRightText()
@@ -208,7 +229,8 @@ public class LoginPage extends HtmlPage
         return copyright.getText();
     }
 
-    public String getSignInButtonColor() {
+    public String getSignInButtonColor()
+    {
         return submit.getCssValue("color").toString();
     }
 }

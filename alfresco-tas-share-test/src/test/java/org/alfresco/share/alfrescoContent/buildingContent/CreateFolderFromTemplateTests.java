@@ -24,26 +24,35 @@ import static org.alfresco.utility.report.log.Step.STEP;
 
 public class CreateFolderFromTemplateTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private Notification notification;
-    
-    @Autowired private CreateFolderFromTemplate createFolderFromTemplate;
+    @Autowired
+    private Notification notification;
 
-    @Autowired private CreateContent createContent;
+    @Autowired
+    private CreateFolderFromTemplate createFolderFromTemplate;
 
-    @Autowired private EditRulesPage editRulesPage;
-    @Autowired private RepositoryPage repositoryPage;
-    @Autowired private ManageRulesPage manageRulesPage;
-    @Autowired private ManagePermissionsPage managePermissionsPage;
-    @Autowired private AspectsForm aspectsForm;
+    @Autowired
+    private CreateContent createContent;
+
+    @Autowired
+    private EditRulesPage editRulesPage;
+    @Autowired
+    private RepositoryPage repositoryPage;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
+    @Autowired
+    private ManagePermissionsPage managePermissionsPage;
+    @Autowired
+    private AspectsForm aspectsForm;
 
     private final String folderTemplateName = "Software Engineering Project";
     private final String userFirstName = "Jim";
     private final String userLastName = "Jones";
 
-    @TestRail(id = "C6292")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6292")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createFolderFromTemplate()
     {
         String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
@@ -92,14 +101,14 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         Assert.assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbPath);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), "File not found");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C6293")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6293")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelCreatingFolderFromTemplate()
     {
         String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
@@ -124,19 +133,19 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         createFolderFromTemplate.clickCancelButton();
         Assert.assertFalse(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertFalse(documentLibraryPage.isContentNameDisplayed(folderTemplateName), "Folder not found");
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
-    
-    @TestRail(id = "C8139")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+
+    @TestRail (id = "C8139")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createFolderFromTemplateUsingWildcards()
     {
         String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
         String userRole = "Coordinator";
         String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
-        String templateFolderName = "template1"+ RandomData.getRandomAlphanumeric();
+        String templateFolderName = "template1" + RandomData.getRandomAlphanumeric();
         String folderName = "AFolder.Name";
         String illegalCharacters = "\'* \" < > \\ / . ? : |'";
         String folderPathInRepository = "Data Dictionary/Space Templates/";
@@ -144,9 +153,9 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         String ruleDescription = "Add aspect taggable rule test";
         String aspectTaggableValue = "Taggable";
         String aspectType = "Classifiable";
-        
+
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userFirstName, userLastName);
-        contentService.createFolderInRepository(adminUser, adminPassword, templateFolderName,folderPathInRepository);        
+        contentService.createFolderInRepository(adminUser, adminPassword, templateFolderName, folderPathInRepository);
         setupAuthenticatedSession(adminUser, adminPassword);
 
         STEP("Precondition: Create any rule for template1 (e.g. rule1 when items are created or enter this folder, add aspect taggable)");
@@ -196,46 +205,46 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
         createFolderFromTemplate.fillInNameField(illegalCharacters);
         createFolderFromTemplate.clickSaveButton();
         createFolderFromTemplate.clickSaveButton();
-        Assert.assertTrue(createFolderFromTemplate.isTooltipErrorMessageDisplayed(),"Tooltip error message not displayed");
+        Assert.assertTrue(createFolderFromTemplate.isTooltipErrorMessageDisplayed(), "Tooltip error message not displayed");
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
-        
+
         LOG.info("STEP 4: Clear Name field and type 'AName.'. Click 'Save' button.");
         createFolderFromTemplate.fillInNameField("AName.");
         createFolderFromTemplate.clickSaveButton();
         createFolderFromTemplate.clickSaveButton();
-        Assert.assertTrue(createFolderFromTemplate.isTooltipErrorMessageDisplayed(),"Tooltip error message not displayed");
-        Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed(),"Create folder from template popup not displayed");
+        Assert.assertTrue(createFolderFromTemplate.isTooltipErrorMessageDisplayed(), "Tooltip error message not displayed");
+        Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed(), "Create folder from template popup not displayed");
 
         LOG.info("STEP 5: Clear Name field and type 'AFolder.Name'. Click 'Save' button.");
         createFolderFromTemplate.fillInNameField(folderName);
         createFolderFromTemplate.clickSaveButton();
-    //    Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName));
+        //    Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName));
         notification.waitUntilNotificationDisappears();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Subfolder not found");
         Assert.assertTrue(documentLibraryPage.getExplorerPanelDocuments().contains(folderName), "Subfolder not found in Documents explorer panel");
 
         LOG.info("STEP 6: Hover over the created folder (AFolder.Name). Click 'Manage Rules' option from more menu.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
-        Assert.assertTrue(manageRulesPage.isContentRuleDisplayed(),"Content rule not displayed");
+        Assert.assertTrue(manageRulesPage.isContentRuleDisplayed(), "Content rule not displayed");
 
         LOG.info("STEP 7: Click on 'Documents' link from breadcrumb.");
         manageRulesPage.returnTo("Documents");
-        Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(),"Documents page not opened");
+        Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(), "Documents page not opened");
 
         LOG.info("STEP 8: Hover over the created folder (AFolder.Name). Click 'Manage Permissions' option from more menu.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
-        Assert.assertEquals(managePermissionsPage.getRole(userFirstName + " " + userLastName), userRole,"User role not set to Coordinator");
+        Assert.assertEquals(managePermissionsPage.getRole(userFirstName + " " + userLastName), userRole, "User role not set to Coordinator");
 
         LOG.info("STEP 9: Click on 'Documents' link from breadcrumb.");
         managePermissionsPage.returnTo("Documents");
-        Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(),"Documents page not opened");
+        Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(), "Documents page not opened");
 
         LOG.info("STEP 10: Hover over the created folder (AFolder.Name). Click 'Manage Aspects' option from more menu.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList(aspectType), "Aspect is not added to 'Currently Selected' list");
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

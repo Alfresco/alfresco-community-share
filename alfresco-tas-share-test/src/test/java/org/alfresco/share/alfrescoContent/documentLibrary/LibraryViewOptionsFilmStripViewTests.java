@@ -17,7 +17,8 @@ import static org.testng.Assert.assertTrue;
 
 public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     private final String user = String.format("C2247User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C2247SiteDescription%s", RandomData.getRandomAlphanumeric());
@@ -29,7 +30,7 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
     private final String videoFile = "Video2.WMV";
     private final String picture = "Lighthouse.jpg";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -42,17 +43,17 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C2246")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C2246")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void filmstripViewPresence()
     {
         documentLibraryPage.navigate(siteName);
@@ -64,8 +65,8 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isviewOptionDisplayed("Filmstrip View"), "Film Strip view is not displayed");
     }
 
-    @TestRail(id = "C2247")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C2247")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void filmstripViewDisplayingItems()
     {
         documentLibraryPage.navigate(siteName);
@@ -82,9 +83,9 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(docName), docName, docName + " is displayed in filmstrip view");
         assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(folderName), folderName, folderName + " is displayed in filmstrip view");
         assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(videoFile), videoFile,
-                "videoFile is not displayed in the filmstrip view");
+            "videoFile is not displayed in the filmstrip view");
         assertEquals(documentLibraryPage.getLabelDisplayedInFilmstripView(picture), picture,
-                "picture is not displayed in the filmstrip view");
+            "picture is not displayed in the filmstrip view");
 
         assertTrue(documentLibraryPage.isDownArrowPointerDisplayed(), "Down arrow pointer is displayed");
         assertTrue(documentLibraryPage.isRightArrowPointerDisplayed(), "Right arrow pointer is displayed");

@@ -38,14 +38,14 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
     private String description = String.format("C3155SiteDescription%s", RandomData.getRandomAlphanumeric());
     private String newBlogName = "newBlog";
     private String blogTitle = "C5527" + "blogTitle2";
-    private String blogTitle1 = "C5527" +"blogTitle1 first blog";
+    private String blogTitle1 = "C5527" + "blogTitle1 first blog";
     private String blogContent = "C5527" + "Blog content";
     private String blogContent1 = "C5527" + "Second Blog";
     private List<String> tags = Collections.singletonList("tag1");
     private List<String> noTags = new ArrayList<>();
     private String author = user + " " + user;
-    
-    @BeforeClass(alwaysRun = true)
+
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -54,17 +54,17 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C5526")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5526")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void renameTheBlogPage()
     {
@@ -80,24 +80,24 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
         customizeSite.clickOk();
         siteDashboard.navigate(siteName);
         Assert.assertEquals(blogPage.blogPageLinkName(), newBlogName);
-        
+
         LOG.info("Step 3: Click on newBlog link.");
         blogPage.clickOnBlogLink();
         String expectedRelativePath = "share/page/site/" + siteName + "/blog-postlist";
         assertEquals(blogPage.getRelativePath(), expectedRelativePath, "User is redirected to blog posts page");
     }
 
-    @TestRail(id = "C5527")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    
-    public void simpleAndDetailedViewOfCreatedPosts ()
+    @TestRail (id = "C5527")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+
+    public void simpleAndDetailedViewOfCreatedPosts()
     {
         /**
          * Precondition
          */
         sitePagesService.createBlogPost(user, password, siteName, blogTitle, blogContent, false, tags);
         sitePagesService.createBlogPost(user, password, siteName, blogTitle1, blogContent1, false, noTags);
-       
+
         /**
          * Test Steps
          */
@@ -106,16 +106,16 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(blogPage.selectBlogPostWithtitle(blogTitle1), 6);
         Assert.assertTrue(blogPage.isBlogPostDisplayed(blogTitle1));
         Assert.assertTrue(blogPage.isBlogPostDisplayed(blogTitle));
-       
+
         LOG.info("Step 2: Verify actions available for Blog posts.");
-      
+
         Assert.assertTrue(blogPage.isEditButtonPresentForBlogPost(blogTitle));
         Assert.assertTrue(blogPage.isEditButtonPresentForBlogPost(blogTitle1));
         Assert.assertTrue(blogPage.isDeleteButtonPresentForBlogPost(blogTitle));
         Assert.assertTrue(blogPage.isDeleteButtonPresentForBlogPost(blogTitle1));
-        
+
         LOG.info("Step 3: Verify info available for posts in 'Detailed View', selected as default.");
-        
+
         Assert.assertEquals(blogPage.getBlogPostTitle(blogTitle1), blogTitle1);
         Assert.assertEquals(blogPage.getBlogPostTitle(blogTitle), blogTitle);
         Assert.assertEquals(blogPage.getBlogPostStatus(blogTitle), "Published on:");
@@ -130,7 +130,7 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
         Assert.assertEquals(blogPage.getBlogPostNumberOfReplies(blogTitle1), "(0)");
         Assert.assertEquals(blogPage.getBlogPostTagsWhenTagsAreAvailable(blogTitle), "tag1");
         Assert.assertEquals(blogPage.getBlogPostTagsWhenNoTagsAreAvailable(blogTitle1), "(None)");
-        
+
         LOG.info("Step 4: Verify info available for posts in 'Detailed View', selected as default.");
         blogPage.clickSimpleViewButton();
         getBrowser().waitInSeconds(1);
@@ -142,6 +142,6 @@ public class AccessingTheBlogTests extends ContextAwareWebTest
         Assert.assertEquals(blogPage.getBlogPostStatus(blogTitle1), "Published on:");
         Assert.assertEquals(blogPage.getBlogPostAuthor(blogTitle), author);
         Assert.assertEquals(blogPage.getBlogPostAuthor(blogTitle1), author);
-       
+
     }
 }

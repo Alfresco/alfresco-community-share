@@ -24,36 +24,36 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
     @Autowired
     SyncUserDirectoriesDialog syncUserDirectoriesDialog;
 
-    @FindBy(id = "dm-name")
+    @FindBy (id = "dm-name")
     WebElement nameField;
 
-    @FindBy(id = "dm-authtable")
+    @FindBy (id = "dm-authtable")
     Table authenticationTable;
 
-    @FindBy(className = "sync-status")
+    @FindBy (className = "sync-status")
     Table syncStatusTable;
 
-    @FindBy(css = "input[value='Synchronization Settings']")
+    @FindBy (css = "input[value='Synchronization Settings']")
     WebElement synchronizationSettingsButton;
 
     @RenderWebElement
-    @FindBy(css = "input[value='Run Synchronize']")
+    @FindBy (css = "input[value='Run Synchronize']")
     WebElement runSynchronizeButton;
 
-    @FindBy(id = "dm-type")
+    @FindBy (id = "dm-type")
     Select availableTypes;
 
-    @FindBy(id = "dm-cifs")
+    @FindBy (id = "dm-cifs")
     Select cifsAuthentication;
 
     @RenderWebElement
-    @FindBy(id = "dm-browser")
+    @FindBy (id = "dm-browser")
     Select browserBasedAutomaticLogin;
 
-    @FindBy(css = "input[value='Add']")
+    @FindBy (css = "input[value='Add']")
     Button addButton;
 
-    @FindBy(css = ".column-full>p>b")
+    @FindBy (css = ".column-full>p>b")
     WebElement syncStatusMessage;
 
     public enum Type
@@ -164,7 +164,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public DirectoryManagementPage selectCIFSAuthentication(String option) throws Exception
     {
-        if(getCIFSAuthenticationOptions().contains(option))
+        if (getCIFSAuthenticationOptions().contains(option))
             cifsAuthentication.selectByVisibleText(option);
         else
             throw new Exception("Option not available!");
@@ -175,7 +175,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
     {
         List<WebElement> optionsList = cifsAuthentication.getOptions();
         List<String> optionsValues = new ArrayList<>();
-        for(WebElement option: optionsList)
+        for (WebElement option : optionsList)
             optionsValues.add(option.getText());
         return optionsValues;
     }
@@ -187,7 +187,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public DirectoryManagementPage selectBrowserBasedAutomaticLogin(String option) throws Exception
     {
-        if(getBrowserBasedAutomaticLoginOptions().contains(option))
+        if (getBrowserBasedAutomaticLoginOptions().contains(option))
             browserBasedAutomaticLogin.selectByVisibleText(option);
         else
             throw new Exception("Option not available!");
@@ -198,7 +198,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
     {
         List<WebElement> optionsList = browserBasedAutomaticLogin.getOptions();
         List<String> optionsValues = new ArrayList<>();
-        for(WebElement option: optionsList)
+        for (WebElement option : optionsList)
             optionsValues.add(option.getText());
         return optionsValues;
     }
@@ -208,7 +208,8 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
         return browserBasedAutomaticLogin.getFirstSelectedOption().getText();
     }
 
-    public String getSyncStatusMessage() {
+    public String getSyncStatusMessage()
+    {
         this.refresh();
         this.renderedPage();
         return syncStatusMessage.getText();
@@ -223,9 +224,9 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public SynchronizationStatus getStatusForBean(SynchronizationStatus.BeanNames beanName) throws Exception
     {
-        for(SynchronizationStatus status: getSynchronizationStatus())
+        for (SynchronizationStatus status : getSynchronizationStatus())
         {
-            if(status.getBeanName().contains(beanName.getName()))
+            if (status.getBeanName().contains(beanName.getName()))
                 return status;
         }
         throw new Exception("Bean is not available in the Status list!");
@@ -233,9 +234,9 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public EditDirectoryDialog edit(String authenticationType) throws Exception
     {
-        for (AuthenticationChain auth: getAuthenticationDetails())
+        for (AuthenticationChain auth : getAuthenticationDetails())
         {
-            if(auth.getType().equals(authenticationType))
+            if (auth.getType().equals(authenticationType))
             {
                 auth.clickAction("Edit");
                 Utility.waitToLoopTime(3);
@@ -247,9 +248,9 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public AuthenticationTestDialog test(String authenticationType) throws Exception
     {
-        for (AuthenticationChain auth: getAuthenticationDetails())
+        for (AuthenticationChain auth : getAuthenticationDetails())
         {
-            if(auth.getType().contains(authenticationType))
+            if (auth.getType().contains(authenticationType))
             {
                 auth.clickAction("Test");
                 return new AuthenticationTestDialog();
@@ -260,9 +261,9 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public SyncUserDirectoryTestDialog testSynchronize(String authenticationType) throws Exception
     {
-        for (AuthenticationChain auth: getAuthenticationDetails())
+        for (AuthenticationChain auth : getAuthenticationDetails())
         {
-            if(auth.getType().equals(authenticationType))
+            if (auth.getType().equals(authenticationType))
             {
                 auth.clickAction("Test Synchronize");
                 return new SyncUserDirectoryTestDialog();
@@ -273,9 +274,9 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public DirectoryManagementPage status(String authenticationType) throws Exception
     {
-        for (AuthenticationChain auth: getAuthenticationDetails())
+        for (AuthenticationChain auth : getAuthenticationDetails())
         {
-            if(auth.getType().equals(authenticationType))
+            if (auth.getType().equals(authenticationType))
             {
                 auth.clickAction("Status [+]");
                 return (DirectoryManagementPage) this.renderedPage();
@@ -286,9 +287,9 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public DirectoryManagementPage remove(String authenticationType) throws Exception
     {
-        for (AuthenticationChain auth: getAuthenticationDetails())
+        for (AuthenticationChain auth : getAuthenticationDetails())
         {
-            if(auth.getType().equals(authenticationType))
+            if (auth.getType().equals(authenticationType))
             {
                 auth.clickAction("Remove");
                 return (DirectoryManagementPage) this.renderedPage();

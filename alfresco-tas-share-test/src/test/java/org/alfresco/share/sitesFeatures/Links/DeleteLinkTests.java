@@ -39,23 +39,23 @@ public class DeleteLinkTests extends ContextAwareWebTest
     private String linkDescription = String.format("Link description%s", RandomData.getRandomAlphanumeric());
     private List<String> linkTags = new ArrayList<>();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6187")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6187")
     public void deleteLinkFromLinkDetailsPage()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
@@ -73,15 +73,15 @@ public class DeleteLinkTests extends ContextAwareWebTest
         deleteLinkPopUp.isDeleteButtonDisplayed();
         deleteLinkPopUp.isCancelDeleteLinkButtonDisplayed();
         Assert.assertTrue(deleteLinkPopUp.getDeleteLinkMessage().equals("Do you really want to delete link " + "'" + linkTitle + "'?"),
-                "Wrong delete link message!");
+            "Wrong delete link message!");
         deleteLinkPopUp.clickOnDeleteLinkButtonLinkDetailsPage();
         Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6188")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6188")
     public void deleteLinkFromLinksPage()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
@@ -102,16 +102,16 @@ public class DeleteLinkTests extends ContextAwareWebTest
         LOG.info("STEP 2: Hover link and click 'Delete' button");
         linkPage.clickDeleteLink(linkTitle);
         Assert.assertTrue(deleteLinkPopUp.getDeleteLinkMessage().equals("Are you sure you want to delete " + "\"" + linkTitle + "\"?"),
-                "Wrong delete link message!");
+            "Wrong delete link message!");
         deleteLinkPopUp.clickOnDeleteLinkButtonLinksPage();
         Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
         Assert.assertTrue(linkPage.getTagsFromTagsSection().isEmpty(), "No tags should be displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6189")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6189")
     public void cancelDeletingLink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
@@ -128,16 +128,16 @@ public class DeleteLinkTests extends ContextAwareWebTest
         LOG.info("STEP 1: Hover link and click 'Delete' button");
         linkPage.clickDeleteLink(linkTitle);
         Assert.assertTrue(deleteLinkPopUp.getDeleteLinkMessage().equals("Are you sure you want to delete " + "\"" + linkTitle + "\"?"),
-                "Wrong delete link message!");
+            "Wrong delete link message!");
         deleteLinkPopUp.clickOnCancelDeleteLink();
         Assert.assertTrue(linkPage.getLinksListTitle().equals("All Links"), "All links should be displayed after clicking on 'Links' link!");
         Assert.assertTrue(linkPage.getLinksTitlesList().contains(linkTitle), "Link is not displayed in the list!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6190")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6190")
     public void deleteMultipleLinks()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
@@ -208,7 +208,7 @@ public class DeleteLinkTests extends ContextAwareWebTest
         LOG.info("STEP 9: Click 'Delete' button.");
         deleteLinkPopUp.clickOnDeleteLinkButtonLinksPage();
         Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

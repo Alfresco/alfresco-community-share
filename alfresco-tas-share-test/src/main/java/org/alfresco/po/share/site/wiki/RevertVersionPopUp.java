@@ -10,14 +10,14 @@ import org.openqa.selenium.support.FindBy;
 public class RevertVersionPopUp extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(css = "[id*=revertWikiVersion-instance-ok]")
+    @FindBy (css = "[id*=revertWikiVersion-instance-ok]")
     private WebElement revertOkButton;
 
     @RenderWebElement
-    @FindBy(css = "[id*=revertWikiVersion-instance-cancel]")
+    @FindBy (css = "[id*=revertWikiVersion-instance-cancel]")
     private WebElement revertCancelButton;
 
-    @FindBy(css = "[id*=revertWikiVersion-instance-prompt]")
+    @FindBy (css = "[id*=revertWikiVersion-instance-prompt]")
     private WebElement revertMessage;
 
     public void clickRevertOk()

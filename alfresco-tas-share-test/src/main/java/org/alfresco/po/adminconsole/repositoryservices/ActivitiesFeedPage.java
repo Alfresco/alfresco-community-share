@@ -18,10 +18,11 @@ public class ActivitiesFeedPage extends AdminConsolePage<ActivitiesFeedPage>
     public static final String ACTIVITIES_FEED_OBJECT = "Alfresco:Type=Configuration,Category=ActivitiesFeed,id1=default";
 
     @RenderWebElement
-    @FindBy(className = "intro-tall")
+    @FindBy (className = "intro-tall")
     WebElement intro;
 
-    public enum ActivitiesFeedFields{
+    public enum ActivitiesFeedFields
+    {
         activityFeedEnabled("Activity Feed Enabled:", "activities.feed.notifier.enabled"),
         frequencyCRONExpression("Frequency CRON Expression:", "activities.feed.notifier.cronExpression"),
         maximumNumber("Maximum Number:", "activities.feed.max.size"),

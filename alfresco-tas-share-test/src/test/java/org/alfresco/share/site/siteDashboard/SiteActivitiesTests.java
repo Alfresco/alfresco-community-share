@@ -39,8 +39,8 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     @Autowired
     SiteMembersPage siteMembersPage;
 
-    @TestRail(id = "C2803")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2803")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void noActivitiesCreated()
     {
         String uniqueIdentifier = String.format("-C2803-%s", RandomData.getRandomAlphanumeric());
@@ -64,9 +64,9 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         assertEquals(siteActivitiesDashlet.isHelpIconDisplayed(Dashlet.DashletHelpIcon.SITE_ACTIVITIES), true, "'Help' icon is displayed.");
 
         String[] expectedUserActivities = { language.translate("siteActivities.filter.mine"), language.translate("siteActivities.filter.everyoneElse"),
-                language.translate("siteActivities.filter.everyone"), language.translate("siteActivities.filter.meFollowing") };
+            language.translate("siteActivities.filter.everyone"), language.translate("siteActivities.filter.meFollowing") };
         assertEquals(DataUtil.areListsEquals(siteActivitiesDashlet.getMyActivitiesFilterOptions(), expectedUserActivities), true,
-                "Site Activities dropdown options-");
+            "Site Activities dropdown options-");
 
         LOG.info("STEP3: Click '?' icon");
         siteActivitiesDashlet.clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_ACTIVITIES);
@@ -75,13 +75,13 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'X' icon");
         siteActivitiesDashlet.closeHelpBalloon();
         assertEquals(siteActivitiesDashlet.isBalloonDisplayed(), false, "'Help' balloon is closed.");
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2809")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2809")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void dateFilter()
     {
         String uniqueIdentifier = String.format("-C2809-%s", RandomData.getRandomAlphanumeric());
@@ -112,23 +112,23 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         LOG.info("STEP3: Select 'in the last 14 days' value from drop-down menu");
         siteActivitiesDashlet.selectOptionFromHistoryFilter(SiteActivitiesDaysRangeFilter.FOURTEEN_DAYS);
         assertEquals(siteActivitiesDashlet.isHistoryOptionSelected(SiteActivitiesDaysRangeFilter.FOURTEEN_DAYS), true,
-                "Option 'in the last 14 days' is selected.");
+            "Option 'in the last 14 days' is selected.");
         assertEquals(siteActivitiesDashlet.isTimeRangeAccurateForAllActivities(14, "now"), true, "Only activities in the last 14 days are displayed.");
 
         LOG.info("STEP4: Select 'in the last 28 days' value from drop-down menu");
         siteActivitiesDashlet.selectOptionFromHistoryFilter(SiteActivitiesDaysRangeFilter.TWENTY_EIGHT_DAYS);
         assertEquals(siteActivitiesDashlet.isHistoryOptionSelected(SiteActivitiesDaysRangeFilter.TWENTY_EIGHT_DAYS), true,
-                "Option 'in the last 28 days' is selected.");
+            "Option 'in the last 28 days' is selected.");
         assertEquals(siteActivitiesDashlet.isTimeRangeAccurateForAllActivities(28, "now"), true, "Only activities in the last 28 days are displayed.");
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id="C12833")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C12833")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void activitiesDashletDisplaysGroupNameWhenLoggedInAsAdmin()
     {
@@ -137,7 +137,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String description = String.format("description%s", RandomData.getRandomAlphanumeric());
         String groupName = "C12833Group";
         String managerRole = "Manager";
-        String activity ="\""+ groupName+"\"" + " group added to site " + siteName + " with role " + managerRole;
+        String activity = "\"" + groupName + "\"" + " group added to site " + siteName + " with role " + managerRole;
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
         siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
@@ -162,13 +162,13 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity is not present on dashlet");
         cleanupAuthenticatedSession();
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id="C12834")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C12834")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void activitiesDashletDisplaysGroupNameWhenLoginWithOtherUserThanAdmin()
     {
         String user = String.format("C12834User%s", RandomData.getRandomAlphanumeric());
@@ -176,7 +176,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String description = String.format("description%s", RandomData.getRandomAlphanumeric());
         String groupName = "C12834Group";
         String managerRole = "Manager";
-        String activity ="\""+ groupName+"\"" + " group added to site " + siteName + " with role " + managerRole;
+        String activity = "\"" + groupName + "\"" + " group added to site " + siteName + " with role " + managerRole;
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
         siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
@@ -200,13 +200,13 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
         cleanupAuthenticatedSession();
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id="C12835")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C12835")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void groupNameIsDisplayedInGroupsTabSiteMembersGroup()
     {
@@ -214,7 +214,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
         String description = String.format("description%s", RandomData.getRandomAlphanumeric());
         String groupName = "C12835Group";
-        String groupId = "GROUP_"+ groupName;
+        String groupId = "GROUP_" + groupName;
         ArrayList<String> expectedGroupName = new ArrayList<>();
         expectedGroupName.add(groupName);
         ArrayList<String> expectedId = new ArrayList<>();
@@ -240,17 +240,17 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         LOG.info("Step 1: Navigate to site members page, groups tab ");
 
         siteMembersPage.openSiteGroupsPage();
-        Assert.assertEquals(siteGroupsPage.getSiteMembersList(),expectedGroupName, groupName+" is not displayed");
-        Assert.assertEquals(siteGroupsPage.getIds(), expectedId, groupId+ " is not displayed");
+        Assert.assertEquals(siteGroupsPage.getSiteMembersList(), expectedGroupName, groupName + " is not displayed");
+        Assert.assertEquals(siteGroupsPage.getIds(), expectedId, groupId + " is not displayed");
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id="C12836")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C12836")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void groupNameIsDisplayedInGroupsTabAddGroup()
     {
@@ -258,8 +258,8 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
         String description = String.format("description%s", RandomData.getRandomAlphanumeric());
         String groupName = "C12836Group";
-        String idLabelText ="ID:";
-        String groupId = idLabelText +" GROUP_"+ groupName;
+        String idLabelText = "ID:";
+        String groupId = idLabelText + " GROUP_" + groupName;
         ArrayList<String> expectedGroupName = new ArrayList<>();
         expectedGroupName.add(groupName);
         ArrayList<String> expectedId = new ArrayList<>();
@@ -273,32 +273,32 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         siteGroupsPage.navigate(siteName);
         siteGroupsPage.clickAddGroupsButton();
 
-        LOG.info("Step 1&2: Search for group "+ groupName + " and check that it is displayed correctly in search results");
+        LOG.info("Step 1&2: Search for group " + groupName + " and check that it is displayed correctly in search results");
         siteGroupsPage.typeInSearchGroup(groupName);
         siteGroupsPage.clickSearchButton();
-        Assert.assertEquals(siteGroupsPage.getSearchResultsGroupName(), expectedGroupName, expectedGroupName+" is not displayed in search results");
-        Assert.assertEquals(siteGroupsPage.getIdInSearchResults(), expectedId, expectedId+" is not displayed in search results");
+        Assert.assertEquals(siteGroupsPage.getSearchResultsGroupName(), expectedGroupName, expectedGroupName + " is not displayed in search results");
+        Assert.assertEquals(siteGroupsPage.getIdInSearchResults(), expectedId, expectedId + " is not displayed in search results");
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id="C12837")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C12837")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void activitiesDashletDisplaysGroupNameWhenGroupsRoleIsChanged()
     {
         String user = String.format("C12837User%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
         String description = String.format("description%s", RandomData.getRandomAlphanumeric());
         String groupName = "C12837Group";
-        String groupId = "GROUP_"+ groupName;
+        String groupId = "GROUP_" + groupName;
         ArrayList<String> expectedGroupName = new ArrayList<>();
         expectedGroupName.add(groupName);
         String managerRole = "Manager";
         String collaboratorRole = "Collaborator";
-        String activity ="\""+ groupName+"\"" + " group role changed to " + collaboratorRole;
+        String activity = "\"" + groupName + "\"" + " group role changed to " + collaboratorRole;
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
         siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
@@ -319,7 +319,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         LOG.info("Step 1: Navigate to site members page, groups tab ");
 
         siteMembersPage.openSiteGroupsPage();
-        Assert.assertEquals(siteGroupsPage.getSiteMembersList(),expectedGroupName, groupName+" is not displayed");
+        Assert.assertEquals(siteGroupsPage.getSiteMembersList(), expectedGroupName, groupName + " is not displayed");
 
         LOG.info("Step 2: Change the role of the group");
         Assert.assertEquals(siteGroupsPage.getRole(groupName), "Manager ▾", "Manager ▾" + "is not the role of the group");
@@ -332,14 +332,15 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
         getBrowser().waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
         Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity is not present on dashlet");
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
 
     }
-    @TestRail(id="C12838")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+
+    @TestRail (id = "C12838")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
 
     public void activitiesDashletDisplaysGroupNameWhenGroupIsRemovedFromSite()
     {
@@ -347,12 +348,12 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
         String description = String.format("description%s", RandomData.getRandomAlphanumeric());
         String groupName = "C12838Group";
-        String groupId = "GROUP_"+ groupName;
+        String groupId = "GROUP_" + groupName;
         ArrayList<String> expectedGroupName = new ArrayList<>();
         expectedGroupName.add(groupName);
         ArrayList<String> expectedId = new ArrayList<>();
         String managerRole = "Manager";
-        String activity ="\""+ groupName+"\"" + " group removed from site "+siteName ;
+        String activity = "\"" + groupName + "\"" + " group removed from site " + siteName;
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         groupService.createGroup(adminUser, adminPassword, groupName);
         siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
@@ -373,7 +374,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         LOG.info("Step 1: Navigate to site members page, groups tab and remove group from site");
 
         siteMembersPage.openSiteGroupsPage();
-        Assert.assertEquals(siteGroupsPage.getSiteMembersList(),expectedGroupName, groupName+" is not displayed");
+        Assert.assertEquals(siteGroupsPage.getSiteMembersList(), expectedGroupName, groupName + " is not displayed");
         siteGroupsPage.removeGroup(groupName);
 
         getBrowser().waitInSeconds(10);
@@ -382,8 +383,8 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
         getBrowser().waitUntilElementIsDisplayedWithRetry(siteActivitiesDashlet.getActivitiElement(), 6);
         Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity), "Activity is not present on dashlet");
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 }

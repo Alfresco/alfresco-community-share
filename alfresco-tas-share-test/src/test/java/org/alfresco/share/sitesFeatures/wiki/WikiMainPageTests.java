@@ -30,23 +30,23 @@ public class WikiMainPageTests extends ContextAwareWebTest
     private String siteName;
     private String wikiPageContent = "content";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createUser()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);
         setupAuthenticatedSession(testUser, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
 
     }
 
-    @TestRail(id = "C5496")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5496")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createWikiMainPage()
     {
         // precondition
@@ -61,13 +61,13 @@ public class WikiMainPageTests extends ContextAwareWebTest
         LOG.info("STEP 2: Type some content to the text box, then click on Save button");
         editWikiPage.saveWikiContent(wikiPageContent);
         Assert.assertEquals(wikiPage.getWikiPageContent(), wikiPageContent,
-                "Wrong wiki page!, expected " + wikiPageContent + " but found " + wikiPage.getWikiPageContent());
-        siteService.delete(adminUser,adminPassword,siteName );
+            "Wrong wiki page!, expected " + wikiPageContent + " but found " + wikiPage.getWikiPageContent());
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C5509")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5509")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreationOfWikiMainPage()
     {
         // precondition
@@ -82,7 +82,7 @@ public class WikiMainPageTests extends ContextAwareWebTest
         LOG.info("STEP 2: Type some content to the text box, then click on Cancel button");
         editWikiPage.cancelWikiContent(wikiPageContent);
         Assert.assertTrue(wikiPage.getWikiPageContent().isEmpty(), "Wiki main page should be empty!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

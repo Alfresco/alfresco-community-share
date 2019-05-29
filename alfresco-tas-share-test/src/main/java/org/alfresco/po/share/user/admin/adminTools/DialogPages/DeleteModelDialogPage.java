@@ -20,19 +20,19 @@ public class DeleteModelDialogPage extends ShareDialog
     private By deleteModelDialog = By.id("CMM_DELETE_MODEL_DIALOG");
 
     @RenderWebElement
-    @FindBy(css="#CMM_DELETE_MODEL_DIALOG .footer > span:nth-child(1) span[role='button']")
+    @FindBy (css = "#CMM_DELETE_MODEL_DIALOG .footer > span:nth-child(1) span[role='button']")
     private WebElement deleteButton;
 
     @RenderWebElement
     private By closeDeleteModelButton = By.cssSelector("div[id ='CMM_DELETE_MODEL_DIALOG'] span.dijitDialogCloseIcon");
 
-    @FindBy(xpath ="//div[@id='CMM_DELETE_MODEL_DIALOG']//div[@class='dialog-body']")
+    @FindBy (xpath = "//div[@id='CMM_DELETE_MODEL_DIALOG']//div[@class='dialog-body']")
     private WebElement deleteModelDialogText;
 
     private WebElement selectButton(String buttonName)
     {
-       return getBrowser().waitUntilElementClickable
-               (browser.findElement(By.xpath("//div[@id='CMM_DELETE_MODEL_DIALOG']//span[text()='" + buttonName + "']")));
+        return getBrowser().waitUntilElementClickable
+            (browser.findElement(By.xpath("//div[@id='CMM_DELETE_MODEL_DIALOG']//span[text()='" + buttonName + "']")));
     }
 
     public String getDeleteModelDialogText()

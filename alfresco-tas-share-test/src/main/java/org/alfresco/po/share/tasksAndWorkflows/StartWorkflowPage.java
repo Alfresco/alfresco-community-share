@@ -23,7 +23,8 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     @Autowired
     DocumentLibraryPage documentLibraryPage;
 
-    @Autowired SelectPopUpPage selectPopUpPage;
+    @Autowired
+    SelectPopUpPage selectPopUpPage;
 
     @Autowired
     UserDashboardPage userDashboardPage;
@@ -32,43 +33,43 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     SelectAssigneePopUp selectAssigneePopUp;
 
     @RenderWebElement
-    @FindBy(css = "button[id*='default-workflow-definition']")
+    @FindBy (css = "button[id*='default-workflow-definition']")
     private WebElement startWorkflowButton;
 
-    @FindBy(css = "[id*=default-workflow-definition-menu] ul")
+    @FindBy (css = "[id*=default-workflow-definition-menu] ul")
     private WebElement workflowMenu;
 
-    @FindAll(@FindBy(css = "[id*=default-workflow-definition-menu] li .title"))
+    @FindAll (@FindBy (css = "[id*=default-workflow-definition-menu] li .title"))
     private List<WebElement> dropdownOptions;
 
-    @FindBy(css = "textarea[id*=workflowDescription]")
+    @FindBy (css = "textarea[id*=workflowDescription]")
     private WebElement workflowDescriptionTextarea;
 
-    @FindBy(css = "input[id*='workflowDueDate-cntrl-date']")
+    @FindBy (css = "input[id*='workflowDueDate-cntrl-date']")
     private WebElement workflowDueDate;
 
-    @FindBy(css = ".datepicker-icon")
+    @FindBy (css = ".datepicker-icon")
     private WebElement datePickerIcon;
 
-    @FindBy(css = "div[id*=workflowDueDate]")
+    @FindBy (css = "div[id*=workflowDueDate]")
     private WebElement chooseWorkflowDate;
 
-    @FindBy(css = "[id*=workflowPriority]")
+    @FindBy (css = "[id*=workflowPriority]")
     private WebElement workflowPriority;
 
-    @FindAll(@FindBy(css = "[id*=workflowPriority] option"))
+    @FindAll (@FindBy (css = "[id*=workflowPriority] option"))
     private List<WebElement> workflowPrioritiesList;
 
 //    @FindBy(css = "[id*=assignee-cntrl-itemGroupActions] button")
 //    private WebElement selectButton;
 
-    @FindBy(css = "td.today>a")
+    @FindBy (css = "td.today>a")
     private WebElement calendarToday;
 
-    @FindBy(css = "button[id*='form-submit']")
+    @FindBy (css = "button[id*='form-submit']")
     private WebElement submitWorkflow;
 
-    @FindBy(css = ".form-field h3 a")
+    @FindBy (css = ".form-field h3 a")
     private List<WebElement> itemsList;
 //
 //    @FindBy(css = "[id*=assignees-cntrl-itemGroupActions] button")
@@ -77,13 +78,13 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     private By selectAssigneeButton = By.xpath("//div[@class='object-finder']//*[@class = 'show-picker']//button[text()='Select']");
 
 
-    @FindBy(css = "[id*=form-cancel-button]")
+    @FindBy (css = "[id*=form-cancel-button]")
     private WebElement cancelStartWorkflow;
 
-    @FindAll(@FindBy(css = "[id*=default_prop_bpm_status] option"))
+    @FindAll (@FindBy (css = "[id*=default_prop_bpm_status] option"))
     private List<WebElement> taskStatusList;
 
-    @FindBy(css = "[id*=default-reassign-button]")
+    @FindBy (css = "[id*=default-reassign-button]")
     private WebElement reassignButton;
 
     @Override
@@ -119,7 +120,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     public void selectWorkflowPriority(String priority)
     {
         browser.selectOptionFromFilterOptionsList(priority, workflowPrioritiesList);
-        browser.waitUntilElementHasAttribute(browser.findElement(By.xpath("//*[contains(@id, 'workflowPriority')]//option[text()='"+priority+"']")), "selected", "true");
+        browser.waitUntilElementHasAttribute(browser.findElement(By.xpath("//*[contains(@id, 'workflowPriority')]//option[text()='" + priority + "']")), "selected", "true");
     }
 
     public HtmlPage clickStartWorkflow(HtmlPage page)
@@ -131,14 +132,14 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
         getBrowser().waitUntilElementClickable(submitWorkflow);
 
         browser.clickJS(submitWorkflow);
-        if(browser.isElementDisplayed(submitWorkflow))
+        if (browser.isElementDisplayed(submitWorkflow))
             browser.clickJS(submitWorkflow);
         if (isAlertPresent())
         {
             browser.handleModalDialogAcceptingAlert();
         }
         dismissErrorPopup();
-        if(browser.isElementDisplayed(submitWorkflow))
+        if (browser.isElementDisplayed(submitWorkflow))
             browser.clickJS(submitWorkflow);
         return page.renderedPage();
     }
@@ -167,7 +168,7 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     {
         //workaround for "MNT-17015"
         browser.clickJS(cancelStartWorkflow);
-        if(browser.isElementDisplayed(cancelStartWorkflow))
+        if (browser.isElementDisplayed(cancelStartWorkflow))
             cancelStartWorkflow.click();
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
@@ -200,18 +201,17 @@ public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>
     {
         try
         {
-        browser.switchTo().alert();
-        return true;
-        }
-        catch (NoAlertPresentException noAlertPresentException)
+            browser.switchTo().alert();
+            return true;
+        } catch (NoAlertPresentException noAlertPresentException)
         {
-        return false;
+            return false;
         }
     }
 
     private void dismissErrorPopup()
     {
-        if(browser.isElementDisplayed(By.xpath("//div[@id='prompt_h' and text()='Workflow could not be started']")))
+        if (browser.isElementDisplayed(By.xpath("//div[@id='prompt_h' and text()='Workflow could not be started']")))
             browser.waitUntilElementVisible(By.cssSelector("div#prompt button")).click();
     }
 }

@@ -32,49 +32,72 @@ import org.testng.annotations.Test;
 
 public class ToolbarTests extends ContextAwareWebTest
 {
-    @Autowired MyFilesPage myFilesPage;
+    @Autowired
+    MyFilesPage myFilesPage;
 
-    @Autowired UserDashboardPage userDashboardPage;
+    @Autowired
+    UserDashboardPage userDashboardPage;
 
-    @Autowired SiteDashboardPage siteDashboardPage;
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
 
-    @Autowired Toolbar toolbar;
+    @Autowired
+    Toolbar toolbar;
 
-    @Autowired ToolbarSitesMenu toolbarSitesMenu;
+    @Autowired
+    ToolbarSitesMenu toolbarSitesMenu;
 
-    @Autowired ToolbarTasksMenu toolbarTasksMenu;
+    @Autowired
+    ToolbarTasksMenu toolbarTasksMenu;
 
-    @Autowired ToolbarUserMenu toolbarUserMenu;
+    @Autowired
+    ToolbarUserMenu toolbarUserMenu;
 
-    @Autowired SitesManagerPage sitesManagerPage;
+    @Autowired
+    SitesManagerPage sitesManagerPage;
 
-    @Autowired LoginPage loginPage;
+    @Autowired
+    LoginPage loginPage;
 
-    @Autowired UserProfilePage userProfilePage;
+    @Autowired
+    UserProfilePage userProfilePage;
 
-    @Autowired ChangePasswordPage changePasswordPage;
+    @Autowired
+    ChangePasswordPage changePasswordPage;
 
-    @Autowired MyTasksPage myTasksPage;
+    @Autowired
+    MyTasksPage myTasksPage;
 
-    @Autowired WorkflowsIveStartedPage workflowsIveStartedPage;
+    @Autowired
+    WorkflowsIveStartedPage workflowsIveStartedPage;
 
-    @Autowired UserSitesListPage userSitesListPage;
+    @Autowired
+    UserSitesListPage userSitesListPage;
 
-    @Autowired SiteFinderPage siteFinderPage;
+    @Autowired
+    SiteFinderPage siteFinderPage;
 
-    @Autowired CreateSiteDialog createSiteDialog;
+    @Autowired
+    CreateSiteDialog createSiteDialog;
 
-    @Autowired PeopleFinderPage peopleFinderPage;
+    @Autowired
+    PeopleFinderPage peopleFinderPage;
 
-    @Autowired RepositoryPage repositoryPage;
+    @Autowired
+    RepositoryPage repositoryPage;
 
-    @Autowired AdminToolsPage adminToolsPage;
+    @Autowired
+    AdminToolsPage adminToolsPage;
 
-    @Autowired AdvancedSearchPage advancedSearchPage;
+    @Autowired
+    AdvancedSearchPage advancedSearchPage;
 
-    @Autowired SharedFilesPage sharedFilesPage;
+    @Autowired
+    SharedFilesPage sharedFilesPage;
 
-    @TestRail(id = "C2091") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyAlfrescoToolbarItems()
+    @TestRail (id = "C2091")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void verifyAlfrescoToolbarItems()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -114,13 +137,15 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(toolbarUserMenu.isChangePasswordDisplayed(), "\"Change password\" is displayed");
         Assert.assertTrue(toolbarUserMenu.isLogoutDisplayed(), "\"Logout\" is displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2862") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void theToolbarIsAlwaysAvailableAtTheTopOfThePage()
+    @TestRail (id = "C2862")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void theToolbarIsAlwaysAvailableAtTheTopOfThePage()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -142,13 +167,15 @@ public class ToolbarTests extends ContextAwareWebTest
         LOG.info("STEP 2 - Navigate to any other page from Share");
         siteDashboardPage.navigate(siteName);
         Assert.assertTrue(toolbar.isToolbarDisplayed(), "\"Alfresco toolbar\" is displayed");
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2863") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void adminToolsAreAvailableOnlyForSystemAdministrators()
+    @TestRail (id = "C2863")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void adminToolsAreAvailableOnlyForSystemAdministrators()
     {
         String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String userName2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
@@ -187,16 +214,18 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertTrue(toolbar.isUserMenuDisplayed(), "\"User menu\" is displayed");
         Assert.assertTrue(toolbar.isSearchBoxDisplayed(), "\"Search\" is displayed");
 
-        userService.delete(adminUser,adminPassword, userName1);
+        userService.delete(adminUser, adminPassword, userName1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
 
-        userService.delete(adminUser,adminPassword, userName2);
+        userService.delete(adminUser, adminPassword, userName2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
 
     }
 
     //this test will fail if we are testing a non released version
-    @TestRail(id = "C2864") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromTheUserMenu()
+    @TestRail (id = "C2864")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void verifyTheLinksFromTheUserMenu()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -239,13 +268,15 @@ public class ToolbarTests extends ContextAwareWebTest
         toolbarUserMenu.clickLogout();
         Assert.assertTrue(loginPage.isCopyrightDisplayed(), "\"Copyright\" is displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2865") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromTasksMenu()
+    @TestRail (id = "C2865")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void verifyTheLinksFromTasksMenu()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -261,13 +292,15 @@ public class ToolbarTests extends ContextAwareWebTest
         workflowsIveStartedPage.navigateByMenuBar();
         Assert.assertTrue(workflowsIveStartedPage.isStartWorkflowDisplayed(), "\"Start Workflow\" is displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2866") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromSitesMenu()
+    @TestRail (id = "C2866")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void verifyTheLinksFromSitesMenu()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -322,16 +355,18 @@ public class ToolbarTests extends ContextAwareWebTest
         Assert.assertFalse(toolbarSitesMenu.isRemoveCurrentSiteFromFavoritesDisplayed(), "\"Remove current site from Favorites\" isn't displayed");
         Assert.assertTrue(toolbarSitesMenu.isAddCurrentSiteToFavoritesDisplayed(), "\"Add current site to Favorites\" is displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName1);
-        siteService.delete(adminUser,adminPassword,siteName2);
-        siteService.delete(adminUser,adminPassword,siteName3);
+        siteService.delete(adminUser, adminPassword, siteName1);
+        siteService.delete(adminUser, adminPassword, siteName2);
+        siteService.delete(adminUser, adminPassword, siteName3);
 
     }
 
-    @TestRail(id = "C2867") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void verifyTheLinksFromAlfrescoToolbar()
+    @TestRail (id = "C2867")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void verifyTheLinksFromAlfrescoToolbar()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -368,14 +403,16 @@ public class ToolbarTests extends ContextAwareWebTest
         advancedSearchPage.navigateByMenuBar();
         Assert.assertTrue(advancedSearchPage.isKeywordsSearchFieldDisplayed(), "Keywords search field is displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
 
     }
 
-    @TestRail(id = "C2868") @Test(groups = { TestGroup.SANITY, TestGroup.USER }) public void siteManagerIsAvailableOnlyForSiteAdministrators()
+    @TestRail (id = "C2868")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void siteManagerIsAvailableOnlyForSiteAdministrators()
     {
         String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
         String userName2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
@@ -417,9 +454,9 @@ public class ToolbarTests extends ContextAwareWebTest
         sitesManagerPage.navigateByMenuBar();
         Assert.assertTrue(sitesManagerPage.isSitesTableDisplayed(), "Sites table is displayed");
 
-        userService.delete(adminUser,adminPassword, userName1);
+        userService.delete(adminUser, adminPassword, userName1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser,adminPassword, userName2);
+        userService.delete(adminUser, adminPassword, userName2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
 
     }

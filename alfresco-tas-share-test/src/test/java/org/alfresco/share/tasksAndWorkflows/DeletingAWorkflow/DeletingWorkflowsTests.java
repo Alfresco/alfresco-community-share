@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author Razvan.Dorobantu
  */
-public class DeletingWorkflowsTests  extends ContextAwareWebTest
+public class DeletingWorkflowsTests extends ContextAwareWebTest
 {
     @Autowired
     WorkflowsIveStartedPage workflowsIveStartedPage;
@@ -31,12 +31,12 @@ public class DeletingWorkflowsTests  extends ContextAwareWebTest
 
     private String workflowName = String.format("taskName%s", RandomData.getRandomAlphanumeric());
 
-    @TestRail(id = "C8501")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8501")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void deleteWorkflow()
     {
         LOG.info("Precondition: Create user and a workflow.");
-        String testUser = String.format("testUser%s",RandomData.getRandomAlphanumeric());
+        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         String workflowID = workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
         workflow.taskDone(testUser, password, workflowID, WorkflowService.TaskStatus.COMPLETED, "C8434");
@@ -63,7 +63,7 @@ public class DeletingWorkflowsTests  extends ContextAwareWebTest
         myTasksPage.clickCompletedTasks();
         Assert.assertFalse(myTasksPage.checkTaskWasFound(workflowName), String.format("Workflow: %s is found in 'My Tasks' page.", workflowName));
 
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 }

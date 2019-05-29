@@ -7,10 +7,10 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class ToolbarTasksMenu extends Toolbar
 {
-    @FindBy(id = "HEADER_MY_TASKS_text")
+    @FindBy (id = "HEADER_MY_TASKS_text")
     private WebElement myTasks;
 
-    @FindBy(id = "HEADER_MY_WORKFLOWS_text")
+    @FindBy (id = "HEADER_MY_WORKFLOWS_text")
     private WebElement workflowsIveStarted;
 
     public boolean isMyTasksDisplayed()

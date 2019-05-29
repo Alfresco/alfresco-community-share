@@ -17,11 +17,11 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     EnterFeedURLPopUp enterFeedURLPopUp;
 
     @RenderWebElement
-    @FindBy(css = "div.dashlet.rssfeed")
+    @FindBy (css = "div.dashlet.rssfeed")
     private WebElement dashletContainer;
 
     @RenderWebElement
-    @FindAll(@FindBy(css = "div.headline h4 a"))
+    @FindAll (@FindBy (css = "div.headline h4 a"))
     private List<WebElement> feedsList;
 
     private By configureDashlet = By.cssSelector("div.dashlet.rssfeed [class$='edit']");
@@ -43,7 +43,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
 
     /**
      * Method to get feeds list size
-     * 
+     *
      * @return
      */
     public int getFeedsListSize()

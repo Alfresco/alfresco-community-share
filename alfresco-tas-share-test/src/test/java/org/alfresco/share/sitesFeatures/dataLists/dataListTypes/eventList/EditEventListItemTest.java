@@ -31,7 +31,7 @@ public class EditEventListItemTest extends ContextAwareWebTest
 
     @Autowired
     EditItemPopUp editItemPopUp;
-    
+
     String random = RandomData.getRandomAlphanumeric();
     String userName = "User-" + random;
     String siteName = "SiteName-" + random;
@@ -52,14 +52,14 @@ public class EditEventListItemTest extends ContextAwareWebTest
     String newItemNotes = "notes";
     String attachedFile = "testDoc.txt";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
         dataListsService.createDataList(adminUser, adminPassword, siteName, DataListsService.DataList.EVENT_LIST, listName, "Issue List description");
-        
+
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + itemFile);
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + attachedFile);
         dataListsService.addEventListItem(adminUser, adminPassword, siteName, listName, itemTitle, "", "", null, null, "", "", Collections.singletonList(itemFile));
@@ -69,17 +69,17 @@ public class EditEventListItemTest extends ContextAwareWebTest
         dataListsPage.clickEventListItem(listName);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C6696")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6696")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void saveEditItem()
     {
         LOG.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");
@@ -103,7 +103,7 @@ public class EditEventListItemTest extends ContextAwareWebTest
         editItemPopUp.clickSave();
         LOG.info(itemStartDate + ", " + itemEndDate);
         List<String> expectedItem = Arrays.asList(newItemTitle, newItemDescription, newItemLocation, itemStartDate, itemEndDate, newItemRegistrations,
-                newItemNotes, attachedFile);
+            newItemNotes, attachedFile);
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedItem), newItemTitle + " issue list item is displayed.");
     }
 }

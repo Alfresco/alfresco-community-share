@@ -19,19 +19,22 @@ import static org.testng.Assert.*;
  */
 public class BecomeContentOwnerTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired private BecomeContentOwnerDialog becomeContentOwnerDialog;
+    @Autowired
+    private BecomeContentOwnerDialog becomeContentOwnerDialog;
 
     private final String firstName = "FirstName";
     private final String lastName = "LastName";
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
 
-    @TestRail(id = "C7152")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7152")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void becomeFileOwner()
     {
         String random = RandomData.getRandomAlphanumeric();
@@ -60,7 +63,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertTrue(becomeContentOwnerDialog.isDialogDisplayed(), "'Become Owner' dialog is displayed.");
         assertEquals(becomeContentOwnerDialog.getHeader(), language.translate("becomeContentOwner.header"), "'Become Owner' dialog header=");
         assertEquals(becomeContentOwnerDialog.getMessage(), String.format(language.translate("becomeContentOwner.message"), docName),
-                "'Become Owner' dialog message:");
+            "'Become Owner' dialog message:");
 
         LOG.info("STEP2: Click 'OK' button");
         becomeContentOwnerDialog.clickButton("OK");
@@ -79,17 +82,17 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
 
         cleanupAuthenticatedSession();
 
-        userService.delete(adminUser,adminPassword, userSiteManager);
+        userService.delete(adminUser, adminPassword, userSiteManager);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userSiteManager);
-        userService.delete(adminUser,adminPassword, userManager);
+        userService.delete(adminUser, adminPassword, userManager);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userManager);
-        userService.delete(adminUser,adminPassword, userContributor);
+        userService.delete(adminUser, adminPassword, userContributor);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7153")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7153")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void becomeFolderOwner()
     {
         String random = RandomData.getRandomAlphanumeric();
@@ -121,7 +124,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertTrue(becomeContentOwnerDialog.isDialogDisplayed(), "'Become Owner' dialog is displayed.");
         assertEquals(becomeContentOwnerDialog.getHeader(), language.translate("becomeContentOwner.header"), "'Become Owner' dialog header:");
         assertEquals(becomeContentOwnerDialog.getMessage(), String.format(language.translate("becomeContentOwner.message"), folderName),
-                "'Become Owner' dialog message:");
+            "'Become Owner' dialog message:");
 
         LOG.info("STEP3: Click 'OK' button");
         becomeContentOwnerDialog.clickButton("OK");
@@ -139,17 +142,17 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.isMoreMenuDisplayed(folderName), folderName + " - 'More' menu is displayed.");
 
         cleanupAuthenticatedSession();
-        userService.delete(adminUser,adminPassword, userSiteManager);
+        userService.delete(adminUser, adminPassword, userSiteManager);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userSiteManager);
-        userService.delete(adminUser,adminPassword, userManager);
+        userService.delete(adminUser, adminPassword, userManager);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userManager);
-        userService.delete(adminUser,adminPassword, userContributor);
+        userService.delete(adminUser, adminPassword, userContributor);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7154")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7154")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelBecomeOwner()
     {
         String random = RandomData.getRandomAlphanumeric();
@@ -177,7 +180,7 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertTrue(becomeContentOwnerDialog.isDialogDisplayed(), "'Become Owner' dialog is displayed.");
         assertEquals(becomeContentOwnerDialog.getHeader(), language.translate("becomeContentOwner.header"), "'Become Owner' dialog header=");
         assertEquals(becomeContentOwnerDialog.getMessage(), String.format(language.translate("becomeContentOwner.message"), docName),
-                "'Become Owner' dialog message:");
+            "'Become Owner' dialog message:");
 
         LOG.info("STEP2: Click 'Cancel' button");
         becomeContentOwnerDialog.clickButton("Cancel");
@@ -195,13 +198,13 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), docName + " - 'More' menu is displayed. ");
 
         cleanupAuthenticatedSession();
-        userService.delete(adminUser,adminPassword, userSiteManager);
+        userService.delete(adminUser, adminPassword, userSiteManager);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userSiteManager);
-        userService.delete(adminUser,adminPassword, userManager);
+        userService.delete(adminUser, adminPassword, userManager);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userManager);
-        userService.delete(adminUser,adminPassword, userContributor);
+        userService.delete(adminUser, adminPassword, userContributor);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 

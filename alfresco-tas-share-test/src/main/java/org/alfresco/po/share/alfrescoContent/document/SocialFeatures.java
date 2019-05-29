@@ -10,49 +10,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class SocialFeatures extends DocumentLibraryPage
 {
-    @FindBy(css = ".section input[id*='input']")
+    @FindBy (css = ".section input[id*='input']")
     private WebElement publicLinkInputField;
 
-    @FindBy(css = "a.quickshare-action-view")
+    @FindBy (css = "a.quickshare-action-view")
     private WebElement publicLinkViewButton;
 
-    @FindBy(css = "a.linkshare-action-facebook")
+    @FindBy (css = "a.linkshare-action-facebook")
     private WebElement shareFacebook;
 
-    @FindBy(css = "a.linkshare-action-twitter")
+    @FindBy (css = "a.linkshare-action-twitter")
     private WebElement shareTwitter;
 
-    @FindBy(css = "a.linkshare-action-google-plus")
+    @FindBy (css = "a.linkshare-action-google-plus")
     private WebElement shareGooglePlus;
 
-    @FindBy(css = "a.d-s.ot-anchor")
+    @FindBy (css = "a.d-s.ot-anchor")
     private WebElement shareGooglePlusLink;
 
-    @FindBy(id = "Email")
+    @FindBy (id = "Email")
     private WebElement googleEmail;
 
-    @FindBy(id = "Passwd")
+    @FindBy (id = "Passwd")
     private WebElement googlePassword;
 
-    @FindBy(id = "next")
+    @FindBy (id = "next")
     private WebElement nextButton;
 
-    @FindBy(id = "signIn")
+    @FindBy (id = "signIn")
     private WebElement signInButton;
 
-    @FindBy(css = "a.quickshare-action-unshare")
+    @FindBy (css = "a.quickshare-action-unshare")
     private WebElement unshareButton;
 
-    @FindBy(css = "#alf-id6-input")
+    @FindBy (css = "#alf-id6-input")
     private WebElement sharedUrl;
 
-    @FindBy(xpath = "//a[text()='Login']")
+    @FindBy (xpath = "//a[text()='Login']")
     private WebElement loginButtonOnSharedFilePage;
 
-    @FindBy(xpath = "//a[text()='Document Details']")
+    @FindBy (xpath = "//a[text()='Document Details']")
     private WebElement documentDetailsButtonOnSharedFilePage;
 
-    @FindBy(css = ".textLayer>div")
+    @FindBy (css = ".textLayer>div")
     private WebElement contentFromSharedFilePage;
 
     @Autowired
@@ -92,7 +92,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     /**
      * Method to get the number of likes
-     * 
+     *
      * @param fileName
      * @return
      */
@@ -104,7 +104,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     /**
      * Method to click the like button
-     * 
+     *
      * @param fileName
      */
     public void clickLikeButton(String fileName)
@@ -114,7 +114,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     /**
      * Method to check if the like button is enabled
-     * 
+     *
      * @param fileName
      * @return
      */
@@ -125,7 +125,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     /**
      * Method to get the text when like is enabled
-     * 
+     *
      * @param fileName
      * @return
      */
@@ -136,7 +136,7 @@ public class SocialFeatures extends DocumentLibraryPage
 
     /**
      * Method to click Unlike
-     * 
+     *
      * @param fileName
      */
     public void clickUnlike(String fileName)

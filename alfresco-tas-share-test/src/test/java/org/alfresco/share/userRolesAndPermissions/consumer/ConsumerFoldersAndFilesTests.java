@@ -67,8 +67,9 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     String comment = String.format("Comment%s", RandomData.getRandomAlphanumeric());
     String filePath8865 = testDataFolder + fileC8865collaborator;
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         userService.create(adminUser, adminPassword, user8865, password, user8865 + domain, user8865, user8865);
         siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
@@ -86,21 +87,22 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        userService.delete(adminUser,adminPassword, user8865);
+        userService.delete(adminUser, adminPassword, user8865);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user8865);
-        siteService.delete(adminUser,adminPassword,siteName );
-        siteService.delete(adminUser,adminPassword,site8865 );
+        siteService.delete(adminUser, adminPassword, siteName);
+        siteService.delete(adminUser, adminPassword, site8865);
 
     }
 
-    @TestRail(id = "C8761")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerViewFolderItemDetailsPage() {
+    @TestRail (id = "C8761")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerViewFolderItemDetailsPage()
+    {
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: On to Document Library page verify the user has access to View the folder details page");
@@ -112,9 +114,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "User is not on the Document Details page");
     }
 
-    @TestRail(id = "C8762")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerLikeUnlikeFile() {
+    @TestRail (id = "C8762")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerLikeUnlikeFile()
+    {
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Hover over the file Like link.");
@@ -135,9 +138,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertEquals(social.getLikeButtonMessage(fileC8762), "Like this document", "Like Button message is not correct");
     }
 
-    @TestRail(id = "C8763")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerFavoriteUnfavoriteFile() {
+    @TestRail (id = "C8763")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerFavoriteUnfavoriteFile()
+    {
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("STEP 1: Check the favorite items list.");
@@ -158,9 +162,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileC8763), "Document is displayed in My favorites list!");
     }
 
-    @TestRail(id = "C8765")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerEditPropertiesForContent() {
+    @TestRail (id = "C8765")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerEditPropertiesForContent()
+    {
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Verify the user does not have access to rename file and folder");
@@ -171,9 +176,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isRenameIconDisplayed(folderC8761), "Rename icon is not displayed.");
     }
 
-    @TestRail(id = "C8770")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerCopyContent() {
+    @TestRail (id = "C8770")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerCopyContent()
+    {
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("STEP1: Hover over the file. STEP2: Click 'More...' link. Click 'Copy to...' link");
@@ -192,9 +198,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(fileC8770), fileC8770 + " displayed in 'Shared Files'. List of 'Shared Files' documents=" + sharedFilesPage.getFilesList().toString());
     }
 
-    @TestRail(id = "C8772")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerMoveContent() {
+    @TestRail (id = "C8772")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerMoveContent()
+    {
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Verify the user does not have access to Move the file and folder");
@@ -202,9 +209,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderC8761, "Move to..."), "Move to... is not available.");
     }
 
-    @TestRail(id = "C8774")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerDeleteContent() {
+    @TestRail (id = "C8774")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerDeleteContent()
+    {
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Verify the user does not have access to Move the file and folder");
@@ -212,9 +220,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderC8761, "Delete Folder"), "Delete Folder is not available.");
     }
 
-    @TestRail(id = "C8776")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerManagePermissionsForContent() {
+    @TestRail (id = "C8776")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerManagePermissionsForContent()
+    {
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Verify the user does not have access to Move the file and folder");
@@ -222,9 +231,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderC8761, "Manage Permissions"), "Manage Permissions is not available.");
     }
 
-    @TestRail(id = "C8778")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerManageAspectsForContent() {
+    @TestRail (id = "C8778")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerManageAspectsForContent()
+    {
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Verify the user does not have access to Move the file and folder");
@@ -232,9 +242,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderC8761, "Manage Aspects"), "Manage Aspects is not available.");
     }
 
-    @TestRail(id = "C8780")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerChangeTypeForContent() {
+    @TestRail (id = "C8780")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerChangeTypeForContent()
+    {
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: On to Document Library page click on 'View Details' option for the folder.");
@@ -244,9 +255,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertFalse(documentDetailsPage.isActionAvailable("Change Type"), "Change Type action is not available.");
     }
 
-    @TestRail(id = "C8782")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerAddCommentForContent() {
+    @TestRail (id = "C8782")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerAddCommentForContent()
+    {
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "User is not on the Document Library page");
         LOG.info("Step 1: Verify the user does not have access to add comments to content.");
@@ -254,9 +266,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isCommentButtonDisplayed(folderC8761), "Comment button is not available.");
     }
 
-    @TestRail(id = "C8784")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerEditAndDeleteCommentForContent() {
+    @TestRail (id = "C8784")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerEditAndDeleteCommentForContent()
+    {
         contentAction.addComment(adminUser, adminPassword, siteName, fileC8784, comment);
         contentAction.addComment(adminUser, adminPassword, siteName, folderC8784, comment);
         setupAuthenticatedSession(user, password);
@@ -270,9 +283,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertFalse(documentDetailsPage.isDeleteButtonDisplayedForComment(comment), "Edit comment action is not available.");
     }
 
-    @TestRail(id = "C8865")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
-    public void consumerPermissionRetention() {
+    @TestRail (id = "C8865")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void consumerPermissionRetention()
+    {
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user8865, password);
         documentLibraryPage.navigate(site8865);

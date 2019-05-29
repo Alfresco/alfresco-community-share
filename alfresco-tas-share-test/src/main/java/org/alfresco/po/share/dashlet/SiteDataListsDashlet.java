@@ -19,39 +19,39 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 {
     @Autowired
     DataListsPage dataListsPage;
-    
+
     @RenderWebElement
-    @FindBy(css = "div.dashlet.site-data-lists")
+    @FindBy (css = "div.dashlet.site-data-lists")
     protected WebElement dashletContainer;
 
-    @FindBy(css = ".site-data-lists .detail-list-item")
+    @FindBy (css = ".site-data-lists .detail-list-item")
     protected List<WebElement> siteDataListsItems;
 
-    @FindBy(css = ".site-data-lists .body a")
+    @FindBy (css = ".site-data-lists .body a")
     protected List<WebElement> dataListsLinks;
 
-    @FindBy(css = ".dashlet-padding>h3")
+    @FindBy (css = ".dashlet-padding>h3")
     protected WebElement message;
 
-    @FindBy(css = ".datagrid-meta h2")
+    @FindBy (css = ".datagrid-meta h2")
     protected WebElement dataListTitle;
 
-    @FindBy(css = ".hd")
+    @FindBy (css = ".hd")
     protected WebElement newListWindow;
 
-    @FindBy(css = ".item-types div")
+    @FindBy (css = ".item-types div")
     protected WebElement listType;
 
-    @FindBy(css = "input[name$='prop_cm_title']")
+    @FindBy (css = "input[name$='prop_cm_title']")
     protected WebElement listTitleTextInput;
 
-    @FindBy(css = "textarea[title$='Content Description']")
+    @FindBy (css = "textarea[title$='Content Description']")
     protected WebElement listDescriptionTextAreaInput;
 
-    @FindBy(css = ".bdft button[id*='submit-button']")
+    @FindBy (css = ".bdft button[id*='submit-button']")
     protected WebElement newListSaveButton;
 
-    @FindBy(css = ".bdft button[id*='cancel-button']")
+    @FindBy (css = ".bdft button[id*='cancel-button']")
     protected WebElement newListCancelButton;
 
     protected By newListWindowLocator = By.cssSelector(".hd");
@@ -60,43 +60,47 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 
     protected String listlinkLocator = "a[title='%s']";
 
-    @FindBy(css = ".detail-list-item.first-item")
+    @FindBy (css = ".detail-list-item.first-item")
     protected WebElement detailListItem;
 
-    
+
     /**
      * Method to get the title of the current dashlet
-     * @return String 
-     */    
+     *
+     * @return String
+     */
     @Override
     public String getDashletTitle()
     {
         return dashletContainer.findElement(dashletTitle).getText();
     }
 
-    
+
     /**
      * Method to test if the Create Data List link is displayed
+     *
      * @return boolean
-     */    
+     */
     public boolean isCreateDataListLinkDisplayed()
     {
         return browser.isElementDisplayed(createDataListLinkLocator);
     }
-    
+
     /**
      * Method to get the text that appears when there are no Data Lists created
+     *
      * @return String
-     */ 
+     */
     public String getMessageDisplayed()
     {
         return message.getText();
     }
-    
+
     /**
-     * Method to get the number of list items displayed 
+     * Method to get the number of list items displayed
+     *
      * @return int
-     */ 
+     */
     public int getNumberOfSiteDataListsItemsDisplayed()
     {
         int numberOfListItemsDisplayed = 0;
@@ -114,37 +118,40 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
     {
         return siteDataListsItems.size() == getNumberOfSiteDataListsItemsDisplayed();
     }
-    
+
     /**
-     * Method to get the text that is displayed when the New List window is opened 
+     * Method to get the text that is displayed when the New List window is opened
+     *
      * @return String
-     */ 
+     */
     public String getNewListWindowText()
     {
         return newListWindow.getText();
     }
 
     /**
-     * Method to test if New List window is opened 
+     * Method to test if New List window is opened
+     *
      * @return boolean
-     */ 
+     */
     public boolean isNewListWindowOpened()
     {
         return (newListWindow.getText().equals("New List"));
     }
 
     /**
-     * Method to get the number of Site Data Lists 
+     * Method to get the number of Site Data Lists
+     *
      * @return boolean
-     */ 
+     */
     public int numberOfListItems()
     {
         return siteDataListsItems.size();
     }
 
     /**
-     * Click on the first item in the site data lists 
-     */ 
+     * Click on the first item in the site data lists
+     */
     public DataListsPage clickOnFirstListItem()
     {
         dataListsLinks.get(0).click();
@@ -157,7 +164,7 @@ public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
         createDataListLink.click();
     }
 
-    
+
     public void selectContactListFromTypesOfListsAvailable()
     {
         listType.click();

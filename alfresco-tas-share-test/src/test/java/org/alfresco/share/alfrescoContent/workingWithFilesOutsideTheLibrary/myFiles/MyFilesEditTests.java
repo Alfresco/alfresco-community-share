@@ -25,14 +25,15 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesEditTests extends ContextAwareWebTest
 {
-private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+    private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     private final String googleDocName = RandomData.getRandomAlphanumeric() + "googleDoc";
     private final String docNameC8186 = RandomData.getRandomAlphanumeric() + "testDocC8186";
     private final String docNameC8212 = RandomData.getRandomAlphanumeric() + "testDocC8212";
     private final String editedFolderName = String.format("editedFolderName%s", RandomData.getRandomAlphanumeric());
     private final String editedTitle = "editedTitle";
     private final String editedContent = "edited content in Alfresco";
-    private final String editedDescription = "edited description in Alfresco";;
+    private final String editedDescription = "edited description in Alfresco";
+    ;
     private final String tag = String.format("editTag%s", RandomData.getRandomAlphanumeric());
     private final String folderName = String.format("Folder%s", RandomData.getRandomAlphanumeric());
     private final String myFilesPath = "User Homes/" + user;
@@ -52,22 +53,23 @@ private final String user = String.format("user%s", RandomData.getRandomAlphanum
     private DocumentCommon documentCommon;
     private String editedDocName;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createUser()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
 
-    @TestRail(id = "C8186")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C8186")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesEditFileProperties()
     {
         editedDocName = String.format("editedDocName%s", RandomData.getRandomAlphanumeric());
@@ -107,8 +109,8 @@ private final String user = String.format("user%s", RandomData.getRandomAlphanum
         Assert.assertEquals(myFilesPage.getTags(editedDocName), "[" + tag.toLowerCase() + "]", "The tag of the edited document is not correct");
     }
 
-    @TestRail(id = "C8191")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C8191")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesEditFolderProperties()
     {
         contentService.createFolderInRepository(user, password, folderName, myFilesPath);
@@ -147,8 +149,8 @@ private final String user = String.format("user%s", RandomData.getRandomAlphanum
         Assert.assertEquals(myFilesPage.getTags(editedFolderName), "[" + tag.toLowerCase() + "]", "The tag of the edited document is not correct");
     }
 
-    @TestRail(id = "C8212")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C8212")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesEditFileInAlfresco()
     {
         editedDocName = String.format("editedDocName%s", RandomData.getRandomAlphanumeric());
@@ -181,8 +183,8 @@ private final String user = String.format("user%s", RandomData.getRandomAlphanum
         Assert.assertTrue(documentCommon.isPropertyValueDisplayed(editedDescription), "Updated description is not displayed");
     }
 
-    @TestRail(id = "C8227")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    @TestRail (id = "C8227")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void myFilesEditFilesInGoogleDocs() throws Exception
     {
         contentService.createDocumentInRepository(user, password, myFilesPath, CMISUtil.DocumentType.MSWORD, googleDocName, "some content");

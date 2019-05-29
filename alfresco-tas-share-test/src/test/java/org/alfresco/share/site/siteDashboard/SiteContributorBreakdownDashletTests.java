@@ -41,7 +41,7 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
     private String fileName1User2 = String.format("File1User2%s", RandomData.getRandomAlphanumeric());
     private String fileContent = "File content for site dashboard test";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName1, password, userName1 + domain, "User1", "User1");
@@ -55,20 +55,20 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName1, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName1);
+        userService.delete(adminUser, adminPassword, userName1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser,adminPassword, userName2);
+        userService.delete(adminUser, adminPassword, userName2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id="C202732")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C202732")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void checkTheSiteContributorBreakdownDashlet()
     {
         LOG.info("Step 1: Check the Site Contributor Breakdown dashlet default data");
@@ -78,24 +78,24 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
         Assert.assertEquals(siteContributorBreakdownDashlet.getSelectedFilterOption(), "Last 30 Days", "Last 30 days option is not selected by default");
 
         LOG.info("Step 2: Check the Period Filter options");
-        ArrayList<String> expectedOptions =  new ArrayList<>(Arrays.asList("Today", "Last 7 Days", "Last 30 Days", "Past Year", "Date Range"));
-        Assert.assertEquals(siteContributorBreakdownDashlet.getOptionText(), expectedOptions, expectedOptions +" filter options are not displayed");
+        ArrayList<String> expectedOptions = new ArrayList<>(Arrays.asList("Today", "Last 7 Days", "Last 30 Days", "Past Year", "Date Range"));
+        Assert.assertEquals(siteContributorBreakdownDashlet.getOptionText(), expectedOptions, expectedOptions + " filter options are not displayed");
     }
 
-    @TestRail(id ="C202304")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C202304")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void openUsersProfileFromSiteContributorBreakdownDashlet()
     {
-        LOG.info ("Step 1: Click on \"user2\" section.");
+        LOG.info("Step 1: Click on \"user2\" section.");
         siteDashboardPage.navigate(siteName);
         Assert.assertEquals(siteContributorBreakdownDashlet.getNumberOfPieChartSlices(), 2, "Pie chart slices is different!");
         siteContributorBreakdownDashlet.clickOnUserSection(userName2);
 
-        LOG.info("Step 2: Check that user is redirected to User Profile page and that "+ userName2 + " profile details are displayed");
-        String expectedName = "FNUser2 "+"LNUser2";
+        LOG.info("Step 2: Check that user is redirected to User Profile page and that " + userName2 + " profile details are displayed");
+        String expectedName = "FNUser2 " + "LNUser2";
         String expectedEmail = userName2 + "@test.com";
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » User Profile Page", "User Profile Page is not displayed");
-        Assert.assertEquals(userProfilePage.getNameLabel(), expectedName, expectedName + " is not displayed on the User Profile Page" );
-        Assert.assertTrue(userProfilePage.getUserInformation().containsValue(expectedEmail),expectedEmail+" is not displayed on Contact information");
+        Assert.assertEquals(userProfilePage.getNameLabel(), expectedName, expectedName + " is not displayed on the User Profile Page");
+        Assert.assertTrue(userProfilePage.getUserInformation().containsValue(expectedEmail), expectedEmail + " is not displayed on Contact information");
     }
 }

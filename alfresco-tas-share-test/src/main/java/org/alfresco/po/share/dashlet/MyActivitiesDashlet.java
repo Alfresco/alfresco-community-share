@@ -56,31 +56,31 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
     DataListsPage dataListsPage;
 
     @RenderWebElement
-    @FindBy(css = "div.dashlet.activities")
+    @FindBy (css = "div.dashlet.activities")
     protected HtmlElement dashletContainer;
 
-    @FindBy(css = "div.dashlet.activities div.title")
+    @FindBy (css = "div.dashlet.activities div.title")
     protected WebElement activitiesDashletTitle;
 
-    @FindAll(@FindBy(xpath = "//div[@class='activity']//div[@class='hidden']/preceding-sibling::div[@class='more']/a"))
+    @FindAll (@FindBy (xpath = "//div[@class='activity']//div[@class='hidden']/preceding-sibling::div[@class='more']/a"))
     private List<Link> linksMore;
 
-    @FindAll(@FindBy(css = "div[id$='default-activityList'] > div.activity div:last-child[class$='content']"))
+    @FindAll (@FindBy (css = "div[id$='default-activityList'] > div.activity div:last-child[class$='content']"))
     private List<WebElement> activityLinks;
 
-    @FindBy(css = "div[id$='default-activityList']")
+    @FindBy (css = "div[id$='default-activityList']")
     private WebElement activitiesEmptyList;
 
-    @FindBy(css = "button[id$='default-user-button']")
+    @FindBy (css = "button[id$='default-user-button']")
     private Button myActivitiesButton;
 
-    @FindAll(@FindBy(css = "div.activities div.visible ul.first-of-type li a"))
+    @FindAll (@FindBy (css = "div.activities div.visible ul.first-of-type li a"))
     private List<WebElement> dropDownOptionsList;
 
-    @FindBy(css = "button[id$='default-range-button']")
+    @FindBy (css = "button[id$='default-range-button']")
     private Button daysRangeButton;
 
-    @FindAll(@FindBy(css ="div[id$='default-activityList']>div.activity"))
+    @FindAll (@FindBy (css = "div[id$='default-activityList']>div.activity"))
     private List<WebElement> activitiesList;
     private By rssFeedButton = By.cssSelector("div[class='titleBarActionIcon rss']");
 
@@ -133,8 +133,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
                 if (noOfLinksFromActivity < 2)
                 {
                     activities.add(new ActivityLink(user, description));
-                }
-                else if (noOfLinksFromActivity == 2)
+                } else if (noOfLinksFromActivity == 2)
                 {
                     if (activityLink.findElements(By.cssSelector("div.content>span.detail>a[class^='theme-color']")).size() > 1)
                     {
@@ -144,22 +143,19 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
                             shareLinks.add(element);
                         }
                         activities.add(new ActivityLink(shareLinks.get(0), shareLinks.get(1), description));
-                    }
-                    else
+                    } else
                     {
                         WebElement site = activityLink.findElement(siteLinkLocator);
                         activities.add(new ActivityLink(user, site, description));
                     }
-                }
-                else
+                } else
                 {
                     WebElement site = activityLink.findElement(siteLinkLocator);
                     WebElement document = activityLink.findElement(documentLinkLocator);
                     activities.add(new ActivityLink(user, document, site, description));
                 }
             }
-        }
-        catch (NoSuchElementException nse)
+        } catch (NoSuchElementException nse)
         {
             throw new PageOperationException("Unable to access dashlet data", nse);
         }
@@ -233,8 +229,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
         try
         {
             return selectLink(name, LinkType.Document);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             throw new PageOperationException("no documents found matching the given title: " + name);
         }
@@ -242,7 +237,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
 
     /**
      * Gets the list of options from Site User Activities filter dropdown
-     * 
+     *
      * @return
      */
     public List<String> getMyActivitiesFilterOptions()
@@ -261,8 +256,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
                     userActivitiesFilterOptions.add(text.trim());
                 }
             }
-        }
-        catch (NoSuchElementException nse)
+        } catch (NoSuchElementException nse)
         {
             LOG.error("Unable to access My Discussions dashlet user filters data", nse);
         }
@@ -276,7 +270,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
      *
      * @param myActivitiesOption String
      * @return {@link ActivityLink} collection
-     *         author Cristina.Axinte
+     * author Cristina.Axinte
      */
     public MyActivitiesDashlet selectOptionFromUserActivities(String myActivitiesOption)
     {
@@ -286,8 +280,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
             myActivitiesButton.click();
             browser.selectOptionFromFilterOptionsList(myActivitiesOption, dropDownOptionsList);
             return (MyActivitiesDashlet) this.renderedPage();
-        }
-        catch (NoSuchElementException nse)
+        } catch (NoSuchElementException nse)
         {
             LOG.error("My Activities option not present" + nse.getMessage());
             throw new PageOperationException(myActivitiesOption + " option not present.");
@@ -299,7 +292,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
      *
      * @param noDaysOption SiteActivitiesHistoryFilter
      * @return {@link ActivityLink} collection
-     *         author Cristina.Axinte
+     * author Cristina.Axinte
      */
     public MyActivitiesDashlet selectOptionFromHistoryFilter(SiteActivitiesDaysRangeFilter noDaysOption)
     {
@@ -309,8 +302,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
             daysRangeButton.click();
             browser.selectOptionFromFilterOptionsList(noDaysOption.getDescription(), dropDownOptionsList);
             return this;
-        }
-        catch (NoSuchElementException nse)
+        } catch (NoSuchElementException nse)
         {
             LOG.error("My days range option not present" + nse.getMessage());
             throw new PageOperationException(noDaysOption + " option not present.");
@@ -397,7 +389,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
     {
         int counter = 0;
         boolean found = false;
-        while(!found && counter < 5)
+        while (!found && counter < 5)
         {
             List<ActivityLink> activityLinks = getActivities();
             for (ActivityLink link : activityLinks)
@@ -408,7 +400,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
                     break;
                 }
             }
-            if(!found)
+            if (!found)
             {
                 browser.refresh();
                 counter++;

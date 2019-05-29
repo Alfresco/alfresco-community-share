@@ -17,12 +17,10 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 /**
- * 
  * @author bogdan.bocancea
- *
  */
-@ContextConfiguration("classpath:alfresco-share-po-context.xml")
-@Scope(value = "prototype")
+@ContextConfiguration ("classpath:alfresco-share-po-context.xml")
+@Scope (value = "prototype")
 public abstract class ContextAwareWebTest extends AbstractWebTest
 {
     @Autowired
@@ -38,7 +36,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     protected DataListsService dataListsService;
     @Autowired
     protected SitePagesService sitePagesService;
-    @Autowired 
+    @Autowired
     protected ContentActions contentAction;
     @Autowired
     protected ContentAspects contentAspects;
@@ -47,7 +45,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     @Autowired
     protected Language language;
-    
+
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
 
@@ -58,8 +56,9 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     protected String password;
     protected String mainWindow;
 
-    @BeforeClass(alwaysRun = true)
-    public void setup() throws DataPreparationException {
+    @BeforeClass (alwaysRun = true)
+    public void setup() throws DataPreparationException
+    {
         adminUser = properties.getAdminUser();
         adminPassword = properties.getAdminPassword();
         adminName = properties.getAdminName();
@@ -72,7 +71,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
      * Just authenticate using <username> and <password> provided as parameters
      * And inject the cookies in current browser
      * use this method in a @BeforeClass to pass the login screen
-     * 
+     *
      * @param userName
      * @param password
      */
@@ -89,9 +88,10 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         userService.logout();
         getBrowser().cleanUpAuthenticatedSession();
     }
-    
+
     /**
-     * Navigate to specific page 
+     * Navigate to specific page
+     *
      * @param pageUrl e.g. 'share/page/user/admin/profile'
      */
     protected void navigate(String pageUrl)
@@ -99,13 +99,12 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         try
         {
             getBrowser().navigate().to(properties.getShareUrl().toURI().resolve(pageUrl).toURL());
-        }
-        catch (URISyntaxException | MalformedURLException me)
+        } catch (URISyntaxException | MalformedURLException me)
         {
             throw new RuntimeException("Page url: " + pageUrl + " is invalid");
         }
     }
-    
+
     /**
      * Switches to the newly created window.
      */
@@ -113,7 +112,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     {
         getBrowser().switchWindow();
     }
-    
+
     /**
      * Closes the newly created win and swithes back to main
      */
@@ -122,7 +121,8 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
         getBrowser().closeWindowAndSwitchBack();
     }
 
-    @Override public String getPageObjectRootPackage()
+    @Override
+    public String getPageObjectRootPackage()
     {
         return "org/alfresco/po/share";
     }

@@ -40,15 +40,14 @@ public class AdminConsoleObject implements ControlObject
                 by = "id";
                 byValue = value.getAttribute("id");
 
-            }
-            else if (!value.getAttribute("name").isEmpty())
+            } else if (!value.getAttribute("name").isEmpty())
             {
                 by = "name";
                 byValue = value.getAttribute("name");
             }
         }
         sb.append("@FindBy(").append(by).append("=").append("\"").append(byValue).append("\"").append(")").append("\n").append("WebElement ").append(name)
-                .append(";\n\n");
+          .append(";\n\n");
         return sb.toString();
     }
 

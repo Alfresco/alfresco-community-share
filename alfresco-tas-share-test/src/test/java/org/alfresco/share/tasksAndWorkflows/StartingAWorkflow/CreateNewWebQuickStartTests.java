@@ -46,7 +46,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
     private String docContent = String.format("docContent-%s", RandomData.getRandomAlphanumeric());
     private String startWorkflowAction = "Start Workflow";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName1", "lastName1");
@@ -55,19 +55,19 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         contentService.createDocument(user1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
-    @TestRail(id = "C8352")
+    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
+    @TestRail (id = "C8352")
     //@Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewWebQuickStartReviewAndPublishSectionStructure()
     {
@@ -102,9 +102,9 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
-    @TestRail(id = "C8353")
-   // @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
+    @TestRail (id = "C8353")
+    // @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewWebQuickStartReviewAndPublishWebAssets()
     {
         LOG.info("Precondition");

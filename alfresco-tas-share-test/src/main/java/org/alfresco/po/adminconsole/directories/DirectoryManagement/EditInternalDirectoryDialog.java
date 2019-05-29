@@ -10,7 +10,8 @@ public class EditInternalDirectoryDialog extends EditDirectoryDialog
 {
     public static final String INTERNAL_AUTHENTICATION_OBJECT = "Alfresco:Category=Authentication,Type=Configuration,id1=managed,id2=alfrescoNtlm1";
 
-    public enum InternalFields{
+    public enum InternalFields
+    {
         allowGuestLogin("Allow Guest Login:", "alfresco.authentication.allowGuestLogin"),
         mapUnknownUserToGuest("Map Unknown User to Guest:", "ntlm.authentication.mapUnknownUserToGuest"),
         authenticateFTP("Authenticate FTP:", "alfresco.authentication.authenticateFTP");

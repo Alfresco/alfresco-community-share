@@ -23,7 +23,7 @@ public class FollowingPage extends SharePage<FollowingPage>
 
     /**
      * Open I'm Following page from the my profile navigation links
-     * 
+     *
      * @param myProfileNavigation
      * @return {@link FollowingPage}
      */

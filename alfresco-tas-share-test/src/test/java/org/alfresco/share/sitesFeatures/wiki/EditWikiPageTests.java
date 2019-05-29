@@ -52,7 +52,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
     private final String image = "newavatar.jpg";
     private final String siteNameC5545 = String.format("siteNameC5545%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createUser()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);
@@ -63,17 +63,17 @@ public class EditWikiPageTests extends ContextAwareWebTest
         tags.add(tagName);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
 
-        siteService.delete(adminUser,adminPassword,siteNameC5545 );
+        siteService.delete(adminUser, adminPassword, siteNameC5545);
     }
 
-    @TestRail(id = "C5542")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5542")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editWikiPageFromPageView()
     {
         wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
@@ -93,20 +93,20 @@ public class EditWikiPageTests extends ContextAwareWebTest
         Assert.assertEquals(currentContent, wikiInitialContent, "Wrong wiki content!, expected " + wikiInitialContent + " but found " + currentContent);
 
         LOG.info("STEP 2: Clear wiki page content and add another one and a tag ");
-       editWikiPage.clearWikiPageContent();
+        editWikiPage.clearWikiPageContent();
         editWikiPage.addTag(tagName);
         editWikiPage.saveWikiContent(wikiNewContent);
         Assert.assertEquals(wikiMainPage.getWikiPageContent().trim(), wikiNewContent, "Wrong wiki content!, expected " + wikiNewContent + " but found "
-                + wikiMainPage.getWikiPageContent());
+            + wikiMainPage.getWikiPageContent());
 
         LOG.info("STEP 3: Click on wiki page list link");
         wikiMainPage.clickOnWikiListLink();
         Assert.assertTrue(wikiListPage.getTagsList().contains(tagName + " (1)"), "Tag is not displayed in the list!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5543")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5543")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editWikiPageFromWikiPageList()
     {
         wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
@@ -133,12 +133,12 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 4: Navigate to 'Wiki Page List'");
         wikiMainPage.clickOnWikiListLink();
         Assert.assertFalse(wikiListPage.getTagsList().contains(tagName + " (1)"), "Tag is displayed in the list!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C5544")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5544")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEditingWikiPage()
     {
         wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
@@ -156,12 +156,12 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 2: Add some content in the text box");
         editWikiPage.cancelWikiContent("New content");
         Assert.assertTrue(wikiPage.getWikiPageContent().equals("Content"), "Wrong wiki page content!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C5545")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5545")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyInsertLibraryImageFeature()
     {
         wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
@@ -187,8 +187,8 @@ public class EditWikiPageTests extends ContextAwareWebTest
         Assert.assertTrue(wikiMainPage.isImageDisplayed(image), "Image is displayed.");
     }
 
-    @TestRail(id = "C5546")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5546")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyInsertDocumentLibraryFeature()
     {
         wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
@@ -219,7 +219,7 @@ public class EditWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 4: Click on 'Save' button");
         editWikiPage.clickOnSaveButton();
         wikiPage.clickOnDocLink(docName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

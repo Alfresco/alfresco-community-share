@@ -31,7 +31,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
     private String user2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
     private String siteName = "";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lastName1");
@@ -39,17 +39,17 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6252")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6252")
     public void browseLinksByTags()
     {
 
@@ -86,12 +86,12 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
         linkPage.clickSpecificTag("l3");
         linksList = Collections.singletonList("Link3");
         Assert.assertTrue(CollectionUtils.isEqualCollection(linkPage.getLinksTitlesList(), linksList), "Only 'Link3' should be displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6253")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6253")
     public void browseLinksByLinksMenu()
     {
 
@@ -121,7 +121,7 @@ public class BrowsingTheSiteLinksTests extends ContextAwareWebTest
         linkPage.filterLinksBy("Recently Added");
         Assert.assertTrue(linkPage.isLinkDisplayed("Link1"), "Link1 should be displayed!");
         // Assert.assertFalse(linkPage.isLinkDisplayed("Link3"), "Link3 should not be displayed!"); - in case Link3 is created in the past
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

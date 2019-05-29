@@ -21,11 +21,14 @@ import static org.testng.Assert.assertTrue;
  */
 public class LikeCommentTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
 
-    @Autowired private SocialFeatures social;
+    @Autowired
+    private SocialFeatures social;
 
     private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String user = "user" + uniqueId;
@@ -36,7 +39,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     private final String path = "Shared/";
     private final String comment = "Comment " + uniqueId;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstname", user);
@@ -52,8 +55,8 @@ public class LikeCommentTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
     }
 
-    @TestRail(id = "C8097")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8097")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void likeFile()
     {
         LOG.info("Step 1: Hover over the file Like link.");
@@ -68,8 +71,8 @@ public class LikeCommentTests extends ContextAwareWebTest
         assertEquals(social.getLikeButtonMessage(fileName1), "Unlike", "Like Button message=");
     }
 
-    @TestRail(id = "C8098")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8098")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void likeFolder()
     {
         LOG.info("Step 1: Hover over the folder's Like link.");
@@ -85,8 +88,8 @@ public class LikeCommentTests extends ContextAwareWebTest
         assertEquals(social.getLikeButtonMessage(folderName1), "Unlike", "Like Button message=");
     }
 
-    @TestRail(id = "C8099")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8099")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void unlikeFile()
     {
         LOG.info("Step 1: Hover over the file Like link.");
@@ -98,8 +101,8 @@ public class LikeCommentTests extends ContextAwareWebTest
         assertEquals(social.getNumberOfLikes(fileName2), 0, "The number of likes=");
     }
 
-    @TestRail(id = "C8100")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8100")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void unlikeFolder()
     {
         LOG.info("Step 1: Hover over the folder's Like link.");
@@ -111,8 +114,8 @@ public class LikeCommentTests extends ContextAwareWebTest
         assertEquals(social.getNumberOfLikes(folderName2), 0, "The number of likes=");
     }
 
-    @TestRail(id = "C8101")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8101")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void addCommentToFile()
     {
         LOG.info("STEP1: Hover over a document and press \"Comment\"");
@@ -128,8 +131,8 @@ public class LikeCommentTests extends ContextAwareWebTest
         assertEquals(social.getNumberOfComments(fileName1), 1, "Number of comments=");
     }
 
-    @TestRail(id = "C8102")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8102")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void addCommentToFolder()
     {
         LOG.info("STEP1: Hover over a document and press \"Comment\"");
@@ -150,7 +153,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     @AfterClass
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
         contentService.deleteContentByPath(adminUser, adminPassword, path + fileName1);

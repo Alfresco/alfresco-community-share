@@ -25,41 +25,41 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     SelectDocumentPopupPage selectDocPopUpPage;
 
     @RenderWebElement
-    @FindBy(css = "[id$=tag-input-field]")
+    @FindBy (css = "[id$=tag-input-field]")
     private WebElement tagInputField;
 
-    @FindBy(css = "[id$=default-add-tag-button-button]")
+    @FindBy (css = "[id$=default-add-tag-button-button]")
     private WebElement addTagButton;
 
-    @FindBy(css = "[class*=mce-tinymce]")
+    @FindBy (css = "[class*=mce-tinymce]")
     private WebElement editWkiContainer;
 
-    @FindBy(css = "[class*=mce-edit-area]")
+    @FindBy (css = "[class*=mce-edit-area]")
     private WebElement editWikiArea;
 
-    @FindBy(css = "#tinymce")
+    @FindBy (css = "#tinymce")
     private WebElement editWikiLine;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='default-save-button-button']")
+    @FindBy (css = "button[id$='default-save-button-button']")
     private WebElement saveButton;
 
-    @FindBy(css = "button[id$='cancel-button-button']")
+    @FindBy (css = "button[id$='cancel-button-button']")
     private WebElement cancelButton;
 
-    @FindAll(@FindBy(css = "li.onRemoveTag a"))
+    @FindAll (@FindBy (css = "li.onRemoveTag a"))
     private List<WebElement> tagsList;
 
-    @FindBy(css = "[aria-label='Insert Library Image']")
+    @FindBy (css = "[aria-label='Insert Library Image']")
     private WebElement insertLibraryImage;
 
-    @FindBy(css = "[aria-label='Insert Document Link'] button i")
+    @FindBy (css = "[aria-label='Insert Document Link'] button i")
     private WebElement insertDocumentImage;
 
-    @FindAll(@FindBy(css = "[id$=image_results] img"))
+    @FindAll (@FindBy (css = "[id$=image_results] img"))
     private List<WebElement> imagesList;
 
-    @FindBy(css = "[class*=toolbar-titlebar] h2")
+    @FindBy (css = "[class*=toolbar-titlebar] h2")
     private WebElement libraryImagesTitlebar;
 
     // @FindBy(css = "[id$=content-docPicker-cntrl-picker]")

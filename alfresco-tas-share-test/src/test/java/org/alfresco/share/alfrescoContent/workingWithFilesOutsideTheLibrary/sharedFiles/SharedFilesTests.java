@@ -19,14 +19,16 @@ import static org.testng.Assert.assertTrue;
  */
 public class SharedFilesTests extends ContextAwareWebTest
 {
-    @Autowired private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
 
-    @Autowired private SocialFeatures socialFeatures;
+    @Autowired
+    private SocialFeatures socialFeatures;
 
     private final String docName = String.format("Doc-C7661-%s", RandomData.getRandomAlphanumeric());
     private final String path = "Shared/";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, docName, docName + " Content");
@@ -35,8 +37,8 @@ public class SharedFilesTests extends ContextAwareWebTest
         sharedFilesPage.navigate();
     }
 
-    @TestRail(id = "C7661")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7661")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyShareButton()
     {
         LOG.info("STEP1: Hover over a file and click on the \"Share\" button.");

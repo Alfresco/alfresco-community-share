@@ -27,61 +27,61 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     EditLinkPage editLinkPage;
 
     @RenderWebElement
-    @FindBy(css = "[class*=onAddCommentClick] button")
+    @FindBy (css = "[class*=onAddCommentClick] button")
     private WebElement addCommentButton;
 
-    @FindBy(xpath = "//a[contains(text(), 'Links List')]")
+    @FindBy (xpath = "//a[contains(text(), 'Links List')]")
     private WebElement linksListLink;
 
-    @FindBy(css = ".node.linksview")
+    @FindBy (css = ".node.linksview")
     private WebElement linkView;
 
-    @FindBy(css = ".nodeTitle>a")
+    @FindBy (css = ".nodeTitle>a")
     private Link linkTitle;
 
-    @FindBy(css = ".nodeURL>a")
+    @FindBy (css = ".nodeURL>a")
     private Link linkURL;
 
-    @FindBy(xpath = "//*[@class='nodeAttrLabel' and normalize-space(text())='Created on:']/following-sibling::*[1]")
+    @FindBy (xpath = "//*[@class='nodeAttrLabel' and normalize-space(text())='Created on:']/following-sibling::*[1]")
     private WebElement creationDate;
 
-    @FindBy(xpath = "//*[@class='nodeAttrLabel' and normalize-space(text())='Created by:']/following-sibling::*[1]/a")
+    @FindBy (xpath = "//*[@class='nodeAttrLabel' and normalize-space(text())='Created by:']/following-sibling::*[1]/a")
     private WebElement createdBy;
 
-    @FindBy(xpath = "//*[@class='nodeAttrLabel' and normalize-space(text())='Description:']/following-sibling::*[1]")
+    @FindBy (xpath = "//*[@class='nodeAttrLabel' and normalize-space(text())='Description:']/following-sibling::*[1]")
     private WebElement description;
 
-    @FindAll(@FindBy(className = "tag-link"))
+    @FindAll (@FindBy (className = "tag-link"))
     private List<WebElement> tagsList;
 
-    @FindBy(css = ".comments-list>h2")
+    @FindBy (css = ".comments-list>h2")
     private WebElement commentsSection;
 
-    @FindBy(css = "[id*=default-comments-list]")
+    @FindBy (css = "[id*=default-comments-list]")
     private WebElement defaultCommentsSection;
 
-    @FindBy(css = ".onEditLink>a")
+    @FindBy (css = ".onEditLink>a")
     private WebElement editLink;
 
-    @FindBy(css = ".onDeleteLink>a")
+    @FindBy (css = ".onDeleteLink>a")
     private WebElement deleteLink;
 
-    @FindBy(css = "[id=prompt]")
+    @FindBy (css = "[id=prompt]")
     private WebElement deleteLinkPrompt;
 
-    @FindBy(css = "[id*=default-add-submit-button]")
+    @FindBy (css = "[id*=default-add-submit-button]")
     private WebElement submitCommentButton;
 
-    @FindAll(@FindBy(css = ".comment-content"))
+    @FindAll (@FindBy (css = ".comment-content"))
     private List<WebElement> commentsList;
 
-    @FindAll(@FindBy(css = "[class=info] a"))
+    @FindAll (@FindBy (css = "[class=info] a"))
     private List<WebElement> commentAuthor;
 
-    @FindAll(@FindBy(css = ".comment-details"))
+    @FindAll (@FindBy (css = ".comment-details"))
     private List<WebElement> commentDetailsList;
 
-    @FindBy(css = "[id*=default-add-cancel-button]")
+    @FindBy (css = "[id*=default-add-cancel-button]")
     private WebElement cancelSubmitCommentButton;
     private By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
 

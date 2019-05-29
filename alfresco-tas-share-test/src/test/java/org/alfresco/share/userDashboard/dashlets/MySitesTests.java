@@ -30,7 +30,7 @@ public class MySitesTests extends ContextAwareWebTest
     private String siteName2;
     private String siteName3;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void createUser()
     {
         cleanupAuthenticatedSession();
@@ -39,15 +39,15 @@ public class MySitesTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
-    @TestRail(id = "C2095")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2095")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void noSitesCreated()
     {
         LOG.info("STEP 1 - Check that My Sites dashlet is displayed");
@@ -66,24 +66,24 @@ public class MySitesTests extends ContextAwareWebTest
 
         LOG.info("STEP 5 - Quickly access your sites message is displayed");
         Assert.assertEquals(mySitesDashlet.getDefaultSiteText(), "Quickly access your sites\n"
-                + "A site is a project area where you can share and discuss content with other site members.", "Quick message is not displayed");
+            + "A site is a project area where you can share and discuss content with other site members.", "Quick message is not displayed");
         LOG.info("STEP 6 - Check that help ballon message is correct");
         mySitesDashlet.clickOnHelpIcon(DashletHelpIcon.MY_SITES);
         Assert.assertTrue(mySitesDashlet.isBalloonDisplayed(), "Help balloon is not displayed");
         //TODO: add message in language properties
         Assert.assertEquals(mySitesDashlet.getHelpBalloonMessage(),
-                "Sites are project areas where you collaborate with others, sharing content and working on it together. "
-                        + "This dashlet lists the sites you belong to. You can filter this list to show only your favorite sites.\n" + "From here you can:\n"
-                        + "Navigate to a site\n" + "Create a new site\n" + "Delete a site if you are the site manager\n"
-                        + "Mark a site as a favorite so that it shows in the Sites menu for easy access", "Help balloon message is not correct");
+            "Sites are project areas where you collaborate with others, sharing content and working on it together. "
+                + "This dashlet lists the sites you belong to. You can filter this list to show only your favorite sites.\n" + "From here you can:\n"
+                + "Navigate to a site\n" + "Create a new site\n" + "Delete a site if you are the site manager\n"
+                + "Mark a site as a favorite so that it shows in the Sites menu for easy access", "Help balloon message is not correct");
 
         LOG.info("STEP 7 - Check that help ballon can be closed");
         mySitesDashlet.closeHelpBalloon();
         Assert.assertFalse(mySitesDashlet.isBalloonDisplayed(), "Help balloon is displayed");
     }
 
-    @TestRail(id = "C2098")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2098")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void deleteSiteThenCancel()
     {
         LOG.info("STEP 1 - Create site, check that is available in user dashboard");
@@ -102,12 +102,12 @@ public class MySitesTests extends ContextAwareWebTest
         mySitesDashlet.confirmDeleteSite("Delete");
         mySitesDashlet.confirmDeleteSite("No");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName1), "Site is not available");
-        siteService.delete(adminUser,adminPassword,siteName1 );
+        siteService.delete(adminUser, adminPassword, siteName1);
 
     }
 
-    @TestRail(id = "C2100")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2100")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void filterSites()
     {
         LOG.info("STEP 1 - Create 3 sites, mark the first one as favourite");
@@ -147,8 +147,8 @@ public class MySitesTests extends ContextAwareWebTest
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is not available");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " is available");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " is available");
-        siteService.delete(adminUser,adminPassword,siteName1 );
-        siteService.delete(adminUser,adminPassword,siteName2 );
-        siteService.delete(adminUser,adminPassword,siteName3 );
+        siteService.delete(adminUser, adminPassword, siteName1);
+        siteService.delete(adminUser, adminPassword, siteName2);
+        siteService.delete(adminUser, adminPassword, siteName3);
     }
 }

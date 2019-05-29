@@ -33,7 +33,7 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
     @Autowired
     private HeaderMenuBar headerMenuBar;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void createUser()
     {
         user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -42,15 +42,15 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
-    @TestRail(id = "C7682")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C7682")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectFileByMenu()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
@@ -95,8 +95,8 @@ public class MyFilesSelectContentTests extends ContextAwareWebTest
         assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
     }
 
-    @TestRail(id = "C7683")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C7683")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectFolderByMenu()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");

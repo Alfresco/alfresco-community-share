@@ -26,79 +26,79 @@ public class GroupsPage extends AdminToolsPage
     private DeleteGroupDialog deleteGroupDialog;
 
     @RenderWebElement
-    @FindBy(css = "label[for*='default-search-text']")
+    @FindBy (css = "label[for*='default-search-text']")
     private WebElement sectionTitle;
 
     @RenderWebElement
-    @FindBy(css = "input[id*='show-all']")
+    @FindBy (css = "input[id*='show-all']")
     private WebElement showSystemGroupsCheckbox;
 
     @RenderWebElement
-    @FindBy(css = "input[id*='default-search-text']")
+    @FindBy (css = "input[id*='default-search-text']")
     private WebElement searchInput;
 
     @RenderWebElement
-    @FindBy(css = ".search-text button[id*='search']")
+    @FindBy (css = ".search-text button[id*='search']")
     private WebElement searchButton;
 
     @RenderWebElement
-    @FindBy(css = "button[id*='browse']")
+    @FindBy (css = "button[id*='browse']")
     private WebElement browseButton;
 
-    @FindBy(css = "div[id*=default-search-bar-text]")
+    @FindBy (css = "div[id*=default-search-bar-text]")
     private WebElement searchBar;
 
-    @FindAll(@FindBy(css = "div[id*='breadcrumb'] span[class*='groups'] span[class*='item-text']"))
+    @FindAll (@FindBy (css = "div[id*='breadcrumb'] span[class*='groups'] span[class*='item-text']"))
     private List<WebElement> breadcrumbList;
 
-    @FindAll(@FindBy(css = "span[class*='groups-item-group'] span[class*=item-text]"))
+    @FindAll (@FindBy (css = "span[class*='groups-item-group'] span[class*=item-text]"))
     private WebElement breadcrumb;
 
-    @FindBy(css = "ul[class*='carousel'] li:nth-of-type(2) span[class*='newgroup']")
+    @FindBy (css = "ul[class*='carousel'] li:nth-of-type(2) span[class*='newgroup']")
     private WebElement newSubGroupButton;
 
-    @FindBy(css = "ul[class*='carousel'] li:nth-of-type(2) span[class*='addgroup']")
+    @FindBy (css = "ul[class*='carousel'] li:nth-of-type(2) span[class*='addgroup']")
     private WebElement addGroupButton;
 
-    @FindBy(css = "ul[class*='carousel'] li:nth-of-type(2) span[class*='adduser']")
+    @FindBy (css = "ul[class*='carousel'] li:nth-of-type(2) span[class*='adduser']")
     private WebElement addUserButton;
 
-    @FindBy(css = ".yui-columnbrowser-item-selected")
+    @FindBy (css = ".yui-columnbrowser-item-selected")
     private List<WebElement> selectedItemsList;
 
-    @FindAll(@FindBy(css = "ul[class*='carousel'] li:nth-of-type(2) span[class*='label']"))
+    @FindAll (@FindBy (css = "ul[class*='carousel'] li:nth-of-type(2) span[class*='label']"))
     private List<WebElement> secondColumnItemsList;
 
-    @FindAll(@FindBy(css = ".users-remove-button"))
+    @FindAll (@FindBy (css = ".users-remove-button"))
     private List<WebElement> removeUserButtonList;
 
-    @FindAll(@FindBy(css = "ul[class*='carousel'] li:nth-of-type(2) .groups-delete-button"))
+    @FindAll (@FindBy (css = "ul[class*='carousel'] li:nth-of-type(2) .groups-delete-button"))
     private List<WebElement> deleteGroupButtonList;
 
-    @FindBy(css = "div[id*='create'] .title")
+    @FindBy (css = "div[id*='create'] .title")
     private WebElement newGroupPanelTitle;
 
-    @FindAll(@FindBy(css = "form[id*='create'] .crud-label"))
+    @FindAll (@FindBy (css = "form[id*='create'] .crud-label"))
     private List<WebElement> newGroupPropertiesLabelsList;
 
-    @FindBy(css = "input[id*='create-shortname']")
+    @FindBy (css = "input[id*='create-shortname']")
     private WebElement groupIdentifierInput;
 
-    @FindBy(css = "input[id*='create-displayname']")
+    @FindBy (css = "input[id*='create-displayname']")
     private WebElement groupDisplayNameInput;
 
-    @FindBy(css = "span.groups-newgroup-button")
+    @FindBy (css = "span.groups-newgroup-button")
     private WebElement newGroupButton;
 
     private By groupEditDisplayNameInput = By.cssSelector("input[id$='default-update-displayname']");
 
-    @FindBy(css = "span[id$='_default-creategroup-ok-button'] button")
+    @FindBy (css = "span[id$='_default-creategroup-ok-button'] button")
     private WebElement createGroupOKButton;
 
-    @FindBy(css = "button[id*='creategroup-cancel']")
+    @FindBy (css = "button[id*='creategroup-cancel']")
     private WebElement cancelCreateGroupButton;
 
-    @FindBy(css = ".yui-dt-rec div")
+    @FindBy (css = ".yui-dt-rec div")
     private WebElement searchResult;
 
     private By groupBy = By.cssSelector("div.yui-columnbrowser-column-body span[class*=item-label]");
@@ -377,8 +377,7 @@ public class GroupsPage extends AdminToolsPage
         if (areYouSure)
         {
             clickCreateGroupButton();
-        }
-        else
+        } else
         {
             clickCancelCreateNewGroupButton();
         }
@@ -390,7 +389,7 @@ public class GroupsPage extends AdminToolsPage
         typeGroupIdentifier(groupName);
         typeGroupDisplayName(groupName);
 
-            clickCreateGroupButton();
+        clickCreateGroupButton();
     }
 
     public void deleteGroup(String groupName, boolean areYouSure)
@@ -399,15 +398,14 @@ public class GroupsPage extends AdminToolsPage
         browser.mouseOver(element);
 
         By deleteGroupButton = By.xpath(String.format(
-                "//a[@class='yui-columnbrowser-item groups-item-group yui-columnbrowser-item-active']//span[@class='groups-delete-button']", groupName));
+            "//a[@class='yui-columnbrowser-item groups-item-group yui-columnbrowser-item-active']//span[@class='groups-delete-button']", groupName));
         browser.waitUntilElementVisible(deleteGroupButton).click();
 
         browser.waitUntilElementVisible(deleteGroupOKButton);
         if (areYouSure)
         {
             browser.findElement(deleteGroupOKButton).click();
-        }
-        else
+        } else
         {
             browser.findElement(deleteGroupCancelButton).click();
         }
@@ -427,7 +425,7 @@ public class GroupsPage extends AdminToolsPage
         browser.mouseOver(element);
 
         By editGroupButton = By.xpath(String.format(
-                "//a[@class='yui-columnbrowser-item groups-item-group yui-columnbrowser-item-active']//span[@class='groups-update-button']", groupName));
+            "//a[@class='yui-columnbrowser-item groups-item-group yui-columnbrowser-item-active']//span[@class='groups-update-button']", groupName));
         browser.waitUntilElementVisible(editGroupButton).click();
 
         WebElement groupEditDisplayNameInputElement = browser.waitUntilElementVisible(groupEditDisplayNameInput);
@@ -436,8 +434,7 @@ public class GroupsPage extends AdminToolsPage
         if (areYouSure)
         {
             browser.findElement(updateGroupOKButton).click();
-        }
-        else
+        } else
         {
             browser.findElement(updateGroupCancelButton).click();
         }

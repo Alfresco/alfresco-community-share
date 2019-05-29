@@ -33,19 +33,19 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
 
     @Autowired
     WikiPage wikiPage;
-    
+
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName;
     private String wikiMainPageContent = "Wiki main page content";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createUser()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
     }
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void createSite()
     {
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
@@ -53,22 +53,22 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.WIKI, null);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
     public void cleanupMethod()
     {
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5515")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5515")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteWikiMainPageFromPageView()
     {
         LOG.info("Preconditions: create site and add wiki main page content");
@@ -84,8 +84,8 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
         Assert.assertEquals(wikiListPage.noWikiPageDisplayed(), "There are currently no pages to display", "Wrong message displayed!");
     }
 
-    @TestRail(id = "C5516")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5516")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteWikiMainPageFromWikiPageList()
     {
         LOG.info("Preconditions: create site and wiki main page content");
@@ -94,15 +94,15 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Delete'  button for Main Page");
         wikiListPage.clickDeletePage("Main Page");
-        Assert.assertEquals(deleteWikiPagePopUp.getMessage(),"Are you sure you want to delete this page?", "Wrong confirmation message!");
+        Assert.assertEquals(deleteWikiPagePopUp.getMessage(), "Are you sure you want to delete this page?", "Wrong confirmation message!");
 
         LOG.info("STEP 2: Click 'Delete' button");
         deleteWikiPagePopUp.clickDeleteWikiPage();
         Assert.assertEquals(wikiListPage.noWikiPageDisplayed(), "There are currently no pages to display", "Wrong message displayed!");
     }
 
-    @TestRail(id = "C5517")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5517")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteWikiPageFromPageView()
     {
         LOG.info("Preconditions: create site and wiki page");
@@ -114,15 +114,15 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click on 'Delete'  button");
         wikiPage.deleteWikiPage();
-        Assert.assertEquals(deleteWikiPagePopUp.getMessage(),"Are you sure you want to delete this page?", "Wrong confirmation message!");
+        Assert.assertEquals(deleteWikiPagePopUp.getMessage(), "Are you sure you want to delete this page?", "Wrong confirmation message!");
 
         LOG.info("STEP 3: Click 'Delete' button");
         deleteWikiPagePopUp.clickDeleteWikiPage();
         Assert.assertEquals(wikiListPage.noWikiPageDisplayed(), "There are currently no pages to display", "Wrong message displayed!");
     }
 
-    @TestRail(id = "C5518")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5518")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteWikiPageFromWikiPageList()
     {
         LOG.info("Preconditions: create site and wiki pages");
@@ -134,19 +134,19 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Delete' button for Page2");
         wikiListPage.clickDeletePage("Page2");
-        Assert.assertEquals(deleteWikiPagePopUp.getMessage(),"Are you sure you want to delete this page?", "Wrong confirmation message!");
+        Assert.assertEquals(deleteWikiPagePopUp.getMessage(), "Are you sure you want to delete this page?", "Wrong confirmation message!");
 
         LOG.info("STEP 2: Click 'Delete'");
         deleteWikiPagePopUp.clickDeleteWikiPage();
         Assert.assertEquals(wikiListPage.getWikiPageTitlesListSize(), 2, "Wiki page titles list size is: ");
         Assert.assertTrue(wikiListPage.getWikiPageTitlesList().contains("Page1") && wikiListPage.getWikiPageTitlesList().contains("Page3"),
-                "Pages are not listed.");
+            "Pages are not listed.");
         Assert.assertFalse(wikiListPage.getTagsList().contains("tag2" + " (1)"), "Tag is displayed in the list!");
         Assert.assertEquals(wikiListPage.getMissingPageTextColor("Page1"), "#cc2200");
     }
 
-    @TestRail(id = "C5519")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5519")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelDeletingWikiPage()
     {
         LOG.info("Preconditions: create site and update wiki main page content");

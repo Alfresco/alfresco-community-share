@@ -40,7 +40,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
     private List<String> contacts = new ArrayList<>();
     private List<String> results = new ArrayList<>();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createUser()
     {
         userName = String.format("User%s", RandomData.getRandomAlphanumeric());
@@ -48,14 +48,15 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
-    public void setup(String id) {
+    public void setup(String id)
+    {
 
         LOG.info("Preconditions for test " + id);
         uniqueIdentifier = "-" + id + "-" + RandomData.getRandomAlphanumeric();
@@ -66,9 +67,10 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, DashboardCustomization.Page.DATALISTS, null);
         dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.CONTACT_LIST, contactList, description);
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 0; i <= 3; i++)
+        {
             dataListsService.addContactListItem(userName, password, siteName, contactList, "FirstName" + i, "LastName" + i,
-                    "E-mail" + i, "Company" + i, "JobTitle" + i, "PhoneOffice" + i, "PhoneMobile" + i, "Notes" + i);
+                "E-mail" + i, "Company" + i, "JobTitle" + i, "PhoneOffice" + i, "PhoneMobile" + i, "Notes" + i);
         }
 
         dataListsPage.navigate(siteName);
@@ -79,9 +81,10 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C6396")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void duplicateMultipleListItems() {
+    @TestRail (id = "C6396")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void duplicateMultipleListItems()
+    {
 
         LOG.info("Starting test C6396");
         setup("C6396");
@@ -99,7 +102,8 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
         contactListSelectedContent.clickDuplicateItemsOption();
         getBrowser().waitInSeconds(2);
 
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 0; i <= 3; i++)
+        {
             contacts.add("FirstName" + i);
             contacts.add("LastName" + i);
             contacts.add("E-mail" + i);
@@ -114,13 +118,14 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
             contacts.clear();
             results.clear();
         }
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C6398")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void deleteMultipleItems() {
+    @TestRail (id = "C6398")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void deleteMultipleItems()
+    {
 
         LOG.info("Starting test C6398");
         setup("C6398");
@@ -138,7 +143,8 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
         contactListSelectedContent.clickDeleteItemsOption(true);
         getBrowser().waitInSeconds(2);
 
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 0; i <= 3; i++)
+        {
             contacts.add("FirstName" + i);
             contacts.add("LastName" + i);
             contacts.add("E-mail" + i);
@@ -151,13 +157,14 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
             Assert.assertEquals(row.size(), 0, "Item on line " + i + " was not deleted");
             contacts.clear();
         }
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C6407")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void deselectAllItems() {
+    @TestRail (id = "C6407")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void deselectAllItems()
+    {
         LOG.info("Starting test C6407");
         setup("C6407");
 
@@ -174,7 +181,8 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
         contactListSelectedContent.clickDeselectAllItemsOption();
         getBrowser().waitInSeconds(2);
 
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 0; i <= 3; i++)
+        {
             contacts.add("FirstName" + i);
             contacts.add("LastName" + i);
             contacts.add("E-mail" + i);
@@ -186,7 +194,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
             Assert.assertFalse(contactListSelectedContent.isItemChecked(contacts), "Item at row " + i + " is checked");
             contacts.clear();
         }
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 

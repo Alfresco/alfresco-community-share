@@ -21,38 +21,47 @@ import java.util.List;
 import java.util.Map;
 
 @PageObject
-public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage> {
+public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
+{
     @Override
-    protected String relativePathToURL() {
+    protected String relativePathToURL()
+    {
         return "alfresco/s/admin/admin-nodebrowser";
     }
 
     @Override
-    public String getInfoPage() {
+    public String getInfoPage()
+    {
         return "";
     }
 
     @Override
-    public String getIntroPage() {
+    public String getIntroPage()
+    {
         return "";
     }
 
-    public enum Encryption {
+    public enum Encryption
+    {
         MD4("md4"),
         SHA256("sha256"),
         BCRYPT10("bcrypt10");
 
         private String value;
 
-        Encryption(String value) {
+        Encryption(String value)
+        {
             this.value = value;
         }
 
-        public String getValue() {
+        public String getValue()
+        {
             return value;
         }
     }
-    public enum Store {
+
+    public enum Store
+    {
         archiveSpaceStore("archive://SpacesStore"),
         systemSystem("system://system"),
         userAlfrescoUserStore("user://alfrescoUserStore"),
@@ -61,16 +70,19 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         workspaceVersion2Store("workspace://version2Store");
         private String value;
 
-        Store(String value) {
+        Store(String value)
+        {
             this.value = value;
         }
 
-        public String getValue() {
+        public String getValue()
+        {
             return value;
         }
     }
 
-    public enum Actions {
+    public enum Actions
+    {
         DELETE("Delete"),
         FORCE_DELETE("Force Delete"),
         TAKE_OWNERSHIP("Take Ownership"),
@@ -78,82 +90,90 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
 
         private String action;
 
-        Actions(String action) {
+        Actions(String action)
+        {
             this.action = action;
         }
 
-        public String getAction() {
+        public String getAction()
+        {
             return action;
         }
     }
 
-    public enum Query {
+    public enum Query
+    {
         noderef("noderef"), ftsAlfresco("fts-alfresco");
         private String value;
 
-        Query(String value) {
+        Query(String value)
+        {
             this.value = value;
         }
 
-        public String getValue() {
+        public String getValue()
+        {
             return value;
         }
     }
 
     @RenderWebElement
-    @FindBy(name = "nodebrowser-store")
+    @FindBy (name = "nodebrowser-store")
     Select selectNode;
 
     @RenderWebElement
-    @FindBy(name = "nodebrowser-search")
+    @FindBy (name = "nodebrowser-search")
     Select selectQuery;
 
     @RenderWebElement
-    @FindBy(id = "query")
+    @FindBy (id = "query")
     WebElement query;
 
     @RenderWebElement
-    @FindBy(css = "input[value='Execute']")
+    @FindBy (css = "input[value='Execute']")
     WebElement execute;
 
-    @FindBy(css = "input[value='Root List']")
+    @FindBy (css = "input[value='Root List']")
     WebElement rootList;
 
-    @FindBy(css = "a[class='action toggler']")
+    @FindBy (css = "a[class='action toggler']")
     WebElement searchAdvancedSettings;
 
-    @FindBy(id = "properties-table")
+    @FindBy (id = "properties-table")
     Table propertiesTable;
 
-    @FindBy(id = "child-table")
+    @FindBy (id = "child-table")
     Table childrenTable;
 
-    @FindBy(id="aspects-table")
+    @FindBy (id = "aspects-table")
     Table aspectsTable;
 
-    @FindBy(id="info-table")
+    @FindBy (id = "info-table")
     Table nodeInformationTable;
 
-    @FindBy(name ="nodebrowser-query-maxresults")
+    @FindBy (name = "nodebrowser-query-maxresults")
     WebElement maxResultsFiled;
 
-    @FindBy( name ="nodebrowser-query-skipcount")
+    @FindBy (name = "nodebrowser-query-skipcount")
     WebElement skipCountField;
 
-    public NodeBrowserQueryPage usingStore(Store store) {
+    public NodeBrowserQueryPage usingStore(Store store)
+    {
         selectNode.selectByValue(store.getValue());
         clickRootList();
         return this;
     }
 
-    public NodeBrowserQueryPage execute(String query) {
+    public NodeBrowserQueryPage execute(String query)
+    {
         this.query.clear();
         this.query.sendKeys(query);
         execute.click();
         return this;
     }
 
-    public NodeBrowserQueryPage usingQuery(Query query) {
+    public NodeBrowserQueryPage usingQuery(Query query)
+    {
         selectQuery.selectByValue(query.getValue());
         return this;
     }
@@ -168,33 +188,40 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         return getBrowser().isElementDisplayed(skipCountField);
     }
 
-    public NodeBrowserQueryPage clickSearchAdvancedSettings() {
+    public NodeBrowserQueryPage clickSearchAdvancedSettings()
+    {
         getBrowser().waitUntilElementClickable(searchAdvancedSettings).click();
         return this;
     }
 
-    public void setMaxResults(int maxResults ){
-        if(!isMaxResultsFieldDisplayed()) {
+    public void setMaxResults(int maxResults)
+    {
+        if (!isMaxResultsFieldDisplayed())
+        {
             searchAdvancedSettings.click();
         }
         getBrowser().waitUntilElementVisible(maxResultsFiled).clear();
         maxResultsFiled.sendKeys(Integer.toString(maxResults));
     }
 
-    public void setSkipCount(int skipCount){
-        if(!isSkipCountFieldDisplayed()) {
+    public void setSkipCount(int skipCount)
+    {
+        if (!isSkipCountFieldDisplayed())
+        {
             searchAdvancedSettings.click();
         }
         getBrowser().waitUntilElementVisible(skipCountField).clear();
         skipCountField.sendKeys(Integer.toString(skipCount));
     }
 
-    public List<NodeProperty> getProperties() {
+    public List<NodeProperty> getProperties()
+    {
         ArrayList<NodeProperty> properties = new ArrayList<NodeProperty>();
         List<List<WebElement>> rows = propertiesTable.getRows();
-        for (List<WebElement> rowInfo : rows) {
+        for (List<WebElement> rowInfo : rows)
+        {
             NodeProperty np = new NodeProperty(rowInfo, getBrowser());
-            LOG.info("Property: "+np.toString());
+            LOG.info("Property: " + np.toString());
             properties.add(np);
         }
 
@@ -212,9 +239,10 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
             valueList.add(typeProperty.getValue());
         }
 
-        for (int i = 0; i < valueList.size();)
+        for (int i = 0; i < valueList.size(); )
         {
-            for (NodeProperty nodeName : allProperties) {
+            for (NodeProperty nodeName : allProperties)
+            {
                 map.put(nodeName.getName(), valueList.get(i));
                 i++;
             }
@@ -223,10 +251,12 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         return map.get(propertyName);
     }
 
-    public List<NodeChild> getChildren() {
+    public List<NodeChild> getChildren()
+    {
         ArrayList<NodeChild> child = new ArrayList<NodeChild>();
         List<List<WebElement>> rows = childrenTable.getRows();
-        for (List<WebElement> childRow : rows) {
+        for (List<WebElement> childRow : rows)
+        {
             NodeChild nc = new NodeChild(childRow, getBrowser());
             child.add(nc);
         }
@@ -244,9 +274,8 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         }
         try
         {
-            getBrowser().findFirstElementWithValue(childList,childName).click();
-        }
-        catch (Exception e)
+            getBrowser().findFirstElementWithValue(childList, childName).click();
+        } catch (Exception e)
         {
             throw new Exception(String.format("Child %s could not be found in child list.", childName));
         }
@@ -258,27 +287,32 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath("//div[@class='main']//h2[contains(text(),'Node Information')]"), 3);
     }
 
-    public List<String> getAspects() {
+    public List<String> getAspects()
+    {
         ArrayList<String> aspects = new ArrayList<String>();
         List<List<WebElement>> rows = aspectsTable.getRows();
-        for (List<WebElement> aspectRow : rows) {
+        for (List<WebElement> aspectRow : rows)
+        {
             aspects.add(aspectRow.get(0).getText());
         }
 
         return aspects;
     }
 
-    public void assertAspectsArePresent(List<String> aspects){
-        SoftAssert softAssert= new SoftAssert();
+    public void assertAspectsArePresent(List<String> aspects)
+    {
+        SoftAssert softAssert = new SoftAssert();
         List<String> aspectsDisplayed = getAspects();
-        for(String aspect : aspects){
+        for (String aspect : aspects)
+        {
             System.out.print(aspect);
-            softAssert.assertFalse(aspectsDisplayed.indexOf(aspect)==-1,  String.format("[%s] is not displayed in Aspects table", aspect));
+            softAssert.assertFalse(aspectsDisplayed.indexOf(aspect) == -1, String.format("[%s] is not displayed in Aspects table", aspect));
         }
         softAssert.assertAll();
     }
 
-    public void assertNodeInformationIs(String nodeInformationName, String expectedNodeInformationValue) throws TestConfigurationException {
+    public void assertNodeInformationIs(String nodeInformationName, String expectedNodeInformationValue) throws TestConfigurationException
+    {
         ArrayList<String> actualNodeInformationName = new ArrayList<String>();
         actualNodeInformationName.add("Reference");
         actualNodeInformationName.add("Primary Path");
@@ -286,7 +320,8 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         actualNodeInformationName.add("Parent");
 
         int nodeRowID = actualNodeInformationName.indexOf(nodeInformationName);
-        if (nodeRowID < 0) {
+        if (nodeRowID < 0)
+        {
             throw new TestConfigurationException("you did not define all Node Information values in your page object.");
         }
         /*

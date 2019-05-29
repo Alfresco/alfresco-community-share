@@ -11,17 +11,17 @@ import org.openqa.selenium.support.FindBy;
 public class SelectAssigneesToWorkflowPopUp extends SelectPopUpPage
 {
     @RenderWebElement
-    @FindBy(css = "[id$=assignees-cntrl-ok-button]")
+    @FindBy (css = "[id$=assignees-cntrl-ok-button]")
     private WebElement okButton;
 
     @RenderWebElement
-    @FindBy(css = "[id$=assignees-cntrl-cancel-button]")
+    @FindBy (css = "[id$=assignees-cntrl-cancel-button]")
     private WebElement cancelButton;
 
-    @FindBy(css = "[class*=picker-header] input[id*='assignees-cntrl-picker-searchText']")
+    @FindBy (css = "[class*=picker-header] input[id*='assignees-cntrl-picker-searchText']")
     private WebElement searchField;
 
-    @FindBy(css = "button[id$='assignees-cntrl-picker-searchButton-button']")
+    @FindBy (css = "button[id$='assignees-cntrl-picker-searchButton-button']")
     private WebElement searchButton;
 
     public void searchUser(String userName)

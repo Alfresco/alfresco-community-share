@@ -23,30 +23,30 @@ public class WikiPage extends SiteCommon<WikiPage>
     WikiDetailsPage wikiDetailsPage;
 
     @RenderWebElement
-    @FindBy(css = "div.title-bar [id$=default-viewButtons]")
+    @FindBy (css = "div.title-bar [id$=default-viewButtons]")
     private WebElement wikiPageTitle;
 
-    @FindBy(css = "div.yui-content [id$=default-page]")
+    @FindBy (css = "div.yui-content [id$=default-page]")
     private WebElement wikiPageContent;
 
-    @FindBy(css = "span.forwardLink:nth-of-type(1) a")
+    @FindBy (css = "span.forwardLink:nth-of-type(1) a")
     private WebElement wikiPageListLink;
 
-    @FindAll(@FindBy(css = "[id$=default-page] a"))
+    @FindAll (@FindBy (css = "[id$=default-page] a"))
     private List<WebElement> documentsLinkList;
 
-    @FindBy(css = "[id$=default-delete-button-button]")
+    @FindBy (css = "[id$=default-delete-button-button]")
     private WebElement deleteWikiPage;
 
-    @FindBy(css = "[id=prompt]")
+    @FindBy (css = "[id=prompt]")
     private WebElement deletePopUp;
 
-    @FindBy(css = "a[href*='details']")
+    @FindBy (css = "a[href*='details']")
     private WebElement wikiPageDetailsLink;
 
     /**
      * Method used to get wiki page title
-     * 
+     *
      * @return wiki page title
      */
 
@@ -57,7 +57,7 @@ public class WikiPage extends SiteCommon<WikiPage>
 
     /**
      * Click on wiki page list link
-     * 
+     *
      * @return wiki page list page
      */
 

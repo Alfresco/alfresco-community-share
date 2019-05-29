@@ -30,8 +30,8 @@ public class MyProfileTests extends ContextAwareWebTest
     @Autowired
     EditUserProfilePage editUserProfilePage;
 
-    @TestRail(id = "C2141")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2141")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void myLimitedProfileDashlet()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -52,11 +52,11 @@ public class MyProfileTests extends ContextAwareWebTest
         userDashboardPage.navigate(userName);
         getBrowser().waitInSeconds(3);
         myProfileDashlet.renderedPage();
-        
+
         Assert.assertEquals(myProfileDashlet.getDashletTitle(), "My Profile");
 
         LOG.info("STEP 1 - Verify \"My Profile\" dashlet");
-       
+
         Assert.assertTrue(myProfileDashlet.isHelpIconDisplayed(DashletHelpIcon.MY_PROFILE));
         Assert.assertTrue(myProfileDashlet.isViewFullProfileDisplayed());
         Assert.assertTrue(myProfileDashlet.isAvatarDisplayed());
@@ -102,7 +102,7 @@ public class MyProfileTests extends ContextAwareWebTest
         userDashboardPage.navigateByMenuBar();
         Assert.assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "Customize user dashboard option is displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 }

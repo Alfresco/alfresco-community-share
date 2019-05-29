@@ -15,8 +15,7 @@ public class MenuNavigationBar
         {
             AccessibleByMenuBar menuBar = (AccessibleByMenuBar) sharePage;
             menuBar.navigateByMenuBar();
-        }
-        else
+        } else
         {
             throw new PageNotAccesibleByMenuBarException(sharePage);
         }

@@ -34,12 +34,12 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
     private String user2;
     private String siteName;
 
-    @TestRail(id = "C2848")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2848")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerActionIsMissingForNonAdmins()
     {
         // preconditions
-        uniqueIdentifier = String.format("C2848-%s",RandomData.getRandomAlphanumeric());
+        uniqueIdentifier = String.format("C2848-%s", RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         user2 = "testUser2-" + uniqueIdentifier;
         siteName = "SiteName-" + uniqueIdentifier;
@@ -56,23 +56,22 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteDashboard.clickSiteConfiguration();
 
         assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
-                "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
+            "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
 
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
 
     }
 
 
-
-    @TestRail(id = "C2849")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2849")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerActionWhenAdminIsSiteManager()
     {
         // preconditions
@@ -91,37 +90,37 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteDashboard.clickSiteConfiguration();
 
         assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
-                "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
+            "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
         assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"),
-                "'Customize Dashboard' action should be available in the 'Site Configuration Options' drop-down menu.");
+            "'Customize Dashboard' action should be available in the 'Site Configuration Options' drop-down menu.");
         assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Edit Site Details"),
-                "'Edit Site Details' action should be available in the 'Site Configuration Options' drop-down menu.");
+            "'Edit Site Details' action should be available in the 'Site Configuration Options' drop-down menu.");
         assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Customize Site"),
-                "'Customize Site' action should be available in the 'Site Configuration Options' drop-down menu.");
+            "'Customize Site' action should be available in the 'Site Configuration Options' drop-down menu.");
         assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Leave Site"),
-                "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
+            "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
 
         LOG.info("STEP 2: Navigate 'Admin Tools' -> 'Sites Manager' page.");
         sitesManager.navigate();
 
         LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'. 'Become Site Manager' action is not available. Only 'Delete Site' action is available.");
         assertFalse(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-                "'Become Site Manager' action should NOT be displayed when clicking on 'Actions' button.");
+            "'Become Site Manager' action should NOT be displayed when clicking on 'Actions' button.");
         assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Delete Site"),
-                "'Delete Site' action should be displayed when clicking on 'Actions' button.");
+            "'Delete Site' action should be displayed when clicking on 'Actions' button.");
 
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2850")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2850")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerUsingSiteConfigurationIcon()
     {
         // preconditions
-        uniqueIdentifier = String.format("C2850-%s",RandomData.getRandomAlphanumeric());
+        uniqueIdentifier = String.format("C2850-%s", RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = "SiteName-" + uniqueIdentifier;
 
@@ -136,15 +135,15 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteDashboard.clickSiteConfiguration();
 
         assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
-                "'Become Site Manager' action should be available in the 'Site Configuration Options' drop-down menu.");
+            "'Become Site Manager' action should be available in the 'Site Configuration Options' drop-down menu.");
         assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Leave Site"),
-                "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
+            "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
         assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"),
-                "'Customize Dashboard' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
+            "'Customize Dashboard' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
         assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Edit Site Details"),
-                "'Edit Site Details' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
+            "'Edit Site Details' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
         assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Customize site"),
-                "'Customize site' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
+            "'Customize site' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
 
         LOG.info("STEP 2: Click on 'Become Site Manager' action. Click again 'Site configuration options' icon.");
         siteDashboard.clickOptionInSiteConfigurationDropDown("Become Site Manager", siteDashboard);
@@ -152,33 +151,33 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteDashboard.clickSiteConfiguration();
 
         assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
-                "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
+            "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
         assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Customize Dashboard"),
-                "'Customize Dashboard' action should be available in the 'Site Configuration Options' drop-down menu.");
+            "'Customize Dashboard' action should be available in the 'Site Configuration Options' drop-down menu.");
         assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Edit Site Details"),
-                "'Edit Site Details' action should be available in the 'Site Configuration Options' drop-down menu.");
+            "'Edit Site Details' action should be available in the 'Site Configuration Options' drop-down menu.");
         assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Customize Site"),
-                "'Customize Site' action should be available in the 'Site Configuration Options' drop-down menu.");
+            "'Customize Site' action should be available in the 'Site Configuration Options' drop-down menu.");
         assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Leave Site"),
-                "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
+            "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
 
         LOG.info("STEP 3: Click 'Site Members' link.");
         siteUsers.navigate(siteName);
 
         assertTrue(siteUsers.isRoleSelected("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
 
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2852")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2852")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerActionAvailableForAdmins()
     {
         // preconditions
-        uniqueIdentifier = String.format("0-C2852-%s",RandomData.getRandomAlphanumeric());
+        uniqueIdentifier = String.format("0-C2852-%s", RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
@@ -193,27 +192,27 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteDashboard.clickSiteConfiguration();
 
         assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
-                "'Become Site Manager' action should be available in the 'Site Configuration Options' drop-down menu.");
+            "'Become Site Manager' action should be available in the 'Site Configuration Options' drop-down menu.");
 
         LOG.info("STEP 2: Navigate 'Admin Tools' -> 'Sites Manager' page.");
         sitesManager.navigate();
 
         LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'. 'Become Site Manager' action is available.");
         assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-                "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
-        userService.delete(adminUser,adminPassword, user1);
+            "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C2854")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2854")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerFromSitesManagerAdminIsSiteMember()
     {
         // preconditions
-        uniqueIdentifier = String.format("0-C2854-%s",RandomData.getRandomAlphanumeric());
+        uniqueIdentifier = String.format("0-C2854-%s", RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
@@ -231,7 +230,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'.");
         assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-                "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
+            "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
 
         LOG.info("STEP 4: Click 'Become Site Manager' option then verify again \"I'm a Site Manager\" column.");
         sitesManager.clickActionForManagedSiteRow(siteName, "Become Site Manager", sitesManager);
@@ -239,26 +238,26 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click again 'Actions' for '" + siteName + "'.");
         assertFalse(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-                "'Become Site Manager' action should NOT be displayed when clicking on 'Actions' button.");
+            "'Become Site Manager' action should NOT be displayed when clicking on 'Actions' button.");
 
         LOG.info("STEP 6: Click on the site's name.");
         sitesManager.clickSiteNameLink(siteName);
 
         LOG.info("STEP 7: Verify the listed users: admin user is listed, with 'Manager' role.");
         assertTrue(siteUsers.isRoleSelected("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C2856")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2856")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerActionAvailableForAdminNotSiteMember()
     {
         // preconditions
-        uniqueIdentifier = String.format("0-C2856-%s",RandomData.getRandomAlphanumeric());
+        uniqueIdentifier = String.format("0-C2856-%s", RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
@@ -272,29 +271,29 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         siteDashboard.clickSiteConfiguration();
 
         assertFalse(siteDashboard.isOptionListedInSiteConfigurationDropDown("Become Site Manager"),
-                "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
+            "'Become Site Manager' action should NOT be available in the 'Site Configuration Options' drop-down menu.");
         assertTrue(siteDashboard.isOptionListedInSiteConfigurationDropDown("Join Site"),
-                "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
+            "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
 
         LOG.info("STEP 2: Navigate 'Admin Tools' -> 'Sites Manager' page.");
         sitesManager.navigate();
 
         LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'. 'Become Site Manager' action is available.");
         assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-                "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
+            "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
 
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2861")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2861")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void becomeSiteManagerFromSitesManagerAdminIsNotSiteMember()
     {
         // preconditions
-        uniqueIdentifier = String.format("0-C2861-%s",RandomData.getRandomAlphanumeric());
+        uniqueIdentifier = String.format("0-C2861-%s", RandomData.getRandomAlphanumeric());
         user1 = "testUser1-" + uniqueIdentifier;
         siteName = uniqueIdentifier;
 
@@ -311,7 +310,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Click 'Actions' for '" + siteName + "'.");
         assertTrue(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-                "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
+            "'Become Site Manager' action should be displayed when clicking on 'Actions' button.");
 
         LOG.info("STEP 4: Click 'Become Site Manager' option then verify again \"I'm a Site Manager\" column.");
         sitesManager.clickActionForManagedSiteRow(siteName, "Become Site Manager", sitesManager);
@@ -319,7 +318,7 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
 
         LOG.info("STEP 5: Click again 'Actions' for '" + siteName + "'.");
         assertFalse(sitesManager.isActionAvailableForManagedSiteRow(siteName, "Become Site Manager"),
-                "'Become Site Manager' action should NOT be displayed when clicking on 'Actions' button.");
+            "'Become Site Manager' action should NOT be displayed when clicking on 'Actions' button.");
 
         LOG.info("STEP 6: Click on the site's name.");
         sitesManager.clickSiteNameLink(siteName);
@@ -327,9 +326,9 @@ public class BecomeSiteManagerTest extends ContextAwareWebTest
         LOG.info("STEP 7: Verify the listed users: admin user is listed, with 'Manager' role.");
         assertTrue(siteUsers.isRoleSelected("Manager", adminName), "Admin user should be listed, with 'Manager' role.");
 
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 }

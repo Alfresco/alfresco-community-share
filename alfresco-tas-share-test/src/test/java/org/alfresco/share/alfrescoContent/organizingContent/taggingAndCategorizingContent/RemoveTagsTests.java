@@ -20,7 +20,8 @@ import static org.testng.Assert.assertTrue;
  */
 public class RemoveTagsTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     private final String random = RandomData.getRandomAlphanumeric();
     private final String siteName1 = "site1-" + random;
@@ -34,7 +35,7 @@ public class RemoveTagsTests extends ContextAwareWebTest
     private final String description = "Description-" + random;
     private final String fileContent = "content of the file.";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
@@ -46,17 +47,17 @@ public class RemoveTagsTests extends ContextAwareWebTest
         contentAction.addSingleTag(userName, password, siteName1, fileName, tagName);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName1);
-        siteService.delete(adminUser, adminPassword,siteName2);
+        siteService.delete(adminUser, adminPassword, siteName1);
+        siteService.delete(adminUser, adminPassword, siteName2);
     }
 
-    @TestRail(id = "C7443")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7443")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void removeTagFolder()
     {
         setupAuthenticatedSession(userName, password);
@@ -81,8 +82,8 @@ public class RemoveTagsTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C10530")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C10530")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void removeTagFile()
     {
         setupAuthenticatedSession(userName, password);

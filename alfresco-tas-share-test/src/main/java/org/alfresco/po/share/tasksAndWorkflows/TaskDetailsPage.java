@@ -22,42 +22,54 @@ public class TaskDetailsPage extends SharePage<TaskDetailsPage>
     WorkflowDetailsPage workflowDetailsPage;
 
     @RenderWebElement
-    @FindBy(css = "div[class$='task-details-header'] h1")
+    @FindBy (css = "div[class$='task-details-header'] h1")
     private WebElement taskDetailsHeader;
 
     @RenderWebElement
-    @FindBy(css = "div[id*='task-details'].form-fields")
+    @FindBy (css = "div[id*='task-details'].form-fields")
     private WebElement taskDetailsBody;
 
-    @FindBy(css = "span[id$='_default_prop_taskOwner'] a")
+    @FindBy (css = "span[id$='_default_prop_taskOwner'] a")
     private WebElement owner;
 
-    @FindBy(xpath = "//span[text() = 'Due:']/../span[@class = 'viewmode-value']")
+    @FindBy (xpath = "//span[text() = 'Due:']/../span[@class = 'viewmode-value']")
     private WebElement dueDate;
 
-    @FindBy(xpath = "//span[text() = 'Priority:']/../span[@class = 'viewmode-value']")
+    @FindBy (xpath = "//span[text() = 'Priority:']/../span[@class = 'viewmode-value']")
     private WebElement priority;
 
-    @FindBy(xpath = "//span[text() = 'Message:']/../span[@class = 'viewmode-value']")
+    @FindBy (xpath = "//span[text() = 'Message:']/../span[@class = 'viewmode-value']")
     private WebElement message;
 
-    @FindBy(xpath = "//span[text() = 'Status:']/../span[@class = 'viewmode-value']")
+    @FindBy (xpath = "//span[text() = 'Status:']/../span[@class = 'viewmode-value']")
     private WebElement status;
 
-    @FindBy(xpath = "//span[text() = 'Comment:']/../span[@class = 'viewmode-value']")
+    @FindBy (xpath = "//span[text() = 'Comment:']/../span[@class = 'viewmode-value']")
     private WebElement comment;
 
     private By workflowDetailsButton = By.cssSelector("div.links a");
     private By editButton = By.cssSelector("button[id$='default-edit-button']");
 
     @Override
-    public String getRelativePath() { return "share/page/task-details"; }
+    public String getRelativePath()
+    {
+        return "share/page/task-details";
+    }
 
-    public String getTaskDetailsHeader() { return taskDetailsHeader.getText(); }
+    public String getTaskDetailsHeader()
+    {
+        return taskDetailsHeader.getText();
+    }
 
-    public String getStatus() { return status.getText(); }
+    public String getStatus()
+    {
+        return status.getText();
+    }
 
-    public String getComment() { return comment.getText(); }
+    public String getComment()
+    {
+        return comment.getText();
+    }
 
     public HtmlPage clickWorkflowDetailsButton()
     {

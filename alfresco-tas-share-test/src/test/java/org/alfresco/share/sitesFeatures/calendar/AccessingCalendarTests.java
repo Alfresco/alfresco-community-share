@@ -37,7 +37,7 @@ public class AccessingCalendarTests extends ContextAwareWebTest
     private String user = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
@@ -46,16 +46,16 @@ public class AccessingCalendarTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5437")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5437")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void accessTheCalendarPage()
     {

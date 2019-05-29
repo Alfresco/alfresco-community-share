@@ -9,7 +9,7 @@ public class ContactInformation
     private String im;
     private String googleUserName;
 
-    public ContactInformation(String telephone, String mobile, String email, String skype, 
+    public ContactInformation(String telephone, String mobile, String email, String skype,
                               String im, String googleUserName)
     {
         this.setTelephone(telephone);

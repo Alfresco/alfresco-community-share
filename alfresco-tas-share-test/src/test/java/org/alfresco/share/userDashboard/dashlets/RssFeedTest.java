@@ -24,7 +24,8 @@ public class RssFeedTest extends ContextAwareWebTest
     @Autowired
     RssFeedDashlet rssFeedDashlet;
 
-    @Autowired EnterFeedURLPopUp enterFeedURLPopUp;
+    @Autowired
+    EnterFeedURLPopUp enterFeedURLPopUp;
 
 
     @Autowired
@@ -33,7 +34,7 @@ public class RssFeedTest extends ContextAwareWebTest
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     private int noOfFeeds = 10;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
@@ -41,15 +42,15 @@ public class RssFeedTest extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
-    @TestRail(id = "C2162")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2162")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void rssFeedDashlet()
     {
         LOG.info("Step 1: Verify \"RSS Feed\" dashlet");

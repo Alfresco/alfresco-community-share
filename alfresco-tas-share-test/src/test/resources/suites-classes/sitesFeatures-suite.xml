@@ -1,408 +1,408 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="SitesFeaturesSmokeSuite">
 
-    <test name="AccessingTheBlogTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.blog.AccessingTheBlogTests"/>
-        </classes>
-    </test>
+   <test name="AccessingTheBlogTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.blog.AccessingTheBlogTests" />
+      </classes>
+   </test>
 
-    <test name="BrowsingBlogPostsTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.blog.BrowsingBlogPostsTests"/>
-        </classes>
-    </test>
+   <test name="BrowsingBlogPostsTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.blog.BrowsingBlogPostsTests" />
+      </classes>
+   </test>
 
-    <test name="CreatingABlogPostTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.blog.CreatingABlogPostTests"/>
-        </classes>
-    </test>
+   <test name="CreatingABlogPostTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.blog.CreatingABlogPostTests" />
+      </classes>
+   </test>
 
-    <test name="EditingABlogPostTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.blog.EditingABlogPostTests"/>
-        </classes>
-    </test>
+   <test name="EditingABlogPostTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.blog.EditingABlogPostTests" />
+      </classes>
+   </test>
 
-    <test name="DeletingABlogPostTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.blog.DeletingABlogPostTests"/>
-        </classes>
-    </test>
+   <test name="DeletingABlogPostTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.blog.DeletingABlogPostTests" />
+      </classes>
+   </test>
 
-    <test name="BlogPostAddCommentTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.blog.BlogPostAddCommentTests"/>
-        </classes>
-    </test>
+   <test name="BlogPostAddCommentTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.blog.BlogPostAddCommentTests" />
+      </classes>
+   </test>
 
-    <test name="BlogPostEditCommentsTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.blog.BlogPostEditCommentsTests"/>
-        </classes>
-    </test>
+   <test name="BlogPostEditCommentsTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.blog.BlogPostEditCommentsTests" />
+      </classes>
+   </test>
 
-    <test name="DeletingACommentTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.blog.DeletingACommentTests"/>
-        </classes>
-    </test>
+   <test name="DeletingACommentTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.blog.DeletingACommentTests" />
+      </classes>
+   </test>
 
-    <test name="ViewingABlogPostTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.blog.ViewingABlogPostTests"/>
-        </classes>
-    </test>
-    <test name="AccessingCalendarTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.calendar.AccessingCalendarTests"/>
-        </classes>
-    </test>
+   <test name="ViewingABlogPostTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.blog.ViewingABlogPostTests" />
+      </classes>
+   </test>
+   <test name="AccessingCalendarTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.calendar.AccessingCalendarTests" />
+      </classes>
+   </test>
 
-    <test name="BrowsingTheCalendarTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.calendar.BrowsingTheCalendarTests"/>
-        </classes>
-    </test>
+   <test name="BrowsingTheCalendarTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.calendar.BrowsingTheCalendarTests" />
+      </classes>
+   </test>
 
-    <test name="TagsTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.calendar.TagsTests"/>
-        </classes>
-    </test>
+   <test name="TagsTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.calendar.TagsTests" />
+      </classes>
+   </test>
 
-    <test name="ViewEventTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.calendar.ViewEventTests"/>
-        </classes>
-    </test>
+   <test name="ViewEventTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.calendar.ViewEventTests" />
+      </classes>
+   </test>
 
-    <test name="DeleteEventsTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.calendar.DeleteEventsTests"/>
-        </classes>
-    </test>
+   <test name="DeleteEventsTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.calendar.DeleteEventsTests" />
+      </classes>
+   </test>
 
-    <test name="AddEventsTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.calendar.AddEventsTests"/>
-        </classes>
-    </test>
+   <test name="AddEventsTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.calendar.AddEventsTests" />
+      </classes>
+   </test>
 
-    <test name="EditEventsTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.calendar.EditEventsTests"/>
-        </classes>
-    </test>
+   <test name="EditEventsTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.calendar.EditEventsTests" />
+      </classes>
+   </test>
 
 
-    <test name="TimeZoneMonthViewTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.calendar.TimeZone.TimeZoneMonthViewTests"/>
-        </classes>
-    </test>
+   <test name="TimeZoneMonthViewTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.calendar.TimeZone.TimeZoneMonthViewTests" />
+      </classes>
+   </test>
 
-    <test name="TimeZoneWeekViewTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.calendar.TimeZone.TimeZoneWeekViewTests"/>
-        </classes>
-    </test>
+   <test name="TimeZoneWeekViewTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.calendar.TimeZone.TimeZoneWeekViewTests" />
+      </classes>
+   </test>
 
-    <test name="TimeZoneDayViewTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.calendar.TimeZone.TimeZoneDayViewTests"/>
-        </classes>
-    </test>
+   <test name="TimeZoneDayViewTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.calendar.TimeZone.TimeZoneDayViewTests" />
+      </classes>
+   </test>
 
-    <test name="TimeZoneAgendaViewTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.calendar.TimeZone.TimeZoneAgendaViewTests"/>
-        </classes>
-    </test>
+   <test name="TimeZoneAgendaViewTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.calendar.TimeZone.TimeZoneAgendaViewTests" />
+      </classes>
+   </test>
 
-    <test name="EditContactListItemTest">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.contactList.EditContactListItemTest"/>
-        </classes>
-    </test>
+   <test name="EditContactListItemTest">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.contactList.EditContactListItemTest" />
+      </classes>
+   </test>
 
-    <test name="EditEventListItemTest">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.eventList.EditEventListItemTest"/>
-        </classes>
-    </test>
+   <test name="EditEventListItemTest">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.eventList.EditEventListItemTest" />
+      </classes>
+   </test>
 
-    <test name="EditEventAgendaItemTest">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.eventAgenda.EditEventAgendaItemTest"/>
-        </classes>
-    </test>
+   <test name="EditEventAgendaItemTest">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.eventAgenda.EditEventAgendaItemTest" />
+      </classes>
+   </test>
 
-    <test name="EditIssueItemTest">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.issueList.EditIssueItemTest"/>
-        </classes>
-    </test>
+   <test name="EditIssueItemTest">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.issueList.EditIssueItemTest" />
+      </classes>
+   </test>
 
-    <test name="EditMeetingAgendaItemTest">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.meetingAgenda.EditMeetingAgendaItemTest"/>
-        </classes>
-    </test>
+   <test name="EditMeetingAgendaItemTest">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.meetingAgenda.EditMeetingAgendaItemTest" />
+      </classes>
+   </test>
 
-    <test name="EditSimpleTaskListItemTest">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListSimple.EditSimpleTaskListItemTest"/>
-        </classes>
-    </test>
+   <test name="EditSimpleTaskListItemTest">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListSimple.EditSimpleTaskListItemTest" />
+      </classes>
+   </test>
 
-    <test name="EditAdvancedTaskListItemTest">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListAdvanced.EditAdvancedTaskListItemTest"/>
-        </classes>
-    </test>
+   <test name="EditAdvancedTaskListItemTest">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListAdvanced.EditAdvancedTaskListItemTest" />
+      </classes>
+   </test>
 
-    <test name="EditLocationItemTest">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.locationList.EditLocationItemTest"/>
-        </classes>
-    </test>
+   <test name="EditLocationItemTest">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.locationList.EditLocationItemTest" />
+      </classes>
+   </test>
 
-    <test name="EditingAListItemTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.EditingAListItemTests"/>
-        </classes>
-    </test>
+   <test name="EditingAListItemTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.EditingAListItemTests" />
+      </classes>
+   </test>
 
-    <test name="DuplicateAListItemTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.DuplicateAListItemTests"/>
-        </classes>
-    </test>
+   <test name="DuplicateAListItemTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.DuplicateAListItemTests" />
+      </classes>
+   </test>
 
-    <test name="CreatingAListItemTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.CreatingAListItemTests"/>
-        </classes>
-    </test>
+   <test name="CreatingAListItemTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.CreatingAListItemTests" />
+      </classes>
+   </test>
 
-    <test name="DeletingAListItemTest">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.DeletingAListItemTest"/>
-        </classes>
-    </test>
+   <test name="DeletingAListItemTest">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.DeletingAListItemTest" />
+      </classes>
+   </test>
 
-    <test name="PerformingActionsOnMultipleListItems">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.workingWithMultipleListItems.PerformingActionsOnMultipleListItems"/>
-        </classes>
-    </test>
+   <test name="PerformingActionsOnMultipleListItems">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.workingWithMultipleListItems.PerformingActionsOnMultipleListItems" />
+      </classes>
+   </test>
 
-    <test name="SelectingMultipleListItems">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.workingWithMultipleListItems.SelectingMultipleListItems"/>
-        </classes>
-    </test>
+   <test name="SelectingMultipleListItems">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.workingWithMultipleListItems.SelectingMultipleListItems" />
+      </classes>
+   </test>
 
-    <test name="AccessingDataListsComponentTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.AccessingDataListsComponentTests"/>
-        </classes>
-    </test>
+   <test name="AccessingDataListsComponentTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.AccessingDataListsComponentTests" />
+      </classes>
+   </test>
 
-    <test name="CreateDataListsTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.CreateDataListsTests"/>
-        </classes>
-    </test>
+   <test name="CreateDataListsTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.CreateDataListsTests" />
+      </classes>
+   </test>
 
-    <test name="EditingTheListDetailsTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.EditingTheListDetailsTests"/>
-        </classes>
-    </test>
+   <test name="EditingTheListDetailsTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.EditingTheListDetailsTests" />
+      </classes>
+   </test>
 
-    <test name="ViewingDataListsTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.ViewingDataListsTests"/>
-        </classes>
-    </test>
+   <test name="ViewingDataListsTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.ViewingDataListsTests" />
+      </classes>
+   </test>
 
-    <test name="DeletingADataListTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.DeletingADataListTests"/>
-        </classes>
-    </test>
+   <test name="DeletingADataListTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.DeletingADataListTests" />
+      </classes>
+   </test>
 
-    <test name="EditToDoListTest">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.EditToDoListTest"/>
-        </classes>
-    </test>
+   <test name="EditToDoListTest">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.EditToDoListTest" />
+      </classes>
+   </test>
 
-    <test name="AccessingDiscussionsTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.discussions.AccessingDiscussionsTests"/>
-        </classes>
-    </test>
+   <test name="AccessingDiscussionsTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.discussions.AccessingDiscussionsTests" />
+      </classes>
+   </test>
 
-    <test name="ViewTopicTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.discussions.ViewTopicTests"/>
-        </classes>
-    </test>
+   <test name="ViewTopicTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.discussions.ViewTopicTests" />
+      </classes>
+   </test>
 
-    <test name="CreateNewTopicTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.discussions.CreateNewTopicTests"/>
-        </classes>
-    </test>
+   <test name="CreateNewTopicTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.discussions.CreateNewTopicTests" />
+      </classes>
+   </test>
 
-    <test name="EditTopicTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.discussions.EditTopicTests"/>
-        </classes>
-    </test>
+   <test name="EditTopicTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.discussions.EditTopicTests" />
+      </classes>
+   </test>
 
-    <test name="DeleteTopicTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.discussions.DeleteTopicTests"/>
-        </classes>
-    </test>
+   <test name="DeleteTopicTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.discussions.DeleteTopicTests" />
+      </classes>
+   </test>
 
-    <test name="ReplyingToDiscussionTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.discussions.ReplyingToDiscussionTests"/>
-        </classes>
-    </test>
+   <test name="ReplyingToDiscussionTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.discussions.ReplyingToDiscussionTests" />
+      </classes>
+   </test>
 
-    <test name="BrowsingDiscussionTopicsTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.discussions.BrowsingDiscussionTopicsTests"/>
-        </classes>
-    </test>
+   <test name="BrowsingDiscussionTopicsTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.discussions.BrowsingDiscussionTopicsTests" />
+      </classes>
+   </test>
 
-    <test name="AccessingLinkTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.Links.AccessingLinkTests"/>
-        </classes>
-    </test>
+   <test name="AccessingLinkTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.Links.AccessingLinkTests" />
+      </classes>
+   </test>
 
-    <test name="BrowsingTheSiteLinksTests">
-        <classes>
-            <class
-                    name="org.alfresco.share.sitesFeatures.Links.BrowsingTheSiteLinksTests"/>
-        </classes>
-    </test>
+   <test name="BrowsingTheSiteLinksTests">
+      <classes>
+         <class
+            name="org.alfresco.share.sitesFeatures.Links.BrowsingTheSiteLinksTests" />
+      </classes>
+   </test>
 
-    <test name="CreatingNewLinkTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.Links.CreatingNewLinkTests"/>
-        </classes>
-    </test>
+   <test name="CreatingNewLinkTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.Links.CreatingNewLinkTests" />
+      </classes>
+   </test>
 
-    <test name="ViewLinkDetailsTest">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.Links.ViewLinkDetailsTest"/>
-        </classes>
-    </test>
+   <test name="ViewLinkDetailsTest">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.Links.ViewLinkDetailsTest" />
+      </classes>
+   </test>
 
-    <test name="EditingLinkTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.Links.EditingLinkTests"/>
-        </classes>
-    </test>
+   <test name="EditingLinkTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.Links.EditingLinkTests" />
+      </classes>
+   </test>
 
-    <test name="DeleteLinkTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.Links.DeleteLinkTests"/>
-        </classes>
-    </test>
+   <test name="DeleteLinkTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.Links.DeleteLinkTests" />
+      </classes>
+   </test>
 
-    <test name="LinkCommentsTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.Links.LinkCommentsTests"/>
-        </classes>
-    </test>
-    <test name="AccessingTheWikiTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.wiki.AccessingTheWikiTests"/>
-        </classes>
-    </test>
+   <test name="LinkCommentsTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.Links.LinkCommentsTests" />
+      </classes>
+   </test>
+   <test name="AccessingTheWikiTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.wiki.AccessingTheWikiTests" />
+      </classes>
+   </test>
 
-    <test name="BrowsingWikiPagesTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.wiki.BrowsingWikiPagesTests"/>
-        </classes>
-    </test>
+   <test name="BrowsingWikiPagesTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.wiki.BrowsingWikiPagesTests" />
+      </classes>
+   </test>
 
-    <test name="CreateNewWikiTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.wiki.CreateNewWikiTests"/>
-        </classes>
-    </test>
+   <test name="CreateNewWikiTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.wiki.CreateNewWikiTests" />
+      </classes>
+   </test>
 
-    <test name="DeleteWikiPageTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.wiki.DeleteWikiPageTests"/>
-        </classes>
-    </test>
+   <test name="DeleteWikiPageTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.wiki.DeleteWikiPageTests" />
+      </classes>
+   </test>
 
-    <test name="EditWikiPageTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.wiki.EditWikiPageTests"/>
-        </classes>
-    </test>
+   <test name="EditWikiPageTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.wiki.EditWikiPageTests" />
+      </classes>
+   </test>
 
-    <test name="RenameWikiPageTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.wiki.RenameWikiPageTests"/>
-        </classes>
-    </test>
+   <test name="RenameWikiPageTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.wiki.RenameWikiPageTests" />
+      </classes>
+   </test>
 
-    <test name="ViewWikiPageTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.wiki.ViewWikiPageTests"/>
-        </classes>
-    </test>
+   <test name="ViewWikiPageTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.wiki.ViewWikiPageTests" />
+      </classes>
+   </test>
 
-    <test name="WikiMainPageTests">
-        <classes>
-            <class name="org.alfresco.share.sitesFeatures.wiki.WikiMainPageTests"/>
-        </classes>
-    </test>
+   <test name="WikiMainPageTests">
+      <classes>
+         <class name="org.alfresco.share.sitesFeatures.wiki.WikiMainPageTests" />
+      </classes>
+   </test>
 </suite>

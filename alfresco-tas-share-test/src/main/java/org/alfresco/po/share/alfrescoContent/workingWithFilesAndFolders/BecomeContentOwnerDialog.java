@@ -19,18 +19,19 @@ public class BecomeContentOwnerDialog extends ShareDialog
     @Autowired
     DocumentDetailsPage documentDetailsPage;
 
-    @FindBy(id = "prompt_h")
+    @FindBy (id = "prompt_h")
     private WebElement title;
 
-    @FindBy(css = "#prompt .bd")
+    @FindBy (css = "#prompt .bd")
     private WebElement message;
 
-    @FindBy(css = ".button-group button")
+    @FindBy (css = ".button-group button")
     private List<WebElement> buttonList;
-    
-    private WebElement getButton(String buttonName) {
-		return browser.findElement(By.xpath(String.format("//button[contains(@id, 'button')][text()='%s']", buttonName)));
-	}
+
+    private WebElement getButton(String buttonName)
+    {
+        return browser.findElement(By.xpath(String.format("//button[contains(@id, 'button')][text()='%s']", buttonName)));
+    }
 
     public boolean isDialogDisplayed()
     {
@@ -48,14 +49,14 @@ public class BecomeContentOwnerDialog extends ShareDialog
     }
 
     /**
- 	 * Click on any button from the dialog
- 	 *
- 	 * @param buttonName
- 	 *            to be clicked
- 	 */
- 	public DocumentDetailsPage clickButton(String buttonName) {
- 		getButton(buttonName).click();
- 		browser.waitInSeconds(2);
- 	    return (DocumentDetailsPage) documentDetailsPage.renderedPage();
- 	}
+     * Click on any button from the dialog
+     *
+     * @param buttonName to be clicked
+     */
+    public DocumentDetailsPage clickButton(String buttonName)
+    {
+        getButton(buttonName).click();
+        browser.waitInSeconds(2);
+        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
+    }
 }

@@ -16,13 +16,13 @@ import ru.yandex.qatools.htmlelements.element.Button;
 public class RenameSitePageDialog extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(css = ".bd>label")
+    @FindBy (css = ".bd>label")
     private WebElement pageNameLabel;
 
-    @FindBy(css = ".bd > input")
+    @FindBy (css = ".bd > input")
     private WebElement displayNameInput;
-    
-    @FindBy(css = ".button-group > span[class$='push-button default']")
+
+    @FindBy (css = ".button-group > span[class$='push-button default']")
     private Button okButton;
 
     public boolean isPageNameLabelDisplayed()
@@ -36,7 +36,7 @@ public class RenameSitePageDialog extends ShareDialog
         displayNameInput.clear();
         displayNameInput.sendKeys(newName);
     }
-    
+
     public void clickOk()
     {
         okButton.click();

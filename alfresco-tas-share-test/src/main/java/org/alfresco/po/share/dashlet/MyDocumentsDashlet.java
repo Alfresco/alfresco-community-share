@@ -25,95 +25,95 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     DocumentDetailsPage documentDetailsPage;
 
     @RenderWebElement
-    @FindBy(css = "div.dashlet.my-documents")
+    @FindBy (css = "div.dashlet.my-documents")
     protected WebElement dashletContainer;
 
-    @FindBy(css = "div[id$='default-documents']")
+    @FindBy (css = "div[id$='default-documents']")
     protected WebElement documentsListContainer;
 
-    @FindAll(@FindBy(css = "h3.filename > a"))
+    @FindAll (@FindBy (css = "h3.filename > a"))
     protected List<WebElement> documentsLinksList;
 
-    @FindAll(@FindBy(css = "div[id$='default-documents'] tr[class*='yui-dt-rec']"))
+    @FindAll (@FindBy (css = "div[id$='default-documents'] tr[class*='yui-dt-rec']"))
     protected List<WebElement> documentRowList;
 
-    @FindAll(@FindBy(css = "div[class*='my-documents'] div.bd ul li"))
+    @FindAll (@FindBy (css = "div[class*='my-documents'] div.bd ul li"))
     protected List<WebElement> filterOptions;
 
-    @FindBy(css = "div[class*='my-documents'] button[id$='default-filters-button']")
+    @FindBy (css = "div[class*='my-documents'] button[id$='default-filters-button']")
     protected WebElement filterButton;
 
-    @FindBy(css = "div[class*='my-documents'] div[class*='empty']")
+    @FindBy (css = "div[class*='my-documents'] div[class*='empty']")
     protected WebElement defaultDocumentsText;
 
-    @FindAll(@FindBy(css = "div[class*='my-documents'] div div div span button"))
+    @FindAll (@FindBy (css = "div[class*='my-documents'] div div div span button"))
     protected List<WebElement> viewButtons;
 
-    @FindAll(@FindBy(css = "div[id$='default-documents'] .thumbnail a img"))
+    @FindAll (@FindBy (css = "div[id$='default-documents'] .thumbnail a img"))
     protected List<WebElement> thumbnails;
 
     public enum DocumentsFilter
     {
         RecentlyModified
-        {
-            public String toString()
             {
-                return "I've Recently Modified";
-            }
-        },
+                public String toString()
+                {
+                    return "I've Recently Modified";
+                }
+            },
 
         Editing
-        {
-            public String toString()
             {
-                return "I'm Editing";
-            }
-        },
+                public String toString()
+                {
+                    return "I'm Editing";
+                }
+            },
 
         MyFavorites
-        {
-            public String toString()
             {
-                return "My Favorites";
+                public String toString()
+                {
+                    return "My Favorites";
+                }
             }
-        }
     }
 
     public enum FavoriteLinks
     {
         Add
-        {
-            public String toString()
             {
-                return "Add document to favorites";
-            }
-        },
+                public String toString()
+                {
+                    return "Add document to favorites";
+                }
+            },
 
         Remove
-        {
-            public String toString()
             {
-                return "Remove document from favorites";
+                public String toString()
+                {
+                    return "Remove document from favorites";
+                }
             }
-        }
     }
 
     public enum DocumentView
     {
         SimpleView
-        {
-            public String toString()
             {
-                return "Simlpe View";
-            }
-        },
+                public String toString()
+                {
+                    return "Simlpe View";
+                }
+            },
         DetailedView
-        {
-            public String toString()
             {
-                return "Detailed View";
-            }
-        },
+                public String toString()
+                {
+                    return "Detailed View";
+                }
+            },
 
     }
 
@@ -146,7 +146,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Retrieves the link that match the document name.
-     * 
+     *
      * @param name identifier
      * @return {@link Link} that matches documentName
      */
@@ -165,7 +165,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Retrieves the link that match the document name.
-     * 
+     *
      * @param name identifier
      * @return {@link Link} that matches documentName
      */
@@ -176,7 +176,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Select an option from filter dropdown from My Documents Dashlets.
-     * 
+     *
      * @param String filter
      * @return MyDocumentsDashlet
      */
@@ -188,13 +188,12 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
             browser.selectOptionFromFilterOptionsList(filter, filterOptions);
 
             Assert.assertTrue(browser.findElement(By.cssSelector("div.dashlet.my-documents button[id*='default-filters']")).getText().contains(filter),
-                    "Incorrect filter selected");
+                "Incorrect filter selected");
 
             browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[id$='default-documents'] tr[class*='yui-dt-rec'] h3.filename"));
             browser.selectOptionFromFilterOptionsList(filter, filterOptions);
             return (MyDocumentsDashlet) this.renderedPage();
-        }
-        catch (NoSuchElementException nse)
+        } catch (NoSuchElementException nse)
         {
             LOG.error("My documents option not present" + nse.getMessage());
             throw new PageOperationException(filter + " option not present.");
@@ -225,8 +224,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
             {
                 return true;
             }
-        }
-        catch (TimeoutException | NoSuchElementException e)
+        } catch (TimeoutException | NoSuchElementException e)
         {
             LOG.error("Time out while finding document", e);
             return false;
@@ -236,7 +234,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Check that all document filters are available in My Documents dashlet
-     * 
+     *
      * @return true if filter has proper values
      */
     public boolean isMyDocumentsFilterDisplayed()
@@ -255,7 +253,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Get displayed text when there is no document listed
-     * 
+     *
      * @return
      */
     public String getDefaultDocumentsText()
@@ -275,8 +273,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
                 }
 
             browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div.dashlet.my-documents h3.filename > a"));
-        }
-        catch (NoSuchElementException nse)
+        } catch (NoSuchElementException nse)
         {
             LOG.error("Document view option is not present.");
         }
@@ -286,7 +283,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Checks whether comment link is displayed or not for a document
-     * 
+     *
      * @return
      */
     public boolean isCommentLinkDisplayed(String documentName)
@@ -298,7 +295,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Get modified information for a document
-     * 
+     *
      * @return
      */
     public String getModifiedInformation(String documentName)
@@ -308,7 +305,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Get number of likes for a document
-     * 
+     *
      * @param documentName
      * @return
      */
@@ -319,7 +316,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Wait for documents dashlet to be populated
-     * 
+     *
      * @param documentName
      */
     public MyDocumentsDashlet waitForDocument()
@@ -330,20 +327,20 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Returns if the document is favorite.
-     * 
+     *
      * @param documentName Document Name checked for is Favorite.
      * @return boolean
      */
     public boolean isDocumentFavourite(String documentName)
     {
         browser.waitUntilWebElementIsDisplayedWithRetry(
-                selectDocumentDetailsRow(documentName).findElement(By.cssSelector("a.favourite-action.favourite3.enabled")));
+            selectDocumentDetailsRow(documentName).findElement(By.cssSelector("a.favourite-action.favourite3.enabled")));
         return browser.isElementDisplayed(selectDocumentDetailsRow(documentName).findElement(By.cssSelector("a.favourite-action.favourite3.enabled")));
     }
 
     /**
      * Returns if add to favorites link is present
-     * 
+     *
      * @param documentName Document Name checked for is Favorite.
      * @return boolean
      */
@@ -354,7 +351,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Click on "Favorite" link for a document in My Documents Dashlet.
-     * 
+     *
      * @param documentName String
      */
     public MyDocumentsDashlet addDocumentToFavorites(String documentName)
@@ -363,8 +360,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
         {
             selectDocumentDetailsRow(documentName).findElement(By.cssSelector("a.favourite-action.favourite3")).click();
             browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("a.favourite-action.favourite3.enabled"));
-        }
-        catch (NoSuchElementException nse)
+        } catch (NoSuchElementException nse)
         {
             LOG.error("My Documents Dashlet is not present", nse);
         }
@@ -374,7 +370,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Remove a document from Favorites
-     * 
+     *
      * @param documentName String
      */
     public MyDocumentsDashlet removeDocumentFromFavorites(String documentName)
@@ -387,11 +383,10 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
                 selectDocumentDetailsRow(documentName).findElement(By.cssSelector("a.favourite-action.favourite3.enabled")).click();
                 i++;
             }
-            
+
             browser.refresh();
             browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("a[class='favourite-action.favourite3']"));
-        }
-        catch (NoSuchElementException nse)
+        } catch (NoSuchElementException nse)
         {
             LOG.error("My Documents Dashlet is not present", nse);
         }
@@ -401,7 +396,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Get description for a document
-     * 
+     *
      * @param documentName
      * @return
      */
@@ -412,19 +407,19 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Get size of a document
-     * 
+     *
      * @param documentName
      * @return
      */
     public String getDocumentSize(String documentName)
     {
         return selectDocumentDetailsRow(documentName).findElement(By.cssSelector("div[id$='default-documents'] div[class='detail'] span.item:nth-of-type(2)"))
-                .getText();
+                                                     .getText();
     }
 
     /**
      * Get version of a document
-     * 
+     *
      * @param documentName
      * @return
      */
@@ -437,7 +432,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Checks whether large thumbnail is displayed on detailed view for a document
-     * 
+     *
      * @return
      */
     public boolean isLargeThumbnailDisplayed(String documentName)
@@ -445,8 +440,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
         try
         {
             return selectDocumentDetailsRow(documentName).findElement(By.cssSelector("div[id$='default-documents'] .thumbnail")).isDisplayed();
-        }
-        catch (TimeoutException detailedViewThumbnail)
+        } catch (TimeoutException detailedViewThumbnail)
         {
 
         }
@@ -455,7 +449,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Checks whether small thumbnail is displayed on simple view for a document
-     * 
+     *
      * @return
      */
     public boolean isSmallThumbnailDisplayed(String documentName)
@@ -463,8 +457,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
         try
         {
             return selectDocumentDetailsRow(documentName).findElement(By.cssSelector("div[id$='default-documents'] .icon32")).isDisplayed();
-        }
-        catch (TimeoutException simpleViewThumbnail)
+        } catch (TimeoutException simpleViewThumbnail)
         {
 
         }
@@ -489,7 +482,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     public MyDocumentsDashlet likeDocument(String documentName)
     {
         browser.findFirstElementWithValue(By.cssSelector("div[id$='default-documents'] tr[class*='yui-dt-rec']"), documentName)
-                .findElement(By.cssSelector(".like-action")).click();
+               .findElement(By.cssSelector(".like-action")).click();
         browser.refresh();
 
         return (MyDocumentsDashlet) this.renderedPage();
@@ -497,20 +490,20 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Press Add Comment link for a specific document
-     * 
+     *
      * @param documentName
      * @return
      */
     public DocumentDetailsPage addComment(String documentName)
     {
         browser.findFirstElementWithValue(By.cssSelector("div[id$='default-documents'] tr[class*='yui-dt-rec']"), documentName)
-                .findElement(By.cssSelector(".comment")).click();
+               .findElement(By.cssSelector(".comment")).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
     /**
      * Access document details page by pressing document thumbnail
-     * 
+     *
      * @param documentName
      * @return
      */
@@ -523,7 +516,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Checks whether liked icon is displayed or not for a document
-     * 
+     *
      * @return
      */
     public boolean isLikedIconDisplayed(String documentName)
@@ -534,7 +527,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Checks whether like link is displayed or not for a document
-     * 
+     *
      * @return
      */
     public boolean isLikeLinkDisplayed(String documentName)
@@ -545,7 +538,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Get number of documents
-     * 
+     *
      * @return
      */
     public int getNumberOfDocuments()
@@ -555,7 +548,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Get the current selected option from filter
-     * 
+     *
      * @return
      */
     public String getSelectedOption()
@@ -567,7 +560,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Check that expected number of documents are listed
-     * 
+     *
      * @param noOfDocs
      * @return
      */

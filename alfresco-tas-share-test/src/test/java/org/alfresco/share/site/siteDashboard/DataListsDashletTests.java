@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 /**
  * @author bogdan.simion
  */
@@ -27,8 +28,8 @@ public class DataListsDashletTests extends ContextAwareWebTest
     @Autowired
     DataListsPage dataListsPage;
 
-    @TestRail(id = "C5568")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5568")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletNoListCreated()
     {
         String userName = String.format("user5568-%s", RandomData.getRandomAlphanumeric());
@@ -50,18 +51,18 @@ public class DataListsDashletTests extends ContextAwareWebTest
         siteDataListsDashlet.clickOnHelpIcon(DashletHelpIcon.DATA_LISTS);
 
         Assert.assertEquals(siteDataListsDashlet.getHelpBalloonMessage(), "This dashlet shows lists relevant to the site. Clicking a list opens it.",
-                "No text found");
+            "No text found");
 
         LOG.info("Step 3 - Click X icon.");
         siteDataListsDashlet.closeHelpBalloon();
         Assert.assertFalse(siteDataListsDashlet.isBalloonDisplayed(), "Balloon is not displayed");
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5569")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5569")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletTwoListsCreated()
     {
         String userName = String.format("userC5569-%s", RandomData.getRandomAlphanumeric());
@@ -100,13 +101,13 @@ public class DataListsDashletTests extends ContextAwareWebTest
         Assert.assertTrue(dataListsPage.currentContent.areNavigationLinksDisplayed(), "The navigation links are not displayed.");
         Assert.assertTrue(dataListsPage.isListWithCreatedListsDisplayed(), "List with created lists is not displayed");
         Assert.assertTrue(dataListsPage.currentContent.allFilterOptionsAreDisplayed(), "Not all filters are displayed.");
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5570")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5570")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletCreateDataList()
     {
         String userName = String.format("userC5570-%s", RandomData.getRandomAlphanumeric());
@@ -157,13 +158,13 @@ public class DataListsDashletTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(4);
         Assert.assertTrue(siteDataListsDashlet.isDataListLinkDisplayed(listDescription), "Data list link is not displayed");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5571")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C5571")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteDataListsDashletUserWithConsumerRole()
     {
         String userNameSiteManager = String.format("userC5571-%s", RandomData.getRandomAlphanumeric());
@@ -191,16 +192,16 @@ public class DataListsDashletTests extends ContextAwareWebTest
         LOG.info("Step 2 - Click ? icon.");
         siteDataListsDashlet.clickOnHelpIcon(DashletHelpIcon.DATA_LISTS);
         Assert.assertEquals(siteDataListsDashlet.getHelpBalloonMessage(), "This dashlet shows lists relevant to the site. Clicking a list opens it.",
-                "No help balloon found");
+            "No help balloon found");
 
         LOG.info("Step 3 - Click on the Data List title link from Site Data Lists dashlet.");
         siteDataListsDashlet.clickOnTheFirstDataListTitleLink();
         Assert.assertTrue(siteDataListsDashlet.isDataListPageTheCurrentPage(), "The current page is not Data List details page");
-        userService.delete(adminUser,adminPassword, userNameSiteManager);
+        userService.delete(adminUser, adminPassword, userNameSiteManager);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userNameSiteManager);
-        userService.delete(adminUser,adminPassword, userNameSiteConsumer);
+        userService.delete(adminUser, adminPassword, userNameSiteConsumer);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userNameSiteConsumer);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

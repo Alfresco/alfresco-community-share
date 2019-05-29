@@ -40,16 +40,16 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
 
     private String user1 = String.format("user1%s", RandomData.getRandomAlphanumeric());
     private String site1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
-    private String docC7210 = site1+"docC7210";
+    private String docC7210 = site1 + "docC7210";
     private String docC7210_content = "C7210 C7210 C7210";
     private String docC5991 = "11123";
     private String docC7407 = "this is an item";
-    private String specificWord = site1+"docC7288";
-    private String docC7288_2 = site1+"Doc2";
-    private String docC7288_3 = site1+"Doc3";
-    private String docC7288_4 = site1+"Doc4";
+    private String specificWord = site1 + "docC7288";
+    private String docC7288_2 = site1 + "Doc2";
+    private String docC7288_3 = site1 + "Doc3";
+    private String docC7288_4 = site1 + "Doc4";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
@@ -81,15 +81,16 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
     }
 
     @AfterClass
-    public void removeAddedFiles() {
+    public void removeAddedFiles()
+    {
         userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
         siteService.delete(adminUser, adminPassword, site1);
 
     }
 
-    @TestRail(id = "C7210")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C7210")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void recurringPhrases()
     {
         userDashboardPage.navigate(user1);
@@ -99,8 +100,8 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(docC7210), "Searched content is found and displayed in search results list");
     }
 
-    @TestRail(id = "C7288")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C7288")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void extendedSearch()
     {
         userDashboardPage.navigate(user1);
@@ -112,8 +113,8 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(docC7288_4), "The file with content containing the searched query is displayed in search result list");
     }
 
-    @TestRail(id = "C5991")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5991")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void wildcards()
     {
         userDashboardPage.navigate(user1);
@@ -145,8 +146,8 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
         assertTrue(searchPage.isResultFound(docC5991), "Content corresponding to the exact phrase in quotes, e.g.:\"11123\", is displayed in search results list");
     }
 
-    @TestRail(id = "C7407")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C7407")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void explicitSpansPositions()
     {
         userDashboardPage.navigate(user1);

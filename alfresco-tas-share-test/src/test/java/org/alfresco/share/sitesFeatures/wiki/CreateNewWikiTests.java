@@ -32,28 +32,28 @@ public class CreateNewWikiTests extends ContextAwareWebTest
 
     @Autowired
     CreateWikiPage createWikiPage;
-    
+
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName;
     private String wikiPageHeader = "Create Wiki Page";
     private String wikiPageTitle;
     private String wikiPageContent;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createUser()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void createSite()
     {
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
@@ -64,15 +64,15 @@ public class CreateNewWikiTests extends ContextAwareWebTest
         siteService.addPageToSite(testUser, password, siteName, DashboardCustomization.Page.WIKI, null);
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod (alwaysRun = true)
     public void cleanupMethod()
     {
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C5504")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5504")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewWikiPage()
     {
         // precondition
@@ -91,11 +91,11 @@ public class CreateNewWikiTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Click on wiki page list");
         wikiPage.clickOnWikiListLink();
-        Assert.assertTrue( wikiListPage.getWikiPageTitlesList().contains(wikiPageTitle), "Wiki page is not displayed in the list!");
+        Assert.assertTrue(wikiListPage.getWikiPageTitlesList().contains(wikiPageTitle), "Wiki page is not displayed in the list!");
     }
 
-    @TestRail(id = "C5504")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5504")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreationOfNewWikiPage()
     {
         // precondition
@@ -113,12 +113,12 @@ public class CreateNewWikiTests extends ContextAwareWebTest
         createWikiPage.cancelWikiPage();
 
         LOG.info("STEP 4: Check that wiki page is not present on the list");
-        Assert.assertTrue( wikiListPage.getWikiPageTitlesList().isEmpty(), "There are wiki pages displayed in the list!");
-        Assert.assertTrue( wikiListPage.noWikiPageDisplayed().equals("There are currently no pages to display"), "Wrong message displayed!");
+        Assert.assertTrue(wikiListPage.getWikiPageTitlesList().isEmpty(), "There are wiki pages displayed in the list!");
+        Assert.assertTrue(wikiListPage.noWikiPageDisplayed().equals("There are currently no pages to display"), "Wrong message displayed!");
     }
 
-    @TestRail(id = "C5524")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5524")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createWikiPageFromWikiPageList()
     {
         String tagName = String.format("tag%s", RandomData.getRandomAlphanumeric());
@@ -134,13 +134,13 @@ public class CreateNewWikiTests extends ContextAwareWebTest
         createWikiPage.typeWikiPageTitle(wikiPageTitle);
         createWikiPage.typeWikiPageContent(wikiPageContent);
         createWikiPage.addTag(tagName);
-        Assert.assertTrue( createWikiPage.getWikiPageTagsList().contains(tagName), "Tag is not displayed!");
+        Assert.assertTrue(createWikiPage.getWikiPageTagsList().contains(tagName), "Tag is not displayed!");
 
         LOG.info("STEP 3: Click on Save button");
         createWikiPage.saveWikiPage();
 
         LOG.info("STEP 4: Navigate to Wiki Page List page");
         wikiPage.clickOnWikiListLink();
-        Assert.assertTrue(wikiListPage.getTagsList().contains(tagName.toLowerCase() + " (1)") , "Tag is not displayed in the list!");
+        Assert.assertTrue(wikiListPage.getTagsList().contains(tagName.toLowerCase() + " (1)"), "Tag is not displayed in the list!");
     }
 }

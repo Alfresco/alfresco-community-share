@@ -57,8 +57,9 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
     private final String fileName = "File-C7325-" + random;
     private final String path = "Sites/" + siteName + "/documentLibrary/" + folder1;
 
-    @BeforeClass()
-    public void setupTest() {
+    @BeforeClass ()
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folder1, siteName);
@@ -93,17 +94,18 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
         getBrowser().waitInSeconds(14);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7325")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void switchOffInheritRules() {
+    @TestRail (id = "C7325")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void switchOffInheritRules()
+    {
         LOG.info("STEP1: Navigate to 'Manage Rules' page for " + folder2);
         documentLibraryPage.clickDocumentLibraryItemAction(folder2, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");

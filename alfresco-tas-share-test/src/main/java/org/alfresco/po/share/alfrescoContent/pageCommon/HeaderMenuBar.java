@@ -1,4 +1,5 @@
 package org.alfresco.po.share.alfrescoContent.pageCommon;
+
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
@@ -11,16 +12,16 @@ import java.util.List;
 @PageObject
 public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
 {
-    @FindBy(css = "button[id*='fileSelect']")
+    @FindBy (css = "button[id*='fileSelect']")
     private WebElement selectMenu;
 
-    @FindBy(css = "div[id*='fileSelect-menu'] span")
+    @FindBy (css = "div[id*='fileSelect-menu'] span")
     private List<WebElement> selectOptionsList;
 
-    @FindBy(css = "button[id*='selectedItems']")
+    @FindBy (css = "button[id*='selectedItems']")
     private WebElement selectedItemsMenu;
 
-    @FindBy(css = ".selected-items button[disabled]")
+    @FindBy (css = ".selected-items button[disabled]")
     private WebElement selectedItemsMenuDisabled;
 
     private By selectedItemsOptionsSelector = By.cssSelector("div[id*='selectedItems'] span");

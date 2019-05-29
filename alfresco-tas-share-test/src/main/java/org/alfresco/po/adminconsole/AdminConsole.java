@@ -22,9 +22,8 @@ public interface AdminConsole
     public String getIntroPage();
 
     public List<ControlObject> getPageFields();
-    
+
     /**
-     * @return the message displayed after saving page details
      * @return
      */
     public String getMessage();

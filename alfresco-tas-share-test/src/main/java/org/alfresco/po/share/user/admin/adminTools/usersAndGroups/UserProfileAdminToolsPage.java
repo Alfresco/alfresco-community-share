@@ -21,45 +21,46 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
     @Autowired
     EditUserPage editUserPage;
 
-    @Autowired DeleteUserDialogPage deleteUserDialogPage;
+    @Autowired
+    DeleteUserDialogPage deleteUserDialogPage;
 
     @RenderWebElement
-    @FindBy(css="button[id$='_default-edituser-button-button']")
+    @FindBy (css = "button[id$='_default-edituser-button-button']")
     private WebElement editUserButton;
 
     @RenderWebElement
-    @FindBy(css="button[id$='_default-deleteuser-button-button']")
+    @FindBy (css = "button[id$='_default-deleteuser-button-button']")
     private WebElement deleteUserButton;
 
     @RenderWebElement
-    @FindBy(css="button[id$='_default-goback-button-button']")
+    @FindBy (css = "button[id$='_default-goback-button-button']")
     private WebElement goBackButton;
 
     private By userProfileUserName = By.cssSelector("span[id$='_default-view-title']");
 
-    @FindBy(css="div [id$='_default-view-name']")
+    @FindBy (css = "div [id$='_default-view-name']")
     private WebElement userNameInAboutSection;
 
-    @FindAll(@FindBy(css="div.header-bar"))
+    @FindAll (@FindBy (css = "div.header-bar"))
     private List<WebElement> userProfileHeaderList;
 
     private By sectionsInfo = By.xpath("//div[@class='field-row']");
 
-    private By userPhoto= By.cssSelector("div.photo img.view-photoimg");
+    private By userPhoto = By.cssSelector("div.photo img.view-photoimg");
 
-    @FindBy(css ="span[id$='_default-view-quota']")
+    @FindBy (css = "span[id$='_default-view-quota']")
     private WebElement userQuota;
 
-    @FindBy(css="div.name-label")
+    @FindBy (css = "div.name-label")
     public WebElement userName;
 
-    @FindBy(css ="span[id$='_default-view-email']")
+    @FindBy (css = "span[id$='_default-view-email']")
     private WebElement email;
 
-    @FindBy(css="span[id$='_default-view-enabled']")
+    @FindBy (css = "span[id$='_default-view-enabled']")
     public WebElement accountStatus;
 
-    @FindBy(xpath = "//span[text()='Groups:']/../span[@class='field-value']")
+    @FindBy (xpath = "//span[text()='Groups:']/../span[@class='field-value']")
     public WebElement groupName;
 
     @Override
@@ -99,14 +100,15 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
         }
         return false;
     }
+
     public boolean isInfoDisplayedInSection(String infoName)
     {
-       return browser.isElementDisplayed(By.xpath("//span[text() ='" + infoName + "']"));
+        return browser.isElementDisplayed(By.xpath("//span[text() ='" + infoName + "']"));
     }
 
     public boolean isUserPhotoDisplayed()
     {
-    return browser.isElementDisplayed(userPhoto);
+        return browser.isElementDisplayed(userPhoto);
     }
 
     public String getTheUserNameInAboutSection()

@@ -20,20 +20,23 @@ import static org.testng.Assert.assertEquals;
 
 public class ViewingAFileTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentDetailsPage documentPreviewPage;
-    @Autowired private DocumentLibraryPage documentLibraryPage;
-    @Autowired private PreviewFileActionsSection fileActions;
+    @Autowired
+    private DocumentDetailsPage documentPreviewPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private PreviewFileActionsSection fileActions;
 
     @Autowired
     private UserDashboardPage userDashboard;
-    
+
     private final String user = "C9917User1489451372540";
     private final String siteName = String.format("C9917SiteName%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C9917SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String docName = "File-C9917";
     private final DateTime currentDate = new DateTime();
-  
-    @BeforeClass(alwaysRun = true)
+
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -42,16 +45,16 @@ public class ViewingAFileTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C9917")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C9917")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void informationAndOptionsCheckAvailableInfo()
     {
@@ -77,8 +80,8 @@ public class ViewingAFileTests extends ContextAwareWebTest
         Assert.assertTrue(documentPreviewPage.isDocumentThumbnailDisplayed().contains("docx-file-48.png"));
     }
 
-    @TestRail(id = "C9923")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C9923")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void informationAndOptionsCheckLinkToReturnToDocumentLibrary()
     {
@@ -96,8 +99,8 @@ public class ViewingAFileTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getRelativePath(), expectedRelativePath, "User is not redirected to Document Library");
     }
 
-    @TestRail(id = "C9925")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C9925")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void informationAndOptionsLikeOption()
     {
@@ -105,51 +108,51 @@ public class ViewingAFileTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click on the thumbnail or name of the file in the document library.");
         documentLibraryPage.clickOnFile(docName);
-        
+
         LOG.info("Step 2: Verify that the Like option is available.");
         Assert.assertTrue(documentPreviewPage.isLikeButtonPresent(), "The like button is not displayed");
 
         LOG.info("Step 3: Click the Like button.");
         documentPreviewPage.clickOnLikeUnlike();
         Assert.assertEquals(documentPreviewPage.getLikesNo(), 1);
-        
+
         LOG.info("Step 4: Click the Like button again to unlike the content");
         documentPreviewPage.clickOnLikeUnlike();
         Assert.assertEquals(documentPreviewPage.getLikesNo(), 0);
     }
-    
-    @TestRail(id = "C9926")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    
+
+    @TestRail (id = "C9926")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+
     public void informationAndOptionsFavoriteOption()
     {
         documentLibraryPage.navigate(siteName);
-        
+
         LOG.info("Step 1: Click on the thumbnail or name of the file in the document library.");
         documentLibraryPage.clickOnFile(docName);
-        
+
         LOG.info("Step 2: Verify that the Favorite option is available.");
         Assert.assertTrue(documentPreviewPage.isAddToFavoriteLinkDisplayed(), "Favorite button is not displayed");
-        
+
         LOG.info("Step 3: Click the Favorite button.");
         documentPreviewPage.clickOnFavoriteUnfavoriteLink();
         Assert.assertTrue(documentPreviewPage.isDocumentFavourite(), "Document is not successfully favorited");
-        
+
         LOG.info("Step 4: Click the Favorite button again.");
         documentPreviewPage.clickOnFavoriteUnfavoriteLink();
         Assert.assertFalse(documentPreviewPage.isDocumentFavourite(), "Document has not been unfavorited");
     }
-    
-    
-    @TestRail(id = "C9936")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    
+
+
+    @TestRail (id = "C9936")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+
     public void checkActionsAvailability()
     {
         LOG.info("Step 1: Click on document name");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickOnFile(docName);
-        
+
         LOG.info("Step 2: Check the document actions available");
         Assert.assertTrue(fileActions.isDocumentActionsBlockDisplayed(), "Document Actions block is not displayed");
         Assert.assertTrue(fileActions.isViewInBrowserDisplayed(), "View in browser action is not displayed");
@@ -165,20 +168,20 @@ public class ViewingAFileTests extends ContextAwareWebTest
         Assert.assertTrue(fileActions.isBecomeOwnerDisplayed(), "Become owner is not displayed");
         Assert.assertTrue(fileActions.isManageAspectsDisplayed(), "Manage aspects is not displayed");
         Assert.assertTrue(fileActions.isChangeTypeDisplayed(), "Change type is not displayed");
-        
+
         LOG.info("Step 3: Check Tags presence");
         Assert.assertTrue(fileActions.isTagsBlockDisplayed(), "Tags block is not displayed");
-        
+
         LOG.info("Step 4: Check that Share block present");
         Assert.assertTrue(fileActions.isShareBlockDisplayed(), "Share block is not displayed");
         Assert.assertTrue(fileActions.isShareLinkDisplayed(), "Share link section is not displayed in the Share block");
-        
+
         LOG.info("Step 5: Check that the Properties block is displayed");
         Assert.assertTrue(fileActions.isPropertiesBlockDisplayed(), "Properties block is not displayed");
-        
+
         LOG.info("Step 6: Check that the workflow block is displayed");
         Assert.assertTrue(fileActions.isWorkflowsBlockDisplayed(), "Workflows block is not displayed");
-        
+
         LOG.info("Step 7: Check that Version History block is displayed ");
         Assert.assertTrue(fileActions.isVersionHistoryBlockDisplayed(), "Version History block is not displayed");
     }

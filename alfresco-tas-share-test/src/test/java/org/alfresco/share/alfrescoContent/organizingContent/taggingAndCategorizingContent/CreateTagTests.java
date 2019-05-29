@@ -25,11 +25,14 @@ import static org.testng.Assert.assertTrue;
  */
 public class CreateTagTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private EditPropertiesDialog editPropertiesDialog;
+    @Autowired
+    private EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired private SelectDialog selectDialog;
+    @Autowired
+    private SelectDialog selectDialog;
 
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "profileUser-" + random;
@@ -39,7 +42,7 @@ public class CreateTagTests extends ContextAwareWebTest
     private final String fileTag = "tagC10209-" + random;
     private final String folderTag = "tagC10210-" + random;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
@@ -52,17 +55,17 @@ public class CreateTagTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C10209")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C10209")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createTagEditPropertiesDialog()
     {
         documentLibraryPage.navigate(siteName);
@@ -80,7 +83,7 @@ public class CreateTagTests extends ContextAwareWebTest
         selectDialog.typeTag(fileTag);
         selectDialog.clickCreateNewIcon();
         assertTrue(selectDialog.isItemSelected(fileTag.toLowerCase()),
-                "'Select...' dialog -> added tags section: '" + fileTag.toLowerCase() + "' is displayed.");
+            "'Select...' dialog -> added tags section: '" + fileTag.toLowerCase() + "' is displayed.");
         assertTrue(selectDialog.isItemRemovable(fileTag.toLowerCase()), "'Select...' dialog -> 'Remove' icon is displayed for: " + fileTag.toLowerCase());
 
         LOG.info("STEP5: Click \"Ok\" button");
@@ -94,8 +97,8 @@ public class CreateTagTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getTags(fileName), tagsList.toString(), fileName + " -> tags=");
     }
 
-    @TestRail(id = "C10210")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C10210")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createTagEditTagIcon()
     {
         documentLibraryPage.navigate(siteName);

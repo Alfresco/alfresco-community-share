@@ -23,33 +23,33 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
     WikiListPage wikiListPage;
 
     @RenderWebElement
-    @FindBy(css = "div.page-form-header h1")
+    @FindBy (css = "div.page-form-header h1")
     private WebElement pageHeader;
 
     @RenderWebElement
-    @FindBy(css = "[id$='default-title']")
+    @FindBy (css = "[id$='default-title']")
     private WebElement wikiPageTitle;
 
-    @FindBy(css = "button[id$=default-save-button-button]")
+    @FindBy (css = "button[id$=default-save-button-button]")
     private WebElement saveButton;
 
-    @FindBy(css = "span.first-child a")
+    @FindBy (css = "span.first-child a")
     private WebElement cancelButton;
 
-    @FindBy(css = "[id$=default-tag-input-field]")
+    @FindBy (css = "[id$=default-tag-input-field]")
     private WebElement tagInputField;
 
-    @FindBy(css = "[id$=default-add-tag-button-button]")
+    @FindBy (css = "[id$=default-add-tag-button-button]")
     private WebElement addTagButton;
 
-    @FindAll(@FindBy(css = "[id$='default-current-tags'] li a span"))
+    @FindAll (@FindBy (css = "[id$='default-current-tags'] li a span"))
     private List<WebElement> wikiPageTagsList;
 
     private By wikiPageContent = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
 
     /**
      * Method used to get wiki page header
-     * 
+     *
      * @return wiki page header
      */
     public String getWikiPageTitle()
@@ -80,7 +80,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 
     /**
      * Click on save button
-     * 
+     *
      * @return wiki page
      */
 
@@ -93,7 +93,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 
     /**
      * Click on cancel button
-     * 
+     *
      * @return wiki pages list
      */
 
@@ -124,7 +124,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
 
     /**
      * This method returns the list of wiki page tags
-     * 
+     *
      * @return list of wiki page titles
      */
 

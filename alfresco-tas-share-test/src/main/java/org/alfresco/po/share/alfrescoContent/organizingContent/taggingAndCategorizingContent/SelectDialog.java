@@ -27,29 +27,29 @@ public class SelectDialog extends ShareDialog
     @Autowired
     EditPropertiesPage editPropertiesPage;
 
-    @FindBy(css = "div[id*='prop_cm_taggable-cntrl-picker_c'] div[id*='cntrl-picker-head']")
+    @FindBy (css = "div[id*='prop_cm_taggable-cntrl-picker_c'] div[id*='cntrl-picker-head']")
     private WebElement dialogTitle;
 
-    @FindBy(css = "input.create-new-input")
+    @FindBy (css = "input.create-new-input")
     private WebElement tagInputField;
 
-    @FindBy(css = ".createNewIcon")
+    @FindBy (css = ".createNewIcon")
     private WebElement createNewIcon;
 
-    @FindBy(css = "div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-picker-navigator-button']")
+    @FindBy (css = "div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-picker-navigator-button']")
     private Button navigatorButton;
 
-    @FindBy(css = "div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] .yui-dt-data")
+    @FindBy (css = "div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-results'] .yui-dt-data")
     private WebElement resultsPicker;
 
-    @FindBy(css = "div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-selectedItems'] tbody.yui-dt-data")
+    @FindBy (css = "div.yui-dialog[style*='visibility: visible'] div[id$='cntrl-picker-selectedItems'] tbody.yui-dt-data")
     private WebElement selectedItemsPicker;
 
     @RenderWebElement
-    @FindBy(css = "div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-ok-button']")
+    @FindBy (css = "div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-ok-button']")
     private WebElement okButton;
 
-    @FindBy(css = "div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-cancel-button']")
+    @FindBy (css = "div.yui-dialog[style*='visibility: visible'] button[id$='cntrl-cancel-button']")
     private WebElement cancelButton;
 
     private By itemsRows = By.cssSelector("tr.yui-dt-rec:not(.create-new-row)");
@@ -91,8 +91,7 @@ public class SelectDialog extends ShareDialog
                 WebElement result = getItemElementFromResultsPicker(item);
                 Parameter.checkIsMandotary("Select item result", result);
                 result.findElement(addIcon).click();
-            }
-            catch (NoSuchElementException noSuchElementExp)
+            } catch (NoSuchElementException noSuchElementExp)
             {
                 LOG.error("Add icon for item: " + item + " is not present.", noSuchElementExp);
             }
@@ -108,8 +107,7 @@ public class SelectDialog extends ShareDialog
                 WebElement selectedItem = getItemElementFromSelectedItemsPicker(item);
                 Parameter.checkIsMandotary("Selected item", selectedItem);
                 selectedItem.findElement(removeIcon).click();
-            }
-            catch (NoSuchElementException noSuchElementExp)
+            } catch (NoSuchElementException noSuchElementExp)
             {
                 LOG.error("Remove icon for item: " + item + " is not present.", noSuchElementExp);
             }

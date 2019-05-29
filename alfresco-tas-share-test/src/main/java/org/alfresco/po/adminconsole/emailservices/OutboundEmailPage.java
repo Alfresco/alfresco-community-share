@@ -14,10 +14,10 @@ public class OutboundEmailPage extends AdminConsolePage<OutboundEmailPage>
         return "alfresco/s/enterprise/admin/admin-outboundemail";
     }
 
-    @FindBy(className = "intro")
+    @FindBy (className = "intro")
     WebElement intro;
 
-    @FindBy(className = "info")
+    @FindBy (className = "info")
     WebElement info;
 
     @Override

@@ -14,38 +14,38 @@ import java.util.List;
 public class EditTaskPage extends SharePage<EditTaskPage>
 {
     @RenderWebElement
-    @FindBy(css = "div.task-edit-header h1")
+    @FindBy (css = "div.task-edit-header h1")
     private WebElement taskEditHeader;
 
     @RenderWebElement
-    @FindBy(css = "textarea[id$='bpm_comment']")
+    @FindBy (css = "textarea[id$='bpm_comment']")
     private WebElement commentTextArea;
-    
-    @FindBy(css = "button[id$='approve-button']")
+
+    @FindBy (css = "button[id$='approve-button']")
     private WebElement approveButton;
-    
-    @FindBy(css = "button[id$='reject-button']")
+
+    @FindBy (css = "button[id$='reject-button']")
     private WebElement rejectButton;
 
-    @FindBy(css = "div.form-field div.viewmode-field span[data-datatype$='text']")
+    @FindBy (css = "div.form-field div.viewmode-field span[data-datatype$='text']")
     private WebElement message;
 
-    @FindBy(css = "div.form-field div.viewmode-field span[id$='_prop_taskOwner'] a")
+    @FindBy (css = "div.form-field div.viewmode-field span[id$='_prop_taskOwner'] a")
     private WebElement owner;
 
-    @FindBy(xpath = "//span[@class = 'viewmode-label' and text() = 'Identifier:']")
+    @FindBy (xpath = "//span[@class = 'viewmode-label' and text() = 'Identifier:']")
     private WebElement identifier;
 
-    @FindBy(xpath = "//span[contains(@class,'viewmode-value') and not(@data-datatype) and not(@id)]")
+    @FindBy (xpath = "//span[contains(@class,'viewmode-value') and not(@data-datatype) and not(@id)]")
     private WebElement priority;
 
-    @FindBy(xpath = "//span[@class = 'viewmode-label' and text() = 'Due:']")
+    @FindBy (xpath = "//span[@class = 'viewmode-label' and text() = 'Due:']")
     private WebElement dueDate;
 
-    @FindBy(css = "button[id*='claim']")
+    @FindBy (css = "button[id*='claim']")
     private WebElement claimButton;
 
-    @FindBy(css = "button[id*='release-button']")
+    @FindBy (css = "button[id*='release-button']")
     private WebElement releaseToPoolButton;
 
     private By statusDropdown = By.cssSelector("select[title = 'Status']");
@@ -65,11 +65,13 @@ public class EditTaskPage extends SharePage<EditTaskPage>
 
         private String status;
 
-        TaskStatus(String status) {
+        TaskStatus(String status)
+        {
             this.status = status;
         }
 
-        public String getStatus() {
+        public String getStatus()
+        {
             return this.status;
         }
     }
@@ -79,14 +81,14 @@ public class EditTaskPage extends SharePage<EditTaskPage>
     {
         return "share/page/task-edit";
     }
-    
+
     public <T> SharePage approve(String comment, SharePage<T> page)
     {
         commentTextArea.sendKeys(comment);
         approveButton.click();
         return page;
     }
-    
+
     public <T> SharePage reject(String comment, SharePage<T> page)
     {
         getBrowser().waitUntilElementVisible(commentTextArea);
@@ -96,32 +98,65 @@ public class EditTaskPage extends SharePage<EditTaskPage>
         return page;
     }
 
-    public String getEditTaskHeader() { return taskEditHeader.getText(); }
+    public String getEditTaskHeader()
+    {
+        return taskEditHeader.getText();
+    }
 
     public String getComment()
     {
         return commentTextArea.getText();
     }
 
-    public String getMessage() { return message.getText(); }
+    public String getMessage()
+    {
+        return message.getText();
+    }
 
-    public String getOwner() { return owner.getText(); }
+    public String getOwner()
+    {
+        return owner.getText();
+    }
 
-    public String getPriority() { return priority.getText(); }
+    public String getPriority()
+    {
+        return priority.getText();
+    }
 
-    public boolean isIdentifierPresent() { return browser.isElementDisplayed(identifier); }
+    public boolean isIdentifierPresent()
+    {
+        return browser.isElementDisplayed(identifier);
+    }
 
-    public boolean isDueDatePresent() { return browser.isElementDisplayed(dueDate); }
+    public boolean isDueDatePresent()
+    {
+        return browser.isElementDisplayed(dueDate);
+    }
 
-    public boolean isSaveButtonPresent() { return browser.isElementDisplayed(saveButton); }
+    public boolean isSaveButtonPresent()
+    {
+        return browser.isElementDisplayed(saveButton);
+    }
 
-    public boolean isCancelButtonPresent() { return browser.isElementDisplayed(cancelButton); }
+    public boolean isCancelButtonPresent()
+    {
+        return browser.isElementDisplayed(cancelButton);
+    }
 
-    public boolean isTaskDoneButtonPresent() { return browser.isElementDisplayed(taskDoneButton); }
+    public boolean isTaskDoneButtonPresent()
+    {
+        return browser.isElementDisplayed(taskDoneButton);
+    }
 
-    public boolean isReassignButtonPresent() { return browser.isElementDisplayed(reassignButton); }
+    public boolean isReassignButtonPresent()
+    {
+        return browser.isElementDisplayed(reassignButton);
+    }
 
-    public boolean isAddItemsButtonPresent() { return browser.isElementDisplayed(addItemsButton); }
+    public boolean isAddItemsButtonPresent()
+    {
+        return browser.isElementDisplayed(addItemsButton);
+    }
 
     public void selectStatus(TaskStatus status)
     {

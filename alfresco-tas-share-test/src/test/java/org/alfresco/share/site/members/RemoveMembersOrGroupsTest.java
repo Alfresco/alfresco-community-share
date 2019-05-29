@@ -48,7 +48,8 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
     private String user2CompleteName;
     private String user1CompleteName;
 
-    public void setup(String id, SiteService.Visibility visibility) throws DataPreparationException {
+    public void setup(String id, SiteService.Visibility visibility) throws DataPreparationException
+    {
         super.setup();
 
         uniqueIdentifier = "-" + id + "-" + RandomData.getRandomAlphanumeric();
@@ -71,9 +72,10 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
     }
 
 
-    @TestRail(id = "C2882")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void removeSiteMemberFromPublicSiteTest() throws DataPreparationException {
+    @TestRail (id = "C2882")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void removeSiteMemberFromPublicSiteTest() throws DataPreparationException
+    {
         LOG.info("Starting test C2882");
         setup("C2882", SiteService.Visibility.PUBLIC);
         // preconditions
@@ -103,19 +105,20 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         siteDashboardPage.clickSiteConfiguration();
         Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Join Site"), "Join site text not present in site configuration");
 
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C2883")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void removeSiteGroupTest() throws DataPreparationException {
+    @TestRail (id = "C2883")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void removeSiteGroupTest() throws DataPreparationException
+    {
 
         LOG.info("Starting test C2883");
 
@@ -153,18 +156,18 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         siteUsers.navigate(siteName);
         Assert.assertEquals(null, siteUsers.selectMember(user2), "User2 is displayed as a site member");
 
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C2884")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2884")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlyManagerCanRemoveUsersTest()
     {
         LOG.info("Starting C2884");
@@ -252,20 +255,20 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
             }
         }
 
-        userService.delete(adminUser,adminPassword, siteManager);
+        userService.delete(adminUser, adminPassword, siteManager);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + siteManager);
-        userService.delete(adminUser,adminPassword, siteCollaborator);
+        userService.delete(adminUser, adminPassword, siteCollaborator);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + siteCollaborator);
-        userService.delete(adminUser,adminPassword, siteConsumer);
+        userService.delete(adminUser, adminPassword, siteConsumer);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + siteConsumer);
-        userService.delete(adminUser,adminPassword, siteContributor);
+        userService.delete(adminUser, adminPassword, siteContributor);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + siteContributor);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C2885")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2885")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void onlyManagerCanRemoveGroupsTest()
     {
 
@@ -334,21 +337,22 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
                 Assert.assertTrue(siteGroupsPage.isRemoveButtonDisplayedForGroup(group1), "Remove button for group is not displayed for manager");
             }
         }
-        userService.delete(adminUser,adminPassword, siteManager);
+        userService.delete(adminUser, adminPassword, siteManager);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + siteManager);
-        userService.delete(adminUser,adminPassword, siteCollaborator);
+        userService.delete(adminUser, adminPassword, siteCollaborator);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + siteCollaborator);
-        userService.delete(adminUser,adminPassword, siteConsumer);
+        userService.delete(adminUser, adminPassword, siteConsumer);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + siteConsumer);
-        userService.delete(adminUser,adminPassword, siteContributor);
+        userService.delete(adminUser, adminPassword, siteContributor);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + siteContributor);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C2890")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void removeSiteMemberFromPrivateSiteTest() throws DataPreparationException {
+    @TestRail (id = "C2890")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void removeSiteMemberFromPrivateSiteTest() throws DataPreparationException
+    {
         LOG.info("Starting test C2890");
 
         // preconditions
@@ -382,19 +386,20 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         getBrowser().navigate().to(properties.getShareUrl() + "/page/site/" + siteName + "/dashboard");
         Assert.assertTrue(siteDashboardPage.somethingWentWrongMessage(), "The error page is not displayed correctly");
 
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C2892")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void removeSiteMemberFromModeratedSiteTest() throws DataPreparationException {
+    @TestRail (id = "C2892")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void removeSiteMemberFromModeratedSiteTest() throws DataPreparationException
+    {
         LOG.info("Starting test C2892");
 
         // preconditions
@@ -430,15 +435,15 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
         LOG.info("Step 5 click on site configuration and verify 'Join site' option is available");
         siteDashboardPage.clickSiteConfiguration();
         Assert.assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Request to Join"),
-                "Join Site option is not present in site configuration dropdown");
+            "Join Site option is not present in site configuration dropdown");
 
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
 
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

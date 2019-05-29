@@ -23,42 +23,42 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
     SearchPage searchPage;
 
     @RenderWebElement
-    @FindBy(css = "input[id$='default-search-text']")
+    @FindBy (css = "input[id$='default-search-text']")
     private TextInput keywordsSearchField;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='_default-search-button-1-button']")
+    @FindBy (css = "button[id$='_default-search-button-1-button']")
     private Button searchButton1;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='_default-search-button-2-button']")
+    @FindBy (css = "button[id$='_default-search-button-2-button']")
     private Button searchButton2;
 
-    @FindBy(css = ".selected-form-button button")
+    @FindBy (css = ".selected-form-button button")
     private Button lookForDropdownButton;
 
-    @FindAll(@FindBy(css = ".selected-form-button .yuimenuitem"))
+    @FindAll (@FindBy (css = ".selected-form-button .yuimenuitem"))
     private List<HtmlElement> lookForDropdownOptions;
 
-    @FindAll(@FindBy(css = "input[id$='prop_cm_name']"))
+    @FindAll (@FindBy (css = "input[id$='prop_cm_name']"))
     private List<TextInput> nameInputList;
 
-    @FindAll(@FindBy(css = "textarea[id$='prop_cm_title']"))
+    @FindAll (@FindBy (css = "textarea[id$='prop_cm_title']"))
     private List<TextBlock> titleTextareaList;
 
-    @FindAll(@FindBy(css = "textarea[id$='prop_cm_description']"))
+    @FindAll (@FindBy (css = "textarea[id$='prop_cm_description']"))
     private List<TextBlock> descriptionTextareaList;
 
-    @FindBy(css = "select[id$='prop_mimetype']")
+    @FindBy (css = "select[id$='prop_mimetype']")
     private Select mimetypeDropdown;
 
-    @FindBy(css = "a[id$='prop_cm_modified-cntrl-icon-from'] img")
+    @FindBy (css = "a[id$='prop_cm_modified-cntrl-icon-from'] img")
     private Image dateFromPicker;
 
-    @FindBy(css = "a[id$='prop_cm_modified-cntrl-icon-to'] img")
+    @FindBy (css = "a[id$='prop_cm_modified-cntrl-icon-to'] img")
     private Image dateToPicker;
 
-    @FindBy(css = "input[id$='prop_cm_modifier']")
+    @FindBy (css = "input[id$='prop_cm_modifier']")
     private TextInput modifierInput;
 
     private By lookForDropdownOptionLabel = By.cssSelector(".yuimenuitemlabel");
@@ -70,7 +70,7 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
         return "share/page/advsearch";
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
     public AdvancedSearchPage navigateByMenuBar()
     {
@@ -113,9 +113,11 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
     public boolean isLookForDropdownOptionDisplayed(String label, String description)
     {
         boolean status = false;
-        for (HtmlElement htmlElement : lookForDropdownOptions) {
+        for (HtmlElement htmlElement : lookForDropdownOptions)
+        {
             if (htmlElement.findElement(lookForDropdownOptionLabel).getText().equals(label))
-                if (htmlElement.findElement(lookForDropdownOptionDescription).getText().equals(description)) {
+                if (htmlElement.findElement(lookForDropdownOptionDescription).getText().equals(description))
+                {
                     status = true;
                     break;
                 }
@@ -126,7 +128,8 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
 
     public void clickOnLookForDropdownOption(String label)
     {
-        for (HtmlElement htmlElement : lookForDropdownOptions) {
+        for (HtmlElement htmlElement : lookForDropdownOptions)
+        {
             if (htmlElement.findElement(lookForDropdownOptionLabel).getText().equals(label))
             {
                 htmlElement.click();
@@ -142,7 +145,8 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
 
     public boolean isNameInputDisplayed()
     {
-        for (TextInput nameInput : nameInputList) {
+        for (TextInput nameInput : nameInputList)
+        {
             if (browser.isElementDisplayed(nameInput.getWrappedElement()))
                 return true;
         }
@@ -151,7 +155,8 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
 
     public boolean isTitleTextareaDisplayed()
     {
-        for (TextBlock titleTextarea : titleTextareaList) {
+        for (TextBlock titleTextarea : titleTextareaList)
+        {
             if (browser.isElementDisplayed(titleTextarea.getWrappedElement()))
                 return true;
         }
@@ -160,7 +165,8 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
 
     public boolean isDescriptionTextareaDisplayed()
     {
-        for (TextBlock descriptionTextarea : descriptionTextareaList) {
+        for (TextBlock descriptionTextarea : descriptionTextareaList)
+        {
             if (browser.isElementDisplayed(descriptionTextarea.getWrappedElement()))
                 return true;
         }
@@ -189,7 +195,8 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
 
     public void typeName(String name)
     {
-        for (TextInput nameInput : nameInputList) {
+        for (TextInput nameInput : nameInputList)
+        {
             if (browser.isElementDisplayed(nameInput.getWrappedElement()))
             {
                 nameInput.clear();
@@ -200,7 +207,8 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
 
     public void typeTitle(String title)
     {
-        for (TextBlock titleTextarea : titleTextareaList) {
+        for (TextBlock titleTextarea : titleTextareaList)
+        {
             if (browser.isElementDisplayed(titleTextarea.getWrappedElement()))
             {
                 titleTextarea.getWrappedElement().clear();
@@ -211,7 +219,8 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
 
     public void typeDescription(String description)
     {
-        for (TextBlock descriptionTextarea : descriptionTextareaList) {
+        for (TextBlock descriptionTextarea : descriptionTextareaList)
+        {
             if (browser.isElementDisplayed(descriptionTextarea.getWrappedElement()))
             {
                 descriptionTextarea.getWrappedElement().clear();

@@ -10,22 +10,23 @@ import org.openqa.selenium.support.FindBy;
 public class FileServersPage extends AdminConsolePage<FileServersPage>
 {
     @RenderWebElement
-    @FindBy(className = "intro")
+    @FindBy (className = "intro")
     WebElement intro;
-    
+
     public static final String FILE_SERVERS_OBJECT = "Alfresco:Type=Configuration,Category=fileServers,id1=default";
 
-    public enum FILE_SERVERS_FIELDS {
-        FILE_SYSTEM_NAME ("File System Name:", "filesystem.name"),
-        CIFS_ENABLED ("CIFS Enabled:", "cifs.enabled"),
-        SERVER_NAME ("Server Name:", "cifs.serverName"),
-        HOST_ANNOUNCE ("Host Announce:", "cifs.hostannounce"),
-        SESSION_TIMEOUT ("Session Timeout (seconds):", "cifs.sessionTimeout"),
-        DOMAIN ("Domain:", "cifs.domain"),
-        FTP_ENABLED ("FTP Enabled:", "ftp.enabled"),
-        PORT ("Port:", "ftp.port"),
-        DATAPORT_FROM ("Dataport From:", "ftp.dataPortFrom"),
-        DATAPORT_TO ("Dataport To:", "ftp.dataPortTo");
+    public enum FILE_SERVERS_FIELDS
+    {
+        FILE_SYSTEM_NAME("File System Name:", "filesystem.name"),
+        CIFS_ENABLED("CIFS Enabled:", "cifs.enabled"),
+        SERVER_NAME("Server Name:", "cifs.serverName"),
+        HOST_ANNOUNCE("Host Announce:", "cifs.hostannounce"),
+        SESSION_TIMEOUT("Session Timeout (seconds):", "cifs.sessionTimeout"),
+        DOMAIN("Domain:", "cifs.domain"),
+        FTP_ENABLED("FTP Enabled:", "ftp.enabled"),
+        PORT("Port:", "ftp.port"),
+        DATAPORT_FROM("Dataport From:", "ftp.dataPortFrom"),
+        DATAPORT_TO("Dataport To:", "ftp.dataPortTo");
 
         private String label, jmxAttribute;
 
@@ -63,5 +64,5 @@ public class FileServersPage extends AdminConsolePage<FileServersPage>
     {
         return "alfresco/s/enterprise/admin/admin-fileservers";
     }
-    
+
 }

@@ -14,58 +14,58 @@ import java.util.List;
 public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 {
     @RenderWebElement
-    @FindBy(css = "div[class='finder-wrapper']")
+    @FindBy (css = "div[class='finder-wrapper']")
     protected WebElement searchForUsersBox;
 
     @RenderWebElement
-    @FindBy(css = "div[class='invitationlist']")
+    @FindBy (css = "div[class='invitationlist']")
     protected WebElement invitationListBox;
 
     @RenderWebElement
-    @FindBy(css = "div[class='added-users-list']")
+    @FindBy (css = "div[class='added-users-list']")
     protected WebElement addedUsersBox;
 
-    @FindBy(css = "div[class='instructions-bar']")
+    @FindBy (css = "div[class='instructions-bar']")
     protected WebElement instructionsBar;
 
-    @FindBy(css = "a[id*='site-groups-link']")
+    @FindBy (css = "a[id*='site-groups-link']")
     protected WebElement siteGroups;
 
-    @FindAll(@FindBy(css = "div[class='added-users-list'] tbody[class='yui-dt-data'] tr"))
+    @FindAll (@FindBy (css = "div[class='added-users-list'] tbody[class='yui-dt-data'] tr"))
     protected List<WebElement> addedUsersRows;
 
-    @FindAll(@FindBy(css = "div.visible ul.first-of-type li a"))
+    @FindAll (@FindBy (css = "div.visible ul.first-of-type li a"))
     private List<WebElement> dropDownOptionsList;
 
     @RenderWebElement
-    @FindBy(css = "[id*='default-invite-button-button']")
+    @FindBy (css = "[id*='default-invite-button-button']")
     protected WebElement addUsersButton;
 
-    @FindBy(css = "[id*='default-firstname']")
+    @FindBy (css = "[id*='default-firstname']")
     protected WebElement externalUserFirstNameInput;
 
-    @FindBy(css = "[id*='default-lastname']")
+    @FindBy (css = "[id*='default-lastname']")
     protected WebElement externalUserLastNameInput;
 
-    @FindBy(css = "[id*='default-email']")
+    @FindBy (css = "[id*='default-email']")
     protected WebElement externalUserEmailInput;
 
-    @FindBy(css = "[id*='add-email-button-button']")
+    @FindBy (css = "[id*='add-email-button-button']")
     protected WebElement externalUserAddButton;
 
-    @FindBy(css = "[id*='selectallroles-button-button']")
+    @FindBy (css = "[id*='selectallroles-button-button']")
     protected WebElement setAllRolesToButton;
 
-    @FindBy(css = "[id*='info-button-button']")
+    @FindBy (css = "[id*='info-button-button']")
     protected WebElement infoIcon;
 
-    @FindBy(css = ".alf-info-balloon .text")
+    @FindBy (css = ".alf-info-balloon .text")
     protected WebElement infoBalloonText;
 
-    @FindBy(css = ".alf-info-balloon .closeButton")
+    @FindBy (css = ".alf-info-balloon .closeButton")
     protected WebElement infoBalloonCloseButton;
 
-    @FindBy(css = ".alf-info-balloon a")
+    @FindBy (css = ".alf-info-balloon a")
     protected WebElement seeMoreLink;
 
     private By infoBalloon = By.xpath("//div[contains(@class,'yui-module') and contains(@style, 'visibility: visible')]");
@@ -95,7 +95,7 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 
     /**
      * Search for specific user on add users page
-     * 
+     *
      * @param user
      * @return
      */
@@ -118,7 +118,7 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 
     /**
      * Select user details in search results
-     * 
+     *
      * @param username
      * @return
      */
@@ -134,7 +134,7 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 
     /**
      * Checks whether Select button for an user is enabled or disabled
-     * 
+     *
      * @param username
      * @return
      */
@@ -145,6 +145,7 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 
     /**
      * Click on the Select button for the specified user in Search for users panel
+     *
      * @param username
      */
     public void clickSelectUserButton(String username)
@@ -303,9 +304,9 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
     public boolean isAddExternalUsersPanelDisplayed()
     {
         return browser.isElementDisplayed(externalUserFirstNameInput) &&
-                browser.isElementDisplayed(externalUserLastNameInput) &&
-                browser.isElementDisplayed(externalUserEmailInput) &&
-                browser.isElementDisplayed(externalUserAddButton);
+            browser.isElementDisplayed(externalUserLastNameInput) &&
+            browser.isElementDisplayed(externalUserEmailInput) &&
+            browser.isElementDisplayed(externalUserAddButton);
     }
 
     public void clickInfoIcon()

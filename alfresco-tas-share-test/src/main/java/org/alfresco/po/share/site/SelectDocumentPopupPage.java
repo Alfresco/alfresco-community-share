@@ -12,20 +12,20 @@ import java.util.List;
 @PageObject
 public class SelectDocumentPopupPage extends SelectPopUpPage
 {
-    @FindBy(css = "[id*=default-content-docPicker-cntrl-picker-head]")
+    @FindBy (css = "[id*=default-content-docPicker-cntrl-picker-head]")
     private WebElement header;
-    
+
     @RenderWebElement
-    @FindBy(css = ".container-close")
+    @FindBy (css = ".container-close")
     private WebElement containerClose;
-    
-    @FindBy(css = "cntrl-picker-folderUp-button")
+
+    @FindBy (css = "cntrl-picker-folderUp-button")
     private WebElement folderUpButton;
 
-    @FindBy(css = "[id$=cntrl-picker-navigator-button]")
+    @FindBy (css = "[id$=cntrl-picker-navigator-button]")
     private WebElement documentLibraryButton;
 
-    @FindAll(@FindBy(css = "[id$=cntrl-picker-selectedItems] [class*=dt-data] tr"))
+    @FindAll (@FindBy (css = "[id$=cntrl-picker-selectedItems] [class*=dt-data] tr"))
     private List<WebElement> selectedDocumentsList;
 
     public List<String> getSelectedDocumentTitlesList()

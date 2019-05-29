@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 
 @PageObject
-public class WikiMainPage extends SiteCommon<WikiMainPage> {
+public class WikiMainPage extends SiteCommon<WikiMainPage>
+{
     @Autowired
     EditWikiPage editWikiPage;
 
@@ -25,51 +26,51 @@ public class WikiMainPage extends SiteCommon<WikiMainPage> {
     WikiDetailsPage wikiDetailsPage;
 
     @RenderWebElement
-    @FindBy(css = "div.new-page button[id$='default-create-button-button']")
+    @FindBy (css = "div.new-page button[id$='default-create-button-button']")
     private Button newPageButton;
 
     @RenderWebElement
-    @FindBy(css = "button[id*='delete-button-button']")
+    @FindBy (css = "button[id*='delete-button-button']")
     private WebElement deletePageButton;
 
     @RenderWebElement
-    @FindBy(xpath = "//a[text()='Wiki Page List']")
+    @FindBy (xpath = "//a[text()='Wiki Page List']")
     private WebElement wikiPageListLink;
 
-    @FindBy(css = "a[href*='view']")
+    @FindBy (css = "a[href*='view']")
     private WebElement wikiViewPageLink;
 
-    @FindBy(xpath = "//span[contains(text(),'View Page')]")
+    @FindBy (xpath = "//span[contains(text(),'View Page')]")
     private WebElement disabledWikiViewPageLink;
 
-    @FindBy(css = "a[href*='details']")
+    @FindBy (css = "a[href*='details']")
     private WebElement wikiDetailsLink;
 
-    @FindBy(css = "a[href*='edit']")
+    @FindBy (css = "a[href*='edit']")
     private WebElement wikiEditPageLink;
 
-    @FindBy(css = "[id$=default-wikipage]")
+    @FindBy (css = "[id$=default-wikipage]")
     private WebElement wikiPageContent;
 
-    @FindBy(css = "[id$=default-rename-button-button]")
+    @FindBy (css = "[id$=default-rename-button-button]")
     private WebElement renameWikiMainPageButton;
 
-    @FindBy(css = "[class*=rename-panel]")
+    @FindBy (css = "[class*=rename-panel]")
     private WebElement renameWikiMainPagePanel;
 
-    @FindBy(css = "[id$=default-viewButtons]")
+    @FindBy (css = "[id$=default-viewButtons]")
     private WebElement wikiMainPageTtitle;
 
-    @FindBy(xpath = "//a[text()='Main Page']")
+    @FindBy (xpath = "//a[text()='Main Page']")
     private WebElement mainPageLink;
 
-    @FindBy(xpath = "//a[text()='here']")
+    @FindBy (xpath = "//a[text()='here']")
     private WebElement hereLink;
 
-    @FindBy(css = "[id$=default-delete-button-button]")
+    @FindBy (css = "[id$=default-delete-button-button]")
     private WebElement deleteWikiMainPage;
 
-    @FindBy(css = "[id=prompt]")
+    @FindBy (css = "[id=prompt]")
     private WebElement deletePopUp;
 
     private String imageLink = "//img[contains(@src,'";
@@ -79,7 +80,8 @@ public class WikiMainPage extends SiteCommon<WikiMainPage> {
      *
      * @return editWikiPage
      */
-    public EditWikiPage clickEditPageLink() {
+    public EditWikiPage clickEditPageLink()
+    {
         wikiEditPageLink.click();
         browser.waitInSeconds(2);
         return (EditWikiPage) editWikiPage.renderedPage();
@@ -91,7 +93,8 @@ public class WikiMainPage extends SiteCommon<WikiMainPage> {
      * @return wiki page content
      */
 
-    public String getWikiPageContent() {
+    public String getWikiPageContent()
+    {
 
         browser.waitInSeconds(2);
         return wikiPageContent.getText();
@@ -103,7 +106,8 @@ public class WikiMainPage extends SiteCommon<WikiMainPage> {
      * @return create wiki page
      */
 
-    public CreateWikiPage clickWikiNewPage() {
+    public CreateWikiPage clickWikiNewPage()
+    {
         newPageButton.click();
         return (CreateWikiPage) createWikiPage.renderedPage();
     }
@@ -114,7 +118,8 @@ public class WikiMainPage extends SiteCommon<WikiMainPage> {
      * @return wiki page list page
      */
 
-    public WikiListPage clickOnWikiListLink() {
+    public WikiListPage clickOnWikiListLink()
+    {
         wikiPageListLink.click();
         return (WikiListPage) wikiListPage.renderedPage();
     }
@@ -127,7 +132,8 @@ public class WikiMainPage extends SiteCommon<WikiMainPage> {
         return browser.isElementDisplayed(By.xpath(image));
     }
 
-    public boolean clickOnRenameWikiMainPageButton() {
+    public boolean clickOnRenameWikiMainPageButton()
+    {
         renameWikiMainPageButton.click();
         return renameWikiMainPagePanel.isDisplayed();
     }
@@ -138,63 +144,77 @@ public class WikiMainPage extends SiteCommon<WikiMainPage> {
         return wikiMainPageTtitle.getText();
     }
 
-    public void clickOnMainPageLink() {
+    public void clickOnMainPageLink()
+    {
         mainPageLink.click();
     }
 
-    public void clickOnHereLink() {
+    public void clickOnHereLink()
+    {
         hereLink.click();
     }
 
-    public boolean isRenameWikiMainPagePanelDisplayed() {
+    public boolean isRenameWikiMainPagePanelDisplayed()
+    {
         return renameWikiMainPagePanel.isDisplayed();
     }
 
-    public boolean isNewPageButtonDisplayed() {
+    public boolean isNewPageButtonDisplayed()
+    {
         return newPageButton.isDisplayed();
     }
 
-    public boolean isDeleteButtonDisplayed() {
+    public boolean isDeleteButtonDisplayed()
+    {
         return deletePageButton.isDisplayed();
     }
 
-    public boolean isDeleteButtonEnabled() {
+    public boolean isDeleteButtonEnabled()
+    {
         return deletePageButton.isEnabled();
     }
 
-    public boolean isRenameButtonDisplayed() {
+    public boolean isRenameButtonDisplayed()
+    {
         return renameWikiMainPageButton.isDisplayed();
     }
 
-    public boolean isViewLinkDisplayed() {
+    public boolean isViewLinkDisplayed()
+    {
         return wikiViewPageLink.isDisplayed();
     }
 
-    public boolean isDisabledViewLinkDisplayed() {
+    public boolean isDisabledViewLinkDisplayed()
+    {
         return disabledWikiViewPageLink.isDisplayed();
     }
 
-    public boolean isEditPagelinkDisplayed() {
+    public boolean isEditPagelinkDisplayed()
+    {
         return wikiEditPageLink.isDisplayed();
     }
 
-    public boolean isDetailsLinkDisplayed() {
+    public boolean isDetailsLinkDisplayed()
+    {
         return wikiDetailsLink.isDisplayed();
     }
 
 
-    public boolean deleteWikiMainPage() {
+    public boolean deleteWikiMainPage()
+    {
         deleteWikiMainPage.click();
         return deletePopUp.isDisplayed();
     }
 
-    public WikiDetailsPage clickOnDetailsPageLink() {
+    public WikiDetailsPage clickOnDetailsPageLink()
+    {
         wikiDetailsLink.click();
         return (WikiDetailsPage) wikiDetailsPage.renderedPage();
     }
 
     @Override
-    public String getRelativePath() {
+    public String getRelativePath()
+    {
         return String.format("share/page/site/%s/wiki-page?title=Main_Page", getCurrentSiteName());
     }
 

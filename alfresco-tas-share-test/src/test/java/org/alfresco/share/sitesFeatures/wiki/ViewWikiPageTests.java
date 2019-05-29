@@ -46,7 +46,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
     private String tagName = "tag1";
     private List<String> tags = new ArrayList<>();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createUser()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, testUser);
@@ -54,15 +54,15 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         tags.add(tagName);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
-    @TestRail(id = "C5536")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5536")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewWikiPageDetailsFromPageView()
     {
         LOG.info("Preconditions: create site");
@@ -84,12 +84,12 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         Assert.assertTrue(wikiDetailsPage.getTagsList().contains(tagName), "Tag is not displayed!");
         Assert.assertTrue(wikiDetailsPage.getLinkedPagesList().contains(wikiPageName), "Page is not displayed!");
         Assert.assertTrue(wikiDetailsPage.getVersion().equals("Version 1.0"), "Wrong version is displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C5537")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5537")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewWikiPageDetailsFromWikiPageList()
     {
         LOG.info("Preconditions: create site and wiki page");
@@ -104,12 +104,12 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         Assert.assertTrue(wikiDetailsPage.getTagsList().contains("tag1"), "Tag is not displayed!");
         Assert.assertTrue(wikiDetailsPage.getLinkedPagesList().contains("Page2"), "Page is not displayed!");
         Assert.assertTrue(wikiDetailsPage.getVersion().equals("Version 1.0"), "Wrong version is displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C5540")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5540")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void revertWikiPageToAnEarlierVersion()
     {
         LOG.info("Preconditions: create site and wiki page");
@@ -123,7 +123,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         wikiListPage.clickEdit(wikiPageName);
 
         LOG.info("STEP 2: Change text with [[Page3]], remove tag1, then click 'Save' button");
-     //   editWikiPage.clearWikiPageContent();
+        //   editWikiPage.clearWikiPageContent();
         editWikiPage.removeTag(tagName);
         editWikiPage.saveWikiContent("[[Page3]]");
         Assert.assertTrue(wikiPage.getWikiPageContent().equals("Page3Page2"), "Wrong wiki page content");
@@ -155,7 +155,7 @@ public class ViewWikiPageTests extends ContextAwareWebTest
         LOG.info("STEP 7: Click 'View Page' link");
         wikiDetailsPage.clickOnViewPageLink();
         Assert.assertTrue(wikiPage.getWikiPageContent().equals("Page2"), "Page should contain a link to Page2!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

@@ -10,77 +10,77 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class ManageContactListItems extends ShareDialog
 {
-    @FindBy(css = "button[id*='newRowButton-button']")
+    @FindBy (css = "button[id*='newRowButton-button']")
     protected WebElement newItemButton;
 
-    @FindBy(css = "input[id*='FirstName']")
+    @FindBy (css = "input[id*='FirstName']")
     protected WebElement firstName;
 
-    @FindBy(css = "input[id*='LastName']")
+    @FindBy (css = "input[id*='LastName']")
     protected WebElement lastName;
 
-    @FindBy(css = "input[id*='Email']")
+    @FindBy (css = "input[id*='Email']")
     protected WebElement email;
 
-    @FindBy(css = "input[id*='Company']")
+    @FindBy (css = "input[id*='Company']")
     protected WebElement company;
 
-    @FindBy(css = "input[id*='Job']")
+    @FindBy (css = "input[id*='Job']")
     protected WebElement job;
 
-    @FindBy(css = "input[id*='PhoneOffice']")
+    @FindBy (css = "input[id*='PhoneOffice']")
     protected WebElement phoneOffice;
 
-    @FindBy(css = "input[id*='PhoneMobile']")
+    @FindBy (css = "input[id*='PhoneMobile']")
     protected WebElement phoneMobile;
 
-    @FindBy(css = "textarea[id*='contactNotes']")
+    @FindBy (css = "textarea[id*='contactNotes']")
     protected WebElement notes;
 
-    @FindBy(css = "button[id*='submit']")
+    @FindBy (css = "button[id*='submit']")
     protected WebElement save;
 
-    @FindBy(css = "td[class*='col-actions'] div")
+    @FindBy (css = "td[class*='col-actions'] div")
     protected WebElement actions;
 
-    @FindBy(css = "a[title='Edit']")
+    @FindBy (css = "a[title='Edit']")
     protected WebElement editAction;
 
-    @FindBy(css = "a[title='Duplicate']")
+    @FindBy (css = "a[title='Duplicate']")
     protected WebElement duplicateAction;
 
-    @FindBy(css = "a[title='Delete']")
+    @FindBy (css = "a[title='Delete']")
     protected WebElement deleteAction;
 
-    @FindBy(xpath = "//button[text()='Delete']")
+    @FindBy (xpath = "//button[text()='Delete']")
     protected WebElement confirmDeleteAction;
 
-    @FindBy(xpath = "//button[text()='Cancel']")
+    @FindBy (xpath = "//button[text()='Cancel']")
     protected WebElement cancelDeleteAction;
 
-    @FindBy(xpath = "//div[text()='Delete Item']")
+    @FindBy (xpath = "//div[text()='Delete Item']")
     protected WebElement deletePopup;
 
-    @FindBy(css = "input[name*='fileChecked']")
+    @FindBy (css = "input[name*='fileChecked']")
     protected WebElement fileChecked;
 
-    @FindBy(css = "div[id*='createRow-dialogTitle']")
+    @FindBy (css = "div[id*='createRow-dialogTitle']")
     protected WebElement createNewItem;
 
-    @FindBy(css = "div[id*='editDetails-dialogTitle']")
+    @FindBy (css = "div[id*='editDetails-dialogTitle']")
     protected WebElement editItem;
 
-    @FindBy(xpath = "//div[text()='No list items']")
+    @FindBy (xpath = "//div[text()='No list items']")
     protected WebElement noListItems;
 
-    @FindBy(css = "")
+    @FindBy (css = "")
     protected WebElement duplicatedItemPopup;
 
     protected String dataListLink = "a[title*='";
 
     /**
      * Method to send input to the First Name field
-     * 
+     *
      * @param newFirstName
      */
     public void fillInCreateItemForm(String newFirstName, String newLastName, String newEmail, String newCompany, String newJob, String newPhoneOffice, String newPhoneMobile, String newNotes)
@@ -122,7 +122,7 @@ public class ManageContactListItems extends ShareDialog
         browser.waitUntilElementVisible(By.cssSelector("button[id*='newRowButton-button']"));
         newItemButton.click();
         fillInCreateItemForm(newContactFirstName, newContactLastName, newContactEmail, newContactCompany, newContactJob, newContactPhoneOffice,
-                newContactPhoneMobile, newContactNotes);
+            newContactPhoneMobile, newContactNotes);
         save.click();
 
     }
@@ -304,9 +304,9 @@ public class ManageContactListItems extends ShareDialog
         String phoneMobile1 = StringUtils.deleteWhitespace(PhoneMobile);
 
         return browser.isElementDisplayed(By.cssSelector(firstName1)) && browser.isElementDisplayed(By.cssSelector(lastName1)) && browser
-                .isElementDisplayed(By.cssSelector(email1)) && browser.isElementDisplayed(By.cssSelector(company1)) && browser
-                .isElementDisplayed(By.cssSelector(jobTitle1)) && browser.isElementDisplayed(By.cssSelector(phoneOffice1)) && browser
-                .isElementDisplayed(By.cssSelector(phoneMobile1));
+            .isElementDisplayed(By.cssSelector(email1)) && browser.isElementDisplayed(By.cssSelector(company1)) && browser
+            .isElementDisplayed(By.cssSelector(jobTitle1)) && browser.isElementDisplayed(By.cssSelector(phoneOffice1)) && browser
+            .isElementDisplayed(By.cssSelector(phoneMobile1));
 
     }
 }

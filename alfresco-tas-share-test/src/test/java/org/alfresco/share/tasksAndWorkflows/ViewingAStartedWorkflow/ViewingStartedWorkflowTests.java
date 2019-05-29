@@ -38,12 +38,12 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
     private String workflowName = String.format("taskName%s", RandomData.getRandomAlphanumeric());
 
-    @TestRail(id = "C8425")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8425")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void viewWorkflowIveStarted()
     {
         LOG.info("Precondition: Create user and a workflow.");
-        String testUser = String.format("testUser%s",RandomData.getRandomAlphanumeric());
+        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
         setupAuthenticatedSession(testUser, password);
@@ -60,17 +60,17 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         Assert.assertTrue(workflowDetailsPage.getStartedByUser().contains(testUser));
         Assert.assertTrue(workflowDetailsPage.getMessage().contains(workflowName));
         Assert.assertTrue(workflowDetailsPage.getAssignedToUser().contains(testUser));
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
-    @TestRail(id = "C8426")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8426")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void viewWorkflowAssignedToOtherUser()
     {
         LOG.info("Precondition: Create 2 users and a workflow assigned by user1 to user2.");
-        String testUser = String.format("testUser%s",RandomData.getRandomAlphanumeric());
-        String user2 = String.format("User2%s",RandomData.getRandomAlphanumeric());
+        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
+        String user2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), user2, CMISUtil.Priority.Normal, null, false);
@@ -88,18 +88,18 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         Assert.assertTrue(workflowDetailsPage.getStartedByUser().contains(testUser));
         Assert.assertTrue(workflowDetailsPage.getMessage().contains(workflowName));
         Assert.assertTrue(workflowDetailsPage.getAssignedToUser().contains(user2));
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
     }
 
-    @TestRail(id = "C8427")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8427")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void viewWorkflowIveStartedOptions()
     {
         LOG.info("Precondition: Create user and a workflow.");
-        String testUser = String.format("testUser%s",RandomData.getRandomAlphanumeric());
+        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
         setupAuthenticatedSession(testUser, password);
@@ -110,17 +110,17 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         LOG.info("STEP 2: Verify 'View History' and 'Cancel Workflow' options are displayed for the workflow.");
         Assert.assertTrue(workflowsIveStartedPage.isCancelWorkflowOptionDisplayed(workflowName));
         Assert.assertTrue(workflowsIveStartedPage.isViewHistoryOptionDisplayed(workflowName));
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
-    @TestRail(id = "C8428")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8428")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void viewOptionsAvailableForWorkflowsAssignedToOthers()
     {
         LOG.info("Precondition: Create 2 users and a workflow assigned by user1 to user2.");
-        String testUser = String.format("testUser%s",RandomData.getRandomAlphanumeric());
-        String user2 = String.format("User2%s",RandomData.getRandomAlphanumeric());
+        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
+        String user2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), user2, CMISUtil.Priority.Normal, null, false);
@@ -133,18 +133,18 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksPage.isEditTaskOptionDisplayed(workflowName));
         Assert.assertTrue(myTasksPage.isViewTaskOptionDisplayed(workflowName));
         Assert.assertTrue(myTasksPage.isViewWorkflowOptionDisplayed(workflowName));
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
     }
 
-    @TestRail(id = "C8458")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8458")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void verifyWorkflowIveStartedPage()
     {
         LOG.info("Precondition: Create a user and login.");
-        String testUser = String.format("testUser%s",RandomData.getRandomAlphanumeric());
+        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         setupAuthenticatedSession(testUser, password);
 
@@ -163,16 +163,16 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Verify 'Start Workflow' button is displayed.");
         Assert.assertTrue(workflowsIveStartedPage.isStartWorkflowDisplayed());
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
-    @TestRail(id = "C8461")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8461")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void verifyMyTasksPage()
     {
         LOG.info("Precondition: Create a user and login.");
-        String testUser = String.format("testUser%s",RandomData.getRandomAlphanumeric());
+        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         setupAuthenticatedSession(testUser, password);
 
@@ -190,16 +190,16 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
 
         LOG.info("STEP 3: Verify 'Start Workflow' button is displayed.");
         Assert.assertTrue(myTasksPage.isStartWorkflowDisplayed());
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
-    @TestRail(id = "C8460")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8460")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void viewOptionsAvailableForTasksIveStarted()
     {
         LOG.info("Precondition: Create user and a workflow.");
-        String testUser = String.format("testUser%s",RandomData.getRandomAlphanumeric());
+        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
         setupAuthenticatedSession(testUser, password);
@@ -211,16 +211,16 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         Assert.assertTrue(myTasksPage.isEditTaskOptionDisplayed(workflowName));
         Assert.assertTrue(myTasksPage.isViewTaskOptionDisplayed(workflowName));
         Assert.assertTrue(myTasksPage.isViewWorkflowOptionDisplayed(workflowName));
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
-    @TestRail(id = "C8500")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8500")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void viewMyTaskAndWorkflowDetailsPages()
     {
         LOG.info("Precondition: Create user and a workflow.");
-        String testUser = String.format("testUser%s",RandomData.getRandomAlphanumeric());
+        String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, testUser, "lastName");
         workflow.startNewTask(testUser, password, workflowName, new Date(), testUser, CMISUtil.Priority.Normal, null, false);
         setupAuthenticatedSession(testUser, password);
@@ -244,7 +244,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
         Assert.assertTrue(editTaskPage.getMessage().contains(workflowName));
         Assert.assertTrue(editTaskPage.getPriority().contains("Medium"));
         Assert.assertTrue(editTaskPage.getOwner().contains(testUser));
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 

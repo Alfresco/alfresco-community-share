@@ -23,19 +23,19 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
     private UserProfilePage userProfilePage;
 
     @RenderWebElement
-    @FindBy(css = "input[id$='default-oldpassword']")
+    @FindBy (css = "input[id$='default-oldpassword']")
     private WebElement oldPasswordInput;
 
     @RenderWebElement
-    @FindBy(css = "input[id$='default-newpassword1']")
+    @FindBy (css = "input[id$='default-newpassword1']")
     private TextInput newPassword;
 
     @RenderWebElement
-    @FindBy(css = "input[id$='default-newpassword2']")
+    @FindBy (css = "input[id$='default-newpassword2']")
     private TextInput confirmNewPassword;
 
     @RenderWebElement
-    @FindBy(css = "button[id*='default-button-ok']")
+    @FindBy (css = "button[id*='default-button-ok']")
     private WebElement okButton;
 
     @Override
@@ -52,7 +52,7 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
 
     /**
      * Open Change Password page from the my profile navigation links
-     * 
+     *
      * @param myProfileNavigation
      * @return {@link ChangePasswordPage}
      */
@@ -62,7 +62,7 @@ public class ChangePasswordPage extends SharePage<ChangePasswordPage> implements
         return (ChangePasswordPage) this.renderedPage();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
     public ChangePasswordPage navigateByMenuBar()
     {

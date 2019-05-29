@@ -22,25 +22,30 @@ import static org.testng.Assert.assertTrue;
  */
 public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 {
-    @Autowired private MyFilesPage myFilesPage;
+    @Autowired
+    private MyFilesPage myFilesPage;
 
-    @Autowired private SiteDashboardPage sitePage;
+    @Autowired
+    private SiteDashboardPage sitePage;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired private NewContentDialog newContentDialog;
+    @Autowired
+    private NewContentDialog newContentDialog;
 
     @Autowired
     private UploadContent uploadContent;
 
-    @Autowired private SocialFeatures social;
+    @Autowired
+    private SocialFeatures social;
 
-    private final String testFile =  RandomData.getRandomAlphanumeric() + "testFile.txt";
+    private final String testFile = RandomData.getRandomAlphanumeric() + "testFile.txt";
     private final String testFilePath = testDataFolder + testFile;
     private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
 
-    @TestRail(id="C12839")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C12839")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesLikeFile()
     {
         String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -51,7 +56,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         sitePage.clickMyFilesLink();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         uploadContent.uploadContent(testFilePath);
-        assertTrue(myFilesPage.isContentNameDisplayed(testFile),String.format("The file [%s] is not present", testFile));
+        assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
 
         LOG.info("Step 1: Hover over the file Like link.");
         Assert.assertTrue(myFilesPage.isLikeButtonDisplayed(testFile), "Documents link is not present");
@@ -63,12 +68,12 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         Assert.assertEquals(social.getNumberOfLikes(testFile), 1, "The number of likes is not correct");
         Assert.assertTrue(social.isLikeButtonEnabled(testFile), "Like button is not enabled");
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
-    @TestRail(id="C13661")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C13661")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesLikeFolder()
     {
         String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -94,13 +99,13 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         social.clickLikeButton(folderName);
         Assert.assertEquals(social.getNumberOfLikes(folderName), 1, "The number of likes is not correct");
         Assert.assertTrue(social.isLikeButtonEnabled(folderName), "Like button is not enabled");
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
     }
 
-    @TestRail(id="C13662")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C13662")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesUnlikeFile()
     {
         String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -111,7 +116,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         sitePage.clickMyFilesLink();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         uploadContent.uploadContent(testFilePath);
-        assertTrue(myFilesPage.isContentNameDisplayed(testFile),String.format("The file [%s] is not present", testFile));
+        assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
 
         LOG.info("Precondition: Like the file.");
         social.clickLikeButton(testFile);
@@ -124,12 +129,12 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on Unlike");
         social.clickUnlike(testFile);
         Assert.assertEquals(social.getNumberOfLikes(testFile), 0, "The number of likes is not correct");
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
-    @TestRail(id="C13663")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C13663")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesUnlikeFolder()
     {
         String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -157,12 +162,12 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on Unlike");
         social.clickUnlike(folderName);
         Assert.assertEquals(social.getNumberOfLikes(folderName), 0, "The number of likes is not correct");
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
-    @TestRail(id="C12841")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C12841")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesAddCommentToFile()
     {
         String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -176,7 +181,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         uploadContent.uploadContent(testFilePath);
         getBrowser().waitInSeconds(9);
         getBrowser().refresh();
-        assertTrue(myFilesPage.isContentNameDisplayed(testFile),String.format("The file [%s] is not present", testFile));
+        assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
 
         LOG.info("STEP1: Hover over a document and press \"Comment\"");
         social.clickCommentLink(testFile);
@@ -189,12 +194,12 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         LOG.info("STEP3: Navigate to My Files page.");
         sitePage.clickMyFilesLink();
         assertEquals(social.getNumberOfComments(testFile), 1, "Number of comments=");
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
-    @TestRail(id="C13664")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C13664")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesAddCommentToFolder()
     {
         String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -224,7 +229,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         LOG.info("STEP3: Navigate to My Files page");
         sitePage.clickMyFilesLink();
         assertEquals(social.getNumberOfComments(folderName), 1, "Number of comments=");
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 }

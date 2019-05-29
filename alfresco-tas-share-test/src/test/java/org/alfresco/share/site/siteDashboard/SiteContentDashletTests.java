@@ -23,17 +23,23 @@ import static org.testng.Assert.assertEquals;
 
 public class SiteContentDashletTests extends ContextAwareWebTest
 {
-    @Autowired SiteContentDashlet siteContentDashlet;
+    @Autowired
+    SiteContentDashlet siteContentDashlet;
 
-    @Autowired DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
 
-    @Autowired SiteDashboardPage siteDashboard;
+    @Autowired
+    SiteDashboardPage siteDashboard;
 
-    @Autowired DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
 
-    @Autowired EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired
+    EditInAlfrescoPage editInAlfrescoPage;
 
-    @Autowired SocialFeatures socialFeatures;
+    @Autowired
+    SocialFeatures socialFeatures;
 
     private final String fileName = String.format("testFile%s", RandomData.getRandomAlphanumeric());
     private final String fileName2 = String.format("testFile2%s", RandomData.getRandomAlphanumeric());
@@ -43,7 +49,8 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     private String userName2 = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true) public void setupTest()
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName1, userName1, userName1, "fName1", "lName1");
         userService.create(adminUser, adminPassword, userName2, userName2, userName2, "fName2", "lName2");
@@ -54,18 +61,20 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         userService.createSiteMember(adminUser, adminPassword, userName2, siteName, "SiteManager");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName1);
+        userService.delete(adminUser, adminPassword, userName1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser,adminPassword, userName2);
+        userService.delete(adminUser, adminPassword, userName2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5425") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void siteContentDashletSimpleView()
+    @TestRail (id = "C5425")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void siteContentDashletSimpleView()
     {
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
         setupAuthenticatedSession(userName1, userName1);
@@ -90,7 +99,9 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         Assert.assertTrue(siteContentDashlet.isBigPreviewDisplayed(), "Preview for testFile1 displayed");
     }
 
-    @TestRail(id = "C5413") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void noDocumentsAdded()
+    @TestRail (id = "C5413")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void noDocumentsAdded()
     {
         String siteName1 = String.format("Site%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
@@ -115,14 +126,16 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         siteContentDashlet.clickOnHelpIcon(Dashlet.DashletHelpIcon.SITE_CONTENT);
         siteContentDashlet.closeHelpBalloon();
         assertEquals(siteContentDashlet.isBalloonDisplayed(), false, "'Help' balloon closed.");
-        siteService.delete(adminUser,adminPassword,siteName1 );
+        siteService.delete(adminUser, adminPassword, siteName1);
 
     }
 
-    @TestRail(id = "C5456") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void favoriteItem() throws Exception
+    @TestRail (id = "C5456")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void favoriteItem() throws Exception
     {
         LOG.info(
-                "Preconditions: create site, add document to site, login to Share, navigate to site's dashboard, click on Detailed View for Site Content dashlet");
+            "Preconditions: create site, add document to site, login to Share, navigate to site's dashboard, click on Detailed View for Site Content dashlet");
         setupAuthenticatedSession(userName1, userName1);
         siteDashboard.navigate(siteName);
         LOG.info("STEPS 1 - For the file available in the Site Content Dashlet click on Favorite icon");
@@ -134,7 +147,9 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         Assert.assertTrue(siteContentDashlet.isAddToFavoritesLinkDisplayed(fileName), "Document is removed from favorites");
     }
 
-    @TestRail(id = "C5457") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void likeUnlikeItem()
+    @TestRail (id = "C5457")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void likeUnlikeItem()
     {
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
         setupAuthenticatedSession(userName1, userName1);
@@ -148,7 +163,9 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         assertEquals(siteContentDashlet.getNumberOfLikes(fileName), 0, "Number of likes=");
     }
 
-    @TestRail(id = "C5457") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void siteContentDashletDetailedView()
+    @TestRail (id = "C5457")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void siteContentDashletDetailedView()
     {
         LOG.info("Preconditions: create site, add another user to site, add document to site, login to Share, navigate to site's dashboard");
         setupAuthenticatedSession(userName2, userName2);
@@ -181,7 +198,9 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Details Page is opened");
     }
 
-    @TestRail(id = "C5458") @Test(groups = { TestGroup.SANITY, TestGroup.SITES }) public void addCommentOnItem()
+    @TestRail (id = "C5458")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void addCommentOnItem()
     {
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
         setupAuthenticatedSession(userName1, userName1);

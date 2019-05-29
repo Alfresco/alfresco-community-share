@@ -20,13 +20,14 @@ import static org.testng.Assert.assertTrue;
  */
 public class WorkingWithTagsTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
 
-    @TestRail(id = "C7444")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7444")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void updateTags()
     {
         String random = RandomData.getRandomAlphanumeric();
@@ -69,8 +70,8 @@ public class WorkingWithTagsTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(2);
         assertEquals(documentLibraryPage.getTags(fileName), Collections.singletonList(addedTagName.toLowerCase()).toString(), fileName + " -> tags=");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 }

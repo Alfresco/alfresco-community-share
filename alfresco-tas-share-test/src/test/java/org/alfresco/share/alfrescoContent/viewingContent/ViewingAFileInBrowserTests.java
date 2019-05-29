@@ -20,21 +20,24 @@ import java.util.List;
 
 public class ViewingAFileInBrowserTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
     @Autowired
     PreviewFileActionsSection documentActions;
 
     private final String user = String.format("C5920User%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("C5920SiteName%s",RandomData.getRandomAlphanumeric());
-    private final String description = String.format("C5920SiteDescription%s",RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("C5920SiteName%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C5920SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String docName = "File-C5920";
     private final String folderName = "testFolder";
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.createFolder(user, password, folderName, siteName);
@@ -42,16 +45,16 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5920")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C5920")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void viewingAFileInBrowser()
     {
@@ -67,7 +70,7 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
         LOG.info("Step 3: Click View In Browser.");
         documentLibraryPage.clickOnAction(docName, "View In Browser");
         Assert.assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), "Document content",
-                "File content is not correct or file has not be opened in new window");
+            "File content is not correct or file has not be opened in new window");
     }
 
 }

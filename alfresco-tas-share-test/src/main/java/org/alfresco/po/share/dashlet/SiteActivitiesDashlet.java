@@ -19,10 +19,10 @@ import static java.time.temporal.ChronoUnit.*;
 public class SiteActivitiesDashlet extends MyActivitiesDashlet
 {
     @RenderWebElement
-    @FindBy(css = ".time.relativeTime")
+    @FindBy (css = ".time.relativeTime")
     private List<WebElement> relativeTime;
 
-    @FindAll(@FindBy(css = ".content .detail"))
+    @FindAll (@FindBy (css = ".content .detail"))
     List<WebElement> activityLinks;
 
     private LocalDate dateToCompare;
@@ -35,7 +35,7 @@ public class SiteActivitiesDashlet extends MyActivitiesDashlet
     /**
      * Verifies that each activity has the relativeTime according to the selected filter
      *
-     * @param noOfDays filter chosen
+     * @param noOfDays       filter chosen
      * @param dateForCompare used to compare against relativeTime. If set to "now" current date is used
      * @return true if 'relativeTime' is before 'dateForCompare', false otherwise
      */
@@ -58,14 +58,15 @@ public class SiteActivitiesDashlet extends MyActivitiesDashlet
             LocalDate activityDate = LocalDate.parse(date, formatter);
             if (noOfDays <= 28)
                 if (DAYS.between(activityDate, dateToCompare) <= noOfDays && MONTHS.between(activityDate, dateToCompare) == 0
-                        && YEARS.between(activityDate, dateToCompare) == 0)
+                    && YEARS.between(activityDate, dateToCompare) == 0)
                     counter++;
                 else if (DAYS.between(activityDate, dateToCompare) <= noOfDays && MONTHS.between(activityDate, dateToCompare) == 1
-                        && YEARS.between(activityDate, dateToCompare) == 0)
+                    && YEARS.between(activityDate, dateToCompare) == 0)
                     counter++;
         }
         return counter == relativeTime.size();
     }
+
     @Override
     public Boolean isActivityPresentInActivitiesDashlet(String entry)
     {

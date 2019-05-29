@@ -16,17 +16,17 @@ public class IssueListItemsTable extends ListItemTable
     protected By dueDateColumn = By.cssSelector("td[class*='issueDueDate'] div");
     protected By commentsColumn = By.cssSelector("td[class*='issueComments'] div");
     protected By attachmentsColumn = By.cssSelector("td[class*='cm_attachments'] div");
-    
+
     public IssueListItemsTable(WebElement webElement, WebBrowser browser)
     {
         super(webElement, browser);
     }
-    
+
     public WebElement getIssueIDColumn()
     {
         return browser.findElement(issueIDColumn);
     }
-    
+
     public WebElement getTitleColumn()
     {
         return browser.findElement(titleColumn);
@@ -36,32 +36,32 @@ public class IssueListItemsTable extends ListItemTable
     {
         return browser.findElement(assignedToColumn);
     }
-    
+
     public WebElement getStatusColumn()
     {
         return browser.findElement(statusColumn);
     }
-    
+
     public WebElement getPriorityColumn()
     {
         return browser.findElement(priorityColumn);
     }
-    
+
     public WebElement getDescriptionColumn()
     {
         return browser.findElement(descriptionColumn);
     }
-    
+
     public WebElement getDueDateColumn()
     {
         return browser.findElement(dueDateColumn);
     }
-    
+
     public WebElement getCommentsColumn()
     {
         return browser.findElement(commentsColumn);
     }
-    
+
     public WebElement getAttachmentsColumn()
     {
         return browser.findElement(attachmentsColumn);

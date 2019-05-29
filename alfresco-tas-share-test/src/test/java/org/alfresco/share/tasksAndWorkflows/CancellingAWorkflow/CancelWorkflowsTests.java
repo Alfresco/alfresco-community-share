@@ -31,8 +31,8 @@ public class CancelWorkflowsTests extends ContextAwareWebTest
 
     private String workflowName = String.format("taskName%s", RandomData.getRandomAlphanumeric());
 
-    @TestRail(id = "C8434")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8434")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void cancelWorkflow()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -52,7 +52,7 @@ public class CancelWorkflowsTests extends ContextAwareWebTest
         LOG.info("STEP 3: Verify the workflow is not present in 'My Tasks' page.");
         myTasksPage.navigate();
         Assert.assertFalse(myTasksPage.checkTaskWasFound(workflowName), String.format("Workflow: %s is present in 'My Tasks' page.", workflowName));
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 }

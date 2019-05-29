@@ -3,7 +3,7 @@ services:
   alfresco:
     image: ${ALFRESCO_IMAGE}:${ALFRESCO_TAG}
     environment:
-      JAVA_OPTS : "
+      JAVA_OPTS: "
         -Ddb.driver=org.postgresql.Driver
         -Ddb.username=alfresco
         -Ddb.password=alfresco
@@ -53,7 +53,7 @@ services:
       - SOLR_CREATE_ALFRESCO_DEFAULTS=alfresco,archive
     ports:
       - 8083:8983 #Browser port    
-      
+
   activemq:
     image: ${ACTIVEMQ_IMAGE}:${ACTIVEMQ_TAG}
     ports:
@@ -61,7 +61,7 @@ services:
       - 5672:5672 # AMQP
       - 61616:61616 # OpenWire
       - 61613:61613 # STOMP
-    
+
   selenium-firefox:
     image: selenium/standalone-firefox-debug:3.11
     environment:

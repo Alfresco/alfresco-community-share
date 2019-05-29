@@ -23,9 +23,11 @@ import java.io.File;
 public class DownloadingContentTests extends ContextAwareWebTest
 {
 
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DocumentCommon documentCommon;
+    @Autowired
+    private DocumentCommon documentCommon;
 
     private String uniqueIdentifier;
     private String userName;
@@ -50,8 +52,8 @@ public class DownloadingContentTests extends ContextAwareWebTest
         description = "description" + uniqueIdentifier;
         docName = "PlainText" + uniqueIdentifier;
         windowsUser = System.getProperty("user.name");
-        
-       // downloadPath = "C:\\Users\\" + windowsUser + "\\Downloads";
+
+        // downloadPath = "C:\\Users\\" + windowsUser + "\\Downloads";
         folderName = "TestFolder" + uniqueIdentifier;
 
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
@@ -63,12 +65,12 @@ public class DownloadingContentTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     private boolean isFileInDirectory(String fileName, String extension)
@@ -82,8 +84,7 @@ public class DownloadingContentTests extends ContextAwareWebTest
             {
                 if (aDirectoryContent.getName().equals(fileName))
                     return true;
-            }
-            else
+            } else
             {
                 if (aDirectoryContent.getName().equals(fileName + extension))
                     return true;
@@ -93,8 +94,8 @@ public class DownloadingContentTests extends ContextAwareWebTest
         return false;
     }
 
-    @TestRail(id = "C7080")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7080")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void downloadFileFromAlfresco()
     {
         Alert alert;
@@ -119,8 +120,8 @@ public class DownloadingContentTests extends ContextAwareWebTest
         Assert.assertTrue(isFileInDirectory(docName, null), "The file was not found in the specified location");
     }
 
-    @TestRail(id = "C7087")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7087")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void nonEmptyFolderDownloadAsZip()
     {
         Alert alert;

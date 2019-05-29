@@ -25,33 +25,33 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     @Autowired
     StartWorkflowPage startWorkflowPage;
-    
+
     @RenderWebElement
-    @FindBy(css = "div.dashlet.my-tasks")
+    @FindBy (css = "div.dashlet.my-tasks")
     private WebElement dashletContainer;
 
-    @FindAll(@FindBy(css = "div.my-tasks div.bd ul.first-of-type li a"))
+    @FindAll (@FindBy (css = "div.my-tasks div.bd ul.first-of-type li a"))
     private List<WebElement> dropDownTasksList;
 
-    @FindBy(css = "a[href*='start-workflow']")
+    @FindBy (css = "a[href*='start-workflow']")
     private Link startWorkFlowLink;
 
-    @FindBy(css = "a[href*='active']")
+    @FindBy (css = "a[href*='active']")
     private Link activeTasksLink;
 
-    @FindBy(css = "a[href*='completed']")
+    @FindBy (css = "a[href*='completed']")
     private Link completedTasksLink;
 
-    @FindBy(css = "div.dashlet.my-tasks button[id$='default-filters-button']")
+    @FindBy (css = "div.dashlet.my-tasks button[id$='default-filters-button']")
     private WebElement filterTaskButton;
 
-    @FindBy(css = "[id*=page-report]")
+    @FindBy (css = "[id*=page-report]")
     private WebElement quantatyOfTasks;
 
-    @FindAll(@FindBy(css = "div.dashlet.my-tasks [class=yui-dt-data] tr"))
+    @FindAll (@FindBy (css = "div.dashlet.my-tasks [class=yui-dt-data] tr"))
     private List<WebElement> taskRowList;
-    
-    @FindAll(@FindBy(css = "div.dashlet.my-tasks [class=yui-dt-data] tr td[class*='title'] a"))
+
+    @FindAll (@FindBy (css = "div.dashlet.my-tasks [class=yui-dt-data] tr td[class*='title'] a"))
     private List<WebElement> tasksNameList;
 
     private By editIcon = By.cssSelector(".edit-task");
@@ -133,14 +133,14 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     /**
      * Click on task name from My Tasks Dashlet
-     * 
+     *
      * @param taskName String
      * @return editTaskPage
      */
     public EditTaskPage clickOnTaskNameLink(String taskName)
     {
         browser.findFirstElementWithValue(taskNames, taskName).click();
-        return (EditTaskPage) editTaskPage.renderedPage();    
+        return (EditTaskPage) editTaskPage.renderedPage();
     }
 
     /**
@@ -161,18 +161,18 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     /**
      * Retrieves the link that match the task name.
-     * 
+     *
      * @param taskName identifier
      * @return WebElement that matches taskName
      */
     public WebElement selectTask(final String taskName)
-    {        
+    {
         return browser.findFirstElementWithValue(tasksNameList, taskName);
     }
 
     /**
      * Get the current selected option from filter
-     * 
+     *
      * @return
      */
     public String getSelectedOption()
@@ -182,7 +182,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
         return actualOption;
     }
 
-    
+
     /**
      * Method to check if a task name is displayed in My Task Dashlet
      *
@@ -191,7 +191,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
      */
     public boolean isTaskPresent(String taskName)
     {
-        return selectTask(taskName)!=null;
+        return selectTask(taskName) != null;
     }
 
     /**
@@ -204,7 +204,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     /**
      * Retrieves the link that match the task name.
-     * 
+     *
      * @param taskName identifier
      * @return task link that matches taskName
      */
@@ -215,7 +215,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     /**
      * Retrieves task details
-     * 
+     *
      * @param taskName identifier
      * @return task details that matches taskName
      */
@@ -226,7 +226,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     /**
      * View task from My Task Dashlet.
-     * 
+     *
      * @param taskName String
      * @return HtmlPage
      */
@@ -241,7 +241,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 
     /**
      * Edit task from My Task Dashlet.
-     * 
+     *
      * @param taskName String
      * @return HtmlPage
      */
@@ -310,10 +310,10 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
         }
         return taskTypeAndStatusList;
     }
-    
+
     /**
      * Select an option from "Active Tasks" dropdown from My Tasks Dashlet.
-     * 
+     *
      * @param taskOption
      * @return HtmlPage
      */
@@ -327,8 +327,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
             Assert.assertTrue(filterTaskButton.getText().contains(taskOption), "Incorrect filter selected");
 
             return (MyTasksDashlet) this.renderedPage();
-        }
-        catch (NoSuchElementException nse)
+        } catch (NoSuchElementException nse)
         {
             LOG.error("My Tasks option not present" + nse.getMessage());
             throw new PageOperationException(taskOption + " option not present.");

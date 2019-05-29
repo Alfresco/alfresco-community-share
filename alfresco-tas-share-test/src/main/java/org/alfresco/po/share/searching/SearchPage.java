@@ -20,86 +20,120 @@ import java.util.List;
 /**
  * @author Laura.Capsa
  */
-@PageObject public class SearchPage extends SharePage<SearchPage> implements AccessibleByMenuBar
+@PageObject
+public class SearchPage extends SharePage<SearchPage> implements AccessibleByMenuBar
 {
-    @Autowired SearchManagerPage searchManagerPage;
+    @Autowired
+    SearchManagerPage searchManagerPage;
 
-    @FindBy(id = "FCTSRCH_RESULTS_COUNT_LABEL") private WebElement numberOfResultsLabel;
+    @FindBy (id = "FCTSRCH_RESULTS_COUNT_LABEL")
+    private WebElement numberOfResultsLabel;
 
-    @FindBy(id = "SELECTED_ITEMS_MENU_text") private WebElement selectedItemsMenu;
+    @FindBy (id = "SELECTED_ITEMS_MENU_text")
+    private WebElement selectedItemsMenu;
 
-    @FindBy(id= "onActionCopyTo_text") private WebElement copyToSelectedItemsOption;
+    @FindBy (id = "onActionCopyTo_text")
+    private WebElement copyToSelectedItemsOption;
 
-    @FindBy(css = ".propertiesCell .nameAndTitleCell a .value") private List<WebElement> resultsDetailedViewList;
+    @FindBy (css = ".propertiesCell .nameAndTitleCell a .value")
+    private List<WebElement> resultsDetailedViewList;
 
-    @RenderWebElement @FindBy(id = "FCTSRCH_TOP_MENU_BAR_SCOPE_LABEL") private WebElement searchInLabel;
+    @RenderWebElement
+    @FindBy (id = "FCTSRCH_TOP_MENU_BAR_SCOPE_LABEL")
+    private WebElement searchInLabel;
 
-    @FindBy(css = "span[class*='confirmationButton'] ") private WebElement searchButton;
+    @FindBy (css = "span[class*='confirmationButton'] ")
+    private WebElement searchButton;
 
-    @FindBy(css = "[id=FCTSRCH_SCOPE_SELECTION_MENU_text]") private WebElement searchInDropdown;
+    @FindBy (css = "[id=FCTSRCH_SCOPE_SELECTION_MENU_text]")
+    private WebElement searchInDropdown;
 
     private By searchInDropdownOptionsSelector = By.cssSelector("div[id='FCTSRCH_SCOPE_SELECTION_MENU_GROUP'] td[class*='dijitMenuItemLabel']");
 
-    @FindBy(css = ".label.alfresco-layout-Twister--open>h3") private List<WebElement> filterTypeList;
+    @FindBy (css = ".label.alfresco-layout-Twister--open>h3")
+    private List<WebElement> filterTypeList;
 
-    @FindBy(css = ".showMore .details") private List<WebElement> showMore;
+    @FindBy (css = ".showMore .details")
+    private List<WebElement> showMore;
 
-    @FindBy(css = ".showLess .details") private List<WebElement> showLess;
+    @FindBy (css = ".showLess .details")
+    private List<WebElement> showLess;
 
-    @FindBy(id = "FCTSRCH_SORT_MENU_text") private WebElement sortDropdown;
+    @FindBy (id = "FCTSRCH_SORT_MENU_text")
+    private WebElement sortDropdown;
 
-    @FindBy(css = "tr[id*='alfresco_menus_AlfCheckableMenuItem'] td:nth-child(3)") private List<WebElement> sortOptions;
+    @FindBy (css = "tr[id*='alfresco_menus_AlfCheckableMenuItem'] td:nth-child(3)")
+    private List<WebElement> sortOptions;
 
-    @FindBy(css = ".filterLabel") private List<WebElement> allOptions;
+    @FindBy (css = ".filterLabel")
+    private List<WebElement> allOptions;
 
-    @FindBy(css="div[id='FCTSRCH_VIEWS_MENU'] img")
+    @FindBy (css = "div[id='FCTSRCH_VIEWS_MENU'] img")
     private WebElement viewsDropdown;
     private By viewsDropdownOptionsSelector = By.cssSelector("#DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP .dijitMenuItemLabel");
 
-    @FindBy(css = "[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']") private List<WebElement> resultsGalleryViewList;
+    @FindBy (css = "[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']")
+    private List<WebElement> resultsGalleryViewList;
 
-    @FindBy(css = ".dijitSliderIncrementIconH") private WebElement sliderIncrementIcon;
+    @FindBy (css = ".dijitSliderIncrementIconH")
+    private WebElement sliderIncrementIcon;
 
-    @FindBy(css = ".dijitSliderDecrementIconH") private WebElement sliderDecrementIcon;
+    @FindBy (css = ".dijitSliderDecrementIconH")
+    private WebElement sliderDecrementIcon;
 
-    @FindBy(css = ".dijitSliderMoveable") private WebElement sliderGalleryView;
+    @FindBy (css = ".dijitSliderMoveable")
+    private WebElement sliderGalleryView;
 
-    @FindBy(css = ".dateCell .value") private List<WebElement> resultModifiedByList;
+    @FindBy (css = ".dateCell .value")
+    private List<WebElement> resultModifiedByList;
 
-    @FindBy(css = "#FCTSRCH_CONFIG_PAGE_LINK_text>a") private WebElement searchManager;
+    @FindBy (css = "#FCTSRCH_CONFIG_PAGE_LINK_text>a")
+    private WebElement searchManager;
 
-    @FindBy(css = "#FCTSRCH_SEARCH_RESULT_ACTIONS span[class*='dijitButtonContents']") private WebElement actionsLink;
+    @FindBy (css = "#FCTSRCH_SEARCH_RESULT_ACTIONS span[class*='dijitButtonContents']")
+    private WebElement actionsLink;
 
-    @FindAll(@FindBy(css = "#FCTSRCH_SEARCH_RESULT_ACTIONS_DROPDOWN tr td[id*='text']")) private List<WebElement> actionsOptions;
+    @FindAll (@FindBy (css = "#FCTSRCH_SEARCH_RESULT_ACTIONS_DROPDOWN tr td[id*='text']"))
+    private List<WebElement> actionsOptions;
 
-    @FindBy(id = "FCTSRCH_SEARCH_RESULT") public WebElement searchResult;
+    @FindBy (id = "FCTSRCH_SEARCH_RESULT")
+    public WebElement searchResult;
 
-    @FindAll(@FindBy(css = "span[id*='SELECTOR']")) private List<WebElement> checkboxList;
+    @FindAll (@FindBy (css = "span[id*='SELECTOR']"))
+    private List<WebElement> checkboxList;
 
-    @FindBy(id = "SELECTED_LIST_ITEMS") private WebElement selectedItemsList;
+    @FindBy (id = "SELECTED_LIST_ITEMS")
+    private WebElement selectedItemsList;
 
-    @FindAll(@FindBy(css = "#SELECTED_LIST_ITEMS_dropdown tr td[id*='text']")) private List<WebElement> selectedItemsCheckboxOptions;
+    @FindAll (@FindBy (css = "#SELECTED_LIST_ITEMS_dropdown tr td[id*='text']"))
+    private List<WebElement> selectedItemsCheckboxOptions;
 
-    @FindBy(css = "span[id='SELECTED_ITEMS_MENU_text']") private WebElement selectedItemsDropdown;
+    @FindBy (css = "span[id='SELECTED_ITEMS_MENU_text']")
+    private WebElement selectedItemsDropdown;
 
-    @FindAll(@FindBy(css = "#SELECTED_ITEMS_ACTIONS_GROUP tr td[id*='text']")) private List<WebElement> selectedItemsOptions;
+    @FindAll (@FindBy (css = "#SELECTED_ITEMS_ACTIONS_GROUP tr td[id*='text']"))
+    private List<WebElement> selectedItemsOptions;
 
-    @FindBy(css = "span#ALF_DELETE_CONTENT_DIALOG_CONFIRMATION") public WebElement deleteDialogConfirm;
+    @FindBy (css = "span#ALF_DELETE_CONTENT_DIALOG_CONFIRMATION")
+    public WebElement deleteDialogConfirm;
 
-    @FindBy(css = "span#ALF_DELETE_CONTENT_DIALOG_CANCELLATION") public WebElement deleteDialogCancel;
+    @FindBy (css = "span#ALF_DELETE_CONTENT_DIALOG_CANCELLATION")
+    public WebElement deleteDialogCancel;
 
-    @FindBy(css = "div[id='SELECTED_LIST_ITEMS'] img") private WebElement selectAllButton;
+    @FindBy (css = "div[id='SELECTED_LIST_ITEMS'] img")
+    private WebElement selectAllButton;
 
-    @FindBy(css="div[id='SELECTED_LIST_ITEMS_dropdown'] tr[title='All']")
+    @FindBy (css = "div[id='SELECTED_LIST_ITEMS_dropdown'] tr[title='All']")
     private WebElement allOption;
 
-    @FindBy(id="onActionCopyTo_text")
+    @FindBy (id = "onActionCopyTo_text")
     private WebElement copyToAction;
 
-    @FindAll(@FindBy(css="tr[class$='dijitMenuItem']"))
+    @FindAll (@FindBy (css = "tr[class$='dijitMenuItem']"))
     private List<WebElement> optionsList;
 
-    @FindBy(css = "DIV[ID='SELECTED_LIST_ITEMS'] span.alfresco-menus-AlfMenuBarPopup__arrow") private WebElement selectedListItemsDropdownArrow;
+    @FindBy (css = "DIV[ID='SELECTED_LIST_ITEMS'] span.alfresco-menus-AlfMenuBarPopup__arrow")
+    private WebElement selectedListItemsDropdownArrow;
     private int i;
     private List<WebElement> selectedCheckboxes;
     private By checkboxSelector = By.cssSelector("span[class*='selected']");
@@ -108,12 +142,15 @@ import java.util.List;
     private By descriptionHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_DESCRIPTION']/span/span[@class='value']/mark");
     private By titleHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_TITLE']/span/span[@class='value']/mark");
 
-    @Override public String getRelativePath()
+    @Override
+    public String getRelativePath()
     {
         return "share/page/dp/ws/faceted-search#searchTerm=%s&scope=repo&sortField=Relevance";
     }
 
-    @SuppressWarnings("unchecked") @Override public SearchPage navigateByMenuBar()
+    @SuppressWarnings ("unchecked")
+    @Override
+    public SearchPage navigateByMenuBar()
     {
         return (SearchPage) renderedPage();
     }
@@ -155,8 +192,7 @@ import java.util.List;
             if (webElement != null)
             {
                 break;
-            }
-            else
+            } else
             {
                 getBrowser().waitUntilWebElementIsDisplayedWithRetry(searchResult, 6);
                 webElement = browser.findFirstElementWithExactValue(resultsDetailedViewList, query);
@@ -287,10 +323,10 @@ import java.util.List;
     {
         if (sortOptions.size() == 12)
             if (sortOptions.get(0).getText().equals("Relevance") && sortOptions.get(1).getText().equals("Name") && sortOptions.get(2).getText().equals("Title")
-                    && sortOptions.get(3).getText().equals("Description") && sortOptions.get(4).getText().equals("Author") && sortOptions.get(5).getText()
-                    .equals("Modifier") && sortOptions.get(6).getText().equals("Modified date") && sortOptions.get(7).getText().equals("Creator") && sortOptions
-                    .get(8).getText().equals("Created date") && sortOptions.get(9).getText().equals("Size") && sortOptions.get(10).getText().equals("Mime type")
-                    && sortOptions.get(11).getText().equals("Type"))
+                && sortOptions.get(3).getText().equals("Description") && sortOptions.get(4).getText().equals("Author") && sortOptions.get(5).getText()
+                                                                                                                                     .equals("Modifier") && sortOptions.get(6).getText().equals("Modified date") && sortOptions.get(7).getText().equals("Creator") && sortOptions
+                .get(8).getText().equals("Created date") && sortOptions.get(9).getText().equals("Size") && sortOptions.get(10).getText().equals("Mime type")
+                && sortOptions.get(11).getText().equals("Type"))
                 return true;
         return false;
     }
@@ -322,8 +358,7 @@ import java.util.List;
         {
             browser.waitUntilElementsVisible(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"));
             return resultsDetailedViewList.size() > 0;
-        }
-        catch (TimeoutException ex)
+        } catch (TimeoutException ex)
         {
             browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"), 3);
         }
@@ -352,17 +387,17 @@ import java.util.List;
         browser.waitInSeconds(2);
 
         clickViewsDropdown();
-     //   getBrowser().waitUntilElementVisible(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP']"));
+        //   getBrowser().waitUntilElementVisible(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP']"));
         getBrowser().waitInSeconds(5);
         browser.selectOptionFromFilterOptionsList("Detailed View", browser.findElements(viewsDropdownOptionsSelector));
-   //     browser.waitUntilElementDisappears(By.cssSelector("table[class*='alfresco-documentlibrary-AlfGalleryViewSlider']"));
+        //     browser.waitUntilElementDisappears(By.cssSelector("table[class*='alfresco-documentlibrary-AlfGalleryViewSlider']"));
         return (SearchPage) this.renderedPage();
     }
 
     public boolean isSliderGalleryViewDisplayed()
     {
         return (browser.isElementDisplayed(sliderGalleryView) && browser.isElementDisplayed(sliderIncrementIcon) && browser
-                .isElementDisplayed(sliderDecrementIcon));
+            .isElementDisplayed(sliderDecrementIcon));
     }
 
     /**
@@ -446,7 +481,7 @@ import java.util.List;
     public int getFilterTypePosition(String filter)
     {
         return browser.findFirstElementWithValue(filterTypeList, filter)
-                .findElements(By.xpath("ancestor::div[contains(@id, 'FCTSRCH_filter_')]/preceding-sibling::*")).size() + 1;
+                      .findElements(By.xpath("ancestor::div[contains(@id, 'FCTSRCH_filter_')]/preceding-sibling::*")).size() + 1;
     }
 
     public boolean isActionsLinkDisplayed()
@@ -522,10 +557,11 @@ import java.util.List;
     {
         return getBrowser().isElementDisplayed(copyToAction);
     }
+
     public HtmlPage clickCopyTo(HtmlPage page)
     {
-       int retryCount = 0;
-        if(!isCopyToActionPresent()&& retryCount<=3)
+        int retryCount = 0;
+        if (!isCopyToActionPresent() && retryCount <= 3)
         {
             clickSearchInDropdown();
             copyToAction.click();
@@ -547,7 +583,7 @@ import java.util.List;
     public boolean isALLItemsCheckboxChecked()
     {
         return browser
-                .isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have all items selected. Click this icon to deselect all.']"));
+            .isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have all items selected. Click this icon to deselect all.']"));
     }
 
     public boolean isNoneItemsCheckboxChecked()
@@ -572,8 +608,7 @@ import java.util.List;
                 deleteDialogConfirm.click();
                 browser.waitInSeconds(3);
             }
-        }
-        else
+        } else
         {
             while (browser.isElementDisplayed(deleteDialogCancel))
             {

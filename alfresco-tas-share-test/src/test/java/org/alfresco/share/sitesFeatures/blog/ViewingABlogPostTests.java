@@ -45,7 +45,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
     String blogContent = "Test content for Blog Post for test C5528. This is a sample text: Alfresco Community Edition is designed to be deployed on a single server. As a result, it is shipped with a single Alfresco Community Edition Installer, which contains both the Alfresco Platform and Alfresco Share components. This is the same approach that is used in previous versions of Alfresco. Depending on your system, you can install Alfresco using one of the following methods: Using a setup wizard, which contains the required software and components you need for evaluating Alfresco; Using a standard WAR file to deploy Alfresco in a production environment";
     String sampleBlogContentDetailedView = "Test content for Blog Post for test C5528. This is a sample text: Alfresco Community Edition is designed to be deployed on a single server. As a result, it is shipped with a single Alfresco Community Edition Installer, which contains both the Alfresco Platform and Alfresco Share components. This is the same approach that is used in previous versions of Alfresco. Depending on your system, you can install Alfresco using one of the following methods: Using a setup wizard, which contains the required software a";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
@@ -57,19 +57,19 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C5528")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5528")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewingABlogPostSmallAmountOfContent()
     {
         sitePagesService.createBlogPost(user1, password, siteName, blogTitleUser1Published, blogContent, false, tags);
@@ -97,14 +97,14 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
 
         blogPostViewPage.clickBlogPostListButton();
         assertEquals(blogPostListPage.getBlogPostContent(blogTitleUser1Published), sampleBlogContentDetailedView,
-                "A sample of the content is showing in the blog list.");
+            "A sample of the content is showing in the blog list.");
 
         cleanupAuthenticatedSession();
         sitePagesService.deleteBlogPost(user1, password, siteName, blogTitleUser1Published, false);
     }
 
-    @TestRail(id = "C6116")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6116")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void visibilityOfPublishedDraft()
     {
         setupAuthenticatedSession(user1, password);
@@ -126,7 +126,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 3: Click Edit button");
         blogPostListPage.clickEditButton(blogTitleUser2Draft);
         getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.xpath("//div[@class = 'page-form-header']//h1[text() = 'Edit Blog Post']")),
-                "Edit Blog Post");
+            "Edit Blog Post");
         assertEquals(editBlogPost.getEditBlogPostPageTitle(), "Edit Blog Post");
 
         LOG.info("Step 4: Click 'Publish Internally' button.");

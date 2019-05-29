@@ -21,45 +21,45 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
     ViewWikiPage viewWikiPage;
 
     @RenderWebElement
-    @FindBy(css = "a[href*='edit']")
+    @FindBy (css = "a[href*='edit']")
     private WebElement wikiEditPageLink;
 
     @RenderWebElement
-    @FindBy(css = "a[href*='view']")
+    @FindBy (css = "a[href*='view']")
     private WebElement wikiViewPageLink;
 
-    @FindAll(@FindBy(css = "[class=tag]"))
+    @FindAll (@FindBy (css = "[class=tag]"))
     private List<WebElement> tagsList;
 
-    @FindAll(@FindBy(css = "[class=links] a"))
+    @FindAll (@FindBy (css = "[class=links] a"))
     private List<WebElement> linkedPagesList;
 
-    @FindBy(css = "[class*=meta-section-label]")
+    @FindBy (css = "[class*=meta-section-label]")
     private WebElement version;
 
-    @FindBy(css = "[class=tags]")
+    @FindBy (css = "[class=tags]")
     private WebElement tagsSection;
 
-    @FindAll(@FindBy(css = "div.bd ul.first-of-type li a"))
+    @FindAll (@FindBy (css = "div.bd ul.first-of-type li a"))
     private List<WebElement> dropDownVersionsList;
 
     @RenderWebElement
-    @FindBy(css = "[id$=default-selectVersion-button-button]")
+    @FindBy (css = "[id$=default-selectVersion-button-button]")
     private WebElement selectVersionButton;
 
-    @FindBy(css = "[class=revert] a")
+    @FindBy (css = "[class=revert] a")
     private WebElement revertVersionButton;
 
-    @FindBy(css = "[id$=revertWikiVersion-instance-dialog_c]")
+    @FindBy (css = "[id$=revertWikiVersion-instance-dialog_c]")
     private WebElement revertPopUp;
 
-    @FindBy(css = "[class=details-page-content]")
+    @FindBy (css = "[class=details-page-content]")
     private WebElement pageContentDetails;
 
-    @FindAll(@FindBy(css = "[id*=default-expand-div] [class*=meta-section-label]"))
+    @FindAll (@FindBy (css = "[id*=default-expand-div] [class*=meta-section-label]"))
     private List<WebElement> versionsList;
 
-    @FindBy(css = "[class=bd] span")
+    @FindBy (css = "[class=bd] span")
     private WebElement revertNotification;
 
     @Override
@@ -110,8 +110,7 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
             Assert.assertTrue(selectVersionButton.getText().contains(version), "Incorrect filter selected");
 
             return (WikiDetailsPage) this.renderedPage();
-        }
-        catch (NoSuchElementException nse)
+        } catch (NoSuchElementException nse)
         {
             LOG.error("Option not present" + nse.getMessage());
             throw new PageOperationException(version + " option not present.");

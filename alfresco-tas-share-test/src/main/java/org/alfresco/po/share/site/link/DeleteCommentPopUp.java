@@ -10,14 +10,14 @@ import org.openqa.selenium.support.FindBy;
 public class DeleteCommentPopUp extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(xpath = "//button[contains(text(), 'Delete')]")
+    @FindBy (xpath = "//button[contains(text(), 'Delete')]")
     private WebElement deleteButton;
 
     @RenderWebElement
-    @FindBy(xpath = "//button[contains(text(), 'Cancel')]")
+    @FindBy (xpath = "//button[contains(text(), 'Cancel')]")
     private WebElement cancelDeleteButton;
 
-    @FindBy(css = "[id=prompt] [class=bd]")
+    @FindBy (css = "[id=prompt] [class=bd]")
     private WebElement deleteMessage;
 
     public void clickDelete()

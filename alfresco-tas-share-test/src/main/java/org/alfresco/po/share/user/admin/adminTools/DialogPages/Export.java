@@ -34,8 +34,7 @@ public class Export extends ShareDialog
             {
                 if (aDirectoryContent.getName().equals(fileName))
                     return true;
-            }
-            else
+            } else
             {
                 if (aDirectoryContent.getName().equals(fileName + extension))
                     return true;

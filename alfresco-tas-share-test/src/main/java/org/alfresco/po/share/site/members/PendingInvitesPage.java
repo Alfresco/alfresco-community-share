@@ -14,15 +14,15 @@ import java.util.List;
 public class PendingInvitesPage extends SiteCommon<PendingInvitesPage>
 {
     @RenderWebElement
-    @FindBy(css = "[id*='default-search-text']")
+    @FindBy (css = "[id*='default-search-text']")
     protected WebElement searchInput;
 
     @RenderWebElement
-    @FindBy(css = "[id*='default-search-button']")
+    @FindBy (css = "[id*='default-search-button']")
     protected WebElement searchButton;
 
     @RenderWebElement
-    @FindBy(className = "results")
+    @FindBy (className = "results")
     private WebElement resultsPane;
 
     private By pendingInvitesList = By.cssSelector("tbody[class='yui-dt-data'] tr");

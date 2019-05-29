@@ -20,63 +20,63 @@ import java.nio.file.Paths;
  * System.setProperty("environment", "test");
  * {code}
  * or run your test passing -Denvironment=test
- * 
+ *
  * @author Paul.Brodner
  */
 @Configuration
-@PropertySource("classpath:default.properties")
-@PropertySource(value = "classpath:${environment}.properties", ignoreResourceNotFound = true)
+@PropertySource ("classpath:default.properties")
+@PropertySource (value = "classpath:${environment}.properties", ignoreResourceNotFound = true)
 public class EnvProperties
 {
     @Autowired
     Environment env;
 
-    @Value("${browser.name}")
+    @Value ("${browser.name}")
     private String browserName;
 
-    @Value("${browser.version}")
+    @Value ("${browser.version}")
     private String browserVersion;
 
-    @Value("${browser.implicitWait}")
+    @Value ("${browser.implicitWait}")
     private long implicitWait;
 
-    @Value("${grid.url}")
+    @Value ("${grid.url}")
     private String gridUrl;
 
-    @Value("${grid.enabled}")
+    @Value ("${grid.enabled}")
     private boolean gridEnabled;
 
-    @Value("${screenshots.dir}")
+    @Value ("${screenshots.dir}")
     private File screenshotsPath;
 
-    @Value("${env.platform}")
+    @Value ("${env.platform}")
     private String envPlatformName;
 
-    @Value("${share.url}")
+    @Value ("${share.url}")
     private URL shareUrl;
 
-    @Value("${server2.url}")
+    @Value ("${server2.url}")
     private String server2Url;
 
-    @Value("${server2.port}")
+    @Value ("${server2.port}")
     private String server2Port;
 
-    @Value("${share2.url}")
+    @Value ("${share2.url}")
     private URL share2Url;
 
-    @Value("${admin.user}")
+    @Value ("${admin.user}")
     private String adminUserName;
 
-    @Value("${admin.password}")
+    @Value ("${admin.password}")
     private String adminPassword;
 
-    @Value("${admin.name}")
+    @Value ("${admin.name}")
     private String adminName;
 
-    @Value("${locale.language}")
+    @Value ("${locale.language}")
     private String language;
 
-    @Value("${locale.country}")
+    @Value ("${locale.country}")
     private String country;
 
     @Bean
@@ -141,8 +141,7 @@ public class EnvProperties
         if (f.isFile() && !f.exists())
         {
             f.getParentFile().mkdirs();
-        }
-        else if (!f.exists())
+        } else if (!f.exists())
         {
             f.mkdirs();
         }

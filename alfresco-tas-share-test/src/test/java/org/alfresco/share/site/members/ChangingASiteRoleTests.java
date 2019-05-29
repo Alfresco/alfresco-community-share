@@ -48,28 +48,30 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
 
     UserModel manager, testUser;
 
-    @BeforeClass(alwaysRun = true)
-    public void dataPreparation() throws Exception {
+    @BeforeClass (alwaysRun = true)
+    public void dataPreparation() throws Exception
+    {
         manager = dataUser.createRandomTestUser();
         testUser = dataUser.createRandomTestUser();
         setupAuthenticatedSession(manager.getUsername(), password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, manager.getUsername());
+        userService.delete(adminUser, adminPassword, manager.getUsername());
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + manager.getUsername());
 
-        userService.delete(adminUser,adminPassword, testUser.getUsername());
+        userService.delete(adminUser, adminPassword, testUser.getUsername());
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser.getUsername());
 
     }
 
-    @TestRail(id = "C2835")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void onlySiteManagerIsAbleToChangeRoles() throws DataPreparationException {
-        SiteModel testSite =  dataSite.usingUser(manager).createPublicRandomSite();
+    @TestRail (id = "C2835")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void onlySiteManagerIsAbleToChangeRoles() throws DataPreparationException
+    {
+        SiteModel testSite = dataSite.usingUser(manager).createPublicRandomSite();
         dataUser.addUserToSite(testUser, testSite, UserRole.SiteCollaborator);
 
         LOG.info("Step 1: Navigate to site and click 'Site Members' link");
@@ -77,25 +79,26 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         LOG.info("Step 2: Change the role of 'userCollaborator' from 'Collaborator' to 'Contributor'");
         assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Collaborator ▾", "expected user role: ");
         siteUsersPage.changeRoleForMember("Contributor", testUser.getUsername());
-        assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Contributor ▾",  " has new role=");
+        assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Contributor ▾", " has new role=");
         siteDashboardPage.navigate(testSite.getTitle());
         assertEquals(siteMembersDashlet.getMemberRole(testUser.getUsername()), "Contributor",
-                "Successfully changed role of user to Contributor");
+            "Successfully changed role of user to Contributor");
 
-        siteService.delete(adminUser,adminPassword,testSite.getTitle() );
+        siteService.delete(adminUser, adminPassword, testSite.getTitle());
     }
 
-    @TestRail(id = "C2836")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void changeRoleForAGroup() throws DataPreparationException {
-        SiteModel testSite =  dataSite.usingUser(manager).createPublicRandomSite();
+    @TestRail (id = "C2836")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void changeRoleForAGroup() throws DataPreparationException
+    {
+        SiteModel testSite = dataSite.usingUser(manager).createPublicRandomSite();
         GroupModel testGroup = dataGroup.usingAdmin().createRandomGroup();
         dataGroup.addListOfUsersToGroup(testGroup, testUser);
         groupService.inviteGroupToSite(adminUser, adminPassword, testSite.getTitle(), testGroup.getDisplayName(), "SiteManager");
         LOG.info("Step 1: Open 'Site Members' page for the site");
         siteUsersPage.navigate(testSite.getTitle());
-        assertTrue(siteUsersPage.isASiteMember(testUser.getUsername() + " FirstName LN-" + testUser.getUsername()), testUser.getUsername()+" is not a member of " + testSite.getTitle());
-        assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Manager ▾",  testUser.getUsername() +" has role=");
+        assertTrue(siteUsersPage.isASiteMember(testUser.getUsername() + " FirstName LN-" + testUser.getUsername()), testUser.getUsername() + " is not a member of " + testSite.getTitle());
+        assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Manager ▾", testUser.getUsername() + " has role=");
         LOG.info("Step 2: Click on 'Groups' link");
         siteUsersPage.openSiteGroupsPage();
         siteGroupsPage.typeSearchGroup(testGroup.getDisplayName());
@@ -105,26 +108,27 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
         siteGroupsPage.changeRoleForMember("Consumer", testGroup.getDisplayName());
         LOG.info("Step 4: Click on 'Users' link and check the role of userTest has changed to 'Consumer'");
         siteGroupsPage.openSiteUsersPage();
-        assertTrue(siteUsersPage.isASiteMember(testUser.getUsername()  + " FirstName LN-" + testUser.getUsername() ));
-        assertEquals(siteUsersPage.getRole(testUser.getUsername() ), "Consumer ▾", testUser.getUsername()  + " has role in " +testGroup.getDisplayName());
+        assertTrue(siteUsersPage.isASiteMember(testUser.getUsername() + " FirstName LN-" + testUser.getUsername()));
+        assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Consumer ▾", testUser.getUsername() + " has role in " + testGroup.getDisplayName());
 
-        siteService.delete(adminUser,adminPassword,testSite.getTitle() );
+        siteService.delete(adminUser, adminPassword, testSite.getTitle());
 
     }
 
-    @TestRail(id = "C2837")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void changeRoleForAnUser() throws DataPreparationException {
+    @TestRail (id = "C2837")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void changeRoleForAnUser() throws DataPreparationException
+    {
         LOG.info("Preconditions: Add the userTest to the created site with 'Manager' role");
-        SiteModel testSite =  dataSite.usingUser(manager).createPublicRandomSite();
-        dataUser.addUserToSite(testUser,testSite,UserRole.SiteManager);
+        SiteModel testSite = dataSite.usingUser(manager).createPublicRandomSite();
+        dataUser.addUserToSite(testUser, testSite, UserRole.SiteManager);
         LOG.info("Step 1: Open 'Site Members' page for the site");
         siteUsersPage.navigate(testSite.getTitle());
-        assertTrue(siteUsersPage.isASiteMember(testUser.getUsername() + " FirstName LN-" + testUser.getUsername()), testUser.getUsername()+" is not a site member of " + testSite.getTitle());
+        assertTrue(siteUsersPage.isASiteMember(testUser.getUsername() + " FirstName LN-" + testUser.getUsername()), testUser.getUsername() + " is not a site member of " + testSite.getTitle());
         assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Manager ▾", testUser.getUsername() + " has role=");
         LOG.info("Step 2: Change the current role to 'Consumer'");
         siteUsersPage.changeRoleForMember("Consumer", testUser.getUsername());
         assertEquals(siteUsersPage.getRole(testUser.getUsername()), "Consumer ▾", testUser.getUsername() + " has role=");
-        siteService.delete(adminUser,adminPassword,testSite.getTitle() );
+        siteService.delete(adminUser, adminPassword, testSite.getTitle());
     }
 }

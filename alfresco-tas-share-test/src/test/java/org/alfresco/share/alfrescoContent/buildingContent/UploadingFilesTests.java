@@ -17,15 +17,16 @@ import static org.testng.Assert.assertTrue;
 
 public class UploadingFilesTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     @Autowired
     private UploadContent uploadContent;
 
     private final String random = RandomData.getRandomAlphanumeric();
 
-    @TestRail(id = "C6970")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6970")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void UploadASingleFileToSite()
     {
         String user = "user" + random;
@@ -46,13 +47,13 @@ public class UploadingFilesTests extends ContextAwareWebTest
         LOG.info("STEP2: Verify if the file is uploaded successfully.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C11833")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C11833")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void UploadFileInFolder() throws AWTException
     {
         String testUser = "user" + random;
@@ -77,8 +78,8 @@ public class UploadingFilesTests extends ContextAwareWebTest
         LOG.info("STEP3: Verify if the file is uploaded successfully.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(testFileName), String.format("The file [%s] is not present", testFileName));
 
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 }

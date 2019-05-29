@@ -23,21 +23,21 @@ public class EditModelDialogPage extends ShareDialog
     private By editModelWindow = By.id("CMM_EDIT_MODEL_DIALOG");
 
     @RenderWebElement
-    @FindBy(xpath ="//div[@id='CMM_EDIT_MODEL_DIALOG']//input[@name='namespace']")
+    @FindBy (xpath = "//div[@id='CMM_EDIT_MODEL_DIALOG']//input[@name='namespace']")
     private WebElement namespaceField;
 
-    @FindBy(xpath = "//div[@id='CMM_EDIT_MODEL_DIALOG']//input[@name='prefix']")
+    @FindBy (xpath = "//div[@id='CMM_EDIT_MODEL_DIALOG']//input[@name='prefix']")
     private WebElement prefixField;
 
     @RenderWebElement
-    @FindBy(xpath ="//div[@id='CMM_EDIT_MODEL_DIALOG']//input[@name='name']")
+    @FindBy (xpath = "//div[@id='CMM_EDIT_MODEL_DIALOG']//input[@name='name']")
     private WebElement nameField;
 
 
-    @FindBy(xpath ="//div[@id='CMM_EDIT_MODEL_DIALOG']//input[@name='author']")
+    @FindBy (xpath = "//div[@id='CMM_EDIT_MODEL_DIALOG']//input[@name='author']")
     private WebElement creatorField;
 
-    @FindBy(xpath ="//div[@id='CMM_EDIT_MODEL_DIALOG']//textarea[@name='description']")
+    @FindBy (xpath = "//div[@id='CMM_EDIT_MODEL_DIALOG']//textarea[@name='description']")
     private WebElement descriptionField;
 
     public void editNamespace(String nameSpace)

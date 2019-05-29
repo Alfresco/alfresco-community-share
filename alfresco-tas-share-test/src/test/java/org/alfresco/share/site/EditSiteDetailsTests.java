@@ -29,23 +29,23 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     SiteProfileDashlet siteProfileDashlet;
 
     private String user = String.format("profileUser%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
-    private String description = String.format("description%s",RandomData.getRandomAlphanumeric());
-    private String newSiteName = String.format("New Site Name %s",RandomData.getRandomAlphanumeric());
-    private String newDescription = String.format("New description %s",RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    private String description = String.format("description%s", RandomData.getRandomAlphanumeric());
+    private String newSiteName = String.format("New Site Name %s", RandomData.getRandomAlphanumeric());
+    private String newDescription = String.format("New description %s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
         siteService.create(user, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_PROFILE,
-                DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 1);
+            DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 1);
         setupAuthenticatedSession(user, password);
     }
 
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, user);
@@ -54,8 +54,8 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C2210")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2210")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyEditSiteDetailsForm()
     {
         LOG.info("STEP1: Go to the created site. Click 'Settings' icon -> 'Edit Site Details'");
@@ -81,15 +81,15 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Verify the description for the visibility options");
         assertEquals(editSiteDetailsDialog.getPublicVisibilityDescription(), language.translate("siteDetails.publicVisibilityDescription"),
-                "Public option has correct description");
+            "Public option has correct description");
         assertEquals(editSiteDetailsDialog.getModeratedVisibilityDescription(), language.translate("siteDetails.moderatedVisibilityDescription"),
-                "Moderated option has correct description");
+            "Moderated option has correct description");
         assertEquals(editSiteDetailsDialog.getPrivateVisibilityDescription(), language.translate("siteDetails.privateVisibilityDescription"),
-                "Private option has correct description");
+            "Private option has correct description");
     }
 
-    @TestRail(id = "C2211")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2211")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelEditSiteDetails()
     {
         LOG.info("STEP1: Go to the created site. Click 'Settings' icon -> 'Edit Site Details'");
@@ -108,6 +108,6 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
         assertEquals(siteProfileDashlet.getWelcomeMessageText(), "Welcome to " + siteName, "Site name is not updated.");
         assertEquals(siteProfileDashlet.getSiteDescription(description).getText(), description, "Description is not updated.");
         assertEquals(siteProfileDashlet.getSiteVisibility(language.translate("siteProfile.PublicVisibility")).getText()
-                .equals(language.translate("siteProfile.PublicVisibility")), true, "Visibility is not updated.");
+                                       .equals(language.translate("siteProfile.PublicVisibility")), true, "Visibility is not updated.");
     }
 }

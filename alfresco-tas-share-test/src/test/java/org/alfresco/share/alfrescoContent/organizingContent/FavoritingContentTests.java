@@ -20,7 +20,8 @@ import static org.testng.Assert.*;
  */
 public class FavoritingContentTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private final String siteName1 = String.format("siteC7501%s", RandomData.getRandomAlphanumeric());
@@ -30,7 +31,7 @@ public class FavoritingContentTests extends ContextAwareWebTest
     private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
     private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
@@ -47,19 +48,20 @@ public class FavoritingContentTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(testUser, password);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName1);
-        siteService.delete(adminUser, adminPassword,siteName2);
-        siteService.delete(adminUser, adminPassword,siteName3);
-        siteService.delete(adminUser, adminPassword,siteName4);
+        siteService.delete(adminUser, adminPassword, siteName1);
+        siteService.delete(adminUser, adminPassword, siteName2);
+        siteService.delete(adminUser, adminPassword, siteName3);
+        siteService.delete(adminUser, adminPassword, siteName4);
     }
 
-    @TestRail(id = "C7501")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7501")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void favoriteFile()
     {
         documentLibraryPage.navigate(siteName1);
@@ -86,8 +88,8 @@ public class FavoritingContentTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is displayed in My favorites list!");
     }
 
-    @TestRail(id = "C7502")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7502")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void favoriteFolder()
     {
         documentLibraryPage.navigate(siteName2);
@@ -111,8 +113,8 @@ public class FavoritingContentTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.getFoldersList().contains(folderName), "Folder is displayed in My favorites list!");
     }
 
-    @TestRail(id = "C7503")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7503")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void removeFavoriteForFile()
     {
         documentLibraryPage.navigate(siteName3);
@@ -136,8 +138,8 @@ public class FavoritingContentTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getDocumentListMessage(), "No content items", "There are no favorite items.");
     }
 
-    @TestRail(id = "C7504")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7504")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void removeFavoriteForFolder()
     {
         documentLibraryPage.navigate(siteName4);

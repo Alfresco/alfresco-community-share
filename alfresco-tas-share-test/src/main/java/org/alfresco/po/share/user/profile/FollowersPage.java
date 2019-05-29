@@ -23,7 +23,7 @@ public class FollowersPage extends SharePage<FollowersPage>
 
     /**
      * Open Following Me page from the my profile navigation links
-     * 
+     *
      * @param myProfileNavigation
      * @return {@link FollowersPage}
      */

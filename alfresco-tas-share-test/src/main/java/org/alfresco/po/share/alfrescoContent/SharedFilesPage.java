@@ -22,7 +22,7 @@ public class SharedFilesPage extends DocumentLibraryPage implements AccessibleBy
         return "share/page/context/shared/sharedfiles";
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
     public SharedFilesPage navigateByMenuBar()
     {

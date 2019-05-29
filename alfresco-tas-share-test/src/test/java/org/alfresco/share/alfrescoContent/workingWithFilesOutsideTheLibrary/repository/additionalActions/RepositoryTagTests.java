@@ -22,11 +22,14 @@ import static org.testng.Assert.assertTrue;
 
 public class RepositoryTagTests extends ContextAwareWebTest
 {
-    @Autowired private RepositoryPage repositoryPage;
+    @Autowired
+    private RepositoryPage repositoryPage;
 
-    @Autowired private EditPropertiesDialog editPropertiesDialog;
+    @Autowired
+    private EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired private SelectDialog selectDialog;
+    @Autowired
+    private SelectDialog selectDialog;
 
     private final String user = String.format("C8266TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC8266 = "C8266 file";
@@ -42,14 +45,14 @@ public class RepositoryTagTests extends ContextAwareWebTest
     private final String tagC8278 = String.format("tag-C8278%s", RandomData.getRandomAlphanumeric());
     private final String tagC8290 = String.format("tag-C8290%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
 
     public void cleanup()
     {
@@ -58,8 +61,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
     }
 
 
-    @TestRail(id = "C8266")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8266")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createTagForFile()
     {
         // Preconditions
@@ -86,8 +89,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, deletePath);
     }
 
-    @TestRail(id = "C8267")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8267")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createTagForFolder()
     {
         String deletePath = path + "/" + folderName;
@@ -114,8 +117,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, deletePath);
     }
 
-    @TestRail(id = "C8278")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8278")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void addExistingTag()
     {
         String deletePath = path + "/" + fileNameC8278;
@@ -128,7 +131,7 @@ public class RepositoryTagTests extends ContextAwareWebTest
         LOG.info("STEP2: Click \"Edit Properties\" option");
         repositoryPage.clickDocumentLibraryItemAction(fileNameC8278, "Edit Properties", repositoryPage);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), fileNameC8278),
-                "Displayed dialog=");
+            "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
 
         LOG.info("STEP3: Click \"Select\" button");
@@ -140,7 +143,7 @@ public class RepositoryTagTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(1);
         selectDialog.clickCreateNewIcon();
         selectDialog.clickOk();
-        assertTrue(editPropertiesDialog.isTagSelected(tagC8278.toLowerCase()), "'Tags:' section=");            
+        assertTrue(editPropertiesDialog.isTagSelected(tagC8278.toLowerCase()), "'Tags:' section=");
 
         LOG.info("STEP5: Click \"Save\" button");
         editPropertiesDialog.clickSave();
@@ -150,8 +153,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, deletePath);
     }
 
-    @TestRail(id = "C8290")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8290")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editTag()
     {
         // Preconditions
@@ -179,8 +182,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, deletePath);
     }
 
-    @TestRail(id = "C8291")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8291")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void removeTag()
     {
         // Preconditions
@@ -211,8 +214,8 @@ public class RepositoryTagTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, deletePath);
     }
 
-    @TestRail(id = "C8300")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8300")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void updateTags()
     {
         // Preconditions

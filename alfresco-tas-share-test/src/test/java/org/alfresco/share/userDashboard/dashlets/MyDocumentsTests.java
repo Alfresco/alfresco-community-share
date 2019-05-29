@@ -36,7 +36,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
     private String userName1;
     private String siteName1;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void setupTest()
     {
         cleanupAuthenticatedSession();
@@ -46,16 +46,16 @@ public class MyDocumentsTests extends ContextAwareWebTest
         siteService.create(userName1, password, domain, siteName1, "description", SiteService.Visibility.PUBLIC);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName1);
+        userService.delete(adminUser, adminPassword, userName1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-          siteService.delete(adminUser,adminPassword,siteName1 );
+        siteService.delete(adminUser, adminPassword, siteName1);
     }
 
-    @TestRail(id = "C2134")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2134")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void detailedView()
     {
         LOG.info("STEP 1 - Create document then update its content");
@@ -63,7 +63,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, userName2, userName2);
         String file = "TestDoc";
         Assert.assertFalse(contentService.createDocument(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, file).getId().isEmpty());
-       contentService.updateDocumentContent(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(10));
+        contentService.updateDocumentContent(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(10));
         contentService.updateDocumentContent(userName1, password, siteName1, DocumentType.TEXT_PLAIN, file, RandomStringUtils.randomAlphanumeric(20));
         contentAction.likeContent(userName2, password, siteName1, file);
         setupAuthenticatedSession(userName1, password);
@@ -91,7 +91,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
         Assert.assertEquals(myDocumentsDashlet.getDocumentDescription(file), "No Description", "Document should have no description");
         Assert.assertEquals(myDocumentsDashlet.getDocumentSize(file), "20 bytes", "Document size is not correct");
         Assert.assertEquals(myDocumentsDashlet.getModifiedInformation(file), "Modified just now in " + siteName1,
-                "Document modified information is not correct");
+            "Document modified information is not correct");
         Assert.assertEquals(myDocumentsDashlet.getDocumentVersion(file), "1.2", "Document version is not correct");
         Assert.assertTrue(myDocumentsDashlet.isLargeThumbnailDisplayed(file), "Large thumbnail is not displayed");
 
@@ -124,12 +124,12 @@ public class MyDocumentsTests extends ContextAwareWebTest
         myDocumentsDashlet.addComment(file);
         Assert.assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "Add comment block is not displayed on document details page");
 
-        userService.delete(adminUser,adminPassword, userName2);
+        userService.delete(adminUser, adminPassword, userName2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
     }
 
-    @TestRail(id = "C2138")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2138")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void filterDocuments()
     {
         LOG.info("STEP 1 - Create 3 documents, one is checked out for edit and one is favorite");

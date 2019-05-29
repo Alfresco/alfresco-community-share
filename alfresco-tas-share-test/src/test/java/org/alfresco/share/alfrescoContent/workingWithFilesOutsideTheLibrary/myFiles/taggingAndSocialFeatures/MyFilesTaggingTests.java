@@ -33,8 +33,8 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     private final String tagName2 = String.format("tag2-%s", RandomData.getRandomAlphanumeric());
     private final String folderNameC7862 = String.format("testFolderC7862%s", RandomData.getRandomAlphanumeric());
     private final String folderNameC7873 = String.format("testFolderC7873%s", RandomData.getRandomAlphanumeric());
-	private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-	private final String myFilesPath = "User Homes/" + user;
+    private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+    private final String myFilesPath = "User Homes/" + user;
 
     @Autowired
     private MyFilesPage myFilesPage;
@@ -43,7 +43,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     @Autowired
     private SelectDialog selectDialog;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void precondition()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -63,16 +63,17 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
 
         setupAuthenticatedSession(user, password);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
     }
 
-    @TestRail(id = "C7861")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C7861")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesCreateFileTag()
     {
         myFilesPage.navigate();
@@ -91,8 +92,8 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         assertEquals(myFilesPage.getTags(testFileC7861), tagsList.toString(), testFileC7861 + " -> tags=");
     }
 
-    @TestRail(id = "C7862")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C7862")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesCreateFolderTag()
     {
         myFilesPage.navigate();
@@ -112,8 +113,8 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         assertEquals(myFilesPage.getTags(folderNameC7862), tagsList.toString(), folderNameC7862 + " -> tags=");
     }
 
-    @TestRail(id = "C7873")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C7873")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesAddExistingTag()
     {
         myFilesPage.navigate();
@@ -121,7 +122,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         LOG.info("STEP1: Click \"Edit Properties\" option");
         myFilesPage.clickDocumentLibraryItemAction(testFileC7873, "Edit Properties", editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), testFileC7873),
-                "Displayed dialog=");
+            "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
 
         LOG.info("STEP2: Click \"Select\" button");
@@ -144,8 +145,8 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         assertEquals(myFilesPage.getTags(testFileC7873), tagsList.toString(), testFileC7873 + " -> tags=");
     }
 
-    @TestRail(id = "C7885")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C7885")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesEditTagFile()
     {
         myFilesPage.navigate();
@@ -163,11 +164,11 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         LOG.info("STEP4: Click \"Save\" link and verify the content tags");
         myFilesPage.clickEditTagLink(language.translate("documentLibrary.tag.link.save"));
         assertEquals(myFilesPage.getTags(testFileC7885), Collections.singletonList(tagName2.toLowerCase()).toString(),
-                tagName.toLowerCase() + " is updated with value:");
+            tagName.toLowerCase() + " is updated with value:");
     }
 
-    @TestRail(id = "C7886")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C7886")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesRemoveTag()
     {
         myFilesPage.navigate();
@@ -189,8 +190,8 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
         assertTrue(myFilesPage.isNoTagsTextDisplayed(testFileC7886), testFileC7886 + " -> " + tagName + " is removed.");
     }
 
-    @TestRail(id = "C7895")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail (id = "C7895")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesUpdateTag()
     {
         myFilesPage.navigate();

@@ -37,7 +37,7 @@ public class SiteFinderTests extends ContextAwareWebTest
     String siteName2 = String.format("SiteName2-%s", RandomData.getRandomAlphanumeric());
     String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, userFirstName, "lastName1");
@@ -48,7 +48,8 @@ public class SiteFinderTests extends ContextAwareWebTest
     }
 
     @AfterClass
-    public void removeAddedFiles() {
+    public void removeAddedFiles()
+    {
         userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
         userService.delete(adminUser, adminPassword, user2);
@@ -59,8 +60,8 @@ public class SiteFinderTests extends ContextAwareWebTest
     }
 
 
-    @TestRail(id = "C5876")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5876")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void siteFinderPage()
     {
         siteFinderPage.navigate();
@@ -87,8 +88,8 @@ public class SiteFinderTests extends ContextAwareWebTest
         assertEquals(siteFinderPage.getPageTitle(), "Alfresco » Site Dashboard", "User is redirected to " + siteName1 + " site dashboard page ");
     }
 
-    @TestRail(id = "C7574")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C7574")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void usernameWithSpaceCanAccessSiteFinder()
     {
         LOG.info("STEP1: Click \"Sites\" -> \"Site Finder\" link from the toolbar");
@@ -96,8 +97,8 @@ public class SiteFinderTests extends ContextAwareWebTest
         assertEquals(siteFinderPage.getPageTitle(), "Alfresco » Site Finder", "Site Finder page is displayed");
     }
 
-    @TestRail(id = "C5814")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C5814")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void fullOrPartialSitename()
     {
         siteFinderPage.navigate();
@@ -111,8 +112,8 @@ public class SiteFinderTests extends ContextAwareWebTest
         assertTrue(siteFinderPage.checkSiteWasFound(siteName1), "Site " + siteName1 + " is displayed in search result section");
     }
 
-    @TestRail(id = "C7169")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C7169")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void moderatedSiteLabel()
     {
         siteFinderPage.navigate();
@@ -123,8 +124,8 @@ public class SiteFinderTests extends ContextAwareWebTest
         assertEquals(siteFinderPage.getVisibilityLabel(), "Moderated", " \"Moderated\" label is displayed below " + siteName1 + " site");
     }
 
-    @TestRail(id = "C7195")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @TestRail (id = "C7195")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void privateSiteLabel()
     {
         siteFinderPage.navigate();

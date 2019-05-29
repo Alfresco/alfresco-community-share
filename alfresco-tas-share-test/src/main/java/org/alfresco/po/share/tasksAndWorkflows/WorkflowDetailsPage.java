@@ -20,37 +20,46 @@ public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
     TaskDetailsPage taskDetailsPage;
 
     @RenderWebElement
-    @FindBy(css = "div[class$='workflow-details-header'] h1")
+    @FindBy (css = "div[class$='workflow-details-header'] h1")
     private WebElement workflowDetailsHeader;
 
     @RenderWebElement
-    @FindBy(css = "div[id*='workflow-details'].form-fields")
+    @FindBy (css = "div[id*='workflow-details'].form-fields")
     private WebElement workflowDetailsBody;
 
-    @FindBy(css = "span[id$='_default-startedBy'] a")
+    @FindBy (css = "span[id$='_default-startedBy'] a")
     private WebElement startedByUser;
 
-    @FindBy(css = "tbody.yui-dt-data tr td[class$='yui-dt-col-owner'] div a")
+    @FindBy (css = "tbody.yui-dt-data tr td[class$='yui-dt-col-owner'] div a")
     private WebElement assignedToUser;
-    @FindBy(css = "span[id$='_default-due']")
+    @FindBy (css = "span[id$='_default-due']")
     private WebElement dueDate;
 
     @RenderWebElement
-    @FindBy(css = "span[id$='_default-priority']")
+    @FindBy (css = "span[id$='_default-priority']")
     private WebElement priority;
 
     @RenderWebElement
-    @FindBy(css = "span[id$='_default-message']")
+    @FindBy (css = "span[id$='_default-message']")
     private WebElement message;
 
     private By taskDetailsButton = By.cssSelector("a.task-details");
 
     @Override
-    public String getRelativePath() { return "share/page/workflow-details"; }
+    public String getRelativePath()
+    {
+        return "share/page/workflow-details";
+    }
 
-    public String getWorkflowDetailsHeader() { return workflowDetailsHeader.getText(); }
+    public String getWorkflowDetailsHeader()
+    {
+        return workflowDetailsHeader.getText();
+    }
 
-    public String getStartedByUser() { return startedByUser.getText(); }
+    public String getStartedByUser()
+    {
+        return startedByUser.getText();
+    }
 
     public String getAssignedToUser()
     {
@@ -63,8 +72,7 @@ public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
             {
                 user = assignedToUser.getText();
                 break;
-            }
-            catch (NoSuchElementException e)
+            } catch (NoSuchElementException e)
             {
                 browser.refresh();
                 counter++;
@@ -74,11 +82,20 @@ public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
         return user;
     }
 
-    public String getDueDate() { return dueDate.getText(); }
+    public String getDueDate()
+    {
+        return dueDate.getText();
+    }
 
-    public String getPriority() { return priority.getText(); }
+    public String getPriority()
+    {
+        return priority.getText();
+    }
 
-    public String getMessage() { return message.getText(); }
+    public String getMessage()
+    {
+        return message.getText();
+    }
 
     public TaskDetailsPage clickTaskDetailsButton()
     {

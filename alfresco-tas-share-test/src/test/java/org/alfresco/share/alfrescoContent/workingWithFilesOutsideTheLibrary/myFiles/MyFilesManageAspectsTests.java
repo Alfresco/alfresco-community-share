@@ -14,15 +14,17 @@ import org.testng.annotations.Test;
 
 public class MyFilesManageAspectsTests extends ContextAwareWebTest
 {
-    @Autowired private AspectsForm aspectsForm;
+    @Autowired
+    private AspectsForm aspectsForm;
 
-    @Autowired private MyFilesPage myFilesPage;
+    @Autowired
+    private MyFilesPage myFilesPage;
 
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     private String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
     private String path = "User Homes/" + userName;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -30,16 +32,16 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
     }
 
-    @TestRail(id = "C7814")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7814")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkManageAspectsForm()
     {
         myFilesPage.navigate();
@@ -56,8 +58,8 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C7810")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7810")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void manageAspectsApplyChanges()
     {
         myFilesPage.navigate();

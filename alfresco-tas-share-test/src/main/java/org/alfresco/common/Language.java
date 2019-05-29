@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 /**
  * Handle internationalization
- * 
+ *
  * @author Paul.Brodner
  */
 
@@ -24,6 +24,7 @@ public class Language
     /**
      * All strings are saved as key=value
      * Just pass the key that you want to receive from resource file
+     *
      * @param key
      * @return
      */
@@ -32,8 +33,7 @@ public class Language
         try
         {
             return resourceBundle.getString(key);
-        }
-        catch (MissingResourceException e)
+        } catch (MissingResourceException e)
         {
             return '!' + key + '!';
         }

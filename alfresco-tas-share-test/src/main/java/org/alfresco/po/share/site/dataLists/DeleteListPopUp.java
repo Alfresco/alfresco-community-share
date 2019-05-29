@@ -12,21 +12,21 @@ public class DeleteListPopUp extends ShareDialog
 {
     @Autowired
     DataListsPage dataListsPage;
-    
+
     @RenderWebElement
-    @FindBy(css = "span[class='button-group'] span[class*='primary-button'] button")
+    @FindBy (css = "span[class='button-group'] span[class*='primary-button'] button")
     protected WebElement deleteButton;
-    
-    
-    @FindBy(css = "span[class='button-group'] span[class*='default'] span button")
+
+
+    @FindBy (css = "span[class='button-group'] span[class*='default'] span button")
     protected WebElement cancelButton;
-    
+
     public DataListsPage clickDeleteButton()
     {
         deleteButton.click();
         return (DataListsPage) dataListsPage.renderedPage();
     }
-    
+
     public DataListsPage clickCancelButton()
     {
         browser.waitUntilWebElementIsDisplayedWithRetry(cancelButton, 20);

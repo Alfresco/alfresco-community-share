@@ -14,14 +14,14 @@ public class RenameWikiMainPagePopup extends ShareDialog
     WikiMainPage wikiMainPage;
 
     @RenderWebElement
-    @FindBy(css = "[id$=default-renameTo]")
+    @FindBy (css = "[id$=default-renameTo]")
     private WebElement renameInput;
 
     @RenderWebElement
-    @FindBy(css = "[id$=default-rename-save-button-button]")
+    @FindBy (css = "[id$=default-rename-save-button-button]")
     private WebElement savePageMainNameButton;
 
-    @FindBy(css = "[class=container-close]")
+    @FindBy (css = "[class=container-close]")
     private WebElement closePopup;
 
     public void clearWikiTitle()

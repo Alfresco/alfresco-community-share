@@ -26,7 +26,8 @@ import static org.testng.Assert.*;
 /**
  * Created by Claudia Agache on 7/7/2016.
  */
-public class JoiningSiteTests extends ContextAwareWebTest {
+public class JoiningSiteTests extends ContextAwareWebTest
+{
     @Autowired
     SiteFinderPage siteFinderPage;
 
@@ -65,8 +66,9 @@ public class JoiningSiteTests extends ContextAwareWebTest {
     private String siteNameC2831 = String.format("SiteName-C2831-%s", RandomData.getRandomAlphanumeric());
     private String siteNameC3059 = String.format("SiteName-C3059-%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2FirstName, user2LastName);
         siteService.create(user1, password, domain, siteNameC2833, description, SiteService.Visibility.MODERATED);
@@ -76,23 +78,24 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         siteService.create(user1, password, domain, siteNameC3059, description, SiteService.Visibility.MODERATED);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-        siteService.delete(adminUser,adminPassword,siteNameC2833 );
-        siteService.delete(adminUser,adminPassword,siteNameC2823 );
-        siteService.delete(adminUser,adminPassword,siteNameC3053 );
-        siteService.delete(adminUser,adminPassword,siteNameC2831 );
-        siteService.delete(adminUser,adminPassword,siteNameC3059 );
+        siteService.delete(adminUser, adminPassword, siteNameC2833);
+        siteService.delete(adminUser, adminPassword, siteNameC2823);
+        siteService.delete(adminUser, adminPassword, siteNameC3053);
+        siteService.delete(adminUser, adminPassword, siteNameC2831);
+        siteService.delete(adminUser, adminPassword, siteNameC3059);
     }
 
-    @TestRail(id = "C2823")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void joinPublicSiteFromSiteFinderPage() {
+    @TestRail (id = "C2823")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void joinPublicSiteFromSiteFinderPage()
+    {
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
         LOG.info("STEP 1: Enter site name (" + siteNameC2823 + ") in textbox and click on 'Search' button.");
@@ -116,9 +119,11 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         userDashboardPage.navigate(user2);
         assertTrue(mySitesDashlet.isSitePresent(siteNameC2823), siteNameC2823 + " is displayed on 'My Sites' dashlet.");
     }
-    @TestRail(id = "C3053")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void joinPublicSiteFromSiteDashboardPage() {
+
+    @TestRail (id = "C3053")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void joinPublicSiteFromSiteDashboardPage()
+    {
         setupAuthenticatedSession(user2, password);
         LOG.info("STEP 1: Open " + siteNameC3053 + " dashboard  and click 'Site configuration options' -> 'Join Site'.");
         siteDashboardPage.navigate(siteNameC3053);
@@ -142,9 +147,10 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         assertTrue(mySitesDashlet.isSitePresent(siteNameC3053), siteNameC3053 + " is displayed on 'My Sites' dashlet.");
     }
 
-    @TestRail(id = "C2831")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void requestToJoinModeratedSiteFromSiteFinderPage() {
+    @TestRail (id = "C2831")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void requestToJoinModeratedSiteFromSiteFinderPage()
+    {
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
         LOG.info("STEP 1: Enter site name (" + siteNameC2831 + ") in textbox and click on 'Search' button.");
@@ -153,12 +159,13 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2831), "Site is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2831, "Request to Join"), "'Request to Join' button is expected to be displayed for " + siteNameC2831);
         LOG.info("STEP 2: Click on 'Request to Join' button.");
-        try {
+        try
+        {
             siteFinderPage.clickSiteButton(siteNameC2831, "Request to Join");
             assertEquals(notification.getDisplayedNotification(), "Successfully requested to join site " + siteNameC2831);
             assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2831, "Cancel Request"), "'Cancel Request' button appears in place of 'Request to Join' button for " + siteNameC2831);
-        }
-        catch (TimeoutException e) {
+        } catch (TimeoutException e)
+        {
             getBrowser().refresh();
             siteFinderPage.searchSiteWithRetry(siteNameC2831);
             assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2831, "Cancel Request"), "'Cancel Request' button appears in place of 'Request to Join' button for " + siteNameC2831);
@@ -185,9 +192,10 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         assertTrue(mySitesDashlet.isSitePresent(siteNameC2831), siteNameC2831 + " is displayed on 'My Sites' dashlet.");
     }
 
-    @TestRail(id = "C3059")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void requestToJoinModeratedSiteFromSiteDashboardPage() {
+    @TestRail (id = "C3059")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void requestToJoinModeratedSiteFromSiteDashboardPage()
+    {
         String dialogMessage = String.format(language.translate("requestToJoin.dialogMessage"), siteNameC3059);
         setupAuthenticatedSession(user2, password);
         LOG.info("STEP 1: Open 'Site Dashboard' page for " + siteNameC3059);
@@ -196,13 +204,15 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         siteDashboardPage.clickSiteConfiguration();
         assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Request to Join"), "'Request to Join' action should be available in the 'Site Configuration Options' drop-down menu.");
         LOG.info("STEP 3: Click 'Request to Join' button.");
-        try {
+        try
+        {
             siteDashboardPage.clickOptionInSiteConfigurationDropDown("Request to Join", requestSentDialog);
             assertEquals(requestSentDialog.getDialogTitle(), "Request Sent", "'Request Sent' pop-up is displayed.");
             assertEquals(requestSentDialog.getDialogMessage(), dialogMessage, "'Request Sent' pop-up has the expected message.");
             LOG.info("STEP 4: Click 'OK' button.");
             requestSentDialog.clickOKButton();
-        } catch (TimeoutException | NoSuchElementException e) {
+        } catch (TimeoutException | NoSuchElementException e)
+        {
             getBrowser().refresh();
             siteDashboardPage.clickSiteConfiguration();
             assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Request to Join"), "'Request to Join' action should be available in the 'Site Configuration Options' drop-down menu.");
@@ -236,9 +246,10 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
     }
 
-    @TestRail(id = "C2833")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void cancelRequestToJoinModeratedSite() {
+    @TestRail (id = "C2833")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void cancelRequestToJoinModeratedSite()
+    {
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
         LOG.info("STEP 1: Enter site name (" + siteNameC2833 + ") in textbox and click on 'Search' button.");
@@ -246,12 +257,13 @@ public class JoiningSiteTests extends ContextAwareWebTest {
         assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2833), "Site is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2833, "Request to Join"), "'Request to Join' button is expected to be displayed for " + siteNameC2833);
         LOG.info("STEP 2: Click on 'Request to Join' button.");
-        try {
+        try
+        {
             siteFinderPage.clickSiteButton(siteNameC2833, "Request to Join");
             assertEquals(notification.getDisplayedNotification(), "Successfully requested to join site " + siteNameC2833);
             assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2833, "Cancel Request"), "'Cancel Request' button appears in place of 'Request to Join' button for " + siteNameC2833);
-        }
-        catch (TimeoutException e) {
+        } catch (TimeoutException e)
+        {
             getBrowser().refresh();
             siteFinderPage.searchSiteWithRetry(siteNameC2833);
             assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2833, "Cancel Request"), "'Cancel Request' button appears in place of 'Request to Join' button for " + siteNameC2833);

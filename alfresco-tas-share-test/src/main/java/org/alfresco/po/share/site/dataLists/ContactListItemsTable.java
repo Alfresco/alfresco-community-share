@@ -4,7 +4,8 @@ import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class ContactListItemsTable extends ListItemTable {
+public class ContactListItemsTable extends ListItemTable
+{
 
     protected By firstNameColumn = By.cssSelector("td[class*='contactFirstName'] div");
     protected By lastNameColumn = By.cssSelector("td[class*='contactLastName'] div");
@@ -16,43 +17,53 @@ public class ContactListItemsTable extends ListItemTable {
     protected By notesColumn = By.cssSelector("td[class*='contactNotes'] div");
     protected By checkColumn = By.cssSelector("input[id*='checkbox']");
 
-    public ContactListItemsTable(WebElement webElement, WebBrowser browser) {
+    public ContactListItemsTable(WebElement webElement, WebBrowser browser)
+    {
         super(webElement, browser);
     }
 
-    public WebElement getCheckBoxColumn() {
+    public WebElement getCheckBoxColumn()
+    {
         return webElement.findElement(checkColumn);
     }
 
-    public WebElement getFirstNameColumn() {
+    public WebElement getFirstNameColumn()
+    {
         return webElement.findElement(firstNameColumn);
     }
 
-    public WebElement getLastNameColumn() {
+    public WebElement getLastNameColumn()
+    {
         return webElement.findElement(lastNameColumn);
     }
 
-    public WebElement getEmailColumn() {
+    public WebElement getEmailColumn()
+    {
         return webElement.findElement(emailColumn);
     }
 
-    public WebElement getCompanyColumn() {
+    public WebElement getCompanyColumn()
+    {
         return webElement.findElement(companyColumn);
     }
 
-    public WebElement getJobTitleColumn() {
+    public WebElement getJobTitleColumn()
+    {
         return webElement.findElement(jobTitleColumn);
     }
 
-    public WebElement getOfficePhoneColumn() {
+    public WebElement getOfficePhoneColumn()
+    {
         return webElement.findElement(officePhoneColumn);
     }
 
-    public WebElement getMobilePhoneColumn() {
+    public WebElement getMobilePhoneColumn()
+    {
         return webElement.findElement(mobilePhoneColumn);
     }
 
-    public WebElement getNotesColumn() {
+    public WebElement getNotesColumn()
+    {
         return webElement.findElement(notesColumn);
     }
 

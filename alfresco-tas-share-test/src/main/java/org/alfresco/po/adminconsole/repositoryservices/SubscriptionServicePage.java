@@ -16,7 +16,7 @@ public class SubscriptionServicePage extends AdminConsolePage<SubscriptionServic
     }
 
     @RenderWebElement
-    @FindBy(className = "intro")
+    @FindBy (className = "intro")
     WebElement intro;
 
     @Override

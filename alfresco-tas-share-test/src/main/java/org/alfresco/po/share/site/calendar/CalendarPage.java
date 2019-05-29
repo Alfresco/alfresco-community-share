@@ -33,75 +33,75 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     EditEventDialog editEventDialog;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='default-addEvent-button-button']")
+    @FindBy (css = "button[id$='default-addEvent-button-button']")
     private Button addEventButton;
 
     @RenderWebElement
-    @FindBy(css = "div[id$='defaultView']")
+    @FindBy (css = "div[id$='defaultView']")
     private WebElement calendarContainer;
 
     @RenderWebElement
-    @FindBy(xpath = "//span[@class='fc-header-title']/h2 | //h2[@id='calTitle']")
+    @FindBy (xpath = "//span[@class='fc-header-title']/h2 | //h2[@id='calTitle']")
     private WebElement calendarHeader;
 
-    @FindBy(css = "button[id$='_default-day-button']")
+    @FindBy (css = "button[id$='_default-day-button']")
     private WebElement dayButton;
 
-    @FindBy(css = "button[id$='_default-week-button']")
+    @FindBy (css = "button[id$='_default-week-button']")
     private WebElement weekButton;
 
-    @FindBy(css = "button[id$='_default-month-button']")
+    @FindBy (css = "button[id$='_default-month-button']")
     private WebElement monthButton;
 
-    @FindBy(css = "button[id$='_default-agenda-button']")
+    @FindBy (css = "button[id$='_default-agenda-button']")
     private WebElement agendaButton;
 
-    @FindBy(css = "button[id$='_default-prev-button-button']")
+    @FindBy (css = "button[id$='_default-prev-button-button']")
     private WebElement previousButton;
 
-    @FindBy(css = "button[id$='_default-next-button-button']")
+    @FindBy (css = "button[id$='_default-next-button-button']")
     private WebElement nextButton;
 
-    @FindBy(css = "button[id$='_default-today-button-button']")
+    @FindBy (css = "button[id$='_default-today-button-button']")
     private WebElement todayButton;
 
     // Tags
     @RenderWebElement
-    @FindBy(css= "div.filter.tags")
+    @FindBy (css = "div.filter.tags")
     private WebElement tagsFilter;
 
-    @FindBy(css = "a[rel='-all-']")
+    @FindBy (css = "a[rel='-all-']")
     private Table showAllItems;
 
-    @FindAll(@FindBy(css = ".tag-link"))
+    @FindAll (@FindBy (css = ".tag-link"))
     private List<WebElement> tags;
 
-    @FindBy(xpath = "//div[contains(@class, 'fc-view') and not(contains(@style, 'display: none'))]//td[contains(@class, 'fc-today')]")
+    @FindBy (xpath = "//div[contains(@class, 'fc-view') and not(contains(@style, 'display: none'))]//td[contains(@class, 'fc-today')]")
     private WebElement today;
 
-   private By eventsList = By.xpath("//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
+    private By eventsList = By.xpath("//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
 
     //private By eventsList = By.cssSelector("div.fc-event-bg");
-    @FindAll(@FindBy(css = ".yui-dt-data .yui-dt-col-name .yui-dt-liner"))
+    @FindAll (@FindBy (css = ".yui-dt-data .yui-dt-col-name .yui-dt-liner"))
     private List<WebElement> agendaEventsName;
 
     private By deleteIcon = By.xpath("../following-sibling::td[contains(@class, 'yui-dt-col-actions')]//a[@class = 'deleteAction']");
     private By editIcon = By.xpath("../following-sibling::td[contains(@class, 'yui-dt-col-actions')]//a[@class = 'editAction']");
     private By infoIcon = By.xpath("../following-sibling::td[contains(@class, 'yui-dt-col-actions')]//a[contains(@class, 'infoAction')]");
 
-    @FindBy(css = "a.addEvent")
+    @FindBy (css = "a.addEvent")
     private Link agendaAddEvent;
 
     @RenderWebElement
-    @FindBy(id = "calendar_t")
+    @FindBy (id = "calendar_t")
     private WebElement miniCalendar;
 
     private By selectedView = By.cssSelector("span.yui-button-checked");
     private By calendarView = By.id("yui-history-field");
-    @FindAll(@FindBy(xpath = "//div[contains(@class, 'fc-view-agendaDay')/th[@calss, 'fc-agenda-axis fc-widget-header']"))
+    @FindAll (@FindBy (xpath = "//div[contains(@class, 'fc-view-agendaDay')/th[@calss, 'fc-agenda-axis fc-widget-header']"))
     private List<WebElement> hoursDisplayedInDayView;
 
-    @FindAll(@FindBy(xpath ="//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']"))
+    @FindAll (@FindBy (xpath = "//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']"))
     private List<WebElement> eventList;
 
     @Override
@@ -126,7 +126,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Check if a tag is displayed in the Tags list
-     * 
+     *
      * @param tagName
      * @return
      */
@@ -176,17 +176,15 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         {
             int retry = 0;
 
-            if(retry <5)
+            if (retry < 5)
             {
-                 if(selectEvent(event) != null)
-                 {
-                     eventState = true;
-                 }
-                 else eventState = false;
+                if (selectEvent(event) != null)
+                {
+                    eventState = true;
+                } else eventState = false;
             }
 
-        }
-        catch (StaleElementReferenceException se)
+        } catch (StaleElementReferenceException se)
         {
             return isEventPresentInCalendar(event);
         }
@@ -195,7 +193,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Click on event displayed in calendar (Day, Week, Month views))
-     * 
+     *
      * @param event
      * @return
      */
@@ -207,18 +205,16 @@ public class CalendarPage extends SiteCommon<CalendarPage>
             {
                 browser.mouseOver(selectEvent(event));
                 selectEvent(event).click();
-            }
-            else
+            } else
             {
                 throw new NoSuchElementException("Unable to locate expected event.");
             }
-        }
-        catch (StaleElementReferenceException se)
+        } catch (StaleElementReferenceException se)
         {
             clickOnEvent(event);
         }
 
-      return (EventInformationDialog) eventInformationDialog.renderedPage();
+        return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
 
@@ -226,6 +222,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     {
         return null;
     }
+
     /**
      * Click on Add Event Button
      *
@@ -240,7 +237,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Check if 'Show All Items' link is dispayed in Tags section
-     * 
+     *
      * @return
      */
     public boolean isShowAllItemsLinkDisplayed()
@@ -250,7 +247,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Click on Day button from calendar bar
-     * 
+     *
      * @return CalendarPage Day view
      */
     public CalendarPage clickDayButton()
@@ -262,7 +259,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Click on Week button from calendar bar
-     * 
+     *
      * @return CalendarPage Week view
      */
     public CalendarPage clickWeekButton()
@@ -274,7 +271,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Click on Month button from calendar bar
-     * 
+     *
      * @return CalendarPage Month view
      */
     public CalendarPage clickMonthButton()
@@ -286,7 +283,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Click on Agenda button from calendar bar
-     * 
+     *
      * @return
      */
     public CalendarPage clickAgendaButton()
@@ -439,7 +436,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Method to get the selected view name
-     * 
+     *
      * @return
      */
     public String getSelectedViewName()
@@ -449,7 +446,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Method to get the view displayed on the Calendar Page
-     * 
+     *
      * @return
      */
     public String viewDisplayed()
@@ -459,7 +456,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Method to click on the Next button next to Agenda
-     * 
+     *
      * @return
      */
     public CalendarPage clickOnNextButton()
@@ -471,7 +468,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Method to click on the Previous button next to the Today button
-     * 
+     *
      * @return
      */
     public CalendarPage clickOnPreviousButton()
@@ -483,7 +480,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Method to get the state of the Next button to check if it is disabled or not.
-     * 
+     *
      * @return
      */
     public String getNextButtonState()
@@ -543,7 +540,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
 
     /**
      * Check if current date is highlighted
-     * 
+     *
      * @return
      */
     public Boolean isTodayHighlightedInCalendar()

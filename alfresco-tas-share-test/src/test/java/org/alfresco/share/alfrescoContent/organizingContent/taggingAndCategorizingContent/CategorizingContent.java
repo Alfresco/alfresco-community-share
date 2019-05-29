@@ -26,13 +26,17 @@ import static org.testng.Assert.*;
  */
 public class CategorizingContent extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private EditPropertiesDialog editPropertiesDialog;
+    @Autowired
+    private EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired private SelectDialog selectDialog;
+    @Autowired
+    private SelectDialog selectDialog;
 
-    @Autowired private ContentAspects contentAspect;
+    @Autowired
+    private ContentAspects contentAspect;
 
     private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("siteName1%s", RandomData.getRandomAlphanumeric());
@@ -44,7 +48,7 @@ public class CategorizingContent extends ContextAwareWebTest
     private final String category = "Languages";
     private final String category2 = "Regions";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
@@ -62,17 +66,17 @@ public class CategorizingContent extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C7484")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7484")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void addCategoryForFile_NoCategoriesAdded()
     {
         documentLibraryPage.navigate(siteName);
@@ -97,8 +101,8 @@ public class CategorizingContent extends ContextAwareWebTest
         assertTrue(documentLibraryPage.getItemCategories(docName).contains(category), "Added category is displayed in Document Library, as detail below content name");
     }
 
-    @TestRail(id = "C7485")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7485")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void addCategoryForFolder_NoCategoriesAdded()
     {
         documentLibraryPage.navigate(siteName);
@@ -123,8 +127,8 @@ public class CategorizingContent extends ContextAwareWebTest
         assertTrue(documentLibraryPage.getItemCategories(folderName).contains(category), "Added category is displayed in Document Library, as detail below folder's name");
     }
 
-    @TestRail(id = "C7487")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7487")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void addCategory_ContentWithCategory()
     {
         documentLibraryPage.navigate(siteName);
@@ -151,8 +155,8 @@ public class CategorizingContent extends ContextAwareWebTest
         assertTrue(documentLibraryPage.getItemCategories(docWithCategory).contains(category2), "Added category is displayed in Document Library, as detail below content name");
     }
 
-    @TestRail(id = "C7486")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7486")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void removeCategory()
     {
         documentLibraryPage.navigate(siteName);

@@ -24,18 +24,25 @@ import static org.testng.Assert.assertEquals;
 /**
  * @author Laura.Capsa
  */
-public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
+{
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private ManageRulesPage manageRulesPage;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
 
-    @Autowired private EditRulesPage editRulesPage;
+    @Autowired
+    private EditRulesPage editRulesPage;
 
-    @Autowired private RuleDetailsPage ruleDetailsPage;
+    @Autowired
+    private RuleDetailsPage ruleDetailsPage;
 
-    @Autowired private LinkedToRuleSetPage linkedToRuleSetPage;
+    @Autowired
+    private LinkedToRuleSetPage linkedToRuleSetPage;
 
-    @Autowired private SelectDestinationDialog selectDestinationDialog;
+    @Autowired
+    private SelectDestinationDialog selectDestinationDialog;
 
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "user-" + random;
@@ -45,8 +52,9 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest {
     private final String folderName2 = "Folder2-C7332-" + random;
     private final String ruleName = "rule-C7332-" + random;
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         contentService.createFolder(userName, password, folderName, siteName);
@@ -55,7 +63,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest {
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("Navigate to Manage Rule page for folder1");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName,"Manage Rules", manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Rules", manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
         LOG.info("Navigate to Create rule page");
@@ -94,17 +102,18 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest {
         assertEquals(manageRulesPage.getRuleTitle(), folderName2 + ": Rules", "Rule title=");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7332")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void unlinkRules() {
+    @TestRail (id = "C7332")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void unlinkRules()
+    {
         LOG.info("STEP1: Click 'Unlink' button for the linked rule set");
         ruleDetailsPage.clickButton("unlink");
         manageRulesPage.renderedPage();

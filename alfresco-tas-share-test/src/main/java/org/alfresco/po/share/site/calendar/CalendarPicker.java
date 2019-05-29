@@ -19,20 +19,20 @@ import java.util.List;
 public class CalendarPicker extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(css= "#calendarcontainer[style*='display: block'] .calheader")
+    @FindBy (css = "#calendarcontainer[style*='display: block'] .calheader")
     private WebElement calendarPickerHeader;
 
-    @FindBy(css = "#calendarcontainer[style*='display: block'] .calnavright")
+    @FindBy (css = "#calendarcontainer[style*='display: block'] .calnavright")
     private WebElement nextMonthArrow;
 
-    @FindBy(css = "#calendarcontainer[style*='display: block'] .calnavleft")
+    @FindBy (css = "#calendarcontainer[style*='display: block'] .calnavleft")
     private WebElement previousMonthArrow;
 
-    @FindAll(@FindBy(css = "#calendarcontainer[style*='display: block'] a.selector"))
+    @FindAll (@FindBy (css = "#calendarcontainer[style*='display: block'] a.selector"))
     private List<WebElement> dates;
 
     private ArrayList<String> monthValues = new ArrayList<>(
-            Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"));
+        Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"));
 
     private String getYearHeader()
     {
@@ -50,7 +50,7 @@ public class CalendarPicker extends ShareDialog
     {
         return Integer.parseInt(getYearHeader()) == year;
     }
-    
+
     private boolean isCurrentMonth(int month)
     {
         return monthValues.indexOf(getMonthHeader()) + 1 == month;
@@ -58,7 +58,7 @@ public class CalendarPicker extends ShareDialog
 
     private void navigateToYear(int year)
     {
-        while(!isCurrentYear(year))
+        while (!isCurrentYear(year))
         {
             if (Integer.parseInt(getYearHeader()) < year)
                 nextMonthArrow.click();

@@ -32,7 +32,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
@@ -41,16 +41,16 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2793")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2793")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void configureAlfrescoAddonsRssFeedDashlet()
     {
         LOG.info("Step 1: Click 'Configure this dashlet' icon");
@@ -74,7 +74,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         enterFeedURLPopUp.clickOkButton();
         rssFeedDashlet.renderedPage();
         assertTrue(rssFeedDashlet.getDashletTitle().contains("Reuters: Business News"), "Site Dashboard page is displayed, feed information is updated: "
-                + rssFeedDashlet.getDashletTitle());
+            + rssFeedDashlet.getDashletTitle());
 
         //Store the current window handle
         String currentWindow = getBrowser().getWindowHandle();

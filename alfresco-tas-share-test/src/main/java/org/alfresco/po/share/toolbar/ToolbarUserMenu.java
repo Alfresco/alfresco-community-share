@@ -6,21 +6,29 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-@PageObject public class ToolbarUserMenu extends Toolbar
+@PageObject
+public class ToolbarUserMenu extends Toolbar
 {
-    @FindBy(id = "HEADER_USER_MENU_DASHBOARD_text") private WebElement userDashboard;
+    @FindBy (id = "HEADER_USER_MENU_DASHBOARD_text")
+    private WebElement userDashboard;
 
-    @FindBy(id = "HEADER_USER_MENU_PROFILE_text") private WebElement myProfileMenu;
+    @FindBy (id = "HEADER_USER_MENU_PROFILE_text")
+    private WebElement myProfileMenu;
 
-    @FindBy(id = "HEADER_USER_MENU_HELP_text") private WebElement help;
+    @FindBy (id = "HEADER_USER_MENU_HELP_text")
+    private WebElement help;
 
-    @FindBy(id = "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME_text") private WebElement setCurrentPageAsHome;
+    @FindBy (id = "HEADER_USER_MENU_SET_CURRENT_PAGE_AS_HOME_text")
+    private WebElement setCurrentPageAsHome;
 
-    @FindBy(id = "HEADER_USER_MENU_SET_DASHBOARD_AS_HOME_text") private WebElement setDashBoardAsHome;
+    @FindBy (id = "HEADER_USER_MENU_SET_DASHBOARD_AS_HOME_text")
+    private WebElement setDashBoardAsHome;
 
-    @FindBy(id = "HEADER_USER_MENU_CHANGE_PASSWORD_text") private WebElement changePassword;
+    @FindBy (id = "HEADER_USER_MENU_CHANGE_PASSWORD_text")
+    private WebElement changePassword;
 
-    @FindBy(id = "HEADER_USER_MENU_LOGOUT_text") private WebElement logout;
+    @FindBy (id = "HEADER_USER_MENU_LOGOUT_text")
+    private WebElement logout;
 
     private By dropdownMenu = By.id("HEADER_USER_MENU_POPUP_dropdown");
 

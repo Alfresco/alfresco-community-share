@@ -41,22 +41,22 @@ public class EditingLinkTests extends ContextAwareWebTest
     private String linkDescription = String.format("Link description%s", RandomData.getRandomAlphanumeric());
     private List<String> linkTags = new ArrayList<>();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6184")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6184")
     public void editLinkFromLinkPageView()
     {
         currentDate = new DateTime();
@@ -85,8 +85,7 @@ public class EditingLinkTests extends ContextAwareWebTest
             if (getBrowser().getCurrentUrl().contains("google"))
             {
                 break;
-            }
-            else
+            } else
             {
                 getBrowser().switchTo().window(currentWindow);
             }
@@ -121,13 +120,13 @@ public class EditingLinkTests extends ContextAwareWebTest
         editLinkPage.clickOnUpdateButton();
 
         Assert.assertTrue(linkDetailsViewPage.getLinkTitle().equals(newLinkTitle), "Wrong link title! expected " + newLinkTitle + "but found "
-                + linkDetailsViewPage.getLinkTitle());
+            + linkDetailsViewPage.getLinkTitle());
         Assert.assertTrue(linkDetailsViewPage.getLinkURL().equals(newLinkURL),
-                "Wrong link URL! expected" + newLinkURL + "but found " + linkDetailsViewPage.getLinkURL());
+            "Wrong link URL! expected" + newLinkURL + "but found " + linkDetailsViewPage.getLinkURL());
         Assert.assertTrue(linkDetailsViewPage.getCreationDate().contains(currentDate.toString("EEE d MMM yyyy")), "Wrong link creation date!");
         Assert.assertTrue(linkDetailsViewPage.getCreatedBy().equals("firstName" + " " + "lastName"), "Wrong author of the link!");
         Assert.assertTrue(linkDetailsViewPage.getDescription().equals(newLinkDescription), "Wrong link description! expected " + newLinkDescription
-                + "but found" + linkDetailsViewPage.getDescription());
+            + "but found" + linkDetailsViewPage.getDescription());
         Assert.assertTrue(linkDetailsViewPage.isTagDisplayedInTagsList(linkTags.get(0)), "Tag is not displayed!");
         Assert.assertTrue(linkDetailsViewPage.getNoCommentsMessage().equals("No comments"), "'No comments' message should be displayed!");
 
@@ -144,8 +143,7 @@ public class EditingLinkTests extends ContextAwareWebTest
             if (getBrowser().getCurrentUrl().contains("bing"))
             {
                 break;
-            }
-            else
+            } else
             {
                 getBrowser().switchTo().window(currentWindow1);
             }
@@ -158,12 +156,12 @@ public class EditingLinkTests extends ContextAwareWebTest
          */
 
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("bing"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6185")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6185")
     public void editLinkFromLinksPage()
     {
         currentDate = new DateTime();
@@ -200,8 +198,7 @@ public class EditingLinkTests extends ContextAwareWebTest
             if (getBrowser().getCurrentUrl().contains("google"))
             {
                 break;
-            }
-            else
+            } else
             {
                 getBrowser().switchTo().window(currentWindow);
             }
@@ -232,13 +229,13 @@ public class EditingLinkTests extends ContextAwareWebTest
         editLinkPage.clickOnUpdateButton();
 
         Assert.assertTrue(linkDetailsViewPage.getLinkTitle().equals(newLinkTitle), "Wrong link title! expected " + newLinkTitle + "but found "
-                + linkDetailsViewPage.getLinkTitle());
+            + linkDetailsViewPage.getLinkTitle());
         Assert.assertTrue(linkDetailsViewPage.getLinkURL().equals(newLinkURL),
-                "Wrong link URL! expected" + newLinkURL + "but found " + linkDetailsViewPage.getLinkURL());
+            "Wrong link URL! expected" + newLinkURL + "but found " + linkDetailsViewPage.getLinkURL());
         Assert.assertTrue(linkDetailsViewPage.getCreationDate().contains(currentDate.toString("EEE d MMM yyyy")), "Wrong link creation date!");
         Assert.assertTrue(linkDetailsViewPage.getCreatedBy().equals("firstName" + " " + "lastName"), "Wrong author of the link!");
         Assert.assertTrue(linkDetailsViewPage.getDescription().equals(newLinkDescription), "Wrong link description! expected " + newLinkDescription
-                + "but found" + linkDetailsViewPage.getDescription());
+            + "but found" + linkDetailsViewPage.getDescription());
         Assert.assertTrue(linkDetailsViewPage.isTagDisplayedInTagsList(linkTags.get(0)), "Tag1 is not displayed!");
         Assert.assertFalse(linkDetailsViewPage.isTagDisplayedInTagsList(linkTags.get(1)), "Tag is not displayed!");
         Assert.assertTrue(linkDetailsViewPage.getNoCommentsMessage().equals("No comments"), "'No comments' message should be displayed!");
@@ -264,8 +261,7 @@ public class EditingLinkTests extends ContextAwareWebTest
             if (getBrowser().getCurrentUrl().contains("bing"))
             {
                 break;
-            }
-            else
+            } else
             {
                 getBrowser().switchTo().window(currentWindow1);
             }
@@ -278,12 +274,12 @@ public class EditingLinkTests extends ContextAwareWebTest
          * closeWindowAndSwitchBack();
          */
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("bing"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6186")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6186")
     public void cancelEditingLink()
     {
         currentDate = new DateTime();
@@ -319,7 +315,7 @@ public class EditingLinkTests extends ContextAwareWebTest
         Assert.assertEquals(linkPage.getLinkTags(linkTitle).size(), 2, "Wrong no of tags for link title!");
         Assert.assertTrue(linkPage.getLinkTags(linkTitle).contains("tag1"), "Tag1 is not displayed in the list of tags!");
         Assert.assertTrue(linkPage.getLinkTags(linkTitle).contains("tag2"), "Tag2 is not displayed in the list of tags!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

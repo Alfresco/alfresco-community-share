@@ -25,20 +25,20 @@ public class UserTrashcanPage extends SharePage<UserTrashcanPage>
     EmptyTrashcanDialog emptyTrashcanDialog;
 
     @RenderWebElement
-    @FindBy(css = "input[id$='default-search-text']")
+    @FindBy (css = "input[id$='default-search-text']")
     private TextInput searchInput;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='search-button-button']")
+    @FindBy (css = "button[id$='search-button-button']")
     private Button searchButton;
 
-    @FindBy(css = "button[id*='empty']")
+    @FindBy (css = "button[id*='empty']")
     private WebElement emptyButton;
 
-    @FindBy(css = ".yui-dt-data tr")
+    @FindBy (css = ".yui-dt-data tr")
     private List<WebElement> itemRowsList;
 
-    @FindAll(@FindBy(css = ".yui-dt-liner > .name"))
+    @FindAll (@FindBy (css = ".yui-dt-liner > .name"))
     private List<WebElement> itemsNameList;
 
     private By deletionTimestampSelector = By.cssSelector(".yui-dt-liner div:nth-child(2)");

@@ -23,15 +23,19 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
     String googleDocPath = testDataFolder + googleDocName;
     String uniqueIdentifier = RandomData.getRandomAlphanumeric();
 
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired private GoogleDocsCommon googleDocsCommon;
+    @Autowired
+    private GoogleDocsCommon googleDocsCommon;
 
-    @Autowired UploadContent uploadContent;
+    @Autowired
+    UploadContent uploadContent;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userName = "User" + uniqueIdentifier;
@@ -39,22 +43,23 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7056")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS})
+    @TestRail (id = "C7056")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void editFilesInGoogleDocs() throws Exception
 
     {
         String editedInGoogleDocsTitle = uniqueIdentifier + "editedTestFile.docx";
         String editedInGoogleDocsContent = "Edited";
-        
+
         LOG.info("Preconditions: Login to Share/Google Docs and navigate to document library page for the test site");
         googleDocsCommon.loginToGoogleDocs();
         setupAuthenticatedSession(userName, password);
@@ -90,7 +95,7 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
         LOG.info("Steps9, 10: Click on the document title and verify it's preview");
         documentLibraryPage.clickOnFile(editedInGoogleDocsTitle);
         Assert.assertTrue(documentDetailsPage.getContentText().replaceAll("\\s+", "").contains("Edited"),
-                String.format("Document: %s has contents.", editedInGoogleDocsTitle));
+            String.format("Document: %s has contents.", editedInGoogleDocsTitle));
     }
 
 }

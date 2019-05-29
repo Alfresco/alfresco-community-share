@@ -12,6 +12,7 @@ public class DeleteTopicDialog extends DeleteDialog
 {
     @Autowired
     TopicListPage topicListPage;
+
     public TopicListPage confirmTopicDelete()
     {
         clickDelete();

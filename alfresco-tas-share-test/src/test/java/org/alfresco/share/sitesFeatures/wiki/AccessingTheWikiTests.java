@@ -23,7 +23,8 @@ import java.util.List;
 /**
  * Created by Argint Alex
  */
-public class AccessingTheWikiTests extends ContextAwareWebTest {
+public class AccessingTheWikiTests extends ContextAwareWebTest
+{
 
     @Autowired
     SiteDashboardPage siteDashboardPage;
@@ -43,7 +44,8 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
     private String siteName;
     private String description;
 
-    public void setup(String id) throws DataPreparationException {
+    public void setup(String id) throws DataPreparationException
+    {
         super.setup();
 
         uniqueIdentifier = String.format("-" + id + "-%s", RandomData.getRandomAlphanumeric());
@@ -58,9 +60,10 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
         siteDashboardPage.navigate(siteName);
     }
 
-    @TestRail(id = "C5493")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void accessWikiMainPageTest() throws DataPreparationException {
+    @TestRail (id = "C5493")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void accessWikiMainPageTest() throws DataPreparationException
+    {
 
         LOG.info("Starting test C5493");
         setup("C5493");
@@ -88,14 +91,15 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
         LOG.info("Step 4 : Click on 'newWiki' link and verify that 'Main Page' is opeend");
         siteDashboardPage.clickLinkFromHeaderNavigationMenu(SitePageType.WIKI);
         Assert.assertTrue(wikiMainPage.isNewPageButtonDisplayed(), "Wiki 'Main Page' is not opened");
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5494")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void accessWikiPageListTest() throws DataPreparationException {
+    @TestRail (id = "C5494")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void accessWikiPageListTest() throws DataPreparationException
+    {
 
         List<String> siteTitles = new ArrayList<>();
         siteTitles.add("Page1");
@@ -116,7 +120,8 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
         List<String> actualPageList = wikiListPage.getWikiPageTitlesList();
 
         Assert.assertEquals(actualPageList.size(), siteTitles.size(), "The number of listed wiki pages is not the same with the number of created wiki pages");
-        for (int i = 0; i < actualPageList.size(); i++) {
+        for (int i = 0; i < actualPageList.size(); i++)
+        {
             // the first wiki page listed is the last created
             Assert.assertEquals(actualPageList.get(i), siteTitles.get(actualPageList.size() - i - 1), "The page " + siteTitles.get(i) + " is not listed in the wiki page list");
         }
@@ -125,15 +130,15 @@ public class AccessingTheWikiTests extends ContextAwareWebTest {
         for (String anActualPageList : actualPageList)
         {
             Assert.assertTrue(wikiListPage.areActionsAvailableForPage(anActualPageList),
-                    "One or more actions are not available for " + anActualPageList + " wiki page");
+                "One or more actions are not available for " + anActualPageList + " wiki page");
         }
 
         LOG.info("Step 3 : Click on 'Main Page' button");
         wikiListPage.clickMainPageButton();
         wikiMainPage.isRenameWikiMainPagePanelDisplayed();
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 }

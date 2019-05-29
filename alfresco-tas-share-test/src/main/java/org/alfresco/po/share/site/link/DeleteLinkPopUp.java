@@ -14,14 +14,14 @@ public class DeleteLinkPopUp extends ShareDialog
     LinkPage linkPage;
 
     @RenderWebElement
-    @FindBy(xpath = "//button[contains(text(), 'Delete')]")
+    @FindBy (xpath = "//button[contains(text(), 'Delete')]")
     private WebElement deleteLinkButton;
 
     @RenderWebElement
-    @FindBy(xpath = "//button[contains(text(), 'Cancel')]")
+    @FindBy (xpath = "//button[contains(text(), 'Cancel')]")
     private WebElement cancelDeleteLinkButton;
-    
-    @FindBy(css = "[id=prompt] [class=bd]")
+
+    @FindBy (css = "[id=prompt] [class=bd]")
     private WebElement deleteLinkMessage;
 
     public LinkPage clickOnDeleteLinkButtonLinkDetailsPage()
@@ -44,11 +44,12 @@ public class DeleteLinkPopUp extends ShareDialog
     {
         cancelDeleteLinkButton.isDisplayed();
     }
-    
-    public String getDeleteLinkMessage(){
+
+    public String getDeleteLinkMessage()
+    {
         return deleteLinkMessage.getText();
     }
-    
+
     public void clickOnDeleteLinkButtonLinksPage()
     {
         deleteLinkButton.click();

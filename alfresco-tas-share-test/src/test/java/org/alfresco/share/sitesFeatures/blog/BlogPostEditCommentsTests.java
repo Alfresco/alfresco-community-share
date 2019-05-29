@@ -40,7 +40,7 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
     private String commentUser = user + " " + user;
     private String editedComment = "C6061 edited comment text";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -49,17 +49,17 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C6061")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6061")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void editBlogPostComment()
     {
@@ -76,16 +76,16 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Type your comment in the Add Your Comment box.");
         commentWindow.testEditComment(editedComment);
-        
+
         LOG.info("Step 3: Click the Save button");
         commentWindow.clickSaveButtonOnEditComment();
         getBrowser().waitUntilElementVisible(blogPostView.commentText);
-        Assert.assertEquals(blogPostView.getCommentText(commentUser), editedComment); 
+        Assert.assertEquals(blogPostView.getCommentText(commentUser), editedComment);
     }
-    
-    @TestRail(id= "C6062")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    
+
+    @TestRail (id = "C6062")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+
     public void editDraftBlogPostComment()
     {
         LOG.info("Test setup");
@@ -94,7 +94,7 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
         String C6062editedComment = "C6062 edited comment";
         sitePagesService.createBlogPost(user, password, siteName, blogPostTitleC6062, blogPostContentText, true, tags);
         sitePagesService.commentBlog(user, password, siteName, blogPostTitleC6062, true, commentC6062);
-        
+
         LOG.info("Step 1: Click edit for Draft Comment");
         blogPage.navigate(siteName);
         blogPage.clickMyDraftsFilter();
@@ -102,15 +102,15 @@ public class BlogPostEditCommentsTests extends ContextAwareWebTest
         blogPostView.clickEditComment(commentUser);
         getBrowser().waitUntilElementVisible(By.xpath("//div[@class = 'comment-form']//h2[text()='Edit Comment...']"));
         Assert.assertEquals(commentWindow.getEditCommentBoxLabel(), "Edit Comment...");
-        
+
         LOG.info("Step 2: Type your comment in the Add Your Comment box.");
         commentWindow.testEditComment(C6062editedComment);
-      
+
         LOG.info("Step 3: Click the Save button");
         commentWindow.clickSaveButtonOnEditComment();
         getBrowser().waitUntilElementVisible(blogPostView.commentText);
         getBrowser().waitUntilElementContainsText(getBrowser().findElement(blogPostView.commentText), C6062editedComment);
-        Assert.assertEquals(blogPostView.getCommentText(commentUser), C6062editedComment); 
+        Assert.assertEquals(blogPostView.getCommentText(commentUser), C6062editedComment);
     }
-        
+
 }

@@ -29,22 +29,22 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
 
     private String user = String.format("profileUser%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, user, user + domain, "fName", "lName");
         setupAuthenticatedSession(user, user);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
-    @TestRail(id = "C2110")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C2110")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void checkUserProfilePage()
     {
         LOG.info("Step 1 - Click on 'My Profile' link on header bar");
@@ -66,8 +66,8 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
         Assert.assertTrue(myProfileNavigation.isTrashcanDisplayed());
     }
 
-    @TestRail(id = "C2190")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C2190")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void checkEditUserProfilePage()
     {
         editUserPage.navigate(user);
@@ -100,12 +100,12 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
         Assert.assertTrue(editUserPage.isCompanyEmailDisplayed());
     }
 
-    @TestRail(id = "C2142")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C2142")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void updateUserProfile()
     {
         String[] userDetails = { "John", "Snow", "Lord", "Winterfell", "Spoiler: I'm alive", "john.show@got.com", "0233", "0749", "john.show", "House Stark",
-                "North", "8765", "8989", "0021", "stark@got.com" };
+            "North", "8765", "8989", "0021", "stark@got.com" };
 
         LOG.info("Step 1 - Click 'Edit Profile'");
         editUserPage.navigate(user);
@@ -140,13 +140,11 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
             {
                 Assert.assertTrue(entry.getValue().equals(userDetails[8]));
                 i = 9;
-            }
-            else if (entry.getKey().equals("Address"))
+            } else if (entry.getKey().equals("Address"))
             {
                 Assert.assertTrue(entry.getValue().equals(userDetails[10] + "\n" + userDetails[11]));
                 i = 12;
-            }
-            else
+            } else
             {
                 Assert.assertTrue(entry.getValue().equals(userDetails[i]));
                 i++;
@@ -154,8 +152,8 @@ public class UpdateAndViewProfileTests extends ContextAwareWebTest
         }
     }
 
-    @TestRail(id = "C2152")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C2152")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void uploadNewPhoto()
     {
         editUserPage.navigate(user);

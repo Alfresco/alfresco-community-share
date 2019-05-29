@@ -28,32 +28,32 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
     SelectDestinationDialog selectDestinationDialog;
 
     @RenderWebElement
-    @FindBy(css = ".rules-header .rules-title")
+    @FindBy (css = ".rules-header .rules-title")
     private WebElement title;
 
-    @FindBy(xpath = ".//*[contains(@class, 'dialog-options')]/*[1]")
+    @FindBy (xpath = ".//*[contains(@class, 'dialog-options')]/*[1]")
     private WebElement noRulesText;
 
-    @FindBy(css = ".dialog-option a[href*='rule-edit']")
+    @FindBy (css = ".dialog-option a[href*='rule-edit']")
     private WebElement createRulesLink;
 
-    @FindBy(xpath = "(.//div[@class='dialog-option']/div)[1]")
+    @FindBy (xpath = "(.//div[@class='dialog-option']/div)[1]")
     private WebElement createRulesDescription;
 
-    @FindBy(css = "a[id*='linkToRuleSet']")
+    @FindBy (css = "a[id*='linkToRuleSet']")
     private WebElement linkToRuleSetLink;
 
-    @FindBy(xpath = "(.//div[@class='dialog-option']/div)[2]")
+    @FindBy (xpath = "(.//div[@class='dialog-option']/div)[2]")
     private WebElement linkToRuleSetDescription;
 
     @RenderWebElement
-    @FindBy(css = "button[id*='inheritButton']")
+    @FindBy (css = "button[id*='inheritButton']")
     private WebElement inheritButton;
 
-    @FindBy(css = "li.rules-list-item.selected.dnd-draggable")
+    @FindBy (css = "li.rules-list-item.selected.dnd-draggable")
     public WebElement contentRule;
 
-    @FindBy(css = "span.folder-link a")
+    @FindBy (css = "span.folder-link a")
     private List<WebElement> breadcrumbList;
 
     private By inheritRulesMessage = By.cssSelector("#message .bd");

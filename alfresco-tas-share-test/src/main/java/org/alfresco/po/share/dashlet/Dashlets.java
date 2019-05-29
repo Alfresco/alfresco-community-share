@@ -33,8 +33,8 @@ public enum Dashlets
     USER_ACTIVITY_REPORT("User Activity Report"),
     HOT_CONTENT_REPORT("Hot Content Report"),
     WEB_QUICK_START("Web Quick Start"),
-    CONTENT_I_AM_EDITING ("Content I\'m Editing");
-    
+    CONTENT_I_AM_EDITING("Content I\'m Editing");
+
     private String dashletName;
 
     Dashlets(String dashlet)

@@ -27,7 +27,8 @@ import java.util.Collections;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class ContributorFilesOnlyTests extends ContextAwareWebTest {
+public class ContributorFilesOnlyTests extends ContextAwareWebTest
+{
     private final String userContributor = String.format("Contributor%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("SiteDescription%s", RandomData.getRandomAlphanumeric());
@@ -51,26 +52,29 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
     @Autowired
     StartWorkflowPage startWorkflowPage;
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest(){
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, userContributor, password, userContributor + domain, userContributor, userContributor);
         siteService.create(adminUser, adminPassword, domain, siteName, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteName, "SiteContributor");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.TEXT_PLAIN, adminFile, fileContent);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
 
-        userService.delete(adminUser,adminPassword, userContributor);
+        userService.delete(adminUser, adminPassword, userContributor);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
-           siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C8910")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void createContent() {
+    @TestRail (id = "C8910")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void createContent()
+    {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
@@ -91,9 +95,10 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/test", deletePath));
     }
 
-    @TestRail(id = "C8911")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void uploadContent() {
+    @TestRail (id = "C8911")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void uploadContent()
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         String testFilePath = testDataFolder + fileName;
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -107,9 +112,10 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 
-    @TestRail(id = "C8912")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void downloadContent() {
+    @TestRail (id = "C8912")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void downloadContent()
+    {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
@@ -120,9 +126,10 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         Assert.assertTrue(download.isFileInDirectory(adminFile, null), "The file was not found in the specified location");
     }
 
-    @TestRail(id = "C8913")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void viewInBrowser() {
+    @TestRail (id = "C8913")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void viewInBrowser()
+    {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
@@ -134,10 +141,11 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), fileContent, "Correct file content/ file opened in new window");
     }
 
-    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
-    @TestRail(id = "C8914")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void uploadNewVersionForItemCreatedBySelf() {
+    @Bug (id = "MNT-18059", status = Bug.Status.OPENED)
+    @TestRail (id = "C8914")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void uploadNewVersionForItemCreatedBySelf()
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         String newVersionFileName = "EditedTestFileC8914.txt";
         String newVersionFilePath = testDataFolder + newVersionFileName;
@@ -157,20 +165,22 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
     }
 
-    @TestRail(id = "C8915")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void uploadNewVersionForItemCreatedByOthers() {
+    @TestRail (id = "C8915")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void uploadNewVersionForItemCreatedByOthers()
+    {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Mouse over test File and check 'Upload new version' action is not available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, "Upload New Version"),
-                "Upload New Version available for Contributor user");
+            "Upload New Version available for Contributor user");
     }
 
-    @TestRail(id = "C8916")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void uploadNewVersionForItemLockedByUser() {
+    @TestRail (id = "C8916")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void uploadNewVersionForItemLockedByUser()
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         String siteNameC8916 = String.format("SiteNameC8916%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: Create test site, add Contributor user to site. Create a test file in site. Login as admin and navigate to site's doc lib");
@@ -188,15 +198,16 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         Assert.assertEquals(documentLibraryPage.getLockedByUserName(), "Administrator", "Document appears to be locked by admin");
         LOG.info("Steps5: Verify 'Upload new Version' option is not available for Contributor user, since the file is locked by admin");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Upload New Version"),
-                "Upload New Version available for Contributor user");
+            "Upload New Version available for Contributor user");
 
-        siteService.delete(adminUser,adminPassword,siteNameC8916 );
+        siteService.delete(adminUser, adminPassword, siteNameC8916);
 
     }
 
-    @TestRail(id = "C8917")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void editOnlineForContentCreatedBySelf() {
+    @TestRail (id = "C8917")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void editOnlineForContentCreatedBySelf()
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.MSWORD, fileName, fileContent);
@@ -204,13 +215,14 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         documentLibraryPage.navigate(siteName);
         LOG.info("Steps1: Mouse over file and check 'Edit in Microsoft Office' action is available.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit in Microsoft Office"),
-                "Edit in Microsoft Office available for Contributor user");
+            "Edit in Microsoft Office available for Contributor user");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 
-    @TestRail(id = "C8918")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void editOnlineForContentCreatedByOthers() {
+    @TestRail (id = "C8918")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void editOnlineForContentCreatedByOthers()
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(adminUser, adminPassword, siteName, DocumentType.MSWORD, fileName, fileContent);
@@ -218,13 +230,14 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         documentLibraryPage.navigate(siteName);
         LOG.info("Steps1: Mouse over file and check 'Edit in Microsoft Office' action is available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit in Microsoft Office"),
-                "Edit in Microsoft Office available for Contributor user");
+            "Edit in Microsoft Office available for Contributor user");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 
-    @TestRail(id = "C8919")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void editInlineForContentCreatedBySelf() {
+    @TestRail (id = "C8919")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void editInlineForContentCreatedBySelf()
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
@@ -243,20 +256,22 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/editedName", deletePath));
     }
 
-    @TestRail(id = "C8920")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void editInlineForContentCreatedByOthers() {
+    @TestRail (id = "C8920")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void editInlineForContentCreatedByOthers()
+    {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
         LOG.info("Steps1: Mouse over file and check 'Edit in Alfresco' action is available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, "Edit in Alfresco"),
-                "Edit in Alfresco available for Contributor user");
+            "Edit in Alfresco available for Contributor user");
     }
 
-    @TestRail(id = "C8921")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void editOfflineForContentCreatedBySelf() {
+    @TestRail (id = "C8921")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void editOfflineForContentCreatedBySelf()
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         String newVersionFileName = "EditedTestFileC8921.txt";
         String newVersionFilePath = testDataFolder + newVersionFileName;
@@ -273,7 +288,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         LOG.info("Steps3: Check the file is locked for offline editing.");
         Assert.assertEquals(documentLibraryPage.getInfoBannerText(fileName), "This document is locked by you for offline editing.", "Document appears to be locked");
         LOG.info("Steps4,5: Upload a new version for the locked document");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Upload New Version"),"Upload New Version available for Contributor user");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Upload New Version"), "Upload New Version available for Contributor user");
         LOG.info("Steps6: Click 'Upload New Version' select the updated version for the test file and confirm upload.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Upload New Version", uploadContent);
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Major);
@@ -284,9 +299,10 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
     }
 
-    @TestRail(id = "C8922")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void editOfflineForContentCreatedByOthers() {
+    @TestRail (id = "C8922")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void editOfflineForContentCreatedByOthers()
+    {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
@@ -294,13 +310,14 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, "Edit Offline"), "Edit Offline available for Contributor user");
     }
 
-    @TestRail(id = "C8925")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
-    public void checkInOutGoogleDocsCreatedBySelf() throws Exception {
+    @TestRail (id = "C8925")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    public void checkInOutGoogleDocsCreatedBySelf() throws Exception
+    {
 //        docs.loginToGoogleDocs();
         String googleDocPath = testDataFolder + "uploadedDoc.docx";
         LOG.info(
-                "Preconditions: Create test site and add contributor member to site. As Contributor user, navigate to Document Library page for the test site and create Google Doc file");
+            "Preconditions: Create test site and add contributor member to site. As Contributor user, navigate to Document Library page for the test site and create Google Doc file");
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
         uploadContent.uploadContent(googleDocPath);
@@ -308,7 +325,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
 
         LOG.info("Steps1: Mouse over file and check 'Edit in Google Docs' action is available.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem("uploadedDoc.docx", "Edit in Google Docs"),
-                "Edit in Google Docs available for Contributor user");
+            "Edit in Google Docs available for Contributor user");
 
         LOG.info("Steps2: Click 'Edit in Google Docs' action and add some content");
         documentLibraryPage.clickDocumentLibraryItemAction("uploadedDoc.docx", "Edit in Google Docs", docs);
@@ -338,15 +355,16 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/GDTitle.docx", deletePath));
     }
 
-    @TestRail(id = "C8926")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
-    public void editInGoogleDocForContentCreatedByOthers() {
+    @TestRail (id = "C8926")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    public void editInGoogleDocForContentCreatedByOthers()
+    {
 //        docs.loginToGoogleDocs();
         String googleDocName = RandomData.getRandomAlphanumeric() + "googleDoc.docx";
         String googleDocPath = testDataFolder + googleDocName;
         LOG.info(
-                "Preconditions: Create test site, add contributor member to site. As admin, navigate to Document Library page for the test site and create Google Doc file");
-   //     docs.loginToGoogleDocs();
+            "Preconditions: Create test site, add contributor member to site. As admin, navigate to Document Library page for the test site and create Google Doc file");
+        //     docs.loginToGoogleDocs();
         setupAuthenticatedSession(adminUser, adminPassword);
         documentLibraryPage.navigate(siteName);
         uploadContent.uploadContent(googleDocPath);
@@ -354,18 +372,19 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(googleDocName, "Edit in Google Docs"),
-                "Edit in Google Docs available for Contributor user");
+            "Edit in Google Docs available for Contributor user");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, googleDocName));
     }
 
-    @TestRail(id = "C8928")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
-    public void checkInGoogleDocForContentCreatedByOthers() throws Exception {
+    @TestRail (id = "C8928")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    public void checkInGoogleDocForContentCreatedByOthers() throws Exception
+    {
         docs.loginToGoogleDocs();
         String googleDocName = RandomData.getRandomAlphanumeric() + "googleDoc.docx";
         String googleDocPath = testDataFolder + googleDocName;
         LOG.info(
-                "Preconditions: Create test site and add contributor member to site. As Admin user, navigate to Document Library page for the test site and create Google Doc file. Check out the file in google Docs.");
+            "Preconditions: Create test site and add contributor member to site. As Admin user, navigate to Document Library page for the test site and create Google Doc file. Check out the file in google Docs.");
         setupAuthenticatedSession(adminUser, adminPassword);
         documentLibraryPage.navigate(siteName);
         uploadContent.uploadContent(googleDocPath);
@@ -378,15 +397,16 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(googleDocName, "Check In Google Doc"),
-                "Check In Google Doc available for Contributor user");
+            "Check In Google Doc available for Contributor user");
     }
 
-    @TestRail(id = "C8929")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void cancelEditingContentLockedBySelf() throws Exception {
+    @TestRail (id = "C8929")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void cancelEditingContentLockedBySelf() throws Exception
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         LOG.info(
-                "Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as Contributor user.");
+            "Preconditions: Create test site, add Contributor member to site and create test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
@@ -397,7 +417,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         Assert.assertEquals(documentLibraryPage.getInfoBannerText(fileName), "This document is locked by you for offline editing.", "Document appears to be locked");
         LOG.info("Steps2: Hover over testFile and check whether 'Cancel editing' action is available");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Cancel Editing"),
-                "Cancel Editing action available for Contributor user");
+            "Cancel Editing action available for Contributor user");
         LOG.info("Steps3: Click 'Cancel Editing' action and check whether the lock is removed for the test file");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Cancel Editing", documentLibraryPage);
         documentLibraryPage.refresh();
@@ -406,13 +426,14 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 
-    @TestRail(id = "C8930")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void cancelEditingContentLockedByOthers() throws Exception {
+    @TestRail (id = "C8930")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void cancelEditingContentLockedByOthers() throws Exception
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         String siteNameC8930 = String.format("SiteC8930%s", RandomData.getRandomAlphanumeric());
         LOG.info(
-                "Preconditions: Create test site and add Contributor member to site. Create a file in the Document Library for the test site, as admin user.");
+            "Preconditions: Create test site and add Contributor member to site. Create a file in the Document Library for the test site, as admin user.");
         siteService.create(adminUser, adminPassword, domain, siteNameC8930, description, SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, userContributor, siteNameC8930, "SiteContributor");
         contentService.createDocument(adminUser, adminPassword, siteNameC8930, DocumentType.TEXT_PLAIN, fileName, fileContent);
@@ -427,14 +448,15 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         Assert.assertEquals(documentLibraryPage.getLockedByUserName(), "Administrator", "The document is not locked");
         LOG.info("Step3: Hover over test file and check whether 'Cancel Editing' action is missing");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Cancel Editing"), "Cancel Editing available for Contributor user");
-        siteService.delete(adminUser,adminPassword,siteNameC8930 );
+        siteService.delete(adminUser, adminPassword, siteNameC8930);
 
 
     }
 
-    @TestRail(id = "C8931")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void viewOriginalVersion() throws Exception {
+    @TestRail (id = "C8931")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void viewOriginalVersion() throws Exception
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         String content = String.format("FileContent%s", RandomData.getRandomAlphanumeric());
         String siteNameC8931 = String.format("SiteC8931%s", RandomData.getRandomAlphanumeric());
@@ -451,19 +473,20 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteNameC8931);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "View Original Document"),
-                "View Original Document' action available for Contributor user");
+            "View Original Document' action available for Contributor user");
         LOG.info("Steps3: Click 'View Original Document' action.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "View Original Document", documentDetailsPage);
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Page displayed");
         assertEquals(documentDetailsPage.getContentText(), content, "File preview successfully displayed");
         Assert.assertEquals(documentDetailsPage.getLockedMessage(), "This document is locked by Administrator.", "Document appears to be locked by admin user");
-        siteService.delete(adminUser,adminPassword,siteNameC8931 );
+        siteService.delete(adminUser, adminPassword, siteNameC8931);
 
     }
 
-    @TestRail(id = "C8932")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void viewWorkingCopy() throws Exception {
+    @TestRail (id = "C8932")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void viewWorkingCopy() throws Exception
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         String content = String.format("FileContent%s", RandomData.getRandomAlphanumeric());
         String siteNameC8932 = String.format("SiteC8932%s", RandomData.getRandomAlphanumeric());
@@ -491,13 +514,14 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         assertEquals(documentDetailsPage.getContentText(), content, "File preview successfully displayed");
         Assert.assertTrue(documentDetailsPage.isActionAvailable("View Original Document"));
 
-        siteService.delete(adminUser,adminPassword,siteNameC8932 );
+        siteService.delete(adminUser, adminPassword, siteNameC8932);
 
     }
 
-    @TestRail(id = "C8933")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
-    public void editInGoogleDocs() throws Exception {
+    @TestRail (id = "C8933")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    public void editInGoogleDocs() throws Exception
+    {
 //        docs.loginToGoogleDocs();
         String googleDocName = RandomData.getRandomAlphanumeric() + "googleDoc.docx";
         String googleDocPath = testDataFolder + googleDocName;
@@ -513,13 +537,14 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         docs.clickOkButtonOnTheAuthPopup();
         getBrowser().switchWindow(docsUrl);
         assertTrue(getBrowser().getCurrentUrl().contains(docsUrl),
-                "After clicking on Google Docs link, the title is: " + getBrowser().getCurrentUrl());
+            "After clicking on Google Docs link, the title is: " + getBrowser().getCurrentUrl());
         closeWindowAndSwitchBack();
     }
 
-    @TestRail(id = "C8934")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void startWorkflow() {
+    @TestRail (id = "C8934")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void startWorkflow()
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
@@ -535,9 +560,10 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
     }
 
-    @TestRail(id = "C8935")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void locateFile() {
+    @TestRail (id = "C8935")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void locateFile()
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         String siteNameC8935 = String.format("SiteC8932%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions: Create test site, add Contributor member to site and create a test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -549,20 +575,21 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         LOG.info("Step1: In Documents Library, go to Documents sections and select Recently Added.");
         documentLibraryPage.clickDocumentsFilterOption(DocumentLibraryPage.DocumentsFilters.RecentlyAdded.title);
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentLibraryPage.DocumentsFilters.RecentlyAdded.header,
-                "Recently added documents are displayed.");
+            "Recently added documents are displayed.");
         LOG.info("Step2: Hover over test file and click 'Locate File'.");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Locate File", documentLibraryPage);
         ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb is 'Documents'.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), "User is redirected to location of the created document.");
-        siteService.delete(adminUser,adminPassword,siteNameC8935 );
-       // On 5.2, the file it's checked
+        siteService.delete(adminUser, adminPassword, siteNameC8935);
+        // On 5.2, the file it's checked
     }
 
 
-    @TestRail(id = "C8936")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void downloadPreviousVersion() {
+    @TestRail (id = "C8936")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void downloadPreviousVersion()
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         String newVersionFileName = "NewVersionC8936.txt";
         String newVersionFilePath = testDataFolder + newVersionFileName;
@@ -590,9 +617,10 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
     }
 
-    @TestRail(id = "C8937")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void revertToPreviousVersion() {
+    @TestRail (id = "C8937")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void revertToPreviousVersion()
+    {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
         String newVersionFileName = "NewVersionC8937.txt";
         String newVersionFilePath = testDataFolder + newVersionFileName;

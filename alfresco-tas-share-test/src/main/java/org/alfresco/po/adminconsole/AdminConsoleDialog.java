@@ -18,7 +18,7 @@ import static org.alfresco.utility.report.log.Step.STEP;
 public abstract class AdminConsoleDialog extends HtmlPage
 {
     @RenderWebElement
-    @FindBy(id = "admin-dialog")
+    @FindBy (id = "admin-dialog")
     protected WebElement dialogFrame;
 
     private By pageControlLocator = By.cssSelector("div[class~=control]");
@@ -102,11 +102,12 @@ public abstract class AdminConsoleDialog extends HtmlPage
 
     public ControlObject getPageField(String fieldLabel) throws Exception
     {
-        for(ControlObject field: getPageFields())
+        for (ControlObject field : getPageFields())
         {
-            if(field.getLabel().equals(fieldLabel))
+            if (field.getLabel().equals(fieldLabel))
                 return field;
-        } throw new Exception(String.format("Could not find dialog field with label %s", fieldLabel));
+        }
+        throw new Exception(String.format("Could not find dialog field with label %s", fieldLabel));
     }
 
     public String getFieldValue(String fieldLabel) throws Exception
@@ -143,12 +144,11 @@ public abstract class AdminConsoleDialog extends HtmlPage
         try
         {
             browser.switchTo().frame(dialogFrame);
-            
+
             if (!getPageField(fieldLabel).getInput().isSelected())
-            	getPageField(fieldLabel).getInput().click();
+                getPageField(fieldLabel).getInput().click();
             browser.switchTo().defaultContent();
-        }
-        catch (NoSuchElementException noSuchElementExp)
+        } catch (NoSuchElementException noSuchElementExp)
         {
             LOG.error(String.format("Could not find admin console field with label %s", fieldLabel), noSuchElementExp);
         }
@@ -160,17 +160,16 @@ public abstract class AdminConsoleDialog extends HtmlPage
         try
         {
             browser.switchTo().frame(dialogFrame);
-            
+
             if (getPageField(fieldLabel).getInput().isSelected())
-            	getPageField(fieldLabel).getInput().click();
+                getPageField(fieldLabel).getInput().click();
             browser.switchTo().defaultContent();
-        }
-        catch (NoSuchElementException noSuchElementExp)
+        } catch (NoSuchElementException noSuchElementExp)
         {
             LOG.error(String.format("Could not find admin console field with label %s", fieldLabel), noSuchElementExp);
         }
     }
-    
+
     public void typeValueInField(String value, String fieldLabel) throws Exception
     {
         STEP(String.format("Type %s in %s field ", value, fieldLabel));
@@ -181,8 +180,7 @@ public abstract class AdminConsoleDialog extends HtmlPage
             input.clear();
             input.sendKeys(value);
             browser.switchTo().defaultContent();
-        }
-        catch (NoSuchElementException noSuchElementExp)
+        } catch (NoSuchElementException noSuchElementExp)
         {
             LOG.error(String.format("Could not find admin console field with label [%s]", fieldLabel), noSuchElementExp);
         }

@@ -16,11 +16,13 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 
-public class DownloadTests  extends ContextAwareWebTest
+public class DownloadTests extends ContextAwareWebTest
 {
-    @Autowired private SharedFilesPage sharePage;
+    @Autowired
+    private SharedFilesPage sharePage;
 
-    @Autowired private DocumentCommon documentCommon;
+    @Autowired
+    private DocumentCommon documentCommon;
 
     private final String user = String.format("C8024TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC8024 = "C8024 file2";
@@ -42,8 +44,7 @@ public class DownloadTests  extends ContextAwareWebTest
             {
                 if (aDirectoryContent.getName().equals(fileName))
                     return true;
-            }
-            else
+            } else
             {
                 if (aDirectoryContent.getName().equals(fileName + extension))
                     return true;
@@ -53,7 +54,7 @@ public class DownloadTests  extends ContextAwareWebTest
         return false;
     }
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -62,18 +63,19 @@ public class DownloadTests  extends ContextAwareWebTest
 
         setupAuthenticatedSession(user, password);
     }
+
     @AfterClass
     public void cleanUp()
     {
         userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
-        contentService.deleteContentByPath(adminUser, adminPassword, path + "/"+fileNameC8024);
-        contentService.deleteTreeByPath(adminUser, adminPassword, path + "/"+folderNameC8027);
+        contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + fileNameC8024);
+        contentService.deleteTreeByPath(adminUser, adminPassword, path + "/" + folderNameC8027);
     }
 
-    @TestRail(id = "C8024")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8024")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void downloadFileFromAlfresco()
     {
@@ -93,13 +95,13 @@ public class DownloadTests  extends ContextAwareWebTest
         Assert.assertTrue(isFileInDirectory(fileNameC8024, null), "The file was not found in the specified location");
     }
 
-    @TestRail(id = " C8027")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = " C8027")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void downloadFolder()
     {
         sharePage.navigate();
-      
+
         LOG.info("Step 1: Mouse over folder, click Download");
         sharePage.clickDocumentLibraryItemAction(folderNameC8027, "Download as Zip", sharePage);
         getBrowser().waitInSeconds(10);

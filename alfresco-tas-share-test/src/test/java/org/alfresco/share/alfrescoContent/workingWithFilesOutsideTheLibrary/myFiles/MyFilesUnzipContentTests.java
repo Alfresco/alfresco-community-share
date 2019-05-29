@@ -24,13 +24,19 @@ import static org.testng.Assert.assertTrue;
 /**
  * @author Razvan.Dorobantu
  */
-public class MyFilesUnzipContentTests extends ContextAwareWebTest {
+public class MyFilesUnzipContentTests extends ContextAwareWebTest
+{
 
-    @Autowired private MyFilesPage myFilesPage;
-    @Autowired private DocumentDetailsPage documentDetailsPage;
-    @Autowired private CopyMoveUnzipToDialog unzipToDialog;
-    @Autowired private UploadContent uploadContent;
-    @Autowired private SiteDashboardPage sitePage;
+    @Autowired
+    private MyFilesPage myFilesPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private CopyMoveUnzipToDialog unzipToDialog;
+    @Autowired
+    private UploadContent uploadContent;
+    @Autowired
+    private SiteDashboardPage sitePage;
 
     private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     private final String zipFile = "archiveC7816.zip";
@@ -39,22 +45,25 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest {
     private final String acpFile = "archiveC7816.acp";
     private final String acpPath = testDataFolder + acpFile;
 
-    @BeforeClass(alwaysRun = true)
-    public void createUser() {
+    @BeforeClass (alwaysRun = true)
+    public void createUser()
+    {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         setupAuthenticatedSession(user, password);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
 
-    @TestRail(id = "C7816")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void unzipZipArchiveToMyFiles() {
+    @TestRail (id = "C7816")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void unzipZipArchiveToMyFiles()
+    {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a zip archive.");
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
@@ -75,9 +84,10 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest {
         assertTrue(myFilesPage.isContentNameDisplayed(zipContent), zipFile + "'s content is displayed, " + zipContent);
     }
 
-    @TestRail(id = "C7817")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void unzipACPArchiveToMyFiles() {
+    @TestRail (id = "C7817")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void unzipACPArchiveToMyFiles()
+    {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a zip archive.");
         myFilesPage.navigate();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
@@ -96,6 +106,6 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest {
         unzipToDialog.clickUnzipButton(documentDetailsPage);
         myFilesPage.navigate();
         assertTrue(myFilesPage.isContentNameDisplayed(acpFile.substring(0, acpFile.indexOf("."))),
-                "A folder with archive name is present in Documents list.");
+            "A folder with archive name is present in Documents list.");
     }
 }

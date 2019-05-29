@@ -2,7 +2,7 @@ package org.alfresco.po.share.dashlet;
 
 /**
  * Contains the days range filters on My Activities Dashlet.
- * 
+ *
  * @author Cristina.Axinte
  */
 public enum SiteActivitiesDaysRangeFilter
@@ -16,7 +16,7 @@ public enum SiteActivitiesDaysRangeFilter
 
     /**
      * Set the description for the each filter.
-     * 
+     *
      * @param description - The Filter Description on HTML Page.
      */
     SiteActivitiesDaysRangeFilter(String description)
@@ -26,7 +26,7 @@ public enum SiteActivitiesDaysRangeFilter
 
     /**
      * Gets description.
-     * 
+     *
      * @return String description
      */
     public String getDescription()

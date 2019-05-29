@@ -21,7 +21,7 @@ public class MyFilesPage extends DocumentLibraryPage implements AccessibleByMenu
         return "share/page/context/mine/myfiles";
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
     public MyFilesPage navigateByMenuBar()
     {

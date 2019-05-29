@@ -23,15 +23,20 @@ import static org.testng.Assert.*;
  */
 public class UploadTests extends ContextAwareWebTest
 {
-    @Autowired private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
-    @Autowired private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
 
-    @Autowired private UploadContent uploadContent;
+    @Autowired
+    private UploadContent uploadContent;
 
-    @Autowired private DeleteDialog deleteDialog;
+    @Autowired
+    private DeleteDialog deleteDialog;
 
     private final String random = RandomData.getRandomAlphanumeric();
     private final String user = "user1-" + random;
@@ -42,16 +47,18 @@ public class UploadTests extends ContextAwareWebTest
     private final String newDoc2 = random + "-NewFile-C7942.txt";
     private final String doc3 = "Doc-C13756-" + random;
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         userService.create(adminUser, adminPassword, user2, password, user + domain, user2, user2);
         contentService.createDocumentInRepository(adminUser, adminPassword, path, CMISUtil.DocumentType.TEXT_PLAIN, doc3, "");
     }
 
-    @TestRail(id = "C7939")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void uploadDocument() {
+    @TestRail (id = "C7939")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void uploadDocument()
+    {
         setupAuthenticatedSession(user, password);
         String testFilePath = testDataFolder + doc1;
         LOG.info("Precondition: Navigate to Shared Files page.");
@@ -69,10 +76,12 @@ public class UploadTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isContentNameDisplayed(doc1), String.format("File [%s] is displayed", doc1));
         cleanupAuthenticatedSession();
     }
-    @Bug(id="MNT-18059",status = Bug.Status.FIXED)
-    @TestRail(id = "C7942")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void updateDocumentNewVersion() {
+
+    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
+    @TestRail (id = "C7942")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void updateDocumentNewVersion()
+    {
         String testFilePath = testDataFolder + doc2;
         String newVersionFilePath = testDataFolder + newDoc2;
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -109,19 +118,21 @@ public class UploadTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C13756")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void optionNotDisplayed() {
+    @TestRail (id = "C13756")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void optionNotDisplayed()
+    {
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
         LOG.info("STEP1: Hover over the file");
         assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(doc3, language.translate("documentLibrary.contentAction.uploadNewVersion")),
-                language.translate("documentLibrary.contentAction.uploadNewVersion") + " option is displayed for " + doc3);
+            language.translate("documentLibrary.contentAction.uploadNewVersion") + " option is displayed for " + doc3);
         cleanupAuthenticatedSession();
     }
 
     @AfterClass
-    public void cleanUp() {
+    public void cleanUp()
+    {
         contentService.deleteContentByPath(user, password, path + "/" + doc1);
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + newDoc2);
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + doc3);

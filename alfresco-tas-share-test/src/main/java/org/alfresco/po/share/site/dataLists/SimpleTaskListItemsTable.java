@@ -14,42 +14,42 @@ public class SimpleTaskListItemsTable extends ListItemTable
     protected By priorityColumn = By.cssSelector("td[class*='simpletaskPriority'] div");
     protected By statusColumn = By.cssSelector("td[class*='simpletaskStatus'] div");
     protected By commentsColumn = By.cssSelector("td[class*='simpletaskComments'] div");
-    
+
 //    public SimpleTaskListItemsTable(WebElement webElement)
 //    {
 //        super(webElement);
 //    }
-    
+
     public SimpleTaskListItemsTable(WebElement webElement, WebBrowser browser)
     {
         super(webElement, browser);
     }
-    
+
     public WebElement getTitleColumn()
     {
         return browser.findElement(titleColumn);
     }
-    
+
     public WebElement getDescriptionColumn()
     {
         return browser.findElement(descriptionColumn);
     }
-    
+
     public WebElement getDueDateColumn()
     {
         return browser.findElement(dueDateColumn);
     }
-    
+
     public WebElement getPriorityColumn()
     {
         return browser.findElement(priorityColumn);
     }
-    
+
     public WebElement getStatusColumn()
     {
         return browser.findElement(statusColumn);
     }
-    
+
     public WebElement getCommentsColumn()
     {
         return browser.findElement(commentsColumn);

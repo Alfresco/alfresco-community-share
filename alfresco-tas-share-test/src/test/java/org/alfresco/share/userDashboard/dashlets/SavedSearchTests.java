@@ -19,16 +19,16 @@ public class SavedSearchTests extends ContextAwareWebTest
 {
     @Autowired
     UserDashboardPage userDashboardPage;
-    
+
     @Autowired
     SavedSearchDashlet savedSearchDashlet;
-    
+
     @Autowired
     ConfigureSavedSearchDashletPopUp configureSavedSearchPopUp;
-    
+
     private String userName;
-    
-    @BeforeClass(alwaysRun = true)
+
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -38,39 +38,39 @@ public class SavedSearchTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
-    
-    @TestRail(id = "C2427")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+
+    @TestRail (id = "C2427")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void savedSearchDashlet()
     {
         userDashboardPage.navigate(userName);
-        
+
         LOG.info("Step 1: Verify 'Saved Search' dahslet");
         Assert.assertEquals(savedSearchDashlet.getDashletTitle(), "Saved Search");
         Assert.assertEquals(savedSearchDashlet.getDefaultMessage(), "No results found.");
         Assert.assertTrue(savedSearchDashlet.isConfigureDashletIconDisplayed());
         Assert.assertTrue(savedSearchDashlet.isHelpIconDisplayed(DashletHelpIcon.SAVED_SEARCH));
-        
+
         LOG.info("Step 2: Click Help icon");
         savedSearchDashlet.clickOnHelpIcon(DashletHelpIcon.SAVED_SEARCH);
         Assert.assertTrue(savedSearchDashlet.isBalloonDisplayed());
         Assert.assertEquals(savedSearchDashlet.getHelpBalloonMessage(), "Use this dashlet to set up a search and view the results."
-                + "\nConfigure the dashlet to save the search and set the title text of the dashlet."
-                + "\nOnly a Site Manager can configure the search and title - this dashlet is ideal for generating report views in a site.");
+            + "\nConfigure the dashlet to save the search and set the title text of the dashlet."
+            + "\nOnly a Site Manager can configure the search and title - this dashlet is ideal for generating report views in a site.");
 
         LOG.info("Step 3: Close ballon popup");
         savedSearchDashlet.closeHelpBalloon();
         Assert.assertFalse(savedSearchDashlet.isBalloonDisplayed());
-        
+
         LOG.info("Step 4: Click 'Configure this dashlet' icon");
         savedSearchDashlet.clickOnConfigureDashletIcon();
-        
+
         LOG.info("Step 5: Verify 'Enter Search Term' window");
         Assert.assertEquals(configureSavedSearchPopUp.getPopUpTitle(), "Enter Search Term");
         Assert.assertTrue(configureSavedSearchPopUp.isSearchTermFieldDisplayed());
@@ -79,7 +79,7 @@ public class SavedSearchTests extends ContextAwareWebTest
         Assert.assertTrue(configureSavedSearchPopUp.isOkButtonDisplayed());
         Assert.assertTrue(configureSavedSearchPopUp.isCloseButtonDisplayed());
         Assert.assertTrue(configureSavedSearchPopUp.isCancelButtonDisplayed());
-        
+
         LOG.info("Step 6: Close 'Enter Search Term' window");
         configureSavedSearchPopUp.clickCloseButton();
     }

@@ -9,82 +9,82 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 {
-    @FindBy(id = "prompt_h")
+    @FindBy (id = "prompt_h")
     private WebElement promptAuthorizeWithGoogleDocs;
 
-    @FindBy(xpath = "//div[@id ='prompt_c']//span[@class ='yui-button yui-push-button alf-primary-button']")
+    @FindBy (xpath = "//div[@id ='prompt_c']//span[@class ='yui-button yui-push-button alf-primary-button']")
     private WebElement okButtonAuthorizeWithGoogleDocsPopup;
 
-    @FindBy(xpath = "//*[contains(text(), 'OK')]")
+    @FindBy (xpath = "//*[contains(text(), 'OK')]")
     protected WebElement okButtonOnVersionPopup;
 
-    @FindBy(xpath = "//*[@id='identifierId']|//*[@id='Email']")
+    @FindBy (xpath = "//*[@id='identifierId']|//*[@id='Email']")
     protected WebElement googleDocsEmail;
 
-    @FindBy(xpath = "//*[@id='identifierNext']|//*[@id='next']")
+    @FindBy (xpath = "//*[@id='identifierNext']|//*[@id='next']")
     protected WebElement submitEmail;
 
-    @FindBy(xpath = "//*[@name='password']|//*[@id='Passwd']")
+    @FindBy (xpath = "//*[@name='password']|//*[@id='Passwd']")
     protected WebElement googleDocsPassword;
 
-    @FindBy(xpath = "//*[@id='passwordNext']|//*[@id='signIn']")
+    @FindBy (xpath = "//*[@id='passwordNext']|//*[@id='signIn']")
     protected WebElement signInToGoogleDocsButton;
 
-    @FindBy(xpath = "//*[contains(text(), 'Yes')]")
+    @FindBy (xpath = "//*[contains(text(), 'Yes')]")
     protected WebElement confirmFormatUpgrade;
 
-    @FindBy(css = ".docs-title-input")
+    @FindBy (css = ".docs-title-input")
     protected WebElement googleDocsTitle;
 
-    @FindBy(css = ".kix-appview-editor")
+    @FindBy (css = ".kix-appview-editor")
     protected WebElement googleDocsContent;
 
-    @FindBy(xpath = "//img[contains(@title,'Locked by you')]")
+    @FindBy (xpath = "//img[contains(@title,'Locked by you')]")
     public WebElement lockedIcon;
 
-    @FindBy(css = "img[alt='googledrive']")
+    @FindBy (css = "img[alt='googledrive']")
     protected WebElement googleDriveIcon;
 
-    @FindBy(xpath = "//div[contains(text(), 'This document is locked by you')]")
+    @FindBy (xpath = "//div[contains(text(), 'This document is locked by you')]")
     protected WebElement lockedDocumentMessage;
 
-    @FindBy(xpath = "//span[contains(text(), 'Check In Google Doc™')]")
+    @FindBy (xpath = "//span[contains(text(), 'Check In Google Doc™')]")
     protected WebElement checkInGoogleDoc;
 
-    @FindBy(xpath = "//div[contains(text(), 'Version Information')]")
+    @FindBy (xpath = "//div[contains(text(), 'Version Information')]")
     protected WebElement versionInformationPopup;
 
-    @FindBy(id = "docs-file-menu")
+    @FindBy (id = "docs-file-menu")
     protected WebElement fileLinkGoogleDocs;
 
-    @FindBy(id = "insertLinkButton")
+    @FindBy (id = "insertLinkButton")
     protected WebElement addLinkInGoogleDoc;
 
-    @FindBy(id = "t-insert-link")
+    @FindBy (id = "t-insert-link")
     protected WebElement addLinkInGoogleSheet;
 
-    @FindBy(css = "#yui-gen82-button")
+    @FindBy (css = "#yui-gen82-button")
     protected WebElement confirmDocumentFormatUpgradeYes;
 
-    @FindBy(xpath = "//input[contains(@class, 'docs-link-insertlinkbubble-text jfk-textinput label-input-label')]")
+    @FindBy (xpath = "//input[contains(@class, 'docs-link-insertlinkbubble-text jfk-textinput label-input-label')]")
     protected WebElement inputTextForLinkInGoogleDoc;
 
-    @FindBy(xpath = "//input[contains(@class, 'docs-link-insertlinkbubble-text jfk-textinput label-input-label')]")
+    @FindBy (xpath = "//input[contains(@class, 'docs-link-insertlinkbubble-text jfk-textinput label-input-label')]")
     protected WebElement inputTextForLinkInGoogleSheet;
 
-    @FindBy(xpath = "//input[contains(@class, 'docs-link-urlinput-url')]")
+    @FindBy (xpath = "//input[contains(@class, 'docs-link-urlinput-url')]")
     protected WebElement inputLinkInGoogleDoc;
 
-    @FindBy(xpath = "//input[contains(@class, 'docs-link-urlinput-url')]")
+    @FindBy (xpath = "//input[contains(@class, 'docs-link-urlinput-url')]")
     protected WebElement inputLinkInGoogleSheets;
 
-    @FindBy(xpath = "//div[contains(@class, 'docs-link-insertlinkbubble-buttonbar')]/div")
+    @FindBy (xpath = "//div[contains(@class, 'docs-link-insertlinkbubble-buttonbar')]/div")
     protected WebElement applyButtonGoogleDoc;
 
-    @FindBy(xpath = "//div[contains(@class, 'docs-link-insertlinkbubble-buttonbar')]/div")
+    @FindBy (xpath = "//div[contains(@class, 'docs-link-insertlinkbubble-buttonbar')]/div")
     protected WebElement applyButtonGoogleSheets;
 
-    @FindBy(xpath = "//*[@id='profileIdentifier']|//*[@id='reauthEmail']")
+    @FindBy (xpath = "//*[@id='profileIdentifier']|//*[@id='reauthEmail']")
     protected WebElement reauthEmail;
 
     public By confirmationPopup = By.cssSelector("span.wait");
@@ -115,8 +115,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         {
             browser.waitUntilElementVisible(googleDocsPassword).sendKeys(googleDocsTestPassword);
             browser.waitUntilElementClickable(signInToGoogleDocsButton).click();
-        }
-        else
+        } else
         {
             browser.waitUntilElementVisible(googleDocsEmail).sendKeys(googleDocsTestEmail);
             browser.waitUntilElementClickable(submitEmail).click();
@@ -175,7 +174,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         browser.waitUntilElementVisible(inputTextForLinkInGoogleDoc).sendKeys(content);
         browser.waitUntilElementVisible(inputLinkInGoogleDoc).sendKeys("test");
         browser.waitUntilElementVisible(inputLinkInGoogleDoc).sendKeys(Keys.ENTER);
-     //   browser.waitUntilElementClickable(applyButtonGoogleDoc).click();
+        //   browser.waitUntilElementClickable(applyButtonGoogleDoc).click();
 
         browser.waitInSeconds(3);
     }
@@ -190,7 +189,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         browser.waitUntilElementVisible(inputLinkInGoogleSheets).sendKeys("test");
         browser.waitUntilElementVisible(inputLinkInGoogleDoc).sendKeys(Keys.ENTER);
 
-   //     browser.waitUntilElementClickable(applyButtonGoogleSheets).click();
+        //     browser.waitUntilElementClickable(applyButtonGoogleSheets).click();
         browser.waitInSeconds(3);
     }
 
@@ -268,7 +267,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     /**
      * Method to click OK on the Authorize with Google Docs popup (if popup is displayed)
-     * 
+     *
      * @throws Exception
      */
 
@@ -280,12 +279,10 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
                 okButtonAuthorizeWithGoogleDocsPopup.click();
 
-        }
-        catch (NoSuchElementException e)
+        } catch (NoSuchElementException e)
         {
 
-        }
-        finally
+        } finally
         {
             browser.waitInSeconds(10);
         }
@@ -293,7 +290,7 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     /**
      * Method to check if 'OK' button is displayed on the 'Authorize with Google Docs popup'
-     * 
+     *
      * @throws Exception
      */
 

@@ -37,20 +37,22 @@ public class SyncUserDirectoryTestDialog extends AdminConsoleDialog
         results.add(browser.waitUntilElementVisible(result).getText());
         results.add(browser.waitUntilElementVisible(resultSyncActive).getText());
 
-        String groupsDiagnostic= browser.waitUntilElementsVisible(testDisgnostics).get(0).getText();
-        String usersDiagnostic= browser.waitUntilElementsVisible(testDisgnostics).get(1).getText();
+        String groupsDiagnostic = browser.waitUntilElementsVisible(testDisgnostics).get(0).getText();
+        String usersDiagnostic = browser.waitUntilElementsVisible(testDisgnostics).get(1).getText();
         noGroups = Integer.parseInt(groupsDiagnostic.substring(groupsDiagnostic.indexOf(" ") + 1, groupsDiagnostic.lastIndexOf(" ")));
         noUsers = Integer.parseInt(usersDiagnostic.substring(usersDiagnostic.indexOf(" ") + 1, usersDiagnostic.lastIndexOf(" ")));
 
-        if(!browser.waitUntilElementsVisible(groupsList).isEmpty())
-        for (WebElement group : browser.waitUntilElementsVisible(groupsList)) {
-            syncGroups.add(group.getText().replaceFirst("GROUP_",""));
-        }
+        if (!browser.waitUntilElementsVisible(groupsList).isEmpty())
+            for (WebElement group : browser.waitUntilElementsVisible(groupsList))
+            {
+                syncGroups.add(group.getText().replaceFirst("GROUP_", ""));
+            }
 
-        if(!browser.waitUntilElementsVisible(usersList).isEmpty())
-        for (WebElement user : browser.waitUntilElementsVisible(usersList)) {
-            syncUsers.add(user.getText());
-        }
+        if (!browser.waitUntilElementsVisible(usersList).isEmpty())
+            for (WebElement user : browser.waitUntilElementsVisible(usersList))
+            {
+                syncUsers.add(user.getText());
+            }
         browser.switchTo().defaultContent();
         return results;
     }
@@ -65,11 +67,13 @@ public class SyncUserDirectoryTestDialog extends AdminConsoleDialog
         return syncUsers;
     }
 
-    public int getNoGroups() {
+    public int getNoGroups()
+    {
         return noGroups;
     }
 
-    public int getNoUsers() {
+    public int getNoUsers()
+    {
         return noUsers;
     }
 

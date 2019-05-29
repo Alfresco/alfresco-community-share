@@ -17,17 +17,20 @@ import org.testng.asserts.SoftAssert;
 
 public class CreatingFilesTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private CreateContent create;
+    @Autowired
+    private CreateContent create;
 
-    @Autowired private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
     private final String user = String.format("C6976User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C6976SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C6976SiteName%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
 
     public void setupTest()
     {
@@ -36,17 +39,17 @@ public class CreatingFilesTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser, adminPassword,siteName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C6976")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6976")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void createPlainTextFile()
     {
@@ -87,8 +90,8 @@ public class CreatingFilesTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getFileName(), "test name", "\"test name\" is not the file name for the file in preview");
     }
 
-    @TestRail(id = "C6977")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6977")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void createHTMLFile()
     {
@@ -128,8 +131,8 @@ public class CreatingFilesTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getFileName(), "C6977 test name", "\"C6977 test name\" is not the file name for the file in preview");
     }
 
-    @TestRail(id = "C6978")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6978")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void createXMLFile()
     {
@@ -138,7 +141,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
         LOG.info("Step 1: Click Create... button");
         documentLibraryPage.clickCreateButton();
         Assert.assertTrue(create.isXMLButtonDisplayed(), "Create... XML... is not available");
-        
+
         LOG.info("Step 2: Click \"XML...\" option.");
         create.clickXMLButton();
         Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
@@ -150,13 +153,13 @@ public class CreatingFilesTests extends ContextAwareWebTest
         Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
         Assert.assertTrue(create.isCreateButtonPresent(), "The Create button is not displayed on the create form");
         Assert.assertTrue(create.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
-        
+
         LOG.info("Step 3: Fill in the name, content, title and description fields");
         create.sendInputForName("C6978 test name");
         create.sendInputForContent("C6978 test content");
         create.sendInputForTitle("C6978 test title");
         create.sendInputForDescription("C6978 test description");
-        
+
         LOG.info("Step 4: Click the Create button");
         create.clickCreateButton();
         getBrowser().waitInSeconds(1);
@@ -167,16 +170,16 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 6: Verify the document's preview");
         Assert.assertEquals(documentDetailsPage.getContentText().trim(), "C6978 test content", "\"C6978 test content \" is not the content displayed in preview");
-        Assert.assertEquals(documentDetailsPage.getFileName(), "C6978 test name", "\"C6978 test name\" is not the file name for the file in preview");   
+        Assert.assertEquals(documentDetailsPage.getFileName(), "C6978 test name", "\"C6978 test name\" is not the file name for the file in preview");
     }
-    
-    @TestRail(id ="C6986")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    
+
+    @TestRail (id = "C6986")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+
     public void verifyCreateContentPage()
     {
         documentLibraryPage.navigate(siteName);
-        
+
         LOG.info("Step 1 & 2: Click Create... button and select Plain Text option");
         documentLibraryPage.clickCreateButton();
         create.clickPlainTextButton();
@@ -189,7 +192,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
         Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
         Assert.assertTrue(create.isCreateButtonPresent(), "The Create button is not displayed on the create form");
         Assert.assertTrue(create.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
-        
+
         LOG.info("Step 3: Verify Mandatory fields.");
         Assert.assertTrue(create.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
         Assert.assertFalse(create.isContentMarkedAsMandatory(), "Content field is marked as mandatory");
@@ -197,10 +200,10 @@ public class CreatingFilesTests extends ContextAwareWebTest
         Assert.assertFalse(create.isDescriptionMarkedAsMandatory(), "Description field is marked as mandatory");
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkAllCreateAvailableActions()
     {
-        SoftAssert softAssert= new SoftAssert();
+        SoftAssert softAssert = new SoftAssert();
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Click Create... button");

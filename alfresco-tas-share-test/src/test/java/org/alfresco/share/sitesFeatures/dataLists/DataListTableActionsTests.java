@@ -28,11 +28,11 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     ContactListSelectedContent contactListSelectedContent;
 
     private final String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("siteName%s",RandomData.getRandomAlphanumeric());
-    private final String description = String.format("description%s",RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("description%s", RandomData.getRandomAlphanumeric());
     private String contactList;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createUser()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -42,15 +42,15 @@ public class DataListTableActionsTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void createSite()
     {
         LOG.info("Preconditions for Data List Table Actions test");
 
-        contactList = String.format("ContactList%s",RandomData.getRandomAlphanumeric());
+        contactList = String.format("ContactList%s", RandomData.getRandomAlphanumeric());
         dataListsService.createDataList(userName, password, siteName, DataListsService.DataList.CONTACT_LIST, contactList, description);
         dataListsService.addContactListItem(userName, password, siteName, contactList, "FirstName", "LastName", "E-mail", "Company", "JobTitle", "PhoneOffice",
-                "PhoneMobile", "Notes");
+            "PhoneMobile", "Notes");
 
         dataListsPage.navigate(siteName);
         dataListsPage.clickContactListItem(contactList);
@@ -58,17 +58,17 @@ public class DataListTableActionsTests extends ContextAwareWebTest
         contactListSelectedContent.setBrowser(getBrowser());
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C6864")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6864")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void duplicateAction()
     {
         LOG.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
@@ -84,19 +84,19 @@ public class DataListTableActionsTests extends ContextAwareWebTest
 
         getBrowser().waitInSeconds(3);
         Assert.assertEquals(contactListSelectedContent.duplicatedRows(Arrays.asList("FirstName", "LastName", "E-mail", "Company", "JobTitle", "PhoneOffice",
-                "PhoneMobile", "Notes")), true);
+            "PhoneMobile", "Notes")), true);
 
         LOG.info("Step 3: Click Edit action and verify it has identical data with source row");
 
         manageContactListItems.clickEditAction();
         getBrowser().waitInSeconds(3);
         Assert.assertTrue(manageContactListItems.areCorrectValuesDisplayedOnEditPopup("FirstName", "LastName", "E-mail", "Company", "JobTitle", "PhoneOffice",
-                "PhoneMobile"), "The values from Edit Data Item form are not correcly displayed");
+            "PhoneMobile"), "The values from Edit Data Item form are not correcly displayed");
 
     }
 
-    @TestRail(id = "C6865")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6865")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void deleteAction()
     {
         LOG.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
@@ -120,8 +120,8 @@ public class DataListTableActionsTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C6867")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6867")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editAction()
     {
         LOG.info("Step 1: Hover over the new item and verify Edit, Duplicate, Delete actions are visible");
@@ -139,11 +139,11 @@ public class DataListTableActionsTests extends ContextAwareWebTest
         LOG.info("Steps 3,4: Edit data, save the changes and verify the changes are saved");
 
         manageContactListItems.editContactItem("editedFirstName", "editedLastName", "editedEmail", "editedCompany", "editedJob", "editedPhoneOffice",
-                "editedPhoneMobile", "editedNotes");
+            "editedPhoneMobile", "editedNotes");
 
         contactListSelectedContent.setBrowser(getBrowser());
         Assert.assertEquals(contactListSelectedContent.isListItemDisplayed(Arrays.asList("editedFirstName", "editedLastName", "editedEmail", "editedCompany",
-                "editedJob", "editedPhoneOffice", "editedPhoneMobile", "editedNotes")), true);
+            "editedJob", "editedPhoneOffice", "editedPhoneMobile", "editedNotes")), true);
 
     }
 

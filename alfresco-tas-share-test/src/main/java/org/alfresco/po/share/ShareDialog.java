@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
  */
 public abstract class ShareDialog extends HtmlPage
 {
-    @FindBy(css = "a.container-close")
+    @FindBy (css = "a.container-close")
     protected WebElement closeButton;
 
     /**

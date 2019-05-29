@@ -29,81 +29,81 @@ public class AddEventDialog extends ShareDialog
     CalendarPicker calendarPicker;
 
     @RenderWebElement
-    @FindBy(id = "eventEditPanel-dialog_h")
+    @FindBy (id = "eventEditPanel-dialog_h")
     protected WebElement dialogHeader;
 
     @RenderWebElement
-    @FindBy(id = "eventEditPanel-ok-button")
+    @FindBy (id = "eventEditPanel-ok-button")
     private WebElement saveButton;
 
-    @FindBy(css = "label[for='eventEditPanel-title']")
+    @FindBy (css = "label[for='eventEditPanel-title']")
     private WebElement eventTitleLabel;
 
     @RenderWebElement
-    @FindBy(id = "eventEditPanel-title")
+    @FindBy (id = "eventEditPanel-title")
     private TextInput eventTitle;
 
-    @FindBy(css = "label[for='eventEditPanel-location']")
+    @FindBy (css = "label[for='eventEditPanel-location']")
     private WebElement eventLocationLabel;
 
-    @FindBy(id = "eventEditPanel-location")
+    @FindBy (id = "eventEditPanel-location")
     private TextInput eventLocation;
 
-    @FindBy(css = "label[for='eventEditPanel-description']")
+    @FindBy (css = "label[for='eventEditPanel-description']")
     private WebElement eventDescriptionLabel;
 
-    @FindBy(id = "eventEditPanel-description")
+    @FindBy (id = "eventEditPanel-description")
     private WebElement eventDescription;
 
-    @FindBy(css = "label[for='eventEditPanel-allday']")
+    @FindBy (css = "label[for='eventEditPanel-allday']")
     private WebElement eventAllDayLabel;
 
-    @FindBy(id = "eventEditPanel-allday")
+    @FindBy (id = "eventEditPanel-allday")
     private WebElement allday;
 
-    @FindBy(css = "label[for='fd']")
+    @FindBy (css = "label[for='fd']")
     private WebElement eventStartDateLabel;
 
-    @FindBy(id = "fd")
+    @FindBy (id = "fd")
     private WebElement eventStartDate;
 
-    @FindBy(css = "label[for='td']")
+    @FindBy (css = "label[for='td']")
     private WebElement eventEndDateLabel;
 
-    @FindBy(id = "td")
+    @FindBy (id = "td")
     private WebElement eventEndDate;
 
-    @FindBy(id = "eventEditPanel-start")
+    @FindBy (id = "eventEditPanel-start")
     private WebElement eventStartTime;
 
-    @FindBy(id = "eventEditPanel-end")
+    @FindBy (id = "eventEditPanel-end")
     private WebElement eventEndTime;
 
-    @FindBy(id = "eventEditPanel-tag-input-field")
+    @FindBy (id = "eventEditPanel-tag-input-field")
     private WebElement eventTag;
 
-    @FindBy(id = "eventEditPanel-add-tag-button-button")
+    @FindBy (id = "eventEditPanel-add-tag-button-button")
     private WebElement addTagButton;
 
-    @FindBy(id = "eventEditPanel-load-popular-tags-link")
+    @FindBy (id = "eventEditPanel-load-popular-tags-link")
     private WebElement popularTagsLink;
 
-    @FindBy(id = "eventEditPanel-cancel-button")
+    @FindBy (id = "eventEditPanel-cancel-button")
     private WebElement cancelButton;
 
-    @FindAll(@FindBy(css = "#eventEditPanel-current-tags .taglibrary-action>span"))
+    @FindAll (@FindBy (css = "#eventEditPanel-current-tags .taglibrary-action>span"))
     private List<WebElement> currentTagList;
 
-    @FindAll(@FindBy(css = "#eventEditPanel-popular-tags .taglibrary-action>span"))
+    @FindAll (@FindBy (css = "#eventEditPanel-popular-tags .taglibrary-action>span"))
     private List<WebElement> popularTagList;
 
-    @FindBy(css = ".balloon>.text>div")
+    @FindBy (css = ".balloon>.text>div")
     private WebElement balloon;
 
-    @FindBy(id = "calendarendpicker-button")
+    @FindBy (id = "calendarendpicker-button")
     private WebElement endCalendarPickerButton;
 
-    @FindBy(id = "calendarpicker-button")
+    @FindBy (id = "calendarpicker-button")
     private WebElement startCalendarPickerButton;
 
     private By parentSection = By.xpath("../../preceding-sibling::*[@class = 'yui-g'][1]/*");
@@ -133,7 +133,7 @@ public class AddEventDialog extends ShareDialog
      *
      * @param title
      */
-    public void typeInEventTitleInput(String  title)
+    public void typeInEventTitleInput(String title)
     {
         Parameter.checkIsMandotary("Event title", title);
         eventTitle.clear();
@@ -166,7 +166,7 @@ public class AddEventDialog extends ShareDialog
      *
      * @param location
      */
-    public void typeInEventLocationInput(String  location)
+    public void typeInEventLocationInput(String location)
     {
         eventLocation.clear();
         eventLocation.sendKeys(location);
@@ -269,7 +269,7 @@ public class AddEventDialog extends ShareDialog
         browser.findFirstElementWithValue(popularTagList, tag).click();
     }
 
-/**
+    /**
      * Check if the specified tag is displayed in popular tags list
      *
      * @param tag
@@ -317,7 +317,7 @@ public class AddEventDialog extends ShareDialog
      */
     public boolean isAllDayCheckBoxDisplayedAndUnchecked()
     {
-        return eventAllDayLabel.getText().equals("All Day:") && ! allday.isSelected();
+        return eventAllDayLabel.getText().equals("All Day:") && !allday.isSelected();
     }
 
     /**
@@ -328,8 +328,8 @@ public class AddEventDialog extends ShareDialog
      */
     public boolean hasStartDateValue(DateTime date)
     {
-        return  eventStartDateLabel.getText().equals("Start Date:") &&
-                eventStartDate.getAttribute("value").equals(date.toString("EEEE, d MMMM, yyyy"));
+        return eventStartDateLabel.getText().equals("Start Date:") &&
+            eventStartDate.getAttribute("value").equals(date.toString("EEEE, d MMMM, yyyy"));
     }
 
     /**
@@ -340,8 +340,8 @@ public class AddEventDialog extends ShareDialog
      */
     public boolean hasEndDateValue(DateTime date)
     {
-        return  eventEndDateLabel.getText().equals("End Date:") &&
-                eventEndDate.getAttribute("value").equals(date.toString("EEEE, d MMMM, yyyy"));
+        return eventEndDateLabel.getText().equals("End Date:") &&
+            eventEndDate.getAttribute("value").equals(date.toString("EEEE, d MMMM, yyyy"));
     }
 
     /**
@@ -352,7 +352,7 @@ public class AddEventDialog extends ShareDialog
      */
     public boolean hasStartTimeValue(String time)
     {
-        return  eventStartTime.getAttribute("value").equals(time);
+        return eventStartTime.getAttribute("value").equals(time);
     }
 
     /**
@@ -363,7 +363,7 @@ public class AddEventDialog extends ShareDialog
      */
     public boolean hasEndTimeValue(String time)
     {
-        return  eventEndTime.getAttribute("value").equals(time);
+        return eventEndTime.getAttribute("value").equals(time);
     }
 
     /**
@@ -374,50 +374,49 @@ public class AddEventDialog extends ShareDialog
     public boolean checkEventDetailsSectionContainsFields()
     {
         return isEventTitleDisplayedAndMandatory() &&
-                eventTitleLabel.findElement(parentSection).getText().equals("Event Details") &&
-                isEventLocationDisplayed() &&
-                eventLocationLabel.findElement(parentSection).getText().equals("Event Details") &&
-                isEventDescriptionDisplayed() &&
-                eventDescriptionLabel.findElement(parentSection).getText().equals("Event Details");
+            eventTitleLabel.findElement(parentSection).getText().equals("Event Details") &&
+            isEventLocationDisplayed() &&
+            eventLocationLabel.findElement(parentSection).getText().equals("Event Details") &&
+            isEventDescriptionDisplayed() &&
+            eventDescriptionLabel.findElement(parentSection).getText().equals("Event Details");
     }
 
     /**
      * Check if Time section contains:
-     *   "All Day" check box unchecked by default
-     *   "Start Date" field  with selected date displayed by default
-     *   "End Date" field  with selected date displayed by default
-     *   Start time field has 12:00 PM default value
-     *   End time field has 1:00 PM default value
+     * "All Day" check box unchecked by default
+     * "Start Date" field  with selected date displayed by default
+     * "End Date" field  with selected date displayed by default
+     * Start time field has 12:00 PM default value
+     * End time field has 1:00 PM default value
      *
      * @param date, the selected date
-     *
      * @return true if all specified above elements are displayed
      */
     public boolean checkTimeSectionDefaultValues(DateTime date)
     {
         return isAllDayCheckBoxDisplayedAndUnchecked() &&
-                eventAllDayLabel.findElement(parentSection).getText().equals("Time") &&
-                hasStartDateValue(date) &&
-                eventStartDateLabel.findElement(parentSection).getText().equals("Time") &&
-                hasEndDateValue(date) &&
-                eventEndDateLabel.findElement(parentSection).getText().equals("Time") &&
-                hasStartTimeValue("12:00 PM") &&
-                hasEndTimeValue("1:00 PM");
+            eventAllDayLabel.findElement(parentSection).getText().equals("Time") &&
+            hasStartDateValue(date) &&
+            eventStartDateLabel.findElement(parentSection).getText().equals("Time") &&
+            hasEndDateValue(date) &&
+            eventEndDateLabel.findElement(parentSection).getText().equals("Time") &&
+            hasStartTimeValue("12:00 PM") &&
+            hasEndTimeValue("1:00 PM");
     }
 
     /**
      * Check if Tags section contains:
-     *   "Tags" field
-     *   "Add" button
-     *   "Choose from popular tags in this site" link
+     * "Tags" field
+     * "Add" button
+     * "Choose from popular tags in this site" link
      *
      * @return true if all specified above elements are displayed
      */
     public boolean isTagsSectionDisplayed()
     {
         return popularTagsLink.getText().equals("Choose from popular tags in this site") &&
-                eventTag.isDisplayed() &&
-                addTagButton.isDisplayed();
+            eventTag.isDisplayed() &&
+            addTagButton.isDisplayed();
     }
 
     /**

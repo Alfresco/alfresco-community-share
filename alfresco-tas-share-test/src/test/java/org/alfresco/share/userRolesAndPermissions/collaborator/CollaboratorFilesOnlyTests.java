@@ -33,19 +33,32 @@ import static org.testng.Assert.assertTrue;
  * Created by Rusu Andrei
  */
 
-public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
-    @Autowired private DocumentDetailsPage documentDetailsPage;
-    @Autowired private CreateContent create;
-    @Autowired private UploadContent uploadContent;
-    @Autowired private EditInAlfrescoPage editInAlfrescoPage;
-    @Autowired private GoogleDocsCommon googleDocsCommon;
-    @Autowired private StartWorkflowPage startWorkflowPage;
-    @Autowired private SelectPopUpPage selectPopUpPage;
-    @Autowired private ToolbarTasksMenu toolbarTasksMenu;
-    @Autowired private WorkflowDetailsPage workflowDetailsPage;
-    @Autowired private MyTasksPage myTasksPage;
-    @Autowired private Download download;
+public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
+{
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private CreateContent create;
+    @Autowired
+    private UploadContent uploadContent;
+    @Autowired
+    private EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired
+    private GoogleDocsCommon googleDocsCommon;
+    @Autowired
+    private StartWorkflowPage startWorkflowPage;
+    @Autowired
+    private SelectPopUpPage selectPopUpPage;
+    @Autowired
+    private ToolbarTasksMenu toolbarTasksMenu;
+    @Autowired
+    private WorkflowDetailsPage workflowDetailsPage;
+    @Autowired
+    private MyTasksPage myTasksPage;
+    @Autowired
+    private Download download;
 
     private final String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8939-.txt";
     private final String testFilePath = testDataFolder + testFile;
@@ -53,11 +66,11 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
     private final String newVersionFilePath = testDataFolder + newVersionFile;
     private final String newVersionFile2 = RandomData.getRandomAlphanumeric() + "-NewFile-C8943" + ".txt";
     private final String newVersionFilePath2 = testDataFolder + newVersionFile2;
-    private final String updatedDocName = String.format("UpdatedDocName-C8947-%s",RandomData.getRandomAlphanumeric());
+    private final String updatedDocName = String.format("UpdatedDocName-C8947-%s", RandomData.getRandomAlphanumeric());
     private final String updatedContent = "edited in Alfresco test content C8947";
     private final String updatedTitle = "updated title C8947";
     private final String updatedDescription = "updated description C8947";
-    private final String updatedDocName1 = String.format("UpdatedDocName-C8948-%s",RandomData.getRandomAlphanumeric());
+    private final String updatedDocName1 = String.format("UpdatedDocName-C8948-%s", RandomData.getRandomAlphanumeric());
     private final String updatedContent1 = "edited in Alfresco test content C8948";
     private final String updatedTitle1 = "updated title C8948";
     private final String updatedDescription1 = "updated description C8948";
@@ -65,20 +78,21 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
     private final String editedContent = "edited content in Google Docs";
     private final String editedTitle1 = "editedTitle1";
     private final String editedContent1 = "edited content in Google Docs1";
-    private final String user = String.format("Collaborator%s",RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("SiteC%s",RandomData.getRandomAlphanumeric());
-    private final String siteName2 = String.format("SiteC2%s",RandomData.getRandomAlphanumeric());
-    private final String fileContent = String.format("test content%s",RandomData.getRandomAlphanumeric());
-    private final String textFilePlainCreatedBySelf = String.format("textFilePlainSelf file%s",RandomData.getRandomAlphanumeric());
-    private final String startWorkflowFile = "StartWorkflow "+ RandomData.getRandomAlphanumeric();
-    private final String textFilePlainCreatedByOtherUser = String.format("textFilePlainOther file%s",RandomData.getRandomAlphanumeric());
-    private final String user2 = String.format("Collaborator2%s",RandomData.getRandomAlphanumeric());
-    private final String msWordFileCreatedBySelf =  String.format("msWordFilePlainSelf file%s",RandomData.getRandomAlphanumeric());
-    private final String msWordFileCreatedByOther =  String.format("msWordFilePlainOther file%s",RandomData.getRandomAlphanumeric());
+    private final String user = String.format("Collaborator%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("SiteC%s", RandomData.getRandomAlphanumeric());
+    private final String siteName2 = String.format("SiteC2%s", RandomData.getRandomAlphanumeric());
+    private final String fileContent = String.format("test content%s", RandomData.getRandomAlphanumeric());
+    private final String textFilePlainCreatedBySelf = String.format("textFilePlainSelf file%s", RandomData.getRandomAlphanumeric());
+    private final String startWorkflowFile = "StartWorkflow " + RandomData.getRandomAlphanumeric();
+    private final String textFilePlainCreatedByOtherUser = String.format("textFilePlainOther file%s", RandomData.getRandomAlphanumeric());
+    private final String user2 = String.format("Collaborator2%s", RandomData.getRandomAlphanumeric());
+    private final String msWordFileCreatedBySelf = String.format("msWordFilePlainSelf file%s", RandomData.getRandomAlphanumeric());
+    private final String msWordFileCreatedByOther = String.format("msWordFilePlainOther file%s", RandomData.getRandomAlphanumeric());
     private final String deletePath = String.format("Sites/%s/documentLibrary", siteName);
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         userService.create(adminUser, adminPassword, user2, password, user + domain, user2, user2);
         siteService.create(adminUser, adminPassword, domain, siteName, "SiteC description", SiteService.Visibility.PUBLIC);
@@ -93,24 +107,24 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, startWorkflowFile, fileContent);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        userService.delete(adminUser,adminPassword, user2);
+        userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
 
-        siteService.delete(adminUser,adminPassword,siteName );
-        siteService.delete(adminUser,adminPassword,siteName2 );
+        siteService.delete(adminUser, adminPassword, siteName);
+        siteService.delete(adminUser, adminPassword, siteName2);
 
     }
 
 
-
-    @TestRail(id = "C8938")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorCreateContent() {
+    @TestRail (id = "C8938")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void collaboratorCreateContent()
+    {
         setupAuthenticatedSession(user, password);
         LOG.info("Precondition: testSite Document Library page is opened.");
         documentLibraryPage.navigate(siteName);
@@ -136,14 +150,15 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         Assert.assertEquals(documentDetailsPage.getFileName(), "C8938test", "\"C8938test\" is not the file name for the file in preview");
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Title:"), "C8938test", "\"C8938test\" is not the file title for the file in preview");
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Description:"), "C8938test",
-                "\"C8938test\" is not the file description for the file in preview");
+            "\"C8938test\" is not the file description for the file in preview");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/C8938test", deletePath));
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C8939")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorUploadContent() {
+    @TestRail (id = "C8939")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void collaboratorUploadContent()
+    {
         setupAuthenticatedSession(user, password);
         LOG.info("Precondition: testSite Document Library page is opened.");
         documentLibraryPage.navigate(siteName);
@@ -155,14 +170,15 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C8940")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorDownloadContent() {
+    @TestRail (id = "C8940")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void collaboratorDownloadContent()
+    {
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testDocument from Document Library");
         documentLibraryPage.navigate(siteName);
         getBrowser().waitInSeconds(5);
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(textFilePlainCreatedBySelf, "Download"),  "\"Download\" is not available ");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(textFilePlainCreatedBySelf, "Download"), "\"Download\" is not available ");
         LOG.info("Step 2: Click the Download Button. Check the file was saved locally");
         getBrowser().refresh();
         documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedBySelf, "Download", documentLibraryPage);
@@ -170,30 +186,32 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         Assert.assertTrue(download.isFileInDirectory(textFilePlainCreatedBySelf, null), "The file was not found in the specified location");
     }
 
-    @TestRail(id = "C8941")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorViewInBrowser() {
-        String fileName = "C8941"+ RandomData.getRandomAlphanumeric();
+    @TestRail (id = "C8941")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void collaboratorViewInBrowser()
+    {
+        String fileName = "C8941" + RandomData.getRandomAlphanumeric();
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "View In Browser"),  "\"View In Browser\" is not available ");
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "View In Browser"), "\"View In Browser\" is not available ");
         LOG.info("Step 2: Click 'View in browser.'");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, "View In Browser", documentLibraryPage);
         Assert.assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), fileContent,
-                "File content is not correct or file has not be opened in new window");
+            "File content is not correct or file has not be opened in new window");
     }
 
-    @TestRail(id = "C8947")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorEditInlineBySelf() {
+    @TestRail (id = "C8947")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void collaboratorEditInlineBySelf()
+    {
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 2: Click Edit in Alfresco.");
         documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedBySelf, language.translate("documentLibrary.contentActions.editInAlfresco"),
-                editInAlfrescoPage);
+            editInAlfrescoPage);
         LOG.info("Step 3: Edit content and save changes.");
         editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName, updatedContent, updatedTitle, updatedDescription);
         editInAlfrescoPage.clickButton("Save");
@@ -207,15 +225,16 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, updatedDocName));
     }
 
-    @TestRail(id = "C8948")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorEditInlineByOthers() {
+    @TestRail (id = "C8948")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void collaboratorEditInlineByOthers()
+    {
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 2: Click Edit in Alfresco.");
         documentLibraryPage.clickDocumentLibraryItemAction(textFilePlainCreatedByOtherUser, language.translate("documentLibrary.contentActions.editInAlfresco"),
-                editInAlfrescoPage);
+            editInAlfrescoPage);
         LOG.info("Step 3: Edit content and save changes.");
         editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName1, updatedContent1, updatedTitle1, updatedDescription1);
         editInAlfrescoPage.renderedPage();
@@ -230,29 +249,31 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, updatedDocName1));
     }
 
-    @TestRail(id = "C8957")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorCancelEditingBySelf() {
+    @TestRail (id = "C8957")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void collaboratorCancelEditingBySelf()
+    {
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(msWordFileCreatedBySelf), String.format("Document %s is not present", msWordFileCreatedBySelf));
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, "Edit Offline"), "Edit Offline is not available for "+msWordFileCreatedBySelf);
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, "Edit Offline"), "Edit Offline is not available for " + msWordFileCreatedBySelf);
         LOG.info("Step 2& Step 3: Click edit offline and Check the testFile status in Document Library.");
         documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, "Edit Offline", documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.getInfoBannerText(msWordFileCreatedBySelf).contains("This document is locked"), documentLibraryPage.getInfoBannerText(msWordFileCreatedBySelf));
         LOG.info("Step 4: Mouse over testFile name and check available actions.");
-        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, "Cancel Editing"), "Cancel Editing is not available for "+ msWordFileCreatedBySelf);
+        Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, "Cancel Editing"), "Cancel Editing is not available for " + msWordFileCreatedBySelf);
         LOG.info("Step 5: Click Cancel editing action..");
         documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, "Cancel Editing", documentLibraryPage);
         documentLibraryPage.navigate(siteName);
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(msWordFileCreatedBySelf), "Locked message is still displayed");
     }
 
-    @Bug(id = "MNT-17015", status = Bug.Status.FIXED)
-    @TestRail(id = "C8962")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorStartWorkflow() {
+    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
+    @TestRail (id = "C8962")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void collaboratorStartWorkflow()
+    {
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
@@ -285,18 +306,19 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, startWorkflowFile));
     }
 
-    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
-    @TestRail(id = "C8942")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorUploadNewVersionSelfCreated() {
-        String fileName = "C8942"+ RandomData.getRandomAlphanumeric();
+    @Bug (id = "MNT-18059", status = Bug.Status.OPENED)
+    @TestRail (id = "C8942")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void collaboratorUploadNewVersionSelfCreated()
+    {
+        String fileName = "C8942" + RandomData.getRandomAlphanumeric();
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(
-                documentLibraryPage.isActionAvailableForLibraryItem(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion")),
-                "Upload new version action is not available for " + fileName);
+            documentLibraryPage.isActionAvailableForLibraryItem(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion")),
+            "Upload new version action is not available for " + fileName);
         LOG.info("Step 2: Click Upload New Version");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
         Assert.assertTrue(uploadContent.isUploadFilesToDialogDisplayed(), "Upload Files To Dialog is not displayed");
@@ -314,18 +336,19 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFile));
     }
 
-    @Bug(id="MNT-18059",status = Bug.Status.OPENED)
-    @TestRail(id = "C8943")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void collaboratorUploadNewVersionOtherUserCreated() {
-        String fileName = "C8943"+ RandomData.getRandomAlphanumeric();
+    @Bug (id = "MNT-18059", status = Bug.Status.OPENED)
+    @TestRail (id = "C8943")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void collaboratorUploadNewVersionOtherUserCreated()
+    {
+        String fileName = "C8943" + RandomData.getRandomAlphanumeric();
         contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(
-                documentLibraryPage.isActionAvailableForLibraryItem(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion")),
-                "Upload new version action is not available for " + fileName);
+            documentLibraryPage.isActionAvailableForLibraryItem(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion")),
+            "Upload new version action is not available for " + fileName);
         LOG.info("Step 2: Click Upload New Version");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
         Assert.assertTrue(uploadContent.isUploadFilesToDialogDisplayed(), "Upload Files To Dialog is not displayed");
@@ -343,15 +366,16 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFile2));
     }
 
-    @TestRail(id = "C8953")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
-    public void collaboratorCheckOutGoogleDocBySelf() throws Exception {
+    @TestRail (id = "C8953")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    public void collaboratorCheckOutGoogleDocBySelf() throws Exception
+    {
         setupAuthenticatedSession(user, password);
         LOG.info("Step 1: Mouse over the testFile and check available actions");
         documentLibraryPage.navigate(siteName);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(msWordFileCreatedBySelf), String.format("Document %s is not present", msWordFileCreatedBySelf));
         LOG.info("Step 2: Click Check out to Google docs or Edit in Google Docs.");
-    //    googleDocsCommon.loginToGoogleDocs();
+        //    googleDocsCommon.loginToGoogleDocs();
         documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, "Edit in Google Docs™", googleDocsCommon);
         getBrowser().waitInSeconds(5);
         googleDocsCommon.clickOkButton();
@@ -380,9 +404,10 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         Assert.assertTrue(documentDetailsPage.getContentText().contains(editedContent));
     }
 
-    @TestRail(id = "C8954")
-    @Test(groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
-    public void collaboratorCheckOutGoogleDocByOthers() throws Exception {
+    @TestRail (id = "C8954")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    public void collaboratorCheckOutGoogleDocByOthers() throws Exception
+    {
         setupAuthenticatedSession(user, password);
 
         LOG.info("Step 1: Mouse over the testFile and check available actions");
@@ -422,34 +447,37 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         Assert.assertTrue(documentDetailsPage.getContentText().contains(editedContent));
     }
 
-    @TestRail(id = "C8945")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void editOnlineCreatedBySelf() {
+    @TestRail (id = "C8945")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void editOnlineCreatedBySelf()
+    {
         setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check available actions.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedBySelf, "Edit in Microsoft Office™"),
-                "Edit in Microsoft Office™ is not available");
+            "Edit in Microsoft Office™ is not available");
         // TODO edit in MSOffice has not yet been automated
     }
 
-    @TestRail(id = "C8946")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void editOnlineCreatedByOtherUser() {
+    @TestRail (id = "C8946")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void editOnlineCreatedByOtherUser()
+    {
         setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check that Edit in Microsoft Office™ is one of the available actions");
         getBrowser().waitInSeconds(7);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedByOther, "Edit in Microsoft Office™"),
-                "Edit in Microsoft Office™ is not available");
+            "Edit in Microsoft Office™ is not available");
         // TODO edit in MSOffice has not yet been automated
     }
 
-    @TestRail(id = "C8949")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
-    public void editOfflineCreatedBySelf() {
+    @TestRail (id = "C8949")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    public void editOfflineCreatedBySelf()
+    {
         setupAuthenticatedSession(user, password);
-        String fileName = "C8949"+ RandomData.getRandomAlphanumeric();
+        String fileName = "C8949" + RandomData.getRandomAlphanumeric();
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check that Edit Offline is one of the available actions");
@@ -457,11 +485,12 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         // TODO edit Offline has not yet been automated
     }
 
-    @TestRail(id = "C8950")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER })
+    @TestRail (id = "C8950")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
 
-    public void editOfflineCreatedByOtherUser() {
-        String fileName = "C8950"+ RandomData.getRandomAlphanumeric();
+    public void editOfflineCreatedByOtherUser()
+    {
+        String fileName = "C8950" + RandomData.getRandomAlphanumeric();
         contentService.createDocument(user2, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
         setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName);
@@ -469,6 +498,6 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest {
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit Offline"), "Edit Offline is not available");
         // TODO edit Offline has not yet been automated
     }
-    }
+}
 
 

@@ -68,8 +68,8 @@ public class SettingHomePageTest extends ContextAwareWebTest
     @Autowired
     ChangePasswordPage changePasswordPage;
 
-    @TestRail(id = "C2858")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2858")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void useCurrentPage()
     {
         String folderName = "TestFolder";
@@ -243,16 +243,16 @@ public class SettingHomePageTest extends ContextAwareWebTest
         siteDashboardPage.renderedPage();
         assertTrue(siteDashboardPage.isAlfrescoLogoDisplayed(), "Alfresco logo is displayed");
 
-        userService.delete(adminUser,adminPassword, userName1);
+        userService.delete(adminUser, adminPassword, userName1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser,adminPassword, userName2);
+        userService.delete(adminUser, adminPassword, userName2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2859")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD})
+    @TestRail (id = "C2859")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void useMyDashboard()
     {
         String folderName = "TestFolder";
@@ -306,9 +306,9 @@ public class SettingHomePageTest extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         getBrowser().refresh();
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 }

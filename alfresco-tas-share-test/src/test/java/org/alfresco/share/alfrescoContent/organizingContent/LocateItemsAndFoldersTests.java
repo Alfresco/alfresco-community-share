@@ -24,14 +24,15 @@ import static org.testng.Assert.*;
  */
 public class LocateItemsAndFoldersTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     private final String testUser = String.format("user%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = String.format("locateFolder%s", RandomData.getRandomAlphanumeric());
     private final String docName = String.format("locateDoc%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
@@ -43,18 +44,18 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
         setupAuthenticatedSession(testUser, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @Bug(id = "MNT-17556")
-    @TestRail(id = "C7516")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Bug (id = "MNT-17556")
+    @TestRail (id = "C7516")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void locateFileDetailedView()
     {
         documentLibraryPage.navigate(siteName);
@@ -78,9 +79,9 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.isContentSelected(folderName), folderName + " is selected.");
     }
 
-    @Bug(id = "MNT-17556")
-    @TestRail(id = "C7517")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Bug (id = "MNT-17556")
+    @TestRail (id = "C7517")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void locateFolderDetailedView()
     {
         documentLibraryPage.navigate(siteName);
@@ -91,7 +92,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
         LOG.info("STEP 2: Choose a view option from left side explorer pane -> 'Documents' section");
         documentLibraryPage.clickDocumentsFilterOption(DocumentLibraryPage.DocumentsFilters.Favorites.title);
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentLibraryPage.DocumentsFilters.Favorites.header,
-                "My Favorites documents are displayed.");
+            "My Favorites documents are displayed.");
 
         LOG.info("STEP3: Hover over the folder name and click 'Locate folder' link from 'More' menu");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Locate Folder", documentLibraryPage);

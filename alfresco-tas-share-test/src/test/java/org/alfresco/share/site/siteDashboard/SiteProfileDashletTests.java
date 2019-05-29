@@ -36,7 +36,7 @@ public class SiteProfileDashletTests extends ContextAwareWebTest
     private String siteDescription;
     private String siteVisibility;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -57,19 +57,19 @@ public class SiteProfileDashletTests extends ContextAwareWebTest
 
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName1);
+        userService.delete(adminUser, adminPassword, userName1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName1);
-        userService.delete(adminUser,adminPassword, userName2);
+        userService.delete(adminUser, adminPassword, userName2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName2);
-        siteService.delete(adminUser,adminPassword,siteName1 );
+        siteService.delete(adminUser, adminPassword, siteName1);
 
     }
 
-    @TestRail(id = "C2811")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2811")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifySiteProfileDashlet()
     {
 
@@ -96,7 +96,7 @@ public class SiteProfileDashletTests extends ContextAwareWebTest
         Assert.assertTrue(siteProfileDashlet.isBalloonDisplayed());
 
         Assert.assertEquals(siteProfileDashlet.getHelpBalloonMessage(),
-                "This dashlet displays the site details. Only the site manager can change this information.");
+            "This dashlet displays the site details. Only the site manager can change this information.");
 
         LOG.info("STEP 3 - Close  \"Help\" icon");
         siteProfileDashlet.closeHelpBalloon();

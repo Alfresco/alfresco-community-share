@@ -17,10 +17,10 @@ public class DocumentCommon<T> extends SharePage<DocumentCommon<T>>
 {
     private String currentDocumentName;
 
-    @FindBy(css = "img[alt='active-workflows']")
+    @FindBy (css = "img[alt='active-workflows']")
     private WebElement activeWorkflowIcon;
 
-    @FindBy(css = "span.faded")
+    @FindBy (css = "span.faded")
     private List<WebElement> fadedDetails;
 
     private String currentSiteName;
@@ -30,7 +30,7 @@ public class DocumentCommon<T> extends SharePage<DocumentCommon<T>>
         this.currentDocumentName = currentDocumentName;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     public T navigate(String documentName)
     {
         setCurrentDocumentName(documentName);
@@ -67,8 +67,7 @@ public class DocumentCommon<T> extends SharePage<DocumentCommon<T>>
         {
             browser.switchTo().alert();
             return true;
-        }
-        catch (NoAlertPresentException noAlertPresentException)
+        } catch (NoAlertPresentException noAlertPresentException)
         {
             return false;
         }

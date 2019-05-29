@@ -31,8 +31,8 @@ public class CustomizeSiteTests extends ContextAwareWebTest
     @Autowired
     SiteContentDashlet siteContentDashlet;
 
-    @TestRail(id = "C2135")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2135")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void changeSiteTheme()
     {
         String userName = "user2135-" + RandomData.getRandomAlphanumeric() + domain;
@@ -58,20 +58,19 @@ public class CustomizeSiteTests extends ContextAwareWebTest
             if (theme.equals(Theme.APPLICATION_SET))
             {
                 continue;
-            }
-            else
+            } else
             {
                 Assert.assertTrue(siteContentDashlet.getDashletColor().equals(theme.dashletHexColor), theme.name + " is not set");
             }
         }
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2148")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2148")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelChangeSiteTheme()
     {
         String userName = "userC2148-" + RandomData.getRandomAlphanumeric() + domain;
@@ -92,13 +91,13 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         siteDashboard.renderedPage();
         Assert.assertFalse(siteContentDashlet.getDashletColor().equals(Theme.GREEN.dashletHexColor));
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2156")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2156")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void verifyDefaultCurrentAndAvailablePages()
     {
         String userName = "user2156-" + RandomData.getRandomAlphanumeric() + domain;
@@ -124,8 +123,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
             if (page.equals(SitePageType.DOCUMENT_LIBRARY))
             {
                 continue;
-            }
-            else
+            } else
             {
                 pages.add(page);
             }
@@ -134,13 +132,13 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         Collections.sort(pages);
         Assert.assertTrue(availablePages.equals(pages));
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2164")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2164")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void addAvailablePagesToSite()
     {
         String userName = "userC2164-" + RandomData.getRandomAlphanumeric() + domain;
@@ -172,21 +170,21 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         customizeSite.clickOk();
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not added to site dashboard");
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText()
-                + " is not added to site dashboard");
+            + " is not added to site dashboard");
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.DATA_LISTS), SitePageType.DATA_LISTS.getDisplayText()
-                + " is not added to site dashboard");
+            + " is not added to site dashboard");
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.DISCUSSIONS), SitePageType.DISCUSSIONS.getDisplayText()
-                + " is not added to site dashboard");
+            + " is not added to site dashboard");
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.LINKS), SitePageType.LINKS.getDisplayText() + " is not added to site dashboard");
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.BLOG), SitePageType.BLOG.getDisplayText() + " is not added to site dashboard");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2171")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2171")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void removePageFromSite()
     {
         String userName = "userC2171-" + RandomData.getRandomAlphanumeric() + domain;
@@ -206,7 +204,7 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         siteDashboard.renderedPage();
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not added to site dashboard");
         Assert.assertTrue(siteDashboard.isPageAddedToDashboard(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText()
-                + " is not added to site dashboard");
+            + " is not added to site dashboard");
 
         LOG.info("Step 3 - Navigate to 'Customize site' page");
         customizeSite.navigate(siteName);
@@ -222,15 +220,15 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         siteDashboard.renderedPage();
         Assert.assertFalse(siteDashboard.isPageAddedToDashboard(SitePageType.WIKI), SitePageType.WIKI.getDisplayText() + " is not removed from site dashboard");
         Assert.assertFalse(siteDashboard.isPageAddedToDashboard(SitePageType.CALENDER), SitePageType.CALENDER.getDisplayText()
-                + " is not removed from site dashboard");
+            + " is not removed from site dashboard");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C2173")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2173")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void renamePage()
     {
         String userName = "userC2173-" + RandomData.getRandomAlphanumeric() + domain;
@@ -252,9 +250,9 @@ public class CustomizeSiteTests extends ContextAwareWebTest
         customizeSite.clickOk();
         siteDashboard.renderedPage();
         Assert.assertTrue(siteDashboard.getPageDisplayName(SitePageType.WIKI).equals("Wiki-Edit"), "Wiki display page name is not modified");
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

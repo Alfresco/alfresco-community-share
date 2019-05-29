@@ -55,9 +55,9 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     SelectDialog selectDialog;
 
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-    private String siteNameC8665 = String.format("SiteNameC8665%s",RandomData.getRandomAlphanumeric());
-    private String siteNameC8666 = String.format("SiteNameC8666%s",RandomData.getRandomAlphanumeric());
-    private String siteNameC8668 = String.format("SiteNameC8668%s",RandomData.getRandomAlphanumeric());
+    private String siteNameC8665 = String.format("SiteNameC8665%s", RandomData.getRandomAlphanumeric());
+    private String siteNameC8666 = String.format("SiteNameC8666%s", RandomData.getRandomAlphanumeric());
+    private String siteNameC8668 = String.format("SiteNameC8668%s", RandomData.getRandomAlphanumeric());
     private String fileName1 = "testFile1";
     private String fileName2 = "testFile2";
     private String fileName3 = "testFile3";
@@ -66,7 +66,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
     private String filesPath = String.format("Sites/%s/documentLibrary/%s", siteNameC8665, folderName);
     private String mainSmartFolder = "My content";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -81,20 +81,20 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
 
-        siteService.delete(adminUser,adminPassword,siteNameC8665 );
-        siteService.delete(adminUser,adminPassword,siteNameC8666 );
-        siteService.delete(adminUser,adminPassword,siteNameC8668 );
+        siteService.delete(adminUser, adminPassword, siteNameC8665);
+        siteService.delete(adminUser, adminPassword, siteNameC8666);
+        siteService.delete(adminUser, adminPassword, siteNameC8668);
     }
 
 
-    @TestRail(id = "C8665")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders"})
+    @TestRail (id = "C8665")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders" })
     public void applySFTemplateToExistingFolder()
     {
         LOG.info("Preconditions: Navigate to Document Library for the page for the test site");
@@ -137,13 +137,13 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName1), "File1 displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName2), "File2 displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileName3), "File3 displayed");
-       Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
         Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
 
     }
 
-    @TestRail(id = "C8666")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,"SmartFolders"})
+    @TestRail (id = "C8666")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders" })
     public void applySFTemplateToCreatedFolder()
     {
         LOG.info("Preconditions: Navigate to Document Library for the page for the test site");
@@ -200,7 +200,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("This folder's content"), "'This folder's content' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Contributions"), "'Contributions' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("My content modified by other users"),
-                "'My content modified by other users' folder displayed");
+            "'My content modified by other users' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("User home"), "'User home' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Tagged 'Confidential'"), "'Tagged 'Confidential'' folder displayed");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("My Categorized Files"), "'My Categorized Files' folder displayed");
@@ -209,8 +209,8 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C8668")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT,"SmartFolders"})
+    @TestRail (id = "C8668")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders" })
     public void applyCustomSmartFolder()
     {
         String customSmartFolderTemplate = "employeeSmartSimpleTemplate.json";

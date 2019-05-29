@@ -44,7 +44,7 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
     private String blogPostTagC6120 = "tagc6120";
     private String blogPostContentC6120 = "Blog post content C6120";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -53,16 +53,16 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5533")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5533")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void creatingANewBlogPostFromBlogPage()
     {
@@ -100,8 +100,8 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPostList.getBlogPostTitle(blogPostTitle), blogPostTitle);
     }
 
-    @TestRail(id = "C5535")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5535")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void cancelCreatingNewBlogPost()
     {
@@ -126,8 +126,8 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(blogPostList.getBlogContentText(), "No blog posts found");
     }
 
-    @TestRail(id = "5541")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "5541")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void creatingANewDraftPost()
     {
@@ -162,11 +162,11 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         LOG.info("Step 6: Click the All filter'");
         blogPostList.clickAllFilter();
         Assert.assertTrue(blogPostList.isBlogPostDisplayed(blogPostTitleC5541),
-                "Blog post is not displayed on the Blog Post List View when All filter is applied");
+            "Blog post is not displayed on the Blog Post List View when All filter is applied");
     }
 
-    @TestRail(id = "C6119")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6119")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void creatingANewBlogPostFromBlogPostView()
     {
@@ -196,8 +196,8 @@ public class CreatingABlogPostTests extends ContextAwareWebTest
         Assert.assertTrue(blogPostList.isBlogPostDisplayed(blogPostTitleC6119), "Blog Post is not displayed on the blog post list page");
     }
 
-    @TestRail(id = "C6120")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6120")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
 
     public void creatingANewDraftBlogPostFromBlogPostView()
     {

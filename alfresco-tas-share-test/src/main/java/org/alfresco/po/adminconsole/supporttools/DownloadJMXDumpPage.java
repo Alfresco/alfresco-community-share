@@ -16,11 +16,11 @@ public class DownloadJMXDumpPage extends AdminConsolePage<DownloadJMXDumpPage>
     }
 
     @RenderWebElement
-    @FindBy(className = "intro")
+    @FindBy (className = "intro")
     WebElement intro;
 
     @RenderWebElement
-    @FindBy(css = "input[value='Export']")
+    @FindBy (css = "input[value='Export']")
     WebElement export;
 
     public void clickExport()

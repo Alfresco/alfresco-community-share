@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 public class CompletedTasksPage extends SharePage<CompletedTasksPage>
 {
     @RenderWebElement
-    @FindBy(css = "[class=thin]")
+    @FindBy (css = "[class=thin]")
     private WebElement completedTasksTitle;
 
     @Override

@@ -16,15 +16,16 @@ public class ProcessEnginesPage extends AdminConsolePage<ProcessEnginesPage>
     }
 
     @RenderWebElement
-    @FindBy(className = "intro")
+    @FindBy (className = "intro")
     WebElement intro;
 
-    @FindBy(css = ".column-full>a")
+    @FindBy (css = ".column-full>a")
     WebElement activitiWorkflowConsole;
 
     public static final String PROCESS_ENGINES_OBJECT = "Alfresco:Name=WorkflowInformation";
 
-    public enum ProcessEnginesFields{
+    public enum ProcessEnginesFields
+    {
         activitiWorkflowEnabled("Activiti Workflow Enabled:", "ActivitiEngineEnabled"),
         processDefinitionsVisible("Process Definitions Visible:", "ActivitiWorkflowDefinitionsVisible"),
         currentlyRunningProcessInstances("Currently Running Process Instances:", "NumberOfActivitiWorkflowInstances"),

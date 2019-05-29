@@ -16,24 +16,24 @@ import java.util.List;
 public class AspectsForm extends ShareDialog
 {
     @RenderWebElement
-    @FindBy(css = "[id$='default-aspects-title']")
+    @FindBy (css = "[id$='default-aspects-title']")
     protected WebElement aspectsFormTitle;
 
     @RenderWebElement
-    @FindBy(css = "[id$='default-aspects-left']")
+    @FindBy (css = "[id$='default-aspects-left']")
     protected WebElement availableToAddPanel;
 
     @RenderWebElement
-    @FindBy(css = "[id$='default-aspects-right']")
+    @FindBy (css = "[id$='default-aspects-right']")
     protected WebElement currentlySelectedPanel;
 
-    @FindBy(css = ".container-close")
+    @FindBy (css = ".container-close")
     protected WebElement closeButton;
 
-    @FindBy(css = "button[id*='cancel']")
+    @FindBy (css = "button[id*='cancel']")
     protected WebElement cancelButton;
 
-    @FindBy(css = "button[id*='ok-button']")
+    @FindBy (css = "button[id*='ok-button']")
     protected WebElement saveButton;
 
     protected By availableAspectsList = By.cssSelector("div[class*='list-left yui-dt'] tr[class*='yui-dt-rec']");
@@ -133,8 +133,7 @@ public class AspectsForm extends ShareDialog
             Parameter.checkIsMandotary("Available aspect", availableAspect);
             browser.scrollIntoView(availableAspect);
             availableAspect.findElement(addButtonsList).click();
-        }
-        catch (NoSuchElementException noSuchElementExp)
+        } catch (NoSuchElementException noSuchElementExp)
         {
             LOG.error("Add icon for item: " + aspectName + " is not present.", noSuchElementExp);
         }
@@ -147,8 +146,7 @@ public class AspectsForm extends ShareDialog
             WebElement selectedAspect = browser.findFirstElementWithValue(aspectsSelectedList, aspectName);
             Parameter.checkIsMandotary("Selected aspect", selectedAspect);
             selectedAspect.findElement(removeButtonsList).click();
-        }
-        catch (NoSuchElementException noSuchElementExp)
+        } catch (NoSuchElementException noSuchElementExp)
         {
             LOG.error("Remove icon for item: " + aspectName + " is not present.", noSuchElementExp);
         }

@@ -36,7 +36,7 @@ public class AccessingDiscussionsTests extends ContextAwareWebTest
     private String topicTitle = "Topic1";
     DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
@@ -46,17 +46,17 @@ public class AccessingDiscussionsTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "6198")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6198")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void accessTheDiscussionForum()
     {
         String today = df.format(new Date());
@@ -66,7 +66,7 @@ public class AccessingDiscussionsTests extends ContextAwareWebTest
         assertTrue(getBrowser().getCurrentUrl().endsWith("/discussions-topiclist"), "'Discussions' page, which defaults to New Topics view, is opened.");
         assertTrue(topicListPage.isTopicDisplayed(topicTitle), "The list of topics contains 'Topic1'.");
         assertTrue(topicListPage.getTopicPublishedDetails(topicTitle).startsWith("Created on: " + today),
-                "The topic was created today. Actual: [" +topicListPage.getTopicPublishedDetails(topicTitle)
+            "The topic was created today. Actual: [" + topicListPage.getTopicPublishedDetails(topicTitle)
                 + "]. Expected date: [" + today + "]");
         assertTrue(topicListPage.getTopicPublishedDetails(topicTitle).contains("Author: " + "firstName lastName"), "The user who created the topic is User1.");
         assertEquals(topicListPage.getTopicContent(topicTitle), "Topic content", "Topic content is 'Topic content'.");
@@ -77,8 +77,8 @@ public class AccessingDiscussionsTests extends ContextAwareWebTest
         topicListPage.toggleBetweenSimpleAndDetailedView();
         assertTrue(topicListPage.isTopicDisplayed(topicTitle), "The list of topics contains 'Topic1'.");
         assertTrue(topicListPage.getTopicPublishedDetails(topicTitle).startsWith("Created on: " + today),
-                "The topic was created today. Actual: [" +topicListPage.getTopicPublishedDetails(topicTitle)
-                        + "]. Expected date: [" + today + "]");
+            "The topic was created today. Actual: [" + topicListPage.getTopicPublishedDetails(topicTitle)
+                + "]. Expected date: [" + today + "]");
         assertTrue(topicListPage.getTopicPublishedDetails(topicTitle).contains("Author: " + "firstName lastName"), "The user who created the topic is User1.");
         assertFalse(topicListPage.isTopicContentDisplayed(topicTitle), "Content is not displayed in Simple View");
         assertFalse(topicListPage.areTopicRepliesDisplayed(topicTitle), "Replies are not displayed in Simple View");
@@ -88,8 +88,8 @@ public class AccessingDiscussionsTests extends ContextAwareWebTest
         topicListPage.toggleBetweenSimpleAndDetailedView();
         assertTrue(topicListPage.isTopicDisplayed(topicTitle), "The list of topics contains 'Topic1'.");
         assertTrue(topicListPage.getTopicPublishedDetails(topicTitle).startsWith("Created on: " + today),
-                "The topic was created today. Actual: [" +topicListPage.getTopicPublishedDetails(topicTitle)
-                        + "]. Expected date: [" + today + "]");
+            "The topic was created today. Actual: [" + topicListPage.getTopicPublishedDetails(topicTitle)
+                + "]. Expected date: [" + today + "]");
         assertTrue(topicListPage.getTopicPublishedDetails(topicTitle).contains("Author: " + "firstName lastName"), "The user who created the topic is User1.");
         assertEquals(topicListPage.getTopicContent(topicTitle), "Topic content", "Topic content is 'Topic content'.");
         assertEquals(topicListPage.getTopicReplies(topicTitle), "(0)", "Topic has 0 replies.");

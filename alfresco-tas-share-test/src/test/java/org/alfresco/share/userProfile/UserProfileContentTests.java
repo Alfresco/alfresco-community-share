@@ -22,7 +22,7 @@ public class UserProfileContentTests extends ContextAwareWebTest
     private String RecentlyModifiedLabelText;
     private String NoModifiedContentMessage;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName1, userName1, userName1 + domain, "fName1", "lName1");
@@ -35,9 +35,8 @@ public class UserProfileContentTests extends ContextAwareWebTest
     }
 
 
-
-    @TestRail(id = "C2552")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C2552")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void noAddedOrModifiedContent()
     {
         LOG.info("STEP1: Go to 'My Profile --> 'Content' page and verify the content");

@@ -17,29 +17,44 @@ import static org.testng.Assert.assertEquals;
 /**
  * @author Laura.Capsa
  */
-@PageObject public class EditRulesPage extends SiteCommon<EditRulesPage>
+@PageObject
+public class EditRulesPage extends SiteCommon<EditRulesPage>
 {
-    @Autowired RuleDetailsPage ruleDetailsPage;
+    @Autowired
+    RuleDetailsPage ruleDetailsPage;
 
-    @FindBy(css = ".rule-edit .edit-header") private WebElement pageHeader;
+    @FindBy (css = ".rule-edit .edit-header")
+    private WebElement pageHeader;
 
-    @RenderWebElement @FindBy(css = "input[id*='title']") private WebElement nameInputField;
+    @RenderWebElement
+    @FindBy (css = "input[id*='title']")
+    private WebElement nameInputField;
 
-    @RenderWebElement @FindBy(css = "textarea[id*='description']") private WebElement descriptionInputField;
+    @RenderWebElement
+    @FindBy (css = "textarea[id*='description']")
+    private WebElement descriptionInputField;
 
-    @RenderWebElement @FindBy(css = "input[id*='ruleConfigIfCondition']") private WebElement ifCheckbox;
+    @RenderWebElement
+    @FindBy (css = "input[id*='ruleConfigIfCondition']")
+    private WebElement ifCheckbox;
 
-    @FindBy(css = ".main-buttons button[id*='create-button']") private WebElement createButton;
+    @FindBy (css = ".main-buttons button[id*='create-button']")
+    private WebElement createButton;
 
-    @FindBy(css = ".edit-buttons button[id*='save-button']") private WebElement saveButton;
+    @FindBy (css = ".edit-buttons button[id*='save-button']")
+    private WebElement saveButton;
 
-    @FindBy(css = ".main-buttons button[id*='createAnother']") private WebElement createAndCreateAnotherButton;
+    @FindBy (css = ".main-buttons button[id*='createAnother']")
+    private WebElement createAndCreateAnotherButton;
 
-    @FindBy(css = ".main-buttons button[id*='cancel']") private WebElement cancelButton;
+    @FindBy (css = ".main-buttons button[id*='cancel']")
+    private WebElement cancelButton;
 
-    @FindBy(css = ".disabled input") private WebElement disableRuleCheckbox;
+    @FindBy (css = ".disabled input")
+    private WebElement disableRuleCheckbox;
 
-    @FindBy(css = "input[id*='default-applyToChildren']") private WebElement ruleAppliesToSubfoldersCheckbox;
+    @FindBy (css = "input[id*='default-applyToChildren']")
+    private WebElement ruleAppliesToSubfoldersCheckbox;
 
     private String dropdownSelector = "div[id*='%s'] select[class='config-name']";
     private By ifConditionCompareSelector = By.cssSelector("div[id*='ruleConfigIfCondition'] span[class*='compare-property'] select");
@@ -47,7 +62,8 @@ import static org.testng.Assert.assertEquals;
     private ArrayList<String> selectedValues = new ArrayList<>();
     private By aspectDropdownList = By.cssSelector("select[title='aspect-name']>option");
 
-    @Override public String getRelativePath()
+    @Override
+    public String getRelativePath()
     {
         return String.format("share/page/site/%s/rule-edit", getCurrentSiteName());
     }

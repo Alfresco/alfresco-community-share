@@ -10,7 +10,7 @@ import java.util.List;
 @PageObject
 public class SmartFolders extends DocumentLibraryPage
 {
-    @FindBy(xpath = "//img [@src='/share/res/components/documentlibrary/images/smart-folder-64.png']")
+    @FindBy (xpath = "//img [@src='/share/res/components/documentlibrary/images/smart-folder-64.png']")
     protected List<WebElement> smartFolderIcons;
 
     public boolean areSmartFolderIconsDisplayed(int SF)

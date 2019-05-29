@@ -10,10 +10,10 @@ import org.openqa.selenium.support.FindBy;
 public class WikiDocumentDetailsPage extends SiteCommon<WikiDocumentDetailsPage>
 {
     @RenderWebElement
-    @FindBy(css = "[id$=default-next-button]")
+    @FindBy (css = "[id$=default-next-button]")
     private WebElement nextButton;
 
-    @FindBy(css = "default-previous-button")
+    @FindBy (css = "default-previous-button")
     private WebElement previousButton;
 
     @Override

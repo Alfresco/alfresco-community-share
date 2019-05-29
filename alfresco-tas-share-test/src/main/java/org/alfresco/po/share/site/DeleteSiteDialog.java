@@ -20,29 +20,30 @@ public class DeleteSiteDialog extends ShareDialog
 
     private By delete = By.cssSelector("span[class*='primary-button'] button");
 
-    @FindBy(css = "span[class*='default'] button")
+    @FindBy (css = "span[class*='default'] button")
     private Button cancel;
 
-    @FindBy(css = "div[class='bd']")
+    @FindBy (css = "div[class='bd']")
     private WebElement deleteSiteConfirm;
 
-    @FindBy(css = "div[id='ALF_SITE_SERVICE_DIALOG'] .dialog-body")
+    @FindBy (css = "div[id='ALF_SITE_SERVICE_DIALOG'] .dialog-body")
     private WebElement deleteSiteConfirmFromSitesManager;
 
-    @FindBy(xpath = "(//button)[1]")
+    @FindBy (xpath = "(//button)[1]")
     private Button yes;
 
-    @FindBy(xpath = "(//button)[2]")
+    @FindBy (xpath = "(//button)[2]")
     private Button no;
 
-    @FindBy(id = "ALF_SITE_SERVICE_DIALOG_CANCELLATION_label")
+    @FindBy (id = "ALF_SITE_SERVICE_DIALOG_CANCELLATION_label")
     private WebElement cancelFromSitesManager;
 
-    @FindBy(css = "span[widgetid='ALF_SITE_SERVICE_DIALOG_CONFIRMATION'] > span")
+    @FindBy (css = "span[widgetid='ALF_SITE_SERVICE_DIALOG_CONFIRMATION'] > span")
     private WebElement sitesManager_actions_delete;
 
 
     private By deleteSiteWindow = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG']");
+
     public boolean isPopupDisplayed()
     {
         browser.waitUntilElementClickable(delete, 50);
@@ -100,7 +101,7 @@ public class DeleteSiteDialog extends ShareDialog
 
         getBrowser().clickJS(sitesManager_actions_delete);
         getBrowser().waitInSeconds(5);
-   //     browser.waitUntilElementVisible(sitesManager_actions_delete, 10).click();
- //      browser.waitUntilElementDisappears(deleteSiteWindow, 10L);
+        //     browser.waitUntilElementVisible(sitesManager_actions_delete, 10).click();
+        //      browser.waitUntilElementDisappears(deleteSiteWindow, 10L);
     }
 }

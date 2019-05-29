@@ -38,7 +38,7 @@ public class CreateNewTopicTests extends ContextAwareWebTest
     private String topicContent = "Some content";
     private String topicTag = "tag1";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, "firstName", "lastName");
@@ -47,16 +47,16 @@ public class CreateNewTopicTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C6206")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6206")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createNewTopic()
     {
         topicListPage.navigate(siteName);
@@ -80,8 +80,8 @@ public class CreateNewTopicTests extends ContextAwareWebTest
 
     }
 
-    @TestRail(id = "C6207")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6207")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreatingNewTopic()
     {
         topicListPage.navigate(siteName);

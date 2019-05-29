@@ -15,22 +15,22 @@ import java.util.List;
 @PageObject
 public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 {
-    @FindAll(@FindBy(css = "td+td>div.yui-dt-liner>h3"))
+    @FindAll (@FindBy (css = "td+td>div.yui-dt-liner>h3"))
     private List<WebElement> namesList;
 
-    @FindBy(css = "a[id*='site-members-link']")
+    @FindBy (css = "a[id*='site-members-link']")
     private WebElement siteUsers;
 
-    @FindBy(css = "a[id*='site-groups-link']")
+    @FindBy (css = "a[id*='site-groups-link']")
     private WebElement siteGroups;
 
-    @FindBy(css = "a[id*='pending-invites-link']")
+    @FindBy (css = "a[id*='pending-invites-link']")
     private WebElement pendingInvites;
 
-    @FindAll(@FindBy(css = "tbody[class='yui-dt-data'] tr"))
+    @FindAll (@FindBy (css = "tbody[class='yui-dt-data'] tr"))
     private List<WebElement> siteMemberRow;
 
-    @FindAll(@FindBy(css = "div.visible ul.first-of-type li a"))
+    @FindAll (@FindBy (css = "div.visible ul.first-of-type li a"))
     private List<WebElement> dropDownOptionsList;
 
     private By currentRoleButton = By.cssSelector("td[class*='role'] button");
@@ -67,7 +67,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 
     /**
      * Method returns if the role drop down button is displayed for the specified name
-     * 
+     *
      * @param name String
      * @return True if the role drop down button is displayed for the specified name
      */
@@ -78,7 +78,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 
     /**
      * Navigate to site groups page
-     * 
+     *
      * @return
      */
     public SiteGroupsPage openSiteGroupsPage()
@@ -89,7 +89,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 
     /**
      * Navigate to site users page
-     * 
+     *
      * @return
      */
     public SiteUsersPage openSiteUsersPage()
@@ -100,7 +100,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 
     /**
      * Get all site users or groups names
-     * 
+     *
      * @return
      */
     public List<String> getSiteMembersList()
@@ -133,7 +133,7 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 
     /**
      * Select row corresponding to an user or a group
-     * 
+     *
      * @param name
      * @return
      */
@@ -144,8 +144,8 @@ public class SiteMembersPage extends SiteCommon<SiteMembersPage>
 
     /**
      * Change the role for the specified userName
-     * 
-     * @param newRole String
+     *
+     * @param newRole  String
      * @param userName String
      */
     public void changeRoleForMember(String newRole, String userName)

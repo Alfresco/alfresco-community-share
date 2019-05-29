@@ -14,7 +14,7 @@ public class CalendarUtility
 {
     /**
      * Method to get the next Month value
-     * 
+     *
      * @return String next Month in MMMM yyyy format
      */
     public String refferenceNextMonth()
@@ -26,7 +26,7 @@ public class CalendarUtility
 
     /**
      * Method to get the previous month value
-     * 
+     *
      * @return String previous Month in MMMM yyyy format
      */
 
@@ -34,7 +34,7 @@ public class CalendarUtility
     {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
-        return new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(calendar.getTime() );
+        return new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(calendar.getTime());
     }
 
     /**
@@ -45,13 +45,13 @@ public class CalendarUtility
     {
         int min = 1;
         Random r = new Random();
-        int randomNumber =  r.nextInt((max - min) + 1) + min;
+        int randomNumber = r.nextInt((max - min) + 1) + min;
         return String.valueOf(randomNumber);
     }
 
     /**
      * Method to get the value of the first day of the current week
-     * 
+     *
      * @return Date value for Monday of the current week
      */
     public Date firstDayOfCW()
@@ -64,6 +64,7 @@ public class CalendarUtility
 
     /**
      * Method to get the mid date of the current month
+     *
      * @return
      */
     public Calendar midDateOfTheMonth()
@@ -77,7 +78,7 @@ public class CalendarUtility
 
     /**
      * Method to get the value of the first day of the current month
-     * 
+     *
      * @return
      */
 
@@ -91,7 +92,7 @@ public class CalendarUtility
 
     /**
      * Method to get the value of the first day of the next month
-     * 
+     *
      * @return
      */
 
@@ -106,7 +107,7 @@ public class CalendarUtility
 
     /**
      * Method to get the value of the next day (date)
-     * 
+     *
      * @return
      */
 
@@ -120,7 +121,7 @@ public class CalendarUtility
 
     /**
      * Method to get the value of the date for the day after tomorrow
-     * 
+     *
      * @return
      */
     public Date dayAfterTomorrow()
@@ -133,7 +134,7 @@ public class CalendarUtility
 
     /**
      * Method to get a day date value for a day next week
-     * 
+     *
      * @return
      */
 
@@ -147,7 +148,7 @@ public class CalendarUtility
 
     /**
      * Method to get the value of the date for the first day of the next week
-     * 
+     *
      * @return
      */
     public Date firstDayOfNextWeek()
@@ -181,7 +182,7 @@ public class CalendarUtility
 
     /**
      * Method to get the value of the current month
-     * 
+     *
      * @return
      */
 
@@ -193,7 +194,7 @@ public class CalendarUtility
 
     /**
      * Method to get the value of the current year
-     * 
+     *
      * @return
      */
 
@@ -217,7 +218,7 @@ public class CalendarUtility
 
     /**
      * Method to get the value of the month after the next month (two months from current month)
-     * 
+     *
      * @return
      */
     public String monthAfterNextMonth()
@@ -251,7 +252,7 @@ public class CalendarUtility
 
     /**
      * Get the date of yesterday
-     * 
+     *
      * @return
      */
 
@@ -263,7 +264,7 @@ public class CalendarUtility
 
     /**
      * Get the date of a random day of last week
-     * 
+     *
      * @return
      */
     public Date randomDayOfLastWeek()
@@ -274,7 +275,7 @@ public class CalendarUtility
 
     /**
      * Get the date of the first day of the current Month
-     * 
+     *
      * @return
      */
     public Date firstDayOfCurrentMonth()
@@ -284,7 +285,7 @@ public class CalendarUtility
 
     /**
      * Get date for day from previous month
-     * 
+     *
      * @return
      */
 
@@ -296,7 +297,7 @@ public class CalendarUtility
 
     /**
      * Get the date of the first day of the current week
-     * 
+     *
      * @return
      */
     public String firstDayOfCurrentWeek()
@@ -306,7 +307,7 @@ public class CalendarUtility
 
     /**
      * Determine the month of yesterday
-     * 
+     *
      * @return
      */
     public int monthOfYesterday()

@@ -12,22 +12,22 @@ import ru.yandex.qatools.htmlelements.element.Button;
 @PageObject
 public class ListPagination extends HtmlPage
 {
-    @FindBy(id = "DOCLIB_PAGINATION_MENU")
+    @FindBy (id = "DOCLIB_PAGINATION_MENU")
     private WebElement paginationGroup;
 
-    @FindBy(id = "DOCLIB_PAGINATION_MENU_PAGE_SELECTOR")
+    @FindBy (id = "DOCLIB_PAGINATION_MENU_PAGE_SELECTOR")
     private WebElement pageSelector;
 
-    @FindBy(id = "DOCLIB_PAGINATION_MENU_PAGE_BACK")
+    @FindBy (id = "DOCLIB_PAGINATION_MENU_PAGE_BACK")
     private Button previousButton;
 
-    @FindBy(id = "DOCLIB_PAGINATION_MENU_PAGE_FORWARD")
+    @FindBy (id = "DOCLIB_PAGINATION_MENU_PAGE_FORWARD")
     private WebElement nextButton;
 
-    @FindBy(id = "DOCLIB_PAGINATION_MENU_PAGE_MARKER")
+    @FindBy (id = "DOCLIB_PAGINATION_MENU_PAGE_MARKER")
     private WebElement pageMarker;
 
-    @FindBy(id = "DOCLIB_PAGINATION_MENU_RESULTS_PER_PAGE_SELECTOR")
+    @FindBy (id = "DOCLIB_PAGINATION_MENU_RESULTS_PER_PAGE_SELECTOR")
     private WebElement resultsPerPageSelector;
 
     /**

@@ -25,27 +25,27 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     UserProfilePage userProfilePage;
 
     @RenderWebElement
-    @FindBy(id="DASHLET")
+    @FindBy (id = "DASHLET")
     private WebElement dashletContainer;
 
     public By tooltipMessage = By.cssSelector("div[id^='tipsyPvBehavior']");
 
-    @FindAll(@FindBy(css = "div[class='alfresco-charts-ccc-Chart'] path[transform]"))
+    @FindAll (@FindBy (css = "div[class='alfresco-charts-ccc-Chart'] path[transform]"))
     private List<WebElement> pieChartSlices;
 
-    @FindBy(css="div.alfresco-dashlets-Dashlet__title")
+    @FindBy (css = "div.alfresco-dashlets-Dashlet__title")
     private WebElement dashletTitle;
 
-    @FindBy(css = "div[id^='tipsyPvBehavior']")
+    @FindBy (css = "div[id^='tipsyPvBehavior']")
     private WebElement sliceTooltip;
 
-    @FindBy(css ="div[class$='alfresco-reports-TopSiteContributorReport'] div.control table")
+    @FindBy (css = "div[class$='alfresco-reports-TopSiteContributorReport'] div.control table")
     private WebElement periodFilter;
 
-    @FindBy(css="div[id$='_CONTROL_dropdown'] tr[id^='dijit_MenuItem'] td[id$='_text']")
+    @FindBy (css = "div[id$='_CONTROL_dropdown'] tr[id^='dijit_MenuItem'] td[id$='_text']")
     private List<WebElement> optionsListText;
 
-    @FindBy(css="span[class$='dijitValidationTextBoxLabel ']")
+    @FindBy (css = "span[class$='dijitValidationTextBoxLabel ']")
     private WebElement selectedFilterOption;
 
     public int getNumberOfPieChartSlices()
@@ -58,14 +58,16 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     public Map<String, String> getPieChartSliceTooltip()
     {
         Map<String, String> slicesTooltip = new HashMap<>();
-        for(WebElement slice : pieChartSlices){
+        for (WebElement slice : pieChartSlices)
+        {
             browser.mouseOver(slice);
             String tooltip = sliceTooltip.getAttribute("original-title");
-            slicesTooltip.put(tooltip.substring(tooltip.indexOf("<strong>")+8, tooltip.indexOf("</strong>")), tooltip.substring(tooltip.indexOf("<br/>"), tooltip.indexOf("</div>")));
+            slicesTooltip.put(tooltip.substring(tooltip.indexOf("<strong>") + 8, tooltip.indexOf("</strong>")), tooltip.substring(tooltip.indexOf("<br/>"), tooltip.indexOf("</div>")));
         }
-        System.out.println("Tooltip: "+ slicesTooltip);
+        System.out.println("Tooltip: " + slicesTooltip);
         return slicesTooltip;
     }
+
     @Override
     public String getDashletTitle()
     {
@@ -78,7 +80,7 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
         return browser.isElementDisplayed(periodFilter);
     }
 
-    public ArrayList<String> getOptionText ()
+    public ArrayList<String> getOptionText()
     {
         periodFilter.click();
         ArrayList<String> optionText = new ArrayList<>();
@@ -99,9 +101,9 @@ public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBrea
     {
         List<WebElement> testUsers = browser.findElements(By.cssSelector("div[class='alfresco-charts-ccc-Chart'] text"));
         List<WebElement> pieChartSlices = browser.findElements(By.cssSelector("div[class='alfresco-charts-ccc-Chart'] path[transform]"));
-        for(int i = 0; i < testUsers.size(); i++)
+        for (int i = 0; i < testUsers.size(); i++)
         {
-            if(testUsers.get(i).getText().contains(userName))
+            if (testUsers.get(i).getText().contains(userName))
             {
                 pieChartSlices.get(i).click();
                 break;

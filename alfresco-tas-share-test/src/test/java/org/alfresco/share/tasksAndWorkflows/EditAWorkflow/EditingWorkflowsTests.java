@@ -38,8 +38,8 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
 
     private String workflowName = String.format("taskName%s", RandomData.getRandomAlphanumeric());
 
-    @TestRail(id = "C8463")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8463")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void editWorkflow()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -75,12 +75,12 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
         Assert.assertTrue(taskDetailsPage.getStatus().contains("In Progress"));
         Assert.assertTrue(taskDetailsPage.getComment().contains(comment));
 
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
-    @TestRail(id = "C8464")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8464")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void editTask()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -105,12 +105,12 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
         editTaskPage.writeComment(comment);
         editTaskPage.clickOnSaveButton(myTasksPage);
         Assert.assertTrue(myTasksPage.getStatus(workflowName).contains("On Hold"));
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
-    @TestRail(id = "C8465")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
+    @TestRail (id = "C8465")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void verifyEditTaskForm()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -143,7 +143,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
         Assert.assertTrue(editTaskPage.isStatusOptionPresent(EditTaskPage.TaskStatus.ON_HOLD));
         Assert.assertTrue(editTaskPage.isStatusOptionPresent(EditTaskPage.TaskStatus.CANCELLED));
         Assert.assertTrue(editTaskPage.isStatusOptionPresent(EditTaskPage.TaskStatus.COMPLETED));
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 }

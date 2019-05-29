@@ -8,51 +8,64 @@ import java.util.List;
 @PageObject
 public abstract class Content extends WebDriverAware
 {
-    public boolean areNavigationLinksDisplayed() {
+    public boolean areNavigationLinksDisplayed()
+    {
         return false;
     }
 
-    public String getCurrentPageNumber() {
+    public String getCurrentPageNumber()
+    {
         return null;
     }
 
-    public void clickNextNavigationItem() {
+    public void clickNextNavigationItem()
+    {
     }
 
-    public void clickPreviousNavigationItem() {
+    public void clickPreviousNavigationItem()
+    {
     }
 
-    public void clickOnSpecificPage(String number) {
+    public void clickOnSpecificPage(String number)
+    {
     }
 
-    public boolean areItemsSortedByColumnAfterClickingTheColumn(String column) {
+    public boolean areItemsSortedByColumnAfterClickingTheColumn(String column)
+    {
         return false;
     }
 
-    public boolean isAnyListItemDisplayed() {
+    public boolean isAnyListItemDisplayed()
+    {
         return false;
     }
 
-    public boolean isDataListContentDisplayed() {
+    public boolean isDataListContentDisplayed()
+    {
         return false;
     }
 
-    public boolean isSelectAllButtonOptionDisplayed() {
+    public boolean isSelectAllButtonOptionDisplayed()
+    {
         return false;
     }
 
-    public boolean isSelectNoneButtonOptionDisplayed() {
+    public boolean isSelectNoneButtonOptionDisplayed()
+    {
         return false;
     }
 
-    public boolean isInvertSelectionButtonOptionEnabled() {
+    public boolean isInvertSelectionButtonOptionEnabled()
+    {
         return false;
     }
 
-    public void clickNewItemButton() {
+    public void clickNewItemButton()
+    {
     }
 
-    public boolean isListItemDisplayed(List<String> listDetails) {
+    public boolean isListItemDisplayed(List<String> listDetails)
+    {
         return false;
     }
 
@@ -66,7 +79,8 @@ public abstract class Content extends WebDriverAware
 
     public abstract boolean isSelectItemsButtonEnabled();
 
-    public String successfullyCreatedListItemMessage() {
+    public String successfullyCreatedListItemMessage()
+    {
         return null;
     }
 

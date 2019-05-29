@@ -25,37 +25,42 @@ import static org.testng.Assert.*;
  */
 public class TrashcanTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
 
-    @Autowired private DeleteDialog deleteDialog;
+    @Autowired
+    private DeleteDialog deleteDialog;
 
-    @Autowired private UserTrashcanPage userTrashcanPage;
+    @Autowired
+    private UserTrashcanPage userTrashcanPage;
 
-    @Autowired private EmptyTrashcanDialog emptyTrashcanDialog;
+    @Autowired
+    private EmptyTrashcanDialog emptyTrashcanDialog;
 
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "profileUser-" + random;
     private final String description = "Description-" + random;
     private final String fileContent = "file content.";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
 
-    @TestRail(id = "C10506")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C10506")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void emptyTrashcan()
     {
         String siteName = "site-C10506-" + random;
@@ -76,7 +81,7 @@ public class TrashcanTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsMenu();
         headerMenuBar.clickSelectedItemsOption("Delete");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 2, folderName + "\n" + fileName),
-                "'Confirm multiple delete' dialog message=");
+            "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
         getBrowser().waitInSeconds(6);
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
@@ -94,12 +99,12 @@ public class TrashcanTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'OK' button");
         emptyTrashcanDialog.clickButton("OK");
         assertEquals(userTrashcanPage.getNoItemsMessage(), "No items exist", "Empty trash");
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C7572")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7572")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void trashcanDeleteFile()
     {
         String siteName = "site-C7572-" + random;
@@ -120,7 +125,7 @@ public class TrashcanTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsMenu();
         headerMenuBar.clickSelectedItemsOption("Delete");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
-                "'Confirm multiple delete' dialog message=");
+            "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
         getBrowser().waitInSeconds(6);
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
@@ -138,12 +143,12 @@ public class TrashcanTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'OK' button");
         emptyTrashcanDialog.clickButton("OK");
         assertEquals(userTrashcanPage.getNoItemsMessage(), "No items exist", "Empty trash");
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C7573")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7573")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void trashcanDeleteFolder()
     {
         String siteName = "site-C7573-" + random;
@@ -165,7 +170,7 @@ public class TrashcanTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsMenu();
         headerMenuBar.clickSelectedItemsOption("Delete");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, folderName),
-                "'Confirm multiple delete' dialog message=");
+            "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
         assertEquals(documentLibraryPage.getFilesList().toString(), Collections.singletonList(fileName).toString(), "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[]", "Document Library folders=");
@@ -182,7 +187,7 @@ public class TrashcanTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'OK' button");
         emptyTrashcanDialog.clickButton("OK");
         assertEquals(userTrashcanPage.getNoItemsMessage(), "No items exist", "Empty trash");
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

@@ -27,18 +27,18 @@ public class LicensePage extends AdminConsolePage<LicensePage>
     public static final String LICENSE_OBJECT = "Alfresco:Name=License";
 
     @RenderWebElement
-    @FindBy(className = "intro-tall")
+    @FindBy (className = "intro-tall")
     WebElement intro;
 
     @RenderWebElement
-    @FindBy(id = "upload-license")
+    @FindBy (id = "upload-license")
     Button uploadLicenseButton;
 
     @RenderWebElement
-    @FindBy(id = "apply-new-license")
+    @FindBy (id = "apply-new-license")
     Button applyNewLicenseButton;
 
-    @FindBy(css = ".info>a")
+    @FindBy (css = ".info>a")
     Link uploadingNewLicense;
 
     @Override
@@ -53,7 +53,8 @@ public class LicensePage extends AdminConsolePage<LicensePage>
         return intro.getText();
     }
 
-    public enum LicenseFields{
+    public enum LicenseFields
+    {
         license("License:", "Subject"),
         licenseType("License Type:", "LicenseMode"),
         issued("Issued:", "Issued"),
@@ -83,6 +84,7 @@ public class LicensePage extends AdminConsolePage<LicensePage>
         {
             return label;
         }
+
         public String getJmxAttribute()
         {
             return jmxAttribute;

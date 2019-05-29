@@ -10,14 +10,14 @@ import org.openqa.selenium.support.FindBy;
 public class AdminToolsUserProfile extends SharePage<AdminToolsUserProfile>
 {
     @RenderWebElement
-    @FindBy(xpath = "//button[contains(text(),'Edit User')]")
+    @FindBy (xpath = "//button[contains(text(),'Edit User')]")
     private WebElement EditUserButton;
 
     @RenderWebElement
-    @FindBy(xpath = "//button[contains(text(),'Delete User')]")
+    @FindBy (xpath = "//button[contains(text(),'Delete User')]")
     private WebElement DeleteUserButton;
 
-    @FindBy(css = "span[id*='default-view-groups']")
+    @FindBy (css = "span[id*='default-view-groups']")
     private WebElement addedGroups;
 
     @Override

@@ -15,64 +15,64 @@ import java.util.List;
 @PageObject
 public class DocumentsFilters extends SiteCommon<DocumentsFilters>
 {
-    @FindBy(css = "h2[class ='alfresco-twister alfresco-twister-open']")
+    @FindBy (css = "h2[class ='alfresco-twister alfresco-twister-open']")
     private WebElement documentsDropDown;
 
-    @FindBy(css = "span.all a")
+    @FindBy (css = "span.all a")
     private WebElement allDocumentsFilter;
 
-    @FindBy(css = "span.editingMe a")
+    @FindBy (css = "span.editingMe a")
     private WebElement iMEditingFilter;
 
-    @FindBy(css = "span.editingOthers a")
+    @FindBy (css = "span.editingOthers a")
     private WebElement othersAreEditingFilter;
 
-    @FindBy(css = "span.recentlyModified a")
+    @FindBy (css = "span.recentlyModified a")
     private WebElement recentlyModifiedFilter;
 
-    @FindBy(css = "span.recentlyAdded a")
+    @FindBy (css = "span.recentlyAdded a")
     private WebElement recentlyAddedFiler;
 
-    @FindBy(css = "span.favourites a")
+    @FindBy (css = "span.favourites a")
     private WebElement myFavouritesFilter;
 
-    @FindBy(css = "div[class='docListInstructions'] div[id*='_default-no-items-template'] div[class ='docListInstructionTitle']")
+    @FindBy (css = "div[class='docListInstructions'] div[id*='_default-no-items-template'] div[class ='docListInstructionTitle']")
     private WebElement noContentText;
 
-    @FindBy(css = " td[id='ygtvcontentel1'] span[id*='ygtvlabelel'] ")
+    @FindBy (css = " td[id='ygtvcontentel1'] span[id*='ygtvlabelel'] ")
     private WebElement documentsLink;
 
-    @FindBy(css = " td[id='ygtvcontentel4'] span[id*='ygtvlabelel'] ")
+    @FindBy (css = " td[id='ygtvcontentel4'] span[id*='ygtvlabelel'] ")
     private WebElement firstFolderInLibrary;
 
-    @FindBy(css = " td[id='ygtvcontentel5'] span[id*='ygtvlabelel'] ")
+    @FindBy (css = " td[id='ygtvcontentel5'] span[id*='ygtvlabelel'] ")
     private WebElement secondFolderInLibrary;
 
-    @FindBy(css = "div[class ='treeview filter']")
+    @FindBy (css = "div[class ='treeview filter']")
     private WebElement libraryFilter;
 
-    @FindBy(css = "div[class ='categoryview filter']")
+    @FindBy (css = "div[class ='categoryview filter']")
     private WebElement categoriesFilter;
 
-    @FindBy(css = "td[id ='ygtvcontentel3'] span[id ='ygtvlabelel3']")
+    @FindBy (css = "td[id ='ygtvcontentel3'] span[id ='ygtvlabelel3']")
     private WebElement categoriesRoot;
 
-    @FindBy(xpath = "//div[contains(@id, 'categories')]//a[@class ='ygtvspacer']")
+    @FindBy (xpath = "//div[contains(@id, 'categories')]//a[@class ='ygtvspacer']")
     private WebElement categoryRootIcon;
 
-    @FindBy(css = "div[class='filter']")
+    @FindBy (css = "div[class='filter']")
     private WebElement tagsFilter;
 
-    @FindBy(css = "span[class ='tag']")
+    @FindBy (css = "span[class ='tag']")
     private WebElement tagContent;
 
-    @FindBy(css = ".alfresco-twister")
+    @FindBy (css = ".alfresco-twister")
     private List<WebElement> sidebarFiltersList;
 
-    @FindBy(css = ".message .more")
+    @FindBy (css = ".message .more")
     private WebElement headerAfterFilter;
 
-    @FindAll(@FindBy(css = ".filter .tag-link"))
+    @FindAll (@FindBy (css = ".filter .tag-link"))
     private List<WebElement> tagsFromFilter;
 
     /**
@@ -306,8 +306,7 @@ public class DocumentsFilters extends SiteCommon<DocumentsFilters>
                     break;
                 }
             }
-        }
-        catch (TimeoutException e)
+        } catch (TimeoutException e)
         {
             while (counter < 3)
             {

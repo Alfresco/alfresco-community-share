@@ -21,9 +21,11 @@ import static org.testng.Assert.*;
  */
 public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private ManagePermissionsPage managePermissionsPage;
+    @Autowired
+    private ManagePermissionsPage managePermissionsPage;
 
     private final String docContent = "content of the file.";
     private final String testUser1 = String.format("testUser1%s", RandomData.getRandomAlphanumeric());
@@ -32,7 +34,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     private final String testFileName = "testDoc.txt";
     private final String testFolderName = "testFolder";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void createPrecondition()
     {
         userService.create(adminUser, adminPassword, testUser1, password, testUser1 + domain, testUser1, "lastName");
@@ -41,19 +43,20 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         contentService.createDocument(testUser1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, testFileName, docContent);
         contentService.createFolder(testUser1, password, testFolderName, siteName);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser1);
+        userService.delete(adminUser, adminPassword, testUser1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser1);
-        userService.delete(adminUser,adminPassword, testUser2);
+        userService.delete(adminUser, adminPassword, testUser2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser2);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
-    @TestRail(id = "C6092")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C6092")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelManagePermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -71,8 +74,8 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C7121")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7121")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void saveManagePermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -109,8 +112,8 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C7124")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7124")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void turnOffInheritPermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -161,8 +164,8 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C7125")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7125")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void turnOnInheritPermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -209,8 +212,8 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C7143")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7143")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void deleteUser()
     {
         LOG.info("Precondition: Login as testUser1 and add local permissions for testUser2 for the file and folder.");
@@ -265,8 +268,8 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C7123")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7123")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelChangesFromManagePermissions()
     {
         LOG.info("Precondition: Login as testUser1 and navigate to Manage Permissions for the testFile.");

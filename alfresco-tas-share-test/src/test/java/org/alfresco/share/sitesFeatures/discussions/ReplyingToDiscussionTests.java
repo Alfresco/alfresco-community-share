@@ -51,7 +51,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     private String topicReply = "Reply content";
     private String reply1 = "Reply1";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, "lName1");
@@ -60,16 +60,16 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "6214")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6214")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void createReplyToDiscussion()
     {
         today = df.format(new Date());
@@ -81,7 +81,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         topicListPage.clickTopicTitle(topicTitle);
         assertEquals(topicViewPage.getTopicTitle(), topicTitle, "Title is displayed.");
         assertTrue(topicViewPage.getTopicPublished().startsWith("Created on: " + today),
-                "Topic was created today. Actual: [" + topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
+            "Topic was created today. Actual: [" + topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
         assertTrue(topicViewPage.getTopicPublished().contains("Author: " + user1 + " lName1"), "The user who created the topic is User1.");
         assertEquals(topicViewPage.getTopicContent(), topicContent, "Content is displayed.");
         assertEquals(topicViewPage.getTopicReplies(), "(0)", "Topic has 0 reply.");
@@ -101,8 +101,8 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         assertEquals(topicViewPage.getReplyNoReplies(topicReply), "(0)", "Reply has 0 replies.");
     }
 
-    @TestRail(id = "6215")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6215")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelCreatingReplyToDiscussion()
     {
         today = df.format(new Date());
@@ -114,7 +114,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         topicListPage.clickTopicTitle(topicTitle);
         assertEquals(topicViewPage.getTopicTitle(), topicTitle, "Title is displayed.");
         assertTrue(topicViewPage.getTopicPublished().startsWith("Created on: " + today),
-                "Topic was created today. Actual: [" + topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
+            "Topic was created today. Actual: [" + topicViewPage.getTopicPublished() + "]. Expected: [" + today + "]");
         assertTrue(topicViewPage.getTopicPublished().contains("Author: " + user1 + " lName1"), "The user who created the topic is User1.");
         assertEquals(topicViewPage.getTopicContent(), topicContent, "Content is displayed.");
         assertEquals(topicViewPage.getTopicReplies(), "(0)", "Topic has 0 reply.");
@@ -130,8 +130,8 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         assertEquals(topicViewPage.getTopicReplies(), "(0)", "Topic has 0 reply.");
     }
 
-    @TestRail(id = "6216")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6216")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void insertLinkInReplyToDiscussion()
     {
         today = df.format(new Date());
@@ -152,7 +152,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         assertTrue(insertLinkPopUp.isTextPresent("Insert link"), "'Insert link' pop-up is displayed.");
 
         LOG.info("STEP 3 - Add the following in the 'Insert Link' pop-up: Url: https://www.alfresco.com/\n" + "Text to display: Alfresco site\n"
-                + "Title: Alfresco\n" + "Target: None\n" + "Click on 'Ok' button.");
+            + "Title: Alfresco\n" + "Target: None\n" + "Click on 'Ok' button.");
         insertLinkPopUp.insertLink(linkUrl, linkText, linkTitle, "None");
 
         LOG.info("STEP 4 - Click on 'Create' button.");
@@ -165,8 +165,8 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         assertEquals(getBrowser().getCurrentUrl(), linkUrl, "User is redirected to: https://www.alfresco.com");
     }
 
-    @TestRail(id = "6217")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6217")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void insertImageInReplyToDiscussion()
     {
         today = df.format(new Date());
@@ -187,8 +187,8 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         assertEquals(insertImagePopUp.getPopupTitle(), "Insert/edit image", "'Insert/edit image' pop-up is displayed.");
 
         LOG.info("STEP 3 - Add the following in the 'Insert/edit Image' pop-up:\n"
-                + "Source: https://www.alfresco.com/sites/www.alfresco.com/files/alfresco-logo.png\n" + "Image description: Alfresco logo\n"
-                + "Click on 'OK' button.");
+            + "Source: https://www.alfresco.com/sites/www.alfresco.com/files/alfresco-logo.png\n" + "Image description: Alfresco logo\n"
+            + "Click on 'OK' button.");
         insertImagePopUp.insertImage(imageSource, imageDescription);
 
         LOG.info("STEP 4 - Click on 'Create' button.");
@@ -198,8 +198,8 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         assertTrue(topicViewPage.isImageDisplayedInReply(topicReply, imageSource), "Image is displayed.");
     }
 
-    @TestRail(id = "6218")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6218")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void replyToAReply()
     {
         today = df.format(new Date());
@@ -230,8 +230,8 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
         assertTrue(topicViewPage.isReplyVisible(reply1), "The reply to topic reply is no longer displayed.");
     }
 
-    @TestRail(id = "6219")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "6219")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editReplyAddedToTopic()
     {
         today = df.format(new Date());

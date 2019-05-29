@@ -11,57 +11,57 @@ import java.util.List;
 @PageObject
 public class EditToDoListItemPopUp extends CreateNewItemPopUp
 {
-    @FindBy(css = ".hd")
+    @FindBy (css = ".hd")
     protected List<WebElement> editDataItemPopup;
 
-    @FindBy(css = "input[id*='todoTitle']")
+    @FindBy (css = "input[id*='todoTitle']")
     protected WebElement toDoListTitleInputField;
 
-    @FindBy(css = "input[id*='todoDueDate']")
+    @FindBy (css = "input[id*='todoDueDate']")
     protected WebElement toDoListDueDateInputField;
 
-    @FindBy(css = "input[id*='time']")
+    @FindBy (css = "input[id*='time']")
     protected WebElement toDoListDueDateTimeInputField;
 
-    @FindBy(css = "input[id*='todoPriority']")
+    @FindBy (css = "input[id*='todoPriority']")
     protected WebElement toDoListPriorityInputField;
 
-    @FindBy(css = "select[id*='todoStatus']")
+    @FindBy (css = "select[id*='todoStatus']")
     protected WebElement toDoListStatusDropDownList;
 
-    @FindBy(css = "textarea[id*='todoNotes']")
+    @FindBy (css = "textarea[id*='todoNotes']")
     protected WebElement toDoListItemNotes;
-    
-    @FindBy(css = "div[id*='assoc_dl_assignee-cntrl-currentValueDisplay'] div")
+
+    @FindBy (css = "div[id*='assoc_dl_assignee-cntrl-currentValueDisplay'] div")
     protected WebElement currentAssigneDisplayed;
 
-    @FindBy(css = ".form-fields div[id*='assoc_dl_assignee-cntrl'] .show-picker button")
+    @FindBy (css = ".form-fields div[id*='assoc_dl_assignee-cntrl'] .show-picker button")
     protected WebElement assigneeSelectButton;
-    
-    @FindBy(css = "div[id*='assignee-cntrl-currentValueDisplay'] div")
+
+    @FindBy (css = "div[id*='assignee-cntrl-currentValueDisplay'] div")
     protected WebElement assigneeCurrentValueDisplayed;
-    
-    @FindBy(css = "div[id*='attachments-cntrl-currentValueDisplay']")
+
+    @FindBy (css = "div[id*='attachments-cntrl-currentValueDisplay']")
     protected WebElement attachmentsCurrentValueDisplayed;
-    
-    @FindBy(css = "div[id*='attachments-cntrl-itemGroupActions'] button")
+
+    @FindBy (css = "div[id*='attachments-cntrl-itemGroupActions'] button")
     protected WebElement selectAttachmentsButton;
-    
-    @FindBy(css = "div[id*='attachments-cntrl-picker-folderUpContainer'] button")
+
+    @FindBy (css = "div[id*='attachments-cntrl-picker-folderUpContainer'] button")
     protected WebElement folderUpButton;
-    
-    @FindBy(css = "div[id*='attachments-cntrl-picker-results'] tr.yui-dt-odd span.addIcon")
+
+    @FindBy (css = "div[id*='attachments-cntrl-picker-results'] tr.yui-dt-odd span.addIcon")
     protected WebElement addIconForDocumentLibrary;
-    
-    @FindBy(css = "button[id*='attachments-cntrl-ok-button']")
+
+    @FindBy (css = "button[id*='attachments-cntrl-ok-button']")
     protected WebElement attachmentsOkButton;
-    
-    @FindBy(css = "span.yui-submit-button button")
+
+    @FindBy (css = "span.yui-submit-button button")
     protected WebElement createNewItemPopUpSaveButton;
-    
+
     private By listItems = By.cssSelector("div[id$='default-grid'] table tbody[class='yui-dt-data'] tr");
     ToDoListItemsTable tableRow;
-    
+
     public boolean isEditDataItemPopUpDisplayed()
     {
         for (WebElement element : editDataItemPopup)
@@ -112,13 +112,13 @@ public class EditToDoListItemPopUp extends CreateNewItemPopUp
     {
         return assigneeCurrentValueDisplayed.getText();
     }
-    
-    
+
+
     public String getToDoListItemattachment()
     {
         return attachmentsCurrentValueDisplayed.getAttribute("value");
     }
-    
+
     public void addAttachmentDocumentLibrary()
     {
         browser.waitInSeconds(2);
@@ -131,7 +131,7 @@ public class EditToDoListItemPopUp extends CreateNewItemPopUp
         attachmentsOkButton.click();
         browser.waitInSeconds(1);
     }
-    
+
     public void selectToDoListItemStatus(String status)
     {
         Select select = new Select(toDoListStatusDropDownList);
@@ -142,62 +142,62 @@ public class EditToDoListItemPopUp extends CreateNewItemPopUp
     {
         assigneeSelectButton.click();
     }
-    
+
     public void createNewItemPopUpSaveButton()
     {
         createNewItemPopUpSaveButton.click();
     }
-    
+
     public String getListItemTitleValue()
     {
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         WebElement row = browser.findElement(listItems);
-           
+
         tableRow = new ToDoListItemsTable(row, browser);
         return tableRow.getTitleColumn().getText();
     }
-    
+
     public boolean getListItemDueDateValue(String toDoListRowValue)
     {
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         WebElement row = browser.findElement(listItems);
-           
+
         tableRow = new ToDoListItemsTable(row, browser);
         return tableRow.getDueDateColumn().getText().contains(toDoListRowValue);
     }
-    
+
     public String getListItemPriorityValue()
     {
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         WebElement row = browser.findElement(listItems);
-           
+
         tableRow = new ToDoListItemsTable(row, browser);
         return tableRow.getPriorityColumn().getText();
     }
-    
+
     public String getListItemStatusValue()
     {
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         WebElement row = browser.findElement(listItems);
-           
+
         tableRow = new ToDoListItemsTable(row, browser);
         return tableRow.getStatusColumn().getText();
     }
-    
+
     public boolean isListItemAssigneeValueEdited(String assigneeName)
     {
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         WebElement row = browser.findElement(listItems);
-           
+
         tableRow = new ToDoListItemsTable(row, browser);
         return tableRow.getAssigneeColumn().getText().contains(assigneeName);
     }
-    
+
     public boolean isListItemAttachmentValueEdited(String attachment)
     {
         browser.waitUntilElementIsDisplayedWithRetry(listItems);
         WebElement row = browser.findElement(listItems);
-           
+
         tableRow = new ToDoListItemsTable(row, browser);
         return tableRow.getAttachmentsColumn().getText().contains(attachment);
     }

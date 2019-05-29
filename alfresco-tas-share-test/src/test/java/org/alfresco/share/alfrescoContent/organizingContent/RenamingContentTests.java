@@ -19,30 +19,34 @@ import static org.testng.Assert.*;
  */
 public class RenamingContentTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
-    private final String siteName = String.format("Site-%s",RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("Site-%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
-    public void setupTest() {
+    @BeforeClass (alwaysRun = true)
+    public void setupTest()
+    {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
         siteService.create(userName, password, domain, siteName, "Description", SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
     }
-    @AfterClass(alwaysRun = true)
+
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7419")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void renameFileByEditIcon() {
-        String docName = String.format("Doc-C7419-%s",RandomData.getRandomAlphanumeric());
+    @TestRail (id = "C7419")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void renameFileByEditIcon()
+    {
+        String docName = String.format("Doc-C7419-%s", RandomData.getRandomAlphanumeric());
         String newFileName = "newFileNameC7419";
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         documentLibraryPage.navigate(siteName);
@@ -60,11 +64,12 @@ public class RenamingContentTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.isContentNameInputField(), "File is input field.");
     }
 
-    @TestRail(id = "C7420")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void renameFolderByEditIcon() {
+    @TestRail (id = "C7420")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void renameFolderByEditIcon()
+    {
         String newFolderName = "new folder name C7420";
-        String folderName = String.format("Folder-C7420-%s",RandomData.getRandomAlphanumeric());
+        String folderName = String.format("Folder-C7420-%s", RandomData.getRandomAlphanumeric());
         contentService.createFolder(userName, password, folderName, siteName);
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
@@ -81,10 +86,11 @@ public class RenamingContentTests extends ContextAwareWebTest
         assertFalse(documentLibraryPage.isContentNameInputField(), "Folder is input field.");
     }
 
-    @TestRail(id = "C7431")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void cancelRenamingContent() {
-        String docName = String.format("Doc-C7431-%s",RandomData.getRandomAlphanumeric());
+    @TestRail (id = "C7431")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void cancelRenamingContent()
+    {
+        String docName = String.format("Doc-C7431-%s", RandomData.getRandomAlphanumeric());
         String newFileName = "new file name C7431";
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         documentLibraryPage.navigate(siteName);

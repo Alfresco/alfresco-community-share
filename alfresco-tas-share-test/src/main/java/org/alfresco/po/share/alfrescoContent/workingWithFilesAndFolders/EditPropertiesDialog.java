@@ -26,54 +26,54 @@ public class EditPropertiesDialog extends ShareDialog
     EditPropertiesPage editPropertiesPage;
 
     @RenderWebElement
-    @FindBy(css = "div[id$='dialogTitle']")
+    @FindBy (css = "div[id$='dialogTitle']")
     private WebElement dialogTitle;
 
     @RenderWebElement
-    @FindBy(css = "input[name='prop_cm_name']")
+    @FindBy (css = "input[name='prop_cm_name']")
     private WebElement propertyName;
 
-    @FindBy(css = "input[name='prop_cm_title']")
+    @FindBy (css = "input[name='prop_cm_title']")
     private WebElement propertyTitle;
 
-    @FindBy(css = "textarea[name='prop_cm_description']")
+    @FindBy (css = "textarea[name='prop_cm_description']")
     private WebElement propertyDescription;
 
-    @FindBy(css = "input[id*='endpointhost']")
+    @FindBy (css = "input[id*='endpointhost']")
     private WebElement hostInputField;
 
-    @FindBy(css = "input[id*='endpointport']")
+    @FindBy (css = "input[id*='endpointport']")
     private WebElement portInputField;
 
-    @FindBy(css = "input[id*='username']")
+    @FindBy (css = "input[id*='username']")
     private WebElement usernameInputField;
 
-    @FindBy(css = "input[id*='password']")
+    @FindBy (css = "input[id*='password']")
     private WebElement passwordInputField;
 
-    @FindBy(css = ".formsCheckBox")
+    @FindBy (css = ".formsCheckBox")
     private WebElement enabledCheckbox;
 
-    @FindBy(css = "div[id$='prop_cm_taggable-cntrl-itemGroupActions'] button")
+    @FindBy (css = "div[id$='prop_cm_taggable-cntrl-itemGroupActions'] button")
     private WebElement selectTagsButton;
 
-    @FindBy(css = "div[id$='prop_cm_categories-cntrl-itemGroupActions'] button")
+    @FindBy (css = "div[id$='prop_cm_categories-cntrl-itemGroupActions'] button")
     private Button selectCategoriesButton;
 
-    @FindBy(css = "a[id*='editMetadata-button']")
+    @FindBy (css = "a[id*='editMetadata-button']")
     private WebElement allPropertiesButton;
 
-    @FindAll(@FindBy(css = "div[id$='prop_cm_taggable-cntrl-currentValueDisplay'] div"))
+    @FindAll (@FindBy (css = "div[id$='prop_cm_taggable-cntrl-currentValueDisplay'] div"))
     private List<WebElement> selectedTags;
 
-    @FindAll(@FindBy(css = "div[id$='prop_cm_categories-cntrl-currentValueDisplay'] div"))
+    @FindAll (@FindBy (css = "div[id$='prop_cm_categories-cntrl-currentValueDisplay'] div"))
     private List<WebElement> selectedCategories;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='form-submit-button']")
+    @FindBy (css = "button[id$='form-submit-button']")
     private WebElement saveButton;
 
-    @FindBy(css = "button[id$='form-cancel-button']")
+    @FindBy (css = "button[id$='form-cancel-button']")
     private WebElement cancelButton;
 
     public String getDialogTitle()
@@ -140,11 +140,11 @@ public class EditPropertiesDialog extends ShareDialog
     public boolean verifyAllElementsAreDisplayed()
     {
         return browser.isElementDisplayed(propertyName) &&
-                browser.isElementDisplayed(propertyTitle) &&
-                browser.isElementDisplayed(propertyDescription) &&
-                browser.isElementDisplayed(selectTagsButton) &&
-                browser.isElementDisplayed(saveButton) &&
-                browser.isElementDisplayed(cancelButton);
+            browser.isElementDisplayed(propertyTitle) &&
+            browser.isElementDisplayed(propertyDescription) &&
+            browser.isElementDisplayed(selectTagsButton) &&
+            browser.isElementDisplayed(saveButton) &&
+            browser.isElementDisplayed(cancelButton);
     }
 
     public void typeHost(String host)

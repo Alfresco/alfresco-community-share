@@ -25,33 +25,38 @@ import static org.testng.Assert.*;
  */
 public class MultiSelectingContentTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
 
-    @Autowired private StartWorkflowPage startWorkflowPage;
+    @Autowired
+    private StartWorkflowPage startWorkflowPage;
 
-    @Autowired private DeleteDialog deleteDialog;
+    @Autowired
+    private DeleteDialog deleteDialog;
 
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }
-    @TestRail(id = "C7546")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+
+    @TestRail (id = "C7546")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectItemsByCheckbox()
     {
         String random = RandomData.getRandomAlphanumeric();
@@ -82,12 +87,12 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         LOG.info("STEP4: Click on the folder2 checkbox");
         documentLibraryPage.clickCheckBox(folderName2);
         assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C7548")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7548")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectItemsByMenu()
     {
         String random = RandomData.getRandomAlphanumeric();
@@ -119,9 +124,9 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         LOG.info("STEP2: Click 'Selected Items...'");
         headerMenuBar.clickSelectedItemsMenu();
         ArrayList<String> expectedSelectedItemsOptions1 = new ArrayList<>(
-                Arrays.asList("Download as Zip", "Copy to...", "Move to...", "Start Workflow...", "Delete", "Deselect All"));
+            Arrays.asList("Download as Zip", "Copy to...", "Move to...", "Start Workflow...", "Delete", "Deselect All"));
         assertEquals(headerMenuBar.verifySelectedItemsValues(expectedSelectedItemsOptions1), expectedSelectedItemsOptions1.toString(),
-                "'Selected Items...' options=");
+            "'Selected Items...' options=");
 
         LOG.info("STEP3: Click 'Select' button and choose 'Folders'");
         headerMenuBar.clickSelectMenu();
@@ -135,9 +140,9 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         LOG.info("STEP4: Click 'Selected Items...'");
         headerMenuBar.clickSelectedItemsMenu();
         ArrayList<String> expectedSelectedItemsOptions2 = new ArrayList<>(
-                Arrays.asList("Download as Zip", "Copy to...", "Move to...", "Delete", "Deselect All"));
+            Arrays.asList("Download as Zip", "Copy to...", "Move to...", "Delete", "Deselect All"));
         assertEquals(headerMenuBar.verifySelectedItemsValues(expectedSelectedItemsOptions2), expectedSelectedItemsOptions2.toString(),
-                "'Selected Items...' options=");
+            "'Selected Items...' options=");
 
         LOG.info("STEP5: Unselect folder2 and select text1 by clicking on their corresponding check-boxes.");
         documentLibraryPage.clickCheckBox(folderName2);
@@ -149,9 +154,9 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         LOG.info("STEP6: Click 'Selected Items...' menu");
         headerMenuBar.clickSelectedItemsMenu();
         ArrayList<String> expectedSelectedItemsOptions3 = new ArrayList<>(
-                Arrays.asList("Download as Zip", "Copy to...", "Move to...", "Delete", "Deselect All"));
+            Arrays.asList("Download as Zip", "Copy to...", "Move to...", "Delete", "Deselect All"));
         assertEquals(headerMenuBar.verifySelectedItemsValues(expectedSelectedItemsOptions3), expectedSelectedItemsOptions3.toString(),
-                "'Selected Items...' options=");
+            "'Selected Items...' options=");
 
         LOG.info("STEP7: Click 'Select' button and choose 'Invert Selection' option");
         headerMenuBar.clickSelectMenu();
@@ -175,12 +180,12 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         ArrayList<String> expectedContentList9 = new ArrayList<>(Arrays.asList(folderName1, folderName2, textFile, htmlFile, xmlFile));
         assertEquals(documentLibraryPage.verifyContentItemsSelected(expectedContentList9), expectedContentList9.toString(), "Content not selected=");
         assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C8410")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8410")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectMultipleDocumentsStartWorkflow()
     {
         String random = RandomData.getRandomAlphanumeric();
@@ -221,12 +226,12 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         startWorkflowPage.renderedPage();
         ArrayList<String> expectedItemsList = new ArrayList<>(Arrays.asList(htmlFile, textFile, xmlFile));
         assertEquals(startWorkflowPage.getItemsList(), expectedItemsList.toString(), "Start Workflow Page- 'Items' list=");
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C7554")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7554")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectedItemsDelete()
     {
         String random = RandomData.getRandomAlphanumeric();
@@ -258,7 +263,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         ArrayList<String> expectedContentList2 = new ArrayList<>(Arrays.asList(folderName1 + "\n", htmlFile + "\n", textFile + "\n", xmlFile));
         String expectedItemsString = expectedContentList2.toString().replace(", ", "").replace("[", "").replace("]", "");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 4, expectedItemsString),
-                "'Confirm Multiple Delete' dialog message=");
+            "'Confirm Multiple Delete' dialog message=");
 
         LOG.info("STEP3: Click 'Cancel' button");
         deleteDialog.clickCancel();
@@ -270,7 +275,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsMenu();
         headerMenuBar.clickSelectedItemsOption("Delete");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 4, expectedItemsString),
-                "'Confirm Multiple Delete' dialog message=");
+            "'Confirm Multiple Delete' dialog message=");
 
         LOG.info("STEP5: Click 'Delete' button");
         deleteDialog.clickDelete();
@@ -278,7 +283,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
         documentLibraryPage.renderedPage();
         assertEquals(documentLibraryPage.getFoldersList().toString(), expectedContentList3.toString(), "Document Library - displayed folders=");
         assertEquals(documentLibraryPage.getFilesList().toString(), expectedContentList3.toString(), "Document Library - displayed files=");
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

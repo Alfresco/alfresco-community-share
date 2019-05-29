@@ -19,18 +19,18 @@ public class MiniCalendar extends SiteCommon<MiniCalendar>
     private By currentDayInMiniCalendar = By.xpath("//td[contains(@class, 'today')]");
 
     @RenderWebElement
-    @FindBy(css = "a.calnav")
+    @FindBy (css = "a.calnav")
     private WebElement currentMonthInMiniCalendar;
 
     private By selectedDay = By.xpath("//td[contains(@class, 'selected')]/a");
 
-    @FindBy(css = "a.calnavleft")
+    @FindBy (css = "a.calnavleft")
     private WebElement previousMonthButtonMiniCalendar;
 
-    @FindBy(css = "a[id*='-thisMonth-button']")
+    @FindBy (css = "a[id*='-thisMonth-button']")
     private WebElement thisMonthButton;
 
-    @FindBy(css = "a.calnavright")
+    @FindBy (css = "a.calnavright")
     private WebElement nextMonthButtonMiniCalendar;
 
     @Override

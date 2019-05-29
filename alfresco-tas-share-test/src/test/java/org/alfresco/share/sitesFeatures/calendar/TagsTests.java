@@ -38,7 +38,7 @@ public class TagsTests extends ContextAwareWebTest
     private Date currentDate = new Date();
     private String tagName = "tag-" + random.toLowerCase();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
@@ -53,16 +53,16 @@ public class TagsTests extends ContextAwareWebTest
     }
 
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C3092")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C3092")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void addTagForEvent()
     {
         String eventName = "event-C3092-" + random;
@@ -82,7 +82,7 @@ public class TagsTests extends ContextAwareWebTest
         assertTrue(calendarPage.isEventPresentInCalendar(eventName), "Event is created and displayed on the 'Calendar' page.");
         assertTrue(calendarPage.isTagDisplayed(tagName), "Tag is displayed in Tags list.");
         assertEquals(calendarPage.getTagLink(tagName), tagName + " (1)",
-                "The following information is displayed for the added tag: tag name and in brackets number of events related to that tag (1)");
+            "The following information is displayed for the added tag: tag name and in brackets number of events related to that tag (1)");
 
         LOG.info("STEP 4: Click on '" + tagName + "'.");
         calendarPage.clickTagLink(tagName);
@@ -92,8 +92,8 @@ public class TagsTests extends ContextAwareWebTest
         assertFalse(calendarPage.isEventPresentInCalendar("event3"), "The other events created in preconditions are not displayed.");
     }
 
-    @TestRail(id = "C3094")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C3094")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void tagsSectionFromCalendarPage()
     {
         LOG.info("STEP 1: Verify 'Tags' section.");

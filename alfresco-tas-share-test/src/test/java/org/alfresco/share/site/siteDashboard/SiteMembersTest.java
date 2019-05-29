@@ -27,10 +27,10 @@ public class SiteMembersTest extends ContextAwareWebTest
     SiteMembersDashlet siteMembersDashlet;
 
     private String userName = String.format("profileUser%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("SiteName-C2799-%s",RandomData.getRandomAlphanumeric());
-    private String description = String.format("description%s",RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("SiteName-C2799-%s", RandomData.getRandomAlphanumeric());
+    private String description = String.format("description%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
@@ -41,17 +41,17 @@ public class SiteMembersTest extends ContextAwareWebTest
         assertEquals(siteMembersDashlet.getDashletTitle(), "Site Members", "Dashlet title-");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C2799")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @TestRail (id = "C2799")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void oneUserAdded()
     {
         LOG.info("STEP1: Verify \"Site Members\" dashlet");

@@ -28,32 +28,32 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     UserDashboardPage userDashboardPage;
 
     @RenderWebElement
-    @FindBy(css = "div.add-user-group button")
+    @FindBy (css = "div.add-user-group button")
     private WebElement addUserGroupButton;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='_default-okButton-button']")
+    @FindBy (css = "button[id$='_default-okButton-button']")
     private WebElement saveButton;
 
-    @FindBy(css = "button[id$='-cancelButton-button']")
+    @FindBy (css = "button[id$='-cancelButton-button']")
     private WebElement cancelButton;
 
-    @FindBy(css = "div.search-text input")
+    @FindBy (css = "div.search-text input")
     private WebElement searchUserInput;
 
-    @FindBy(css = "div.authority-search-button button")
+    @FindBy (css = "div.authority-search-button button")
     private WebElement searchUserButton;
 
-    @FindBy(css = "div[id$='_manage-permissions_x0023_default-inheritedButtonContainer']")
+    @FindBy (css = "div[id$='_manage-permissions_x0023_default-inheritedButtonContainer']")
     private WebElement inheritPermissionButton;
 
-    @FindBy(css = "td[class$='displayName']")
+    @FindBy (css = "td[class$='displayName']")
     private WebElement userNameLocator;
 
-    @FindBy(css = "td[class*='role']")
+    @FindBy (css = "td[class*='role']")
     private WebElement userRoleLocator;
 
-    @FindBy(css = "span[id$='_default-title']")
+    @FindBy (css = "span[id$='_default-title']")
     private WebElement pageTitle;
 
     @FindBy (css = "span[class$='button' span button]")
@@ -65,38 +65,38 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     @FindBy (css = "div[class$='inherited-on']")
     private WebElement inheritButtonStatus;
 
-    @FindBy(css = "span.folder-link a")
+    @FindBy (css = "span.folder-link a")
     private List<WebElement> breadcrumbList;
 
-    @FindAll(@FindBy(css = "button[id*='yui-gen']"))
+    @FindAll (@FindBy (css = "button[id*='yui-gen']"))
     protected List<WebElement> addButtonsList;
 
-    @FindAll(@FindBy(css="div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']"))
+    @FindAll (@FindBy (css = "div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']"))
     private List<WebElement> usersAndGroupsList;
 
     private By usersAndGroupsLocallySetPermissions = By.cssSelector("div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']");
 
     private By inheritedPermissionsUsersAndGroups = By.cssSelector("div[id$='_default-inheritedPermissions'] tr[class^='yui-dt-rec ']");
 
-    @FindBy(css="div[id$='_default-directContainer'] div[id$='_default-directPermissions']")
+    @FindBy (css = "div[id$='_default-directContainer'] div[id$='_default-directPermissions']")
     private WebElement locallySetPermissionsList;
 
-    @FindBy(css="div.onActionDelete")
+    @FindBy (css = "div.onActionDelete")
     private WebElement deleteButton;
 
-    @FindBy(css="input[id$='_default-authorityFinder-search-text']")
+    @FindBy (css = "input[id$='_default-authorityFinder-search-text']")
     private WebElement searchInputBox;
 
-    @FindBy(css="div[id$='_manage-permissions_x0023_default-authorityFinder-body']")
+    @FindBy (css = "div[id$='_manage-permissions_x0023_default-authorityFinder-body']")
     private WebElement addUserGroupWindow;
 
-    @FindBy(css="button[id$='_manage-permissions_x0023_default-authorityFinder-authority-search-button-button']")
+    @FindBy (css = "button[id$='_manage-permissions_x0023_default-authorityFinder-authority-search-button-button']")
     private WebElement searchButton;
 
-    @FindBy(css="td[class$='yui-dt-col-role'] button")
+    @FindBy (css = "td[class$='yui-dt-col-role'] button")
     private WebElement roleButton;
 
-    @FindBy(css ="div[id$='_default-directPermissions'] td[class='yui-dt-empty'] div")
+    @FindBy (css = "div[id$='_default-directPermissions'] td[class='yui-dt-empty'] div")
     private WebElement noPermissionsSet;
 
     private By searchResultsList = By.cssSelector("td[class$='yui-dt-col-fullName'] span");
@@ -133,7 +133,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
      */
     public DocumentLibraryPage clickButton(String buttonName)
     {
-        if(buttonName.equals("Save"))
+        if (buttonName.equals("Save"))
             saveButton.click();
         else
             cancelButton.click();
@@ -143,7 +143,6 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     /**
      * Click on Inherit Permissions button
-     *
      */
     public void clickInheritPermissionsButton()
     {
@@ -155,8 +154,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
             {
                 inheritPermissionButton.findElement(By.cssSelector("button")).click();
                 break;
-            }
-            else
+            } else
             {
                 LOG.info("Wait for element after refresh: " + counter);
                 browser.refresh();
@@ -207,7 +205,6 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     /**
      * Checks if Inherit Permissions is enabled
-     *
      */
     public boolean isInheritPermissionsTableEnabled()
     {
@@ -216,22 +213,19 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     /**
      * Checks status (On or Off) of Inherit Permissions button
-     *
      */
     public boolean isInheritButtonStatusEnabled()
     {
         try
         {
             return inheritButtonStatus.isDisplayed();
-        }
-        catch (NoSuchElementException e)
+        } catch (NoSuchElementException e)
         {
             return false;
         }
     }
 
-    
-    
+
     public void searchAndAddUserOrGroup(String searchQuery, int add)
     {
         addUserGroupButton.click();
@@ -246,7 +240,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
         }
         clickAddButton(add);
     }
-    
+
     public void clickAddButton(int add)
 
     {
@@ -256,7 +250,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     /**
      * Click Yes or No option in the toggle Inherit Permissions dialog
      *
-     * @param  areYouSure ButtonType
+     * @param areYouSure ButtonType
      */
     public void clickAreYouSureDialog(ButtonType areYouSure)
     {
@@ -273,9 +267,8 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     /**
      * Toggle On/Off Inherit Permissions option
      *
-     * @param turnOn boolean
+     * @param turnOn     boolean
      * @param areYouSure ButtonType
-     *
      */
     public ManagePermissionsPage toggleInheritPermissions(boolean turnOn, ButtonType areYouSure)
     {
@@ -290,8 +283,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
             try
             {
                 clickAreYouSureDialog(areYouSure);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 //carry on
             }
@@ -301,7 +293,6 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     /**
      * Verify if the dialog pop-up is displayed when Inherit Permissions is to be turned-off
-     *
      */
     public boolean isTurnOffPermissionInheritanceDialogDisplayed()
     {
@@ -310,7 +301,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
         WebElement footer = browser.findElement(By.cssSelector("div[id='prompt'] div[class='ft'] span[class='button-group']"));
         boolean headerText = header.getText().equals("Turn off Permission Inheritance?");
         boolean bodyText = body.getText().equals("Are you sure you do not want to inherit permissions?" + '\n' + '\n'
-                                                    + "Only local permissions will apply to this document/folder.");
+            + "Only local permissions will apply to this document/folder.");
         return headerText && footer.isDisplayed() && bodyText;
     }
 
@@ -318,7 +309,6 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
      * Delete user or group from permission table
      *
      * @param userName String
-     *
      */
     public void deleteUserOrGroupFromPermission(String userName)
     {
@@ -338,7 +328,6 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
      * Method to get the role for a specified user
      *
      * @param userName String
-     *
      */
     public String getRole(String userName)
     {
@@ -350,7 +339,6 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
      * Method to set the role for a specified user
      *
      * @param userName String
-     *
      */
     public String setRole(String userName, String role)
     {

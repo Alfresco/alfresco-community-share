@@ -9,7 +9,7 @@ import ru.yandex.qatools.htmlelements.element.Link;
 
 /**
  * Manage the navigation beetween user profile pages(Sites, Content, Trashcan, etc.)
- * 
+ *
  * @author bogdan.bocancea
  */
 @PageObject
@@ -19,30 +19,30 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
     UserTrashcanPage userTrashcanPage;
 
     @RenderWebElement
-    @FindBy(css = "a[id$='default-profile-link']")
+    @FindBy (css = "a[id$='default-profile-link']")
     private Link info;
 
     @RenderWebElement
-    @FindBy(css = "a[id$='default-user-sites-link']")
+    @FindBy (css = "a[id$='default-user-sites-link']")
     private Link sites;
 
     @RenderWebElement
-    @FindBy(css = "a[id$='user-content-link']")
+    @FindBy (css = "a[id$='user-content-link']")
     private Link content;
 
-    @FindBy(css = "a[id$='following-link']")
+    @FindBy (css = "a[id$='following-link']")
     private Link following;
 
-    @FindBy(css = "a[id$='followers-link']")
+    @FindBy (css = "a[id$='followers-link']")
     private Link followers;
 
-    @FindBy(css = "a[id$='change-password-link']")
+    @FindBy (css = "a[id$='change-password-link']")
     private Link changePassword;
 
-    @FindBy(css = "a[id$='user-notifications-link']")
+    @FindBy (css = "a[id$='user-notifications-link']")
     private Link notification;
 
-    @FindBy(css = "a[id$='user-trashcan-link']")
+    @FindBy (css = "a[id$='user-trashcan-link']")
     private Link trashcan;
 
     public String myProfilePageUrl = "";
@@ -61,7 +61,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Click Info link
-     * 
+     *
      * @return {@link UserProfilePage}
      */
     public void clickInfo()
@@ -71,7 +71,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Verify if Sites link is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isInfoDisplayed()
@@ -81,7 +81,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Click Sites link
-     * 
+     *
      * @return {@link UserSitesListPage}
      */
     public void clickSites()
@@ -91,7 +91,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Verify if Sites link is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isSitesDisplayed()
@@ -101,7 +101,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Click Content link
-     * 
+     *
      * @return {@link UserContentPage}
      */
     public void clickContent()
@@ -111,7 +111,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Verify if Content link is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isContentDisplayed()
@@ -121,7 +121,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Click I'm Following link
-     * 
+     *
      * @return {@link FollowingPage}
      */
     public void clickFollowing()
@@ -131,7 +131,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Verify if I'm Following link is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isFollowingDisplayed()
@@ -141,7 +141,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Click Following Me link
-     * 
+     *
      * @return {@link FollowingPage}
      */
     public void clickFollowingMe()
@@ -151,7 +151,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Verify if Following Me link is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isFollowingMeDisplayed()
@@ -161,7 +161,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Click Change Password link
-     * 
+     *
      * @return {@link FollowingPage}
      */
     public void clickChangePassword()
@@ -171,7 +171,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Verify if Change Password link is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isChangePasswordDisplayed()
@@ -181,7 +181,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Click Nofification link
-     * 
+     *
      * @return {@link FollowingPage}
      */
     public void clickNotification()
@@ -191,7 +191,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Verify if Notification link is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isNotificationDisplayed()
@@ -201,7 +201,7 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Click Trashcan link
-     * 
+     *
      * @return {@link FollowingPage}
      */
     public UserTrashcanPage clickTrashcan()
@@ -212,13 +212,13 @@ public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 
     /**
      * Verify if Trashcan link is displayed
-     * 
+     *
      * @return true if displayed
      */
     public boolean isTrashcanDisplayed()
     {
         return trashcan.isDisplayed();
     }
-    
+
 
 }

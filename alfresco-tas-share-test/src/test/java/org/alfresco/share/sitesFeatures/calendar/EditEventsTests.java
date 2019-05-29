@@ -33,7 +33,7 @@ public class EditEventsTests extends ContextAwareWebTest
 
     private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
-    private DateTime startDate =  new DateTime();
+    private DateTime startDate = new DateTime();
     private DateTime endDate = startDate.plusDays(3);
     private DateTime tomorrow = startDate.plusDays(1);
     private DateTime yesterday = startDate.minusDays(1);
@@ -41,7 +41,7 @@ public class EditEventsTests extends ContextAwareWebTest
     private String eventLocation = "Iasi";
     private String eventDescription = "Event description";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -50,12 +50,12 @@ public class EditEventsTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
 
@@ -64,12 +64,12 @@ public class EditEventsTests extends ContextAwareWebTest
         return new DateTime(year, month, day, 0, 0).toString("EEEE, d MMMM, yyyy") + " at " + hour;
     }
 
-    @TestRail(id = "C3168")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C3168")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventMonthView()
     {
         //precondition
-        String eventName = eventTitle+"C3168";
+        String eventName = eventTitle + "C3168";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
 
@@ -134,19 +134,19 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
         assertEquals(eventInformationDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5581")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5581")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventWeekView()
     {
         //precondition
-        String eventName = eventTitle+"C5581";
+        String eventName = eventTitle + "C5581";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
         calendarPage.clickWeekButton();
@@ -212,19 +212,19 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
         assertEquals(eventInformationDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5583")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5583")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventDayView()
     {
         //precondition
-        String eventName = eventTitle+"C5583";
+        String eventName = eventTitle + "C5583";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
         calendarPage.clickDayButton();
@@ -290,19 +290,19 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
         assertEquals(eventInformationDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5580")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5580")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventByClickingOnTheEventAgendaView()
     {
         //precondition
-        String eventName = eventTitle+"C5580";
+        String eventName = eventTitle + "C5580";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
         calendarPage.clickAgendaButton();
@@ -368,20 +368,20 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
         assertEquals(eventInformationDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
 
-    @TestRail(id = "C6073")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6073")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventByClickingEditIconAgendaView()
     {
         //precondition
-        String eventName = eventTitle+"C6073";
+        String eventName = eventTitle + "C6073";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
         calendarPage.clickAgendaButton();
@@ -436,20 +436,20 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription + "Edited", "Following information is available: Description: " + eventDescription + "Edited");
         assertEquals(eventInformationDialog.getTagsDetails(), "t1, t2, t3", "Following information is available: Tags: t1, t2, t3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(yesterday.getDayOfMonth(), yesterday.getMonthOfYear(), yesterday.getYear(), "2:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(tomorrow.getDayOfMonth(), tomorrow.getMonthOfYear(), tomorrow.getYear(), "4:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
 
-    @TestRail(id = "C3173")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C3173")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEventMonthView()
     {
         //precondition
-        String eventName = eventTitle+"C3173";
+        String eventName = eventTitle + "C3173";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
 
@@ -511,19 +511,19 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
         assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5715")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5715")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEventWeekView()
     {
         //precondition
-        String eventName = eventTitle+"C5715";
+        String eventName = eventTitle + "C5715";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
         calendarPage.clickWeekButton();
@@ -586,19 +586,19 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
         assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5716")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5716")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEditEventDayView()
     {
         //precondition
-        String eventName = eventTitle+"C5716";
+        String eventName = eventTitle + "C5716";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
         calendarPage.clickDayButton();
@@ -661,19 +661,19 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
         assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5717")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5717")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEditEventByClickingOnEventAgendaView()
     {
         //precondition
-        String eventName = eventTitle+"C5715";
+        String eventName = eventTitle + "C5715";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
         calendarPage.clickAgendaButton();
@@ -736,19 +736,19 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
         assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C6076")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6076")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void cancelEditEventByClickingEditIconAgendaView()
     {
         //precondition
-        String eventName = eventTitle+"C6076";
+        String eventName = eventTitle + "C6076";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
         calendarPage.clickAgendaButton();
@@ -803,19 +803,19 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
         assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5401")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5401")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventWithoutSavingMonthView()
     {
         //precondition
-        String eventName = eventTitle+"C5401";
+        String eventName = eventTitle + "C5401";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
 
@@ -877,19 +877,19 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
         assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5718")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5718")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventWithoutSavingWeekView()
     {
         //precondition
-        String eventName = eventTitle+"C5718";
+        String eventName = eventTitle + "C5718";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
         calendarPage.clickWeekButton();
@@ -952,19 +952,19 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
         assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5719")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5719")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventWithoutSavingDayView()
     {
         //precondition
-        String eventName = eventTitle+"C5719";
+        String eventName = eventTitle + "C5719";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
         calendarPage.clickDayButton();
@@ -1027,19 +1027,19 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
         assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 
-    @TestRail(id = "C5720")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5720")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editEventWithoutSavingAgendaView()
     {
         //precondition
-        String eventName = eventTitle+"C5720";
+        String eventName = eventTitle + "C5720";
         sitePagesService.addCalendarEvent(user, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), "", "", false, "tag1, tag2, tag3");
         calendarPage.navigate(siteName);
         calendarPage.clickAgendaButton();
@@ -1102,10 +1102,10 @@ public class EditEventsTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getDescriptionDetails(), eventDescription, "Following information is available: Description: " + eventDescription);
         assertEquals(eventInformationDialog.getTagsDetails(), "tag1, tag2, tag3", "Following information is available: Tags: tag1, tag2, tag3");
         assertEquals(eventInformationDialog.getStartDateTime(),
-                transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
-                "Following information is available: Time section with Start Date");
+            transformExpectedDate(startDate.getDayOfMonth(), startDate.getMonthOfYear(), startDate.getYear(), "12:00 PM"),
+            "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(),
-                transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
-                "Following information is available: Time section with End Date");
+            transformExpectedDate(endDate.getDayOfMonth(), endDate.getMonthOfYear(), endDate.getYear(), "1:00 PM"),
+            "Following information is available: Time section with End Date");
     }
 }

@@ -25,11 +25,14 @@ import static org.testng.Assert.*;
  */
 public class AddExistingTagTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
-    @Autowired private EditPropertiesDialog editPropertiesDialog;
+    @Autowired
+    private EditPropertiesDialog editPropertiesDialog;
 
-    @Autowired private SelectDialog selectDialog;
+    @Autowired
+    private SelectDialog selectDialog;
 
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
@@ -40,7 +43,7 @@ public class AddExistingTagTests extends ContextAwareWebTest
     private final String tagName1 = "C7464-1" + random;
     private final String tagName2 = "C7464-2" + random;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "FirstName", "LastName");
@@ -55,16 +58,16 @@ public class AddExistingTagTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed=");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword,siteName);
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C7464")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7464")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void addExistingTagFromEditPropertiesDialog()
     {
         LOG.info("STEP1: Hover over the content created in the preconditions. STEP2: Click \"Edit Properties\" option");

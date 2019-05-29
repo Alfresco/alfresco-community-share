@@ -31,11 +31,13 @@ public class NodeBrowserPage extends AdminToolsPage
 
         private String searchType;
 
-        SEARCH_TYPE(String searchType) {
+        SEARCH_TYPE(String searchType)
+        {
             this.searchType = searchType;
         }
 
-        public String getSearchType() {
+        public String getSearchType()
+        {
             return this.searchType;
         }
     }
@@ -52,34 +54,36 @@ public class NodeBrowserPage extends AdminToolsPage
 
         private String storeType;
 
-        SELECT_STORE(String storeType) {
+        SELECT_STORE(String storeType)
+        {
             this.storeType = storeType;
         }
 
-        public String getStoreType() {
+        public String getStoreType()
+        {
             return this.storeType;
         }
     }
 
-    @FindBy(xpath = "//div[@class='title']/label[text() = 'Node Browser']")
+    @FindBy (xpath = "//div[@class='title']/label[text() = 'Node Browser']")
     private WebElement nodeBrowserDiv;
 
-    @FindBy(css = "div.search-text textarea")
+    @FindBy (css = "div.search-text textarea")
     private WebElement searchInput;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='_default-lang-menu-button-button']")
+    @FindBy (css = "button[id$='_default-lang-menu-button-button']")
     private WebElement searchTypeDropdownButton;
 
     @RenderWebElement
-    @FindBy(css = "button[id$='_default-store-menu-button-button']")
+    @FindBy (css = "button[id$='_default-store-menu-button-button']")
     private WebElement storeTypeDropdownButton;
 
-    @FindBy(css = "button[id$='_default-search-button-button']")
+    @FindBy (css = "button[id$='_default-search-button-button']")
     private WebElement searchButton;
 
     @RenderWebElement
-    @FindBy(css = ".search-main")
+    @FindBy (css = ".search-main")
     private WebElement searchResults;
 
     private By nameColumn = By.cssSelector("table thead tr th a[href$='name']");
@@ -89,7 +93,10 @@ public class NodeBrowserPage extends AdminToolsPage
     private By visibleDropdown = By.cssSelector(".yui-button-menu.yui-menu-button-menu.visible");
 
     @Override
-    public String getRelativePath() { return "share/page/console/admin-console/node-browser"; }
+    public String getRelativePath()
+    {
+        return "share/page/console/admin-console/node-browser";
+    }
 
     public NodeBrowserPage selectSearchType(SEARCH_TYPE searchType)
     {
@@ -117,18 +124,31 @@ public class NodeBrowserPage extends AdminToolsPage
         return storeTypeDropdownButton.getText().equals(storeType.getStoreType());
     }
 
-    public void clickSearchButton() {
+    public void clickSearchButton()
+    {
         browser.waitUntilElementClickable(searchButton, 5).click();
         browser.waitInSeconds(3);
     }
 
-    public boolean isSearchButtonPresent() { return searchButton.isDisplayed(); }
+    public boolean isSearchButtonPresent()
+    {
+        return searchButton.isDisplayed();
+    }
 
-    public boolean isNameColumnPresent() { return browser.findElement(nameColumn).isDisplayed(); }
+    public boolean isNameColumnPresent()
+    {
+        return browser.findElement(nameColumn).isDisplayed();
+    }
 
-    public boolean isParentColumnPresent() { return browser.findElement(parentColumn).isDisplayed(); }
+    public boolean isParentColumnPresent()
+    {
+        return browser.findElement(parentColumn).isDisplayed();
+    }
 
-    public boolean isReferenceColumnPresent() { return browser.findElement(referenceColumn).isDisplayed(); }
+    public boolean isReferenceColumnPresent()
+    {
+        return browser.findElement(referenceColumn).isDisplayed();
+    }
 
     public void writeInSearchInput(String searchItem)
     {
@@ -145,7 +165,7 @@ public class NodeBrowserPage extends AdminToolsPage
         List<WebElement> parentRows = browser.findElements(By.cssSelector("div[id$='-datatable'] td[class*='namePath'] div"));
         List<WebElement> referenceRows = browser.findElements(By.cssSelector("div[id$='-datatable'] td[class*='nodeRef'] div a"));
 
-        for (int i=0; i<nameRows.size(); i++)
+        for (int i = 0; i < nameRows.size(); i++)
         {
             String trc = nameRows.get(i).getText();
             results.put(trc.substring(trc.lastIndexOf(":") + 1), Arrays.asList(parentRows.get(i).getText(), referenceRows.get(i).getText()));
@@ -155,6 +175,6 @@ public class NodeBrowserPage extends AdminToolsPage
 
     public String getParentFor(String fileName)
     {
-       return getResults().get(fileName).get(0);
+        return getResults().get(fileName).get(0);
     }
 }

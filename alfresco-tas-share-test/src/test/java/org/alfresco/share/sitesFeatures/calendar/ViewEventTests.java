@@ -29,7 +29,7 @@ public class ViewEventTests extends ContextAwareWebTest
 
     private String user1 = String.format("user1%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
-    private DateTime startDate =  new DateTime();
+    private DateTime startDate = new DateTime();
     private DateTime endDate = startDate.plusDays(4);
     private String startHour = "2:00 PM";
     private String endHour = "4:00 PM";
@@ -38,7 +38,7 @@ public class ViewEventTests extends ContextAwareWebTest
     private String eventDescription = "Event number 1";
     private String eventTags = "tag1, tag2, tag3";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user1, password, user1 + domain, user1, user1);
@@ -49,12 +49,12 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user1);
+        userService.delete(adminUser, adminPassword, user1);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user1);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
     private String formatDate(DateTime date, String hour)
@@ -62,8 +62,8 @@ public class ViewEventTests extends ContextAwareWebTest
         return date.toString("EEEE, d MMMM, yyyy") + " at " + hour;
     }
 
-    @TestRail(id = "C3167")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C3167")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventMonthView()
     {
         calendarPage.navigate(siteName);
@@ -79,8 +79,8 @@ public class ViewEventTests extends ContextAwareWebTest
         assertTrue(eventInformationDialog.areButtonsEnabled(), "All buttons should be enabled");
     }
 
-    @TestRail(id = "C5407")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5407")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventDayView()
     {
         calendarPage.navigate(siteName);
@@ -99,8 +99,8 @@ public class ViewEventTests extends ContextAwareWebTest
         assertTrue(eventInformationDialog.areButtonsEnabled(), "All buttons should be enabled");
     }
 
-    @TestRail(id = "5408")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "5408")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventWeekView()
     {
         calendarPage.navigate(siteName);
@@ -119,8 +119,8 @@ public class ViewEventTests extends ContextAwareWebTest
         assertTrue(eventInformationDialog.areButtonsEnabled(), "All buttons should be enabled");
     }
 
-    @TestRail(id = "C5409")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5409")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventByClickingOnTheEventAgendaView()
     {
         calendarPage.navigate(siteName);
@@ -139,8 +139,8 @@ public class ViewEventTests extends ContextAwareWebTest
         assertTrue(eventInformationDialog.areButtonsEnabled(), "All buttons should be enabled");
     }
 
-    @TestRail(id = "C6109")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6109")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventByClickingViewIconAgendaView()
     {
         calendarPage.navigate(siteName);
@@ -159,8 +159,8 @@ public class ViewEventTests extends ContextAwareWebTest
         assertTrue(eventInformationDialog.areButtonsEnabled(), "All buttons should be enabled");
     }
 
-    @TestRail(id = "C5402")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C5402")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void closeEventInformationPopup()
     {
         calendarPage.navigate(siteName);

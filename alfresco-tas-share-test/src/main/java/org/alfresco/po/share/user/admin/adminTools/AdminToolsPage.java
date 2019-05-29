@@ -23,14 +23,14 @@ public class AdminToolsPage extends SharePage<AdminToolsPage> implements Accessi
     private Toolbar toolbar;
 
     @RenderWebElement
-    @FindAll(@FindBy(css = ".tool-link"))
+    @FindAll (@FindBy (css = ".tool-link"))
     private List<WebElement> toolsLinksList;
 
     @RenderWebElement
-    @FindBy(css = "#alf-filters>div[id$='admin-console']")
+    @FindBy (css = "#alf-filters>div[id$='admin-console']")
     private WebElement adminToolsDiv;
 
-    @FindBy(css= "[href='module-package']")
+    @FindBy (css = "[href='module-package']")
     private WebElement modulePackage;
 
     private By toolsList = By.cssSelector(".tool-link");
@@ -41,7 +41,7 @@ public class AdminToolsPage extends SharePage<AdminToolsPage> implements Accessi
         return "share/page/console/admin-console/application";
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
     public AdminToolsPage navigateByMenuBar()
     {
@@ -56,7 +56,7 @@ public class AdminToolsPage extends SharePage<AdminToolsPage> implements Accessi
 
     /**
      * Navigate in Tools panel by click on the specified tool name
-     * 
+     *
      * @param toolName to click on
      */
     public HtmlPage navigateToNodeFromToolsPanel(String toolName, HtmlPage page)

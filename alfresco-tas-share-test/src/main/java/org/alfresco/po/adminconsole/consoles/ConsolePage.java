@@ -8,18 +8,18 @@ import org.openqa.selenium.support.FindBy;
 public abstract class ConsolePage<T> extends AdminConsolePage<T>
 {
     @RenderWebElement
-    @FindBy(id = "cmd")
+    @FindBy (id = "cmd")
     WebElement cmd;
 
     @RenderWebElement
-    @FindBy(className = "description")
+    @FindBy (className = "description")
     WebElement description;
 
     @RenderWebElement
-    @FindBy(css = "input[value='Execute']")
+    @FindBy (css = "input[value='Execute']")
     WebElement execute;
 
-    @FindBy(css = "div.column-full > pre")
+    @FindBy (css = "div.column-full > pre")
     WebElement results;
 
     public String getDescription()

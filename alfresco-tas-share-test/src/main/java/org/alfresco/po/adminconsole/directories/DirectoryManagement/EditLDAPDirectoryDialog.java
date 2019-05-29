@@ -10,7 +10,8 @@ public class EditLDAPDirectoryDialog extends EditDirectoryDialog
 {
     public static final String LDAP_AUTHENTICATION_OBJECT = "Alfresco:Type=Configuration,Category=Authentication,id1=managed,id2=ldap1";
 
-    public enum LDAPFields{
+    public enum LDAPFields
+    {
         authenticationEnabled("Authentication Enabled:", "ldap.authentication.active"),
         userNameFormat("User Name Format:", "ldap.authentication.userNameFormat"),
         ldapServerUrl("LDAP Server URL:", "ldap.authentication.java.naming.provider.url"),

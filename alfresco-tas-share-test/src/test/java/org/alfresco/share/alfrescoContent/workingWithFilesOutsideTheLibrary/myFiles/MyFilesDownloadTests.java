@@ -21,15 +21,19 @@ import static org.testng.Assert.assertTrue;
 /**
  * @author Razvan.Dorobantu
  */
-public class MyFilesDownloadTests  extends ContextAwareWebTest
+public class MyFilesDownloadTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentCommon documentCommon;
+    @Autowired
+    private DocumentCommon documentCommon;
 
-    @Autowired private MyFilesPage myFilesPage;
+    @Autowired
+    private MyFilesPage myFilesPage;
 
-    @Autowired private SiteDashboardPage sitePage;
+    @Autowired
+    private SiteDashboardPage sitePage;
 
-    @Autowired private NewContentDialog newContentDialog;
+    @Autowired
+    private NewContentDialog newContentDialog;
 
     @Autowired
     private UploadContent uploadContent;
@@ -53,8 +57,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
             {
                 if (aDirectoryContent.getName().equals(fileName))
                     return true;
-            }
-            else
+            } else
             {
                 if (aDirectoryContent.getName().equals(fileName + extension))
                     return true;
@@ -64,8 +67,8 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
         return false;
     }
 
-    @TestRail(id = "C7799")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7799")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesDownloadFileFromAlfresco()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a file.");
@@ -89,12 +92,12 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
         LOG.info("Step 2: Check the file was saved locally");
         Assert.assertTrue(isFileInDirectory(fileNameC7799, null), "The file was not found in the specified location");
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
     }
 
-    @TestRail(id = "C7802")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7802")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void downloadFolder()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");
@@ -121,7 +124,7 @@ public class MyFilesDownloadTests  extends ContextAwareWebTest
         LOG.info("Step 2: Check the folder was saved locally");
         getBrowser().waitInSeconds(5);
         Assert.assertTrue(isFileInDirectory(folderNameC7802, ".zip"), "The folder was not found in the specified location");
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
     }

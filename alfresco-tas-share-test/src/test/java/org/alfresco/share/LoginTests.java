@@ -30,7 +30,7 @@ public class LoginTests extends ContextAwareWebTest
     private String dashBoardUrl, authError;
     private String testUserC2084 = "testUserC2084";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         dashBoardUrl = "share/page/user/%s/dashboard";
@@ -46,29 +46,28 @@ public class LoginTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, validUser);
+        userService.delete(adminUser, adminPassword, validUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + validUser);
 
-        userService.delete(adminUser,adminPassword, testUserC2084);
+        userService.delete(adminUser, adminPassword, testUserC2084);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUserC2084);
 
-        userService.delete(adminUser,adminPassword, specialPassUser);
+        userService.delete(adminUser, adminPassword, specialPassUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + specialPassUser);
 
         for (String specialUser : specialUsers)
         {
-            userService.delete(adminUser,adminPassword, specialUser);
+            userService.delete(adminUser, adminPassword, specialUser);
             contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + specialUser);
         }
     }
 
 
-
-    @TestRail(id = "C2080")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
+    @TestRail (id = "C2080")
+    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginValidCredentials()
     {
         LOG.info("STEP1: Navigate to Login page");
@@ -83,8 +82,8 @@ public class LoginTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C2081")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
+    @TestRail (id = "C2081")
+    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginInvalidCredentials()
     {
         LOG.info("STEP1: Navigate to Login page");
@@ -98,8 +97,8 @@ public class LoginTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C2082")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
+    @TestRail (id = "C2082")
+    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginInvalidPassword()
     {
         LOG.info("STEP1: Navigate to Login page");
@@ -113,8 +112,8 @@ public class LoginTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C2083")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
+    @TestRail (id = "C2083")
+    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void invalidUserRedirectedToLoginPage()
     {
         LOG.info("STEP1: In any browser, enter the URL for any page from Share in the address bar");
@@ -133,8 +132,8 @@ public class LoginTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C2084")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
+    @TestRail (id = "C2084")
+    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginAutoComplete()
     {
         loginPage.navigate();
@@ -146,7 +145,7 @@ public class LoginTests extends ContextAwareWebTest
         if (loginPage.isAuthenticationErrorDisplayed())
         {
             loginPage.autoCompleteUsername(testUserC2084);
-            System.out.println("Password: "+password);
+            System.out.println("Password: " + password);
             loginPage.typePassword(password);
             loginPage.clickLogin();
         }
@@ -158,8 +157,8 @@ public class LoginTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @TestRail(id = "C2085")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
+    @TestRail (id = "C2085")
+    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginUserWithSpecialChar()
     {
         for (String specialUser : specialUsers)
@@ -177,8 +176,8 @@ public class LoginTests extends ContextAwareWebTest
         }
     }
 
-    @TestRail(id = "C2086")
-    @Test(groups = { TestGroup.SANITY, TestGroup.AUTH})
+    @TestRail (id = "C2086")
+    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
     public void loginUserWithSpecialPassword()
     {
         LOG.info("STEP1: Navigate to Share Login page.");
@@ -186,7 +185,7 @@ public class LoginTests extends ContextAwareWebTest
         assertEquals(loginPage.getPageTitle(), "Alfresco » Login", "Displayed page=");
 
         LOG.info(
-                "STEP2: Fill in username and password fields with credentials for the user having password with \"@\" character.\n" + "Click \"Login\" button");
+            "STEP2: Fill in username and password fields with credentials for the user having password with \"@\" character.\n" + "Click \"Login\" button");
         loginPage.login(specialPassUser, specialPassword);
         userDashboard.renderedPage();
         assertEquals(userDashboard.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");

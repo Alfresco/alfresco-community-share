@@ -22,16 +22,18 @@ import static org.testng.Assert.assertTrue;
  */
 public class NavigationPanelTests extends ContextAwareWebTest
 {
-    @Autowired private DocumentsFilters documentsFilters;
+    @Autowired
+    private DocumentsFilters documentsFilters;
 
-    @Autowired private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
 
     private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String folderName = "folder-C7928-" + uniqueId;
     private final String path = "Shared/";
     private final String tag = "tag-" + uniqueId.toLowerCase();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         contentService.createFolderInRepository(adminUser, adminPassword, folderName, path);
@@ -43,8 +45,8 @@ public class NavigationPanelTests extends ContextAwareWebTest
     }
 
 
-    @TestRail(id = "C7927")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7927")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyFilters()
     {
         LOG.info("STEP1: Verify the Sidebar");
@@ -52,8 +54,8 @@ public class NavigationPanelTests extends ContextAwareWebTest
         assertEquals(documentsFilters.getSidebarFilters(), expectedFilters, "Sidebar filters=");
     }
 
-    @TestRail(id = "C7928")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C7928")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyTags()
     {
         LOG.info("STEP1: Verify the list of tags in the Tags section");

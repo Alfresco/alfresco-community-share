@@ -32,7 +32,8 @@ public class SiteNoticeTests extends ContextAwareWebTest
     private String siteName;
     private String description;
 
-    public void setup(String id) throws DataPreparationException {
+    public void setup(String id) throws DataPreparationException
+    {
         super.setup();
 
         uniqueIdentifier = String.format("-" + id + "-%s", RandomData.getRandomAlphanumeric());
@@ -44,13 +45,14 @@ public class SiteNoticeTests extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
         siteService.addDashlet(userName, password, siteName, DashboardCustomization.SiteDashlet.SITE_NOTICE,
-                DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
+            DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT, 1, 2);
         siteDashboardPage.navigate(siteName);
     }
 
-    @TestRail(id = "C5556")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void addSiteNoticeDashlet() throws DataPreparationException {
+    @TestRail (id = "C5556")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void addSiteNoticeDashlet() throws DataPreparationException
+    {
 
         LOG.info("Starting C5556");
 
@@ -58,15 +60,16 @@ public class SiteNoticeTests extends ContextAwareWebTest
         setup("C5556");
         Assert.assertTrue(siteDashboardPage.isDashletAddedInPosition(Dashlets.SITE_NOTICE, 1, 2), "Dashlet is not added in the correct position ");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @TestRail(id = "C5557")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void noticeDashletActions() throws DataPreparationException {
+    @TestRail (id = "C5557")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void noticeDashletActions() throws DataPreparationException
+    {
         LOG.info("Starting C5557");
 
         String helpMessage = "This dashlet displays a custom message on the dashboard, specified by the site manager";
@@ -85,14 +88,15 @@ public class SiteNoticeTests extends ContextAwareWebTest
         siteNoticeDashlet.closeConfigurePanel();
         Assert.assertFalse(siteNoticeDashlet.isConfigurePanelOpened(), "Configure site notice panel is opened");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5558")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void customizeDashlet() throws DataPreparationException {
+    @TestRail (id = "C5558")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void customizeDashlet() throws DataPreparationException
+    {
         LOG.info("Starting C5558");
 
         setup("C5558");
@@ -109,14 +113,15 @@ public class SiteNoticeTests extends ContextAwareWebTest
         getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("div.dashlet.notice-dashlet div.title")), text);
         Assert.assertEquals(siteNoticeDashlet.getDashletTitle(), text, "Site Notice title is not the same as the title that was set");
         Assert.assertEquals(siteNoticeDashlet.getSiteNoticeText(), text, "Site Notice text is not the same as the text that was set");
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail(id = "C5559")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
-    public void customizeDashletCancel() throws DataPreparationException {
+    @TestRail (id = "C5559")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    public void customizeDashletCancel() throws DataPreparationException
+    {
 
         LOG.info("Starting C5559");
 
@@ -134,8 +139,8 @@ public class SiteNoticeTests extends ContextAwareWebTest
         Assert.assertNotEquals(siteNoticeDashlet.getDashletTitle(), text, "Site Notice title is the same as the title that was set");
         Assert.assertNotEquals(siteNoticeDashlet.getSiteNoticeText(), text, "Site Notice text is the same as the text that was set");
 
-        userService.delete(adminUser,adminPassword, userName);
+        userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
     }
 }

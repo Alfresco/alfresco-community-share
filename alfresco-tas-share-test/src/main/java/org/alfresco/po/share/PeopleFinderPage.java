@@ -21,27 +21,27 @@ public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements Acc
 {
     @Autowired
     Toolbar toolbar;
-    
+
     @Autowired
     UserProfilePage userProfilePage;
 
     @RenderWebElement
-    @FindBy(css = "input[id$='default-search-text']")
+    @FindBy (css = "input[id$='default-search-text']")
     private TextInput searchInputField;
 
-    @FindBy(css = "button[id$='default-search-button-button']")
+    @FindBy (css = "button[id$='default-search-button-button']")
     private Button searchButton;
 
-    @FindBy(css = "[id*='default-help']")
+    @FindBy (css = "[id*='default-help']")
     private TextBlock searchHelpMessage;
 
-    @FindBy(css = "[id*='default-results-info']")
+    @FindBy (css = "[id*='default-results-info']")
     private TextBlock searchResultsInfo;
 
-    @FindBy(css = ".yui-dt-empty")
+    @FindBy (css = ".yui-dt-empty")
     private TextBlock noResults;
 
-    @FindAll(@FindBy(css = "tbody[class='yui-dt-data'] tr"))
+    @FindAll (@FindBy (css = "tbody[class='yui-dt-data'] tr"))
     protected List<WebElement> searchResultsList;
 
     private By avatar = By.cssSelector(".avatar");
@@ -52,7 +52,7 @@ public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements Acc
         return "share/page/people-finder";
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
     public PeopleFinderPage navigateByMenuBar()
     {
@@ -62,7 +62,7 @@ public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements Acc
 
     /**
      * Type searchInput
-     * 
+     *
      * @param searchInput
      */
     public void typeSearchInput(String searchInput)
@@ -87,8 +87,8 @@ public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements Acc
         browser.waitUntilElementClickable(searchButton.getWrappedElement(), properties.getImplicitWait());
         searchButton.click();
         browser.waitInSeconds(5);
-        int i=0;
-        while ( (searchResultsList.size() == 0 || browser.isElementDisplayed(noResults.getWrappedElement()) ) && i<5)
+        int i = 0;
+        while ((searchResultsList.size() == 0 || browser.isElementDisplayed(noResults.getWrappedElement())) && i < 5)
         {
             searchButton.click();
             browser.waitInSeconds(5);
@@ -98,7 +98,7 @@ public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements Acc
 
     /**
      * Search for people
-     * 
+     *
      * @param searchInput
      */
     public void search(String searchInput)
@@ -109,7 +109,7 @@ public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements Acc
 
     /**
      * Get the message when no results are found
-     * 
+     *
      * @return String message
      */
     public String getNoResultsText()

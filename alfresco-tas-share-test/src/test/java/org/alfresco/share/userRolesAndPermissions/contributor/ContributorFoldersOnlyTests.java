@@ -19,6 +19,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+
 import static org.testng.Assert.*;
 
 /**
@@ -57,7 +58,7 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     private final String tag = "tag-" + uniqueId.toLowerCase();
     private final String title = "Title-" + uniqueId;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, domain, name, user);
@@ -72,18 +73,18 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
 
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,site );
+        siteService.delete(adminUser, adminPassword, site);
     }
 
 
-    @TestRail(id = "C8874")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8874")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorCreateFolder()
     {
         documentLibraryPage.navigate(site);
@@ -101,13 +102,13 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
         newContentDialog.fillInDetails(folderName2, title, description);
         newContentDialog.clickSaveButton();
         getBrowser().waitInSeconds(4);
-     //   Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName2));
-   //     notification.waitUntilNotificationDisappears();
+        //   Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName2));
+        //     notification.waitUntilNotificationDisappears();
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName2), String.format("Folder [%s] is displayed in Document Library.", folderName2));
     }
 
-    @TestRail(id = "C8875")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8875")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void locateFolder()
     {
         documentLibraryPage.navigate(site);
@@ -119,15 +120,15 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Click 'More' menu for " + subFolderName + ", and verify presence of \"Locate Folder\" option");
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, language.translate("documentLibrary.contentActions.locateFolder")),
-                "'Locate Folder' option is displayed for " + subFolderName);
+            "'Locate Folder' option is displayed for " + subFolderName);
 
         LOG.info("STEP3: Click \"Locate Folder\" option");
         documentLibraryPage.clickDocumentLibraryItemAction(subFolderName, language.translate("documentLibrary.contentActions.locateFolder"), documentLibraryPage);
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString(), "Breadcrumb=");
     }
 
-    @TestRail(id = "C8876")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8876")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void manageRulesFolderSelfCreated()
     {
         documentLibraryPage.navigate(site);
@@ -135,7 +136,7 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(folderName3, language.translate("documentLibrary.contentActions.manageRules")),
-                "'Manage Rules' option is displayed for " + folderName3);
+            "'Manage Rules' option is displayed for " + folderName3);
 
         LOG.info("STEP2: Click 'Manage Rules' option for " + folderName3);
         documentLibraryPage.mouseOverContentItem(folderName3);
@@ -143,8 +144,8 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
     }
 
-    @TestRail(id = "C8877")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8877")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void manageRulesFolderCreatedByOther()
     {
         documentLibraryPage.navigate(site);
@@ -152,6 +153,6 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
         LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
         documentLibraryPage.clickMoreMenu(subFolderName);
         assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, language.translate("documentLibrary.contentActions.manageRules")),
-                "'Manage Rules' option is displayed for " + subFolderName);
+            "'Manage Rules' option is displayed for " + subFolderName);
     }
 }

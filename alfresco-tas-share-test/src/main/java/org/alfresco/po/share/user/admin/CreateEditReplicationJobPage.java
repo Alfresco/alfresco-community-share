@@ -21,42 +21,42 @@ public class CreateEditReplicationJobPage extends SharePage<CreateEditReplicatio
     @Autowired
     ReplicationJobsPage replicationJobsPage;
 
-    @FindBy(css = ".form-manager")
+    @FindBy (css = ".form-manager")
     private WebElement headerTitle;
 
     @RenderWebElement
-    @FindBy(css = "input[id*='name']")
+    @FindBy (css = "input[id*='name']")
     private WebElement nameInputField;
 
     @RenderWebElement
-    @FindBy(css = "textarea[id*='description']")
+    @FindBy (css = "textarea[id*='description']")
     private WebElement descriptionTextarea;
 
-    @FindBy(xpath = "(.//div[contains(@id, 'payloadContainer')]//button)[1]")
+    @FindBy (xpath = "(.//div[contains(@id, 'payloadContainer')]//button)[1]")
     private WebElement selectPaylodButton;
 
-    @FindBy(css = "[id*='transferTargetContainer'] button")
+    @FindBy (css = "[id*='transferTargetContainer'] button")
     private WebElement selectTransferTargetButton;
 
-    @FindAll(@FindBy(css = "tr.yui-dt-rec"))
+    @FindAll (@FindBy (css = "tr.yui-dt-rec"))
     private List<WebElement> leftSideRows;
 
-    @FindBy(css = "button[id*='payload-cntrl-ok']")
+    @FindBy (css = "button[id*='payload-cntrl-ok']")
     private WebElement okButtonPayload;
 
-    @FindBy(css = "button[id*='targetName-cntrl-ok']")
+    @FindBy (css = "button[id*='targetName-cntrl-ok']")
     private WebElement okButtonTransferTarget;
 
-    @FindBy(css = ".form-container .name")
+    @FindBy (css = ".form-container .name")
     private WebElement selectedPayload;
 
-    @FindBy(css = "div[class*='transferTarget']")
+    @FindBy (css = "div[class*='transferTarget']")
     private WebElement selectedTransferTarget;
 
-    @FindBy(css = "input[id*='enabled-entry']")
+    @FindBy (css = "input[id*='enabled-entry']")
     private WebElement enabledCheckbox;
 
-    @FindBy(css = "button[id*='submit']")
+    @FindBy (css = "button[id*='submit']")
     private WebElement creatJobButton;
 
     private By itemNameSelector = By.cssSelector(".item-name a");
@@ -109,7 +109,7 @@ public class CreateEditReplicationJobPage extends SharePage<CreateEditReplicatio
 
     /**
      * Click 'Add' icon for an item from left side panel, in 'Select...' dialog
-     * 
+     *
      * @param itemName
      */
     public void clickAddIconFromList(String itemName)
@@ -147,7 +147,7 @@ public class CreateEditReplicationJobPage extends SharePage<CreateEditReplicatio
 
     /**
      * Click on each item from listOfLeftSideItems. Click Add icon
-     * 
+     *
      * @param listOfLeftSideItems to be clicked on from dialog's left side panel
      */
     public void selectItemFromDialog(ArrayList<String> listOfLeftSideItems)

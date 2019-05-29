@@ -18,15 +18,17 @@ import static org.testng.Assert.assertTrue;
 public class SharedFilesManageAspectsTests extends ContextAwareWebTest
 {
 
-    @Autowired private AspectsForm aspectsForm;
+    @Autowired
+    private AspectsForm aspectsForm;
 
-    @Autowired private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
 
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-    private String folderName = String.format("testFolder%s",RandomData.getRandomAlphanumeric());
-    private String userName1 = String.format("User1%s",RandomData.getRandomAlphanumeric());
+    private String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
+    private String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -34,8 +36,8 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
         contentService.createFolderInRepository(userName, password, folderName, "Shared");
     }
 
-    @TestRail(id = "C8038")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8038")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkManageAspectActions()
     {
         LOG.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
@@ -54,8 +56,8 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
         assertTrue(aspectsForm.isCloseButtonDisplayed(), "Close button is not displayed");
     }
 
-    @TestRail(id = "C8034")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8034")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void manageAspectsApplyChanges()
     {
         LOG.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
@@ -77,8 +79,8 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
         assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
     }
 
-    @TestRail(id = "C13761")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C13761")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void manageAspectsActionMissing()
     {
         LOG.info("Preconditions: Login to Share and navigate to 'Shared Files' page");

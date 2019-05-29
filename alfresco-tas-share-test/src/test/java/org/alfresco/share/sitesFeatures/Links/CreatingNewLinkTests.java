@@ -34,34 +34,34 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
 
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName = "";
-     DateTime currentDate;
+    DateTime currentDate;
     private String linkTitle = String.format("Link%s", RandomData.getRandomAlphanumeric());
     private String linkURL = "https://www.google.com";
     private String linkDescription = String.format("Link description%s", RandomData.getRandomAlphanumeric());
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void setupMethod()
     {
         currentDate = new DateTime();
     }
 
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         setupAuthenticatedSession(testUser, password);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, testUser);
+        userService.delete(adminUser, adminPassword, testUser);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6180")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6180")
     public void createExternalLink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
@@ -92,13 +92,13 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
         createLinkPage.clickSaveButton();
 
         Assert.assertTrue(linkDetailsViewPage.getLinkTitle().equals(linkTitle),
-                "Wrong link title! expected " + linkTitle + "but found " + linkDetailsViewPage.getLinkTitle());
+            "Wrong link title! expected " + linkTitle + "but found " + linkDetailsViewPage.getLinkTitle());
         Assert.assertTrue(linkDetailsViewPage.getLinkURL().equals(linkURL),
-                "Wrong link URL! expected" + linkURL + "but found " + linkDetailsViewPage.getLinkURL());
+            "Wrong link URL! expected" + linkURL + "but found " + linkDetailsViewPage.getLinkURL());
         Assert.assertTrue(linkDetailsViewPage.getCreationDate().contains(currentDate.toString("EEE d MMM yyyy")), "Wrong link creation date!");
         Assert.assertTrue(linkDetailsViewPage.getCreatedBy().equals("firstName" + " " + "lastName"), "Wrong author of the link!");
         Assert.assertTrue(linkDetailsViewPage.getDescription().equals(linkDescription), "Wrong link description! expected " + linkDescription + "but found"
-                + linkDetailsViewPage.getDescription());
+            + linkDetailsViewPage.getDescription());
         Assert.assertTrue(linkDetailsViewPage.getTagsList().isEmpty(), "No tag should be displayed!");
         Assert.assertTrue(linkDetailsViewPage.getNoCommentsMessage().equals("No comments"), "'No comments' message should be displayed!");
 
@@ -119,8 +119,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
             if (getBrowser().getCurrentUrl().contains("google"))
             {
                 break;
-            }
-            else
+            } else
             {
                 getBrowser().switchTo().window(currentWindow);
             }
@@ -129,12 +128,12 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
 
         getBrowser().close();
         getBrowser().switchTo().window(currentWindow);
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6182")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6182")
     public void createInternalLink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
@@ -166,13 +165,13 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
         createLinkPage.clickSaveButton();
 
         Assert.assertTrue(linkDetailsViewPage.getLinkTitle().equals(linkTitle),
-                "Wrong link title! expected " + linkTitle + "but found " + linkDetailsViewPage.getLinkTitle());
+            "Wrong link title! expected " + linkTitle + "but found " + linkDetailsViewPage.getLinkTitle());
         Assert.assertTrue(linkDetailsViewPage.getLinkURL().equals(linkURL),
-                "Wrong link URL! expected" + linkURL + "but found " + linkDetailsViewPage.getLinkURL());
+            "Wrong link URL! expected" + linkURL + "but found " + linkDetailsViewPage.getLinkURL());
         Assert.assertTrue(linkDetailsViewPage.getCreationDate().contains(currentDate.toString("EEE d MMM yyyy")), "Wrong link creation date!");
         Assert.assertTrue(linkDetailsViewPage.getCreatedBy().equals("firstName" + " " + "lastName"), "Wrong author of the link!");
         Assert.assertTrue(linkDetailsViewPage.getDescription().equals(linkDescription), "Wrong link description! expected " + linkDescription + "but found"
-                + linkDetailsViewPage.getDescription());
+            + linkDetailsViewPage.getDescription());
         Assert.assertTrue(linkDetailsViewPage.getTagsList().isEmpty(), "No tag should be displayed!");
         Assert.assertTrue(linkDetailsViewPage.getNoCommentsMessage().equals("No comments"), "'No comments' message should be displayed!");
 
@@ -194,8 +193,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
             if (getBrowser().getCurrentUrl().contains("google"))
             {
                 break;
-            }
-            else
+            } else
             {
                 getBrowser().switchTo().window(currentWindow);
             }
@@ -206,12 +204,12 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
         getBrowser().navigate().back();
         linkPage.renderedPage();
         Assert.assertEquals(linkPage.getLinkTitle(), linkTitle, "Link not displayed in Liks list");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail(id = "C6182")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail (id = "C6182")
     public void cancelCreatingNewLink()
     {
         LOG.info("Precondition: Create site and add 'Links' page to it");
@@ -231,7 +229,7 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
         createLinkPage.typeLinkURL(linkURL);
         createLinkPage.clickCancelButton();
         Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
-        siteService.delete(adminUser,adminPassword,siteName );
+        siteService.delete(adminUser, adminPassword, siteName);
 
     }
 }

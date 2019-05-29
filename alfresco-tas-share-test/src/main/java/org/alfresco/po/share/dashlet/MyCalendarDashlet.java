@@ -17,10 +17,10 @@ import java.util.List;
 public class MyCalendarDashlet extends Dashlet<MyCalendarDashlet>
 {
     @RenderWebElement
-    @FindBy(css = "div.dashlet.user-calendar")
+    @FindBy (css = "div.dashlet.user-calendar")
     private HtmlElement dashletContainer;
 
-    @FindAll(@FindBy(css = "td.yui-dt-col-event div.detail a"))
+    @FindAll (@FindBy (css = "td.yui-dt-col-event div.detail a"))
     private List<WebElement> userEventsList;
 
     @Override

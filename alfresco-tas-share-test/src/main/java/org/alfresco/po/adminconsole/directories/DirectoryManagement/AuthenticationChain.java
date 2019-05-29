@@ -13,48 +13,54 @@ import static org.alfresco.utility.report.log.Step.STEP;
  * Created by Mirela Tifui on 7/4/2017.
  * This class is modeling the "Authentication Chain" table found on /alfresco/s/enterprise/admin/admin-directorymanagement
  */
-public class AuthenticationChain {
+public class AuthenticationChain
+{
     private List<WebElement> rowInfo;
     WebBrowser browser;
 
-    public AuthenticationChain(List<WebElement> rowInfo, WebBrowser browser) {
+    public AuthenticationChain(List<WebElement> rowInfo, WebBrowser browser)
+    {
         this.rowInfo = rowInfo;
         this.browser = browser;
     }
 
-    public String getOrder() {
+    public String getOrder()
+    {
         return rowInfo.get(0).getText();
     }
 
-    public String getName() {
+    public String getName()
+    {
         return rowInfo.get(1).getText();
     }
 
-    public String getType() {
+    public String getType()
+    {
         return rowInfo.get(2).getText();
     }
 
-    public String getEnabled() {
+    public String getEnabled()
+    {
         return rowInfo.get(3).getText();
     }
 
-    public String getSynchronized() {
+    public String getSynchronized()
+    {
         STEP("Get synchronized value");
         return rowInfo.get(4).getText();
     }
 
-    public void clickAction(String actionName) 
+    public void clickAction(String actionName)
     {
-    	WebElement link;
+        WebElement link;
         STEP(String.format("Click action %s", actionName));
         Utility.waitToLoopTime(1);
-        if(actionName.equals("Status [+]"))
+        if (actionName.equals("Status [+]"))
         {
-        	actionName = actionName.replace(" [+]", "");
-        	link = rowInfo.get(5).findElement(By.xpath(".//a[contains(text(),'" +  actionName +"')]"));
-        }
-        else
-        	link = rowInfo.get(5).findElement(By.xpath(".//a[text()='" +  actionName +"']"));
+            actionName = actionName.replace(" [+]", "");
+            link = rowInfo.get(5).findElement(By.xpath(".//a[contains(text(),'" + actionName + "')]"));
+        } else
+            link = rowInfo.get(5).findElement(By.xpath(".//a[text()='" + actionName + "']"));
         link.click();
         Utility.waitToLoopTime(1);
     }

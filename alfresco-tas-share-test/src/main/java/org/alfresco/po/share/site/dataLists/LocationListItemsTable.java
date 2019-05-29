@@ -16,17 +16,17 @@ public class LocationListItemsTable extends ListItemTable
     protected By countryColumn = By.cssSelector("td[class*='locationCountry'] div");
     protected By descriptionColumn = By.cssSelector("td[class*='cm_description'] div");
     protected By attachmentsColumn = By.cssSelector("td[class*='cm_attachments'] div");
-    
+
     public LocationListItemsTable(WebElement webElement, WebBrowser browser)
     {
         super(webElement, browser);
     }
-    
+
     public WebElement getTitleColumn()
     {
         return browser.findElement(titleColumn);
     }
-    
+
     public WebElement getAddress1Column()
     {
         return browser.findElement(address1Column);
@@ -36,32 +36,32 @@ public class LocationListItemsTable extends ListItemTable
     {
         return browser.findElement(address2Column);
     }
-    
+
     public WebElement getAddress3Column()
     {
         return browser.findElement(address3Column);
     }
-    
+
     public WebElement getZipCodeColumn()
     {
         return browser.findElement(zipCodeColumn);
     }
-    
+
     public WebElement getStateColumn()
     {
         return browser.findElement(stateColumn);
     }
-    
+
     public WebElement getCountryColumn()
     {
         return browser.findElement(countryColumn);
     }
-    
+
     public WebElement getDescriptionColumn()
     {
         return browser.findElement(descriptionColumn);
     }
-    
+
     public WebElement getAttachmentsColumn()
     {
         return browser.findElement(attachmentsColumn);

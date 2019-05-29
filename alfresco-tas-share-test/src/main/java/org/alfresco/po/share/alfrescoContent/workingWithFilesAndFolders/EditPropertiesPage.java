@@ -33,23 +33,23 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
     SelectDialog selectDialog;
 
     @RenderWebElement
-    @FindAll(@FindBy(css = "button[id*='form']"))
+    @FindAll (@FindBy (css = "button[id*='form']"))
     private List<WebElement> buttonsList;
 
     @RenderWebElement
-    @FindAll(@FindBy(css = ".form-field>label"))
+    @FindAll (@FindBy (css = ".form-field>label"))
     private List<WebElement> propertiesElements;
 
-    @FindBy(css = "button[id*='yui-gen21-button']")
+    @FindBy (css = "button[id*='yui-gen21-button']")
     protected WebElement selectButtonForCustomSmartFolder;
 
-    @FindBy(css = "[id*='default_prop_dp_offlineExpiresAfter-help-icon']")
+    @FindBy (css = "[id*='default_prop_dp_offlineExpiresAfter-help-icon']")
     protected WebElement helpIconForRestrictableAspect;
 
-    @FindBy(css = "[id='template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_dp_offlineExpiresAfter-help']")
+    @FindBy (css = "[id='template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_dp_offlineExpiresAfter-help']")
     protected WebElement helpMessageForRestrictableAspect;
 
-    @FindBy(css = "[id*='default_prop_dp_offlineExpiresAfter-entry']")
+    @FindBy (css = "[id*='default_prop_dp_offlineExpiresAfter-entry']")
     protected WebElement offlineExpiresafterInput;
 
     private By selectorSF = By.cssSelector("select[id*='default_prop_smf_system-template-location']");
@@ -71,9 +71,9 @@ public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
         List<String> propertiesList = new ArrayList<>();
         getBrowser().waitUntilElementsVisible(propertiesElements);
 
-        for(WebElement propertyElement : propertiesElements)
-            if(propertyElement.getText().contains(":"))
-            propertiesList.add(propertyElement.getText().substring(0, propertyElement.getText().indexOf(":")));
+        for (WebElement propertyElement : propertiesElements)
+            if (propertyElement.getText().contains(":"))
+                propertiesList.add(propertyElement.getText().substring(0, propertyElement.getText().indexOf(":")));
             else
                 propertiesList.add(propertyElement.getText());
 

@@ -53,7 +53,7 @@ public class TagTests extends ContextAwareWebTest
     private final String user = "User" + random;
     private final String path13766 = "Shared/" + folderName3;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         contentService.createFolderInRepository(adminUser, adminPassword, folderForTagTests, sharedPath);
@@ -69,7 +69,7 @@ public class TagTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
     }
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void beforeMethod()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -78,8 +78,8 @@ public class TagTests extends ContextAwareWebTest
         sharedFilesPage.clickOnFolderName(folderForTagTests);
     }
 
-    @TestRail(id = "C8062")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8062")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createTagForFile()
     {
         LOG.info("STEP1: Hover over one tag from the content name");
@@ -96,8 +96,8 @@ public class TagTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getTags(docName), tagsList.toString(), docName + " -> tags=");
     }
 
-    @TestRail(id = "C8063")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8063")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createTagForFolder()
     {
         LOG.info("STEP1: Hover over the text \"No Tags\" from the folder");
@@ -115,11 +115,11 @@ public class TagTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getTags(folderName), tagsList.toString(), folderName + " -> tags=");
     }
 
-    @TestRail(id = "C8074")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8074")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void addExistingTag()
     {
-        LOG.info("STEP1: Hover over " + docName2 +".STEP2: Click \"Edit Properties\" option");
+        LOG.info("STEP1: Hover over " + docName2 + ".STEP2: Click \"Edit Properties\" option");
         sharedFilesPage.clickDocumentLibraryItemAction(docName2, language.translate("documentLibrary.contentActions.editProperties"), editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), docName2), "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
@@ -142,8 +142,8 @@ public class TagTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getTags(docName2), tagsList.toString(), docName2 + " -> tags=");
     }
 
-    @TestRail(id = "C8086")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8086")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editTagForASharedFile()
     {
         LOG.info("STEP1: Hover over the tag(s) from the content");
@@ -164,8 +164,8 @@ public class TagTests extends ContextAwareWebTest
         assertFalse(sharedFilesPage.getTags(folderName2).contains(tagName.toLowerCase()));
     }
 
-    @TestRail(id = "C8087")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8087")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void removeTag()
     {
         LOG.info("  Hover over the text \"No Tags\" from " + docName3);
@@ -200,8 +200,8 @@ public class TagTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isNoTagsTextDisplayed(docName3), docName3 + " -> " + tagName2 + " is removed.");
     }
 
-    @TestRail(id = "C8096")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C8096")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void updateTags()
     {
         LOG.info("STEP1: Hover over the text \"No Tags\" from " + docName4);
@@ -223,8 +223,8 @@ public class TagTests extends ContextAwareWebTest
         assertTrue(sharedFilesPage.isNoTagsTextDisplayed(docName4), docName4 + " -> " + tagName2 + " is removed.");
     }
 
-    @TestRail(id = "C13766")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @TestRail (id = "C13766")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void noTagsOptionDisplayed()
     {
         LOG.info("Preconditions: Test user with no admin permissions.");
@@ -239,7 +239,7 @@ public class TagTests extends ContextAwareWebTest
     @AfterClass
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + docName);

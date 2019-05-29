@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+
 import static org.alfresco.utility.constants.UserRole.SiteConsumer;
 import static org.testng.Assert.*;
 
@@ -38,7 +39,7 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
     private final String path = "Sites/" + site + "/documentLibrary/" + folderName;
     private final String tag = "tag-" + uniqueId.toLowerCase();
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, domain, name, user);
@@ -52,16 +53,16 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass (alwaysRun = true)
     public void cleanup()
     {
-        userService.delete(adminUser,adminPassword, user);
+        userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-        siteService.delete(adminUser,adminPassword,site );
+        siteService.delete(adminUser, adminPassword, site);
     }
 
-    @TestRail(id = "C8867")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8867")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void locateFolder()
     {
         documentLibraryPage.navigate(site);
@@ -73,21 +74,21 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Click 'More' menu for " + subFolderName + ", and verify presence of \"Locate Folder\" option");
         assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, language.translate("documentLibrary.contentActions.locateFolder")),
-                "'Locate Folder' option is displayed for " + subFolderName);
+            "'Locate Folder' option is displayed for " + subFolderName);
 
         LOG.info("STEP3: Click \"Locate Folder\" option");
         documentLibraryPage.clickOnAction(subFolderName, language.translate("documentLibrary.contentActions.locateFolder"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString(), "Breadcrumb=");
     }
 
-    @TestRail(id = "C8869")
-    @Test(groups = { TestGroup.SANITY, TestGroup.USER})
+    @TestRail (id = "C8869")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void manageRulesFolderCreatedByOther()
     {
         documentLibraryPage.navigate(site);
         documentLibraryPage.clickFolderFromExplorerPanel(folderName);
         LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
         assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, language.translate("documentLibrary.contentActions.manageRules")),
-                "'Manage Rules' option is displayed for " + subFolderName);
+            "'Manage Rules' option is displayed for " + subFolderName);
     }
 }

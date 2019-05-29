@@ -10,13 +10,13 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class UploadFileDialog extends ShareDialog
 {
-    @FindBy(css = "div[id*='default-dialog_h']")
+    @FindBy (css = "div[id*='default-dialog_h']")
     private WebElement updateFileDialogTitle;
 
-    @FindBy(css = "input.dnd-file-selection-button")
+    @FindBy (css = "input.dnd-file-selection-button")
     private WebElement uploadInput;
 
-    @FindBy(css = "input.dnd-file-selection-button")
+    @FindBy (css = "input.dnd-file-selection-button")
     private WebElement uploadButton;
 
     public void uploadFile(String location)
