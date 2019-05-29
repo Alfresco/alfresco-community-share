@@ -1,5 +1,9 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
@@ -10,14 +14,10 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Claudia Agache on 9/13/2016.
@@ -25,6 +25,12 @@ import static org.testng.Assert.assertTrue;
 public class UnzippingContentTests extends ContextAwareWebTest
 {
 
+    private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
+    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    private final String zipFile = "archiveC7409.zip";
+    private final String fileName = "fileC7409";
+    private final String acpFile = "archiveC7410.acp";
+    private final String fileName1 = "fileC7410";
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
@@ -35,14 +41,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
     private SiteDashboardPage siteDashboardPage;
     @Autowired
     private SiteContentDashlet siteContentDashlet;
-
-    private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
-    private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private String siteName1 = "siteName1" + RandomData.getRandomAlphanumeric();
-    private final String zipFile = "archiveC7409.zip";
-    private final String fileName = "fileC7409";
-    private final String acpFile = "archiveC7410.acp";
-    private final String fileName1 = "fileC7410";
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

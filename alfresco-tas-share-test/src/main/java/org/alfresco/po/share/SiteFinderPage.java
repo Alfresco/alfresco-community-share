@@ -1,5 +1,7 @@
 package org.alfresco.po.share;
 
+import java.util.List;
+
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
@@ -14,32 +16,24 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 @PageObject
 public class SiteFinderPage extends SharePage<SiteFinderPage> implements AccessibleByMenuBar
 {
+    @FindAll (@FindBy (css = "div[id$='default-sites'] tr[class*='yui-dt-rec']"))
+    protected List<WebElement> siteRowList;
     @Autowired
     ToolbarSitesMenu toolbarSitesMenu;
-
     @Autowired
     SiteDashboardPage siteDashboardPage;
-
     @RenderWebElement
     @FindBy (css = "div[class$=search-button] button")
     private WebElement searchButton;
-
     @RenderWebElement
     @FindBy (css = "div[class$=search-text] input")
     private WebElement searchField;
-
     @RenderWebElement
     @FindBy (className = "results")
     private WebElement resultsPane;
-
-    @FindAll (@FindBy (css = "div[id$='default-sites'] tr[class*='yui-dt-rec']"))
-    protected List<WebElement> siteRowList;
-
     @FindBy (css = "tbody[class*='message'] div")
     private WebElement searchMessage;
 

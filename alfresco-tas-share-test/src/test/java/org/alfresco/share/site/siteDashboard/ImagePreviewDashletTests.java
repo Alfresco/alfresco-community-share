@@ -1,5 +1,11 @@
 package org.alfresco.share.site.siteDashboard;
 
+import static org.alfresco.dataprep.DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT;
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet.IMAGE_PREVIEW;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
@@ -15,36 +21,23 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.alfresco.dataprep.DashboardCustomization.DashletLayout.TWO_COLUMNS_WIDE_RIGHT;
-import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet.IMAGE_PREVIEW;
-
-import org.alfresco.dataprep.SiteService;
-
-import static org.testng.Assert.*;
-
 public class ImagePreviewDashletTests extends ContextAwareWebTest
 {
+    private final String fileName = "newavatar.jpg";
+    protected String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     @Autowired
     SiteDashboardPage siteDashboard;
-
     @Autowired
     ImagePreviewDashlet imagePreviewDashlet;
-
     @Autowired
     DocumentLibraryPage documentLibraryPage;
-
     @Autowired
     DocumentDetailsPage documentDetailsPage;
-
     @Autowired
     Download download;
-
     private String siteName1 = String.format("Site1-%s", RandomData.getRandomAlphanumeric());
     private String siteName2 = String.format("Site2-%s", RandomData.getRandomAlphanumeric());
     private String siteName3 = String.format("Site3-%s", RandomData.getRandomAlphanumeric());
-    private final String fileName = "newavatar.jpg";
-    protected String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

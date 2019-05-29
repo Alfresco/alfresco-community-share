@@ -1,6 +1,15 @@
 package org.alfresco.share.userRolesAndPermissions.collaborator;
 
+import static java.util.Arrays.asList;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
@@ -18,17 +27,10 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-
-import static java.util.Arrays.asList;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Rusu Andrei
@@ -71,8 +73,8 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
     private String user = String.format("Collaborator%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("SiteC%s", RandomData.getRandomAlphanumeric());
-    private String siteName1 = String.format("SiteC1%s", RandomData.getRandomAlphanumeric());
     private final String deletePath = String.format("Sites/%s/documentLibrary", siteName);
+    private String siteName1 = String.format("SiteC1%s", RandomData.getRandomAlphanumeric());
     private String folderName;
 
     @BeforeClass (alwaysRun = true)

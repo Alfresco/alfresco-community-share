@@ -1,8 +1,16 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.ToDoAgendaFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
@@ -12,17 +20,9 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import static org.testng.Assert.assertTrue;
 
 public class EditToDoListTest extends ContextAwareWebTest
 {
@@ -31,7 +31,9 @@ public class EditToDoListTest extends ContextAwareWebTest
 
     @Autowired
     EditItemPopUp editItemPopUp;
-
+    int priority = 1;
+    String itemFile = "testFile1";
+    String attachedFile = "testDoc.txt";
     private String random = RandomData.getRandomAlphanumeric();
     private String todoListName = "To Do list" + random;
     private String itemTitle = "item Title" + random;
@@ -44,10 +46,7 @@ public class EditToDoListTest extends ContextAwareWebTest
     private String userName = "User" + random;
     private String siteName = "SiteName" + random;
     private Date dueDateToday = today.toDate();
-    int priority = 1;
     private String titleInputToEdit;
-    String itemFile = "testFile1";
-    String attachedFile = "testDoc.txt";
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

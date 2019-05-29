@@ -1,5 +1,12 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.additionalActions;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
@@ -14,25 +21,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static org.testng.Assert.*;
-
 /**
  * @author Laura.Capsa
  */
 public class TagTests extends ContextAwareWebTest
 {
-    @Autowired
-    private SharedFilesPage sharedFilesPage;
-
-    @Autowired
-    private EditPropertiesDialog editPropertiesDialog;
-
-    @Autowired
-    private SelectDialog selectDialog;
-
     private final String random = RandomData.getRandomAlphanumeric();
     private final String docName = "Doc-C8062-" + random;
     private final String docName2 = "Doc-C8074-" + random;
@@ -52,6 +45,12 @@ public class TagTests extends ContextAwareWebTest
     private final String path = "Shared/" + folderForTagTests;
     private final String user = "User" + random;
     private final String path13766 = "Shared/" + folderName3;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private EditPropertiesDialog editPropertiesDialog;
+    @Autowired
+    private SelectDialog selectDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

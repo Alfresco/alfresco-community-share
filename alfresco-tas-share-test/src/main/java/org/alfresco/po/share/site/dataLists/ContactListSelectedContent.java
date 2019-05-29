@@ -1,33 +1,27 @@
 package org.alfresco.po.share.site.dataLists;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 @PageObject
 public class ContactListSelectedContent extends ListItemSelectedContent
 {
+    protected static By balloon = By.cssSelector("div[class='bd'] span[class='message']");
+    ContactListItemsTable tableRow;
     @RenderWebElement
     @FindBy (css = "div[id$='default-grid'] table thead tr")
     private List<WebElement> listItemsTableHead;
-
     private By noListItems = By.cssSelector("div[id$='default-grid'] table tbody tr");
     private By listItems = By.cssSelector("div[id$='default-grid'] table tbody[class='yui-dt-data'] tr");
     private String selectColumn = "div[id$='default-grid'] table thead tr div[id*='%s'] span a";
     private String selectedColumnItems = "table tbody td[class*='%s']";
-    protected static By balloon = By.cssSelector("div[class='bd'] span[class='message']");
-    ContactListItemsTable tableRow;
-
-    public enum ListColumns
-    {
-        Email, Company, Notes, Actions
-    }
 
     private void clickOnSpecificColumn(String column)
     {
@@ -166,6 +160,11 @@ public class ContactListSelectedContent extends ListItemSelectedContent
         results.add(Integer.toString(uncheckedItems));
 
         return results;
+    }
+
+    public enum ListColumns
+    {
+        Email, Company, Notes, Actions
     }
 
 }

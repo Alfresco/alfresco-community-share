@@ -1,5 +1,9 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
@@ -13,27 +17,22 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
-
 /**
  * @author Laura.Capsa
  */
 public class SelectTests extends ContextAwareWebTest
 {
-    @Autowired
-    private SharedFilesPage sharedFilesPage;
-
-    @Autowired
-    private HeaderMenuBar headerMenuBar;
-
-    @Autowired
-    DeleteDialog deleteDialog;
-
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String path = "Shared/";
     private final String user = "user" + uniqueIdentifier;
     private final String docName = "DocC8004-" + uniqueIdentifier;
     private final String folderName = "FolderC8005-" + uniqueIdentifier;
+    @Autowired
+    DeleteDialog deleteDialog;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

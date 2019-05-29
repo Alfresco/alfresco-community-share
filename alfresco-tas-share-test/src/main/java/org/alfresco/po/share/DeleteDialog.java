@@ -14,13 +14,11 @@ import org.springframework.context.annotation.Primary;
 public class DeleteDialog extends ShareDialog
 {
     @RenderWebElement
-    @FindBy (id = "prompt_h")
-    private WebElement dialogHeader;
-
-    @RenderWebElement
     @FindBy (xpath = "//div[@id='prompt_c' and contains(@style, 'visibility: visible')]//button[text()='Delete']")
     public WebElement deleteButton;
-
+    @RenderWebElement
+    @FindBy (id = "prompt_h")
+    private WebElement dialogHeader;
     @FindBy (css = "span[class*='default'] button")
     private WebElement cancelButton;
 

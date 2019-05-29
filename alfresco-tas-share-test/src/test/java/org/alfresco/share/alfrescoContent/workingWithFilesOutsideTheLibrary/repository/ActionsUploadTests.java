@@ -1,6 +1,9 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.dataprep.CMISUtil;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -15,22 +18,19 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
-
 /**
  * @author Andrei.Nechita
  */
 public class ActionsUploadTests extends ContextAwareWebTest
 {
+    private final String random = RandomData.getRandomAlphanumeric();
+    private final String user = "user1-" + random;
     @Autowired
     private RepositoryPage repositoryPage;
     @Autowired
     private UploadContent uploadContent;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
-
-    private final String random = RandomData.getRandomAlphanumeric();
-    private final String user = "user1-" + random;
     private String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8172-.txt";
     private String testFilePath = testDataFolder + testFile;
     private String testFile2 = RandomData.getRandomAlphanumeric() + "-OldFile-C8175.txt";

@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -8,7 +9,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -16,12 +16,6 @@ import org.testng.annotations.Test;
 
 public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private DocumentsFilters filters;
-
     private final String user = String.format("C6333User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C6333SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String folderName = "testFolder1";
@@ -29,6 +23,10 @@ public class ExploringTheLibraryLibraryTests extends ContextAwareWebTest
     private final String docName = "testFile1";
     private final String docName1 = "testFile2";
     private final String siteName = String.format("C6333SiteName%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentsFilters filters;
 
     @BeforeClass (alwaysRun = true)
 

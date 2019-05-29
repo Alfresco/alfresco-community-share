@@ -1,6 +1,10 @@
 package org.alfresco.share.userRolesAndPermissions.collaborator;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
@@ -20,14 +24,10 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Rusu Andrei
@@ -35,31 +35,6 @@ import static org.testng.Assert.assertTrue;
 
 public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-    @Autowired
-    private CreateContent create;
-    @Autowired
-    private UploadContent uploadContent;
-    @Autowired
-    private EditInAlfrescoPage editInAlfrescoPage;
-    @Autowired
-    private GoogleDocsCommon googleDocsCommon;
-    @Autowired
-    private StartWorkflowPage startWorkflowPage;
-    @Autowired
-    private SelectPopUpPage selectPopUpPage;
-    @Autowired
-    private ToolbarTasksMenu toolbarTasksMenu;
-    @Autowired
-    private WorkflowDetailsPage workflowDetailsPage;
-    @Autowired
-    private MyTasksPage myTasksPage;
-    @Autowired
-    private Download download;
-
     private final String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8939-.txt";
     private final String testFilePath = testDataFolder + testFile;
     private final String newVersionFile = RandomData.getRandomAlphanumeric() + "-NewFile-C8942" + ".txt";
@@ -89,6 +64,30 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     private final String msWordFileCreatedBySelf = String.format("msWordFilePlainSelf file%s", RandomData.getRandomAlphanumeric());
     private final String msWordFileCreatedByOther = String.format("msWordFilePlainOther file%s", RandomData.getRandomAlphanumeric());
     private final String deletePath = String.format("Sites/%s/documentLibrary", siteName);
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private CreateContent create;
+    @Autowired
+    private UploadContent uploadContent;
+    @Autowired
+    private EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired
+    private GoogleDocsCommon googleDocsCommon;
+    @Autowired
+    private StartWorkflowPage startWorkflowPage;
+    @Autowired
+    private SelectPopUpPage selectPopUpPage;
+    @Autowired
+    private ToolbarTasksMenu toolbarTasksMenu;
+    @Autowired
+    private WorkflowDetailsPage workflowDetailsPage;
+    @Autowired
+    private MyTasksPage myTasksPage;
+    @Autowired
+    private Download download;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

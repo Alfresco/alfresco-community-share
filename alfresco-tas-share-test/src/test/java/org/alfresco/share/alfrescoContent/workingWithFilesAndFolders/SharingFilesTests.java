@@ -1,7 +1,10 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
+import java.net.URL;
+
 import org.alfresco.common.EnvProperties;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
@@ -10,33 +13,14 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.net.URL;
-
 public class SharingFilesTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private SocialFeatures social;
-
-    @Autowired
-    private LoginPage loginPage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetails;
-
-    @Autowired
-    private EnvProperties envProperties;
-
     private final String user = String.format("C7095User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C7095SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C7095SiteName%s", RandomData.getRandomAlphanumeric());
@@ -49,6 +33,16 @@ public class SharingFilesTests extends ContextAwareWebTest
     private final String folderName = "C7093 folder";
     private final String siteNameC7093 = String.format("C7093%s", RandomData.getRandomAlphanumeric());
     private final String siteNameC7649 = String.format("siteNameC7649%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private SocialFeatures social;
+    @Autowired
+    private LoginPage loginPage;
+    @Autowired
+    private DocumentDetailsPage documentDetails;
+    @Autowired
+    private EnvProperties envProperties;
     private String sharedUrl;
     private String windowToSwitchToAlfresco;
     private String windowToCloseGPlus;

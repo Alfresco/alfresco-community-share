@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.Notification;
@@ -17,31 +19,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-
 /**
  * @author Razvan.Dorobantu
  */
 public class MyFilesCreateContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    private MyFilesPage myFilesPage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private CreateContent createContent;
-
-    @Autowired
-    private CreateFolderFromTemplate createFolderFromTemplate;
-
-    @Autowired
-    private GoogleDocsCommon googleDocs;
-
-    @Autowired
-    private Notification notification;
-
     private final String folderTemplateName = "Software Engineering Project";
     private final String fileTemplateName = String.format("fileTemplate%s", RandomData.getRandomAlphanumeric());
     private final String title = "googleDoc title";
@@ -50,6 +32,18 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     private final String googleDocPresentation = "googleDoc title.pptx";
     private final String docContent = "googleDoccontent";
     private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    private MyFilesPage myFilesPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private CreateContent createContent;
+    @Autowired
+    private CreateFolderFromTemplate createFolderFromTemplate;
+    @Autowired
+    private GoogleDocsCommon googleDocs;
+    @Autowired
+    private Notification notification;
 
     @BeforeClass (alwaysRun = true)
     public void createPrecondition()

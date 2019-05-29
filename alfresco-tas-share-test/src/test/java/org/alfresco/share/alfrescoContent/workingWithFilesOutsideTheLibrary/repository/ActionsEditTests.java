@@ -1,5 +1,10 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
@@ -20,31 +25,20 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 public class ActionsEditTests extends ContextAwareWebTest
 {
     @Autowired
+    NewContentDialog newContentDialog;
+    @Autowired
     private RepositoryPage repositoryPage;
-
     @Autowired
     private SiteDashboardPage sitePage;
-
     @Autowired
     private DocumentDetailsPage detailsPage;
-
     @Autowired
     private EditPropertiesDialog editFilePropertiesDialog;
-
     @Autowired
     private SelectDialog selectDialog;
-
-    @Autowired
-    NewContentDialog newContentDialog;
-
     @Autowired
     private EditInAlfrescoPage editInAlfrescoPage;
 

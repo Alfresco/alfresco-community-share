@@ -1,5 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
@@ -12,46 +18,18 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
-
-import static org.testng.Assert.*;
-
 /**
  * @author Laura.Capsa
  */
 public class EditTests extends ContextAwareWebTest
 {
-    @Autowired
-    private SharedFilesPage sharedFilesPage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private EditPropertiesDialog editFilePropertiesDialog;
-
-    @Autowired
-    private EditInAlfrescoPage editInAlfrescoPage;
-
-    @Autowired
-    private GoogleDocsCommon googleDocsCommon;
-
-    @Autowired
-    private SelectDialog selectDialog;
-
-    @Autowired
-    private UploadContent uploadContent;
-
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String user = "User" + uniqueIdentifier;
     private final String path = "Shared";
@@ -66,9 +44,22 @@ public class EditTests extends ContextAwareWebTest
     private final String updatedDescription = "Updated Description";
     private final String tagName = "tag" + uniqueIdentifier;
     private final String googleDocName = uniqueIdentifier + "googleDoc.docx";
-
     @Autowired
     public CmisWrapper cmisApi;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private EditPropertiesDialog editFilePropertiesDialog;
+    @Autowired
+    private EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired
+    private GoogleDocsCommon googleDocsCommon;
+    @Autowired
+    private SelectDialog selectDialog;
+    @Autowired
+    private UploadContent uploadContent;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest() throws Exception

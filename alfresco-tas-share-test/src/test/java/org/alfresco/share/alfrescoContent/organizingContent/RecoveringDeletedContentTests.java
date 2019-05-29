@@ -1,6 +1,15 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -12,42 +21,29 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class RecoveringDeletedContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private HeaderMenuBar headerMenuBar;
-
-    @Autowired
-    private DeleteDialog deleteDialog;
-
-    @Autowired
-    private UserProfilePage userProfilePage;
-
-    @Autowired
-    private MyProfileNavigation myProfileNavigation;
-
-    @Autowired
-    private UserTrashcanPage userTrashcanPage;
-
     private final String firstName = "FirstName";
     private final String lastName = "LastName";
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private DeleteDialog deleteDialog;
+    @Autowired
+    private UserProfilePage userProfilePage;
+    @Autowired
+    private MyProfileNavigation myProfileNavigation;
+    @Autowired
+    private UserTrashcanPage userTrashcanPage;
 
     @TestRail (id = "C7570")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })

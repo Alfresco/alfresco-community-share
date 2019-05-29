@@ -1,6 +1,13 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
@@ -15,52 +22,36 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Laura.Capsa
  */
 public class ChangeContentTypeTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private ChangeContentTypeDialog changeContentTypeDialog;
-
-    @Autowired
-    private EditPropertiesPage editPropertiesPage;
-
-    @Autowired
-    AdminToolsPage adminToolsPage;
-
-    @Autowired
-    ModelManagerPage modelManagerPage;
-
-    @Autowired
-    CreateModelDialogPage createModelDialogPage;
-
-    @Autowired
-    ModelDetailsPage modelDetailsPage;
-
-    @Autowired
-    CreateCustomTypeDialog createCustomTypeDialog;
-
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
     private final String siteName = String.format("Site-%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    AdminToolsPage adminToolsPage;
+    @Autowired
+    ModelManagerPage modelManagerPage;
+    @Autowired
+    CreateModelDialogPage createModelDialogPage;
+    @Autowired
+    ModelDetailsPage modelDetailsPage;
+    @Autowired
+    CreateCustomTypeDialog createCustomTypeDialog;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private ChangeContentTypeDialog changeContentTypeDialog;
+    @Autowired
+    private EditPropertiesPage editPropertiesPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

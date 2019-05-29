@@ -2,38 +2,18 @@ package org.alfresco.share.alfrescoContent.viewingContent;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.ContentAspects;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
-import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    PreviewFileActionsSection documentActions;
-
-    @Autowired
-    private ContentAspects contentAspects;
-
     private final String user = String.format("C5920User%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C5920SiteName%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C5920SiteDescription%s", RandomData.getRandomAlphanumeric());
@@ -41,6 +21,14 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
     private final String folderName = "testFolder";
     private final double longitude = 47.1585;
     private final double latitude = 27.6014;
+    @Autowired
+    PreviewFileActionsSection documentActions;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private ContentAspects contentAspects;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

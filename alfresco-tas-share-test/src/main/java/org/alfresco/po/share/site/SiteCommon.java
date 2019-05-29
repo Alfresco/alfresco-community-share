@@ -7,46 +7,37 @@ import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 
 public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
 {
-    private String currentSiteName;
-
     @FindBy (css = "img.alf-user-icon")
     protected Button addUser;
-
     @FindBy (css = "#HEADER_SITE_DASHBOARD a")
     protected Link dashboard;
-
     @FindBy (css = "#HEADER_SITE_DOCUMENTLIBRARY a")
     protected Link documentLibrary;
-
     @FindBy (css = "#HEADER_SITE_MEMBERS a")
     protected Link members;
-
     @FindBy (id = "HEADER_SITE_CONFIGURATION_DROPDOWN")
     protected WebElement siteConfiguration;
-
     @FindBy (css = "span[id='HEADER_MY_FILES_text'] a")
     protected WebElement myFilesButton;
-
     @FindBy (css = "span[id='HEADER_REPOSITORY_text'] a")
     protected WebElement repositoryButton;
-
     @FindBy (css = "#yui-gen48")
     protected WebElement errorButton;
-
-    public void setCurrentSiteName(String currentSiteName)
-    {
-        this.currentSiteName = currentSiteName;
-    }
+    private String currentSiteName;
 
     public String getCurrentSiteName()
     {
         return currentSiteName;
+    }
+
+    public void setCurrentSiteName(String currentSiteName)
+    {
+        this.currentSiteName = currentSiteName;
     }
 
     public void clickSiteConfiguration()

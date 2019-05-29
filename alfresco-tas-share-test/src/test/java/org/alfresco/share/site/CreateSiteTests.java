@@ -1,25 +1,26 @@
 package org.alfresco.share.site;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
-import org.alfresco.po.share.user.admin.adminTools.ModuleBrowserPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 public class CreateSiteTests extends ContextAwareWebTest
 {
@@ -37,13 +38,10 @@ public class CreateSiteTests extends ContextAwareWebTest
 
     @Autowired
     SitesManagerPage sitesManagerPage;
-
-    @Autowired
-    private DeleteSiteDialog deleteSiteDialog;
-
-
     String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     String testSiteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    private DeleteSiteDialog deleteSiteDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

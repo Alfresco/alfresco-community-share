@@ -1,5 +1,8 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.ToolbarTasksMenu;
@@ -10,51 +13,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.qatools.htmlelements.element.Link;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @PageObject
 public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> implements AccessibleByMenuBar
 {
-    @Autowired
-    ToolbarTasksMenu toolbarTasksMenu;
-
-    @Autowired
-    WorkflowDetailsPage workflowDetailsPage;
-
-    @RenderWebElement
-    @FindBy (css = "[id$='default-startWorkflow-button-button']")
-    private WebElement startWorkflow;
-
-    @RenderWebElement
-    @FindBy (css = ".alfresco-datatable.workflows")
-    private WebElement workflowBody;
-
     @FindAll (@FindBy (css = "div[id$='_default-workflows'] tr[class*='yui-dt-rec']"))
     protected List<WebElement> workflowRowList;
-
-    @FindBy (css = "div[id*='_all-filter'] div h2")
-    private WebElement workflowsFilter;
-
-    @FindBy (css = "div[id*='_due-filter'] div h2")
-    private WebElement dueFilter;
-
-    @FindBy (css = "div[id*='_started-filter'] div h2")
-    private WebElement startedFilter;
-
-    @FindBy (css = "div[id*='_priority-filter'] div h2")
-    private WebElement priorityFilter;
-
-    @FindBy (css = "div[id*='_workflow-type-filter'] div h2")
-    private WebElement workflowTypeFilter;
-
-    @RenderWebElement
-    @FindBy (css = "div[class*='workflow-list-bar'] div h2")
-    private WebElement activeWorkflows;
-
-
     protected By viewHistoryLink = By.cssSelector("div[class*='workflow-view-link'] a");
     protected By cancelWorkflowLink = By.cssSelector("div[class*='workflow-cancel-link'] a");
     protected By workflowTitle = By.cssSelector("td[class$='yui-dt-col-title'] div h3 a");
@@ -64,6 +28,29 @@ public class WorkflowsIveStartedPage extends SharePage<WorkflowsIveStartedPage> 
     protected By deleteWorkflowLink = By.cssSelector("div[class*='workflow-delete-link'] a");
     protected By deleteWorkflowYesButton = By.xpath("//div[text()='Delete workflow']/..//button[text()='Yes']");
     protected By deleteWorkflowNoButton = By.xpath("//div[text()='Delete workflow']/..//button[text()='No']");
+    @Autowired
+    ToolbarTasksMenu toolbarTasksMenu;
+    @Autowired
+    WorkflowDetailsPage workflowDetailsPage;
+    @RenderWebElement
+    @FindBy (css = "[id$='default-startWorkflow-button-button']")
+    private WebElement startWorkflow;
+    @RenderWebElement
+    @FindBy (css = ".alfresco-datatable.workflows")
+    private WebElement workflowBody;
+    @FindBy (css = "div[id*='_all-filter'] div h2")
+    private WebElement workflowsFilter;
+    @FindBy (css = "div[id*='_due-filter'] div h2")
+    private WebElement dueFilter;
+    @FindBy (css = "div[id*='_started-filter'] div h2")
+    private WebElement startedFilter;
+    @FindBy (css = "div[id*='_priority-filter'] div h2")
+    private WebElement priorityFilter;
+    @FindBy (css = "div[id*='_workflow-type-filter'] div h2")
+    private WebElement workflowTypeFilter;
+    @RenderWebElement
+    @FindBy (css = "div[class*='workflow-list-bar'] div h2")
+    private WebElement activeWorkflows;
 
     @SuppressWarnings ("unchecked")
     @Override

@@ -1,6 +1,14 @@
 package org.alfresco.share.alfrescoContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
@@ -14,52 +22,14 @@ import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.utility.data.RandomData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Laura.Capsa
  */
 public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
 {
-    @Autowired
-    private LoginPage loginPage;
-
-    @Autowired
-    private CreateSiteDialog createSiteDialog;
-
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private SiteDashboardPage siteDashboardPage;
-
-    @Autowired
-    private NewContentDialog newContentDialog;
-
-    @Autowired
-    private AdminToolsPage adminToolsPage;
-
-    @Autowired
-    private RepositoryPage repositoryPage;
-
-    @Autowired
-    private EditPropertiesDialog editPropertiesDialog;
-
-    @Autowired
-    private ReplicationJobsPage replicationJobsPage;
-
-    @Autowired
-    private CreateEditReplicationJobPage createEditReplicationJobPage;
-
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String site = "site-C7600-" + uniqueIdentifier;
     private final String folder = "C7600-folder";
@@ -68,6 +38,26 @@ public class WorkingWithReplicatedContentTest extends ContextAwareWebTest
         Arrays.asList("Repository", "Data Dictionary", "Transfers", "Transfer Target Groups", "Default Group"));
     private final String pathForTransferTargetFolder = "Data Dictionary/Transfers/Transfer Target Groups/Default Group";
     private final String transferTargetFolder = "TransferFolder-" + uniqueIdentifier;
+    @Autowired
+    private LoginPage loginPage;
+    @Autowired
+    private CreateSiteDialog createSiteDialog;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
+    @Autowired
+    private NewContentDialog newContentDialog;
+    @Autowired
+    private AdminToolsPage adminToolsPage;
+    @Autowired
+    private RepositoryPage repositoryPage;
+    @Autowired
+    private EditPropertiesDialog editPropertiesDialog;
+    @Autowired
+    private ReplicationJobsPage replicationJobsPage;
+    @Autowired
+    private CreateEditReplicationJobPage createEditReplicationJobPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

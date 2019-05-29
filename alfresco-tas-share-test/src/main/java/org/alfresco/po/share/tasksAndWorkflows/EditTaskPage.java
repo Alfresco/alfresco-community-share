@@ -1,5 +1,7 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -7,8 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-
-import java.util.List;
 
 @PageObject
 public class EditTaskPage extends SharePage<EditTaskPage>
@@ -54,27 +54,6 @@ public class EditTaskPage extends SharePage<EditTaskPage>
     private By taskDoneButton = By.cssSelector("button[id$='Next-button']");
     private By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
     private By addItemsButton = By.cssSelector("div[id$='itemGroupActions'] button");
-
-    public enum TaskStatus
-    {
-        NOT_STARTED("Not Yet Started"),
-        IN_PROGRESS("In Progress"),
-        ON_HOLD("On Hold"),
-        CANCELLED("Cancelled"),
-        COMPLETED("Completed");
-
-        private String status;
-
-        TaskStatus(String status)
-        {
-            this.status = status;
-        }
-
-        public String getStatus()
-        {
-            return this.status;
-        }
-    }
 
     @Override
     public String getRelativePath()
@@ -207,13 +186,34 @@ public class EditTaskPage extends SharePage<EditTaskPage>
         return (EditTaskPage) this.renderedPage();
     }
 
-
     public EditTaskPage clickReleaseToPoolButton()
     {
         releaseToPoolButton.click();
         this.renderedPage();
         browser.waitUntilWebElementIsDisplayedWithRetry(claimButton);
         return (EditTaskPage) this.renderedPage();
+    }
+
+
+    public enum TaskStatus
+    {
+        NOT_STARTED("Not Yet Started"),
+        IN_PROGRESS("In Progress"),
+        ON_HOLD("On Hold"),
+        CANCELLED("Cancelled"),
+        COMPLETED("Completed");
+
+        private String status;
+
+        TaskStatus(String status)
+        {
+            this.status = status;
+        }
+
+        public String getStatus()
+        {
+            return this.status;
+        }
     }
 
 }

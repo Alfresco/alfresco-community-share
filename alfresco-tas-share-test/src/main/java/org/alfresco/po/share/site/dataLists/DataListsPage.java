@@ -1,5 +1,8 @@
 package org.alfresco.po.share.site.dataLists;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -8,63 +11,44 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @PageObject
 public class DataListsPage extends SiteCommon<DataListsPage>
 {
-    @Autowired
-    CreateDataListPopUp createDataListPopUp;
-
-    @Autowired
-    EditListDetailsPopUp editListDetailsPopUp;
-
-    @Autowired
-    DeleteListPopUp deleteListPopUp;
-
-    @Autowired
-    EditItemPopUp editItemPopUp;
-
-    @Autowired
-    CreateNewItemPopUp createNewItemPopUp;
-
+    public Content currentContent = (Content) new NoListItemSelectedContent();
     @RenderWebElement
     @FindBy (css = "div.datalists div.filter")
     protected WebElement dataListsSection;
-
     @RenderWebElement
     @FindBy (className = "datagrid")
     protected WebElement dataListsBody;
-
     @RenderWebElement
     @FindBy (css = "button[id*='newListButton']")
     protected WebElement newListButton;
-
     @FindBy (css = ".filter-link>.edit")
     protected WebElement editListButton;
-
     @FindBy (css = "span[class='edit-disabled']")
     protected WebElement editButtonDisabled;
-
     @FindBy (css = ".filter-link>.delete")
     protected WebElement deleteListButton;
-
     @FindBy (css = "div[class='no-lists']")
     protected WebElement noListDisplayed;
-
     @FindBy (css = "div[id='message_c'] span[class='message']")
     protected WebElement successfullyCreatedMessage;
-
     @FindBy (css = ".datalists ul")
     protected WebElement listWithCreatedLists;
-
     protected By editListItemButton = By.cssSelector(".yui-dt-col-actions .onActionEdit>a");
-
     @FindBy (css = "td[headers*='actions']")
     protected WebElement listItemActionsField;
-
-    public Content currentContent = (Content) new NoListItemSelectedContent();
+    @Autowired
+    CreateDataListPopUp createDataListPopUp;
+    @Autowired
+    EditListDetailsPopUp editListDetailsPopUp;
+    @Autowired
+    DeleteListPopUp deleteListPopUp;
+    @Autowired
+    EditItemPopUp editItemPopUp;
+    @Autowired
+    CreateNewItemPopUp createNewItemPopUp;
 
     @Override
     public String getRelativePath()

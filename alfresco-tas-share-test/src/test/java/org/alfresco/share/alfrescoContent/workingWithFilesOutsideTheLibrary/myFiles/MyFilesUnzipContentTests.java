@@ -1,5 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -15,18 +21,18 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 /**
  * @author Razvan.Dorobantu
  */
 public class MyFilesUnzipContentTests extends ContextAwareWebTest
 {
 
+    private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+    private final String zipFile = "archiveC7816.zip";
+    private final String zipContent = "TestFileC7816";
+    private final String zipFilePath = testDataFolder + zipFile;
+    private final String acpFile = "archiveC7816.acp";
+    private final String acpPath = testDataFolder + acpFile;
     @Autowired
     private MyFilesPage myFilesPage;
     @Autowired
@@ -37,13 +43,6 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
     private UploadContent uploadContent;
     @Autowired
     private SiteDashboardPage sitePage;
-
-    private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-    private final String zipFile = "archiveC7816.zip";
-    private final String zipContent = "TestFileC7816";
-    private final String zipFilePath = testDataFolder + zipFile;
-    private final String acpFile = "archiveC7816.acp";
-    private final String acpPath = testDataFolder + acpFile;
 
     @BeforeClass (alwaysRun = true)
     public void createUser()

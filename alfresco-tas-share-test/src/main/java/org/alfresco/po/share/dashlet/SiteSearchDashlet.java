@@ -1,14 +1,14 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @PageObject
 public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>

@@ -1,5 +1,8 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.site.SiteCommon;
@@ -13,9 +16,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @PageObject
 public class StartWorkflowPage extends SiteCommon<StartWorkflowPage>

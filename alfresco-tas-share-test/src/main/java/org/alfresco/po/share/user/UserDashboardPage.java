@@ -17,12 +17,10 @@ import ru.yandex.qatools.htmlelements.element.Link;
 @PageObject
 public class UserDashboardPage extends SharePage<UserDashboardPage> implements AccessibleByMenuBar
 {
-    @Autowired
-    CustomizeUserDashboardPage customizeUserDashboardPage;
-
     @FindBy (id = "HEADER_CUSTOMIZE_USER_DASHBOARD")
     public WebElement customizeUserDashboard;
-
+    @Autowired
+    CustomizeUserDashboardPage customizeUserDashboardPage;
     @FindBy (css = "div[id$='get-started-panel-container']")
     private WebElement getStartedPanel;
 

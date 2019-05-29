@@ -1,6 +1,15 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static java.util.Arrays.asList;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -8,30 +17,22 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-
-import static java.util.Arrays.asList;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class MovingContentTests extends ContextAwareWebTest
 {
+    private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
+    private final String docContent = "content of the file.";
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
     private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
-
-    private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
-    private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
-    private final String docContent = "content of the file.";
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

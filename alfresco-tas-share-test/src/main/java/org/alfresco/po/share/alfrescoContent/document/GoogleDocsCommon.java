@@ -3,18 +3,18 @@ package org.alfresco.po.share.alfrescoContent.document;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.common.Parameter;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageObject
 public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 {
-    @FindBy (id = "prompt_h")
-    private WebElement promptAuthorizeWithGoogleDocs;
-
-    @FindBy (xpath = "//div[@id ='prompt_c']//span[@class ='yui-button yui-push-button alf-primary-button']")
-    private WebElement okButtonAuthorizeWithGoogleDocsPopup;
-
+    @FindBy (xpath = "//img[contains(@title,'Locked by you')]")
+    public WebElement lockedIcon;
+    public By confirmationPopup = By.cssSelector("span.wait");
     @FindBy (xpath = "//*[contains(text(), 'OK')]")
     protected WebElement okButtonOnVersionPopup;
 
@@ -38,60 +38,43 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
 
     @FindBy (css = ".kix-appview-editor")
     protected WebElement googleDocsContent;
-
-    @FindBy (xpath = "//img[contains(@title,'Locked by you')]")
-    public WebElement lockedIcon;
-
     @FindBy (css = "img[alt='googledrive']")
     protected WebElement googleDriveIcon;
-
     @FindBy (xpath = "//div[contains(text(), 'This document is locked by you')]")
     protected WebElement lockedDocumentMessage;
-
     @FindBy (xpath = "//span[contains(text(), 'Check In Google Doc™')]")
     protected WebElement checkInGoogleDoc;
-
     @FindBy (xpath = "//div[contains(text(), 'Version Information')]")
     protected WebElement versionInformationPopup;
-
     @FindBy (id = "docs-file-menu")
     protected WebElement fileLinkGoogleDocs;
-
     @FindBy (id = "insertLinkButton")
     protected WebElement addLinkInGoogleDoc;
-
     @FindBy (id = "t-insert-link")
     protected WebElement addLinkInGoogleSheet;
-
     @FindBy (css = "#yui-gen82-button")
     protected WebElement confirmDocumentFormatUpgradeYes;
-
     @FindBy (xpath = "//input[contains(@class, 'docs-link-insertlinkbubble-text jfk-textinput label-input-label')]")
     protected WebElement inputTextForLinkInGoogleDoc;
-
     @FindBy (xpath = "//input[contains(@class, 'docs-link-insertlinkbubble-text jfk-textinput label-input-label')]")
     protected WebElement inputTextForLinkInGoogleSheet;
-
     @FindBy (xpath = "//input[contains(@class, 'docs-link-urlinput-url')]")
     protected WebElement inputLinkInGoogleDoc;
-
     @FindBy (xpath = "//input[contains(@class, 'docs-link-urlinput-url')]")
     protected WebElement inputLinkInGoogleSheets;
-
     @FindBy (xpath = "//div[contains(@class, 'docs-link-insertlinkbubble-buttonbar')]/div")
     protected WebElement applyButtonGoogleDoc;
-
     @FindBy (xpath = "//div[contains(@class, 'docs-link-insertlinkbubble-buttonbar')]/div")
     protected WebElement applyButtonGoogleSheets;
-
     @FindBy (xpath = "//*[@id='profileIdentifier']|//*[@id='reauthEmail']")
     protected WebElement reauthEmail;
-
-    public By confirmationPopup = By.cssSelector("span.wait");
     protected String googleDocsLoginUrl = "https://accounts.google.com/ServiceLogin#identifier";
-
     protected String googleDocsTestEmail = "tsealfresco123@gmail.com";
     protected String googleDocsTestPassword = "NessPassword1!";
+    @FindBy (id = "prompt_h")
+    private WebElement promptAuthorizeWithGoogleDocs;
+    @FindBy (xpath = "//div[@id ='prompt_c']//span[@class ='yui-button yui-push-button alf-primary-button']")
+    private WebElement okButtonAuthorizeWithGoogleDocsPopup;
 
     /*
     //old credentials that don't work anymore

@@ -1,28 +1,25 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
-import java.util.List;
-
 @PageObject
 public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
 {
+    @FindBy (css = "div.dashlet.savedsearch td div[class$='yui-dt-liner']")
+    protected static HtmlElement defaultDashletMessage;
+    @FindBy (css = "div.dashlet.savedsearch div[class$='titleBarActionIcon edit']")
+    protected static List<WebElement> configureDashletIcon;
+    @FindBy (css = "div.dashlet.savedsearch div[class$='titleBarActions']")
+    protected static WebElement titleBar;
     @RenderWebElement
     @FindBy (css = "div.dashlet.savedsearch")
     protected HtmlElement dashletContainer;
-
-    @FindBy (css = "div.dashlet.savedsearch td div[class$='yui-dt-liner']")
-    protected static HtmlElement defaultDashletMessage;
-
-    @FindBy (css = "div.dashlet.savedsearch div[class$='titleBarActionIcon edit']")
-    protected static List<WebElement> configureDashletIcon;
-
-    @FindBy (css = "div.dashlet.savedsearch div[class$='titleBarActions']")
-    protected static WebElement titleBar;
 
     @Override
     public String getDashletTitle()

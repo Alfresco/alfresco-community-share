@@ -1,11 +1,11 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import java.util.List;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.browser.WebDriverAware;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 /**
  * @author Razvan.Dorobantu

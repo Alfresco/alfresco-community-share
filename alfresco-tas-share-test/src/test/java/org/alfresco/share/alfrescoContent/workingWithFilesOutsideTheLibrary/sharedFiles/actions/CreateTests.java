@@ -1,5 +1,8 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
@@ -16,15 +19,21 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 /**
  * @author Rusu.Andrei
  */
 
 public class CreateTests extends ContextAwareWebTest
 {
+    private final String folderTemplateName = "Software Engineering Project";
+    private final String fileTemplateName = RandomData.getRandomAlphanumeric() + "fileTemplate.txt";
+    private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+    private final String user2 = String.format("user2-%s", RandomData.getRandomAlphanumeric());
+    private final String title = "googleDocTitle";
+    private final String googleDocName = "googleDocTitle.docx";
+    private final String googleDocSpreadsheet = "googleDocTitle.xlsx";
+    private final String googleDocPresentation = "googleDocTitle.pptx";
+    private final String docContent = "googleDoccontent";
     @Autowired
     private SharedFilesPage sharedFilesPage;
     @Autowired
@@ -35,17 +44,6 @@ public class CreateTests extends ContextAwareWebTest
     private CreateFolderFromTemplate createFolderFromTemplate;
     @Autowired
     private GoogleDocsCommon googleDocs;
-
-    private final String folderTemplateName = "Software Engineering Project";
-    private final String fileTemplateName = RandomData.getRandomAlphanumeric() + "fileTemplate.txt";
-    private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-    private final String user2 = String.format("user2-%s", RandomData.getRandomAlphanumeric());
-
-    private final String title = "googleDocTitle";
-    private final String googleDocName = "googleDocTitle.docx";
-    private final String googleDocSpreadsheet = "googleDocTitle.xlsx";
-    private final String googleDocPresentation = "googleDocTitle.pptx";
-    private final String docContent = "googleDoccontent";
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

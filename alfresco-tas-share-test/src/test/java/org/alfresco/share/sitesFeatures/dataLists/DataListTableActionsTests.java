@@ -1,7 +1,10 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
+import java.util.Arrays;
+
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.dataLists.ContactListSelectedContent;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.ManageContactListItems;
@@ -10,26 +13,23 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.*;
-
-import java.util.Arrays;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class DataListTableActionsTests extends ContextAwareWebTest
 {
-    @Autowired
-    DataListsPage dataListsPage;
-
-    @Autowired
-    ManageContactListItems manageContactListItems;
-
-    @Autowired
-    ContactListSelectedContent contactListSelectedContent;
-
     private final String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("description%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    DataListsPage dataListsPage;
+    @Autowired
+    ManageContactListItems manageContactListItems;
+    @Autowired
+    ContactListSelectedContent contactListSelectedContent;
     private String contactList;
 
     @BeforeClass (alwaysRun = true)

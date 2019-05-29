@@ -1,6 +1,14 @@
 package org.alfresco.share.alfrescoPowerUsers;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.alfresco.common.EnvProperties;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.SystemErrorPage;
 import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -12,42 +20,15 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class SitesManagerTests extends ContextAwareWebTest
 {
-    @Autowired
-    private Toolbar toolbar;
-
-    @Autowired
-    private AdminToolsPage adminToolsPage;
-
-    @Autowired
-    private SitesManagerPage sitesManagerPage;
-
-    @Autowired
-    private SiteDashboardPage siteDashboardPage;
-
-    @Autowired
-    private DeleteSiteDialog deleteSiteDialog;
-
-    @Autowired
-    private EnvProperties envProperties;
-
-    @Autowired
-    private SystemErrorPage systemErrorPage;
-
     private final String random = RandomData.getRandomAlphanumeric();
     private final String name = "name";
     private final String user1 = "user1-" + random;
@@ -65,6 +46,20 @@ public class SitesManagerTests extends ContextAwareWebTest
     private final String site5 = "site-C8696-" + random;
     private final String site6 = "site-C8689-" + random;
     private final String siteDescription = "Site Description";
+    @Autowired
+    private Toolbar toolbar;
+    @Autowired
+    private AdminToolsPage adminToolsPage;
+    @Autowired
+    private SitesManagerPage sitesManagerPage;
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
+    @Autowired
+    private DeleteSiteDialog deleteSiteDialog;
+    @Autowired
+    private EnvProperties envProperties;
+    @Autowired
+    private SystemErrorPage systemErrorPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

@@ -1,6 +1,15 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
@@ -14,52 +23,37 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class DefiningRulesForFolderTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private EditInAlfrescoPage editInAlfrescoPage;
-
-    @Autowired
-    private ManageRulesPage manageRulesPage;
-
-    @Autowired
-    private EditRulesPage editRulesPage;
-
-    @Autowired
-    private RuleDetailsPage ruleDetailsPage;
-
-    @Autowired
-    private SelectDestinationDialog selectDestinationDialog;
-
-    @Autowired
-    private DeleteDialog deleteDialog;
-
-    @Autowired
-    private HeaderMenuBar headerMenuBar;
-
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "user-" + random;
-    private String siteName = "Site-" + random;
-    private String siteName2 = "Site2-" + random;
     private final String description = "description-" + random;
     private final String path = "Documents";
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
+    @Autowired
+    private EditRulesPage editRulesPage;
+    @Autowired
+    private RuleDetailsPage ruleDetailsPage;
+    @Autowired
+    private SelectDestinationDialog selectDestinationDialog;
+    @Autowired
+    private DeleteDialog deleteDialog;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
+    private String siteName = "Site-" + random;
+    private String siteName2 = "Site2-" + random;
     private String fileName;
     private String folderName, ruleName1, ruleName2;
 

@@ -1,10 +1,17 @@
 package org.alfresco.share.userDashboard.dashlets;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.alfresco.dataprep.CMISUtil.Priority;
 import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
-import org.alfresco.po.share.tasksAndWorkflows.*;
+import org.alfresco.po.share.tasksAndWorkflows.ActiveTasksPage;
+import org.alfresco.po.share.tasksAndWorkflows.CompletedTasksPage;
+import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
+import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
+import org.alfresco.po.share.tasksAndWorkflows.ViewTaskPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -13,12 +20,8 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MyTasksTest extends ContextAwareWebTest
 {

@@ -1,6 +1,14 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
@@ -15,45 +23,15 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class WorkingWithLinksTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
-
-    @Autowired
-    private SharedFilesPage sharedFilesPage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private GoogleDocsCommon googleDocsCommon;
-
-    @Autowired
-    private UploadContent uploadContent;
-
-    @Autowired
-    private RepositoryPage repositoryPage;
-
-    @Autowired
-    private DeleteDialog deleteDialog;
-
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String userName = "user" + uniqueIdentifier;
     private final String firstName = "user";
@@ -80,6 +58,22 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     private final String linkC42630 = "Link to " + fileC42630;
     private final String folderC42631 = "C42631-" + uniqueIdentifier;
     private final String linkC42631 = "Link to " + folderC42631;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private GoogleDocsCommon googleDocsCommon;
+    @Autowired
+    private UploadContent uploadContent;
+    @Autowired
+    private RepositoryPage repositoryPage;
+    @Autowired
+    private DeleteDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

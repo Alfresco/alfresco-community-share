@@ -1,159 +1,140 @@
 package org.alfresco.po.share.site;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.common.DataUtil;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
-import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.UploadFileDialog;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Primary
 @PageObject
 public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 {
-    @Autowired
-    private UploadFileDialog uploadDialog;
-
-    @Autowired
-    private NewContentDialog newContentDialog;
-
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-
-    @FindAll (@FindBy (css = "a.filter-link"))
-    private List<WebElement> documentsFilterOptions;
-
-    @RenderWebElement
-    @FindBy (css = "div[id$='default-navBar']")
-    private WebElement navigationBar;
-
-    @RenderWebElement
-    @FindBy (css = "div[id$='default-paginatorBottom']")
-    private WebElement paginator;
-
-    @RenderWebElement
-    @FindBy (css = "div[id$='_default-dl-body']")
-    private WebElement docListContainer;
-
-    @FindBy (css = ".documents[id$='_default-documents']")
-    private WebElement documentList;
-
-    @FindBy (css = "button[id*='createContent']")
-    private WebElement createButton;
-
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
-
+    public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
+    public By descriptionTagFilter = By.cssSelector("div.message span.more");
     @FindBy (css = "[id$='default-fileUpload-button-button']")
     protected WebElement uploadButton;
-
-    @FindBy (css = ".folder-file")
-    private WebElement folderLink;
-
-    @FindBy (css = "div[id$='default-options-menu'] span")
-    private List<WebElement> optionsList;
-
-
-    private By optionsMenuDropDown = By.cssSelector("div[id*='default-options-menu'].visible");
-    private By displayedOptionsListBy = By.xpath("//div[contains(@id, 'default-options-menu')]//li[not(contains(@class, 'hidden'))]");
-
     @RenderWebElement
     @FindBy (css = "button[id$='default-options-button-button']")
     protected WebElement optionsMenu;
-
     @FindBy (xpath = "//span[contains(text(), 'More...')]")
     protected WebElement moreLink;
-
     @FindBy (css = ".hideFolders")
     protected WebElement hideFoldersMenuOption;
-
+    protected By likeButton = By.cssSelector("a.like-action");
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private UploadFileDialog uploadDialog;
+    @Autowired
+    private NewContentDialog newContentDialog;
+    @FindAll (@FindBy (css = "a.filter-link"))
+    private List<WebElement> documentsFilterOptions;
+    @RenderWebElement
+    @FindBy (css = "div[id$='default-navBar']")
+    private WebElement navigationBar;
+    @RenderWebElement
+    @FindBy (css = "div[id$='default-paginatorBottom']")
+    private WebElement paginator;
+    @RenderWebElement
+    @FindBy (css = "div[id$='_default-dl-body']")
+    private WebElement docListContainer;
+    @FindBy (css = ".documents[id$='_default-documents']")
+    private WebElement documentList;
+    @FindBy (css = "button[id*='createContent']")
+    private WebElement createButton;
+    @FindBy (css = ".folder-file")
+    private WebElement folderLink;
+    @FindBy (css = "div[id$='default-options-menu'] span")
+    private List<WebElement> optionsList;
+    private By optionsMenuDropDown = By.cssSelector("div[id*='default-options-menu'].visible");
+    private By displayedOptionsListBy = By.xpath("//div[contains(@id, 'default-options-menu')]//li[not(contains(@class, 'hidden'))]");
     @FindAll (@FindBy (css = ".filter-change:nth-child(1)"))
     private List<WebElement> foldersList;
-
     private By filesList = By.cssSelector(".filename a[href*='document-details']");
     private By documentLibraryItemsList = By.cssSelector("[class*='data'] tr");
-
     @FindAll (@FindBy (css = ".crumb .folder"))
     private List<WebElement> breadcrumbList;
-
     @FindBy (css = ".crumb .label a")
     private WebElement breadcumbCurrentFolder;
-
     @FindBy (css = "button[id*='folderUp']")
     private WebElement folderUpButton;
-
     private By contentNameInputField = By.cssSelector("input[id*='form-field']");
-
     @FindBy (css = ".insitu-edit a")
     private List<WebElement> buttonsFromRenameContent;
-
     @FindBy (css = ".inlineTagEditAutoCompleteWrapper input")
     private WebElement editTagInputField;
-
     @FindBy (css = "form[class='insitu-edit'] a")
     private List<WebElement> editTagButtons;
-
     @FindBy (css = ".inlineTagEditAutoCompleteWrapper input")
     private WebElement tagToBeEdited;
-
     @FindBy (css = "div[class ='google-map']")
     private WebElement googleMap;
-
     @FindBy (css = "div[id*='_default-info'] div[class='thumbnail'] a[href*='document-details']")
     private WebElement googleMapPopUp;
-
     @FindBy (css = "div[class ='status'] img[title ='Geolocation metadata available']")
     private WebElement geolocationMetadataIcon;
-
     @FindBy (css = "div[class='info-banner'] a")
     private WebElement lockedByUser;
-
     @FindBy (css = "span[class ='setDefaultView']")
     private WebElement setDefaultView;
-
     @FindBy (css = "span[class ='removeDefaultView']")
     private WebElement removeDefaultView;
-
     @FindBy (css = "div[class ='alf-gallery-item']")
     private WebElement galleryViewItem;
-
     @FindBy (css = "div[id*='_default-filmstrip-nav-handle']")
     private WebElement downArrowPointer;
-
     @FindBy (css = "div[class ='alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-next']")
     private WebElement rightArrowPointer;
-
     @FindBy (css = "div[class ='alf-filmstrip-nav-button alf-filmstrip-main-nav-button alf-filmstrip-nav-prev']")
     private WebElement leftArrowPointer;
-
     @FindBy (css = "button[id*='_default-sortAscending-button-button']")
     private WebElement sortButton;
-
     @FindBy (css = "button[id*='_default-sortField-button-button']")
     private WebElement sortByFieldButton;
-
     @FindBy (css = "span.yui-pg-current")
     private WebElement currentPage;
-
     @FindAll (@FindBy (css = ".documentDroppable .ygtvlabel"))
     private List<WebElement> explorerPanelDocumentsList;
-
     @FindBy (css = "a[title^='Locate']")
     private WebElement locateFolder;
-
-
     @FindBy (css = ".yui-dt-col-fileName")
     private List<WebElement> nrOfSharedElements;
-
+    private By renameIcon = By.cssSelector(".filename span[class='insitu-edit']");
+    private By linkToFolderLocator = By.cssSelector(".filename [href*='FdocumentLibrary']");
+    private By uploadNewVersion = By.cssSelector("a[title='Upload New Version']");
+    private By moreMenuSelector = By.cssSelector("div[id*='onActionShowMore'] a span");
+    private By noTagsSelector = By.cssSelector("td[class*='fileName'] .detail .item .faded");
+    private By contentTagsSelector = By.cssSelector(".item .tag-link");
+    private By inlineEditTagsSelector = By.cssSelector(".inlineTagEditTag span");
+    private By removeTagIconSelector = By.cssSelector(".inlineTagEditTag img[src*='delete-item-off']");
+    private By contentNameSelector = By.cssSelector(".filename a");
+    private By checkBoxSelector = By.cssSelector("tbody[class='yui-dt-data'] input[id*='checkbox']");
+    private By favoriteLink = By.className("favourite-action");
+    private By actionsSet = By.cssSelector(".action-set a span");
+    private By categoriesDetails = By.cssSelector("div.detail span.category");
+    private By infoBanner = By.cssSelector("div[class='info-banner']");
+    private By titleSelector = By.cssSelector("td .title");
+    private By descriptionSelector = By.cssSelector("td .detail:nth-child(3) span");
+    private By downloadButtonSelector = By.cssSelector("a[title='Download']");
+    private By downloadAsZipSelector = By.cssSelector("a[title='Download as Zip']");
+    private By commentButton = By.cssSelector("a.comment");
 
     private WebElement selectViewInOptions(String viewName)
     {
@@ -168,50 +149,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public int getNrOfSharedElements()
     {
         return nrOfSharedElements.size();
-    }
-
-    private By renameIcon = By.cssSelector(".filename span[class='insitu-edit']");
-    private By linkToFolderLocator = By.cssSelector(".filename [href*='FdocumentLibrary']");
-    private By uploadNewVersion = By.cssSelector("a[title='Upload New Version']");
-    private By moreMenuSelector = By.cssSelector("div[id*='onActionShowMore'] a span");
-    public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
-    private By noTagsSelector = By.cssSelector("td[class*='fileName'] .detail .item .faded");
-    private By contentTagsSelector = By.cssSelector(".item .tag-link");
-    private By inlineEditTagsSelector = By.cssSelector(".inlineTagEditTag span");
-    private By removeTagIconSelector = By.cssSelector(".inlineTagEditTag img[src*='delete-item-off']");
-
-    private By contentNameSelector = By.cssSelector(".filename a");
-    private By checkBoxSelector = By.cssSelector("tbody[class='yui-dt-data'] input[id*='checkbox']");
-    private By favoriteLink = By.className("favourite-action");
-    private By actionsSet = By.cssSelector(".action-set a span");
-
-    private By categoriesDetails = By.cssSelector("div.detail span.category");
-    private By infoBanner = By.cssSelector("div[class='info-banner']");
-    private By titleSelector = By.cssSelector("td .title");
-    private By descriptionSelector = By.cssSelector("td .detail:nth-child(3) span");
-    private By downloadButtonSelector = By.cssSelector("a[title='Download']");
-    private By downloadAsZipSelector = By.cssSelector("a[title='Download as Zip']");
-    public By descriptionTagFilter = By.cssSelector("div.message span.more");
-    private By commentButton = By.cssSelector("a.comment");
-    protected By likeButton = By.cssSelector("a.like-action");
-
-    public enum DocumentsFilters
-    {
-        All("All Documents", "All Documents in the Document Library"),
-        EditingMe("I'm Editing", "Documents I'm Editing(working copies)"),
-        EditingOthers("Others are Editing", "Documents Others are Editing(working copies)"),
-        RecentlyModified("Recently Modified", "Documents Recently Modified"),
-        RecentlyAdded("Recently Added", "Documents Added Recently"),
-        Favorites("My Favorites", "My Favorite Documents and Folders");
-
-        public final String title;
-        public final String header;
-
-        DocumentsFilters(String title, String header)
-        {
-            this.title = title;
-            this.header = header;
-        }
     }
 
     @Override
@@ -654,7 +591,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         getBrowser().waitUntilElementVisible(locateFolder);
         getBrowser().waitUntilElementClickable(locateFolder).click();
     }
-
 
     public String getDocumentListHeader()
     {
@@ -1243,6 +1179,25 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         {
             LOG.info("Element not found " + ex.getMessage().toString());
             return false;
+        }
+    }
+
+    public enum DocumentsFilters
+    {
+        All("All Documents", "All Documents in the Document Library"),
+        EditingMe("I'm Editing", "Documents I'm Editing(working copies)"),
+        EditingOthers("Others are Editing", "Documents Others are Editing(working copies)"),
+        RecentlyModified("Recently Modified", "Documents Recently Modified"),
+        RecentlyAdded("Recently Added", "Documents Added Recently"),
+        Favorites("My Favorites", "My Favorite Documents and Folders");
+
+        public final String title;
+        public final String header;
+
+        DocumentsFilters(String title, String header)
+        {
+            this.title = title;
+            this.header = header;
         }
     }
 }

@@ -1,5 +1,7 @@
 package org.alfresco.po.share.user.profile;
 
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -12,31 +14,24 @@ import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.Table;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-import java.util.List;
-
 /**
  * @author bogdan.bocancea
  */
 @PageObject
 public class UserSitesListPage extends SharePage<UserSitesListPage> implements AccessibleByMenuBar
 {
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
-
-    @FindBy (id = "HEADER_SITES_MENU")
-    private Link sitesMenuLink;
-
-    @FindBy (id = "HEADER_SITES_MENU_MY_SITES")
-    private Link mySitesLink;
-
-    @FindBy (css = "div.viewcolumn p")
-    private TextBlock noSitesMessage;
-
-    @FindBy (css = "ul[id$='default-sites'] li")
-    private Table sitesList;
-
     @FindAll (@FindBy (css = "p a"))
     protected List<WebElement> sitesLinksList;
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
+    @FindBy (id = "HEADER_SITES_MENU")
+    private Link sitesMenuLink;
+    @FindBy (id = "HEADER_SITES_MENU_MY_SITES")
+    private Link mySitesLink;
+    @FindBy (css = "div.viewcolumn p")
+    private TextBlock noSitesMessage;
+    @FindBy (css = "ul[id$='default-sites'] li")
+    private Table sitesList;
 
     @Override
     public String getRelativePath()

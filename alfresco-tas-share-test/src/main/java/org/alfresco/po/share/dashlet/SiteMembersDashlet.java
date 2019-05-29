@@ -1,5 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+
 import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -8,25 +10,20 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 /**
  * @author Laura.Capsa
  */
 @PageObject
 public class SiteMembersDashlet extends Dashlet<SiteMembersDashlet>
 {
-    @Autowired
-    AddSiteUsersPage addSiteUsersPage;
-
+    private final String membersPath = "(.//div[contains(@class, 'colleagues')]//div[contains(@class, 'detail-list-item')])";
     @RenderWebElement
     @FindBy (css = "div[class*='colleagues']")
     protected WebElement dashletContainer;
-
+    @Autowired
+    AddSiteUsersPage addSiteUsersPage;
     @FindBy (css = "a[href='add-users']")
     private WebElement addUsersLink;
-
-    private final String membersPath = "(.//div[contains(@class, 'colleagues')]//div[contains(@class, 'detail-list-item')])";
     @FindBy (xpath = membersPath)
     private List<WebElement> membersList;
 

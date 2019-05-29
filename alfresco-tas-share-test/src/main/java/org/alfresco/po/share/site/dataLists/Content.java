@@ -1,9 +1,9 @@
 package org.alfresco.po.share.site.dataLists;
 
+import java.util.List;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.browser.WebDriverAware;
-
-import java.util.List;
 
 @PageObject
 public abstract class Content extends WebDriverAware

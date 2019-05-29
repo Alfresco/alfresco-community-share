@@ -1,5 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+
 import org.alfresco.po.share.TinyMce.TinyMceColourCode;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -10,21 +12,17 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
-import java.util.List;
-
 /**
  * Created by Argint Alex
  */
 @PageObject
 public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 {
-    @Autowired
-    TinyMceEditor tinyMceEditor;
-
     @RenderWebElement
     @FindBy (css = "div[class*='notice-dashlet']")
     protected HtmlElement dashletContainer;
-
+    @Autowired
+    TinyMceEditor tinyMceEditor;
     @FindBy (css = "div[class*='notice-dashlet'] div[class*='edit']")
     private WebElement editIcon;
 

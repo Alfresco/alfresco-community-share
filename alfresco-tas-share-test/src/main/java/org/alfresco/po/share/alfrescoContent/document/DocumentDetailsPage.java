@@ -1,5 +1,8 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
@@ -17,209 +20,142 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @PageObject
 public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 {
-    @Autowired
-    SiteDashboardPage siteDashboardPage;
-
-    @Autowired
-    EditPropertiesPage editPropertiesPage;
-
-    @Autowired
-    AspectsForm aspectsForm;
-
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    TinyMceEditor tinyMceEditor;
-
+    @FindBy (css = "div[id*='_default-comments-list'] td[class ='yui-dt-empty']")
+    public WebElement noComments;
     @FindBy (css = ".filename")
     protected WebElement fileListLocator;
-
     @FindBy (css = ".folder-actions.folder-details-panel a[title='Manage Permissions']")
     protected WebElement managePermissionsLink;
-
-    @FindAll (@FindBy (css = ".filename [href*=document-details]"))
-    private List<WebElement> filesList;
-
     @FindBy (css = "div[class='node-info'] h1")
     protected WebElement documentTitle;
-
     @RenderWebElement
     @FindBy (css = ".node-header")
     protected WebElement docDetailsPageHeader;
-
     @FindBy (linkText = "Download")
     protected WebElement downloadDocument;
-
     @FindBy (css = "div[class='node-social']")
     protected WebElement socialBar;
-
     @FindBy (css = "[class*=like-action]")
     protected WebElement likeUnlikeAction;
-
     @FindBy (css = "[class=likes-count]")
     protected WebElement likesCount;
-
     @FindBy (css = ".item-modifier a")
     protected WebElement itemModifier;
-
     @FindBy (css = ".item-modifier span")
     protected WebElement modifyDate;
-
     @FindBy (css = "div[class='node-info'] h1 span")
     protected WebElement documentVersion;
-
     @FindBy (css = "[class*=favourite-action]")
     protected WebElement favoriteUnfavoriteAction;
-
     @FindBy (css = "[name*='commentNode']")
     protected WebElement commentDocument;
-
     @FindBy (css = "[class=comment-form]")
     protected WebElement commentForm;
-
     @FindBy (css = "[id*='default-add-submit-button']")
     protected WebElement addCommentButton;
-
     @FindBy (css = "[class=comment-content]")
     protected WebElement commentContent;
-
     @FindBy (css = "[class*=quickshare-action] [class=bd]")
     protected WebElement sharePopUp;
-
     @FindBy (css = "[title*='Share document']")
     protected WebElement shareDocument;
-
     @FindBy (css = "[id*=default-fullpage-button]")
     protected WebElement maximizeButton;
-
     @FindBy (css = "[id*=zoomIn-button]")
     protected WebElement zoomInButton;
-
     @FindBy (css = "[id*=zoomOut-button]")
     protected WebElement zoomOutButton;
-
     @FindBy (css = "[id*=default-scaleSelectBtn-button]")
     protected WebElement scaleButton;
-
     @FindBy (css = "[id*=default-next-button]")
     protected WebElement nextButton;
-
     @FindBy (css = "[id*=default-previous-button]")
     protected WebElement previousButton;
-
     @FindBy (css = "[id*=default-pageNumber]")
     protected WebElement pageNumber;
-
     @FindBy (css = "[id*=searchBarToggle-button]")
     protected WebElement searchButton;
-
     @FindBy (css = "[class*=searchDialog]")
     protected WebElement searchDialog;
-
-    @FindAll (@FindBy (css = "[id*=comment-container]"))
-    private List<WebElement> commentsList;
-
     @FindBy (css = "[id*=default-paginator-top] [id*=page-report]")
     protected WebElement pageReport;
-
     @FindBy (css = "[id*=default-paginator-top] [class*=next]")
     protected WebElement nextPage;
-
     @FindBy (css = "[id*=default-paginator-top] [class*=previous]")
     protected WebElement previousPage;
-
     @RenderWebElement
     @FindBy (css = ".viewmode-label")
     protected List<WebElement> propertiesList;
-
     @FindBy (css = ".viewmode-value")
     protected List<WebElement> propertiesValuesList;
-
-    @FindBy (css = "span[class='yui-button yui-link-button onDownloadDocumentClick']")
-    private WebElement downloadButton;
-
     @FindBy (css = ".folder-tags.folder-details-panel")
     protected WebElement tagsFeaturePanel;
-
     @FindBy (css = ".folder-actions.folder-details-panel")
     protected WebElement folderActionsPanel;
-
     @FindBy (css = ".folder-metadata-header.folder-details-panel")
     protected WebElement filePropertiesdetailsPanel;
-
     @FindBy (css = ".folder-links.folder-details-panel")
     protected WebElement socialFeaturesPanel;
-
     @FindBy (css = ".folder-link.folder-closed a")
     protected WebElement folderLinkFromBreadcrumbTrail;
-
-    @FindBy (xpath = "//span[@class='comment-actions']//a[@title = 'Delete Comment']")
-    private WebElement deleteCommentButton;
-
-    @FindBy (xpath = "//span[@class='comment-actions']//a[@title = 'Edit Comment']")
-    private WebElement editCommentButton;
-
-    @FindBy (xpath = "//span[@class='button-group']//span[@class = 'yui-button yui-push-button']//button")
-    private WebElement deleteButtonOnPrompt;
-
-    @FindBy (id = "prompt_h")
-    private WebElement deleteCommentPrompt;
-
-    @FindBy (css = "div[id*='_default-comments-list'] td[class ='yui-dt-empty']")
-    public WebElement noComments;
-
-    @FindBy (xpath = "//h2[text()= 'Edit Comment...']")
-    private WebElement editCommentBoxTitle;
-
-    @FindBy (xpath = "//button[text()='Save']")
-    private WebElement saveButtonEditComment;
-
-    @FindBy (css = "div[class ='textLayer']>div")
-    private WebElement contentText;
-
     @FindBy (xpath = ".//*[@id='onActionManageAspects']/a/span")
     protected WebElement manageAspectsButton;
-
     @FindBy (xpath = "//a[contains(@title,'Edit Properties')]")
     protected WebElement editPropertiesLink;
-
-    @FindBy (css = "div[id$='_default-olderVersions'] div.version-panel-right a.download")
-    private WebElement downloadPreviousVersion;
-
-    @FindBy (css = "div[id$='_default-olderVersions'] div.version-panel-right a[class$='_default revert']")
-    private WebElement revertButton;
-
-    @FindBy (xpath = "//iframe[contains(@title,'Rich Text Area')]")
-    private WebElement CommentTextArea;
-
-    @FindBy (xpath = ".//span[contains(@class,'locked')]")
-    private WebElement lockedMessage;
-
-    @FindBy (css = "#alfresco-revertVersion-instance-ok-button-button")
-    private WebElement okOnRevertPopup;
-
-    @FindBy (css = ".message")
-    private WebElement contentError;
-
-    @FindBy (css = "span[id$='_default-numPages']")
-    private WebElement defaultPageNumber;
-
-    private By fileLocation = By.xpath("//span[@class= 'folder-link folder-open']//a");
-
-    private By documentsLink = By.xpath("//span[@class = 'folder-link']//a");
-    private By googleDocsEdit = By.xpath("//span[contains(text(), 'Edit in Google Docs™')]");
-    private By commentButton = By.xpath("//span[@class ='item item-separator item-social']//a[@title = 'Comment on this document']");
-
     protected By favouriteIcon = By.cssSelector("a[class$='favourite-action-favourite']");
     protected By addToFavouriteIcon = By.cssSelector("a[class$='favourite-document']");
     protected By addCommentBlock = By.cssSelector("div[id*='default-add-comment']");
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
+    @Autowired
+    EditPropertiesPage editPropertiesPage;
+    @Autowired
+    AspectsForm aspectsForm;
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    TinyMceEditor tinyMceEditor;
+    @FindAll (@FindBy (css = ".filename [href*=document-details]"))
+    private List<WebElement> filesList;
+    @FindAll (@FindBy (css = "[id*=comment-container]"))
+    private List<WebElement> commentsList;
+    @FindBy (css = "span[class='yui-button yui-link-button onDownloadDocumentClick']")
+    private WebElement downloadButton;
+    @FindBy (xpath = "//span[@class='comment-actions']//a[@title = 'Delete Comment']")
+    private WebElement deleteCommentButton;
+    @FindBy (xpath = "//span[@class='comment-actions']//a[@title = 'Edit Comment']")
+    private WebElement editCommentButton;
+    @FindBy (xpath = "//span[@class='button-group']//span[@class = 'yui-button yui-push-button']//button")
+    private WebElement deleteButtonOnPrompt;
+    @FindBy (id = "prompt_h")
+    private WebElement deleteCommentPrompt;
+    @FindBy (xpath = "//h2[text()= 'Edit Comment...']")
+    private WebElement editCommentBoxTitle;
+    @FindBy (xpath = "//button[text()='Save']")
+    private WebElement saveButtonEditComment;
+    @FindBy (css = "div[class ='textLayer']>div")
+    private WebElement contentText;
+    @FindBy (css = "div[id$='_default-olderVersions'] div.version-panel-right a.download")
+    private WebElement downloadPreviousVersion;
+    @FindBy (css = "div[id$='_default-olderVersions'] div.version-panel-right a[class$='_default revert']")
+    private WebElement revertButton;
+    @FindBy (xpath = "//iframe[contains(@title,'Rich Text Area')]")
+    private WebElement CommentTextArea;
+    @FindBy (xpath = ".//span[contains(@class,'locked')]")
+    private WebElement lockedMessage;
+    @FindBy (css = "#alfresco-revertVersion-instance-ok-button-button")
+    private WebElement okOnRevertPopup;
+    @FindBy (css = ".message")
+    private WebElement contentError;
+    @FindBy (css = "span[id$='_default-numPages']")
+    private WebElement defaultPageNumber;
+    private By fileLocation = By.xpath("//span[@class= 'folder-link folder-open']//a");
+    private By documentsLink = By.xpath("//span[@class = 'folder-link']//a");
+    private By googleDocsEdit = By.xpath("//span[contains(text(), 'Edit in Google Docs™')]");
+    private By commentButton = By.xpath("//span[@class ='item item-separator item-social']//a[@title = 'Comment on this document']");
     private By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
     private By editComment = By.cssSelector("[class*=edit-comment]");
     private By commContent = By.cssSelector("[class=comment-content]");

@@ -1,6 +1,13 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.tasksAndWorkflows.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.share.tasksAndWorkflows.ActiveTasksPage;
+import org.alfresco.po.share.tasksAndWorkflows.CompletedTasksPage;
+import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
+import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
+import org.alfresco.po.share.tasksAndWorkflows.ViewTaskPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -13,9 +20,6 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Link;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @PageObject
 public class MyTasksDashlet extends Dashlet<MyTasksDashlet>

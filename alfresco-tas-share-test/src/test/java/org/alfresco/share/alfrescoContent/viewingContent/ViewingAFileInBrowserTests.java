@@ -1,6 +1,10 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -9,31 +13,24 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class ViewingAFileInBrowserTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    PreviewFileActionsSection documentActions;
-
     private final String user = String.format("C5920User%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C5920SiteName%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C5920SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String docName = "File-C5920";
     private final String folderName = "testFolder";
+    @Autowired
+    PreviewFileActionsSection documentActions;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

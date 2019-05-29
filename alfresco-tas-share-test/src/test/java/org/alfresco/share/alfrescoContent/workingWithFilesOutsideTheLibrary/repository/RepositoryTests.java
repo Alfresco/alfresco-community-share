@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -12,7 +13,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -20,24 +20,6 @@ import org.testng.annotations.Test;
 
 public class RepositoryTests extends ContextAwareWebTest
 {
-    @Autowired
-    private Toolbar toolbar;
-
-    @Autowired
-    private UserDashboardPage userDashboardPage;
-
-    @Autowired
-    CreateContent create;
-
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    GoogleDocsCommon googleDocs;
-
-    @Autowired
-    private RepositoryPage repositoryPage;
-
     private final String user = String.format("C8154TestUser%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C8154SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("1C8154SiteName%s", RandomData.getRandomAlphanumeric());
@@ -47,7 +29,18 @@ public class RepositoryTests extends ContextAwareWebTest
     private final String folderName2 = "folderNameSite2";
     private final String fileContent = "test content";
     private final String siteName2 = "2SecondTestSite" + RandomData.getRandomAlphanumeric();
-
+    @Autowired
+    CreateContent create;
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    GoogleDocsCommon googleDocs;
+    @Autowired
+    private Toolbar toolbar;
+    @Autowired
+    private UserDashboardPage userDashboardPage;
+    @Autowired
+    private RepositoryPage repositoryPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

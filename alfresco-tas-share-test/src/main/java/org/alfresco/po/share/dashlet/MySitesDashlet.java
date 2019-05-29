@@ -1,5 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -17,58 +19,33 @@ import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
 
-import java.util.List;
-
 @PageObject
 public class MySitesDashlet extends Dashlet<MySitesDashlet>
 {
-    @Autowired
-    private SiteDashboardPage siteDashboardPage;
-
     @RenderWebElement
     @FindBy (css = "div.dashlet.my-sites")
     protected HtmlElement dashletContainer;
-
     @RenderWebElement
     @FindBy (css = "div[id$='default-sites']")
     protected HtmlElement sitesListContainer;
-
     @FindAll (@FindBy (css = "h3.site-title > a"))
     protected List<WebElement> sitesLinksList;
-
     @FindAll (@FindBy (css = "div[id$='default-sites'] tr[class*='yui-dt-rec']"))
     protected List<HtmlElement> siteRowList;
-
     @FindAll (@FindBy (css = "div#prompt div.ft span span button"))
     protected List<WebElement> confirmationDeleteButtons;
-
     @FindBy (css = "div[class*='my-sites'] div span span button")
     protected WebElement myFavoritesButton;
-
     @FindAll (@FindBy (css = "div[class*='my-sites'] div.bd ul li"))
     protected List<WebElement> myfavoritesOptions;
-
     @FindBy (css = "div[class*='my-sites'] div span span a")
     protected WebElement createSiteLink;
-
     @FindBy (css = "div[class*='my-sites'] div[class*='empty']")
     protected HtmlElement defaultSiteText;
-
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
     private By favoriteEnabled = By.cssSelector("span[class='item item-social'] a[class$='enabled']");
     private By deleteButton = By.cssSelector("a[class^='delete-site']");
-
-    public enum SitesFilter
-    {
-        All,
-        MyFavorites
-            {
-                public String toString()
-                {
-                    return "My Favorites";
-                }
-            },
-        Recent
-    }
 
     @Override
     public String getDashletTitle()
@@ -323,5 +300,18 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     public boolean isDeleteButtonDisplayed(String siteName)
     {
         return browser.isElementDisplayed(deleteButton);
+    }
+
+    public enum SitesFilter
+    {
+        All,
+        MyFavorites
+            {
+                public String toString()
+                {
+                    return "My Favorites";
+                }
+            },
+        Recent
     }
 }

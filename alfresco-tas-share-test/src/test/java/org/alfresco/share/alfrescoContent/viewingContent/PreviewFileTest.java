@@ -1,5 +1,8 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
+import java.io.File;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -7,13 +10,10 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.io.File;
 
 /**
  * @author iulia.cojocea
@@ -21,17 +21,15 @@ import java.io.File;
 
 public class PreviewFileTest extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
     private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = "testFolder";
     private final String docName = "MultiPageDocument.docx";
     private final String testDataFolder = srcRoot + "testdata" + File.separator + "testDataC5884" + File.separator;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

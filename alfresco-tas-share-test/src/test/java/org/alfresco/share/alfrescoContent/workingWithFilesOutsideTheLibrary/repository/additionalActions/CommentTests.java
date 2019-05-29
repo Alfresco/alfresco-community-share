@@ -17,23 +17,19 @@ import org.testng.annotations.Test;
 
 public class CommentTests extends ContextAwareWebTest
 {
-    @Autowired
-    private RepositoryPage repositoryPage;
-
-    @Autowired
-    CreateContent createContent;
-
-    @Autowired
-    private SocialFeatures socialFeatures;
-
-    @Autowired
-    private DocumentDetailsPage documentDetails;
-
     private final String user = String.format("C8305TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC8305 = "C8305 file";
     private final String path = "User Homes/" + user;
     private final String fileContent = "test file content";
     private final String folderNameC8306 = "C8306 Folder";
+    @Autowired
+    CreateContent createContent;
+    @Autowired
+    private RepositoryPage repositoryPage;
+    @Autowired
+    private SocialFeatures socialFeatures;
+    @Autowired
+    private DocumentDetailsPage documentDetails;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

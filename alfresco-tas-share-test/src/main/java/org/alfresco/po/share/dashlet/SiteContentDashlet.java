@@ -1,5 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -12,36 +14,29 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Link;
 
-import java.util.List;
-
 @PageObject
 public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 {
+    @FindAll (@FindBy (css = ".filename>a"))
+    protected List<WebElement> documentsLinksList;
+    @FindAll (@FindBy (css = ".yuimenuitemlabel.yuimenuitemlabel"))
+    protected List<WebElement> filters;
+    protected By docDetails = By.xpath("../following-sibling::*[1][@class='detail']/span[1]");
+    protected String smallThumbnailIcon = "//img[contains(@src, '/share/res/components/images/filetypes/generic-file-32.png')][contains(@title,'%s')]";
+    protected String bigThumbnailIcon = "//img[contains(@src, '/content/thumbnails/doclib?c=queue&ph=true')][contains(@title,'%s')]";
     @Autowired
     DocumentDetailsPage documentDetailsPage;
-
     @RenderWebElement
     @FindBy (css = "div.dashlet.docsummary")
     private WebElement dashletContainer;
-
     @FindBy (css = "div.dashlet.docsummary span[class$='first-child'] [title='Simple View']")
     private WebElement simpleViewButton;
-
     @FindBy (css = " div.dashlet.docsummary span[class$='first-child'] [title='Detailed View']")
     private WebElement detailedViewButton;
-
-    @FindAll (@FindBy (css = ".filename>a"))
-    protected List<WebElement> documentsLinksList;
-
     @FindAll (@FindBy (css = ".bd>img"))
     private WebElement bigPreview;
-
-    @FindAll (@FindBy (css = ".yuimenuitemlabel.yuimenuitemlabel"))
-    protected List<WebElement> filters;
-
     @FindBy (css = "[id$='default-filters']")
     private WebElement defaultFilterButton;
-
     private By addToFavoritesLink = By.cssSelector("a[title = 'Add document to favorites']");
     private By removeFromFavoritesLink = By.cssSelector("a[title = 'Remove document from favorites']");
     private By like = By.cssSelector("a[title = 'Like this document']");
@@ -50,10 +45,6 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
     private By numberOfLikes = By.cssSelector("span.likes-count");
     private By documentsList = By.cssSelector("tbody.yui-dt-data tr");
     private By documentVersion = By.cssSelector("span.document-version");
-
-    protected By docDetails = By.xpath("../following-sibling::*[1][@class='detail']/span[1]");
-    protected String smallThumbnailIcon = "//img[contains(@src, '/share/res/components/images/filetypes/generic-file-32.png')][contains(@title,'%s')]";
-    protected String bigThumbnailIcon = "//img[contains(@src, '/content/thumbnails/doclib?c=queue&ph=true')][contains(@title,'%s')]";
 
     @Override
     protected String getDashletTitle()

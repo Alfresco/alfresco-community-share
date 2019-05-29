@@ -1,5 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -8,30 +10,22 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
-import java.util.List;
-
 @PageObject
 public class WebViewDashlet extends Dashlet<WebViewDashlet>
 {
-    @Autowired
-    ConfigureWebViewDashletPopUp configureWebViewPopUp;
-
+    @FindBy (css = "div.dashlet.webview div[class$='titleBarActionIcon edit']")
+    protected static List<WebElement> configureDashletIcon;
+    @FindBy (css = "h3[class$='default-body']")
+    protected static HtmlElement defaultDashletMessage;
+    @FindBy (css = "div.dashlet.webview div[class$='titleBarActions']")
+    protected static WebElement titleBar;
+    @FindBy (css = "div[style*='cursor: move']")
+    protected static WebElement configureWebViewDashletTitle;
     @RenderWebElement
     @FindBy (css = "div.dashlet.webview")
     protected HtmlElement dashletContainer;
-
-    @FindBy (css = "div.dashlet.webview div[class$='titleBarActionIcon edit']")
-    protected static List<WebElement> configureDashletIcon;
-
-    @FindBy (css = "h3[class$='default-body']")
-    protected static HtmlElement defaultDashletMessage;
-
-    @FindBy (css = "div.dashlet.webview div[class$='titleBarActions']")
-    protected static WebElement titleBar;
-
-    @FindBy (css = "div[style*='cursor: move']")
-    protected static WebElement configureWebViewDashletTitle;
-
+    @Autowired
+    ConfigureWebViewDashletPopUp configureWebViewPopUp;
     private By configureWebViewDashletWindow = By.cssSelector("div[class$='yui-panel-container yui-dialog shadow']");
 
     private By linkTitleField = By.cssSelector("*[name='webviewTitle']");

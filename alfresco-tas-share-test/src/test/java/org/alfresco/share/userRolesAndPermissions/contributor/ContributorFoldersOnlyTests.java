@@ -1,5 +1,11 @@
 package org.alfresco.share.userRolesAndPermissions.contributor;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
@@ -12,39 +18,15 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class ContributorFoldersOnlyTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentsFilters documentsFilters;
-
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private CreateContent createContent;
-
-    @Autowired
-    private ManageRulesPage manageRulesPage;
-
-    @Autowired
-    private NewContentDialog newContentDialog;
-
-    @Autowired
-    private Notification notification;
-
     private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String user = "Contributor-" + uniqueId;
     private final String site = "site-" + uniqueId;
@@ -57,6 +39,18 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     private final String path = "Sites/" + site + "/documentLibrary/" + folderName;
     private final String tag = "tag-" + uniqueId.toLowerCase();
     private final String title = "Title-" + uniqueId;
+    @Autowired
+    private DocumentsFilters documentsFilters;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private CreateContent createContent;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
+    @Autowired
+    private NewContentDialog newContentDialog;
+    @Autowired
+    private Notification notification;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

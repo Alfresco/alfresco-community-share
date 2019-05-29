@@ -1,5 +1,8 @@
 package org.alfresco.share.adminTools.groups;
 
+import static org.testng.Assert.assertEquals;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.members.AddSiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -9,31 +12,16 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
 
 /**
  * @author Razvan.Dorobantu
  */
 public class GroupsTests extends ContextAwareWebTest
 {
-    @Autowired
-    private GroupsPage groupsPage;
-
-    @Autowired
-    private UserDashboardPage userDashboardPage;
-
-    @Autowired
-    private SiteGroupsPage siteGroupsPage;
-
-    @Autowired
-    private AddSiteGroupsPage addSiteGroupsPage;
-
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String C9462group = "_C9462group" + uniqueIdentifier;
     private final String C9465group = "_C9465group" + uniqueIdentifier;
@@ -45,6 +33,14 @@ public class GroupsTests extends ContextAwareWebTest
     private final String C9465EditedName = C9465groupEdited + " (" + C9465group + ")";
     private final String userName = "user" + uniqueIdentifier;
     private final String siteName = String.format("C9460site%s", uniqueIdentifier);
+    @Autowired
+    private GroupsPage groupsPage;
+    @Autowired
+    private UserDashboardPage userDashboardPage;
+    @Autowired
+    private SiteGroupsPage siteGroupsPage;
+    @Autowired
+    private AddSiteGroupsPage addSiteGroupsPage;
 
     @BeforeClass (alwaysRun = true)
     public void beforeClass()

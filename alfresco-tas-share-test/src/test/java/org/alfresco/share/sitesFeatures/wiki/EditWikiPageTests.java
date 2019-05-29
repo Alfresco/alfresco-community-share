@@ -1,21 +1,25 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
-import org.alfresco.po.share.site.wiki.*;
+import org.alfresco.po.share.site.wiki.CreateWikiPage;
+import org.alfresco.po.share.site.wiki.EditWikiPage;
+import org.alfresco.po.share.site.wiki.WikiListPage;
+import org.alfresco.po.share.site.wiki.WikiMainPage;
+import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author iulia.cojocea
@@ -24,24 +28,20 @@ import java.util.List;
 public class EditWikiPageTests extends ContextAwareWebTest
 {
 
+    private final String image = "newavatar.jpg";
+    private final String siteNameC5545 = String.format("siteNameC5545%s", RandomData.getRandomAlphanumeric());
     @Autowired
     WikiMainPage wikiMainPage;
-
     @Autowired
     EditWikiPage editWikiPage;
-
     @Autowired
     WikiListPage wikiListPage;
-
     @Autowired
     CreateWikiPage createWikiPage;
-
     @Autowired
     SelectDocumentPopupPage selectDoc;
-
     @Autowired
     WikiPage wikiPage;
-
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName;
     private String wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
@@ -49,8 +49,6 @@ public class EditWikiPageTests extends ContextAwareWebTest
     private String wikiInitialContent = "Initial content";
     private String tagName = String.format("tag%s", RandomData.getRandomAlphanumeric()).toLowerCase();
     private List<String> tags = new ArrayList<>();
-    private final String image = "newavatar.jpg";
-    private final String siteNameC5545 = String.format("siteNameC5545%s", RandomData.getRandomAlphanumeric());
 
     @BeforeClass (alwaysRun = true)
     public void createUser()

@@ -1,5 +1,8 @@
 package org.alfresco.share;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.testrail.TestRail;
@@ -9,24 +12,19 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 /**
  * @author bogdan.bocancea
  */
 public class LoginTests extends ContextAwareWebTest
 {
-    @Autowired
-    private LoginPage loginPage;
-
-    @Autowired
-    private UserDashboardPage userDashboard;
-
     private final String validUser = "validUser" + System.currentTimeMillis();
     private final String[] specialUsers = { "isaías", "user.name", "test3&test3", "test5=test5" };
     private final String specialPassUser = "specialPassUser";
     private final String specialPassword = "abc@123";
+    @Autowired
+    private LoginPage loginPage;
+    @Autowired
+    private UserDashboardPage userDashboard;
     private String dashBoardUrl, authError;
     private String testUserC2084 = "testUserC2084";
 

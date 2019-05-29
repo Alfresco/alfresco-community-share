@@ -1,5 +1,14 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -7,31 +16,22 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class OrganizingFoldersTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private NewContentDialog newContentDialog;
-
     private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String userName = "User-" + uniqueId;
     private final String description = "Description-" + uniqueId;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private NewContentDialog newContentDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

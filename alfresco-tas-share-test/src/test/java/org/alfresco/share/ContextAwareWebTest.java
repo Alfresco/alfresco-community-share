@@ -1,20 +1,25 @@
 package org.alfresco.share;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
 import org.alfresco.common.EnvProperties;
 import org.alfresco.common.Language;
-import org.alfresco.dataprep.*;
-import org.alfresco.utility.data.DataUser;
+import org.alfresco.dataprep.ContentActions;
+import org.alfresco.dataprep.ContentAspects;
+import org.alfresco.dataprep.ContentService;
+import org.alfresco.dataprep.DataListsService;
+import org.alfresco.dataprep.GroupService;
+import org.alfresco.dataprep.SitePagesService;
+import org.alfresco.dataprep.SiteService;
+import org.alfresco.dataprep.UserService;
 import org.alfresco.utility.exception.DataPreparationException;
-import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.AbstractWebTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.ContextConfiguration;
 import org.testng.annotations.BeforeClass;
-
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 /**
  * @author bogdan.bocancea

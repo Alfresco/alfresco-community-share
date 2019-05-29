@@ -1,6 +1,12 @@
 package org.alfresco.share.sitesFeatures.calendar.TimeZone;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.io.IOException;
+
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.site.calendar.AddEventDialog;
 import org.alfresco.po.share.site.calendar.CalendarPage;
@@ -12,16 +18,10 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Claudia Agache on 7/26/2016.
@@ -39,15 +39,14 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
 
     @Autowired
     Notification notification;
-
-    private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
     DateTime today;
     DateTime endDate;
     DateTime aWeekAgo;
     DateTime nextWeek;
     DateTime aMonthAgo;
     DateTime nextMonth;
+    private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
     private String clientATimeZone = "tzutil /s \"GTB Standard Time\"";
     private String clientBTimeZone = "tzutil /s \"GMT Standard Time\"";
 

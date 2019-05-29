@@ -1,17 +1,17 @@
 package org.alfresco.po.share.site.dataLists;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @PageObject
 public class MeetingAgendaListSelectedContent extends ListItemSelectedContent
 {
-    private By listItems = By.cssSelector("div[id$='default-grid'] table tbody[class='yui-dt-data'] tr");
     MeetingAgendaListItemsTable tableRow;
+    private By listItems = By.cssSelector("div[id$='default-grid'] table tbody[class='yui-dt-data'] tr");
 
     public boolean isListItemDisplayed(List<String> listDetails)
     {

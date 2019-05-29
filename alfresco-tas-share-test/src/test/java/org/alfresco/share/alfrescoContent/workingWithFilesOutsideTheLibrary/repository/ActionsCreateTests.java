@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -11,32 +12,14 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import static org.testng.Assert.assertEquals;
-
 public class ActionsCreateTests extends ContextAwareWebTest
 {
-    @Autowired
-    private CreateContent create;
-
-    @Autowired
-    private RepositoryPage repository;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private CreateFolderFromTemplate createFolderFromTemplate;
-
-    @Autowired
-    private Notification notification;
-
     private final String user = String.format("C8156User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C8156SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C8156SiteName%s", RandomData.getRandomAlphanumeric());
@@ -45,6 +28,16 @@ public class ActionsCreateTests extends ContextAwareWebTest
     private final String docContent = "C8159 template content";
     private final String pathFolderTemplate = "Data Dictionary/Space Templates";
     private final String folderName = String.format("C8158%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    private CreateContent create;
+    @Autowired
+    private RepositoryPage repository;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private CreateFolderFromTemplate createFolderFromTemplate;
+    @Autowired
+    private Notification notification;
 
     @BeforeClass (alwaysRun = true)
 

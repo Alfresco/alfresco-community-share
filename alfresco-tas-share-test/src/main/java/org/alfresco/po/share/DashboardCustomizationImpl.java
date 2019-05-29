@@ -1,23 +1,22 @@
 package org.alfresco.po.share;
 
-import org.alfresco.utility.web.HtmlPage;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.exception.PageOperationException;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
-import org.openqa.selenium.JavascriptExecutor;
-
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * @author bogdan.bocancea
@@ -27,20 +26,8 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
 {
     private final int columns = 4;
     private final int maxDashletsInColumn = 5;
-
-    public enum Layout
-    {
-        ONE_COLUMN("One column"), TWO_COLUMNS_WIDE_LEFT("Two columns: wide left, narrow right"), TWO_COLUMNS_WIDE_RIGHT(
-        "Two columns: narrow left, wide right"), THREE_COLUMNS(
-        "Three columns: wide centre"), FOUR_COLUMS("Four columns");
-        public final String description;
-
-        Layout(String description)
-        {
-            this.description = description;
-        }
-    }
-
+    @FindAll (@FindBy (css = "ul.availableList>li.availableDashlet>span"))
+    List<WebElement> availableDashlets;
     @FindBy (css = ".sub-title")
     private TextBlock subTitle;
 
@@ -93,17 +80,11 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     private String dashletsInColumn = "ul[id$='column-ul-%d'] li > span";
     private String targetColumn = "ul[id$='default-column-ul-%d']";
     private String addedDashlet = "//ul[contains(@id,'default-column-ul-%d')]/li//span[text()='%s']/following-sibling::div";
-
-    @FindAll (@FindBy (css = "ul.availableList>li.availableDashlet>span"))
-    List<WebElement> availableDashlets;
-
     @FindBy (css = "div[id$='default-wrapper-div']")
     private WebElement availableColumns;
-
     @RenderWebElement
     @FindBy (css = ".trashcan")
     private WebElement trashcan;
-
     @FindBy (css = "li[id$='layout-li-dashboard-1-column']")
     private WebElement oneColumnLayout;
     @FindBy (css = "li[id$='layout-li-dashboard-3-columns']")
@@ -114,13 +95,10 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     private WebElement twoColumnsWideRightLayout;
     @FindBy (css = "li[id$='layout-li-dashboard-2-columns-wide-left']")
     private WebElement twoColumnsWideLeftLayout;
-
     @FindBy (css = ".closeLink")
     private WebElement closeAddDashlets;
-
     @FindBy (css = ".availableList")
     private WebElement availableDashletList;
-
     private By selectNewLayout = By.cssSelector("div[id$='_default-layouts-div']");
 
     public String getSubTitle()
@@ -520,6 +498,19 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         if (!isDashletAddedInColumn(dashlet, toColumn))
         {
             browser.dragAndDrop(dashletToMove, target);
+        }
+    }
+
+    public enum Layout
+    {
+        ONE_COLUMN("One column"), TWO_COLUMNS_WIDE_LEFT("Two columns: wide left, narrow right"), TWO_COLUMNS_WIDE_RIGHT(
+        "Two columns: narrow left, wide right"), THREE_COLUMNS(
+        "Three columns: wide centre"), FOUR_COLUMS("Four columns");
+        public final String description;
+
+        Layout(String description)
+        {
+            this.description = description;
         }
     }
 }

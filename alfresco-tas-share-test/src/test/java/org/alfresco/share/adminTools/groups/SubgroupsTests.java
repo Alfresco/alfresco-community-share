@@ -1,6 +1,19 @@
 package org.alfresco.share.adminTools.groups;
 
-import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.*;
+import static java.util.Collections.singletonList;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.AddGroupDialog;
+import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.AddUserDialog;
+import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.DeleteGroupDialog;
+import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
+import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.RemoveUserFromGroupDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -10,33 +23,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static java.util.Collections.singletonList;
-
-import static org.testng.Assert.*;
-
 /**
  * @author Laura.Capsa
  */
 public class SubgroupsTests extends ContextAwareWebTest
 {
-    @Autowired
-    private GroupsPage groupsPage;
-
-    @Autowired
-    private AddGroupDialog addGroupDialog;
-
-    @Autowired
-    private RemoveUserFromGroupDialog removeUserFromGroupDialog;
-
-    @Autowired
-    private DeleteGroupDialog deleteGroupDialog;
-
-    @Autowired
-    private AddUserDialog addUserDialog;
-
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String name = "firstName";
     private final String userAdmin = "userAdmin" + uniqueIdentifier;
@@ -49,6 +40,16 @@ public class SubgroupsTests extends ContextAwareWebTest
     private final String groupNameToAdd = "_C9491Group" + uniqueIdentifier;
     private final String groupNameToDelete = "_C42773Group" + uniqueIdentifier;
     private final String displayName = "C9476name" + uniqueIdentifier;
+    @Autowired
+    private GroupsPage groupsPage;
+    @Autowired
+    private AddGroupDialog addGroupDialog;
+    @Autowired
+    private RemoveUserFromGroupDialog removeUserFromGroupDialog;
+    @Autowired
+    private DeleteGroupDialog deleteGroupDialog;
+    @Autowired
+    private AddUserDialog addUserDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

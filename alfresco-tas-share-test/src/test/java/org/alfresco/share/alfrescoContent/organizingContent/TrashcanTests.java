@@ -1,6 +1,13 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.EmptyTrashcanDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
@@ -11,39 +18,29 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Collections;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class TrashcanTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private HeaderMenuBar headerMenuBar;
-
-    @Autowired
-    private DeleteDialog deleteDialog;
-
-    @Autowired
-    private UserTrashcanPage userTrashcanPage;
-
-    @Autowired
-    private EmptyTrashcanDialog emptyTrashcanDialog;
-
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "profileUser-" + random;
     private final String description = "Description-" + random;
     private final String fileContent = "file content.";
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private DeleteDialog deleteDialog;
+    @Autowired
+    private UserTrashcanPage userTrashcanPage;
+    @Autowired
+    private EmptyTrashcanDialog emptyTrashcanDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

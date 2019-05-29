@@ -9,15 +9,15 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class RepositoryServerClusteringPage extends AdminConsolePage<RepositoryServerClusteringPage>
 {
+    @RenderWebElement
+    @FindBy (className = "intro")
+    WebElement intro;
+
     @Override
     protected String relativePathToURL()
     {
         return "alfresco/s/enterprise/admin/admin-clustering";
     }
-
-    @RenderWebElement
-    @FindBy (className = "intro")
-    WebElement intro;
 
     @Override
     public String getInfoPage()

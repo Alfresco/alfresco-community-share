@@ -1,12 +1,12 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+import java.io.File;
+
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.File;
 
 /**
  * Created by Mirela Tifui on 11/25/2016.
@@ -14,11 +14,10 @@ import java.io.File;
 @PageObject
 public class Download extends SiteCommon<Download>
 {
+    protected String srcRoot = System.getProperty("user.dir") + File.separator;
     @Autowired
     DocumentCommon documentCommon;
-
     private File downloadDirectory;
-    protected String srcRoot = System.getProperty("user.dir") + File.separator;
     private String downloadPath = srcRoot + "testdata";
     private Alert alert;
 

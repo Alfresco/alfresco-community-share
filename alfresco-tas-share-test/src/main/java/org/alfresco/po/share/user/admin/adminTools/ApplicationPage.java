@@ -8,7 +8,6 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.FileInput;
 import ru.yandex.qatools.htmlelements.element.Select;
@@ -19,62 +18,29 @@ import ru.yandex.qatools.htmlelements.element.Select;
 @PageObject
 public class ApplicationPage extends AdminToolsPage
 {
-    @FindBy (className = "dnd-file-selection-button")
-    private FileInput fileInput;
-
-    @RenderWebElement
-    @FindBy (css = "select#console-options-theme-menu")
-    private Select themeDropdown;
-
-
-    @FindBy (css = "button[id$='apply-button-button']")
-    private WebElement applyButton;
-
-    @FindBy (xpath = "//img[contains(@id, '_default-logoimg') and contains(@src, 'app-logo-48.png')]")
-    private WebElement defaultAlfrescoImage;
-
-    //  @FindBy(xpath= "/html/body/div[9]/div[1]/div[2]/div[1]/div[1]/div/div/div/div/div/div[2]")
-    @FindBy (css = ".info")
-    private WebElement mainText;
-
-
-    @RenderWebElement
-    @FindBy (css = "button[id$='reset-button-button']")
-    private Button resetButton;
-
-    @FindBy (css = "div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")
-    private WebElement okButton;
-
-    @RenderWebElement
-    @FindBy (css = "form[id$=_default-options-form] button[id$=upload-button-button]")
-    private WebElement uploadButton;
-
-    public enum Theme
-    {
-        YELLOW_THEME("yellowTheme"),
-        GREEN_THEME("greenTheme"),
-        BLUE_THEME("default"),
-        LIGHT_THEME("lightTheme"),
-        GOOGLE_DOCS_THEME("gdocs"),
-        HIGH_CONTRAST_THEME("hcBlack");
-
-        private String theme;
-
-        Theme(String theme)
-        {
-            this.theme = theme;
-        }
-
-        public String getTheme()
-        {
-            return this.theme;
-        }
-    }
-
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;
     protected String mainTextString = "";
-
+    @FindBy (className = "dnd-file-selection-button")
+    private FileInput fileInput;
+    @RenderWebElement
+    @FindBy (css = "select#console-options-theme-menu")
+    private Select themeDropdown;
+    @FindBy (css = "button[id$='apply-button-button']")
+    private WebElement applyButton;
+    @FindBy (xpath = "//img[contains(@id, '_default-logoimg') and contains(@src, 'app-logo-48.png')]")
+    private WebElement defaultAlfrescoImage;
+    //  @FindBy(xpath= "/html/body/div[9]/div[1]/div[2]/div[1]/div[1]/div/div/div/div/div/div[2]")
+    @FindBy (css = ".info")
+    private WebElement mainText;
+    @RenderWebElement
+    @FindBy (css = "button[id$='reset-button-button']")
+    private Button resetButton;
+    @FindBy (css = "div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")
+    private WebElement okButton;
+    @RenderWebElement
+    @FindBy (css = "form[id$=_default-options-form] button[id$=upload-button-button]")
+    private WebElement uploadButton;
 
     //    @OverridenoDocumentsAdded
     public String getRelativePath()
@@ -146,9 +112,31 @@ public class ApplicationPage extends AdminToolsPage
         return browser.isElementDisplayed(themeToBeFound);
     }
 
-
     public String checkText()
     {
         return mainText.getText();
+    }
+
+
+    public enum Theme
+    {
+        YELLOW_THEME("yellowTheme"),
+        GREEN_THEME("greenTheme"),
+        BLUE_THEME("default"),
+        LIGHT_THEME("lightTheme"),
+        GOOGLE_DOCS_THEME("gdocs"),
+        HIGH_CONTRAST_THEME("hcBlack");
+
+        private String theme;
+
+        Theme(String theme)
+        {
+            this.theme = theme;
+        }
+
+        public String getTheme()
+        {
+            return this.theme;
+        }
     }
 }

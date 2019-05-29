@@ -1,5 +1,12 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules;
 
+import static org.alfresco.dataprep.CMISUtil.DocumentType.TEXT_PLAIN;
+import static org.testng.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
@@ -11,40 +18,15 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.alfresco.dataprep.CMISUtil.DocumentType.TEXT_PLAIN;
-import static org.testng.Assert.assertEquals;
 
 /**
  * @author Laura.Capsa
  */
 public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private ManageRulesPage manageRulesPage;
-
-    @Autowired
-    private EditRulesPage editRulesPage;
-
-    @Autowired
-    private RuleDetailsPage ruleDetailsPage;
-
-    @Autowired
-    private DocumentCommon documentCommon;
-
-    @Autowired
-    SelectDestinationDialog selectDestinationDialog;
-
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "user-" + random;
     private final String firstName = "First Name";
@@ -56,6 +38,18 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
     private final String folder2 = "Folder2-C7325-" + random;
     private final String fileName = "File-C7325-" + random;
     private final String path = "Sites/" + siteName + "/documentLibrary/" + folder1;
+    @Autowired
+    SelectDestinationDialog selectDestinationDialog;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
+    @Autowired
+    private EditRulesPage editRulesPage;
+    @Autowired
+    private RuleDetailsPage ruleDetailsPage;
+    @Autowired
+    private DocumentCommon documentCommon;
 
     @BeforeClass ()
     public void setupTest()

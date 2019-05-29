@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
+import java.io.File;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
@@ -14,22 +16,18 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-
 public class DownloadTests extends ContextAwareWebTest
 {
-    @Autowired
-    private SharedFilesPage sharePage;
-
-    @Autowired
-    private DocumentCommon documentCommon;
-
     private final String user = String.format("C8024TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC8024 = "C8024 file2";
     private final String folderNameC8027 = "folderNameC80272";
     private final String fileContent = "test content";
     private final String path = "Shared";
     private final String downloadPath = srcRoot + "testdata";
+    @Autowired
+    private SharedFilesPage sharePage;
+    @Autowired
+    private DocumentCommon documentCommon;
     private File downloadDirectory;
     private Alert alert;
 

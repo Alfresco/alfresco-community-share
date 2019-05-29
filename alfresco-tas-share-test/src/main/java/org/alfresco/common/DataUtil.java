@@ -1,12 +1,12 @@
 package org.alfresco.common;
 
-import org.alfresco.utility.web.common.Parameter;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import org.alfresco.utility.web.common.Parameter;
 
 /**
  * Utility class for generating input data for tests

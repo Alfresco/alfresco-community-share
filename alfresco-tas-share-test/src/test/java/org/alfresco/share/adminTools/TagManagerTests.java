@@ -1,6 +1,13 @@
 package org.alfresco.share.adminTools;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.user.admin.adminTools.EditTagDialog;
@@ -10,33 +17,16 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class TagManagerTests extends ContextAwareWebTest
 {
-    @Autowired
-    private TagManagerPage tagManagerPage;
-
-    @Autowired
-    private DeleteDialog deleteDialog;
-
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private EditTagDialog editTagDialog;
-
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric().toLowerCase();
     private final String user = "user-" + uniqueIdentifier;
     private final String userAdmin = "userAdmin-" + uniqueIdentifier;
@@ -48,6 +38,14 @@ public class TagManagerTests extends ContextAwareWebTest
     private final String tag1 = "tag1" + uniqueIdentifier;
     private final String tag2 = "tag2" + uniqueIdentifier;
     private final String tag3 = "tag3" + uniqueIdentifier;
+    @Autowired
+    private TagManagerPage tagManagerPage;
+    @Autowired
+    private DeleteDialog deleteDialog;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private EditTagDialog editTagDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupClass()

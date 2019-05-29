@@ -1,5 +1,8 @@
 package org.alfresco.po.share.searching;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.utility.web.HtmlPage;
@@ -13,113 +16,77 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.security.Key;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Laura.Capsa
  */
 @PageObject
 public class SearchPage extends SharePage<SearchPage> implements AccessibleByMenuBar
 {
+    @FindBy (id = "FCTSRCH_SEARCH_RESULT")
+    public WebElement searchResult;
+    @FindBy (css = "span#ALF_DELETE_CONTENT_DIALOG_CONFIRMATION")
+    public WebElement deleteDialogConfirm;
+    @FindBy (css = "span#ALF_DELETE_CONTENT_DIALOG_CANCELLATION")
+    public WebElement deleteDialogCancel;
     @Autowired
     SearchManagerPage searchManagerPage;
-
     @FindBy (id = "FCTSRCH_RESULTS_COUNT_LABEL")
     private WebElement numberOfResultsLabel;
-
     @FindBy (id = "SELECTED_ITEMS_MENU_text")
     private WebElement selectedItemsMenu;
-
     @FindBy (id = "onActionCopyTo_text")
     private WebElement copyToSelectedItemsOption;
-
     @FindBy (css = ".propertiesCell .nameAndTitleCell a .value")
     private List<WebElement> resultsDetailedViewList;
-
     @RenderWebElement
     @FindBy (id = "FCTSRCH_TOP_MENU_BAR_SCOPE_LABEL")
     private WebElement searchInLabel;
-
     @FindBy (css = "span[class*='confirmationButton'] ")
     private WebElement searchButton;
-
     @FindBy (css = "[id=FCTSRCH_SCOPE_SELECTION_MENU_text]")
     private WebElement searchInDropdown;
-
     private By searchInDropdownOptionsSelector = By.cssSelector("div[id='FCTSRCH_SCOPE_SELECTION_MENU_GROUP'] td[class*='dijitMenuItemLabel']");
-
     @FindBy (css = ".label.alfresco-layout-Twister--open>h3")
     private List<WebElement> filterTypeList;
-
     @FindBy (css = ".showMore .details")
     private List<WebElement> showMore;
-
     @FindBy (css = ".showLess .details")
     private List<WebElement> showLess;
-
     @FindBy (id = "FCTSRCH_SORT_MENU_text")
     private WebElement sortDropdown;
-
     @FindBy (css = "tr[id*='alfresco_menus_AlfCheckableMenuItem'] td:nth-child(3)")
     private List<WebElement> sortOptions;
-
     @FindBy (css = ".filterLabel")
     private List<WebElement> allOptions;
-
     @FindBy (css = "div[id='FCTSRCH_VIEWS_MENU'] img")
     private WebElement viewsDropdown;
     private By viewsDropdownOptionsSelector = By.cssSelector("#DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP .dijitMenuItemLabel");
-
     @FindBy (css = "[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']")
     private List<WebElement> resultsGalleryViewList;
-
     @FindBy (css = ".dijitSliderIncrementIconH")
     private WebElement sliderIncrementIcon;
-
     @FindBy (css = ".dijitSliderDecrementIconH")
     private WebElement sliderDecrementIcon;
-
     @FindBy (css = ".dijitSliderMoveable")
     private WebElement sliderGalleryView;
-
     @FindBy (css = ".dateCell .value")
     private List<WebElement> resultModifiedByList;
-
     @FindBy (css = "#FCTSRCH_CONFIG_PAGE_LINK_text>a")
     private WebElement searchManager;
-
     @FindBy (css = "#FCTSRCH_SEARCH_RESULT_ACTIONS span[class*='dijitButtonContents']")
     private WebElement actionsLink;
-
     @FindAll (@FindBy (css = "#FCTSRCH_SEARCH_RESULT_ACTIONS_DROPDOWN tr td[id*='text']"))
     private List<WebElement> actionsOptions;
-
-    @FindBy (id = "FCTSRCH_SEARCH_RESULT")
-    public WebElement searchResult;
-
     @FindAll (@FindBy (css = "span[id*='SELECTOR']"))
     private List<WebElement> checkboxList;
-
     @FindBy (id = "SELECTED_LIST_ITEMS")
     private WebElement selectedItemsList;
-
     @FindAll (@FindBy (css = "#SELECTED_LIST_ITEMS_dropdown tr td[id*='text']"))
     private List<WebElement> selectedItemsCheckboxOptions;
-
     @FindBy (css = "span[id='SELECTED_ITEMS_MENU_text']")
     private WebElement selectedItemsDropdown;
-
     @FindAll (@FindBy (css = "#SELECTED_ITEMS_ACTIONS_GROUP tr td[id*='text']"))
     private List<WebElement> selectedItemsOptions;
-
-    @FindBy (css = "span#ALF_DELETE_CONTENT_DIALOG_CONFIRMATION")
-    public WebElement deleteDialogConfirm;
-
-    @FindBy (css = "span#ALF_DELETE_CONTENT_DIALOG_CANCELLATION")
-    public WebElement deleteDialogCancel;
-
     @FindBy (css = "div[id='SELECTED_LIST_ITEMS'] img")
     private WebElement selectAllButton;
 

@@ -1,5 +1,8 @@
 package org.alfresco.po.share.searching;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -9,38 +12,13 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Claudia Agache on 8/16/2016.
  */
 @PageObject
 public class SearchManagerPage extends SharePage<SearchManagerPage>
 {
-    @Autowired
-    ConfirmDeletionDialog confirmDeletionDialog;
-
-    @RenderWebElement
-    @FindBy (id = "CREATE_FACET_BUTTON_label")
-    private WebElement createNewFilter;
-
-    //@RenderWebElement
-    //@FindAll(@FindBy(css = "#SEARCH_CONFIG_FACET_LIST_VIEW_ITEMS > tr"))
-    @FindAll (@FindBy (css = "#SEARCH_CONFIG_FACET_LIST_VIEW_ROW"))
-    private List<WebElement> filters;
-
-    @FindAll (@FindBy (css = "#SEARCH_CONFIG_FACET_LIST_VIEW th>span.label"))
-    private List<WebElement> filterTableColumns;
-
-    @FindBy (css = "input.dijitReset.dijitInputField.dijitArrowButtonInner")
-    private WebElement filterPropertyDropDownArrow;
-
-    @FindAll (@FindBy (css = "div[id ='SEARCH_CONFIG_FACET_QNAME_ITEM_0_SELECT_CONTROL_dropdown'] tbody.dijitReset"))
-    private List<WebElement> filterPropertyOptions;
-
     private static final By FILTER_ROWS = By.cssSelector("#SEARCH_CONFIG_FACET_LIST_VIEW_ROW");
-
     private static final By FILTER_REORDER_UP = By.cssSelector("td:nth-of-type(1) span.up>img");
     private static final By FILTER_REORDER_DOWN = By.cssSelector("td:nth-of-type(1) span.down>img");
     private static final By FILTER_ID = By.cssSelector("td:nth-of-type(2) span.inner");
@@ -51,7 +29,6 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
     private static final By FILTER_DEFAULT = By.cssSelector("td:nth-of-type(7)");
     private static final By FILTER_AVAILABILITY = By.cssSelector("td:nth-of-type(8)");
     private static final By FILTER_DELETE_IMAGE = By.cssSelector("td:nth-of-type(9)>span");
-
     private static final By EDIT_ICON = By.cssSelector("img.editIcon");
     private static final By EDIT_INPUT = By.cssSelector("input.dijitInputInner");
     private static final By EDIT_DROPDOWN = By.cssSelector("div.control-row table.dijitSelect");
@@ -61,6 +38,21 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
     private static final By EDIT_SAVE = By.cssSelector("span[class*='alfresco-buttons-AlfButton confirmationButton'] span");
     private static final By EDIT_CANCEL = By.cssSelector("span[class*='alfresco-buttons-AlfButton cancelButton']");
     private static final By PARENT = By.xpath("..");
+    @Autowired
+    ConfirmDeletionDialog confirmDeletionDialog;
+    @RenderWebElement
+    @FindBy (id = "CREATE_FACET_BUTTON_label")
+    private WebElement createNewFilter;
+    //@RenderWebElement
+    //@FindAll(@FindBy(css = "#SEARCH_CONFIG_FACET_LIST_VIEW_ITEMS > tr"))
+    @FindAll (@FindBy (css = "#SEARCH_CONFIG_FACET_LIST_VIEW_ROW"))
+    private List<WebElement> filters;
+    @FindAll (@FindBy (css = "#SEARCH_CONFIG_FACET_LIST_VIEW th>span.label"))
+    private List<WebElement> filterTableColumns;
+    @FindBy (css = "input.dijitReset.dijitInputField.dijitArrowButtonInner")
+    private WebElement filterPropertyDropDownArrow;
+    @FindAll (@FindBy (css = "div[id ='SEARCH_CONFIG_FACET_QNAME_ITEM_0_SELECT_CONTROL_dropdown'] tbody.dijitReset"))
+    private List<WebElement> filterPropertyOptions;
 
     private WebElement selectFilterProperty(String filterPropertyText)
     {

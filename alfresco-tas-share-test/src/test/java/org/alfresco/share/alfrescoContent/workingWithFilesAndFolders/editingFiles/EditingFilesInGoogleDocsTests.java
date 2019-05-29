@@ -1,5 +1,6 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles;
 
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -9,7 +10,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -17,23 +17,19 @@ import org.testng.annotations.Test;
 
 public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
 {
-    private String userName;
-    private String siteName;
     String googleDocName = RandomData.getRandomAlphanumeric() + "googleDoc.docx";
     String googleDocPath = testDataFolder + googleDocName;
     String uniqueIdentifier = RandomData.getRandomAlphanumeric();
-
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private GoogleDocsCommon googleDocsCommon;
-
     @Autowired
     UploadContent uploadContent;
+    private String userName;
+    private String siteName;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private GoogleDocsCommon googleDocsCommon;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

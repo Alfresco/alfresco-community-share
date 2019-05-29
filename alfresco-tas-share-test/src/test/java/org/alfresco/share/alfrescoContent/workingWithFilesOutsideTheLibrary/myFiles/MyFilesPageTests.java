@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
@@ -13,23 +15,19 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
 /**
  * @author Razvan.Dorobantu
  */
 public class MyFilesPageTests extends ContextAwareWebTest
 {
-    @Autowired
-    private MyFilesPage myFilesPage;
-
-    @Autowired
-    private DocumentsFilters filters;
-
     private final String user = String.format("C7659User%s", RandomData.getRandomAlphanumeric());
     private final String nonAdminFile = String.format("nonAdminDoc%s", RandomData.getRandomAlphanumeric());
     private final String adminFile = String.format("adminDoc%s", RandomData.getRandomAlphanumeric());
     private final String tag1 = "testTag" + RandomData.getRandomAlphanumeric().toLowerCase();
+    @Autowired
+    private MyFilesPage myFilesPage;
+    @Autowired
+    private DocumentsFilters filters;
     //private final String tag2 = "testTag" + RandomData.getRandomAlphanumeric().toLowerCase();
 
     @BeforeClass (alwaysRun = true)

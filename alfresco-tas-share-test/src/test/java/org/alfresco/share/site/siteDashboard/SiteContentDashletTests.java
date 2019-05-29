@@ -1,6 +1,9 @@
 package org.alfresco.share.site.siteDashboard;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
@@ -13,39 +16,30 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-
 public class SiteContentDashletTests extends ContextAwareWebTest
 {
-    @Autowired
-    SiteContentDashlet siteContentDashlet;
-
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    SiteDashboardPage siteDashboard;
-
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    EditInAlfrescoPage editInAlfrescoPage;
-
-    @Autowired
-    SocialFeatures socialFeatures;
-
     private final String fileName = String.format("testFile%s", RandomData.getRandomAlphanumeric());
     private final String fileName2 = String.format("testFile2%s", RandomData.getRandomAlphanumeric());
     private final String uploadFileName = "testFile1";
     private final String docContent = "testContent";
     private final String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    SiteContentDashlet siteContentDashlet;
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    SiteDashboardPage siteDashboard;
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired
+    SocialFeatures socialFeatures;
     private String userName2 = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
 

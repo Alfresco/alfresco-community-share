@@ -1,6 +1,7 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import org.alfresco.utility.web.HtmlPage;
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.ToolbarTasksMenu;
@@ -10,61 +11,45 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.qatools.htmlelements.element.Link;
-
-import java.util.List;
 
 @PageObject
 public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByMenuBar
 {
-    @Autowired
-    ToolbarTasksMenu toolbarTasksMenu;
-
-    @Autowired
-    EditTaskPage editTaskPage;
-
-    @Autowired
-    ViewTaskPage viewTaskPage;
-
-    @Autowired
-    WorkflowDetailsPage workflowDetailsPage;
-
-    @RenderWebElement
-    @FindBy (css = "h2[id$='default-filterTitle']")
-    private WebElement activeTasksBar;
-
-    @RenderWebElement
-    @FindBy (css = ".alfresco-datatable.tasks")
-    private WebElement tasksBody;
-
     @FindBy (css = "div[id$='default-tasks'] tr[class*='yui-dt-rec']")
     protected List<WebElement> taskRowList;
-
-    @FindBy (css = "a[rel='completed']")
-    private WebElement completedTasksButton;
-
-    @FindBy (css = "[id$='default-startWorkflow-button-button']")
-    private WebElement startWorkflow;
-
-    @FindBy (css = "div[id*='_all-filter'] div h2")
-    private WebElement tasksFilter;
-
-    @FindBy (css = "div[id*='_due-filter'] div h2")
-    private WebElement dueFilter;
-
-    @FindBy (css = "div[id*='_priority-filter'] div h2")
-    private WebElement priorityFilter;
-
-    @RenderWebElement
-    @FindBy (css = "div[id*='_assignee-filter'] div h2")
-    private WebElement assigneeFilter;
-
     protected By editTaskLink = By.cssSelector("div[class*='task-edit'] a");
     protected By viewTaskLink = By.cssSelector("div[class*='task-view'] a");
     protected By viewWorkflowLink = By.cssSelector("div[class*='workflow-view'] a");
     protected By taskTitle = By.cssSelector("td[class$='yui-dt-col-title'] div h3 a");
     protected String completeTaskName = "Request to join %s site";
     protected String status = "//a[@title = 'Edit Task' and text() = '%s']/../../div[@class = 'status']/span";
+    @Autowired
+    ToolbarTasksMenu toolbarTasksMenu;
+    @Autowired
+    EditTaskPage editTaskPage;
+    @Autowired
+    ViewTaskPage viewTaskPage;
+    @Autowired
+    WorkflowDetailsPage workflowDetailsPage;
+    @RenderWebElement
+    @FindBy (css = "h2[id$='default-filterTitle']")
+    private WebElement activeTasksBar;
+    @RenderWebElement
+    @FindBy (css = ".alfresco-datatable.tasks")
+    private WebElement tasksBody;
+    @FindBy (css = "a[rel='completed']")
+    private WebElement completedTasksButton;
+    @FindBy (css = "[id$='default-startWorkflow-button-button']")
+    private WebElement startWorkflow;
+    @FindBy (css = "div[id*='_all-filter'] div h2")
+    private WebElement tasksFilter;
+    @FindBy (css = "div[id*='_due-filter'] div h2")
+    private WebElement dueFilter;
+    @FindBy (css = "div[id*='_priority-filter'] div h2")
+    private WebElement priorityFilter;
+    @RenderWebElement
+    @FindBy (css = "div[id*='_assignee-filter'] div h2")
+    private WebElement assigneeFilter;
 
     @SuppressWarnings ("unchecked")
     @Override

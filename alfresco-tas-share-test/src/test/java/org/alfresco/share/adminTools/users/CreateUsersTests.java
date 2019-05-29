@@ -1,5 +1,8 @@
 package org.alfresco.share.adminTools.users;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.AdminToolsUserProfile;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.CreateUsers;
@@ -10,11 +13,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class CreateUsersTests extends ContextAwareWebTest
 {

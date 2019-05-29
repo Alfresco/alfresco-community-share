@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site.calendar;
 
+import java.util.List;
+
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -13,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import ru.yandex.qatools.htmlelements.element.TextInput;
 
-import java.util.List;
-
 /**
  * Created by Claudia Agache on 7/11/2016.
  */
@@ -22,16 +22,13 @@ import java.util.List;
 @PageObject
 public class AddEventDialog extends ShareDialog
 {
-    @Autowired
-    CalendarPage calendarPage;
-
-    @Autowired
-    CalendarPicker calendarPicker;
-
     @RenderWebElement
     @FindBy (id = "eventEditPanel-dialog_h")
     protected WebElement dialogHeader;
-
+    @Autowired
+    CalendarPage calendarPage;
+    @Autowired
+    CalendarPicker calendarPicker;
     @RenderWebElement
     @FindBy (id = "eventEditPanel-ok-button")
     private WebElement saveButton;

@@ -20,49 +20,35 @@ public class EditSiteDetailsDialog extends ShareDialog
 {
     @Autowired
     SiteDashboardPage siteDashboardPage;
-
+    @Autowired
+    SiteDashboardPage siteDashboard;
     @FindBy (css = "div[id='EDIT_SITE_FIELD_TITLE'] input[class$='dijitInputInner']")
     private TextInput nameInput;
-
     @FindBy (css = "div[id='EDIT_SITE_FIELD_TITLE'] label.label")
     private WebElement nameLabel;
-
     @FindBy (css = "div[id='EDIT_SITE_FIELD_DESCRIPTION'] textarea")
     private WebElement descriptionInput;
-
     @FindBy (css = "div[id='EDIT_SITE_FIELD_DESCRIPTION'] label.label")
     private WebElement descriptionLabel;
-
     @FindBy (css = "div[id='EDIT_SITE_FIELD_VISIBILITY'] label.label")
     private WebElement visibilityLabel;
-
     @FindBy (css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] div[class*='dijitRadio'] input")
     private WebElement publicVisibilityRadioButton;
-
     @FindBy (css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION0'] div.radio-button-label div")
     private WebElement publicVisibilityDescription;
-
     @FindBy (css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] div[class*='dijitRadio'] input")
     private WebElement moderatedVisibilityRadioButton;
-
     @FindBy (css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION1'] div.radio-button-label div")
     private WebElement moderatedVisibilityDescription;
-
     @FindBy (css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] div[class*='dijitRadio'] input")
     private WebElement privateVisibilityRadioButton;
-
     @FindBy (css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] div.radio-button-label div")
     private WebElement privateVisibilityDescription;
-
     @RenderWebElement
     @FindBy (id = "EDIT_SITE_DIALOG_OK_label")
     private WebElement saveButton;
-
     @FindBy (id = "EDIT_SITE_DIALOG_CANCEL_label")
     private Button cancel;
-
-    @Autowired
-    SiteDashboardPage siteDashboard;
 
     /**
      * Navigate to site

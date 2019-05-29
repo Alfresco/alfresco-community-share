@@ -1,5 +1,8 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
@@ -23,9 +26,6 @@ import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * My activities dashlet page object, holds all elements of the HTML page relating to
  * share's my activities dashlet on user dashboard page.
@@ -34,69 +34,47 @@ import java.util.List;
 @Primary
 public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
 {
-    @Autowired
-    WikiMainPage wikiPage;
-
-    @Autowired
-    LinkPage linkPage;
-
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    TopicViewPage discussionsPage;
-
-    @Autowired
-    CalendarPage calendarPage;
-
-    @Autowired
-    BlogPostListPage blogPostListPage;
-
-    @Autowired
-    DataListsPage dataListsPage;
-
+    private static By userActivitesList = By.cssSelector("ul.first-of-type>li>a");
     @RenderWebElement
     @FindBy (css = "div.dashlet.activities")
     protected HtmlElement dashletContainer;
-
     @FindBy (css = "div.dashlet.activities div.title")
     protected WebElement activitiesDashletTitle;
-
+    @Autowired
+    WikiMainPage wikiPage;
+    @Autowired
+    LinkPage linkPage;
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    TopicViewPage discussionsPage;
+    @Autowired
+    CalendarPage calendarPage;
+    @Autowired
+    BlogPostListPage blogPostListPage;
+    @Autowired
+    DataListsPage dataListsPage;
     @FindAll (@FindBy (xpath = "//div[@class='activity']//div[@class='hidden']/preceding-sibling::div[@class='more']/a"))
     private List<Link> linksMore;
-
     @FindAll (@FindBy (css = "div[id$='default-activityList'] > div.activity div:last-child[class$='content']"))
     private List<WebElement> activityLinks;
-
     @FindBy (css = "div[id$='default-activityList']")
     private WebElement activitiesEmptyList;
-
     @FindBy (css = "button[id$='default-user-button']")
     private Button myActivitiesButton;
-
     @FindAll (@FindBy (css = "div.activities div.visible ul.first-of-type li a"))
     private List<WebElement> dropDownOptionsList;
-
     @FindBy (css = "button[id$='default-range-button']")
     private Button daysRangeButton;
-
     @FindAll (@FindBy (css = "div[id$='default-activityList']>div.activity"))
     private List<WebElement> activitiesList;
     private By rssFeedButton = By.cssSelector("div[class='titleBarActionIcon rss']");
-
-    private static By userActivitesList = By.cssSelector("ul.first-of-type>li>a");
     private By userLinkLocator = By.cssSelector("span.detail>a[class^='theme-color']");
     private By siteLinkLocator = By.cssSelector("span.detail>a[class^='site-link']");
     private By documentLinkLocator = By.cssSelector("span.detail>a[class*='item-link']");
     private By detailLocator = By.cssSelector("span.detail");
 
     private By activityListCheckedForDisplay = By.cssSelector("div[id$='default-activityList']>div.activity");
-
-    public enum LinkType
-    {
-        User, Document, Site
-    }
-
     private List<ActivityLink> activities;
 
     @Override
@@ -309,6 +287,17 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
         }
     }
 
+    /**
+     * Method returns if the specified option is selected in My Activities button
+     *
+     * @param myActivitiesOption String
+     * @return boolean
+     */
+    public boolean isMyActivitiesOptionSelected(String myActivitiesOption)
+    {
+        return browser.isOptionSelectedForFilter(myActivitiesOption, myActivitiesButton.getWrappedElement());
+    }
+
     // /**
     // * Method for navigate to RSS Feed Page from site activity dashlet.
     // *
@@ -339,17 +328,6 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
     // }
     // throw new PageOperationException("Not able to select RSS Feed option");
     // }
-
-    /**
-     * Method returns if the specified option is selected in My Activities button
-     *
-     * @param myActivitiesOption String
-     * @return boolean
-     */
-    public boolean isMyActivitiesOptionSelected(String myActivitiesOption)
-    {
-        return browser.isOptionSelectedForFilter(myActivitiesOption, myActivitiesButton.getWrappedElement());
-    }
 
     /**
      * Method returns if the specified option is selected in history button
@@ -412,6 +390,11 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
     public By getActivitiElement()
     {
         return activityListCheckedForDisplay;
+    }
+
+    public enum LinkType
+    {
+        User, Document, Site
     }
 }
 

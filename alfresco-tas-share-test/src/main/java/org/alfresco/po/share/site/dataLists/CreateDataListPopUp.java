@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site.dataLists;
 
+import java.util.List;
+
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -8,34 +10,69 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 @PageObject
 public class CreateDataListPopUp extends ShareDialog
 {
-    @Autowired
-    DataListsPage dataListsPage;
-
+    protected static By balloon = By.cssSelector("div[style*='visible'] div[class='balloon'] div[class='text']");
+    protected static By balloonCloseButton = By.cssSelector("div[style*='visible'] div[class='balloon'] div[class='closeButton']");
     @FindBy (css = "div[id$='itemTypesContainer'] a")
     protected List<WebElement> typesOfList;
-
     @FindBy (css = "input[id$='newList_prop_cm_title']")
     protected WebElement titleField;
-
     @FindBy (css = "textarea[id$='newList_prop_cm_description']")
     protected WebElement descriptionField;
-
     @RenderWebElement
     @FindBy (css = "button[id$='form-submit-button']")
     protected WebElement saveButton;
-
     @RenderWebElement
     @FindBy (css = "button[id$='form-cancel-button']")
     protected WebElement cancelButton;
-
     protected By typeSelected = By.cssSelector("div[class='theme-bg-selected'] a");
-    protected static By balloon = By.cssSelector("div[style*='visible'] div[class='balloon'] div[class='text']");
-    protected static By balloonCloseButton = By.cssSelector("div[style*='visible'] div[class='balloon'] div[class='closeButton']");
+    @Autowired
+    DataListsPage dataListsPage;
+
+    public void selectType(String type)
+    {
+        browser.findFirstElementWithValue(typesOfList, type).click();
+    }
+
+    public boolean isExpectedTypeSelected(String expectedType)
+    {
+        return browser.findElement(typeSelected).getText().equals(expectedType);
+    }
+
+    public void typeTitleName(String titleName)
+    {
+        titleField.sendKeys(titleName);
+    }
+
+    public void typeDescription(String description)
+    {
+        descriptionField.sendKeys(description);
+    }
+
+    public String getInvalidDataListBalloonMessage()
+    {
+        return browser.findElement(balloon).getText();
+    }
+
+    public String invalidTitleBalloonMessage()
+    {
+        return titleField.getAttribute("title");
+    }
+
+    public DataListsPage clickSaveButton()
+    {
+        saveButton.click();
+        browser.waitInSeconds(3);
+        return (DataListsPage) dataListsPage.renderedPage();
+    }
+
+    public DataListsPage clickCancelFormButton()
+    {
+        cancelButton.click();
+        return (DataListsPage) dataListsPage.renderedPage();
+    }
 
     public enum DataListTypes
     {
@@ -118,48 +155,5 @@ public class CreateDataListPopUp extends ShareDialog
                     return "Visitor Feedback List";
                 }
             }
-    }
-
-    public void selectType(String type)
-    {
-        browser.findFirstElementWithValue(typesOfList, type).click();
-    }
-
-    public boolean isExpectedTypeSelected(String expectedType)
-    {
-        return browser.findElement(typeSelected).getText().equals(expectedType);
-    }
-
-    public void typeTitleName(String titleName)
-    {
-        titleField.sendKeys(titleName);
-    }
-
-    public void typeDescription(String description)
-    {
-        descriptionField.sendKeys(description);
-    }
-
-    public String getInvalidDataListBalloonMessage()
-    {
-        return browser.findElement(balloon).getText();
-    }
-
-    public String invalidTitleBalloonMessage()
-    {
-        return titleField.getAttribute("title");
-    }
-
-    public DataListsPage clickSaveButton()
-    {
-        saveButton.click();
-        browser.waitInSeconds(3);
-        return (DataListsPage) dataListsPage.renderedPage();
-    }
-
-    public DataListsPage clickCancelFormButton()
-    {
-        cancelButton.click();
-        return (DataListsPage) dataListsPage.renderedPage();
     }
 }

@@ -1,6 +1,12 @@
 package org.alfresco.share.sitesFeatures.calendar;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.CalendarUtility;
 import org.alfresco.po.share.site.calendar.MiniCalendar;
@@ -10,16 +16,10 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class BrowsingTheCalendarTests extends ContextAwareWebTest
 {
@@ -31,19 +31,15 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
 
     @Autowired
     CalendarUtility calendarUtility;
-
-    private String user = String.format("C3155User%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("C3155SiteName%s", RandomData.getRandomAlphanumeric());
-    private String description = String.format("C3155SiteDescription%s", RandomData.getRandomAlphanumeric());
     DateTime today;
     DateTime yesterday;
     DateTime tomorrow;
     Date startDate;
-
-
     Calendar refferenceCalendar = Calendar.getInstance();
     Integer dayOfMonth = refferenceCalendar.get(Calendar.DAY_OF_MONTH);
-
+    private String user = String.format("C3155User%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("C3155SiteName%s", RandomData.getRandomAlphanumeric());
+    private String description = String.format("C3155SiteDescription%s", RandomData.getRandomAlphanumeric());
     private String eventTitle = "testEvent";
     private String eventTitle2 = "testEvent2";
     private String eventTitle3 = "testEvent3";

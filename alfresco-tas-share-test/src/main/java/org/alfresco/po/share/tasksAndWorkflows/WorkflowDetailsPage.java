@@ -1,6 +1,5 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;

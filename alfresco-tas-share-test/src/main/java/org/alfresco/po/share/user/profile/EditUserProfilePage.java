@@ -1,5 +1,7 @@
 package org.alfresco.po.share.user.profile;
 
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -9,10 +11,6 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
-import org.openqa.selenium.JavascriptExecutor;
-
-
-import java.util.List;
 
 /**
  * @author bogdan.bocancea

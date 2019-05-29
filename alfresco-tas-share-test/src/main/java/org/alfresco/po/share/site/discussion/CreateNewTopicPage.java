@@ -1,18 +1,17 @@
 package org.alfresco.po.share.site.discussion;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Claudia Agache on 8/8/2016.
@@ -21,37 +20,28 @@ import java.util.List;
 @PageObject
 public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
 {
-    @Autowired
-    private TopicListPage topicListPage;
-
-    @Autowired
-    private TopicViewPage topicViewPage;
-
     @RenderWebElement
     @FindBy (css = ".page-form-header>h1")
     protected WebElement pageHeader;
-
     @RenderWebElement
     @FindBy (css = "button[id$='discussions-createtopic_x0023_default-submit-button']")
     protected WebElement saveButton;
-
     @FindBy (css = "button[id$='discussions-createtopic_x0023_default-cancel-button']")
     protected WebElement cancelButton;
-
     @RenderWebElement
     @FindBy (css = "input[id$='discussions-createtopic_x0023_default-title']")
     protected WebElement topicTitle;
-
     @FindBy (css = "input[id$='discussions-createtopic_x0023_default-tag-input-field']")
     protected WebElement tagInput;
-
     @FindBy (css = "button[id*='discussions-createtopic_x0023_default-add-tag-button']")
     protected WebElement addTagButton;
-
     @FindAll (@FindBy (css = "ul[id$='discussions-createtopic_x0023_default-current-tags'] .taglibrary-action"))
     protected List<WebElement> currentTagList;
-
     protected By topicContent = By.cssSelector("iframe[id*='discussions-createtopic_x0023_default-content']");
+    @Autowired
+    private TopicListPage topicListPage;
+    @Autowired
+    private TopicViewPage topicViewPage;
 
     @Override
     public String getRelativePath()

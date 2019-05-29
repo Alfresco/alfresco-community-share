@@ -1,5 +1,8 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -9,9 +12,6 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Razvan.Dorobantu

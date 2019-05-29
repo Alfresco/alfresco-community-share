@@ -1,19 +1,18 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Mirela Tifui on 2/24/2017.
@@ -21,15 +20,12 @@ import java.util.Map;
 @PageObject
 public class SiteContributorBreakdownDashlet extends Dashlet<SiteContributorBreakdownDashlet>
 {
+    public By tooltipMessage = By.cssSelector("div[id^='tipsyPvBehavior']");
     @Autowired
     UserProfilePage userProfilePage;
-
     @RenderWebElement
     @FindBy (id = "DASHLET")
     private WebElement dashletContainer;
-
-    public By tooltipMessage = By.cssSelector("div[id^='tipsyPvBehavior']");
-
     @FindAll (@FindBy (css = "div[class='alfresco-charts-ccc-Chart'] path[transform]"))
     private List<WebElement> pieChartSlices;
 

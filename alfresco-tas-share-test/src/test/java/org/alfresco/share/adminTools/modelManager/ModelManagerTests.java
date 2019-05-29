@@ -1,27 +1,34 @@
 package org.alfresco.share.adminTools.modelManager;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
-import org.alfresco.po.share.user.admin.adminTools.DialogPages.*;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateAspectDialogPage;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteModelDialogPage;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.EditModelDialogPage;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.Export;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.ImportModelDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.CustomContentModel;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
-import org.springframework.http.HttpStatus;
 import org.testng.Assert;
-import org.testng.annotations.*;
-
-import static org.testng.Assert.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Created by Mirela Tifui on 11/28/2016.

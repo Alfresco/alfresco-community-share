@@ -1,5 +1,8 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
@@ -12,73 +15,51 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Select;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @PageObject
 public class CreateUsers extends SharePage<CreateUsers>
 {
-    @Autowired
-    private Toolbar toolbar;
-
+    @FindAll (@FindBy (css = "span[id*='default_group']"))
+    protected List<WebElement> addedGroupsList;
     @Autowired
     AdminToolsPage adminToolsPage;
-
+    @Autowired
+    private Toolbar toolbar;
     @RenderWebElement
     @FindBy (xpath = "//div[contains(text(),'New User')]")
     private WebElement newUserLabel;
-
     @FindBy (xpath = "//div[contains(@class, 'yui-dt-liner') and text()='Enter a search term to find groups']")
     private WebElement searchForGroupsMessage;
-
     @FindBy (css = "input[id*='firstname']")
     private WebElement firstNameInputField;
-
     @FindBy (css = "input[id*='lastname']")
     private WebElement lastNameInputField;
-
     @FindBy (css = "input[id*='email']")
     private WebElement emailInputField;
-
     @FindBy (css = "input[id*='default-create-username']")
     private WebElement usernameInputField;
-
     @FindBy (css = "input[id*='password']")
     private WebElement passwordInputField;
-
     @FindBy (css = "input[id*='verifypassword']")
     private WebElement verifypasswordInputField;
-
     @FindBy (css = "input[id*='groupfinder']")
     private WebElement groupFinderInputField;
-
     @FindBy (css = "button[id*='groupfinder']")
     private WebElement searchButton;
-
     @FindBy (css = "input[id*='quota']")
     private WebElement quotaInputField;
-
     @FindBy (css = "select[id*='quotatype']")
     private Select quotaType;
-
     @FindBy (css = "input[id*='disableaccount']")
     private WebElement dissableAccountCheckBox;
-
     @RenderWebElement
     @FindBy (xpath = "//button[contains(text(),'Create User')]")
     private WebElement createUserButton;
-
     @FindBy (css = "button[id*='another']")
     private WebElement createUserAndStartAnotherButton;
-
     @FindBy (css = "button[id='page_x002e_ctool_x002e_admin-console_x0023_default-createuser-cancel-button-button']")
     private WebElement cancelButton;
-
     @FindBy (xpath = ".//*[@id='message']/div/span")
     private WebElement passwordsDontMatchNotification;
-
-    @FindAll (@FindBy (css = "span[id*='default_group']"))
-    protected List<WebElement> addedGroupsList;
 
     @Override
     public String getRelativePath()

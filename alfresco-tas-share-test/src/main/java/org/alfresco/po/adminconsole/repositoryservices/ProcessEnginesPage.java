@@ -9,12 +9,7 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class ProcessEnginesPage extends AdminConsolePage<ProcessEnginesPage>
 {
-    @Override
-    protected String relativePathToURL()
-    {
-        return "alfresco/s/enterprise/admin/admin-processengines";
-    }
-
+    public static final String PROCESS_ENGINES_OBJECT = "Alfresco:Name=WorkflowInformation";
     @RenderWebElement
     @FindBy (className = "intro")
     WebElement intro;
@@ -22,7 +17,28 @@ public class ProcessEnginesPage extends AdminConsolePage<ProcessEnginesPage>
     @FindBy (css = ".column-full>a")
     WebElement activitiWorkflowConsole;
 
-    public static final String PROCESS_ENGINES_OBJECT = "Alfresco:Name=WorkflowInformation";
+    @Override
+    protected String relativePathToURL()
+    {
+        return "alfresco/s/enterprise/admin/admin-processengines";
+    }
+
+    @Override
+    public String getInfoPage()
+    {
+        return "";
+    }
+
+    @Override
+    public String getIntroPage()
+    {
+        return intro.getText();
+    }
+
+    public void clickActivitiWorkflowConsole()
+    {
+        browser.waitUntilElementClickable(activitiWorkflowConsole).click();
+    }
 
     public enum ProcessEnginesFields
     {
@@ -49,22 +65,5 @@ public class ProcessEnginesPage extends AdminConsolePage<ProcessEnginesPage>
         {
             return jmxAttribute;
         }
-    }
-
-    @Override
-    public String getInfoPage()
-    {
-        return "";
-    }
-
-    @Override
-    public String getIntroPage()
-    {
-        return intro.getText();
-    }
-
-    public void clickActivitiWorkflowConsole()
-    {
-        browser.waitUntilElementClickable(activitiWorkflowConsole).click();
     }
 }

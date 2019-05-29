@@ -1,6 +1,16 @@
 package org.alfresco.share.userRolesAndPermissions.contributor;
 
+import static java.util.Arrays.asList;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
@@ -18,59 +28,40 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static java.util.Arrays.asList;
-
-import static org.testng.Assert.*;
-
 public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
 {
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    SocialFeatures socialFeatures;
-
-    @Autowired
-    EditPropertiesDialog editPropertiesDialog;
-
-    @Autowired
-    SelectDialog selectDialog;
-
-    @Autowired
-    CopyMoveUnzipToDialog copyMoveToDialog;
-
-    @Autowired
-    private DeleteDocumentOrFolderDialog deleteDialog;
-
-    @Autowired
-    ManagePermissionsPage managePermissionsPage;
-
-    @Autowired
-    AspectsForm aspectsForm;
-
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    ChangeContentTypeDialog changeContentTypeDialog;
-
-    @Autowired
-    EditPropertiesPage editPropertiesPage;
-
-    private String userContributor;
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String adminFile = String.format("AdminFile%s", RandomData.getRandomAlphanumeric());
     private final String adminFolder = String.format("AdminFolder%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    SocialFeatures socialFeatures;
+    @Autowired
+    EditPropertiesDialog editPropertiesDialog;
+    @Autowired
+    SelectDialog selectDialog;
+    @Autowired
+    CopyMoveUnzipToDialog copyMoveToDialog;
+    @Autowired
+    ManagePermissionsPage managePermissionsPage;
+    @Autowired
+    AspectsForm aspectsForm;
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    ChangeContentTypeDialog changeContentTypeDialog;
+    @Autowired
+    EditPropertiesPage editPropertiesPage;
+    @Autowired
+    private DeleteDocumentOrFolderDialog deleteDialog;
+    private String userContributor;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

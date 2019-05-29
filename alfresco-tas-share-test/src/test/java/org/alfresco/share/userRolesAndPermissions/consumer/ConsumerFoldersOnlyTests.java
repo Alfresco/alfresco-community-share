@@ -1,5 +1,12 @@
 package org.alfresco.share.userRolesAndPermissions.consumer;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -8,27 +15,15 @@ import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-
-import static org.alfresco.utility.constants.UserRole.SiteConsumer;
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private DocumentsFilters documentsFilters;
-
     private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String user = "Consumer-" + uniqueId;
     private final String site = "site-" + uniqueId;
@@ -38,6 +33,10 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
     private final String subFolderName = "subFolder-" + uniqueId;
     private final String path = "Sites/" + site + "/documentLibrary/" + folderName;
     private final String tag = "tag-" + uniqueId.toLowerCase();
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentsFilters documentsFilters;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

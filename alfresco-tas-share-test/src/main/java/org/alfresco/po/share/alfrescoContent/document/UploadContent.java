@@ -1,5 +1,11 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
+
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -9,12 +15,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.FileInput;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
 
 /**
  * @author Razvan.Dorobantu
@@ -36,17 +36,6 @@ public class UploadContent extends SiteCommon<UploadContent>
     // By.cssSelector("div[id$='_default-dialog_c']");
 
     private By uploadFilesToDialog = By.id("template_x002e_dnd-upload_x002e_documentlibrary_x0023_default-dialog_h");
-
-    public enum Version
-    {
-        Minor, Major
-    }
-
-    @Override
-    public String getRelativePath()
-    {
-        return "share/page/site/%s/documentlibrary";
-    }
 
     private static File newFile(String fileName, String contents)
     {
@@ -74,6 +63,12 @@ public class UploadContent extends SiteCommon<UploadContent>
             e.printStackTrace();
         }
         return file;
+    }
+
+    @Override
+    public String getRelativePath()
+    {
+        return "share/page/site/%s/documentlibrary";
     }
 
     public void uploadContent(String filePath, String contentsOfFile)
@@ -140,5 +135,10 @@ public class UploadContent extends SiteCommon<UploadContent>
     public boolean isUploadFilesToDialogDisplayed()
     {
         return browser.isElementDisplayed(uploadFilesToDialog);
+    }
+
+    public enum Version
+    {
+        Minor, Major
     }
 }

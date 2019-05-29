@@ -1,7 +1,11 @@
 package org.alfresco.share.site;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+
 import org.alfresco.common.EnvProperties;
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.SystemErrorPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
@@ -17,14 +21,10 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 
 /**
  * @author Laura.Capsa
@@ -82,6 +82,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     String userC2291 = String.format("userC2291%s", RandomData.getRandomAlphanumeric());
     String siteNameC2291 = String.format("0-C2291-%s", RandomData.getRandomAlphanumeric());
     String siteNameC2292 = String.format("0-C2292-%s", RandomData.getRandomAlphanumeric());
+    SoftAssert softAssert = new SoftAssert();
 
     @BeforeClass (alwaysRun = true)
     public void testSetup()
@@ -106,8 +107,6 @@ public class DeleteSiteTests extends ContextAwareWebTest
         siteService.create(userC2291, password, domain, siteNameC2291, description, SiteService.Visibility.PUBLIC);
         siteService.create(adminUser, adminPassword, domain, siteNameC2292, description, SiteService.Visibility.PUBLIC);
     }
-
-    SoftAssert softAssert = new SoftAssert();
 
     @AfterClass (alwaysRun = true)
     public void cleanup()

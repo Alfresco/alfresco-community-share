@@ -1,5 +1,9 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
+import static org.testng.Assert.assertTrue;
+
+import java.io.File;
+
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
@@ -14,35 +18,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.File;
-
-import static org.testng.Assert.assertTrue;
-
 /**
  * @author Razvan.Dorobantu
  */
 public class MyFilesDownloadTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentCommon documentCommon;
-
-    @Autowired
-    private MyFilesPage myFilesPage;
-
-    @Autowired
-    private SiteDashboardPage sitePage;
-
-    @Autowired
-    private NewContentDialog newContentDialog;
-
-    @Autowired
-    private UploadContent uploadContent;
-
     private final String fileNameC7799 = "C7799 file";
     private final String folderNameC7802 = "folderNameC7802";
     private final String fileContent = "test content";
     private final String filePath = testDataFolder + fileNameC7799;
     private final String downloadPath = srcRoot + "testdata";
+    @Autowired
+    private DocumentCommon documentCommon;
+    @Autowired
+    private MyFilesPage myFilesPage;
+    @Autowired
+    private SiteDashboardPage sitePage;
+    @Autowired
+    private NewContentDialog newContentDialog;
+    @Autowired
+    private UploadContent uploadContent;
     private File downloadDirectory;
     private Alert alert;
 

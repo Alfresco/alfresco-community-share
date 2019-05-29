@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site;
 
+import java.util.List;
+
 import org.alfresco.po.share.DashboardCustomization;
 import org.alfresco.po.share.DashboardCustomizationImpl;
 import org.alfresco.po.share.DashboardCustomizationImpl.Layout;
@@ -9,10 +11,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import ru.yandex.qatools.htmlelements.element.TextBlock;
-
-import java.util.List;
 
 /**
  * @author bogdan.bocancea
@@ -21,18 +20,16 @@ import java.util.List;
 public class CustomizeSiteDashboardPage extends SiteCommon<CustomizeSiteDashboardPage>
     implements DashboardCustomization
 {
+    @RenderWebElement
+    @FindBy (css = ".sub-title")
+    protected TextBlock subTitle;
+    @RenderWebElement
+    @FindBy (css = ".trashcan")
+    protected WebElement trashcan;
     @Autowired
     DashboardCustomizationImpl dashboardCustomization;
     @Autowired
     SiteDashboardPage siteDashboardPage;
-
-    @RenderWebElement
-    @FindBy (css = ".sub-title")
-    protected TextBlock subTitle;
-
-    @RenderWebElement
-    @FindBy (css = ".trashcan")
-    protected WebElement trashcan;
 
     @Override
     public String getRelativePath()

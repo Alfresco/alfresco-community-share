@@ -1,5 +1,7 @@
 package org.alfresco.share.adminTools.categoryManager;
 
+import java.util.Arrays;
+
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -11,8 +13,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
 
 /**
  * @author Razvan.Dorobantu

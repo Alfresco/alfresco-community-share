@@ -1,21 +1,16 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 public class EventAgendaSelectedContent extends ListItemSelectedContent
 {
+    EventAgendaItemsTable tableRow;
     private By noListItems = By.cssSelector("div[id$='default-grid'] table tbody tr");
     private By listItems = By.cssSelector("div[id$='default-grid'] table tbody[class='yui-dt-data'] tr");
-    EventAgendaItemsTable tableRow;
-
-    public enum EventAgendaColumns
-    {
-        Reference, Presenter, Audience, Attachments, Notes, Actions
-    }
 
     public boolean isAnyListItemDisplayed()
     {
@@ -89,5 +84,10 @@ public class EventAgendaSelectedContent extends ListItemSelectedContent
     {
         tableRow = new EventAgendaItemsTable(findRow(listDetails).get(0), browser);
         tableRow.getDeleteButton().click();
+    }
+
+    public enum EventAgendaColumns
+    {
+        Reference, Presenter, Audience, Attachments, Notes, Actions
     }
 }

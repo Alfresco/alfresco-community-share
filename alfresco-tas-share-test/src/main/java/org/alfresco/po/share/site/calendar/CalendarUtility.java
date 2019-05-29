@@ -1,17 +1,29 @@
 package org.alfresco.po.share.site.calendar;
 
-import org.alfresco.utility.web.annotation.PageObject;
-import org.joda.time.DateTime;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
+import org.alfresco.utility.web.annotation.PageObject;
+import org.joda.time.DateTime;
+
 @PageObject
 public class CalendarUtility
 {
+    /**
+     * Method to generate a random Date (day) for the current Month
+     */
+
+    public static String generateRandomDateTime(int max)
+    {
+        int min = 1;
+        Random r = new Random();
+        int randomNumber = r.nextInt((max - min) + 1) + min;
+        return String.valueOf(randomNumber);
+    }
+
     /**
      * Method to get the next Month value
      *
@@ -35,18 +47,6 @@ public class CalendarUtility
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
         return new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(calendar.getTime());
-    }
-
-    /**
-     * Method to generate a random Date (day) for the current Month
-     */
-
-    public static String generateRandomDateTime(int max)
-    {
-        int min = 1;
-        Random r = new Random();
-        int randomNumber = r.nextInt((max - min) + 1) + min;
-        return String.valueOf(randomNumber);
     }
 
     /**

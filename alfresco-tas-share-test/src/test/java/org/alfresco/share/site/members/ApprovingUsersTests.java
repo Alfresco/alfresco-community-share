@@ -1,5 +1,6 @@
 package org.alfresco.share.site.members;
 
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
@@ -19,9 +20,7 @@ import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -53,23 +52,18 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
     @Autowired
     MyTasksDashlet myTasksDashlet;
-
-    @Autowired
-    private SiteDashboardPage siteDashboardPage;
-
     @Autowired
     DataUser dataUser;
-
     @Autowired
     DataSite dataSite;
-
     UserModel testUser;
     UserModel managerUser;
     UserModel collaboratorUser;
     UserModel contributorUser;
     UserModel consumerUser;
     SiteModel moderatedSite;
-
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
     private String userManager = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String userTest = String.format("User2%s", RandomData.getRandomAlphanumeric());
     private String siteNameC2461 = "SiteC2461" + RandomData.getRandomAlphanumeric();

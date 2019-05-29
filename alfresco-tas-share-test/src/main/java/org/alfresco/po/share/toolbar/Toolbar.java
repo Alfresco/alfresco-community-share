@@ -1,9 +1,11 @@
 package org.alfresco.po.share.toolbar;
 
-import org.alfresco.utility.web.HtmlPage;
+import java.util.List;
+
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -14,72 +16,51 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 
-import java.util.List;
-
 @Primary
 @PageObject
 public class Toolbar extends HtmlPage
 {
-    @Autowired
-    SearchPage searchPage;
-
-    @Autowired
-    private AdminToolsPage adminToolsPage;
-
-    @Autowired
-    private SitesManagerPage sitesManagerPage;
-
     @RenderWebElement
     @FindBy (id = "SHARE_HEADER")
     protected WebElement toolbar;
-
     @FindBy (css = "[widgetid=\"HEADER_HOME\"]")
     protected WebElement homeLink;
-
     @FindBy (id = "HEADER_MY_FILES_text")
     protected WebElement myFilesLink;
-
     @FindBy (id = "HEADER_SHARED_FILES_text")
     protected WebElement sharedFilesLink;
-
     @FindBy (id = "HEADER_SITES_MENU_text")
     protected WebElement sitesLink;
-
     @FindBy (id = "HEADER_TASKS_text")
     protected WebElement tasksLink;
-
     @FindBy (id = "HEADER_PEOPLE_text")
     protected WebElement peopleLink;
-
     @FindBy (id = "HEADER_REPOSITORY_text")
     protected WebElement repositoryLink;
-
     @FindBy (id = "HEADER_SITES_CONSOLE_text")
     protected WebElement sitesManagerLink;
-
     @FindBy (id = "HEADER_ADMIN_CONSOLE_text")
     protected WebElement adminToolsLink;
-
     @FindBy (css = "div[id='HEADER_USER_MENU_POPUP']")
     protected WebElement userMenuLink;
-
     @RenderWebElement
     @FindBy (css = ".alf-search-icon")
     protected WebElement searchIcon;
-
     @FindBy (id = "HEADER_SEARCH_BOX_ADVANCED_SEARCH_text")
     protected WebElement advancedSearchLink;
-
     @RenderWebElement
     @FindBy (id = "HEADER_SEARCHBOX_FORM_FIELD")
     protected WebElement searchBoxInput;
-
     @FindAll (@FindBy (css = "div.alf-live-search-sites-list div.alf-livesearch-item>a"))
     protected List<WebElement> searchSitesList;
-
     @FindBy (css = ".alfresco-header-SearchBox-clear")
     protected WebElement clearSearchBox;
-
+    @Autowired
+    SearchPage searchPage;
+    @Autowired
+    private AdminToolsPage adminToolsPage;
+    @Autowired
+    private SitesManagerPage sitesManagerPage;
     @FindBy (css = "div.alf-livesearch-item>a")
     private List<WebElement> searchResultsInToolbar;
 
