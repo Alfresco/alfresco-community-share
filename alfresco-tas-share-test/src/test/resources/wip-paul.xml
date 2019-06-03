@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ShareSanitySuite" preserve-order="true" parallel="false" thread-count="2">
+   <listeners>
+      <listener class-name="org.alfresco.utility.report.HtmlReportListener" />
+      <listener class-name="org.alfresco.utility.testrail.TestRailExecutorListener" />
+      <listener class-name="org.alfresco.utility.testng.OSTestMethodSelector" />
+   </listeners>
+
+   <test name="Share">
+      <packages>
+         <package name="org.alfresco.share.*" />
+      </packages>
+
+   </test>
+</suite>
