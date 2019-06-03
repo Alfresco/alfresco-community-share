@@ -74,7 +74,7 @@ public class SiteUsersPage extends SiteMembersPage
     public boolean isRemoveButtonDisplayedForUser(String userName)
     {
         return browser.isElementDisplayed(
-            By.xpath("//td[descendant::a[normalize-space(text())='" + userName + "']]/../td[contains(@class,'uninvite')]" + removeButton));
+                By.xpath("//td[descendant::a[normalize-space(text())='" + userName + "']]/../td[contains(@class,'uninvite')]" + removeButton));
     }
 
     /**
@@ -96,7 +96,7 @@ public class SiteUsersPage extends SiteMembersPage
     public void removeUser(String username)
     {
         WebElement remove = browser
-            .findElement(By.xpath("//td[descendant::a[normalize-space(text())='" + username + "']]/../td[contains(@class,'uninvite')]" + removeButton));
+                .findElement(By.xpath("//td[descendant::a[normalize-space(text())='" + username + "']]/../td[contains(@class,'uninvite')]" + removeButton));
         remove.click();
     }
 
@@ -109,7 +109,7 @@ public class SiteUsersPage extends SiteMembersPage
     public boolean isUserRoleNotChangeable(String role, String userName)
     {
         return browser.isElementDisplayed(
-            By.xpath("//td[descendant::a[normalize-space(text())='" + userName + "']]/../td[contains(@class,'role')]/div/div[text()='" + role + "']"));
+                By.xpath("//td[descendant::a[normalize-space(text())='" + userName + "']]/../td[contains(@class,'role')]/div/div[text()='" + role + "']"));
     }
 
     public UserProfilePage clickUser(String userName)

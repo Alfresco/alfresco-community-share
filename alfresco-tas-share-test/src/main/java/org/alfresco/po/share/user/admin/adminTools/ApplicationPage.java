@@ -26,9 +26,9 @@ public class ApplicationPage extends AdminToolsPage
     @RenderWebElement
     @FindBy (css = "select#console-options-theme-menu")
     private Select themeDropdown;
-    @FindBy (css = "button[id$='apply-button-button']")
-    private WebElement applyButton;
-    @FindBy (xpath = "//img[contains(@id, '_default-logoimg') and contains(@src, 'app-logo-48.png')]")
+    @FindBy (css = "div.apply button[id$='_default-apply-button-button']")
+    private Button applyButton;
+    @FindBy (xpath = "//img[contains(@id, '_default-logoimg') and contains(@src, '/images/app-logo-48.png')]")
     private WebElement defaultAlfrescoImage;
     //  @FindBy(xpath= "/html/body/div[9]/div[1]/div[2]/div[1]/div[1]/div/div/div/div/div/div[2]")
     @FindBy (css = ".info")
@@ -39,10 +39,10 @@ public class ApplicationPage extends AdminToolsPage
     @FindBy (css = "div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")
     private WebElement okButton;
     @RenderWebElement
-    @FindBy (css = "form[id$=_default-options-form] button[id$=upload-button-button]")
-    private WebElement uploadButton;
+    @FindBy (css = "form[id*=admin-console] button[id*=upload-button-button]")
+    private Button uploadButton;
 
-    //    @OverridenoDocumentsAdded
+    @Override
     public String getRelativePath()
     {
         return "share/page/console/admin-console/application";
@@ -52,10 +52,13 @@ public class ApplicationPage extends AdminToolsPage
     {
         String testFile = "alfrescoLogo.png";
         String testFilePath = testDataFolder + testFile;
-        getBrowser().waitInSeconds(2);
         getBrowser().waitUntilElementClickable(uploadButton).click();
-        getBrowser().waitInSeconds(2);
 
+        //click Upload button
+        browser.waitUntilElementClickable(uploadButton).click();
+        //  uploadButton.click();
+
+        //upload the new image
         fileInput.setFileToUpload(testFilePath);
         browser.waitInSeconds(5);
         if (browser.isElementDisplayed(By.cssSelector("div[id*='_dnd-upload_'] button[id$='_default-cancelOk-button-button']")))
@@ -65,8 +68,8 @@ public class ApplicationPage extends AdminToolsPage
         }
 
         browser.mouseOver(applyButton);
-        getBrowser().waitInSeconds(2);
-        getBrowser().waitUntilElementClickable(applyButton).click();
+        browser.waitInSeconds(2);
+        browser.waitUntilElementClickable(applyButton).click();
     }
 
     public boolean isAlfrescoDefaultImageDisplayed()

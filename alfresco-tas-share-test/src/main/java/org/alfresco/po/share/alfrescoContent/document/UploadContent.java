@@ -47,7 +47,7 @@ public class UploadContent extends SiteCommon<UploadContent>
                 if (!contents.isEmpty())
                 {
                     OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file),
-                        Charset.forName("UTF-8").newEncoder());
+                            Charset.forName("UTF-8").newEncoder());
                     writer.write(contents);
                     writer.close();
                 } else
@@ -74,10 +74,8 @@ public class UploadContent extends SiteCommon<UploadContent>
     public void uploadContent(String filePath, String contentsOfFile)
     {
         // click Upload button
-        getBrowser().waitInSeconds(5);
         browser.waitUntilElementClickable(uploadButton);
         uploadButton.click();
-        getBrowser().waitInSeconds(5);
 
         // set the file to upload
         File fileToUpload = newFile(filePath, contentsOfFile);
@@ -112,10 +110,10 @@ public class UploadContent extends SiteCommon<UploadContent>
         if (versionType.equals(Version.Major))
         {
             browser.waitUntilElementClickable(By.cssSelector("input[id$='_default-majorVersion-radioButton']"),
-                3).click();
+                    3).click();
         }
         WebElement commentBox = browser
-            .waitUntilElementVisible(By.cssSelector("textarea[id$='_default-description-textarea']"));
+                .waitUntilElementVisible(By.cssSelector("textarea[id$='_default-description-textarea']"));
         commentBox.clear();
         commentBox.sendKeys(comments);
         File fileToUpload = newFile(filePath, "updated by upload new version");
@@ -127,7 +125,7 @@ public class UploadContent extends SiteCommon<UploadContent>
             e.printStackTrace();
         }
         WebElement submitButton = browser
-            .waitUntilElementVisible(By.cssSelector("button[id$='_default-upload-button-button']"));
+                .waitUntilElementVisible(By.cssSelector("button[id$='_default-upload-button-button']"));
         submitButton.click();
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }

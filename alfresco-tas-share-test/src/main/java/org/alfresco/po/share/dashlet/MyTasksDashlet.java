@@ -24,6 +24,8 @@ import ru.yandex.qatools.htmlelements.element.Link;
 @PageObject
 public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 {
+    public String finalApproveMessage = "The document was reviewed and approved.";
+    public String finalRejectedMessage = "The document was reviewed and rejected.";
     @Autowired
     EditTaskPage editTaskPage;
 
@@ -195,7 +197,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
      */
     public boolean isTaskPresent(String taskName)
     {
-        return selectTask(taskName) != null;
+        return browser.isElementDisplayed(selectTask(taskName));
     }
 
     /**

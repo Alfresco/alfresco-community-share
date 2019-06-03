@@ -116,6 +116,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private WebElement locateFolder;
     @FindBy (css = ".yui-dt-col-fileName")
     private List<WebElement> nrOfSharedElements;
+    private By moreActionsMenu = By.xpath("//div[contains(@id, 'default-actions-yui') and not(@class='hidden')]//div[contains(@class,'action-set')]//div[contains(@class, 'more-actions')]");
     private By renameIcon = By.cssSelector(".filename span[class='insitu-edit']");
     private By linkToFolderLocator = By.cssSelector(".filename [href*='FdocumentLibrary']");
     private By uploadNewVersion = By.cssSelector("a[title='Upload New Version']");
@@ -124,10 +125,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private By contentTagsSelector = By.cssSelector(".item .tag-link");
     private By inlineEditTagsSelector = By.cssSelector(".inlineTagEditTag span");
     private By removeTagIconSelector = By.cssSelector(".inlineTagEditTag img[src*='delete-item-off']");
+
     private By contentNameSelector = By.cssSelector(".filename a");
     private By checkBoxSelector = By.cssSelector("tbody[class='yui-dt-data'] input[id*='checkbox']");
     private By favoriteLink = By.className("favourite-action");
     private By actionsSet = By.cssSelector(".action-set a span");
+
     private By categoriesDetails = By.cssSelector("div.detail span.category");
     private By infoBanner = By.cssSelector("div[class='info-banner']");
     private By titleSelector = By.cssSelector("td .title");
@@ -164,18 +167,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public boolean isContentNameDisplayed(String contentName)
     {
-        boolean state = false;
-
-        try
-        {
-            WebElement webElement = selectDocumentLibraryItemRow(contentName);
-            getBrowser().waitUntilWebElementIsDisplayedWithRetry(selectDocumentLibraryItemRow(contentName), 5);
-            state = browser.isElementDisplayed(webElement);
-        } catch (Exception ex)
-        {
-            state = false;
-        }
-        return state;
+        WebElement webElement = selectDocumentLibraryItemRow(contentName);
+        return browser.isElementDisplayed(webElement);
     }
 
     /**
@@ -212,7 +205,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     /**
      * Verify presence of "Options" menu
      *
-     * @return true if displayed
+     * @return true if displayed or false if is not.
      */
     public boolean isOptionsMenuDisplayed()
     {
@@ -465,8 +458,18 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
             WebElement moreMenu = selectDocumentLibraryItemRow(libraryItem).findElement(moreMenuSelector);
             browser.waitUntilElementClickable(moreMenu, 30).click();
             browser.waitUntilElementVisible(
-                browser.findElement(By.xpath("//div[contains(@id, 'default-actions-yui') and not(@class='hidden')]/div[contains(@class,'action-set')]")));
+                    browser.findElement(By.xpath("//div[contains(@id, 'default-actions-yui') and not(@class='hidden')]/div[contains(@class,'action-set')]")));
         }
+    }
+
+    /**
+     * Method that checks if after clicking on "More..." option, the Action Menu is displayed.
+     *
+     * @return true if Action Menu is displayed, else return false
+     */
+    public boolean isMoreActionsMenuDisplayed()
+    {
+        return browser.isElementDisplayed(moreActionsMenu);
     }
 
     public void clickMore()
@@ -479,15 +482,21 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         return browser.isElementDisplayed(selectDocumentLibraryItemRow(contentName), moreMenuSelector);
     }
 
+    /**
+     * Method that is getting a list of action  for any content (eg. "Download as Zip", "View Details", "Manage Permissions", etc)
+     *
+     * @param libraryItem - the content (file/ folder) from where the actions will be collected in the 'list'
+     * @return - the name of all available menu action
+     */
     private List<WebElement> getAvailableActions(String libraryItem)
     {
         mouseOverContentItem(libraryItem);
         if (isMoreMenuDisplayed(libraryItem))
         {
-            WebElement contentItem = selectDocumentLibraryItemRow(libraryItem);
-            List<WebElement> availableActions = contentItem.findElements(By.cssSelector(".action-set>div>a"));
-            WebElement actionElement = browser.findFirstElementWithValue(availableActions, "More...");
-            actionElement.sendKeys(Keys.ENTER);
+            while (isMoreActionsMenuDisplayed() == false)
+            {
+                clickMore();
+            }
         }
         LOG.info("Available actions are: " + actionsSet);
         return selectDocumentLibraryItemRow(libraryItem).findElements(actionsSet);
@@ -495,7 +504,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public boolean isActionAvailableForLibraryItem(String libraryItem, String action)
     {
-        return browser.findFirstElementWithValue(getAvailableActions(libraryItem), action) != null;
+        return browser.isElementDisplayed(browser.findFirstElementWithValue(getAvailableActions(libraryItem), action));
     }
 
     public boolean areActionsAvailableForLibraryItem(String libraryItem, List<String> actions)
@@ -720,6 +729,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     }
 
     /**
+     * verifyContentItemsNotSelected
      * Check the notSelected content list is the one expected
      *
      * @param expectedNotSelectedContentList content not to be selected
@@ -737,8 +747,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public boolean isActiveWorkflowsIconDisplayed(String documentLibraryItem)
     {
-        browser.waitInSeconds(1);
-        return browser.isElementDisplayed(selectDocumentLibraryItemRow(documentLibraryItem).findElement(By.cssSelector("[class=status] img")));
+        WebElement element = browser.waitUntilElementVisible(selectDocumentLibraryItemRow(documentLibraryItem).findElement(By.cssSelector("[class=status] img")));
+        return browser.isElementDisplayed(element);
     }
 
     /**
@@ -912,7 +922,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public void clickOnTag(String tagName)
     {
         browser.waitUntilElementVisible(
-            By.xpath("//ul[contains(@class,'filterLink')]/li/span[contains(@class,'tag')]/a[contains(text(),'" + tagName.toLowerCase() + "')]")).click();
+                By.xpath("//ul[contains(@class,'filterLink')]/li/span[contains(@class,'tag')]/a[contains(text(),'" + tagName.toLowerCase() + "')]")).click();
     }
 
     /**
@@ -942,9 +952,14 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public String switchToNewWindowAngGetContent()
     {
-        browser.switchWindow(1);
-        String content = browser.findElement(By.xpath("//body")).getText();
-        browser.closeWindowAndSwitchBack();
+        String content = null;
+
+        if (browser.getWindowHandles().size() >= 1)
+        {
+            browser.switchWindow(1);
+            content = browser.findElement(By.xpath("//body")).getText();
+            browser.closeWindowAndSwitchBack();
+        }
         return content;
     }
 

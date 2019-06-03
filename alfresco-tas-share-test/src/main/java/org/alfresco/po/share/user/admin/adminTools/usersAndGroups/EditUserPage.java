@@ -1,5 +1,6 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.po.share.SharePage;
@@ -18,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class EditUserPage extends SharePage<EditUserPage>
 {
     @Autowired
-    UserProfileAdminToolsPage userProfileAdminToolsPage;
+    private UserProfileAdminToolsPage userProfileAdminToolsPage;
 
     @FindBy (css = "button[id$='_default-update-groupfinder-group-search-button-button']")
     private WebElement searchGroupButton;
@@ -66,6 +67,13 @@ public class EditUserPage extends SharePage<EditUserPage>
 
     @FindBy (css = "img[id$='_default-update-photoimg']")
     private WebElement photoField;
+
+    @FindAll (@FindBy (css = "h3[class='itemname']"))
+    private List<WebElement> groupSearchResults;
+
+    private String genericAddToGroupButton = "//td[contains(@class,'col-description')]//h3[@class='itemname' and text()='%s']//ancestor::tr//td[contains(@class,'col-actions')]//button";
+    private String genericRemoveButton = "//span[@title='Remove Group' and text()='%s']";
+
 
     @Override
     public String getRelativePath()
@@ -212,12 +220,49 @@ public class EditUserPage extends SharePage<EditUserPage>
     public void addGroup(String groupName)
     {
         getBrowser().waitUntilElementClickable(searchGroupButton).click();
-        browser.waitUntilElementVisible(By.xpath(String.format("//td[contains(@class,'col-description')]//h3[@class='itemname' and text()='%s']//ancestor::tr//td[contains(@class,'col-actions')]//button[contains(text(),'Add')]", groupName))).click();
+        browser.waitUntilElementVisible(By.xpath(String.format(genericAddToGroupButton, groupName))).click();
     }
 
     public void removeGroup(String groupName)
     {
-        browser.waitUntilElementVisible(By.xpath(String.format("//span[@title='Remove Group' and text()='%s']", groupName))).click();
+        browser.waitUntilElementVisible(By.xpath(String.format(genericRemoveButton, groupName))).click();
+    }
+
+    public void clickSearchGroupButton()
+    {
+        searchGroupButton.click();
+    }
+
+    public boolean isGroupInSearchResults(String groupName)
+    {
+        for (WebElement groupNameItem : groupSearchResults)
+        {
+            if (groupNameItem.getText().equalsIgnoreCase(groupName))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isAddButtonDisplayed(String groupName)
+    {
+        return browser.isElementDisplayed(By.xpath(String.format(genericAddToGroupButton, groupName)));
+    }
+
+    public boolean isRemoveGroupDispalyed(String groupName)
+    {
+        return browser.isElementDisplayed(By.xpath(String.format(genericRemoveButton, groupName)));
+    }
+
+    public List<String> getGroupSearchResultNames()
+    {
+        ArrayList<String> groupNamesList = new ArrayList<>();
+        for (WebElement groupNameItem : groupSearchResults)
+        {
+            groupNamesList.add(groupNameItem.getText());
+        }
+        return groupNamesList;
     }
 
 }

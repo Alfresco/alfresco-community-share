@@ -60,6 +60,10 @@ public class CreateUsers extends SharePage<CreateUsers>
     private WebElement cancelButton;
     @FindBy (xpath = ".//*[@id='message']/div/span")
     private WebElement passwordsDontMatchNotification;
+    @FindBy (css = "div[id='prompt']")
+    private WebElement duplicateUserPrompt;
+    @FindBy (css = "div[id='prompt'] button")
+    private WebElement duplicateUserPromptButton;
 
     @Override
     public String getRelativePath()
@@ -182,7 +186,7 @@ public class CreateUsers extends SharePage<CreateUsers>
     /**
      * Retrieves the user that matches the text from the search box
      *
-     * @param user String
+     * @param group String
      */
 
     public void removeGroup(final String group)
@@ -231,7 +235,7 @@ public class CreateUsers extends SharePage<CreateUsers>
         String quota = quotaInputField.getAttribute("value");
 
         return firstName.length() == 0 && lastName.length() == 0 && email.length() == 0 && password.length() == 0 && verifyPassword.length() == 0
-            && groupFinder.length() == 0 && quota.length() == 0;
+                && groupFinder.length() == 0 && quota.length() == 0;
 
     }
 
@@ -252,6 +256,16 @@ public class CreateUsers extends SharePage<CreateUsers>
     {
         WebElement defaultQuotaType = quotaType.getFirstSelectedOption();
         return defaultQuotaType.getText();
+    }
+
+    public boolean isDuplicateUserPromptDisplayed()
+    {
+        return browser.isElementDisplayed(duplicateUserPrompt);
+    }
+
+    public void clickDuplicateUserPromptButton()
+    {
+        duplicateUserPromptButton.click();
     }
 
 }

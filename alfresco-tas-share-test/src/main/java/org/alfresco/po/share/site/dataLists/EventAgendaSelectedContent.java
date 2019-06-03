@@ -1,16 +1,35 @@
 package org.alfresco.po.share.site.dataLists;
 
+import static org.alfresco.common.DataUtil.isEnumContainedByList;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
 
+@PageObject
 public class EventAgendaSelectedContent extends ListItemSelectedContent
 {
+    @Autowired
+    DataListsPage dataListsPage;
     EventAgendaItemsTable tableRow;
     private By noListItems = By.cssSelector("div[id$='default-grid'] table tbody tr");
     private By listItems = By.cssSelector("div[id$='default-grid'] table tbody[class='yui-dt-data'] tr");
+
+    /**
+     * This method is checking if all the columns that should be in 'Event Agenda' table are actually displayed.
+     * Checking if all the elements from the enum list exists in getTextOfTableColumnHeader() list method.
+     *
+     * @return - true if all the elements from the enum are displayed in 'Item List' table.
+     * - false if there is at least one element missing.
+     */
+    public boolean isTableHeaderComplete()
+    {
+        return isEnumContainedByList(EventAgendaColumns.class, dataListsPage.getTextOfTableColumnHeader());
+    }
 
     public boolean isAnyListItemDisplayed()
     {
@@ -88,6 +107,27 @@ public class EventAgendaSelectedContent extends ListItemSelectedContent
 
     public enum EventAgendaColumns
     {
-        Reference, Presenter, Audience, Attachments, Notes, Actions
+        Reference("Reference"),
+        StartTime("Start Time"),
+        EndTime("End Time"),
+        SessionName("Session Name"),
+        Presenter("Presenter"),
+        Audience("Audience"),
+        Attachments("Attachments"),
+        Notes("Notes"),
+        Actions("Actions");
+
+        public final String name;
+
+        EventAgendaColumns(String name)
+        {
+            this.name = name;
+        }
+
+        @Override
+        public String toString()
+        {
+            return this.name;
+        }
     }
 }

@@ -19,11 +19,8 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     @FindAll (@FindBy (css = "div[id='ALF_COPY_MOVE_DIALOG'] span[class*='alfresco-buttons-AlfButton']"))
     private List<WebElement> buttonsList;
 
-    @FindBy (id = "NOTIFICATION_PROMPT")
-    private WebElement message;
-
     @FindBy (css = ".message")
-    private WebElement message2;
+    private WebElement message;
 
     @FindBy (css = "#ALF_COPY_MOVE_DIALOG span[class*='call-to-action']:first-child span[id*='alfresco_buttons_AlfButton']:first-child span[id$='label']")
     private WebElement createLinkButtonFromSearchPage;
@@ -53,11 +50,11 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
         }
     }
 
-    public void clickCreateLink()
+    public SharePage clickCreateLink(SharePage page)
     {
         browser.waitUntilElementClickable(createLinkButton, 5).click();
-        //getBrowser().waitUntilElementDisappears(createLinkMessage, 15);
-        //return (SharePage) page.renderedPage();
+        getBrowser().waitUntilElementDisappears(createLinkMessage, 15);
+        return (SharePage) page.renderedPage();
     }
 
     public boolean isCreateLinkButtonDisplayed()
@@ -77,14 +74,6 @@ public class CopyMoveUnzipToDialog extends SelectDestinationDialog
     public String getMessage()
     {
         return message.getText();
-        //return message.getText();
-    }
-
-
-    public String getMessage2()
-    {
-        return message2.getText();
-        //return message.getText();
     }
 
     public boolean isCreateLinkButtonDisplayedCopyToDialog()

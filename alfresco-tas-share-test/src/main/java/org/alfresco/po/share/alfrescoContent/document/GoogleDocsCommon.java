@@ -1,6 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
@@ -8,6 +9,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
 public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
@@ -17,28 +19,21 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     public By confirmationPopup = By.cssSelector("span.wait");
     @FindBy (xpath = "//*[contains(text(), 'OK')]")
     protected WebElement okButtonOnVersionPopup;
-
     @FindBy (xpath = "//*[@id='identifierId']|//*[@id='Email']")
     protected WebElement googleDocsEmail;
-
     @FindBy (xpath = "//*[@id='identifierNext']|//*[@id='next']")
     protected WebElement submitEmail;
-
     @FindBy (xpath = "//*[@name='password']|//*[@id='Passwd']")
     protected WebElement googleDocsPassword;
-
     @FindBy (xpath = "//*[@id='passwordNext']|//*[@id='signIn']")
     protected WebElement signInToGoogleDocsButton;
-
     @FindBy (xpath = "//*[contains(text(), 'Yes')]")
     protected WebElement confirmFormatUpgrade;
-
     @FindBy (css = ".docs-title-input")
     protected WebElement googleDocsTitle;
-
     @FindBy (css = ".kix-appview-editor")
     protected WebElement googleDocsContent;
-    @FindBy (css = "img[alt='googledrive']")
+    @FindBy (xpath = "//img[contains(@title,'Editing in Google Docs')]")
     protected WebElement googleDriveIcon;
     @FindBy (xpath = "//div[contains(text(), 'This document is locked by you')]")
     protected WebElement lockedDocumentMessage;
@@ -71,6 +66,8 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     protected String googleDocsLoginUrl = "https://accounts.google.com/ServiceLogin#identifier";
     protected String googleDocsTestEmail = "tsealfresco123@gmail.com";
     protected String googleDocsTestPassword = "NessPassword1!";
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
     @FindBy (id = "prompt_h")
     private WebElement promptAuthorizeWithGoogleDocs;
     @FindBy (xpath = "//div[@id ='prompt_c']//span[@class ='yui-button yui-push-button alf-primary-button']")
@@ -118,8 +115,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     public void switchToGoogleDocsWindowandAndEditContent(String title, String content)
     {
         browser.switchWindow(1);
-        getBrowser().waitInSeconds(6);
-
         changeGoogleDocsTitle(title);
         editGoogleDocsContent(content);
         browser.closeWindowAndSwitchBack();
@@ -128,7 +123,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     public void switchToGoogleSheetsWindowandAndEditContent(String title, String content)
     {
         browser.switchWindow(1);
-        getBrowser().waitInSeconds(6);
         changeGoogleDocsTitle(title);
         editGoogleSheetsContent(content);
         browser.closeWindowAndSwitchBack();
@@ -137,7 +131,6 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
     public void switchToGooglePresentationsAndEditContent(String title)
     {
         browser.switchWindow(1);
-        getBrowser().waitInSeconds(5);
         changeGoogleDocsTitle(title);
         browser.closeWindowAndSwitchBack();
 
@@ -217,15 +210,18 @@ public class GoogleDocsCommon extends SharePage<GoogleDocsCommon>
         return browser.isElementDisplayed(googleDriveIcon);
     }
 
-    public void checkInGoogleDoc(String file)
+    public DocumentLibraryPage checkInGoogleDoc(String file)
     {
         String fileLocator = "//a[contains(text(), '" + file + "')]";
 
+        browser.waitUntilElementVisible(By.xpath(fileLocator));
         WebElement fileLink = browser.findElement(By.xpath(fileLocator));
 
         browser.mouseOver(fileLink);
         checkInGoogleDoc.click();
-        browser.waitInSeconds(10);
+
+        browser.waitUntilWebElementIsDisplayedWithRetry(fileLink);
+        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
     public boolean isVersionInformationPopupDisplayed() throws Exception

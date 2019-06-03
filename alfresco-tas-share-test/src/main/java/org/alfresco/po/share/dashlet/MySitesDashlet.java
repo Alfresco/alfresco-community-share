@@ -1,7 +1,9 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -44,6 +46,8 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     protected HtmlElement defaultSiteText;
     @Autowired
     private SiteDashboardPage siteDashboardPage;
+    @Autowired
+    private CreateSiteDialog createSiteDialog;
     private By favoriteEnabled = By.cssSelector("span[class='item item-social'] a[class$='enabled']");
     private By deleteButton = By.cssSelector("a[class^='delete-site']");
 
@@ -197,9 +201,10 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     /**
      * Click on Create Site button
      */
-    public void clickCreateSiteButton()
+    public CreateSiteDialog clickCreateSiteButton()
     {
         getBrowser().waitUntilElementClickable(createSiteLink).click();
+        return (CreateSiteDialog) createSiteDialog.renderedPage();
     }
 
     /**
@@ -302,16 +307,28 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
         return browser.isElementDisplayed(deleteButton);
     }
 
+    public List<String> getSiteLinksText()
+    {
+        getBrowser().waitUntilElementsVisible(sitesLinksList);
+        List<String> linksText = new ArrayList<>();
+        for (WebElement link : sitesLinksList)
+        {
+            String linkText = link.getText();
+            linksText.add(linkText);
+        }
+        return linksText;
+    }
+
     public enum SitesFilter
     {
         All,
         MyFavorites
-            {
-                public String toString()
                 {
-                    return "My Favorites";
-                }
-            },
+                    public String toString()
+                    {
+                        return "My Favorites";
+                    }
+                },
         Recent
     }
 }

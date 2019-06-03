@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author bogdan.bocancea
@@ -18,6 +19,9 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 {
+    @Autowired
+    EditSiteDetailsDialog editSiteDetailsDialog;
+
     @RenderWebElement
     @FindBy (css = "div[class*='grid columnSize']")
     private WebElement dashboardLayout;
@@ -37,6 +41,9 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     @FindBy (id = "HEADER_SITE_MORE_PAGES")
     private WebElement morePagesDropDown;
+
+    @FindBy (css = "div[id$='_default-configDialog-configDialog']")
+    private WebElement editRssDialog;
 
     private By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
 
@@ -78,10 +85,10 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
             return browser
-                .isElementDisplayed(By.xpath(String.format("//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column, locationInColumn)));
+                    .isElementDisplayed(By.xpath(String.format("//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column, locationInColumn)));
         }
         String dashletLocation = String.format("//div[text()='%s']/../../../div[contains(@id,'component-%d-%d')]", dashlet.getDashletName(), column,
-            locationInColumn);
+                locationInColumn);
         return browser.isElementDisplayed(By.xpath(dashletLocation));
     }
 
@@ -99,6 +106,16 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     {
         browser.waitUntilElementVisible(siteVisibility);
         return siteVisibility.getText();
+    }
+
+    /**
+     * Verify presence of visibility type label that is right after Site name (e.g. Public, Private, Moderated)
+     *
+     * @return true if displayed
+     */
+    public boolean isSiteVisibilityDisplayed()
+    {
+        return browser.isElementDisplayed(siteVisibility);
     }
 
     /**
@@ -252,8 +269,27 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         return pageElem.findElement(By.cssSelector("span a")).getText();
     }
 
+    /**
+     * Navigate to site
+     * Opens Edit Details dialog
+     *
+     * @param siteId
+     */
+    public EditSiteDetailsDialog navigateToEditSiteDetailsDialog(String siteId)
+    {
+        navigate(siteId);
+        clickSiteConfiguration();
+        clickOptionInSiteConfigurationDropDown("Edit Site Details", editSiteDetailsDialog);
+        return (EditSiteDetailsDialog) editSiteDetailsDialog.renderedPage();
+    }
+
     public boolean somethingWentWrongMessage()
     {
         return browser.isElementDisplayed(By.xpath("//div[contains(text(),'wrong with this page...')]"));
+    }
+
+    public boolean isRSSFeedConfigurationDialogDisplayed()
+    {
+        return getBrowser().isElementDisplayed(editRssDialog);
     }
 }

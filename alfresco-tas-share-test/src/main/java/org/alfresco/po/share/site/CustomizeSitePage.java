@@ -128,7 +128,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
     /**
      * Verify if rename action is displayed for a current page
      *
-     * @param SitePageType page
+     * @param page
      * @return true if displayed
      */
     public boolean isRenameDisplayed(SitePageType page)
@@ -139,7 +139,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
     /**
      * Verify if remove action is displayed for a current page
      *
-     * @param SitePageType page
+     * @param page
      * @return true if displayed
      */
     public boolean isRemoveDisplayed(SitePageType page)

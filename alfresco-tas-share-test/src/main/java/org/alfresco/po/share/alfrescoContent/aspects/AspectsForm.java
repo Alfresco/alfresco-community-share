@@ -162,4 +162,9 @@ public class AspectsForm extends ShareDialog
     {
         closeButton.click();
     }
+
+    public void clickCancelButton()
+    {
+        cancelButton.click();
+    }
 }

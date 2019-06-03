@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 {
     @RenderWebElement
-    @FindBy (className = "listTitle")
+    @FindBy (css = "[class='listTitle']")
     public WebElement pageTitle;
     public By blogPageContent = By.cssSelector("tbody.yui-dt-message");
     public By simpleViewButton = By.cssSelector("button[id$='_default-simpleView-button-button']");
@@ -56,7 +56,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private WebElement selectTagsByTagName(String tag)
     {
         return browser.findElement(By.xpath(
-            "//div[@id = 'alf-filters']//div[contains(@id, '_blog-postlist')]//div[@class = 'filter']//span[@class = 'tag']/a[text() = '" + tag + "']"));
+                "//div[@id = 'alf-filters']//div[contains(@id, '_blog-postlist')]//div[@class = 'filter']//span[@class = 'tag']/a[text() = '" + tag + "']"));
     }
 
     private WebElement selectArchiveMonth(String month)
@@ -361,6 +361,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public void clickTag(String tag)
     {
+        browser.mouseOver(selectTagsByTagName(tag));
         selectTagsByTagName(tag).click();
         this.renderedPage();
         browser.waitUntilElementContainsText(pageTitle, "Blog Post List");

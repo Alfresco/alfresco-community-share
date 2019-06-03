@@ -75,7 +75,6 @@ public class WelcomePanel extends org.alfresco.utility.web.HtmlPage
     public HideWelcomePanelDialogue clickOnHideButton()
     {
         browser.waitUntilElementClickable(hideButton).click();
-        getBrowser().clickJS(hideButton);
         return (HideWelcomePanelDialogue) hideWelcomePanelDialogue.renderedPage();
     }
 

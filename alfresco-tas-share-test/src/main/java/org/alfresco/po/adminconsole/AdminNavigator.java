@@ -49,7 +49,6 @@ public class AdminNavigator extends HtmlPage implements Navigator
                 page.renderedPage();
             }
         }
-
     }
 
     enum NavigationLink

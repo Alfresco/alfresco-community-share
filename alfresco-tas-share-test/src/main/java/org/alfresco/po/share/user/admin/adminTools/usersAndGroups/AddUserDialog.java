@@ -6,6 +6,7 @@ import java.util.List;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -16,6 +17,7 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class AddUserDialog extends ShareDialog
 {
+    protected String searchedUsername = "//h3[@class='itemname']//span[text()='%s']";
     @RenderWebElement
     @FindBy (css = "span[id*='peoplepicker']")
     private WebElement dialogTitle;
@@ -33,6 +35,9 @@ public class AddUserDialog extends ShareDialog
 
     @FindAll (@FindBy (css = "td[class*='actions'] button"))
     private List<WebElement> addButtonsList;
+    @RenderWebElement
+    @FindBy (css = "div[id*='default-peoplepicker'] a[class='container-close']")
+    private WebElement closeButton;
 
     /**
      * @return 'Add User' dialog's title
@@ -58,7 +63,7 @@ public class AddUserDialog extends ShareDialog
         searchInputField.sendKeys(textToSearch);
     }
 
-    private void clickSearchButton()
+    public void clickSearchButton()
     {
         searchButton.click();
     }
@@ -68,9 +73,8 @@ public class AddUserDialog extends ShareDialog
      *
      * @param userToSearch typed in search input field
      */
-    public void searchGroup(String userToSearch)
+    public void searchUser(String userToSearch)
     {
-        getBrowser().waitInSeconds(10);
         fillInSearchInput(userToSearch);
         clickSearchButton();
         renderedPage();
@@ -93,7 +97,7 @@ public class AddUserDialog extends ShareDialog
      * @param searchResult name of the item from search results list
      * @return position of searchResult in list. -1 if searchResult isn't displayed
      */
-    private int getItemIndexFromSearchResults(String searchResult)
+    public int getItemIndexFromSearchResults(String searchResult)
     {
         ArrayList<String> searchResultsList = getSearchResultsName();
         return searchResultsList.indexOf(searchResult);
@@ -108,5 +112,27 @@ public class AddUserDialog extends ShareDialog
     {
         int index = getItemIndexFromSearchResults(searchResult);
         addButtonsList.get(index).click();
+    }
+
+    /**
+     * Checking if user is displayed in 'Add User' popup list
+     *
+     * @param username - the username surrounded by parentheses
+     * @return true if user is displayed, else false
+     */
+    public boolean isUserDisplayed(String username)
+    {
+        return browser.isElementDisplayed(By.xpath(String.format(searchedUsername, username)));
+    }
+
+    public boolean isAddButtonDisplayed(String searchResult)
+    {
+        int index = getItemIndexFromSearchResults(searchResult);
+        return browser.isElementDisplayed(addButtonsList.get(index));
+    }
+
+    public boolean isCloseButtonDisplayed()
+    {
+        return browser.isElementDisplayed(closeButton);
     }
 }

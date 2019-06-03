@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import ru.yandex.qatools.htmlelements.element.Table;
 
 @PageObject
 public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
@@ -17,7 +18,7 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     @FindBy (css = "div.dashlet.sitesearch")
     private WebElement dashletContainer;
 
-    @FindBy (css = "[id*=default-search-text]")
+    @FindBy (css = "[id$=default-search-text]")
     private WebElement searchField;
 
     @FindBy (css = "span.first-child  [id*=default-search-button]")
@@ -29,7 +30,18 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     @FindAll (@FindBy (css = "div.sitesearch div.bd ul.first-of-type li a"))
     private List<WebElement> dropDownFilterList;
 
+    @FindBy (css = "div[id$='_default-search-results'] table")
+    private Table resultsTable;
+
+    @FindBy (css = "span[id$='_default-resultSize'] button")
+    private WebElement setSizeButton;
+
     private By noResults = By.cssSelector("div[id$=search-results] tbody.yui-dt-message div");
+
+    private WebElement selectSize(String size)
+    {
+        return browser.findElement(By.xpath("//div[contains(@class, 'yui-menu-button-menu visible')]//a[text()='" + size + "']"));
+    }
 
     @Override
     public String getDashletTitle()
@@ -95,6 +107,7 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
     public void clickSearchButton()
     {
         searchButton.click();
+        this.renderedPage();
     }
 
     public boolean isMessageDisplayedInDashlet(String message)
@@ -106,5 +119,42 @@ public class SiteSearchDashlet extends Dashlet<SiteSearchDashlet>
             counter++;
         }
         return browser.findElement(noResults).getText().equals(message);
+    }
+
+    public void sendInputToSearchField(String inputText)
+    {
+        getBrowser().waitUntilElementVisible(searchField);
+        searchField.clear();
+        searchField.sendKeys(inputText);
+    }
+
+    public boolean isResultDisplayed(String resultName)
+    {
+        getBrowser().waitInSeconds(1);
+        String results = resultsTable.getRowsAsString().toString();
+        LOG.info("results: " + results);
+        return results.contains(resultName);
+    }
+
+    public void setSize(String sizeToSet)
+    {
+        browser.mouseOver(setSizeButton);
+        setSizeButton.click();
+        getBrowser().waitUntilElementVisible(By.cssSelector("div[class*='yui-menu-button-menu visible']"));
+        selectSize(sizeToSet).click();
+        this.renderedPage();
+    }
+
+    public boolean isSearchLimitSetTo(String sizeLimit)
+    {
+        return setSizeButton.getText().contains(sizeLimit);
+    }
+
+    public int getResultsNumber()
+    {
+        browser.waitInSeconds(5);
+        int allResults = resultsTable.getRowsAsString().size();
+        int actualResultsNumber = allResults - 1;
+        return actualResultsNumber;
     }
 }

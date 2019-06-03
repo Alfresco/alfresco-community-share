@@ -18,9 +18,10 @@ public class TinyMceEditor extends HtmlPage
     public String TINYMCE_CONTENT = "body[id$='tinymce']";
 
     // private static final String XPATH_COLOUR_FONT = "//font";
+    public String BoldContent = "//body[@id='tinymce']//p//strong";
     @FindBy (css = "div[aria-label^='Text'] button[class$='mce-open']")
     public WebElement CSS_STR_FORE_COLOUR;
-    @FindBy (css = "iframe[id$='-configDialog-text_ifr']")
+    @FindBy (css = "iframe[id*='content_ifr']")
     private WebElement iFrame;
     private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
     @FindBy (css = "div[aria-label*='Background'] button span")
@@ -320,16 +321,15 @@ public class TinyMceEditor extends HtmlPage
 
     public void setText(String text)
     {
+        browser.clickJS(iFrame);
+
         if (text == null)
         {
             throw new IllegalArgumentException("Text is required");
         }
 
         String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
-
-        getBrowser().waitInSeconds(5);
         browser.executeJavaScript(setCommentJs);
-
         setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", text);
         browser.executeJavaScript(setCommentJs);
 

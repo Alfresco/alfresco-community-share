@@ -237,7 +237,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
             try
             {
                 existingDashletsInColumn = browser
-                    .findElements(By.cssSelector(String.format(dashletsInColumn, columnNumber)));
+                        .findElements(By.cssSelector(String.format(dashletsInColumn, columnNumber)));
             } catch (TimeoutException te)
             {
 
@@ -267,7 +267,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     {
         List<String> dashlets = new ArrayList<>();
         List<WebElement> existingDashletsInColumn = browser
-            .findElements(By.cssSelector(String.format(dashletsInColumn, column)));
+                .findElements(By.cssSelector(String.format(dashletsInColumn, column)));
         for (WebElement dashlet : existingDashletsInColumn)
         {
             dashlets.add(dashlet.getText());
@@ -291,7 +291,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         try
         {
             dash = browser.findFirstElementWithValue(By.cssSelector(String.format(dashletsInColumn, columnNumber)),
-                dashlet.getDashletName());
+                    dashlet.getDashletName());
         } catch (TimeoutException te)
         {
         }
@@ -319,7 +319,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     public void removeDashlet(Dashlets dashlet, int columnNumber)
     {
         WebElement dash = browser
-            .waitUntilElementVisible(By.xpath(String.format(addedDashlet, columnNumber, dashlet.getDashletName())));
+                .waitUntilElementVisible(By.xpath(String.format(addedDashlet, columnNumber, dashlet.getDashletName())));
         if (dash != null)
         {
             dash.click();
@@ -413,7 +413,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     /**
      * Move added dashlet in column.
      *
-     * @param dashlet    to be moved
+     * @param addedDashlet dashlet to be moved
      * @param fromColumn
      * @param toColumn
      */
@@ -456,7 +456,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         try
         {
             dashToMove = browser.waitUntilElementVisible(
-                By.xpath(String.format(addedDashlet, fromColumn, dashletToMove.getDashletName())));
+                    By.xpath(String.format(addedDashlet, fromColumn, dashletToMove.getDashletName())));
         } catch (NoSuchElementException ns)
         {
             throw new PageOperationException(dashletToMove.getDashletName() + " not found in column " + fromColumn);
@@ -470,7 +470,7 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
         try
         {
             dashToReplace = browser.waitUntilElementVisible(
-                By.xpath(String.format(addedDashlet, column, dashletToReplace.getDashletName())));
+                    By.xpath(String.format(addedDashlet, column, dashletToReplace.getDashletName())));
         } catch (NoSuchElementException ns)
         {
             throw new PageOperationException(dashletToReplace.getDashletName() + " not found in column " + column);
@@ -504,8 +504,8 @@ public class DashboardCustomizationImpl extends HtmlPage implements DashboardCus
     public enum Layout
     {
         ONE_COLUMN("One column"), TWO_COLUMNS_WIDE_LEFT("Two columns: wide left, narrow right"), TWO_COLUMNS_WIDE_RIGHT(
-        "Two columns: narrow left, wide right"), THREE_COLUMNS(
-        "Three columns: wide centre"), FOUR_COLUMS("Four columns");
+            "Two columns: narrow left, wide right"), THREE_COLUMNS(
+            "Three columns: wide centre"), FOUR_COLUMS("Four columns");
         public final String description;
 
         Layout(String description)

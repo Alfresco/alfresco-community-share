@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -39,7 +40,7 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
     protected List<WebElement> currentTagList;
     protected By topicContent = By.cssSelector("iframe[id*='discussions-createtopic_x0023_default-content']");
     @Autowired
-    private TopicListPage topicListPage;
+    TopicListPage topicListPage;
     @Autowired
     private TopicViewPage topicViewPage;
 

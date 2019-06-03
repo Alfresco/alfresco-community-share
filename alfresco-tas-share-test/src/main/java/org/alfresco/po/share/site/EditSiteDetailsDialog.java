@@ -18,11 +18,11 @@ import ru.yandex.qatools.htmlelements.element.TextInput;
 @PageObject
 public class EditSiteDetailsDialog extends ShareDialog
 {
+    @FindBy (css = "[class*='Close']")
+    protected WebElement closeCreateSitePopup;
     @Autowired
     SiteDashboardPage siteDashboardPage;
-    @Autowired
-    SiteDashboardPage siteDashboard;
-    @FindBy (css = "div[id='EDIT_SITE_FIELD_TITLE'] input[class$='dijitInputInner']")
+    @FindBy (css = "div[id='EDIT_SITE_FIELD_TITLE'] input[class$='InputInner']")
     private TextInput nameInput;
     @FindBy (css = "div[id='EDIT_SITE_FIELD_TITLE'] label.label")
     private WebElement nameLabel;
@@ -44,31 +44,21 @@ public class EditSiteDetailsDialog extends ShareDialog
     private WebElement privateVisibilityRadioButton;
     @FindBy (css = "div[id='EDIT_SITE_FIELD_VISIBILITY_CONTROL_OPTION2'] div.radio-button-label div")
     private WebElement privateVisibilityDescription;
+    @FindBy (css = "div[id='EDIT_SITE_DIALOG']")
+    private WebElement editSiteDetailsDialog;
     @RenderWebElement
-    @FindBy (id = "EDIT_SITE_DIALOG_OK_label")
-    private WebElement saveButton;
-    @FindBy (id = "EDIT_SITE_DIALOG_CANCEL_label")
-    private Button cancel;
-
-    /**
-     * Navigate to site
-     * Opens Edit Details dialog
-     *
-     * @param siteId
-     */
-    public void navigateToDialog(String siteId)
-    {
-        siteDashboard.navigate(siteId);
-        siteDashboard.clickSiteConfiguration();
-        siteDashboard.clickOptionInSiteConfigurationDropDown("Edit Site Details", this);
-    }
+    @FindBy (css = "span[id='EDIT_SITE_DIALOG_OK_label']")
+    private Button saveButton;
+    @FindBy (css = "span[id='EDIT_SITE_DIALOG_CANCEL_label']")
+    private Button cancelButton;
 
     public void typeDetails(String title, String description)
     {
+        browser.waitUntilElementVisible(nameInput).click();
         nameInput.clear();
         nameInput.sendKeys(title);
 
-        descriptionInput.clear();
+        browser.waitUntilElementVisible(descriptionInput).clear();
         descriptionInput.sendKeys(description);
     }
 
@@ -84,7 +74,35 @@ public class EditSiteDetailsDialog extends ShareDialog
 
     public String getTitleInputText()
     {
-        return nameInput.getText();
+        return browser.waitUntilElementVisible(nameInput).getText();
+    }
+
+    /**
+     * Close dialog
+     */
+    public void clickCloseCreateSitePopup()
+    {
+        browser.waitUntilElementClickable(closeCreateSitePopup).click();
+    }
+
+    /**
+     * Get sites description from the PopUp.
+     *
+     * @return String with the text displayed in 'Description' textarea.
+     */
+    public String getDescriptionInputText()
+    {
+        return descriptionInput.getAttribute("value");
+    }
+
+    /**
+     * Verify presence of 'Edit Site Details' PopUp.
+     *
+     * @return false if is not displayed.
+     */
+    public boolean isEditSiteDetailsDialogDisplayed()
+    {
+        return browser.isElementDisplayed(editSiteDetailsDialog);
     }
 
     public boolean isDescriptionInputDisplayed()
@@ -147,18 +165,19 @@ public class EditSiteDetailsDialog extends ShareDialog
         return browser.isElementDisplayed(saveButton);
     }
 
-    public void clickSaveButton()
+    public SiteDashboardPage clickSaveButton()
     {
-        saveButton.click();
+        browser.waitUntilElementClickable(saveButton).click();
+        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
     public boolean isCancelButtonDisplayed()
     {
-        return cancel.isDisplayed();
+        return cancelButton.isDisplayed();
     }
 
     public void clickCancelButton()
     {
-        cancel.click();
+        cancelButton.click();
     }
 }

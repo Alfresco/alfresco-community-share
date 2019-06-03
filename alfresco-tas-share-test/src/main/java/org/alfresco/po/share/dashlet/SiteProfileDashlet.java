@@ -100,7 +100,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     /**
      * Retrieves the link that match the user's name.
      *
-     * @param name identifier
+     * @param siteManager name identifier
      * @return {@link Link} that matches userName
      */
 
@@ -112,7 +112,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     /**
      * Verify if a user name is displayed in Site Profile dashlet
      *
-     * @param siteMAnager
+     * @param siteManager
      * @return True if user exists
      */
 

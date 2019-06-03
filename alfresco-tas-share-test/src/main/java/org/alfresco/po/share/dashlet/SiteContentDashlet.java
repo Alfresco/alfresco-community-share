@@ -192,7 +192,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
         String details = getFileLink(fileName).findElement(docDetails).getText();
         return (details.contains("Modified") || details.contains("Created")) && details.contains("in " + siteName)
-            && ((details.contains("just now") || (details.contains("ago"))));
+                && ((details.contains("just now") || (details.contains("ago"))));
 
     }
 
@@ -315,7 +315,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
     public DocumentDetailsPage clickCommentLink(String fileName)
     {
-        browser.waitUntilElementIsDisplayedWithRetry(commentLink, 3);
+        browser.waitUntilElementIsDisplayedWithRetry(commentLink);
         selectItem(fileName).findElement(commentLink).click();
         return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
@@ -352,4 +352,9 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
         return browser.findFirstElementWithValue(itemsList, document);
     }
 
+    public SiteContentDashlet selectFilter(String filterName)
+    {
+        browser.findFirstElementWithValue(filters, filterName).click();
+        return (SiteContentDashlet) this.renderedPage();
+    }
 }

@@ -106,7 +106,6 @@ public class UsersPage extends AdminToolsPage
             searchButton.click();
             this.renderedPage();
             counter++;
-            getBrowser().waitInSeconds(4);
         }
         while (!verifyUserIsFound(user) && counter <= 5);
     }
@@ -125,7 +124,7 @@ public class UsersPage extends AdminToolsPage
     /**
      * Retrieves the user that matches the text from the search box
      *
-     * @param user String
+     * @param username String
      * @return WebElement that matches the username
      */
     public WebElement selectUser(final String username)

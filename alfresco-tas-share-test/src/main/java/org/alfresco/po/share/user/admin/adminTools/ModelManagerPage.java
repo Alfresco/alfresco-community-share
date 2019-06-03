@@ -107,13 +107,15 @@ public class ModelManagerPage extends AdminToolsPage
     public WebElement selectModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        return browser.waitUntilElementVisible(modelRowLocator);
+        browser.waitUntilElementIsDisplayedWithRetry(modelRowLocator);
+        return browser.findElement(modelRowLocator);
     }
 
     public boolean isModelDisplayed(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        return getBrowser().isElementDisplayed(modelRowLocator);
+        browser.waitUntilElementIsDisplayedWithRetry(modelRowLocator, 2);
+        return browser.isElementDisplayed(modelRowLocator);
     }
 
     public void waitForModel(String modelName)
@@ -166,8 +168,8 @@ public class ModelManagerPage extends AdminToolsPage
 
     public void clickActionsButtonForModel(String modelName)
     {
-        //Parameter.checkIsMandotary("Model", selectModelByName(modelName));
-        selectModelByName(modelName).findElement(actionsButton).click();
+        Parameter.checkIsMandotary("Model", selectModelByName(modelName));
+        browser.waitUntilElementClickable(selectModelByName(modelName).findElement(actionsButton), 5).click();
     }
 
     public void mouseOverModelItem(String modelName)

@@ -60,7 +60,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
      */
     public List<String> getDocumentsLinks()
     {
-        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("h3.filename > a"), 3);
+        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("h3.filename > a"));
         List<String> documentLinks = new ArrayList<>();
         for (WebElement element : documentsLinksList)
         {
@@ -73,7 +73,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     /**
      * Retrieves the link that match the document name.
      *
-     * @param name identifier
+     * @param documentName name identifier
      * @return {@link Link} that matches documentName
      */
     public WebElement selectDocument(final String documentName)
@@ -92,7 +92,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     /**
      * Retrieves the link that match the document name.
      *
-     * @param name identifier
+     * @param documentName name identifier
      * @return {@link Link} that matches documentName
      */
     public WebElement selectDocumentDetailsRow(final String documentName)
@@ -103,7 +103,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     /**
      * Select an option from filter dropdown from My Documents Dashlets.
      *
-     * @param String filter
+     * @param filter
      * @return MyDocumentsDashlet
      */
     public MyDocumentsDashlet filterMyDocuments(String filter)
@@ -114,7 +114,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
             browser.selectOptionFromFilterOptionsList(filter, filterOptions);
 
             Assert.assertTrue(browser.findElement(By.cssSelector("div.dashlet.my-documents button[id*='default-filters']")).getText().contains(filter),
-                "Incorrect filter selected");
+                    "Incorrect filter selected");
 
             browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[id$='default-documents'] tr[class*='yui-dt-rec'] h3.filename"));
             browser.selectOptionFromFilterOptionsList(filter, filterOptions);
@@ -242,8 +242,6 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Wait for documents dashlet to be populated
-     *
-     * @param documentName
      */
     public MyDocumentsDashlet waitForDocument()
     {
@@ -260,7 +258,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     public boolean isDocumentFavourite(String documentName)
     {
         browser.waitUntilWebElementIsDisplayedWithRetry(
-            selectDocumentDetailsRow(documentName).findElement(By.cssSelector("a.favourite-action.favourite3.enabled")));
+                selectDocumentDetailsRow(documentName).findElement(By.cssSelector("a.favourite-action.favourite3.enabled")));
         return browser.isElementDisplayed(selectDocumentDetailsRow(documentName).findElement(By.cssSelector("a.favourite-action.favourite3.enabled")));
     }
 
@@ -523,65 +521,65 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     public enum DocumentsFilter
     {
         RecentlyModified
-            {
-                public String toString()
                 {
-                    return "I've Recently Modified";
-                }
-            },
+                    public String toString()
+                    {
+                        return "I've Recently Modified";
+                    }
+                },
 
         Editing
-            {
-                public String toString()
                 {
-                    return "I'm Editing";
-                }
-            },
+                    public String toString()
+                    {
+                        return "I'm Editing";
+                    }
+                },
 
         MyFavorites
-            {
-                public String toString()
                 {
-                    return "My Favorites";
+                    public String toString()
+                    {
+                        return "My Favorites";
+                    }
                 }
-            }
     }
 
     public enum FavoriteLinks
     {
         Add
-            {
-                public String toString()
                 {
-                    return "Add document to favorites";
-                }
-            },
+                    public String toString()
+                    {
+                        return "Add document to favorites";
+                    }
+                },
 
         Remove
-            {
-                public String toString()
                 {
-                    return "Remove document from favorites";
+                    public String toString()
+                    {
+                        return "Remove document from favorites";
+                    }
                 }
-            }
     }
 
     public enum DocumentView
     {
         SimpleView
-            {
-                public String toString()
                 {
-                    return "Simlpe View";
-                }
-            },
+                    public String toString()
+                    {
+                        return "Simlpe View";
+                    }
+                },
         DetailedView
-            {
-                public String toString()
                 {
-                    return "Detailed View";
-                }
-            },
+                    public String toString()
+                    {
+                        return "Detailed View";
+                    }
+                },
 
     }
 }

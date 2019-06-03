@@ -66,8 +66,7 @@ public class CreateContent extends SiteCommon<CreateContent>
 
     private WebElement selectCreateFromTemplateButton(String buttonName)
     {
-        return browser.findElement(By.xpath(""
-            + "//span[text()='" + buttonName + "']"));
+        return browser.findElement(By.xpath("//a[contains(@class, 'yuimenuitemlabel-hassubmenu')]//span[text()='" + buttonName + "']"));
     }
 
     public WebElement selectTemplate(String templateName)
@@ -369,15 +368,33 @@ public class CreateContent extends SiteCommon<CreateContent>
         browser.waitUntilElementVisible(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible"));
     }
 
-    public void mouseOverButton(String btnName)
+    /**
+     * Method to select template
+     */
+    public HtmlPage clickOnTemplate(String templateName, HtmlPage page)
     {
-        WebElement button = selectCreateFromTemplateButton(btnName);
-        browser.mouseOver(button);
+        selectTemplate(templateName).click();
+        return page.renderedPage();
     }
 
     /**
-     * Method to select document template
+     * Method to check if the template is present
      */
+    public boolean isTemplateDisplayed(String templateName)
+    {
+        return selectTemplate(templateName).isDisplayed();
+    }
+
+    public boolean isCreateFolderDialogDisplayed()
+    {
+        return browser.isElementDisplayed(createFolderDialog);
+    }
+
+    public String getCreateFolderDialogTitle()
+    {
+        return createFolderDialogTitle.getText();
+    }
+
     public HtmlPage clickOnDocumentTemplate(String templateName, HtmlPage page)
     {
         // browser.mouseOver(browser.findElement(By.cssSelector("li[class$='yuimenuitem-hassubmenu first-of-type']")));
@@ -397,31 +414,6 @@ public class CreateContent extends SiteCommon<CreateContent>
         return page.renderedPage();
     }
 
-    /**
-     * Method to check if the template is present
-     */
-    public boolean isFolderTemplateDisplayed(String templateName)
-    {
-        List<String> templatesName = new ArrayList<>();
-        browser.waitUntilElementsVisible(templatesList);
-        for (WebElement template : templatesList)
-        {
-            templatesName.add(template.getText());
-        }
-
-        System.out.println("templates available are: " + templatesName.toArray());
-        return templatesName.contains(templateName);
-
-        // browser.findFirstElementWithValue(templatesList, templateName);
-
-//        browser.mouseOver(browser.waitUntilElementVisible(By.cssSelector("li[class$='yuimenuitem-hassubmenu']")));
-//        if(!selectTemplate(templateName).isDisplayed())
-//        {
-//            browser.findElement(By.cssSelector("By.cssSelector(\"li[class$='yuimenuitem-hassubmenu']")).click();
-//        }
-//        return selectTemplate(templateName).isDisplayed();
-    }
-
     public boolean isFileTemplateDisplayed(String templateName)
     {
         browser.mouseOver(browser.waitUntilElementVisible(By.cssSelector("li[class$='yuimenuitem-hassubmenu first-of-type']")));
@@ -433,13 +425,18 @@ public class CreateContent extends SiteCommon<CreateContent>
         return selectTemplate(templateName).isDisplayed();
     }
 
-    public boolean isCreateFolderDialogDisplayed()
+    /**
+     * Method to check if the template is present
+     */
+    public boolean isFolderTemplateDisplayed(String templateName)
     {
-        return browser.isElementDisplayed(createFolderDialog);
-    }
-
-    public String getCreateFolderDialogTitle()
-    {
-        return createFolderDialogTitle.getText();
+        List<String> templatesName = new ArrayList<>();
+        browser.waitUntilElementsVisible(templatesList);
+        for (WebElement template : templatesList)
+        {
+            templatesName.add(template.getText());
+        }
+        LOG.info("templates available are: " + templatesName.toArray());
+        return templatesName.contains(templateName);
     }
 }

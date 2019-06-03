@@ -22,8 +22,6 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
     public WebElement userName;
     @FindBy (css = "span[id$='_default-view-enabled']")
     public WebElement accountStatus;
-    @FindBy (xpath = "//span[text()='Groups:']/../span[@class='field-value']")
-    public WebElement groupName;
     @Autowired
     EditUserPage editUserPage;
     @Autowired
@@ -48,6 +46,8 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
     private WebElement userQuota;
     @FindBy (css = "span[id$='_default-view-email']")
     private WebElement email;
+    @FindBy (xpath = "//span[text()='Groups:']/../span[@class='field-value']")
+    private WebElement groupName;
 
     @Override
     public String getRelativePath()
@@ -139,9 +139,8 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
         return accountStatus.getText();
     }
 
-    public String getGroupsNames()
+    public String getGroupName()
     {
-        getBrowser().waitInSeconds(5);
         return groupName.getText();
     }
 }

@@ -77,7 +77,7 @@ public class UserSitesListPage extends SharePage<UserSitesListPage> implements A
     /**
      * Retrieves the link that match the site name.
      *
-     * @param name identifier
+     * @param siteName name identifier
      * @return {@link Link} that matches siteName
      */
     public WebElement getSite(final String siteName)

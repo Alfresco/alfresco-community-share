@@ -48,7 +48,6 @@ public class SelectDestinationDialog extends ShareDialog
 
     public void clickOkButton()
     {
-        getBrowser().waitInSeconds(5);
         getBrowser().waitUntilElementClickable(okButton).click();
     }
 

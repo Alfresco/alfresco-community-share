@@ -23,6 +23,7 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     protected By taskTitle = By.cssSelector("td[class$='yui-dt-col-title'] div h3 a");
     protected String completeTaskName = "Request to join %s site";
     protected String status = "//a[@title = 'Edit Task' and text() = '%s']/../../div[@class = 'status']/span";
+    protected String statusCompleted = "//a[@title = 'View Task' and text() = '%s']/../../div[@class = 'status']/span";
     @Autowired
     ToolbarTasksMenu toolbarTasksMenu;
     @Autowired
@@ -31,6 +32,8 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     ViewTaskPage viewTaskPage;
     @Autowired
     WorkflowDetailsPage workflowDetailsPage;
+    @Autowired
+    StartWorkflowPage startWorkflowPage;
     @RenderWebElement
     @FindBy (css = "h2[id$='default-filterTitle']")
     private WebElement activeTasksBar;
@@ -114,6 +117,17 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
         return browser.isElementDisplayed(startWorkflow);
     }
 
+    public StartWorkflowPage clickStartWorkflowButton()
+    {
+        browser.waitUntilElementClickable(startWorkflow).click();
+        return (StartWorkflowPage) startWorkflowPage.renderedPage();
+    }
+
+    public String getTaskTitle()
+    {
+        return browser.waitUntilElementVisible(taskTitle).getText();
+    }
+
     public WorkflowDetailsPage clickViewWorkflow(String taskName)
     {
         WebElement selectedTask = selectTask(taskName);
@@ -179,5 +193,10 @@ public class MyTasksPage extends SharePage<MyTasksPage> implements AccessibleByM
     public String getStatus(String workflowName)
     {
         return browser.findElement(By.xpath(String.format(status, workflowName))).getText();
+    }
+
+    public String getStatusCompleted(String workflowName)
+    {
+        return browser.findElement(By.xpath(String.format(statusCompleted, workflowName))).getText();
     }
 }

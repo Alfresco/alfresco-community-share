@@ -81,7 +81,7 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
 
     @FindBy (css = "button[id$='button-cancel-button']")
     private Button cancel;
-    @FindBy (css = "span[id$='button-save']")
+    @FindBy (css = "button[id$='save-button']")
     private Button save;
 
     @Override
@@ -274,8 +274,7 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
 
     public UserProfilePage clickSave()
     {
-        //   ((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
-        save.click();
+        getBrowser().waitUntilElementClickable(save.getWrappedElement()).click();
         return (UserProfilePage) userProfilePage.renderedPage();
     }
 

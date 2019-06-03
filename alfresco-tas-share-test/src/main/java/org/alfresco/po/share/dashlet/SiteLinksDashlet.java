@@ -7,6 +7,7 @@ import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -109,5 +110,18 @@ public class SiteLinksDashlet extends Dashlet<SiteLinksDashlet>
     public boolean isCreateLinkDisplayed()
     {
         return createLink.isDisplayed();
+    }
+
+    public int getNumberOfLinks()
+    {
+        try
+        {
+            List<WebElement> linksList = browser.findElements(By.cssSelector("div.dashlet.site-links>div.scrollableList div[class='link']>a"));
+            return linksList.size();
+        } catch (StaleElementReferenceException ex)
+        {
+            LOG.info(ex.getStackTrace().toString());
+        }
+        return getNumberOfLinks();
     }
 }

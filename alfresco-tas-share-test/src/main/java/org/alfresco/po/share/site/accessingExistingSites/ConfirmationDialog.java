@@ -12,16 +12,13 @@ import ru.yandex.qatools.htmlelements.element.Button;
 public abstract class ConfirmationDialog extends HtmlPage
 {
     //@RenderWebElement
-    //@FindBy(xpath = "//div[contains(@class, 'dialogDisplayed')]//span[contains(@id, 'alfresco_buttons_AlfButton') and (text()='OK' or text()='Yes')]")
     @FindBy (id = "ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM_label")
     protected Button dialogOkButton;
 
     @FindBy (css = "div.dialog-body")
-    //@FindBy(css = "div.dialogDisplayed div.dijitDialogPaneContent>div.dialog-body")
     protected WebElement dialogMessage;
 
     @FindBy (css = "span.dijitDialogCloseIcon")
-    //@FindBy(css = "div.dialogDisplayed span.dijitDialogCloseIcon")
     protected WebElement dialogCloseButton;
 
 
@@ -55,7 +52,6 @@ public abstract class ConfirmationDialog extends HtmlPage
      */
     public boolean isOkButtonDisplayed()
     {
-//        return dialogOkButton.isDisplayed();
         return browser.waitUntilElementVisible(By.cssSelector("span[class$='dijitButtonContents']")).isDisplayed();
     }
 

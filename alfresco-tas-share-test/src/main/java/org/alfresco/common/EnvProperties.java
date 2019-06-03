@@ -25,7 +25,7 @@ import org.springframework.core.env.Environment;
  */
 @Configuration
 @PropertySource ("classpath:default.properties")
-@PropertySource (value = "classpath:${environment}.properties", ignoreResourceNotFound = true)
+@PropertySource (value = "classpath:alfresco-share-po-${environment}.properties", ignoreResourceNotFound = true)
 public class EnvProperties
 {
     @Autowired
@@ -54,6 +54,9 @@ public class EnvProperties
 
     @Value ("${share.url}")
     private URL shareUrl;
+
+    @Value ("${alfresco.url}")
+    private URL alfrescoUrl;
 
     @Value ("${server2.url}")
     private String server2Url;
@@ -176,6 +179,16 @@ public class EnvProperties
     public void setShareUrl(URL shareUrl)
     {
         this.shareUrl = shareUrl;
+    }
+
+    public URL getAlfrescoUrl()
+    {
+        return alfrescoUrl;
+    }
+
+    public void setAlfrescoUrl(URL alfrescoUrl)
+    {
+        this.alfrescoUrl = alfrescoUrl;
     }
 
     public URL getShare2Url()

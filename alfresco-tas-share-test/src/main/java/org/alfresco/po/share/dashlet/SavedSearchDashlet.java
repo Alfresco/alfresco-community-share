@@ -7,6 +7,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.element.Table;
 
 @PageObject
 public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
@@ -20,6 +21,11 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
     @RenderWebElement
     @FindBy (css = "div.dashlet.savedsearch")
     protected HtmlElement dashletContainer;
+    @FindBy (css = "div[id$='_default-search-results'] tbody div ")
+    private WebElement resultsText;
+
+    @FindBy (css = "div[id$='_default-search-results'] table")
+    private Table searchResults;
 
     @Override
     public String getDashletTitle()
@@ -54,5 +60,30 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
     public void clickOnConfigureDashletIcon()
     {
         configureDashletIcon.get(0).click();
+    }
+
+    public String getResultsText()
+    {
+        return resultsText.getText();
+    }
+
+    public boolean isSearchResultItemDisplayed(String expectedItem)
+    {
+        String actualItems = searchResults.getRowsAsString().toString();
+        try
+        {
+            int retryCount = 0;
+            if (!actualItems.contains(expectedItem) && retryCount < 3)
+            {
+                browser.refresh();
+                retryCount++;
+                return actualItems.contains(expectedItem);
+                //String actualItems = searchResults.getRowsAsString().toString();
+            }
+        } catch (Exception ex)
+        {
+            LOG.info(ex.getStackTrace().toString());
+        }
+        return actualItems.contains(expectedItem);
     }
 }

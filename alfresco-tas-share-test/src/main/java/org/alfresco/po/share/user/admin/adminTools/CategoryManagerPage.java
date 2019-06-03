@@ -52,6 +52,8 @@ public class CategoryManagerPage extends AdminToolsPage
     @FindBy (xpath = "//form[@class = 'insitu-edit' and @style = 'display: inline;']/a[text() = 'Cancel']")
     private WebElement editCategoryCancelButton;
 
+    private By addSubcategoryButton = By.cssSelector("span.insitu-add-category");
+
     private By addCategoryButton = By.cssSelector("span[class*=insitu-add]");
 
     private By editCategoryButton = By.cssSelector("span.insitu-edit-category");
@@ -59,6 +61,11 @@ public class CategoryManagerPage extends AdminToolsPage
     private By deleteCategoryButton = By.cssSelector("span.insitu-delete-category");
 
     private String categoryLocator = "//span[contains(@id, 'labelel') and text()='%s']";
+
+    public WebElement category(String categoryLabel)
+    {
+        return browser.findElement(By.xpath("//div[@id='ygtvc1']//span[text()= '" + categoryLabel + "']"));
+    }
 
     @Override
     public String getRelativePath()
@@ -80,6 +87,17 @@ public class CategoryManagerPage extends AdminToolsPage
         addCategoryNameOKButton.click();
         getBrowser().waitUntilElementDisappears(By.cssSelector("div.bd span.message"));
         renderedPage();
+    }
+
+    public void addSubCategory(String parentCategory, String childCategoryName)
+    {
+        browser.waitUntilElementVisible(category(parentCategory));
+        browser.mouseOver(category(parentCategory));
+        browser.waitUntilElementIsVisibleWithRetry(addSubcategoryButton, 5);
+        browser.findFirstDisplayedElement(addSubcategoryButton).click();
+        getBrowser().waitUntilElementVisible(By.cssSelector("div[id='userInput_c']"));
+        addCategoryNameInput.sendKeys(childCategoryName);
+        getBrowser().waitUntilElementClickable(addCategoryNameOKButton).click();
     }
 
     public void deleteCategory(String categoryName)
@@ -118,6 +136,27 @@ public class CategoryManagerPage extends AdminToolsPage
         By category = By.xpath(String.format(categoryLocator, categoryName));
         browser.waitUntilElementIsDisplayedWithRetry(category, ((int) properties.getImplicitWait()));
         return browser.isElementDisplayed(category);
+    }
+
+    public boolean isSubcategoryDisplayed(String parentCategory, String expectedSubCategory)
+    {
+        By category = By.xpath(String.format(categoryLocator, expectedSubCategory));
+        boolean isSubCatDisplayed = getBrowser().isElementDisplayed(category);
+        int retryCount = 0;
+        while (retryCount < 5 && isSubCatDisplayed == false)
+        {
+            boolean isExpanded = getBrowser().isElementDisplayed(By.cssSelector("div.ygtvchildren table[class*='ygtvdepth1 ygtv-expanded']"));
+            if (!isExpanded)
+            {
+                browser.findElement(By.xpath("//div[@id='ygtvc1']//span[text()= '" + parentCategory + "']/../..//a[@class='ygtvspacer']")).click();
+                category(parentCategory).findElement(By.xpath("//a[@class='ygtvspacer']")).click();
+            }
+            isSubCatDisplayed = getBrowser().isElementDisplayed(category);
+            //getBrowser().waitInSeconds(1);
+            getBrowser().refresh();
+            retryCount++;
+        }
+        return isSubCatDisplayed;
     }
 
     public boolean isCategoryNotDisplayed(String categoryName)

@@ -80,9 +80,9 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     @FindBy (xpath = "//div[contains(@class, 'fc-view') and not(contains(@style, 'display: none'))]//td[contains(@class, 'fc-today')]")
     private WebElement today;
 
-    private By eventsList = By.xpath("//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
+    private By eventsList = By.xpath(
+            "//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
 
-    //private By eventsList = By.cssSelector("div.fc-event-bg");
     @FindAll (@FindBy (css = ".yui-dt-data .yui-dt-col-name .yui-dt-liner"))
     private List<WebElement> agendaEventsName;
 
@@ -218,7 +218,6 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
-
     public EventInformationDialog clickEvent(String eventName)
     {
         return null;
@@ -254,7 +253,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public CalendarPage clickDayButton()
     {
         dayButton.click();
-        browser.waitInSeconds(1);
+        browser.waitInSeconds(2);
         return (CalendarPage) this.renderedPage();
     }
 

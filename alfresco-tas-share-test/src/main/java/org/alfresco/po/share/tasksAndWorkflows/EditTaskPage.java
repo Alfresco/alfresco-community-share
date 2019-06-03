@@ -1,5 +1,6 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.po.share.SharePage;
@@ -9,10 +10,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
 public class EditTaskPage extends SharePage<EditTaskPage>
 {
+    @Autowired
+    MyTasksPage myTasksPage;
+
     @RenderWebElement
     @FindBy (css = "div.task-edit-header h1")
     private WebElement taskEditHeader;
@@ -48,12 +53,20 @@ public class EditTaskPage extends SharePage<EditTaskPage>
     @FindBy (css = "button[id*='release-button']")
     private WebElement releaseToPoolButton;
 
+    @FindBy (css = "button[id$='Next-button']")
+    private WebElement taskDoneButton;
+
+    @FindBy (css = ".form-field h3 a")
+    private List<WebElement> itemsList;
+
     private By statusDropdown = By.cssSelector("select[title = 'Status']");
     private By saveButton = By.cssSelector("button[id$='form-submit-button']");
     private By reassignButton = By.cssSelector("button[id$='reassign-button']");
-    private By taskDoneButton = By.cssSelector("button[id$='Next-button']");
     private By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
     private By addItemsButton = By.cssSelector("div[id$='itemGroupActions'] button");
+
+    private String outcomeApprove;
+    private String outcomeReject;
 
     @Override
     public String getRelativePath()
@@ -63,6 +76,7 @@ public class EditTaskPage extends SharePage<EditTaskPage>
 
     public <T> SharePage approve(String comment, SharePage<T> page)
     {
+        this.outcomeApprove = "Approved";
         commentTextArea.sendKeys(comment);
         approveButton.click();
         return page;
@@ -75,6 +89,21 @@ public class EditTaskPage extends SharePage<EditTaskPage>
         getBrowser().waitUntilElementVisible(rejectButton);
         getBrowser().waitUntilElementClickable(rejectButton).click();
         return page;
+    }
+
+    public void clickRejectButton()
+    {
+        rejectButton.click();
+    }
+
+    public String getOutcomeApproveText()
+    {
+        return outcomeApprove;
+    }
+
+    public String getOutcomeRejectText()
+    {
+        return outcomeReject;
     }
 
     public String getEditTaskHeader()
@@ -140,7 +169,7 @@ public class EditTaskPage extends SharePage<EditTaskPage>
     public void selectStatus(TaskStatus status)
     {
         Select select = new Select(browser.findElement(statusDropdown));
-        browser.waitInSeconds(2);
+        browser.waitUntilElementVisible(statusDropdown);
         select.selectByValue(status.getStatus());
     }
 
@@ -194,6 +223,29 @@ public class EditTaskPage extends SharePage<EditTaskPage>
         return (EditTaskPage) this.renderedPage();
     }
 
+    public MyTasksPage clickTaskDoneButton()
+    {
+        browser.waitUntilElementVisible(taskDoneButton);
+        taskDoneButton.click();
+        return (MyTasksPage) myTasksPage.renderedPage();
+    }
+
+    public <T> SharePage clickTaskDoneButton(SharePage<T> page)
+    {
+        browser.waitUntilElementVisible(taskDoneButton);
+        taskDoneButton.click();
+        return (SharePage) page.renderedPage();
+    }
+
+    public String getItemsList()
+    {
+        ArrayList<String> itemsTextList = new ArrayList<>();
+        for (WebElement anItemsList : itemsList)
+        {
+            itemsTextList.add(anItemsList.getText());
+        }
+        return itemsTextList.toString();
+    }
 
     public enum TaskStatus
     {
@@ -215,5 +267,4 @@ public class EditTaskPage extends SharePage<EditTaskPage>
             return this.status;
         }
     }
-
 }

@@ -272,7 +272,6 @@ public class CreateNewFilterPopup extends ShareDialog
      */
     public SearchManagerPage clickSave()
     {
-        //    browser.waitInSeconds(5);
         browser.waitUntilElementClickable(saveButton);
         saveButton.click();
         browser.waitInSeconds(5);

@@ -162,13 +162,12 @@ public class SitesManagerPage extends SharePage<SitesManagerPage> implements Acc
      */
     public boolean isActionAvailableForManagedSiteRow(String siteName, String action)
     {
-
-        getBrowser().waitInSeconds(10);
-
         ManagedSiteRow manageSiteRow = loadActionsForManagedSiteRow(siteName);
 
         if (manageSiteRow != null)
         {
+            browser.waitUntilElementsVisible(manageSiteRow.getSiteActions());
+            LOG.info("Available actions are: " + manageSiteRow.getSiteActions());
             for (WebElement siteAction : manageSiteRow.getSiteActions())
             {
                 if (action.equals(siteAction.getText()))

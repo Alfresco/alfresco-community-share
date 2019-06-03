@@ -37,6 +37,10 @@ public class AddGroupDialog extends ShareDialog
     @FindAll (@FindBy (css = "td[class*='actions'] button"))
     private List<WebElement> addButtonsList;
 
+    @RenderWebElement
+    @FindBy (css = "div[id*='default-grouppicker'] a[class='container-close']")
+    private WebElement closeButton;
+
     /**
      * @return 'Add Group' dialog's title
      */
@@ -107,7 +111,7 @@ public class AddGroupDialog extends ShareDialog
      * @param searchResult name of the item from search results list
      * @return position of searchResult in list. -1 if searchResult isn't displayed
      */
-    private int getItemIndexFromSearchResults(String searchResult)
+    public int getItemIndexFromSearchResults(String searchResult)
     {
         ArrayList<String> searchResultsList = getSearchResultsName();
         return searchResultsList.indexOf(searchResult);
@@ -120,9 +124,19 @@ public class AddGroupDialog extends ShareDialog
      */
     public void clickAddButtonForGroup(String searchResult)
     {
-        getBrowser().waitInSeconds(8);
         getBrowser().waitUntilElementsVisible(addButtonsList);
         int index = getItemIndexFromSearchResults(searchResult);
         addButtonsList.get(index).click();
+    }
+
+    public boolean isAddButtonDisplayed(String searchResult)
+    {
+        int index = getItemIndexFromSearchResults(searchResult);
+        return browser.isElementDisplayed(addButtonsList.get(index));
+    }
+
+    public boolean isCloseButtonDisplayed()
+    {
+        return browser.isElementDisplayed(closeButton);
     }
 }

@@ -43,8 +43,6 @@ public class SearchManagerPage extends SharePage<SearchManagerPage>
     @RenderWebElement
     @FindBy (id = "CREATE_FACET_BUTTON_label")
     private WebElement createNewFilter;
-    //@RenderWebElement
-    //@FindAll(@FindBy(css = "#SEARCH_CONFIG_FACET_LIST_VIEW_ITEMS > tr"))
     @FindAll (@FindBy (css = "#SEARCH_CONFIG_FACET_LIST_VIEW_ROW"))
     private List<WebElement> filters;
     @FindAll (@FindBy (css = "#SEARCH_CONFIG_FACET_LIST_VIEW th>span.label"))

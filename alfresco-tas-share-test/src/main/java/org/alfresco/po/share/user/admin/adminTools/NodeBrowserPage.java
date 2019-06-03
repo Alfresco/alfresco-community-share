@@ -10,6 +10,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import ru.yandex.qatools.htmlelements.element.Table;
 
 /**
  * @author Razvan.Dorobantu
@@ -32,6 +33,8 @@ public class NodeBrowserPage extends AdminToolsPage
     @RenderWebElement
     @FindBy (css = ".search-main")
     private WebElement searchResults;
+    @FindBy (css = "div[id$='_default-datatable']")
+    private Table resultsTable;
     private By nameColumn = By.cssSelector("table thead tr th a[href$='name']");
     private By parentColumn = By.cssSelector("table thead tr th a[href$='qnamePath']");
     private By referenceColumn = By.cssSelector("table thead tr th a[href$='nodeRef']");
@@ -122,6 +125,13 @@ public class NodeBrowserPage extends AdminToolsPage
     public String getParentFor(String fileName)
     {
         return getResults().get(fileName).get(0);
+    }
+
+    public List<List<String>> getRowText()
+    {
+        browser.waitUntilElementVisible(By.cssSelector("div[id$='_default-datatable']"));
+        //getBrowser().waitUntilElementIsVisibleWithRetry(By.cssSelector("div.search-main table[id^='yuievtautoid']"), 3);
+        return resultsTable.getRowsAsString();
     }
 
     public enum SEARCH_TYPE

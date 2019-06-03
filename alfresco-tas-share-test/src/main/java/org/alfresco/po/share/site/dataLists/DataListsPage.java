@@ -8,12 +8,14 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
 public class DataListsPage extends SiteCommon<DataListsPage>
 {
+
     public Content currentContent = (Content) new NoListItemSelectedContent();
     @RenderWebElement
     @FindBy (css = "div.datalists div.filter")
@@ -39,21 +41,39 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     protected By editListItemButton = By.cssSelector(".yui-dt-col-actions .onActionEdit>a");
     @FindBy (css = "td[headers*='actions']")
     protected WebElement listItemActionsField;
+    protected By listSelected = By.cssSelector("[class='selected'] a[class='filter-link']");
+    protected String createNewItemForm = "//form[contains(@action, '%s')]";
+    @FindAll (@FindBy (css = "div[id$='default-grid'] th span"))
+    protected List<WebElement> tableColumnHeader;
     @Autowired
-    CreateDataListPopUp createDataListPopUp;
+    private CreateDataListPopUp createDataListPopUp;
     @Autowired
-    EditListDetailsPopUp editListDetailsPopUp;
+    private EditListDetailsPopUp editListDetailsPopUp;
     @Autowired
-    DeleteListPopUp deleteListPopUp;
+    private DeleteListPopUp deleteListPopUp;
     @Autowired
-    EditItemPopUp editItemPopUp;
+    private EditItemPopUp editItemPopUp;
     @Autowired
-    CreateNewItemPopUp createNewItemPopUp;
+    private CreateNewItemPopUp createNewItemPopUp;
+    @FindBy (css = "div[class$='new-row'] span span button[id$='_default-newRowButton-button']")
+    private WebElement newItemButton;
 
     @Override
     public String getRelativePath()
     {
         return String.format("share/page/site/%s/data-lists", getCurrentSiteName());
+    }
+
+
+    /**
+     * Checking if the created data list displayed in 'List' is highlighted (this is happening only after the created list is clicked).
+     *
+     * @param expectedList - name of created list
+     * @return true if the list is highlighted and false if is not highlighted.
+     */
+    public boolean isExpectedListSelected(String expectedList)
+    {
+        return browser.findElement(listSelected).getText().equals(expectedList);
     }
 
     public void setListItemSelectedContent()
@@ -64,6 +84,8 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public List<String> getListsDisplayName()
     {
+        browser.waitUntilWebElementIsDisplayedWithRetry(listWithCreatedLists);
+
         List<WebElement> linksList = dataListsSection.findElements(By.cssSelector("a.filter-link"));
         List<String> dataListsName = new ArrayList<>(linksList.size());
         for (WebElement list : linksList)
@@ -81,12 +103,22 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public boolean noListDisplayed()
     {
-        return noListDisplayed.isDisplayed();
+        return browser.isElementDisplayed(noListDisplayed);
     }
 
     public boolean isNewListButtonDisplayed()
     {
         return browser.isElementDisplayed(newListButton);
+    }
+
+    /**
+     * Checking if New Item button is displayed in selected Data List page.
+     *
+     * @return true if the button is displayed and false if the button is not displayed.
+     */
+    public boolean isNewItemButtonDisplayed()
+    {
+        return browser.isElementDisplayed(newItemButton);
     }
 
     private DataListsPage clickDataList(String listName, Class c)
@@ -195,7 +227,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
     public boolean isEditButtonDisabled(String listName)
     {
         browser.mouseOver(getDataListElement(listName));
-        return editButtonDisabled.isDisplayed();
+        return browser.isElementDisplayed(editButtonDisabled);
     }
 
     public void clickOnDisabledEditButton(String listName)
@@ -223,7 +255,34 @@ public class DataListsPage extends SiteCommon<DataListsPage>
 
     public CreateNewItemPopUp clickNewItemButton()
     {
-        browser.waitUntilElementVisible(By.cssSelector("div[class$='new-row'] span span button[id$='_default-newRowButton-button']")).click();
+        browser.waitUntilElementVisible(newItemButton).click();
         return (CreateNewItemPopUp) createNewItemPopUp.renderedPage();
+    }
+
+    /**
+     * Get a list of 'New Item' table column header names.
+     *
+     * @return list of strings.
+     */
+    public List<String> getTextOfTableColumnHeader()
+    {
+        List<String> tableHeaderListString = new ArrayList<>();
+        for (WebElement item : tableColumnHeader)
+        {
+            tableHeaderListString.add(item.getText());
+        }
+
+        return tableHeaderListString;
+    }
+
+    /**
+     * Check if 'Create New Item' popup is displayed with the correct form.
+     *
+     * @param listName - the keyword contained by the form, used in 'action' form attribute.
+     * @return true if the form that contains that specific keyword is displayed, else false.
+     */
+    public boolean isNewItemPopupFormDisplayed(CreateNewItemPopUp.NewItemPopupForm listName)
+    {
+        return browser.isElementDisplayed(By.xpath(String.format(createNewItemForm, listName.name)));
     }
 }

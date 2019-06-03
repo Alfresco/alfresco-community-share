@@ -119,18 +119,28 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
      * Click on any button from page
      *
      * @param buttonId id used in selector to find the button, can be: edit, delete, view, change, unlink, inheritButton, runRules, newRule, done
-     * @return
      */
     public void clickButton(String buttonId)
     {
         browser.waitUntilElementClickable(By.cssSelector(String.format(buttonSelector, buttonId)), properties.getExplicitWait()).click();
-        if (buttonId.equals("edit"))
-            editRulesPage.renderedPage();
-        if (buttonId.equals("unlink"))
-        {
-            browser.refresh();
-            browser.waitInSeconds(3);
-        }
+    }
+
+    public void clickEditButton()
+    {
+        clickButton("edit");
+        editRulesPage.renderedPage();
+    }
+
+    public void clickUnlinkButton()
+    {
+        clickButton("unlink");
+        browser.refresh();
+        browser.waitInSeconds(3);
+    }
+
+    public void clickRunRulesButton()
+    {
+        clickButton("runRules");
     }
 
     /**

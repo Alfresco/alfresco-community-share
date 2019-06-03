@@ -12,7 +12,6 @@ public class SharedFilesPage extends DocumentLibraryPage implements AccessibleBy
     @Autowired
     Toolbar toolbar;
 
-
     @Override
     public String getRelativePath()
     {

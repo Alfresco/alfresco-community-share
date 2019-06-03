@@ -20,7 +20,7 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
  */
 @PageObject
 public class CustomizeUserDashboardPage extends SharePage<CustomizeUserDashboardPage>
-    implements DashboardCustomization
+        implements DashboardCustomization
 {
 
     @Autowired
@@ -230,7 +230,7 @@ public class CustomizeUserDashboardPage extends SharePage<CustomizeUserDashboard
     public List<WebElement> reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column)
     {
         List<WebElement> dashlets = dashboardCustomization.reorderDashletsInColumn(dashletToMove, dashletToReplace,
-            column);
+                column);
         browser.dragAndDrop(dashlets.get(0), dashlets.get(1));
         return dashlets;
     }

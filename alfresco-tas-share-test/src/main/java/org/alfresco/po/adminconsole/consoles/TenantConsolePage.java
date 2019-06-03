@@ -152,18 +152,18 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
             {
                 case ENABLE:
                     Assert.assertTrue(result.contains(String.format(Notifications.ENABLED_TENANT_RESULT, tenant.get(i),
-                        Arrays.asList(root).get(i))),
-                        String.format("Tenant '%s' is found in Result and is Enabled.", tenant.get(i)));
+                            Arrays.asList(root).get(i))),
+                            String.format("Tenant '%s' is found in Result and is Enabled.", tenant.get(i)));
                     break;
                 case DISABLE:
                     Assert.assertTrue(result.contains(String.format(Notifications.DISABLED_TENANT_RESULT, tenant.get(i),
-                        Arrays.asList(root).get(i))),
-                        String.format("Tenant '%s' is found in Result and is Disabled.", tenant.get(i)));
+                            Arrays.asList(root).get(i))),
+                            String.format("Tenant '%s' is found in Result and is Disabled.", tenant.get(i)));
                     break;
                 case DELETE:
                     Assert.assertFalse(result.contains(String.format(Notifications.ENABLED_TENANT_RESULT, tenant.get(i),
-                        Arrays.asList(root).get(i))),
-                        String.format("Tenant '%s' is NOT found in Result.", tenant.get(i)));
+                            Arrays.asList(root).get(i))),
+                            String.format("Tenant '%s' is NOT found in Result.", tenant.get(i)));
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid console command: " + action);
@@ -184,27 +184,27 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
         {
             case ENABLE:
                 Assert.assertEquals(result, String.format(Notifications.ENABLED_TENANT, tenant.getUsername()),
-                    String.format("Tenant '%s' is Enabled.", tenant.getUsername()));
+                        String.format("Tenant '%s' is Enabled.", tenant.getUsername()));
                 break;
             case DISABLE:
                 Assert.assertEquals(result, String.format(Notifications.DISABLED_TENANT, tenant.getUsername()),
-                    String.format("Tenant '%s' is Disabled.", tenant.getUsername()));
+                        String.format("Tenant '%s' is Disabled.", tenant.getUsername()));
                 break;
             case CREATE:
                 Assert.assertEquals(result, String.format(Notifications.CREATE_TENANT, tenant.getUsername()),
-                    String.format("Tenant '%s' is Created.", tenant.getUsername()));
+                        String.format("Tenant '%s' is Created.", tenant.getUsername()));
                 break;
             case DELETE:
                 Assert.assertEquals(result, String.format(Notifications.DELETE_TENANT, tenant.getUsername()),
-                    String.format("Tenant '%s' is Deleted.", tenant.getUsername()));
+                        String.format("Tenant '%s' is Deleted.", tenant.getUsername()));
                 break;
             case IMPORT:
                 Assert.assertEquals(result, String.format(Notifications.IMPORT_TENANT, tenant.getUsername()),
-                    String.format("Tenant '%s' is Imported.", tenant.getUsername()));
+                        String.format("Tenant '%s' is Imported.", tenant.getUsername()));
                 break;
             case EXPORT:
                 Assert.assertEquals(result, String.format(Notifications.EXPORT_TENANT, tenant.getUsername()),
-                    String.format("Tenant '%s' is Exported.", tenant.getUsername()));
+                        String.format("Tenant '%s' is Exported.", tenant.getUsername()));
                 break;
             case CHANGE_ADMIN_PASSWORD:
                 Assert.assertEquals(result, String.format("", "Password has been changed."));

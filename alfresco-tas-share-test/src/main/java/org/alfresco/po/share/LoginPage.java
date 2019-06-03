@@ -206,7 +206,6 @@ public class LoginPage extends HtmlPage
 
     public String[] getBackgroundColour()
     {
-
         String colourBodyShare = bodyShare.getCssValue("background-color");
         String colourProductTagline = productTagline.getCssValue("color");
         String[] colours = new String[] { colourBodyShare, colourProductTagline };

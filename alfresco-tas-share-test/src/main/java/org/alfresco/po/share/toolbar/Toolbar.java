@@ -207,7 +207,14 @@ public class Toolbar extends HtmlPage
     {
         searchBoxInput.clear();
         searchBoxInput.sendKeys(keys);
-        searchBoxInput.sendKeys(Keys.ENTER);
+        searchBoxInput.sendKeys(Keys.RETURN);
+
+        return (SearchPage) searchPage.renderedPage();
+    }
+
+    public SearchPage sendEnterAction()
+    {
+        searchBoxInput.sendKeys(Keys.RETURN);
 
         return (SearchPage) searchPage.renderedPage();
     }
@@ -287,5 +294,11 @@ public class Toolbar extends HtmlPage
     public void clickMyFilesInToolbar()
     {
         myFilesButton.click();
+    }
+
+    public void searchWithoutEnter(String searchTerm)
+    {
+        searchBoxInput.clear();
+        searchBoxInput.sendKeys(searchTerm);
     }
 }

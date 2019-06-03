@@ -10,6 +10,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -64,13 +65,13 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     {
         searchField.clear();
         searchField.sendKeys(site);
-        browser.mouseOver(searchButton);
-        getBrowser().waitUntilElementClickable(searchButton).click();
+        getBrowser().waitUntilElementClickable(searchButton).sendKeys(Keys.ENTER);
+        this.renderedPage();
     }
 
     public boolean isSiteFound(String siteName)
     {
-        return getBrowser().isElementDisplayed(getWebElementForSite(siteName));
+        return getBrowser().isElementDisplayed(selectSite(siteName));
     }
 
     public void searchSiteWithRetry(String siteName)
@@ -96,16 +97,16 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
         try
         {
             int retry = 0;
-            if (retry < 3 && getWebElementForSite(siteName) == null)
+            if (retry < 3 && selectSite(siteName) == null)
             {
                 searchSite(siteName);
-                if (getWebElementForSite(siteName) == null)
+                if (selectSite(siteName) == null)
                     LOG.info("site was not was found");
                 else
-                    LOG.info(getWebElementForSite(siteName).toString() + " was found");
+                    LOG.info(selectSite(siteName).toString() + " was found");
                 retry++;
             }
-            return getWebElementForSite(siteName) != null;
+            return selectSite(siteName) != null;
         } catch (TimeoutException e)
         {
             while (!isSiteFound(siteName) && counter < 5)
@@ -116,7 +117,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
                 getBrowser().waitUntilElementIsVisibleWithRetry(By.cssSelector("div[id$='_default-sites'] tr[class^='yui-dt-rec']"), 3);
                 LOG.info("Site not found " + e.getMessage().toString());
                 counter++;
-                return getWebElementForSite(siteName) != null;
+                return selectSite(siteName) != null;
             }
         }
         return false;
@@ -129,7 +130,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
      * @param siteName String
      * @return WebElement that match the site name
      */
-    public WebElement getWebElementForSite(final String siteName)
+    public WebElement selectSite(final String siteName)
     {
         return browser.findFirstElementWithValue(siteRowList, siteName);
     }
@@ -143,7 +144,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
     public List<WebElement> getTheButtonsForSite(String siteName)
     {
         Parameter.checkIsMandotary("Site name", siteName);
-        WebElement siteRow = getWebElementForSite(siteName);
+        WebElement siteRow = selectSite(siteName);
         return browser.waitUntilElementsVisible(siteRow.findElements(By.cssSelector("button")));
     }
 
@@ -192,7 +193,7 @@ public class SiteFinderPage extends SharePage<SiteFinderPage> implements Accessi
      */
     public SiteDashboardPage accessSite(final String siteName)
     {
-        getWebElementForSite(siteName).findElement(siteNameLink).click();
+        selectSite(siteName).findElement(siteNameLink).click();
         return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 

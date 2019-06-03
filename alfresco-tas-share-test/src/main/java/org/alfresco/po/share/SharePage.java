@@ -88,7 +88,6 @@ public abstract class SharePage<T> extends HtmlPage
     @SuppressWarnings ("unchecked")
     public T navigate()
     {
-        getBrowser().waitInSeconds(15);
         STEP(String.format("Navigate to: %s", relativePathToURL().getPath()));
         browser.navigate().to(relativePathToURL());
         return (T) renderedPage();
@@ -107,7 +106,7 @@ public abstract class SharePage<T> extends HtmlPage
     }
 
     /**
-     * Click Alfresco One footer logo and open {@link AboutPopUpPage.class}
+     * Click Alfresco One footer logo and open {@link AboutPopUpPage .class}
      */
     public AboutPopUpPage openAboutPage()
     {
@@ -138,10 +137,10 @@ public abstract class SharePage<T> extends HtmlPage
     /**
      * Set the relative path for a page that contains the user name in the url
      *
-     * @param username         String user name
-     * @param url              String page url
-     * @param exceptionMessage exception if user is null
+     * @param username String user name
+     * @param pageUrl  String page url
      * @return String page url
+     * exceptionMessage exception if user is null
      */
     public String setRelativePathForUserPage(String pageUrl, String username)
     {
@@ -157,7 +156,7 @@ public abstract class SharePage<T> extends HtmlPage
     /**
      * Get background color of element or color of element (font color)
      *
-     * @param locator    By
+     * @param element    WebElement
      * @param background if needed to find color of element's background - param must be true
      *                   if needed to find color of element itself - param must be false
      * @return hex

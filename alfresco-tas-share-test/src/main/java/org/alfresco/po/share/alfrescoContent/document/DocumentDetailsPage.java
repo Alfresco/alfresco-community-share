@@ -55,7 +55,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     @FindBy (css = "[class=comment-form]")
     protected WebElement commentForm;
     @FindBy (css = "[id*='default-add-submit-button']")
-    protected WebElement addCommentButton;
+    protected WebElement addCommentButtonSave;
     @FindBy (css = "[class=comment-content]")
     protected WebElement commentContent;
     @FindBy (css = "[class*=quickshare-action] [class=bd]")
@@ -150,8 +150,8 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     private WebElement okOnRevertPopup;
     @FindBy (css = ".message")
     private WebElement contentError;
-    @FindBy (css = "span[id$='_default-numPages']")
-    private WebElement defaultPageNumber;
+    @FindBy (css = "span[class$='onAddCommentClick'] button")
+    private WebElement addCommentButton;
     private By fileLocation = By.xpath("//span[@class= 'folder-link folder-open']//a");
     private By documentsLink = By.xpath("//span[@class = 'folder-link']//a");
     private By googleDocsEdit = By.xpath("//span[contains(text(), 'Edit in Google Docs™')]");
@@ -269,9 +269,9 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      */
     public void addComment(String comment)
     {
-        browser.waitUntilElementClickable(commentContentIframe, 5L);
+        browser.waitUntilElementClickable(commentContentIframe, 5L).click();
         browser.findElement(commentContentIframe).sendKeys(comment);
-        addCommentButton.click();
+        addCommentButtonSave.click();
         getBrowser().waitUntilElementDisappears(By.cssSelector("span[class='message']"), 5L);
     }
 
@@ -753,7 +753,13 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     public boolean isAspectDisplayed(String aspectName)
     {
         By aspectXPath = By.xpath(String.format("//div[contains(@class, 'set-bordered-panel') and normalize-space(.)='%s']", aspectName));
-        browser.waitUntilElementVisible(aspectXPath);
+        try
+        {
+            browser.waitUntilElementVisible(aspectXPath);
+        } catch (TimeoutException ex)
+        {
+            return browser.isElementDisplayed(aspectXPath);
+        }
         return browser.isElementDisplayed(aspectXPath);
     }
 
@@ -804,12 +810,12 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         if (browser.isElementDisplayed(CommentTextArea))
             CommentTextArea.sendKeys(comment);
 
-        addCommentButton.click();
+        addCommentButtonSave.click();
     }
 
-    public String getDefaultNumberOfPages()
+    public void clickAddCommentButton()
     {
-        browser.waitUntilElementVisible(defaultPageNumber, 5);
-        return defaultPageNumber.getText();
+        getBrowser().waitUntilElementClickable(addCommentButton).click();
+        getBrowser().waitUntilElementVisible(By.cssSelector("form[id$='_default-add-form']"), 5L);
     }
 }

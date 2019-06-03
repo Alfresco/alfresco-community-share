@@ -31,7 +31,6 @@ public class DeleteUserDialogPage extends ShareDialog
 
     public HtmlPage clickButton(String buttonName, HtmlPage page)
     {
-        //  browser.findElement(By.xpath("//button[text()='" + buttonName + "']" )).click();
         getBrowser().waitUntilElementVisible(deleteUserButton);
         getBrowser().waitUntilElementClickable(deleteUserButton).click();
         return page.renderedPage();

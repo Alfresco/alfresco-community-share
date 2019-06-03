@@ -1,5 +1,8 @@
 package org.alfresco.po.share.site.dataLists;
 
+import static org.alfresco.common.DataUtil.isEnumContainedByList;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.po.share.ShareDialog;
@@ -29,7 +32,116 @@ public class CreateDataListPopUp extends ShareDialog
     protected WebElement cancelButton;
     protected By typeSelected = By.cssSelector("div[class='theme-bg-selected'] a");
     @Autowired
-    DataListsPage dataListsPage;
+    private DataListsPage dataListsPage;
+    @FindBy (css = "div[id$='newList-dialog']")
+    private WebElement newListPopup;
+    @FindBy (css = "label[for*='default-newList'][for$='title']")
+    private WebElement titleLabel;
+    @FindBy (css = "label[for*='default-newList'][for$='title'] span[class='mandatory-indicator']")
+    private WebElement titleMandatoryIndicator;
+    @FindBy (css = "label[for*='default-newList'][for$='description']")
+    private WebElement descriptionLabel;
+    private String typeOfListDescription = "//div[contains(@id, 'itemTypesContainer')]//a[text()='Contact List']//ancestor::*//div[contains(@id, 'itemTypesContainer')]//span";
+
+    /**
+     * This method is checking if all the elements that should be in 'New List' popup are actually displayed.
+     * Checking if all the elements from the enum list exists in getValuesFromElements() list method.
+     *
+     * @return - true if all the elements from the enum are displayed in 'New List' popup.
+     * - false if there is at least one element missing.
+     */
+    public boolean isDataListComplete()
+    {
+        return isEnumContainedByList(DataListTypes.class, getValuesFromElements());
+    }
+
+    /**
+     * Get a list of 'Data List' type names from New List popup.
+     *
+     * @return list of strings.
+     */
+    private List<String> getValuesFromElements()
+    {
+        List<String> typesOfListString = new ArrayList<>();
+
+        for (WebElement item : typesOfList)
+        {
+            typesOfListString.add(item.getText());
+        }
+
+        return typesOfListString;
+    }
+
+    /**
+     * Verify presence of "New List" popup.
+     *
+     * @return true if displayed or false if is not.
+     */
+    public boolean isNewListPopupDisplayed()
+    {
+        return browser.isElementDisplayed(newListPopup);
+    }
+
+    /**
+     * Get the description for a specific list type.
+     *
+     * @param listType - the data list type from DataListTypes enum, which description is wanted. (eg. getTypeOfListDescription(DataListTypes.ContactList) => to get 'Contact List' description)
+     * @return String list type description.
+     */
+    public String getTypeOfListDescription(DataListTypes listType)
+    {
+        return browser.waitUntilElementVisible(By.xpath(String.format(typeOfListDescription, listType.toString()))).getText();
+    }
+
+    /**
+     * Get the text of 'Title' label.
+     *
+     * @return String 'Title' label.
+     */
+    public String getTitleLabelText()
+    {
+        return browser.waitUntilElementVisible(titleLabel).getText();
+    }
+
+    /**
+     * Verify presence of 'Title' Mandatory Indicator "*".
+     *
+     * @return true if displayed or false if is not.
+     */
+    public boolean isTitleMandatoryIndicatorDisplayed()
+    {
+        return browser.isElementDisplayed(titleMandatoryIndicator);
+    }
+
+    /**
+     * Verify presence of "Title" Input Field.
+     *
+     * @return true if displayed or false if is not.
+     */
+    public boolean isTitleFieldDisplayed()
+    {
+        return browser.isElementDisplayed(titleField);
+    }
+
+    /**
+     * Get the text of 'Description' label.
+     *
+     * @return String 'Description' label.
+     */
+    public String getDescriptionLabelText()
+    {
+        return browser.waitUntilElementVisible(descriptionLabel).getText();
+    }
+
+    /**
+     * Verify presence of "Description" input field.
+     *
+     * @return true if displayed or false if is not.
+     */
+    public boolean isDescriptionFieldDisplayed()
+    {
+        return browser.isElementDisplayed(descriptionField);
+    }
 
     public void selectType(String type)
     {
@@ -46,9 +158,29 @@ public class CreateDataListPopUp extends ShareDialog
         titleField.sendKeys(titleName);
     }
 
+    /**
+     * Get the text from the 'Title' Field.
+     *
+     * @return String 'Title' field text.
+     */
+    public String getTitleValue()
+    {
+        return titleField.getAttribute("value");
+    }
+
     public void typeDescription(String description)
     {
         descriptionField.sendKeys(description);
+    }
+
+    /**
+     * Get the text from the 'Description' TextArea.
+     *
+     * @return String 'Description' input text.
+     */
+    public String getDescriptionValue()
+    {
+        return titleField.getAttribute("value");
     }
 
     public String getInvalidDataListBalloonMessage()
@@ -61,10 +193,29 @@ public class CreateDataListPopUp extends ShareDialog
         return titleField.getAttribute("title");
     }
 
+    /**
+     * Verify presence of "Save" button.
+     *
+     * @return true if displayed.
+     */
+    public boolean isSaveButtonDisplayed()
+    {
+        return browser.isElementDisplayed(saveButton);
+    }
+
+    /**
+     * Verify presence of "Cancel" button.
+     *
+     * @return true if displayed or false if is not.
+     */
+    public boolean isCancelButtonDisplayed()
+    {
+        return browser.isElementDisplayed(cancelButton);
+    }
+
     public DataListsPage clickSaveButton()
     {
         saveButton.click();
-        browser.waitInSeconds(3);
         return (DataListsPage) dataListsPage.renderedPage();
     }
 
@@ -76,84 +227,29 @@ public class CreateDataListPopUp extends ShareDialog
 
     public enum DataListTypes
     {
-        ContactList
-            {
-                public String toString()
-                {
-                    return "Contact List";
-                }
-            },
+        ContactList("Contact List", "Contacts list including first name, last name, full name, email, job title, phone (office), phone (mobile)."),
+        EventAgenda("Event Agenda", "Manage event agenda items including session names, presenters, start and end times."),
+        EventList("Event List", "Events list including title, description, location, start and end date/time."),
+        IssueList("Issue List", "Issues list including ID, status, priority, description, due data, comments, assign to, related issues."),
+        LocationList("Location List", "Locations/Addresses list"),
+        MeetingAgenda("Meeting Agenda", "Manage meeting agenda items including description, owner, allocated time."),
+        TaskListAdvanced("Task List (Advanced)", "Advanced tasks list including title, description, start and end dates, priority, status, comments, assignees and attachments."),
+        TaskListSimple("Task List (Simple)", "Simple tasks list including title, description, due date, priority, status, comments."),
+        ToDoList("To Do List", "A simple to do list with optional assignee.");
 
-        EventAgenda
-            {
-                public String toString()
-                {
-                    return "Event Agenda";
-                }
-            },
+        public final String title;
+        public final String description;
 
-        EventList
-            {
-                public String toString()
-                {
-                    return "Event List";
-                }
-            },
+        DataListTypes(String title, String description)
+        {
+            this.title = title;
+            this.description = description;
+        }
 
-        IssueList
-            {
-                public String toString()
-                {
-                    return "Issue List";
-                }
-            },
-
-        LocationList
-            {
-                public String toString()
-                {
-                    return "Location List";
-                }
-            },
-
-        MeetingAgenda
-            {
-                public String toString()
-                {
-                    return "Meeting Agenda";
-                }
-            },
-
-        TaskListAdvanced
-            {
-                public String toString()
-                {
-                    return "Task List (Advanced)";
-                }
-            },
-
-        TaskListSimple
-            {
-                public String toString()
-                {
-                    return "Task List (Simple)";
-                }
-            },
-
-        ToDoList
-            {
-                public String toString()
-                {
-                    return "To Do List";
-                }
-            },
-
-        VisitorFeedbackList
-            {
-                public String toString()
-                {
-                    return "Visitor Feedback List";
-                }
-            }
+        @Override
+        public String toString()
+        {
+            return this.title;
+        }
     }
 }

@@ -52,7 +52,6 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
     public int getNumberOfPieChartSlices()
     {
         browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[id^='alfresco_charts_ccc_PieChart'] path[transform]"));
-        getBrowser().waitInSeconds(5);
         return pieChartSlices.size();
     }
 
