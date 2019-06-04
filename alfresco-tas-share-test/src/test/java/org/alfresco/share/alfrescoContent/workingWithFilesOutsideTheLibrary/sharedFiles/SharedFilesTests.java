@@ -49,6 +49,7 @@ public class SharedFilesTests extends ContextAwareWebTest
     @AfterClass
     public void cleanUp()
     {
+        cleanupAuthenticatedSession();
         contentService.deleteContentByPath(adminUser, adminPassword, path + docName);
     }
 }

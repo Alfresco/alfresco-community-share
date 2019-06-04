@@ -13,6 +13,7 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -92,13 +93,11 @@ public class SharingFilesTests extends ContextAwareWebTest
         LOG.info("Step 2: Click Facebook icon");
         social.clickShareWithFacebook();
         getBrowser().switchWindow();
-        getBrowser().waitInSeconds(5);
-
         getBrowser().waitUntilElementIsDisplayedWithRetry(social.facebookHomeLink, 2);
         Assert.assertEquals(social.getFacebookWindowTitle(), "Facebook", "User is not redirected to the Facebook page");
         social.loginFacebook();
-        //       Assert.assertTrue(social.isShareLinkDisplayedOnFacebook(), "Share link is not displayed on Facebook");
-        //       getBrowser().closeWindowAcceptingModalDialog();
+        Assert.assertTrue(social.isShareLinkDisplayedOnFacebook(), "Share link is not displayed on Facebook");
+        getBrowser().closeWindowAcceptingModalDialog();
         cleanupAuthenticatedSession();
     }
 
@@ -132,13 +131,11 @@ public class SharingFilesTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    /*
-
 
     // The consumer version of Google+ is shutting down in April 2019. This test is now disabled.
-      @Bug(id = "ACE-5768")
+      @Bug (id = "ACE-5768")
       @TestRail(id = "C7097")
-      @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+      @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled = false)
 
         public void shareWithGooglePlus() {
 
@@ -172,10 +169,9 @@ public class SharingFilesTests extends ContextAwareWebTest
             {
                 getBrowser().closeWindowAndSwitchBackParametrized(windowToSwitchToAlfresco, windowToCloseGPlus);
             }
-
         }
     }
-    */
+
     @TestRail (id = "C7099")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void unshareDocument()

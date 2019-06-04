@@ -92,7 +92,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectButton();
+        startWorkflowPage.clickOnSelectButtonSingleAssignee();
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.clickOkButton();
@@ -125,7 +125,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectButton();
+        startWorkflowPage.clickOnSelectButtonMultipleAssignees();
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.search(user3);
@@ -168,7 +168,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectButton();
+        startWorkflowPage.clickGroupSelectButton();
         selectPopUpPage.search(group);
         selectPopUpPage.clickAddIcon(group);
         selectPopUpPage.clickOkButton();
@@ -200,7 +200,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectButton();
+        startWorkflowPage.clickGroupSelectButton();
         selectPopUpPage.search(group);
         selectPopUpPage.clickAddIcon(group);
         selectPopUpPage.clickOkButton();

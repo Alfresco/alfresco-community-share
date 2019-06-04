@@ -47,23 +47,23 @@ public class ManagePermissionTests extends ContextAwareWebTest
     private String fname2 = "FirstN2";
     private String lname2 = "LastN2";
     private String path = "/";
-    private String folderName = "0ManagePermissionsFolder";
+    private String folderName = "0ManagePermissionsFolder" + RandomData.getRandomAlphanumeric();
     private String pathC202758 = "0ManagePermissionsFolder";
     private String pathForFileC202762 = "0ManagePermissionsFolder";
     private String testDataFolder = srcRoot + "testdata" + File.separator;
     private String file = "Manage_permissions_test_file";
     private String userC202776 = "C202759_1" + RandomData.getRandomAlphanumeric();
-    private String folderC202776 = "C202776Folder";
-    private String subFolderC202776 = "C202776Subfolder";
+    private String folderC202776 = "C202776Folder" + RandomData.getRandomAlphanumeric();
+    private String subFolderC202776 = "C202776Subfolder" + RandomData.getRandomAlphanumeric();
     private String pathfolderC202776 = "/";
     private String pathSubfolder = "C202776Folder";
     private String pathForFile = "C202776Folder/C202776Subfolder";
-    private String fileNameC202776 = "C202776File";
+    private String fileNameC202776 = "C202776File" + RandomData.getRandomAlphanumeric();
     private String fileContent = "C202776 Test file content";
     private String C202764user = "C202764User";
     private String groupName = "C202762GroupName";
 
-    private String fileNameC202762 = "C202762_File";
+    private String fileNameC202762 = "C202762_File" + RandomData.getRandomAlphanumeric();
 
     @BeforeClass
     public void setupTest()
@@ -126,7 +126,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Click Manage Permissions link in More menu for user's home folder;");
         repositoryPage.mouseOverContentItem(userName);
-        repositoryPage.clickOnAction(userName, "Manage Permissions");
+        repositoryPage.clickDocumentLibraryItemAction(userName, "Manage Permissions", managePermissionsPage);
         managePermissionsPage.renderedPage();
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Manage Permissions", "User is not on Manage Permissions Page");
 
@@ -154,7 +154,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         repositoryPage.navigate();
         repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickOnAction(folderName, "Manage Permissions");
+        repositoryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
         managePermissionsPage.renderedPage();
         managePermissionsPage.clickAddUserGroupButton();
         managePermissionsPage.sendSearchInput(userC202758_1);
@@ -179,7 +179,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click Manage Permissions link in More menu for " + folderName + " folder");
         repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickOnAction(folderName, "Manage Permissions");
+        repositoryPage.clickAction(folderName, "Manage Permissions");
         managePermissionsPage.renderedPage();
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Manage Permissions", "User is not on Manage Permissions Page");
         Assert.assertTrue(managePermissionsPage.getRowDetails(identifierUser1).contains("Coordinator"));
@@ -231,7 +231,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         repositoryPage.navigate();
         repositoryPage.mouseOverContentItem(folderC202776);
-        repositoryPage.clickOnAction(folderC202776, "Manage Permissions");
+        repositoryPage.clickDocumentLibraryItemAction(folderC202776, "Manage Permissions", managePermissionsPage);
         managePermissionsPage.renderedPage();
         managePermissionsPage.clickAddUserGroupButton();
         managePermissionsPage.sendSearchInput(userC202776);
@@ -255,7 +255,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
         LOG.info("Step 3: Mouseover TestSubfolder and click on Manage Permissions action");
         getBrowser().waitInSeconds(3);
         repositoryPage.mouseOverContentItem(subFolderC202776);
-        repositoryPage.clickOnAction(subFolderC202776, "Manage Permissions");
+        repositoryPage.clickDocumentLibraryItemAction(subFolderC202776, "Manage Permissions", managePermissionsPage);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Manage Permissions", "User is not on Manage Permissions Page");
 
         LOG.info("Step 4: Check inherited permissions");
@@ -297,7 +297,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
         repositoryPage.navigateByMenuBar();
         repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickOnAction(folderName, "Manage Permissions");
+        repositoryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
         managePermissionsPage.renderedPage();
         managePermissionsPage.clickAddUserGroupButton();
         managePermissionsPage.sendSearchInput(C202764user);
@@ -307,8 +307,8 @@ public class ManagePermissionTests extends ContextAwareWebTest
         repositoryPage.renderedPage();
 
         LOG.info("Step 1: Click on 'Delete' icon in from of the user group");
-        repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickOnAction(folderName, "Manage Permissions");
+        // repositoryPage.mouseOverContentItem(folderName);
+        repositoryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
         getBrowser().waitInSeconds(2);
         Assert.assertTrue(managePermissionsPage.getRowDetails(identifierUser1).contains(identifierUser1));
         managePermissionsPage.deleteUserFromPermissionsList(identifierUser1);
@@ -343,7 +343,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
         LOG.info("Step 2: Click Manage Permissions link in More menu for \"Test\" folder");
         // repositoryPage.waitUntilFolderIsDisplayed(folderName);
         repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickOnAction(folderName, "Manage Permissions");
+        repositoryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Manage Permissions", "User is not on Manage Permissions Page");
 
         LOG.info("Step 3: Click Add User/Group button");
@@ -362,7 +362,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
         managePermissionsPage.clickSave();
         repositoryPage.renderedPage();
         repositoryPage.mouseOverContentItem(folderName);
-        repositoryPage.clickOnAction(folderName, "Manage Permissions");
+        repositoryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
         managePermissionsPage.renderedPage();
         Assert.assertTrue(managePermissionsPage.getRowDetails(groupName).contains(groupName), groupName + " is not available in Locally Set Permissions list ");
         Assert.assertTrue(managePermissionsPage.getRowDetails(groupName).contains("Coordinator"), "Coordinator is not available in Locally Set Permissions list for " + groupName);
@@ -382,7 +382,7 @@ public class ManagePermissionTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202762, "Edit Offline"), "Edit Offline is not available for " + fileNameC202762);
         Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(fileNameC202762, "Edit in Google Docs™"), "Edit in Google Docs™ is not available for " + fileNameC202762);
 
-        repositoryPage.clickOnAction(fileNameC202762, "Delete Document");
+        repositoryPage.clickDocumentLibraryItemAction(fileNameC202762, "Delete Document", repositoryPage);
         deleteDocumentOrFolderDialog.clickDelete();
         getBrowser().refresh();
         repositoryPage.renderedPage();

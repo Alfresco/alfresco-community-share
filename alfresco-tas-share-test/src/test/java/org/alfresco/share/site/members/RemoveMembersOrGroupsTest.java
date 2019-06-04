@@ -14,6 +14,7 @@ import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -70,6 +71,11 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
 
     }
 
+    @AfterMethod (alwaysRun = true)
+    public void afterMethod()
+    {
+        cleanupAuthenticatedSession();
+    }
 
     @TestRail (id = "C2882")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })

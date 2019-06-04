@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class AccessingDataListsComponentTests extends ContextAwareWebTest
@@ -51,11 +52,15 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     {
         userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+    }
+
+    @BeforeMethod (alwaysRun = true)
+    public void precondition()
+    {
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
     }
-
 
     @AfterClass (alwaysRun = true)
     public void cleanup()
@@ -178,7 +183,6 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         Assert.assertFalse(dataListsPage.currentContent.isSelectItemsButtonEnabled(), "'Select items' button is enabled.");
 
         LOG.info("Step 3: Mouse over the list displayed under Lists");
-        getBrowser().waitInSeconds(5);
         Assert.assertTrue(dataListsPage.isEditButtonDisplayedForList(listName), "'Edit' button is displayed.");
         Assert.assertTrue(dataListsPage.isDeleteButtonDisplayedForList(listName), "'Delete' button is displayed.");
     }

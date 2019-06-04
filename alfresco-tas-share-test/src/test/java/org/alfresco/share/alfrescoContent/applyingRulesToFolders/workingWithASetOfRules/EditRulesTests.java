@@ -20,7 +20,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -44,7 +44,7 @@ public class EditRulesTests extends ContextAwareWebTest
     private SelectDestinationDialog selectDestinationDialog;
     private String folderName, ruleName;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeMethod (alwaysRun = true)
     public void setupTest()
     {
         ruleName = "rule-" + RandomData.getRandomAlphanumeric();
@@ -97,7 +97,7 @@ public class EditRulesTests extends ContextAwareWebTest
         LOG.info("STEP2: Fill in Create Rule details with new details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(1, 0, 2);
         editRulesPage.typeRuleDetails(updatedRuleName, updatedDescription, indexOfOptionFromDropdown);
-        //       editRulesPage.clickCopySelectButton();
+        editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();

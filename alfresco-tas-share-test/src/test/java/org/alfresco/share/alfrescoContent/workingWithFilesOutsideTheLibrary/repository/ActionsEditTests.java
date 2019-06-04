@@ -134,8 +134,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         LOG.info("Step 1: Hover over the test file and click 'Edit Properties' action");
 
         repositoryPage.mouseOverContentItem(fileName);
-        repositoryPage.clickOnAction(fileName, "Edit Properties");
-        getBrowser().waitInSeconds(2);
+        repositoryPage.clickDocumentLibraryItemAction(fileName, "Edit Properties", editFilePropertiesDialog);
 
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "'Edit Properties' dialog box is not correctly displayed");
 
@@ -193,7 +192,6 @@ public class ActionsEditTests extends ContextAwareWebTest
 
         LOG.info("Step 6: Type a tag name and click create");
         selectDialog.typeTag(tagName);
-        getBrowser().waitInSeconds(5);
         selectDialog.clickCreateNewIcon();
         selectDialog.clickOk();
         editFilePropertiesDialog.isTagSelected(tagName.toLowerCase());
@@ -265,7 +263,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         docsCommon.confirmFormatUpgrade();
         getBrowser().waitInSeconds(7);
         docsCommon.switchToGoogleDocsWindowandAndEditContent(editedTitle, editedContent);
-        getBrowser().waitInSeconds(5);
+
         LOG.info("Step5: Verify the file is locked and Google Drive icon is displayed");
         Assert.assertTrue(docsCommon.isLockedIconDisplayed(), "Locked Icon is not displayed");
         Assert.assertTrue(docsCommon.isLockedDocumentMessageDisplayed(), "Message about the file being locked is not displayed");

@@ -83,7 +83,7 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         assertEquals(createSiteDialog.getVisibilityLabel(), language.translate("siteDetails.visibility"), "Visibility label-");
 
-        assertEquals(createSiteDialog.isPublicVisibilityButtonDisplayed(), "PUBLIC", "Public option: radio button is displayed.");
+        assertEquals(createSiteDialog.getPublicVisibilityButtonState(), "PUBLIC", "Public option: radio button is displayed.");
 
         assertEquals(createSiteDialog.isModeratedVisibilityButtonDisplayed(), "MODERATED", "Moderated option: radio button is displayed.");
 
@@ -157,7 +157,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(createSiteDialog.getNameInputText(), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Click \"Create\" button");
-        getBrowser().waitInSeconds(5);
         createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
@@ -196,7 +195,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isModeratedVisibilityRadioButtonChecked(), "Moderated visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        getBrowser().waitInSeconds(5);
         createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
@@ -274,7 +272,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isPublicVisibilityRadioButtonChecked(), "Public visibility selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        getBrowser().waitInSeconds(5);
         createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
@@ -312,7 +309,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isModeratedVisibilityRadioButtonChecked(), "Moderated visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        getBrowser().waitInSeconds(5);
         createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
@@ -350,7 +346,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isPrivateVisibilityRadioButtonChecked(), "Private visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        getBrowser().waitInSeconds(5);
         createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
@@ -428,11 +423,11 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.typeInDescription(description);
 
         LOG.info("STEP3: Delete the pre-populated value from the \"URL Name\" field");
-        createSiteDialog.clearUrlNameInput();
-        assertEquals(createSiteDialog.isUrlNameInputEmpty(), true, "URL Name field is empty.");
+        createSiteDialog.clearSiteIdInput();
+        assertEquals(createSiteDialog.isSiteIdInputEmpty(), true, "URL Name field is empty.");
 
         LOG.info("STEP4: Fill in \"URL Name\" field with an existing site name and click \"Save\" button");
-        createSiteDialog.typeUrlName(testSiteName);
+        createSiteDialog.typeSiteID(testSiteName);
         createSiteDialog.clickCreateButtonWithoutRenderer();
         assertEquals(createSiteDialog.getUrlErrorMessage(), language.translate("siteDetails.urlError"), "Create site: Existent url error message displayed-");
 

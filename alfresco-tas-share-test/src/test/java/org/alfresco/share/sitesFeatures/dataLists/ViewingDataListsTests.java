@@ -5,7 +5,7 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.site.dataLists.ContactListSelectedContent.ListColumns;
+import org.alfresco.po.share.site.dataLists.ContactListSelectedContent.ContactListColumns;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -165,7 +165,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
         dataListsPage.clickContactListItem(listName);
 
         LOG.info("Step 2: In the table click 'Company' column headings and check the items are sorted by Company Name.");
-        assertTrue(dataListsPage.currentContent.areItemsSortedByColumnAfterClickingTheColumn(ListColumns.Company.toString()), "The data list items are sorted by Company");
+        assertTrue(dataListsPage.currentContent.areItemsSortedByColumnAfterClickingTheColumn(ContactListColumns.Company.toString()), "The data list items are sorted by Company");
     }
 
     @TestRail (id = "C5860")

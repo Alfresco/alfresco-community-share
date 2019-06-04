@@ -104,7 +104,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
         LOG.info("STEP2: Verify \"Copy to\" dialog");
         assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
-            "'Copy to...' dialog: 'Create Link' button is displayed.");
+                "'Copy to...' dialog: 'Create Link' button is displayed.");
     }
 
     @TestRail (id = "C42606")
@@ -119,7 +119,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy 1 items to...", "Displayed dialog=");
         LOG.info("STEP2: Verify \"Copy to\" dialog");
         assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
-            "'Copy to...' dialog: 'Create Link' button is displayed.");
+                "'Copy to...' dialog: 'Create Link' button is displayed.");
     }
 
     @TestRail (id = "C42607")
@@ -135,7 +135,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy 3 items to...", "Displayed dialog=");
         LOG.info("STEP2: Verify \"Copy to\" dialog");
         assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
-            "'Copy to...' dialog: 'Create Link' button is displayed.");
+                "'Copy to...' dialog: 'Create Link' button is displayed.");
     }
 
     @TestRail (id = "C42608")
@@ -150,7 +150,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         documentDetailsPage.clickDocumentActionsOption(language.translate("documentLibrary.contentActions.copyTo"));
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
         assertTrue(copyMoveUnzipToDialog.isCreateLinkButtonDisplayedCopyToDialog(),
-            "'Copy to...' dialog: 'Create Link' button is displayed.");
+                "'Copy to...' dialog: 'Create Link' button is displayed.");
     }
 
     @TestRail (id = "C42609")
@@ -225,7 +225,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName1 + " to...", "Displayed dialog=");
         LOG.info("STEP2: Select a destination folder and click \"Create Link\" button");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink();
+        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
         LOG.info("STEP3: Go to the destination location and verify the content");
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
@@ -242,7 +242,7 @@ public class CreateLinksTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileName2, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName2 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink();
+        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         assertTrue(sharedFilesPage.isContentNameDisplayed(linkFile2), linkFile2 + " is displayed in destination of copy file, Shared Files.");
@@ -252,9 +252,8 @@ public class CreateLinksTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(fileName2, language.translate("documentLibrary.contentActions.copyTo"), copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName2 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton(language.translate("documentLibrary.sharedFiles"));
-        copyMoveUnzipToDialog.clickCreateLink();
-        assertEquals(copyMoveUnzipToDialog.getMessage2(), language.translate("documentLibrary.contentActions.createLink.errorMessage"), "Displayed message= ");
-
+        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
+        assertEquals(copyMoveUnzipToDialog.getMessage(), language.translate("documentLibrary.contentActions.createLink.errorMessage"), "Displayed message= ");
     }
 
     @TestRail (id = "C42621")
@@ -270,10 +269,10 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName3 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton("Recent Sites");
         copyMoveUnzipToDialog.clickSite(siteName2);
-        copyMoveUnzipToDialog.clickCreateLink();
+        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
         documentLibraryPage.selectDocumentLibraryItemRow(linkFile3);
         assertTrue(documentLibraryPage.isContentNameDisplayed(linkFile3),
-            linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
+                linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
         LOG.info("STEP2: Navigate to User Dashboard page");
         userDashboardPage.navigate(userName);
         assertEquals(userDashboardPage.getPageTitle(), "Alfresco » User Dashboard", "Displayed page=");
@@ -293,14 +292,14 @@ public class CreateLinksTests extends ContextAwareWebTest
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + fileName3 + " to...", "Displayed dialog=");
         copyMoveUnzipToDialog.clickDestinationButton("Recent Sites");
         copyMoveUnzipToDialog.clickSite(siteName2);
-        copyMoveUnzipToDialog.clickCreateLink();
+        copyMoveUnzipToDialog.clickCreateLink(documentLibraryPage);
         documentLibraryPage.selectDocumentLibraryItemRow(linkFile3);
         assertTrue(documentLibraryPage.isContentNameDisplayed(linkFile3),
-            linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
+                linkFile3 + " is displayed in destination of copy file, Document Library of " + siteName2);
         LOG.info("STEP2: Navigate to Site Dashboard page and verify Site Activities dashlet");
         siteDashboardPage.navigate(siteName2);
         assertEquals(siteDashboardPage.getPageTitle(), "Alfresco » Site Dashboard", "Displayed page=");
         assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(activity),
-            "Activity: '" + activity + "' is displayed in 'Site Activities' dashlet.");
+                "Activity: '" + activity + "' is displayed in 'Site Activities' dashlet.");
     }
 }

@@ -42,6 +42,7 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
+        String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         siteService.create(userName, password, domain, siteName3, siteName3, SiteService.Visibility.PUBLIC);
         contentService.uploadFileInSite(userName, password, siteName3, testDataFolder + fileName);

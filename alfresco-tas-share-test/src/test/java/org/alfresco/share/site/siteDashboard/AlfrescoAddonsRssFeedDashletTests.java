@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.EnterFeedURLPopUp;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
 {
@@ -28,9 +30,11 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
 
     @Autowired
     EnterFeedURLPopUp enterFeedURLPopUp;
-
+    SoftAssert softAssert = new SoftAssert();
     private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    private String siteNameShare = "RssFeed" + RandomData.getRandomAlphanumeric();
+    private String userNameShare = "RssFeedUser" + RandomData.getRandomAlphanumeric();
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -38,7 +42,9 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "firstName", "lastName");
         siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
         siteService.addDashlet(userName, password, siteName, SiteDashlet.ADDONS_RSS_FEED, DashletLayout.THREE_COLUMNS, 3, 1);
-        setupAuthenticatedSession(userName, password);
+        userService.create(adminUser, adminPassword, userNameShare, password, userNameShare + domain, "RssFeed", "User");
+        siteService.create(userNameShare, password, domain, siteNameShare, "rssFeedSite", SiteService.Visibility.PUBLIC);
+        siteService.addDashlet(userName, password, siteNameShare, SiteDashlet.ADDONS_RSS_FEED, DashletLayout.THREE_COLUMNS, 3, 2);
     }
 
     @AfterClass (alwaysRun = true)
@@ -47,12 +53,14 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
         siteService.delete(adminUser, adminPassword, siteName);
+        siteService.delete(adminUser, adminPassword, domain, siteNameShare);
     }
 
     @TestRail (id = "C2793")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void configureAlfrescoAddonsRssFeedDashlet()
     {
+        setupAuthenticatedSession(userName, password);
         LOG.info("Step 1: Click 'Configure this dashlet' icon");
         siteDashboardPage.navigate(siteName);
         rssFeedDashlet.clickOnConfigureRssFeedDashlet();
@@ -84,7 +92,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(5);
 
         //Switch to new window opened
-        /*
+
         for(String winHandle : getBrowser().getWindowHandles())
         {
             getBrowser().switchTo().window(winHandle);
@@ -96,9 +104,31 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
             {
                 getBrowser().switchTo().window(currentWindow);
             }
-        }*/
+        }
 
         assertTrue(getBrowser().getCurrentUrl().contains("https://www.reuters.com"), "After clicking on RSS link, the title is: " + getBrowser().getCurrentUrl());
         closeWindowAndSwitchBack();
+        cleanupAuthenticatedSession();
+    }
+
+    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    public void verifyDashletTest()
+    {
+        setupAuthenticatedSession(userNameShare, password);
+        siteDashboardPage.navigate(siteNameShare);
+        LOG.info("Step 1: Verify the RSS Feed default title");
+        softAssert.assertEquals(rssFeedDashlet.getDashletTitle(), language.translate("rssAddonsFeedDashlet.DefaultTitle"), "dashet title is not correct.");
+        LOG.info("Step 2: Verify the help icon");
+        softAssert.assertTrue(rssFeedDashlet.isHelpIconDisplayed(Dashlet.DashletHelpIcon.RSS_FEED), "The help icon is not displayed");
+        rssFeedDashlet.clickOnHelpIcon(Dashlet.DashletHelpIcon.RSS_FEED);
+        softAssert.assertEquals(rssFeedDashlet.getHelpBalloonMessage(), language.translate("rssAddonsFeedDashlet.helpBalloonMessage"), "help message is not correct");
+        rssFeedDashlet.closeHelpBalloon();
+        softAssert.assertFalse(rssFeedDashlet.isBalloonDisplayed(), "Help balloon is still displayed");
+        LOG.info("Step 3: Verify headlines");
+        rssFeedDashlet.clickOnConfigureRssFeedDashlet();
+        enterFeedURLPopUp.selectNumberOfItemsToDisplay("5");
+        enterFeedURLPopUp.clickOkButton();
+        softAssert.assertEquals(rssFeedDashlet.getFeedsListSize(), 5, "Feed size is not as expected");
+        softAssert.assertAll();
     }
 }

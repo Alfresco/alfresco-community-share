@@ -97,7 +97,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         }
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5960")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void singleDayEvent()
@@ -160,7 +160,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
             "Following information is available: Time section with End Date");
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5962")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleDaysEvent()
@@ -227,7 +227,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
         changeTimeZone(clientATimeZone);
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5964")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleWeeksEvent()
@@ -295,7 +295,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
             "Following information is available: Time section with End Date");
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5966")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleMonthsEvent()
@@ -362,7 +362,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
             "Following information is available: Time section with End Date");
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5969")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void specificScenario()

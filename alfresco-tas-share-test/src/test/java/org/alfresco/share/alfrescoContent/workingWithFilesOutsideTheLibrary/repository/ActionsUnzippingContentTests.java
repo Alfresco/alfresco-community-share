@@ -104,10 +104,5 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
         repositoryPage.getDocumentListHeader();
         repositoryPage.selectDocumentLibraryItemRow("fileC8257");
         assertTrue(repositoryPage.isContentNameDisplayed("fileC8257"), acpFile + " is not displayed ");
-
-        //     contentService.deleteContentByPath(adminUser, adminPassword,  "User Homes/"+ user+"/"+acpContent);
-
-        //     contentService.deleteContentByPath(adminUser, adminPassword,  "User Homes/"+ user);
-
     }
 }

@@ -43,6 +43,7 @@ public class MovingContentTests extends ContextAwareWebTest
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
+        cleanupAuthenticatedSession();
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
     }

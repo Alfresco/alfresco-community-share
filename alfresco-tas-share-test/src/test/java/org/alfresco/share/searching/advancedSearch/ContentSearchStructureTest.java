@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;

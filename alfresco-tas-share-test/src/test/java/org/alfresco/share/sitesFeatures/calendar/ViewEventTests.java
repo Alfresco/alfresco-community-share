@@ -47,7 +47,6 @@ public class ViewEventTests extends ContextAwareWebTest
         siteService.create(user1, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(user1, password, siteName, Page.CALENDAR, null);
         sitePagesService.addCalendarEvent(user1, password, siteName, eventName, eventLocation, eventDescription, startDate.toDate(), endDate.toDate(), startHour, endHour, false, eventTags);
-        setupAuthenticatedSession(user1, password);
     }
 
 
@@ -68,6 +67,7 @@ public class ViewEventTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventMonthView()
     {
+        setupAuthenticatedSession(user1, password);
         calendarPage.navigate(siteName);
         calendarPage.clickMonthButton();
         LOG.info("STEP 1: Click on the created event's name link.");
@@ -79,12 +79,14 @@ public class ViewEventTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(startDate, startHour), "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(endDate, endHour), "Following information is available: Time section with End Date");
         assertTrue(eventInformationDialog.areButtonsEnabled(), "All buttons should be enabled");
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C5407")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventDayView()
     {
+        setupAuthenticatedSession(user1, password);
         calendarPage.navigate(siteName);
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Day' view.");
         calendarPage.clickDayButton();
@@ -99,12 +101,14 @@ public class ViewEventTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(startDate, startHour), "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(endDate, endHour), "Following information is available: Time section with End Date");
         assertTrue(eventInformationDialog.areButtonsEnabled(), "All buttons should be enabled");
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "5408")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventWeekView()
     {
+        setupAuthenticatedSession(user1, password);
         calendarPage.navigate(siteName);
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Week' view.");
         calendarPage.clickWeekButton();
@@ -119,12 +123,14 @@ public class ViewEventTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(startDate, startHour), "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(endDate, endHour), "Following information is available: Time section with End Date");
         assertTrue(eventInformationDialog.areButtonsEnabled(), "All buttons should be enabled");
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C5409")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventByClickingOnTheEventAgendaView()
     {
+        setupAuthenticatedSession(user1, password);
         calendarPage.navigate(siteName);
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Agenda' view.");
         calendarPage.clickAgendaButton();
@@ -139,12 +145,14 @@ public class ViewEventTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(startDate, startHour), "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(endDate, endHour), "Following information is available: Time section with End Date");
         assertTrue(eventInformationDialog.areButtonsEnabled(), "All buttons should be enabled");
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C6109")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void viewEventByClickingViewIconAgendaView()
     {
+        setupAuthenticatedSession(user1, password);
         calendarPage.navigate(siteName);
         LOG.info("STEP 1: Open 'Calendar' page for '" + siteName + "' and select 'Agenda' view.");
         calendarPage.clickAgendaButton();
@@ -159,12 +167,14 @@ public class ViewEventTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getStartDateTime(), formatDate(startDate, startHour), "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), formatDate(endDate, endHour), "Following information is available: Time section with End Date");
         assertTrue(eventInformationDialog.areButtonsEnabled(), "All buttons should be enabled");
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C5402")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void closeEventInformationPopup()
     {
+        setupAuthenticatedSession(user1, password);
         calendarPage.navigate(siteName);
         LOG.info("STEP 1: Click on the created event's name link.");
         calendarPage.clickOnEvent(eventName);
@@ -181,5 +191,6 @@ public class ViewEventTests extends ContextAwareWebTest
         LOG.info("STEP 4: Click 'X' button.");
         eventInformationDialog.clickClose();
         assertFalse(eventInformationDialog.isEventInformationPanelDisplayed(), "'Event Information' dialog box for 'testEvent' is closed.");
+        cleanupAuthenticatedSession();
     }
 }

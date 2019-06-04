@@ -83,7 +83,6 @@ public class DeleteTopicTests extends ContextAwareWebTest
         LOG.info("STEP 2 - Click on 'Delete' button.");
         deleteDialog.confirmTopicDelete();
         //assertEquals(notification.getDisplayedNotification(), language.translate("discussions.topicDeletedNotification"), "Topic deleted notification appears.");
-        getBrowser().waitInSeconds(4);
         assertFalse(topicListPage.isTopicDisplayed(topic1Title), "Topic1 is deleted.");
     }
 

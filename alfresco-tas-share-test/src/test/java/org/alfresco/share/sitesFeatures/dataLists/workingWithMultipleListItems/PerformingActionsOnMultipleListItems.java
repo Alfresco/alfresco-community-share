@@ -77,7 +77,6 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
         getBrowser().waitInSeconds(2);
         contactListSelectedContent.setBrowser(getBrowser());
         contactListSelectedContent.clickSelectAllOption();
-
     }
 
     @TestRail (id = "C6396")
@@ -118,7 +117,6 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
             results.clear();
         }
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
     @TestRail (id = "C6398")
@@ -157,7 +155,6 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
             contacts.clear();
         }
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
     @TestRail (id = "C6407")
@@ -194,7 +191,6 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
             contacts.clear();
         }
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
 }

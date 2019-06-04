@@ -48,6 +48,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     @Autowired
     CalendarUtility calendarUtility;
 
+    String currentUrl = "";
     String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     String userName1 = "profileUser1-" + uniqueIdentifier;
     String userName2 = "profileUser2-" + uniqueIdentifier;
@@ -168,7 +169,7 @@ public class BasicSearchTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Verify page title");
         assertEquals(searchPage.getPageHeader(), "Search", "Search page title:");
-
+        assertTrue(searchPage.isResultFoundWithRetry(docName1), "result not displayed");
         LOG.info("STEP3: Verify search section");
         assertTrue(searchPage.isSearchInLabelDisplayed(), "'Search in' label is displayed.");
         assertTrue(searchPage.getNumberOfResultsText().contains(" - results found"), "Section with number of results is displayed");
@@ -248,8 +249,10 @@ public class BasicSearchTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Enter the document name in the toolbar search field and press 'Enter'");
         toolbar.search(docName1);
-        assertEquals(searchPage.getRelativePath(), "share/page/dp/ws/faceted-search#searchTerm=%s&scope=repo&sortField=Relevance",
-            "User is redirected to Search page.");
+        currentUrl = siteDashboardPage.getCurrentUrl();
+        currentUrl = currentUrl.substring(currentUrl.indexOf("/share"), currentUrl.indexOf("&scope=repo"));
+        assertEquals(currentUrl, "/share/page/dp/ws/faceted-search#searchTerm=" + docName1,
+                "User is redirected to Search page.");
 
         LOG.info("STEP2: Verify the default view");
         assertTrue(searchPage.isSearchResultsListInDetailedView(), "Detailed view is displayed.");
@@ -275,8 +278,11 @@ public class BasicSearchTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName1, password);
         LOG.info("STEP1: Enter the document name in the toolbar search field and press Enter");
         toolbar.search(docName1);
-        assertEquals(searchPage.getRelativePath(), "share/page/dp/ws/faceted-search#searchTerm=%s&scope=repo&sortField=Relevance",
-            "User is redirected to Search page.");
+        currentUrl = siteDashboardPage.getCurrentUrl();
+        currentUrl = currentUrl.substring(currentUrl.indexOf("/share"), currentUrl.indexOf("&scope=repo"));
+
+        assertEquals(currentUrl, "/share/page/dp/ws/faceted-search#searchTerm=" + docName1,
+                "User is redirected to Search page.");
 
         LOG.info("STEP2: Change the view to \"Gallery View\" from 'Views' dropdown and verify results section");
         searchPage.clickGalleryView();

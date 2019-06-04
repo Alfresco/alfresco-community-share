@@ -85,10 +85,10 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         siteService.create(userManager, password, domain, siteNameC2461, siteNameC2461, SiteService.Visibility.MODERATED);
-        siteService.create(userManager, password, domain, siteNameC2462, siteNameC2461, SiteService.Visibility.MODERATED);
-        siteService.create(userManager, password, domain, siteNameC2463, siteNameC2461, SiteService.Visibility.MODERATED);
-        siteService.create(userManager, password, domain, siteNameC2464, siteNameC2461, SiteService.Visibility.MODERATED);
-        siteService.create(userManager, password, domain, siteNameC2549, siteNameC2461, SiteService.Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2462, siteNameC2462, SiteService.Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2463, siteNameC2463, SiteService.Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2464, siteNameC2464, SiteService.Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2549, siteNameC2549, SiteService.Visibility.MODERATED);
         dataUser.addUserToSite(collaboratorUser, moderatedSite, UserRole.SiteCollaborator);
         dataUser.addUserToSite(contributorUser, moderatedSite, UserRole.SiteContributor);
         dataUser.addUserToSite(consumerUser, moderatedSite, UserRole.SiteConsumer);
@@ -319,7 +319,6 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "Task is present");
 
         LOG.info("Step 7: Switch the filter to 'Completed tasks'");
-        getBrowser().waitInSeconds(5);
         myTasksDashlet.selectOptionFromTaskFilters("Completed Tasks");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Completed tasks");
 

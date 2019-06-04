@@ -101,8 +101,6 @@ public class DownloadingContentTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Hover file and click 'Download' button");
         documentLibraryPage.mouseOverContentItem(docName);
-        getBrowser().waitInSeconds(5);
-
         documentLibraryPage.clickDownloadForItem(docName);
 
         if (documentCommon.isAlertPresent())
@@ -127,7 +125,6 @@ public class DownloadingContentTests extends ContextAwareWebTest
 
         LOG.info("Hover folder and click 'Download as Zip' button from Actions options");
         documentLibraryPage.mouseOverContentItem(folderName);
-        getBrowser().waitInSeconds(5);
         documentLibraryPage.clickDownloadAsZipForItem(folderName);
         if (documentCommon.isAlertPresent())
         {

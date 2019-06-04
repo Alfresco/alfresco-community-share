@@ -347,7 +347,6 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click 'Delete' button.");
         deleteEventDialog.confirmEventDelete();
-        getBrowser().waitInSeconds(5);
         assertFalse(calendarPage.isEventPresentInAgenda(eventName), "The event is displayed on the 'Calendar' page.");
 
         LOG.info("STEP 3: Go to site's dashboard and verify 'Site Calendar' dashlet.");

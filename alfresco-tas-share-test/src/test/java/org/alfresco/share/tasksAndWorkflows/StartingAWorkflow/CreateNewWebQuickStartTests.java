@@ -20,6 +20,9 @@ import org.testng.annotations.BeforeClass;
 /**
  * @author iulia.cojocea
  */
+@Deprecated
+/* @deprecated for ACS 6.0, 5.1.5 and above *
+ */
 public class CreateNewWebQuickStartTests extends ContextAwareWebTest
 {
     @Autowired
@@ -84,7 +87,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectButton();
+        startWorkflowPage.clickOnSelectButtonSingleAssignee();
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.clickOkButton();
@@ -120,7 +123,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectButton();
+        startWorkflowPage.clickOnSelectButtonSingleAssignee();
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.clickOkButton();

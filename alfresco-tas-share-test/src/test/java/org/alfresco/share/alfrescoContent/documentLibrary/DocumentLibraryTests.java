@@ -64,7 +64,6 @@ public class DocumentLibraryTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click on Document Library link.");
         sitePage.clickDocumentLibrary();
-        getBrowser().waitInSeconds(5);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library");
     }
 
@@ -133,8 +132,6 @@ public class DocumentLibraryTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Navigate to testSite's document library page.");
         documentLibraryPage.navigate(siteName);
-        getBrowser().waitInSeconds(5);
-
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library");
         assertEquals(documentLibraryPage.getCurrentSiteName(), siteName);
 
@@ -143,7 +140,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Hover over the created file.");
         List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™", "Edit Properties", "Upload New Version", "Edit in Alfresco",
-            "Edit Offline", "Copy to...", "Move to...", "Delete Document", "Start Workflow", "Manage Permissions");
+                "Edit Offline", "Copy to...", "Move to...", "Delete Document", "Start Workflow", "Manage Permissions");
         assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
     }
 

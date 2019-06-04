@@ -97,8 +97,9 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
         siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_LINKS, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
         siteDashboard.navigate(siteName);
-
-        LOG.info("STEP 1: Click on 'Create Link' button.");
+        LOG.info("Step 1: Check the link count");
+        assertEquals(siteLinksDashlet.getNumberOfLinks(), 0, "Number of links is not 0");
+        LOG.info("STEP 2: Click on 'Create Link' button.");
         siteLinksDashlet.clickCreateLink();
         assertTrue(createLinkPage.isLinkTitleDisplayed() && createLinkPage.isLinkTitleMandatory(), "'Title' field is displayed and mandatory.");
         assertTrue(createLinkPage.isLinkURLDisplayed() && createLinkPage.isLinkURLMandatory(), "'URL' field is displayed and mandatory.");

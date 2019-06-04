@@ -57,6 +57,8 @@ public class ActionsUploadTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void uploadDocument()
     {
+        String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8172-.txt";
+        String testFilePath = testDataFolder + testFile;
         LOG.info("Precondition: Navigate to Repository page.");
         repositoryPage.navigate();
         LOG.info("STEP1: Check if the Upload button is greyed on the Repository page .");
@@ -68,7 +70,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
         assertTrue(repositoryPage.isContentNameDisplayed(testFile), String.format("File [%s] is displayed", testFile));
     }
 
-    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
+    //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C8175")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void updateDocumentNewVersion()

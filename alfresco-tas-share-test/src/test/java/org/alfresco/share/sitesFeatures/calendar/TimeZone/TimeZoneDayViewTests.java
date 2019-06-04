@@ -95,7 +95,7 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         }
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5973")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void singleDayEvent()
@@ -154,7 +154,7 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getEndDateTime(), today.toString("EEEE, d MMMM, yyyy"), "Following information is available: Time section with End Date");
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5975")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleDaysEvent()
@@ -214,7 +214,7 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getEndDateTime(), endDate.toString("EEEE, d MMMM, yyyy"), "Following information is available: Time section with End Date");
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5977")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleWeeksEvent()
@@ -276,7 +276,7 @@ public class TimeZoneDayViewTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getEndDateTime(), nextWeek.toString("EEEE, d MMMM, yyyy"), "Following information is available: Time section with End Date");
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5979")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleMonthsEvent()

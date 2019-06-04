@@ -87,7 +87,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     public void viewImEditingFiles()
     {
         String siteNameC6321 = String.format("C6321SiteName%s", RandomData.getRandomAlphanumeric());
-        //   userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
+//           userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         siteService.create(user, password, domain, siteNameC6321, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user, password);
         String docName = "testFile1";

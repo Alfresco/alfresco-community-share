@@ -80,7 +80,6 @@ public class TrashcanTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 2, folderName + "\n" + fileName),
             "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
-        getBrowser().waitInSeconds(6);
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[]", "Document Library folders=");
 
@@ -124,7 +123,6 @@ public class TrashcanTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
             "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
-        getBrowser().waitInSeconds(6);
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), Collections.singletonList(folderName).toString(), "Document Library folders=");
 
@@ -161,7 +159,6 @@ public class TrashcanTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Select all items and delete them by selecting 'Delete' option from 'Selected Items...' menu. Confirm deletion");
         documentLibraryPage.clickCheckBox(folderName);
-        getBrowser().waitInSeconds(4);
         assertFalse(documentLibraryPage.isContentSelected(fileName), fileName + " is selected.");
         assertTrue(documentLibraryPage.isContentSelected(folderName), folderName + " is selected.");
         headerMenuBar.clickSelectedItemsMenu();

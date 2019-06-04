@@ -88,13 +88,17 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         LOG.info("Step1: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
+        Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
         LOG.info("Step2: Click 'All Properties' link.");
         editPropertiesDialog.clickAllPropertiesLink();
+        Assert.assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Tags", "Smart Folder Template"), "Properties should be displayed");
         LOG.info("Step3: Select 'smartFoldersExample.json template' and save.");
         editPropertiesPage.selectSFTemplate(0);
         editPropertiesPage.clickButtonForFolder("Save");
         LOG.info("Step4: Click on the folder and verify it has 'Smart Folder' structure under it");
         documentLibraryPage.clickOnFolderName(folderName);
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(mainSmartFolder), "The main smart folder displayed");
+        Assert.assertTrue(smartFolders.areSmartFolderIconsDisplayed(1), "The smart folder icon displayed");
     }
 
     @TestRail (id = "C8648")

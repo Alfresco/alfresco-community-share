@@ -28,7 +28,6 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
     @Autowired
     private SelectDialog selectDialog;
 
-
     private String uniqueIdentifier;
     private String userName;
     private String siteName;
@@ -54,7 +53,6 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
     }
-
 
     @TestRail (id = "C7005")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })

@@ -80,7 +80,7 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
         sitePagesService.addCalendarEvent(user, password, siteName, eventTitle3, eventLocation, eventDescription, calendarUtility.firstDayOfCM(),
             calendarUtility.firstDayOfCM(), "", "", false, "tag1");
 
-        LOG.info("Step 1: Navigate to the Calendar page for Site.");
+        LOG.info("Step 1: Navigate to the Calendar page for SiteService.");
         calendarPage.navigate(siteName);
         getBrowser().waitInSeconds(2);
         Assert.assertEquals(calendarPage.getSelectedViewName(), "Month");

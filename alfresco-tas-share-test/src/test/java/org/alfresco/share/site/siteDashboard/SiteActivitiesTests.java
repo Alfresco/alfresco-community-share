@@ -3,10 +3,12 @@ package org.alfresco.share.site.siteDashboard;
 import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
 import org.alfresco.po.share.dashlet.SiteActivitiesDaysRangeFilter;
@@ -19,6 +21,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
@@ -38,6 +41,25 @@ public class SiteActivitiesTests extends ContextAwareWebTest
 
     @Autowired
     SiteMembersPage siteMembersPage;
+
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+
+    String siteName = "siteActivities" + RandomData.getRandomAlphanumeric();
+    String userName = "siteActivitiesUser" + RandomData.getRandomAlphanumeric();
+    String docName = "activityDoc" + RandomData.getRandomAlphanumeric();
+    String firstName = "site";
+    String lastName = "activities";
+    String docContent = "This is a test for the Activities dashlet.";
+
+    @BeforeClass (alwaysRun = true)
+    public void testSetup()
+    {
+        userService.create(adminUser, adminPassword, userName, password, userName + domain, firstName, lastName);
+        LOG.info(userName);
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
+    }
 
     @TestRail (id = "C2803")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
@@ -386,5 +408,80 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
         siteService.delete(adminUser, adminPassword, siteName);
+    }
+
+    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    public void selectActivityAndAccessData()
+    {
+        LOG.info("Step 1: Log in and check that activiti is displayed in site activities dashlet");
+        setupAuthenticatedSession(userName, password);
+        siteDashboardPage.navigate(siteName);
+        Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(firstName + " " + lastName + " added document " + docName), " is not displayed in activities list");
+        LOG.info("Step 2: Click on document name and check that you are redirected to Document Details and content is displayed");
+        siteActivitiesDashlet.clickOnDocumentLinkInActivities(docName, documentDetailsPage);
+        Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Document Details");
+        Assert.assertEquals(documentDetailsPage.getContentText(), docContent, "Content is either not displayed or not correct");
+        Assert.assertEquals(documentDetailsPage.getFileName(), docName, "document name is not correct");
+        cleanupAuthenticatedSession();
+    }
+
+    @Test(groups = {TestGroup.SHARE, "Acceptance", "SiteDashboard"}, enabled = false)
+    public void verifyRSSFeedFunctionalityForActivitiesDashlet()
+    {
+        String partialUnchangedUrl="/share/feedservice/components/dashlets/activities/list?format=atomfeed&mode=site&site=";
+        setupAuthenticatedSession(userName, password);
+        siteDashboardPage.navigate(siteName);
+        siteActivitiesDashlet.enableRSSFeed(partialUnchangedUrl, siteName);
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains(partialUnchangedUrl), "User is not redirected to RSS Feed page "+ userName);
+    }
+
+    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    public void checkFilterOptionsAvailability()
+    {
+        setupAuthenticatedSession(userName, password);
+        siteDashboardPage.navigate(siteName);
+        LOG.info("Step 1: Check options available for activities type filter");
+        Assert.assertTrue(siteActivitiesDashlet.getMyActivitiesFilterOptions().contains("My activities"), "My Activities is not available");
+        Assert.assertTrue(siteActivitiesDashlet.getMyActivitiesFilterOptions().contains("Everyone else's activities"), "Everyone else's activities is not available");
+        Assert.assertTrue(siteActivitiesDashlet.getMyActivitiesFilterOptions().contains("Everyone's activities"), "Everyone's activities is not available");
+        Assert.assertTrue(siteActivitiesDashlet.getMyActivitiesFilterOptions().contains("I'm following"), "I'm following is not available");
+
+        LOG.info("Step 2: Check options available for item type filter");
+        List<String> actualOptionsItemType = siteActivitiesDashlet.getItemTypeFilterOptionAvailable();
+        Assert.assertTrue(actualOptionsItemType.contains("all items"), "all items is not available");
+        Assert.assertTrue(actualOptionsItemType.contains("comments"), "comments is not available");
+        Assert.assertTrue(actualOptionsItemType.contains("content"), "content is not available");
+        Assert.assertTrue(actualOptionsItemType.contains("memberships"), "memberships is not available");
+
+        LOG.info("Step 3: Check range filter options");
+        List<String> actualOptionsRange = siteActivitiesDashlet.getRangeFilterOptions();
+        Assert.assertTrue(actualOptionsRange.contains("today"), "today option is not available");
+        Assert.assertTrue(actualOptionsRange.contains("in the last 7 days"), "in the last 7 days option is not available");
+        Assert.assertTrue(actualOptionsRange.contains("in the last 14 days"), "in the last 14 days option is not available");
+        Assert.assertTrue(actualOptionsRange.contains("in the last 28 days"), "in the last 28 days option is not available");
+        cleanupAuthenticatedSession();
+    }
+
+    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    public void checkFilteringOptionsFunctional()
+    {
+        setupAuthenticatedSession(userName, password);
+        siteDashboardPage.navigate(siteName);
+        LOG.info("Step 1: Select Everyone's activities filter option and check results");
+        siteActivitiesDashlet.selectUserFilterOption("Everyone's activities");
+        Assert.assertTrue(siteActivitiesDashlet.getActivitiesDashletResultsText().contains(language.translate("activitiesDashlet.EmptyText")));
+        LOG.info("Step 2: Select comments filter option and check results");
+        siteActivitiesDashlet.selectItemTypeFilterOption("comments");
+        Assert.assertTrue(siteActivitiesDashlet.getActivitiesDashletResultsText().contains(language.translate("activitiesDashlet.EmptyText")));
+        LOG.info("Step 3: Select today filter option and check results");
+        siteActivitiesDashlet.selectRangeFilterOption("today");
+        Assert.assertTrue(siteActivitiesDashlet.getActivitiesDashletResultsText().contains(language.translate("activitiesDashlet.EmptyText")));
+        LOG.info("Step 4: Reset filters and check results.");
+        siteDashboardPage.navigate(siteName);
+        siteActivitiesDashlet.selectUserFilterOption("My activities");
+        siteActivitiesDashlet.selectItemTypeFilterOption("all items");
+        siteActivitiesDashlet.selectRangeFilterOption("today");
+        Assert.assertTrue(siteActivitiesDashlet.isActivityPresentInActivitiesDashlet(firstName + " " + lastName + " added document " + docName), " is not displayed in activities list");
+        cleanupAuthenticatedSession();
     }
 }

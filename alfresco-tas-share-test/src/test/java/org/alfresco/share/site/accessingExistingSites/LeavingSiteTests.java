@@ -81,7 +81,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
         LOG.info("STEP 1: Navigate to Site Dashboard for'" + siteName + "'");
         siteDashboard.navigate(siteName);
-        LOG.info("STEP 2: Click on 'Site configuration options' icon -> Leave Site.");
+        LOG.info("STEP 2: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
         int counter = 1;
@@ -120,7 +120,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
         setupAuthenticatedSession(user1, password);
         siteDashboard.navigate(siteName);
-        LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave Site.");
+        LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
         int counter = 1;
@@ -185,7 +185,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
         setupAuthenticatedSession(user1, password);
         siteDashboard.navigate(siteName);
-        LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave Site.");
+        LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
         int counter = 1;
@@ -224,7 +224,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
         siteDashboard.navigate(siteName);
-        LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave Site.");
+        LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
         int counter = 1;

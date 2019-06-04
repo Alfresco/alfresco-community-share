@@ -25,6 +25,7 @@ import org.testng.annotations.Test;
 
 public class CreateTests extends ContextAwareWebTest
 {
+    private final String random = RandomData.getRandomAlphanumeric();
     private final String folderTemplateName = "Software Engineering Project";
     private final String fileTemplateName = RandomData.getRandomAlphanumeric() + "fileTemplate.txt";
     private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -66,6 +67,8 @@ public class CreateTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void sharedFilesCreatePlainTextFile()
     {
+        String testName = "C7929TestName" + random;
+
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
@@ -96,7 +99,7 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertTrue(createContent.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
-        createContent.sendInputForName("C7929TestName");
+        createContent.sendInputForName(testName);
         createContent.sendInputForContent("C7929 test content");
         createContent.sendInputForTitle("C7929 test title");
         createContent.sendInputForDescription("C7929 test description");
@@ -111,23 +114,24 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 6: Verify the document's preview");
         Assert.assertEquals(documentDetailsPage.getContentText(), "C7929 test content", "\"C7929 test content \" is not the content displayed in preview");
-        Assert.assertEquals(documentDetailsPage.getFileName(), "C7929TestName", "\"C7929TestName\" is not the file name for the file in preview");
+        Assert.assertEquals(documentDetailsPage.getFileName(), testName, testName + " is not the file name for the file in preview");
 
         LOG.info("Step 7: Login with testUser2 and navigate to Shared Files page.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed("C7929TestName"), String.format("File [%s] is displayed", "C7929TestName"));
+        assertTrue(sharedFilesPage.isContentNameDisplayed(testName), String.format("File [%s] is displayed", testName));
 
         cleanupAuthenticatedSession();
-        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/C7929TestName");
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + testName);
     }
 
     @TestRail (id = "C7937")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void sharedFilesCreateHTMLFile()
     {
+        String testName = "C7937TestName" + random;
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
@@ -149,7 +153,7 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertTrue(createContent.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
-        createContent.sendInputForName("C7937TestName");
+        createContent.sendInputForName(testName);
         createContent.sendInputForHTMLContent("C7937 test content");
         createContent.sendInputForTitle("C7937 test title");
         createContent.sendInputForDescription("C7937 test description");
@@ -164,17 +168,17 @@ public class CreateTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getPropertyValue("Mimetype:"), "HTML", "Mimetype property is not HTML");
 
         LOG.info("Step 6: Verify the document's preview");
-        Assert.assertEquals(documentDetailsPage.getFileName(), "C7937TestName", "\"C7937TestName\" is not the file name for the file in preview");
+        Assert.assertEquals(documentDetailsPage.getFileName(), testName, testName + " is not the file name for the file in preview");
 
         LOG.info("Step 7: Login with testUser2 and navigate to Shared Files page.");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user2, password);
         sharedFilesPage.navigate();
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
-        assertTrue(sharedFilesPage.isContentNameDisplayed("C7937TestName"), String.format("File [%s] is displayed", "C7937TestName"));
+        assertTrue(sharedFilesPage.isContentNameDisplayed(testName), String.format("File [%s] is displayed", testName));
 
         cleanupAuthenticatedSession();
-        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/C7937TestName");
+        contentService.deleteContentByPath(adminUser, adminPassword, "Shared/" + testName);
     }
 
     @TestRail (id = "C7938")
@@ -246,7 +250,7 @@ public class CreateTests extends ContextAwareWebTest
         createContent.clickCreateFromTemplateButton("Create folder from template");
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnFolderTemplate(folderTemplateName, createFolderFromTemplate);
+        createContent.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
@@ -283,10 +287,11 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Create' then 'Create document from template'.");
         sharedFilesPage.clickCreateButton();
-        Assert.assertTrue(createContent.isFileTemplateDisplayed(fileTemplateName));
+        createContent.clickCreateFromTemplateButton("Create document from template");
+        Assert.assertTrue(createContent.isTemplateDisplayed(fileTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnDocumentTemplate(fileTemplateName, sharedFilesPage);
+        createContent.clickOnTemplate(fileTemplateName, sharedFilesPage);
         sharedFilesPage.refresh();
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(fileTemplateName), String.format("Content: %s is not displayed.", fileTemplateName));
@@ -330,7 +335,6 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Document");
-        getBrowser().waitInSeconds(5);
         sharedFilesPage.refresh();
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocName));
@@ -372,7 +376,6 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click Check in Google Doc button for the created document and verify it's not locked anymore.");
         googleDocs.checkInGoogleDoc("Untitled Spreadsheet");
-        getBrowser().waitInSeconds(5);
         sharedFilesPage.refresh();
         sharedFilesPage.renderedPage();
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(googleDocSpreadsheet));

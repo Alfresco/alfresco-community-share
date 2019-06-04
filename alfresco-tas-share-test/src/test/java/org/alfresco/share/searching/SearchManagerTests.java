@@ -213,20 +213,13 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP 8: Click on " + site2 + " option.");
         getBrowser().navigate().back();
-        getBrowser().waitInSeconds(5);
         searchPage.clickFilterOption(site2, filterId);
-        getBrowser().waitInSeconds(5);
-
         assertTrue(searchPage.isSearchResultsAsExpected(Arrays.asList(documentName + "3", documentName + "4")),
             "Only site2 files are displayed on the search results.");
 
         LOG.info("STEP 9: Click on " + site3 + " option.");
         getBrowser().navigate().back();
-        getBrowser().waitInSeconds(5);
-
         searchPage.clickFilterOption(site3, filterId);
-        getBrowser().waitInSeconds(5);
-
         assertTrue(searchPage.isSearchResultsAsExpected(Arrays.asList(documentName + "5", documentName + "6")),
             "Only site 3 files are displayed on the search results.");
     }

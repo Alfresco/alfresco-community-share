@@ -50,14 +50,11 @@ public class UserToolTests extends ContextAwareWebTest
         assertTrue(usersPage.isSpecificUserDataDisplayed("Email"), "Email column displayed");
         assertTrue(usersPage.isSpecificUserDataDisplayed("Usage"), "Usage column displayed");
         assertTrue(usersPage.isSpecificUserDataDisplayed("Quota"), "Quota column displayed");
-//        assertTrue(usersPage.isSpecificUserDataDisplayed("Authorization State"), "Authorization State column displayed");
-//        assertTrue(usersPage.isSpecificUserDataDisplayed("Deleted?"), "Deleted? column displayed");
-        //       assertTrue(usersPage.isSpecificUserDataDisplayed("Action"), "Action column displayed");
-
+        assertTrue(usersPage.isSpecificUserDataDisplayed("Authorization State"), "Authorization State column displayed");
+        assertTrue(usersPage.isSpecificUserDataDisplayed("Deleted?"), "Deleted? column displayed");
+        assertTrue(usersPage.isSpecificUserDataDisplayed("Action"), "Action column displayed");
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-
     }
 
     @TestRail (id = "C9393")

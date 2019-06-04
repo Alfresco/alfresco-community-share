@@ -65,7 +65,7 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
         Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");
         LOG.info("Step 3: Click View In Browser.");
-        documentLibraryPage.clickOnAction(docName, "View In Browser");
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, "View In Browser", documentLibraryPage);
         Assert.assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), "Document content",
             "File content is not correct or file has not be opened in new window");
     }

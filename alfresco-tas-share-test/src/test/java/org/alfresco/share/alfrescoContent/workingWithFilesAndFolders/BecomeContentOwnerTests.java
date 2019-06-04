@@ -205,6 +205,4 @@ public class BecomeContentOwnerTests extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userContributor);
         siteService.delete(adminUser, adminPassword, siteName);
     }
-
-
 }

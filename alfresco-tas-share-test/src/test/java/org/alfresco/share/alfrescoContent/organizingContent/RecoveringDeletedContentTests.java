@@ -78,7 +78,6 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsOption("Delete");
         deleteDialog.clickDelete();
         ArrayList<String> expectedDisplayedContent1 = new ArrayList<>(Collections.singletonList(fileName3));
-        getBrowser().waitInSeconds(5);
         assertEquals(documentLibraryPage.getFilesList().toString(), expectedDisplayedContent1.toString(), "Displayed files in 'Documents' list=");
 
         LOG.info("STEP2: Open the user menu on the toolbar and click 'My Profile' then the 'Trashcan' tab.");

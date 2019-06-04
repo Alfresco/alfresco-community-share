@@ -88,7 +88,7 @@ public class DeleteRuleTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @TestRail (id = "C7254")
+    @TestRail (id = "C7267")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void deleteRule()
     {
@@ -99,7 +99,6 @@ public class DeleteRuleTest extends ContextAwareWebTest
         LOG.info("STEP2: Click 'Delete' button from Delete dialog");
         deleteDialog.clickDelete();
         manageRulesPage.renderedPage();
-        getBrowser().waitInSeconds(8);
         assertEquals(manageRulesPage.getNoRulesText(), language.translate("documentLibrary.rules.noRules"), "Displayed rules=");
     }
 }

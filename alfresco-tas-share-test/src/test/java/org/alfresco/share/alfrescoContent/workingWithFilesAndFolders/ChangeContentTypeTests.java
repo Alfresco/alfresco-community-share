@@ -102,7 +102,6 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void changeTypeFolder()
     {
-
         String folderName = String.format("Folder-C7166-%s", RandomData.getRandomAlphanumeric());
         contentService.createFolder(userName, password, folderName, siteName);
 
@@ -130,10 +129,6 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertTrue(changeContentTypeDialog.isButtonDisplayed("OK"), "'OK' button is displayed.");
         assertTrue(changeContentTypeDialog.isButtonDisplayed("Cancel"), "'Cancel' button is displayed.");
 
-
-        //  changeContentTypeDialog.clickButton("Cancel");
-
-        /*
         LOG.info("STEP5: Select 'ws:website' from 'New Type' dropdown and click 'Ok' button");
         changeContentTypeDialog.selectOption("ws:website");
         changeContentTypeDialog.clickButton("OK");
@@ -145,8 +140,6 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
         assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Host Name", "Host Port ", "Web App Context ",
                 "Site Configuration", "Site Languages", "Feedback Configuration", "Publish Target"), "Displayed properties:");
-
-                */
     }
 
     //the word modifcation is spelled wrongly, but in case the bug will never be fixed, I changed the test to pass
@@ -179,7 +172,6 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertEquals(changeContentTypeDialog.getDialogTitle(), "Change Type", "Displayed dialog: ");
 
         LOG.info("STEP5: Select 'Article' from 'New Type' dropdown and click 'Ok' button");
-        getBrowser().waitInSeconds(4);
         changeContentTypeDialog.selectOption("Smart Folder Template");
         changeContentTypeDialog.clickButton("OK");
         getBrowser().refresh();

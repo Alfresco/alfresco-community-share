@@ -1,5 +1,8 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.ContentAspects;
 import org.alfresco.dataprep.SiteService;
@@ -7,10 +10,15 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
 {
@@ -51,11 +59,10 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
     }
 
 
-    /*
     //Google Maps will no longer be supported by Share
-    @Bug(id ="ACE-5219", description = "view in Google Maps is not working")
+    @Bug (id ="ACE-5219", description = "view in Google Maps is not working")
     @TestRail (id="C5921")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled=false)
     
     public void viewAFileOnGoogleMaps()
     {
@@ -80,5 +87,4 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
         documentLibraryPage.clickOnFileInGoogleMaps();
         Assert.assertEquals(documentDetailsPage.getFileName(), docName, "Document preview is not displayed when file is accessed form the Google Maps view");
     }
-    */
 }

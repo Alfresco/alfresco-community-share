@@ -11,19 +11,23 @@ import java.util.List;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
+import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
+import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -34,8 +38,13 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 {
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "user-" + random;
+    private final String userName2 = "user2-" + random;
     private final String description = "description-" + random;
     private final String path = "Documents";
+    @Autowired
+    NewContentDialog newContentDialog;
+    @Autowired
+    AddSiteUsersPage addSiteUsersPage;
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
@@ -52,15 +61,16 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     private DeleteDialog deleteDialog;
     @Autowired
     private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private RepositoryPage repositoryPage;
     private String siteName = "Site-" + random;
     private String siteName2 = "Site2-" + random;
-    private String fileName;
-    private String folderName, ruleName1, ruleName2;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, "First Name", "Last Name");
+        userService.create(adminUser, adminPassword, userName2, password, userName2 + domain, "First name" + userName2, "Last Name" + userName2);
         siteService.create(userName, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteName2, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(userName, password);
@@ -80,8 +90,8 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyFolderRulesPage()
     {
-        folderName = "Folder-C6367-" + random;
-        fileName = "fileC6367";
+        String folderName = "Folder-C6367-" + random;
+        String fileName = "fileC6367";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -94,9 +104,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(manageRulesPage.getCreateRulesLinkText(), language.translate("documentLibrary.rules.createLinkText"), "'Create rules' link text=");
         assertEquals(manageRulesPage.getCreateRulesDescription(), language.translate("documentLibrary.rules.createDescription"), "'Create rules' description=");
         assertEquals(manageRulesPage.getLinkToRuleSetLinkText(), language.translate("documentLibrary.rules.linkToRuleSetLinkText"),
-            "'Link to Rule Set' link text=");
+                "'Link to Rule Set' link text=");
         assertEquals(manageRulesPage.getLinkToRuleSetDescription(), language.translate("documentLibrary.rules.linkToRuleSetDescription"),
-            "'Link to Rule Set' description=");
+                "'Link to Rule Set' description=");
         assertEquals(manageRulesPage.getInheritButtonText(), language.translate("documentLibrary.rules.inheritButton"), "Inherit rules button text=");
     }
 
@@ -104,8 +114,8 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyEditRulePageDropdownElements()
     {
-        folderName = "Folder-C12857-" + random;
-        fileName = "fileC12857";
+        String folderName = "Folder-C12857-" + random;
+        String fileName = "fileC12857";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -123,16 +133,16 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Verify the 'If all criteria are met:' drop-down values");
         ArrayList<String> expectedOptionsList = new ArrayList<>(
-            Arrays.asList("All Items", "Size", "Created Date", "Modified Date", "Creator", "Modifier", "Author", "Mimetype", "Encoding", "Description",
-                "Name", "Title", "Has tag", "Has category", "Content of type or sub-type", "Has aspect", "Show more..."));
+                Arrays.asList("All Items", "Size", "Created Date", "Modified Date", "Creator", "Modifier", "Author", "Mimetype", "Encoding", "Description",
+                        "Name", "Title", "Has tag", "Has category", "Content of type or sub-type", "Has aspect", "Show more..."));
         editRulesPage.verifyDropdownOptions("ruleConfigIfCondition", expectedOptionsList);
 
         LOG.info("STEP4: Verify \"Perform Action\" drop-down values");
         expectedOptionsList.clear();
         expectedOptionsList = new ArrayList<>(
-            Arrays.asList("Select...", "Execute script", "Copy", "Move", "Check in", "Check out", "Link to category", "Add aspect", "Remove aspect",
-                "Add simple workflow", "Send email", "Transform and copy content", "Transform and copy image", "Extract common metadata fields",
-                "Import", "Specialise type", "Increment Counter", "Set property value", "webqs_publishTree", "webqs_publish"));
+                Arrays.asList("Select...", "Execute script", "Copy", "Move", "Check in", "Check out", "Link to category", "Add aspect", "Remove aspect",
+                        "Add simple workflow", "Send email", "Transform and copy content", "Transform and copy image", "Extract common metadata fields",
+                        "Import", "Specialise type", "Increment Counter", "Set property value", "webqs_publishTree", "webqs_publish"));
         editRulesPage.verifyDropdownOptions("ruleConfigAction", expectedOptionsList);
     }
 
@@ -140,9 +150,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createRule()
     {
-        ruleName1 = "rule-C6372-" + random;
-        folderName = "Folder-C6372-" + random;
-        fileName = "fileC6372";
+        String ruleName1 = "rule-C6372-" + random;
+        String folderName = "Folder-C6372-" + random;
+        String fileName = "fileC6372";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -184,9 +194,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void itemsAreCreated()
     {
-        ruleName1 = "rule-C6622-" + random;
-        folderName = "Folder-C6622-" + random;
-        fileName = "fileC6622";
+        String ruleName1 = "rule-C6622-" + random;
+        String folderName = "Folder-C6622-" + random;
+        String fileName = "fileC6622";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -231,10 +241,10 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createAndCreateAnother()
     {
-        ruleName1 = "rule1-C7239-" + random;
-        ruleName2 = "rule2-C7239-" + random;
-        folderName = "Folder-C7239-" + random;
-        fileName = "fileC7239";
+        String ruleName1 = "rule1-C7239-" + random;
+        String ruleName2 = "rule2-C7239-" + random;
+        String folderName = "Folder-C7239-" + random;
+        String fileName = "fileC7239";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -282,9 +292,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void cancelCreateRule()
     {
-        ruleName1 = "rule-C7240-" + random;
-        folderName = "Folder-C7240-" + random;
-        fileName = "fileC7240";
+        String ruleName1 = "rule-C7240-" + random;
+        String folderName = "Folder-C7240-" + random;
+        String fileName = "fileC7240";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -313,9 +323,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void disableRule()
     {
-        ruleName1 = "rule-C7245-" + random;
-        folderName = "Folder-C7245-" + random;
-        fileName = "fileC7245";
+        String ruleName1 = "rule-C7245-" + random;
+        String folderName = "Folder-C7245-" + random;
+        String fileName = "fileC7245";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -354,9 +364,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void itemsAreUpdated()
     {
-        ruleName1 = "rule-C6621-" + random;
-        folderName = "FolderC6621-" + random;
-        fileName = "FileC6621-" + random;
+        String ruleName1 = "rule-C6621-" + random;
+        String folderName = "FolderC6621-" + random;
+        String fileName = "FileC6621-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -406,9 +416,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void itemsAreDeleted()
     {
-        ruleName1 = "rule-C6623-" + random;
-        folderName = "FolderC6623-" + random;
-        fileName = "FileC6623-" + random;
+        String ruleName1 = "rule-C6623-" + random;
+        String folderName = "FolderC6623-" + random;
+        String fileName = "FileC6623-" + random;
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -445,10 +455,8 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsMenu();
         headerMenuBar.clickSelectedItemsOption(language.translate("documentLibrary.selectedItemsMenu.delete"));
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
-            "'Confirm multiple delete' dialog message=");
+                "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
-        getBrowser().waitInSeconds(7);
-
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
 
@@ -464,9 +472,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void itemsAreCreatedRuleAppliesToSubfolders()
     {
-        ruleName1 = "rule-C7246-" + random;
-        folderName = "Folder-C7246-" + random;
-        fileName = "C7246File";
+        String ruleName1 = "rule-C7246-" + random;
+        String folderName = "Folder-C7246-" + random;
+        String fileName = "C7246File";
         String folderName2 = "Folder2-C7246-" + random;
         String pathToFolder2 = "Sites/" + siteName + "/documentlibrary/" + folderName;
 
@@ -508,7 +516,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         documentLibraryPage.clickOnFolderName(folderName);
         assertEquals(documentLibraryPage.getFoldersList().toString(), Arrays.asList(folderName2).toString(),
-            "Folders list in Document Library -> " + folderName + "=");
+                "Folders list in Document Library -> " + folderName + "=");
         contentService.createDocumentInRepository(userName, password, pathToFolder2, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "docContent");
 
         LOG.info("STEP3: Navigate to the path specified in the rule, Document Library");
@@ -523,9 +531,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void itemsAreUpdatedRuleAppliesToSubfolders()
     {
-        ruleName1 = "rule-C202963-" + random;
-        folderName = "Folder-C202963-" + random;
-        fileName = "C202963file";
+        String ruleName1 = "rule-C202963-" + random;
+        String folderName = "Folder-C202963-" + random;
+        String fileName = "C202963file";
         String folderName2 = "Folder2-C202963-" + random;
         String pathToFolder2 = "Sites/" + siteName + "/documentlibrary/" + folderName;
 
@@ -568,7 +576,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         documentLibraryPage.clickOnFolderName(folderName);
         assertEquals(documentLibraryPage.getFoldersList().toString(), Arrays.asList(folderName2).toString(),
-            "Folders list in Document Library -> " + folderName + "=");
+                "Folders list in Document Library -> " + folderName + "=");
 
         LOG.info("STEP3: Navigate to folder content. For file click on 'Edit in Alfresco' and update the content");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentActions.editInAlfresco"), editInAlfrescoPage);
@@ -585,9 +593,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void itemsAreDeletedRuleAppliesToSubfolders()
     {
-        ruleName1 = "rule-C202964-" + random;
-        folderName = "Folder-C202964-" + random;
-        fileName = "C202964file";
+        String ruleName1 = "rule-C202964-" + random;
+        String folderName = "Folder-C202964-" + random;
+        String fileName = "C202964file";
         String folderName2 = "Folder2-C202964-" + random;
         String pathToFolder2 = "Sites/" + siteName + "/documentlibrary/" + folderName;
 
@@ -634,10 +642,8 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsMenu();
         headerMenuBar.clickSelectedItemsOption(language.translate("documentLibrary.selectedItemsMenu.delete"));
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
-            "'Confirm multiple delete' dialog message=");
+                "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
-        getBrowser().waitInSeconds(7);
-
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
 
         LOG.info("STEP3: Navigate to the path specified in the rule, Document Library");
@@ -652,9 +658,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkoutToSite()
     {
-        ruleName1 = "rule-C7285-" + random;
-        folderName = "Folder-C7285-" + random;
-        fileName = "C7285file";
+        String ruleName1 = "rule-C7285-" + random;
+        String folderName = "Folder-C7285-" + random;
+        String fileName = "C7285file";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -689,7 +695,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Navigate to " + folderName + " . Create a file in the folder");
         contentService.createDocumentInRepository(userName, password, "Sites/" + siteName + "/documentLibrary/" + folderName, CMISUtil.DocumentType.HTML,
-            fileName, "docContent");
+                fileName, "docContent");
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         documentLibraryPage.clickOnFolderName(folderName);
@@ -708,9 +714,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void moveToSite()
     {
-        ruleName1 = "rule-C7284-" + random;
-        folderName = "Folder-C7284-" + random;
-        fileName = "C7284file";
+        String ruleName1 = "rule-C7284-" + random;
+        String folderName = "Folder-C7284-" + random;
+        String fileName = "C7284file";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -745,7 +751,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Create a file in " + folderName + " from " + siteName + "'s Document Library");
         contentService.createDocumentInRepository(userName, password, "Sites/" + siteName + "/documentLibrary/" + folderName, CMISUtil.DocumentType.HTML,
-            fileName, "docContent");
+                fileName, "docContent");
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         documentLibraryPage.clickOnFolderName(folderName);
@@ -763,9 +769,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void copyToSite()
     {
-        ruleName1 = "rule-C7283-" + random;
-        folderName = "Folder-C7283-" + random;
-        fileName = "C7283file";
+        String ruleName1 = "rule-C7283-" + random;
+        String folderName = "Folder-C7283-" + random;
+        String fileName = "C7283file";
         contentService.createFolder(userName, password, folderName, siteName);
 
         documentLibraryPage.navigate(siteName);
@@ -800,7 +806,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Create a file in " + folderName + " from " + siteName + "'s Document Library");
         contentService.createDocumentInRepository(userName, password, "Sites/" + siteName + "/documentLibrary/" + folderName, CMISUtil.DocumentType.HTML,
-            fileName, "docContent");
+                fileName, "docContent");
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         documentLibraryPage.clickOnFolderName(folderName);
@@ -813,4 +819,97 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         editRulesPage.cleanupSelectedValues();
     }
+
+    @TestRail (id = "C286441")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void createRuleWithUnlessShowMoreOption()
+    {
+        setupAuthenticatedSession(adminUser, adminPassword);
+        contentAction.renameContent(adminUser, adminPassword, "/Data Dictionary/Scripts/backup.js.sample", "backup.js");
+        setupAuthenticatedSession(userName, password);
+        String folderName = "Folder1-C286441-" + random;
+        String folderName1 = "User1-C286441" + random;
+        String folderName2 = "User2-C286441" + random;
+        String foldername3 = "Backup";
+        contentService.createFolder(userName, password, folderName, siteName);
+        addSiteUsersPage.navigate(siteName);
+        addSiteUsersPage.searchForUser(userName2);
+        addSiteUsersPage.clickSelectUserButton(userName2);
+        addSiteUsersPage.setUserRole(userName2, "Manager");
+        addSiteUsersPage.clickAddUsers();
+        String rulename3 = "rule-C286441-" + random;
+        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        manageRulesPage.clickCreateRules();
+        editRulesPage.setCurrentSiteName(siteName);
+
+        LOG.info("STEP 1: Fill 'Name' field with correct data;");
+        editRulesPage.typeName(rulename3);
+
+        LOG.info("STEP 2: Select 'Items are created or enter this folder' value from 'When' drop-down select control;");
+        editRulesPage.selectOptionFromDropdown("ruleConfigType", 0);
+
+        LOG.info("STEP 3: Check the 'Unless all criteria are met:' checkbox");
+        if (!editRulesPage.isUnlessCheckboxSelected())
+        {
+            editRulesPage.clickUnlessCheckbox();
+        }
+        assertTrue(editRulesPage.isUnlessCheckboxSelected(), "Is not selected");
+
+        LOG.info("STEP 4: Select 'Creator' value from the 'Unless all criteria are met:' first drop-down box");
+        editRulesPage.selectOptionFromDropdown("ruleConfigUnlessCondition", 4);
+
+        LOG.info("STEP 5: Select 'Equals'' from the second drop-down box");
+        editRulesPage.selectOptionFromSecondDropdown("ruleConfigUnlessCondition", 3);
+
+        LOG.info("STEP 6: Type in the third box the 'If' condition");
+        editRulesPage.typeInputConfigText("ruleConfigUnlessCondition", "If");
+        editRulesPage.getInputConfigText("ruleConfigUnlessCondition");
+        assertEquals(editRulesPage.getInputConfigText("ruleConfigUnlessCondition"), "If", "Te value is not correct");
+
+        LOG.info("STEP 7: Select 'Execute Backup script' from 'Perform Action' drop-down select;");
+        editRulesPage.selectOptionFromDropdown("ruleConfigAction", 1);
+        editRulesPage.selectOptionFromSecondDropdown("ruleConfigAction", 0);
+        editRulesPage.clickRulesAppliesToSubfoldersCheckbox();
+
+        LOG.info("STEP 8: Click 'Create' button;");
+        editRulesPage.renderedPage();
+        editRulesPage.clickCreateButton();
+
+
+        LOG.info("STEP 9: Apply the rule on 'Folder1' that was created");
+        ruleDetailsPage.clickRunRulesButton();
+        ruleDetailsPage.clickOnRunRulesOption(1);
+
+        LOG.info("STEP 10: Create 'User1' folder in 'Folder1' (User1 should be logged in)");
+        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.clickOnFolderName(folderName);
+        documentLibraryPage.clickCreateButton();
+        documentLibraryPage.clickFolderLink();
+        newContentDialog.fillInDetails(folderName1, "", "");
+        newContentDialog.clickSaveButton();
+        Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName1), "Folder is not displayed!");
+
+
+        LOG.info("STEP 11: Login as User2 and create 'User2' folder in Folder1;");
+        setupAuthenticatedSession(userName2, password);
+        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.clickOnFolderName(folderName);
+        documentLibraryPage.clickCreateButton();
+        documentLibraryPage.clickFolderLink();
+        newContentDialog.fillInDetails(folderName2, "", "");
+        newContentDialog.clickSaveButton();
+        Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName2), "Folder is not displayed!");
+
+        LOG.info("STEP 12: Check contents of Folder1;");
+
+        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.clickOnFolderName(folderName);
+        Assert.assertTrue(documentLibraryPage.getFoldersList().contains(foldername3), "Folder is not displayed!");
+
+
+        editRulesPage.cleanupSelectedValues();
+        contentAction.renameContent(adminUser, adminPassword, "/Data Dictionary/Scripts/backup.js", "backup.js.sample");
+    }
+
 }

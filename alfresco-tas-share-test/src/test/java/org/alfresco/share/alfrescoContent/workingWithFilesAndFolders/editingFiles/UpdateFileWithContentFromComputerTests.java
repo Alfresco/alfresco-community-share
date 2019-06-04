@@ -58,7 +58,7 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
+//    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C7074")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void uploadFileUsingUploadNewVersion()

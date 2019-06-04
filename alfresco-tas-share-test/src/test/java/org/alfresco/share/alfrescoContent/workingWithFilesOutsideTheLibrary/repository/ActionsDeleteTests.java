@@ -67,6 +67,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileName), fileName + " is not available in Repository");
 
         LOG.info("Step 1: Hover over the file you want to delete and press More, select Delete Document");
+        repositoryPage.mouseOverContentItem(fileName);
         repositoryPage.clickDocumentLibraryItemAction(fileName, "Delete Document", deleteDialog);
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), fileName), "Delete dialog message= ");
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete' button is not displayed.");

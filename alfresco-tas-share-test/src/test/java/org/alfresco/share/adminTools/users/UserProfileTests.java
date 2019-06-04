@@ -58,7 +58,9 @@ public class UserProfileTests extends ContextAwareWebTest
     private String c9431User = String.format("c9431user%s", RandomData.getRandomAlphanumeric());
     private String c9427User = String.format("c9427user%s", RandomData.getRandomAlphanumeric());
     private String c9426User = String.format("c9426user%s", RandomData.getRandomAlphanumeric());
-    private String c9434User = String.format("c9434user" + RandomData.getRandomAlphanumeric());
+    private String c9434User = String.format("c9434user%s", RandomData.getRandomAlphanumeric());
+    private String c9423User = String.format("c9423user%s", RandomData.getRandomAlphanumeric());
+    private String c9423Group = String.format("c9423Group%s", RandomData.getRandomAlphanumeric());
     private String authenticationError;
 
     @BeforeClass (alwaysRun = true)
@@ -72,11 +74,13 @@ public class UserProfileTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, c9427User, password, c9427User + domain, "c9427firstName", "c9427lastName");
         userService.create(adminUser, adminPassword, c9426User, password, c9426User + domain, "c9426firstName", "c9426lastName");
         userService.create(adminUser, adminPassword, c9434User, password, c9434User + domain, "c9434firstName", "c9434lastName");
+        userService.create(adminUser, adminPassword, c9423User, password, c9426User + domain, "c9423firstname", "c9423lastname");
+        groupService.createGroup(adminUser, adminPassword, c9423Group);
         setupAuthenticatedSession(adminUser, adminPassword);
     }
 
     @AfterClass (alwaysRun = true)
-    public void afterClass()
+    public void cleanUp()
     {
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
@@ -84,15 +88,16 @@ public class UserProfileTests extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9416User);
         userService.delete(adminUser, adminPassword, c9417User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9417User);
+        userService.delete(adminUser, adminPassword, c9431User);
         userService.delete(adminUser, adminPassword, c9427User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9427User);
         userService.delete(adminUser, adminPassword, c9426User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9426User);
         userService.delete(adminUser, adminPassword, c9434User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9434User);
-
+        userService.delete(adminUser, adminPassword, c9423User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9431User);
-
+        groupService.removeGroup(adminUser, adminPassword, c9423Group);
     }
 
     @TestRail (id = "C9415")
@@ -219,6 +224,49 @@ public class UserProfileTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
+    @TestRail (id = "C9423")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    public void addUserToGroup()
+    {
+        setupAuthenticatedSession(adminUser, adminPassword);
+
+        String fullName = "c9423firstname" + " " + "c9423lastname";
+
+        usersPage.navigate();
+        usersPage.searchUser(c9423User);
+        usersPage.clickUserLink(fullName);
+        LOG.info("Open \"Edit user\" page");
+        userProfileAdminToolsPage.clickEditUserButton();
+
+        LOG.info("Step 1. Enter into search field on Groups pane the name of the created group \"" + c9423Group + "\" and click the Search button;");
+        editUserPage.editGroupsField(c9423Group);
+        editUserPage.clickSearchGroupButton();
+
+        LOG.info("Check if group \"" + c9423Group + "\" is displayed in the list of groups with \"Add\" button;");
+        Assert.assertTrue(editUserPage.isGroupInSearchResults(c9423Group), "The group \"" + c9423Group + "\" is not in search results");
+        Assert.assertTrue(editUserPage.isAddButtonDisplayed(c9423Group), "The \"Add\" button for " + c9423Group + " is not displayed");
+
+        LOG.info("Step 2. Click the Add button for \"" + c9423Group + "\"");
+        editUserPage.addGroup(c9423Group);
+        Assert.assertTrue(editUserPage.isRemoveGroupDispalyed(c9423Group));
+
+        LOG.info("Step 3. Click \"Remove Group\" icon for added group \"" + c9423Group + "\";");
+        editUserPage.removeGroup(c9423Group);
+        Assert.assertFalse(editUserPage.isRemoveGroupDispalyed(c9423Group));
+
+        LOG.info("Step 4. Click the Add button for \"" + c9423Group + "\"");
+        editUserPage.addGroup(c9423Group);
+        Assert.assertTrue(editUserPage.isRemoveGroupDispalyed(c9423Group));
+
+        LOG.info("Step 5. Click \"Save Changes\" button;");
+        editUserPage.clickSaveChangesButton();
+        Assert.assertEquals(userProfileAdminToolsPage.getUserNameInPageTitle(), fullName);
+
+        LOG.info("Step 6. Verify that user \"" + c9423User + "\" has been added to group \"" + c9423Group + "\".");
+        Assert.assertEquals(userProfileAdminToolsPage.getGroupName(), c9423Group);
+        cleanupAuthenticatedSession();
+    }
+
     @TestRail (id = "C9431")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void deletingAUser()
@@ -233,13 +281,12 @@ public class UserProfileTests extends ContextAwareWebTest
         userProfileAdminToolsPage.clickDelete();
         Assert.assertTrue(deleteUserDialogPage.isDeleteUserWindowDisplayed(), "Delete User window is not displayed");
         Assert.assertEquals(
-            deleteUserDialogPage.getDeleteUserWindowText(),
-            "Click Delete User to remove this user.\n" +
-                "\n" +
-                "Deleting a user removes their permissions from the repository. If you create a user with the same userid as a previously deleted user, the new user gets access to the original user's files but not their permissions as they are removed upon user deletion.");
+                deleteUserDialogPage.getDeleteUserWindowText(),
+                "Click Delete User to remove this user.\n" +
+                        "\n" +
+                        "Deleting a user removes their permissions from the repository. If you create a user with the same userid as a previously deleted user, the new user gets access to the original user's files but not their permissions as they are removed upon user deletion.");
 
         LOG.info("Step 2: Click the Delete button on the Delete User pop-up window");
-        getBrowser().waitInSeconds(5);
         deleteUserDialogPage.clickButton("Delete", usersPage);
 
         LOG.info("Step 3: On the Users Search page search for user1");
@@ -284,7 +331,6 @@ public class UserProfileTests extends ContextAwareWebTest
         usersPage.clickUserLink(fullName);
         userProfileAdminToolsPage.clickEditUserButton();
         editUserPage.clickDisabledAccount();
-        //    getBrowser().waitInSeconds(9);
         editUserPage.clickSaveChangesButton();
         getBrowser().waitUntilElementContainsText(userProfileAdminToolsPage.accountStatus, "Disabled");
         Assert.assertEquals(userProfileAdminToolsPage.getAccountStatus(), "Disabled", "Account is not disabled");
@@ -292,7 +338,6 @@ public class UserProfileTests extends ContextAwareWebTest
         LOG.info("Step 1&2: Switch off \"Disable account\" check-box");
         userProfileAdminToolsPage.clickEditUserButton();
         editUserPage.clickDisabledAccount();
-        getBrowser().waitInSeconds(5);
         editUserPage.clickSaveChangesButton();
         Assert.assertEquals(userProfileAdminToolsPage.getAccountStatus(), "Enabled", "Account is not enabled");
 
@@ -317,17 +362,20 @@ public class UserProfileTests extends ContextAwareWebTest
         usersPage.navigate();
         usersPage.searchUser(c9434User);
         usersPage.clickUserLink(fullName);
-        userProfileAdminToolsPage.renderedPage();
         userProfileAdminToolsPage.clickEditUserButton();
         editUserPage.editGroupsField(groupName);
+        editUserPage.clickSearchGroupButton();
         editUserPage.addGroup(groupName);
-        editUserPage.clickSaveChangesButton();
-        Assert.assertEquals(userProfileAdminToolsPage.getGroupsNames(), groupName, "Group is incorrect.");
+        userProfileAdminToolsPage = editUserPage.clickSaveChangesButton();
+
+        Assert.assertEquals(userProfileAdminToolsPage.getGroupName(), groupName, "Group is incorrect.");
 
         LOG.info("Step 2: Remove the group.");
         userProfileAdminToolsPage.clickEditUserButton();
         editUserPage.removeGroup(groupName);
-        editUserPage.clickSaveChangesButton();
-        Assert.assertFalse(userProfileAdminToolsPage.getGroupsNames().contains(groupName), "Group was not removed.");
+        userProfileAdminToolsPage = editUserPage.clickSaveChangesButton();
+        Assert.assertFalse(userProfileAdminToolsPage.getGroupName().contains(groupName), "Group was not removed.");
+
+        cleanupAuthenticatedSession();
     }
 }

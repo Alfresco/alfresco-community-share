@@ -232,8 +232,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Create' then 'Create file from template'.");
         myFilesPage.clickCreateButton();
-        getBrowser().waitInSeconds(3);
-        //createContent.clickCreateFromTemplateButton("Create document from template");
+        createContent.clickCreateFromTemplateButton("Create document from template");
         Assert.assertTrue(createContent.isFileTemplateDisplayed(fileTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");

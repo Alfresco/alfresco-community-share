@@ -92,4 +92,21 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Audio"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Audio"), "Aspect is present on 'Available to Add' list");
     }
+
+    @Test (groups = { TestGroup.SHARE, TestGroup.CONTENT })
+    public void addAspectCancelCloseTest()
+    {
+        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.clickOnFile(fileName);
+        documentDetailsPage.clickManageAspects();
+        aspectsForm.addAspect("Audio");
+        aspectsForm.clickCloseButton();
+        Assert.assertFalse(aspectsForm.isAspectsFormTitleDisplayed(), "Aspects form is still displayed");
+        Assert.assertFalse(documentDetailsPage.isAspectDisplayed("Versionable"), "Versionable aspect is displayed");
+        documentDetailsPage.clickManageAspects();
+        aspectsForm.addAspect("Audio");
+        aspectsForm.clickCancelButton();
+        Assert.assertFalse(aspectsForm.isAspectsFormTitleDisplayed(), "Aspects form is still displayed");
+        Assert.assertFalse(documentDetailsPage.isAspectDisplayed("Versionable"), "Versionable aspect is displayed");
+    }
 }

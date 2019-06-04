@@ -274,7 +274,6 @@ public class EditingLinkTests extends ContextAwareWebTest
          */
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("bing"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -315,6 +314,5 @@ public class EditingLinkTests extends ContextAwareWebTest
         Assert.assertTrue(linkPage.getLinkTags(linkTitle).contains("tag1"), "Tag1 is not displayed in the list of tags!");
         Assert.assertTrue(linkPage.getLinkTags(linkTitle).contains("tag2"), "Tag2 is not displayed in the list of tags!");
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 }

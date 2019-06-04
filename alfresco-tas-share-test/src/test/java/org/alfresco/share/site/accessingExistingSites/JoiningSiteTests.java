@@ -30,6 +30,7 @@ import org.testng.annotations.Test;
  */
 public class JoiningSiteTests extends ContextAwareWebTest
 {
+    private final String randomData = RandomData.getRandomAlphanumeric();
     @Autowired
     SiteFinderPage siteFinderPage;
 
@@ -56,17 +57,16 @@ public class JoiningSiteTests extends ContextAwareWebTest
 
     @Autowired
     Notification notification;
-
-    private String user1 = String.format("testUser1%s", RandomData.getRandomAlphanumeric());
-    private String user2 = String.format("testUser2%s", RandomData.getRandomAlphanumeric());
+    private String user1 = String.format("testUser1%s", randomData);
+    private String user2 = String.format("testUser2%s", randomData);
     private String user2FirstName = "user2_firstName";
     private String user2LastName = "user2_lastName";
-    private String siteNameC2833 = String.format("SiteName-C2833-%s", RandomData.getRandomAlphanumeric());
-    private String description = String.format("description%s", RandomData.getRandomAlphanumeric());
-    private String siteNameC2823 = String.format("SiteName-C2823-%s", RandomData.getRandomAlphanumeric());
-    private String siteNameC3053 = String.format("SiteName-C3053-%s", RandomData.getRandomAlphanumeric());
-    private String siteNameC2831 = String.format("SiteName-C2831-%s", RandomData.getRandomAlphanumeric());
-    private String siteNameC3059 = String.format("SiteName-C3059-%s", RandomData.getRandomAlphanumeric());
+    private String siteNameC2833 = String.format("SiteName-C2833-%s", randomData);
+    private String description = String.format("description%s", randomData);
+    private String siteNameC2823 = String.format("SiteName-C2823-%s", randomData);
+    private String siteNameC3053 = String.format("SiteName-C3053-%s", randomData);
+    private String siteNameC2831 = String.format("SiteName-C2831-%s", randomData);
+    private String siteNameC3059 = String.format("SiteName-C3059-%s", randomData);
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -132,15 +132,11 @@ public class JoiningSiteTests extends ContextAwareWebTest
         siteDashboardPage.clickSiteConfiguration();
         siteDashboardPage.clickOptionInSiteConfigurationDropDown("Join Site", siteDashboardPage);
         LOG.info("STEP 2: Click on 'Site Members' link.");
-        getBrowser().waitInSeconds(4);
-
         siteUsersPage.navigate(siteNameC3053);
-        getBrowser().waitInSeconds(8);
         assertTrue(siteUsersPage.isASiteMember(user2FirstName + " " + user2LastName), user2 + " should be displayed in the list of members for " + siteNameC3053);
 
         assertTrue(siteUsersPage.isRoleSelected("Consumer", user2FirstName + " " + user2LastName), user2 + " should have Consumer role.");
         LOG.info("STEP 3: Click again on 'Site Configuration Options' icon.");
-        getBrowser().waitInSeconds(7);
         siteDashboardPage.clickSiteConfiguration();
         assertTrue(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Leave Site"), "'Leave Site' action should be available in the 'Site Configuration Options' drop-down menu.");
         assertFalse(siteDashboardPage.isOptionListedInSiteConfigurationDropDown("Join Site"), "'Join Site' action should be available in the 'Site Configuration Options' drop-down menu.");
@@ -156,7 +152,6 @@ public class JoiningSiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(user2, password);
         siteFinderPage.navigate();
         LOG.info("STEP 1: Enter site name (" + siteNameC2831 + ") in textbox and click on 'Search' button.");
-        getBrowser().waitInSeconds(5);
         siteFinderPage.searchSiteWithRetry(siteNameC2831);
         assertTrue(siteFinderPage.checkSiteWasFound(siteNameC2831), "Site is expected to be found.");
         assertTrue(siteFinderPage.isButtonDisplayedForSite(siteNameC2831, "Request to Join"), "'Request to Join' button is expected to be displayed for " + siteNameC2831);
