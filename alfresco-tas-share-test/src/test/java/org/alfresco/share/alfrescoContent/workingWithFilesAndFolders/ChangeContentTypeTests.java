@@ -139,7 +139,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         documentDetailsPage.clickEditProperties();
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
         assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Host Name", "Host Port ", "Web App Context ",
-                "Site Configuration", "Site Languages", "Feedback Configuration", "Publish Target"), "Displayed properties:");
+            "Site Configuration", "Site Languages", "Feedback Configuration", "Publish Target"), "Displayed properties:");
     }
 
     //the word modifcation is spelled wrongly, but in case the bug will never be fixed, I changed the test to pass

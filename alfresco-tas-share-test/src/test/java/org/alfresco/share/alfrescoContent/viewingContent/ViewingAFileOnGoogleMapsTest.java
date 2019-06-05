@@ -15,8 +15,8 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -60,29 +60,29 @@ public class ViewingAFileOnGoogleMapsTest extends ContextAwareWebTest
 
 
     //Google Maps will no longer be supported by Share
-    @Bug (id ="ACE-5219", description = "view in Google Maps is not working")
-    @TestRail (id="C5921")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled=false)
-    
+    @Bug (id = "ACE-5219", description = "view in Google Maps is not working")
+    @TestRail (id = "C5921")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
+
     public void viewAFileOnGoogleMaps()
     {
         LOG.info("Step 1: Navigate to Document Library page");
         documentLibraryPage.navigate(siteName);
         Assert.assertEquals(documentLibraryPage.getPageHeader(), siteName, "Document Library is not opened!");
         Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName), "Folder is not displayed!");
-        
+
         LOG.info("Step 2: Click on folder and then hover a file that has the Geolocation Metadata available icon.");
         documentLibraryPage.clickOnFolderName(folderName);
         Assert.assertTrue(documentLibraryPage.isGeolocationMetadataIconDisplayed(), "Geolocation Metadata icon is not displayed");
         List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™", "View on Google Maps");
         Assert.assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
         Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");
-        
+
         LOG.info("Step 3: Click on View on Google Maps");
         documentLibraryPage.clickDocumentLibraryItemAction(docName, "View on Google Maps", documentLibraryPage);
-        Assert.assertTrue(documentLibraryPage.isFileOpenedInGoogleMaps(),"File is not opened in Google Maps");
-        Assert.assertTrue(documentLibraryPage.isDocumentThumbnailDisplayedOnGoogleMaps(),"Document thumbnail is not displayed in Google Maps");
-        
+        Assert.assertTrue(documentLibraryPage.isFileOpenedInGoogleMaps(), "File is not opened in Google Maps");
+        Assert.assertTrue(documentLibraryPage.isDocumentThumbnailDisplayedOnGoogleMaps(), "Document thumbnail is not displayed in Google Maps");
+
         LOG.info("Step 4: Click on file in Google Maps to open file preview");
         documentLibraryPage.clickOnFileInGoogleMaps();
         Assert.assertEquals(documentDetailsPage.getFileName(), docName, "Document preview is not displayed when file is accessed form the Google Maps view");

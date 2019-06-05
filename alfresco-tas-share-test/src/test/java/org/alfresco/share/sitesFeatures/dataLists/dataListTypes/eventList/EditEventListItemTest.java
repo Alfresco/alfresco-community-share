@@ -103,7 +103,7 @@ public class EditEventListItemTest extends ContextAwareWebTest
         editItemPopUp.clickSave();
         LOG.info(itemStartDate + ", " + itemEndDate);
         List<String> expectedItem = Arrays.asList(newItemTitle, newItemDescription, newItemLocation, itemStartDate, itemEndDate, newItemRegistrations,
-                newItemNotes, attachedFile);
+            newItemNotes, attachedFile);
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedItem), newItemTitle + " issue list item is displayed.");
     }
 }

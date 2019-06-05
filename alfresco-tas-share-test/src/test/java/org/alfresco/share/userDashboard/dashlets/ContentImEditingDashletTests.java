@@ -41,8 +41,8 @@ public class ContentImEditingDashletTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, testUserName, password, testUserName + domain, "Valid", "User");
         userService
-                .addDashlet(testUserName, password, DashboardCustomization.UserDashlet.CONTENT_EDITING, DashboardCustomization.DashletLayout.THREE_COLUMNS, 1,
-                        3);
+            .addDashlet(testUserName, password, DashboardCustomization.UserDashlet.CONTENT_EDITING, DashboardCustomization.DashletLayout.THREE_COLUMNS, 1,
+                3);
         siteService.create(testUserName, password, domain, siteName, "test site", SiteService.Visibility.PUBLIC);
         contentService.createDocument(testUserName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, documentName, documentContent);
         setupAuthenticatedSession(testUserName, password);
@@ -71,7 +71,7 @@ public class ContentImEditingDashletTests extends ContextAwareWebTest
         userDashboardPage.navigate(testUserName);
         contentImEditingDashlet.clickHelpIcon();
         Assert.assertEquals(contentImEditingDashlet.getHelpBalloonMessage(), language.translate("contentImEditingDashlet.HelpBalloonText"),
-                language.translate("contentImEditingDashlet.HelpBalloonText") + " is not the text displayed");
+            language.translate("contentImEditingDashlet.HelpBalloonText") + " is not the text displayed");
         contentImEditingDashlet.closeHelpBalloon();
         Assert.assertFalse(contentImEditingDashlet.isBalloonDisplayed(), "Help balloon is still displayed.");
     }

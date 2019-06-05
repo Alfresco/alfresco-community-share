@@ -147,18 +147,18 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
         LOG.info("Step 5 - Try to expand all possible dashlets");
         int sizeBeforeMyProfile = mySitesDashlet.getDashletHeight();
         int sizeBeforeMyDiscussions = savedSearchDashlet.getDashletHeight();
-        mySitesDashlet.resizeDashlet(500,0);
-        savedSearchDashlet.resizeDashlet(600,0);
+        mySitesDashlet.resizeDashlet(500, 0);
+        savedSearchDashlet.resizeDashlet(600, 0);
         int sizeAfterMyMeeting = mySitesDashlet.getDashletHeight();
         int sizeAfterMyDiscussions = savedSearchDashlet.getDashletHeight();
         Assert.assertTrue(sizeAfterMyMeeting > sizeBeforeMyProfile);
         Assert.assertTrue(sizeAfterMyDiscussions > sizeBeforeMyDiscussions);
 
         LOG.info("Step 6 - Try to narrow all possible dashlets at the minimum size");
-        mySitesDashlet.resizeDashlet(-400,0);
-        savedSearchDashlet.resizeDashlet(-400,0);
+        mySitesDashlet.resizeDashlet(-400, 0);
+        savedSearchDashlet.resizeDashlet(-400, 0);
         Assert.assertTrue(mySitesDashlet.getDashletHeight() < sizeAfterMyMeeting);
-             Assert.assertTrue(savedSearchDashlet.getDashletHeight() < sizeAfterMyDiscussions);
+        Assert.assertTrue(savedSearchDashlet.getDashletHeight() < sizeAfterMyDiscussions);
 
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);

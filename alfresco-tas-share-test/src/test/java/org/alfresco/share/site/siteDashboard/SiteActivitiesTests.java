@@ -425,14 +425,14 @@ public class SiteActivitiesTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Test(groups = {TestGroup.SHARE, "Acceptance", "SiteDashboard"}, enabled = false)
+    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" }, enabled = false)
     public void verifyRSSFeedFunctionalityForActivitiesDashlet()
     {
-        String partialUnchangedUrl="/share/feedservice/components/dashlets/activities/list?format=atomfeed&mode=site&site=";
+        String partialUnchangedUrl = "/share/feedservice/components/dashlets/activities/list?format=atomfeed&mode=site&site=";
         setupAuthenticatedSession(userName, password);
         siteDashboardPage.navigate(siteName);
         siteActivitiesDashlet.enableRSSFeed(partialUnchangedUrl, siteName);
-        Assert.assertTrue(getBrowser().getCurrentUrl().contains(partialUnchangedUrl), "User is not redirected to RSS Feed page "+ userName);
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains(partialUnchangedUrl), "User is not redirected to RSS Feed page " + userName);
     }
 
     @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })

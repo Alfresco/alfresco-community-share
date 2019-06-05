@@ -252,7 +252,7 @@ public class BasicSearchTests extends ContextAwareWebTest
         currentUrl = siteDashboardPage.getCurrentUrl();
         currentUrl = currentUrl.substring(currentUrl.indexOf("/share"), currentUrl.indexOf("&scope=repo"));
         assertEquals(currentUrl, "/share/page/dp/ws/faceted-search#searchTerm=" + docName1,
-                "User is redirected to Search page.");
+            "User is redirected to Search page.");
 
         LOG.info("STEP2: Verify the default view");
         assertTrue(searchPage.isSearchResultsListInDetailedView(), "Detailed view is displayed.");
@@ -282,7 +282,7 @@ public class BasicSearchTests extends ContextAwareWebTest
         currentUrl = currentUrl.substring(currentUrl.indexOf("/share"), currentUrl.indexOf("&scope=repo"));
 
         assertEquals(currentUrl, "/share/page/dp/ws/faceted-search#searchTerm=" + docName1,
-                "User is redirected to Search page.");
+            "User is redirected to Search page.");
 
         LOG.info("STEP2: Change the view to \"Gallery View\" from 'Views' dropdown and verify results section");
         searchPage.clickGalleryView();

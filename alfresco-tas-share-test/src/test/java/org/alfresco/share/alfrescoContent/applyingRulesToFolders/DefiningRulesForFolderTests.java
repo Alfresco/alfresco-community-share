@@ -26,8 +26,8 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -104,9 +104,9 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(manageRulesPage.getCreateRulesLinkText(), language.translate("documentLibrary.rules.createLinkText"), "'Create rules' link text=");
         assertEquals(manageRulesPage.getCreateRulesDescription(), language.translate("documentLibrary.rules.createDescription"), "'Create rules' description=");
         assertEquals(manageRulesPage.getLinkToRuleSetLinkText(), language.translate("documentLibrary.rules.linkToRuleSetLinkText"),
-                "'Link to Rule Set' link text=");
+            "'Link to Rule Set' link text=");
         assertEquals(manageRulesPage.getLinkToRuleSetDescription(), language.translate("documentLibrary.rules.linkToRuleSetDescription"),
-                "'Link to Rule Set' description=");
+            "'Link to Rule Set' description=");
         assertEquals(manageRulesPage.getInheritButtonText(), language.translate("documentLibrary.rules.inheritButton"), "Inherit rules button text=");
     }
 
@@ -133,16 +133,16 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         LOG.info("STEP3: Verify the 'If all criteria are met:' drop-down values");
         ArrayList<String> expectedOptionsList = new ArrayList<>(
-                Arrays.asList("All Items", "Size", "Created Date", "Modified Date", "Creator", "Modifier", "Author", "Mimetype", "Encoding", "Description",
-                        "Name", "Title", "Has tag", "Has category", "Content of type or sub-type", "Has aspect", "Show more..."));
+            Arrays.asList("All Items", "Size", "Created Date", "Modified Date", "Creator", "Modifier", "Author", "Mimetype", "Encoding", "Description",
+                "Name", "Title", "Has tag", "Has category", "Content of type or sub-type", "Has aspect", "Show more..."));
         editRulesPage.verifyDropdownOptions("ruleConfigIfCondition", expectedOptionsList);
 
         LOG.info("STEP4: Verify \"Perform Action\" drop-down values");
         expectedOptionsList.clear();
         expectedOptionsList = new ArrayList<>(
-                Arrays.asList("Select...", "Execute script", "Copy", "Move", "Check in", "Check out", "Link to category", "Add aspect", "Remove aspect",
-                        "Add simple workflow", "Send email", "Transform and copy content", "Transform and copy image", "Extract common metadata fields",
-                        "Import", "Specialise type", "Increment Counter", "Set property value", "webqs_publishTree", "webqs_publish"));
+            Arrays.asList("Select...", "Execute script", "Copy", "Move", "Check in", "Check out", "Link to category", "Add aspect", "Remove aspect",
+                "Add simple workflow", "Send email", "Transform and copy content", "Transform and copy image", "Extract common metadata fields",
+                "Import", "Specialise type", "Increment Counter", "Set property value", "webqs_publishTree", "webqs_publish"));
         editRulesPage.verifyDropdownOptions("ruleConfigAction", expectedOptionsList);
     }
 
@@ -455,7 +455,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsMenu();
         headerMenuBar.clickSelectedItemsOption(language.translate("documentLibrary.selectedItemsMenu.delete"));
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
-                "'Confirm multiple delete' dialog message=");
+            "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed.");
@@ -516,7 +516,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         documentLibraryPage.clickOnFolderName(folderName);
         assertEquals(documentLibraryPage.getFoldersList().toString(), Arrays.asList(folderName2).toString(),
-                "Folders list in Document Library -> " + folderName + "=");
+            "Folders list in Document Library -> " + folderName + "=");
         contentService.createDocumentInRepository(userName, password, pathToFolder2, CMISUtil.DocumentType.TEXT_PLAIN, fileName, "docContent");
 
         LOG.info("STEP3: Navigate to the path specified in the rule, Document Library");
@@ -576,7 +576,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         documentLibraryPage.clickOnFolderName(folderName);
         assertEquals(documentLibraryPage.getFoldersList().toString(), Arrays.asList(folderName2).toString(),
-                "Folders list in Document Library -> " + folderName + "=");
+            "Folders list in Document Library -> " + folderName + "=");
 
         LOG.info("STEP3: Navigate to folder content. For file click on 'Edit in Alfresco' and update the content");
         documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentActions.editInAlfresco"), editInAlfrescoPage);
@@ -642,7 +642,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsMenu();
         headerMenuBar.clickSelectedItemsOption(language.translate("documentLibrary.selectedItemsMenu.delete"));
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
-                "'Confirm multiple delete' dialog message=");
+            "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
 
@@ -695,7 +695,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Navigate to " + folderName + " . Create a file in the folder");
         contentService.createDocumentInRepository(userName, password, "Sites/" + siteName + "/documentLibrary/" + folderName, CMISUtil.DocumentType.HTML,
-                fileName, "docContent");
+            fileName, "docContent");
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         documentLibraryPage.clickOnFolderName(folderName);
@@ -751,7 +751,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Create a file in " + folderName + " from " + siteName + "'s Document Library");
         contentService.createDocumentInRepository(userName, password, "Sites/" + siteName + "/documentLibrary/" + folderName, CMISUtil.DocumentType.HTML,
-                fileName, "docContent");
+            fileName, "docContent");
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         documentLibraryPage.clickOnFolderName(folderName);
@@ -806,7 +806,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
 
         LOG.info("STEP2: Create a file in " + folderName + " from " + siteName + "'s Document Library");
         contentService.createDocumentInRepository(userName, password, "Sites/" + siteName + "/documentLibrary/" + folderName, CMISUtil.DocumentType.HTML,
-                fileName, "docContent");
+            fileName, "docContent");
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         documentLibraryPage.clickOnFolderName(folderName);

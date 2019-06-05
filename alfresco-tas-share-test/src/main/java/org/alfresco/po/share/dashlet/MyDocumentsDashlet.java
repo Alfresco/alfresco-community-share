@@ -114,7 +114,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
             browser.selectOptionFromFilterOptionsList(filter, filterOptions);
 
             Assert.assertTrue(browser.findElement(By.cssSelector("div.dashlet.my-documents button[id*='default-filters']")).getText().contains(filter),
-                    "Incorrect filter selected");
+                "Incorrect filter selected");
 
             browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[id$='default-documents'] tr[class*='yui-dt-rec'] h3.filename"));
             browser.selectOptionFromFilterOptionsList(filter, filterOptions);
@@ -258,7 +258,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     public boolean isDocumentFavourite(String documentName)
     {
         browser.waitUntilWebElementIsDisplayedWithRetry(
-                selectDocumentDetailsRow(documentName).findElement(By.cssSelector("a.favourite-action.favourite3.enabled")));
+            selectDocumentDetailsRow(documentName).findElement(By.cssSelector("a.favourite-action.favourite3.enabled")));
         return browser.isElementDisplayed(selectDocumentDetailsRow(documentName).findElement(By.cssSelector("a.favourite-action.favourite3.enabled")));
     }
 
@@ -521,65 +521,65 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     public enum DocumentsFilter
     {
         RecentlyModified
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "I've Recently Modified";
-                    }
-                },
+                    return "I've Recently Modified";
+                }
+            },
 
         Editing
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "I'm Editing";
-                    }
-                },
+                    return "I'm Editing";
+                }
+            },
 
         MyFavorites
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "My Favorites";
-                    }
+                    return "My Favorites";
                 }
+            }
     }
 
     public enum FavoriteLinks
     {
         Add
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "Add document to favorites";
-                    }
-                },
+                    return "Add document to favorites";
+                }
+            },
 
         Remove
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "Remove document from favorites";
-                    }
+                    return "Remove document from favorites";
                 }
+            }
     }
 
     public enum DocumentView
     {
         SimpleView
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "Simlpe View";
-                    }
-                },
+                    return "Simlpe View";
+                }
+            },
         DetailedView
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "Detailed View";
-                    }
-                },
+                    return "Detailed View";
+                }
+            },
 
     }
 }

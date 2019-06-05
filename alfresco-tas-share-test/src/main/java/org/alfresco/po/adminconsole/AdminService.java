@@ -45,10 +45,10 @@ public class AdminService extends UserService
         HttpClientContext localContext = HttpClientContext.create();
         localContext.setCookieStore(cookieStore);
         formParams = (new NameValuePair[] {
-                new NameValuePair("username", userName),
-                new NameValuePair("password", userPass),
-                new NameValuePair("success", "/share/page/user/" + userName + "/dashboard"),
-                new NameValuePair("failure", "/share/page/type/login?error=true") });
+            new NameValuePair("username", userName),
+            new NameValuePair("password", userPass),
+            new NameValuePair("success", "/share/page/user/" + userName + "/dashboard"),
+            new NameValuePair("failure", "/share/page/type/login?error=true") });
         post.setRequestBody(formParams);
         try
         {
@@ -58,7 +58,7 @@ public class AdminService extends UserService
                 state = theClient.getState();
                 post.releaseConnection();
                 org.apache.commons.httpclient.methods.GetMethod get = new org.apache.commons.httpclient.methods.GetMethod(
-                        client.getAlfrescoUrl() + "s/enterprise/admin/admin-systemsummary");
+                    client.getAlfrescoUrl() + "s/enterprise/admin/admin-systemsummary");
                 theClient.setState(state);
                 theClient.executeMethod(get);
                 get.releaseConnection();

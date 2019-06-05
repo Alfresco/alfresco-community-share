@@ -338,7 +338,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     public boolean isReplyIndentedFromItsParent(String replyChild, String replyParent)
     {
         return browser.isElementDisplayed(selectReply(replyParent),
-                By.xpath("following-sibling::*[@class='indented']//*[contains(@class, 'content')]/*[text()='" + replyChild + "']"));
+            By.xpath("following-sibling::*[@class='indented']//*[contains(@class, 'content')]/*[text()='" + replyChild + "']"));
     }
 
     /**

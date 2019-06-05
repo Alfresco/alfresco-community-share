@@ -67,7 +67,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
         for (int i = 0; i <= 9; i++)
         {
             dataListsService.addContactListItem(userName, password, siteName, contactList, "FirstName" + i, "LastName" + i,
-                    "E-mail" + i, "Company" + i, "JobTitle" + i, "PhoneOffice" + i, "PhoneMobile" + i, "Notes" + i);
+                "E-mail" + i, "Company" + i, "JobTitle" + i, "PhoneOffice" + i, "PhoneMobile" + i, "Notes" + i);
         }
 
         dataListsPage.navigate(siteName);

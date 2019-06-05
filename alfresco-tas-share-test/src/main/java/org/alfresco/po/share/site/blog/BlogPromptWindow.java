@@ -43,7 +43,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
     public void writeComment(String blogComment)
     {
         browser.switchTo().frame(browser.findElement(By.xpath(
-                "//div[@class = 'comment-form']//form[contains(@id, '_default-add-form')]//div[@class = 'mce-tinymce mce-container mce-panel']//iframe")));
+            "//div[@class = 'comment-form']//form[contains(@id, '_default-add-form')]//div[@class = 'mce-tinymce mce-container mce-panel']//iframe")));
         WebElement element = browser.findElement(By.id("tinymce"));
         element.clear();
         element.sendKeys(blogComment);

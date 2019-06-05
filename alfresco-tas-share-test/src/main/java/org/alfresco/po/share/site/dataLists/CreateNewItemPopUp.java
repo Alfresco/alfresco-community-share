@@ -455,481 +455,481 @@ public class CreateNewItemPopUp extends ShareDialog
     public enum EventAgendaFields
     {
         Reference
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventAgendaRef";
-                    }
-                },
+                    return "eventAgendaRef";
+                }
+            },
 
         StartTime
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventAgendaStartTime";
-                    }
-                },
+                    return "eventAgendaStartTime";
+                }
+            },
 
         EndTime
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventAgendaEndTime";
-                    }
-                },
+                    return "eventAgendaEndTime";
+                }
+            },
 
         SessionName
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventAgendaSessionName";
-                    }
-                },
+                    return "eventAgendaSessionName";
+                }
+            },
 
         Presenter
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventAgendaPresenter";
-                    }
-                },
+                    return "eventAgendaPresenter";
+                }
+            },
 
         Audience
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventAgendaAudience";
-                    }
-                },
+                    return "eventAgendaAudience";
+                }
+            },
 
         Notes
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventAgendaNotes";
-                    }
+                    return "eventAgendaNotes";
                 }
+            }
     }
 
 
     public enum EventListFields
     {
         Title
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "cm_title";
-                    }
-                },
+                    return "cm_title";
+                }
+            },
 
         Description
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "cm_description";
-                    }
-                },
+                    return "cm_description";
+                }
+            },
 
         Location
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventLocation";
-                    }
-                },
+                    return "eventLocation";
+                }
+            },
 
         StartDate
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventStartDate-cntrl-date";
-                    }
-                },
+                    return "eventStartDate-cntrl-date";
+                }
+            },
 
         StartTime
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventStartDate-cntrl-time";
-                    }
-                },
+                    return "eventStartDate-cntrl-time";
+                }
+            },
 
         EndDate
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventEndDate-cntrl-date";
-                    }
-                },
+                    return "eventEndDate-cntrl-date";
+                }
+            },
 
         EndTime
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventEndDate-cntrl-time";
-                    }
-                },
+                    return "eventEndDate-cntrl-time";
+                }
+            },
 
         Registrations
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventRegistrations";
-                    }
-                },
+                    return "eventRegistrations";
+                }
+            },
 
         Notes
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "eventNote";
-                    }
+                    return "eventNote";
                 }
+            }
     }
 
     public enum IssueFields
     {
         Id
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "issueID";
-                    }
-                },
+                    return "issueID";
+                }
+            },
 
         Title
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "cm_title";
-                    }
-                },
+                    return "cm_title";
+                }
+            },
 
         Description
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "cm_description";
-                    }
-                },
+                    return "cm_description";
+                }
+            },
 
         DueDate
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "issueDueDate-cntrl-date";
-                    }
-                },
+                    return "issueDueDate-cntrl-date";
+                }
+            },
 
         Comments
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "issueComments";
-                    }
+                    return "issueComments";
                 }
+            }
     }
 
     public enum LocationFields
     {
         Title
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "cm_title";
-                    }
-                },
+                    return "cm_title";
+                }
+            },
 
         AddressLine1
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "locationAddress1";
-                    }
-                },
+                    return "locationAddress1";
+                }
+            },
 
         AddressLine2
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "locationAddress2";
-                    }
-                },
+                    return "locationAddress2";
+                }
+            },
 
         AddressLine3
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "locationAddress3";
-                    }
-                },
+                    return "locationAddress3";
+                }
+            },
 
         ZipCode
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "locationZip";
-                    }
-                },
+                    return "locationZip";
+                }
+            },
 
         State
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "locationState";
-                    }
-                },
+                    return "locationState";
+                }
+            },
 
         Country
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "locationCountry";
-                    }
-                },
+                    return "locationCountry";
+                }
+            },
 
         Description
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "cm_description";
-                    }
+                    return "cm_description";
                 }
+            }
     }
 
 
     public enum MeetingAgendaFields
     {
         Reference
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "meetingAgendaRef";
-                    }
-                },
+                    return "meetingAgendaRef";
+                }
+            },
 
         Title
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "cm_title";
-                    }
-                },
+                    return "cm_title";
+                }
+            },
 
         Description
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "cm_description";
-                    }
-                },
+                    return "cm_description";
+                }
+            },
 
         Time
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "meetingAgendaTime";
-                    }
-                },
+                    return "meetingAgendaTime";
+                }
+            },
 
         Owner
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "meetingAgendaOwner";
-                    }
+                    return "meetingAgendaOwner";
                 }
+            }
     }
 
 
     public enum AdvancedTaskAgendaFields
     {
         Title
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "cm_title";
-                    }
-                },
+                    return "cm_title";
+                }
+            },
 
         Description
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "cm_description";
-                    }
-                },
+                    return "cm_description";
+                }
+            },
 
         StartDate
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "ganttStartDate-cntrl-date";
-                    }
-                },
+                    return "ganttStartDate-cntrl-date";
+                }
+            },
 
         EndDate
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "ganttEndDate-cntrl-date";
-                    }
-                },
+                    return "ganttEndDate-cntrl-date";
+                }
+            },
 
         Complete
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "ganttPercentComplete";
-                    }
-                },
+                    return "ganttPercentComplete";
+                }
+            },
 
         Comments
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "taskComments";
-                    }
+                    return "taskComments";
                 }
+            }
     }
 
     public enum SimpleTaskAgendaFields
     {
         Title
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "cm_title";
-                    }
-                },
+                    return "cm_title";
+                }
+            },
 
         Description
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "cm_description";
-                    }
-                },
+                    return "cm_description";
+                }
+            },
 
         DueDate
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "simpletaskDueDate-cntrl-date";
-                    }
-                },
+                    return "simpletaskDueDate-cntrl-date";
+                }
+            },
 
         Comments
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "simpletaskComments";
-                    }
+                    return "simpletaskComments";
                 }
+            }
     }
 
 
     public enum ToDoAgendaFields
     {
         Title
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "todoTitle";
-                    }
-                },
+                    return "todoTitle";
+                }
+            },
 
         DueDate
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "todoDueDate-cntrl-date";
-                    }
-                },
+                    return "todoDueDate-cntrl-date";
+                }
+            },
 
         DueTime
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "todoDueDate-cntrl-time";
-                    }
-                },
+                    return "todoDueDate-cntrl-time";
+                }
+            },
 
         Priority
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "todoPriority";
-                    }
-                },
+                    return "todoPriority";
+                }
+            },
 
         Notes
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "todoNotes";
-                    }
+                    return "todoNotes";
                 }
+            }
     }
 
 
     public enum VisitorAgendaFields
     {
         Email
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "visitorEmail";
-                    }
-                },
+                    return "visitorEmail";
+                }
+            },
 
         FeedbackType
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "feedbackType";
-                    }
-                },
+                    return "feedbackType";
+                }
+            },
 
         FeedbackSubject
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "feedbackSubject";
-                    }
-                },
+                    return "feedbackSubject";
+                }
+            },
 
         FeedbackComment
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "feedbackComment";
-                    }
-                },
+                    return "feedbackComment";
+                }
+            },
 
         Rating
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "rating";
-                    }
-                },
+                    return "rating";
+                }
+            },
 
         VisitorName
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "visitorName";
-                    }
-                },
+                    return "visitorName";
+                }
+            },
 
         VisitorWebsite
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "visitorWebsite";
-                    }
+                    return "visitorWebsite";
                 }
+            }
     }
 
 

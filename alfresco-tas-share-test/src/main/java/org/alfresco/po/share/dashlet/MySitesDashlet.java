@@ -323,12 +323,12 @@ public class MySitesDashlet extends Dashlet<MySitesDashlet>
     {
         All,
         MyFavorites
+            {
+                public String toString()
                 {
-                    public String toString()
-                    {
-                        return "My Favorites";
-                    }
-                },
+                    return "My Favorites";
+                }
+            },
         Recent
     }
 }

@@ -50,7 +50,7 @@ public class NodeProperty
     public String toString()
     {
         return String.format("\nvalue=%s,type=%s",
-                getValue(), getType());
+            getValue(), getType());
     }
 
     public enum Properties

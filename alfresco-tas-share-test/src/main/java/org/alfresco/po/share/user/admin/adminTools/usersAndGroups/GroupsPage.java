@@ -425,7 +425,7 @@ public class GroupsPage extends AdminToolsPage
         browser.mouseOver(element);
 
         By deleteGroupButton = By.xpath(String.format(
-                "//a[@class='yui-columnbrowser-item groups-item-group yui-columnbrowser-item-active']//span[@class='groups-delete-button']", groupName));
+            "//a[@class='yui-columnbrowser-item groups-item-group yui-columnbrowser-item-active']//span[@class='groups-delete-button']", groupName));
         browser.waitUntilElementVisible(deleteGroupButton).click();
 
         browser.waitUntilElementVisible(deleteGroupOKButton);
@@ -452,7 +452,7 @@ public class GroupsPage extends AdminToolsPage
         browser.mouseOver(element);
 
         By editGroupButton = By.xpath(String.format(
-                "//a[@class='yui-columnbrowser-item groups-item-group yui-columnbrowser-item-active']//span[@class='groups-update-button']", groupName));
+            "//a[@class='yui-columnbrowser-item groups-item-group yui-columnbrowser-item-active']//span[@class='groups-update-button']", groupName));
         browser.waitUntilElementVisible(editGroupButton).click();
 
         WebElement groupEditDisplayNameInputElement = browser.waitUntilElementVisible(groupEditDisplayNameInput);

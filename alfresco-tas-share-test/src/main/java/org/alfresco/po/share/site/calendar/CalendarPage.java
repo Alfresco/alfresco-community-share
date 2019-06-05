@@ -81,7 +81,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     private WebElement today;
 
     private By eventsList = By.xpath(
-            "//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
+        "//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
 
     @FindAll (@FindBy (css = ".yui-dt-data .yui-dt-col-name .yui-dt-liner"))
     private List<WebElement> agendaEventsName;

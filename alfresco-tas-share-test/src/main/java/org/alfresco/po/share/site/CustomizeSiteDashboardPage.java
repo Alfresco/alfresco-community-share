@@ -18,7 +18,7 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
  */
 @PageObject
 public class CustomizeSiteDashboardPage extends SiteCommon<CustomizeSiteDashboardPage>
-        implements DashboardCustomization
+    implements DashboardCustomization
 {
     @RenderWebElement
     @FindBy (css = ".sub-title")
@@ -198,7 +198,7 @@ public class CustomizeSiteDashboardPage extends SiteCommon<CustomizeSiteDashboar
     public List<WebElement> reorderDashletsInColumn(Dashlets dashletToMove, Dashlets dashletToReplace, int column)
     {
         List<WebElement> dashlets = dashboardCustomization.reorderDashletsInColumn(dashletToMove, dashletToReplace,
-                column);
+            column);
         browser.dragAndDrop(dashlets.get(0), dashlets.get(1));
         browser.dragAndDrop(dashlets.get(0), dashlets.get(1));
         return dashlets;

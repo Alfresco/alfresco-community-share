@@ -380,7 +380,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         deleteDialogFolder.confirmDocumentOrFolderDelete();
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName), "Documents item list is refreshed and is empty");
         assertFalse(documentLibraryPage.getExplorerPanelDocuments().contains(folderName),
-                "'DelFolder' is not visible in 'Library' section of the browsing pane.");
+            "'DelFolder' is not visible in 'Library' section of the browsing pane.");
         cleanupAuthenticatedSession();
     }
 
@@ -398,7 +398,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step 1: Hover 'DelFolder' name from the content item list.");
         LOG.info("Step 2: Click on 'More...' link. The Delete folder option is not available.");
         assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Delete Folder"),
-                ("Delete Folder") + " option is displayed for " + folderName);
+            ("Delete Folder") + " option is displayed for " + folderName);
         cleanupAuthenticatedSession();
     }
 
@@ -446,7 +446,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Mouse over and click on 'More...' button. 'Manage Permissions' option from 'More' menu must not be displayed.");
         assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Manage Permissions"),
-                "Manage Permissions" + " option is not displayed for " + folderName);
+            "Manage Permissions" + " option is not displayed for " + folderName);
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
         cleanupAuthenticatedSession();
     }

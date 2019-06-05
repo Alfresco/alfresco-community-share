@@ -272,8 +272,8 @@ public class WikiListPage extends SiteCommon<WikiListPage>
     {
 
         return selectWikiDetailsRow(wikiPage).findElement(editPage).isDisplayed() &&
-                selectWikiDetailsRow(wikiPage).findElement(deletePage).isDisplayed() &&
-                selectWikiDetailsRow(wikiPage).findElement(pageDetails).isDisplayed();
+            selectWikiDetailsRow(wikiPage).findElement(deletePage).isDisplayed() &&
+            selectWikiDetailsRow(wikiPage).findElement(pageDetails).isDisplayed();
     }
 
     public void clickMainPageButton()

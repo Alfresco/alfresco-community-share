@@ -192,7 +192,7 @@ public class SiteContentDashlet extends Dashlet<SiteContentDashlet>
 
         String details = getFileLink(fileName).findElement(docDetails).getText();
         return (details.contains("Modified") || details.contains("Created")) && details.contains("in " + siteName)
-                && ((details.contains("just now") || (details.contains("ago"))));
+            && ((details.contains("just now") || (details.contains("ago"))));
 
     }
 

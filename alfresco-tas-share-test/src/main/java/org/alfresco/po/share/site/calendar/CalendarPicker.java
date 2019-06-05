@@ -32,7 +32,7 @@ public class CalendarPicker extends ShareDialog
     private List<WebElement> dates;
 
     private ArrayList<String> monthValues = new ArrayList<>(
-            Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"));
+        Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"));
 
     private String getYearHeader()
     {

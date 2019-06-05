@@ -140,7 +140,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Hover over the created file.");
         List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™", "Edit Properties", "Upload New Version", "Edit in Alfresco",
-                "Edit Offline", "Copy to...", "Move to...", "Delete Document", "Start Workflow", "Manage Permissions");
+            "Edit Offline", "Copy to...", "Move to...", "Delete Document", "Start Workflow", "Manage Permissions");
         assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
     }
 

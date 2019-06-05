@@ -93,14 +93,13 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
 
         //Switch to new window opened
 
-        for(String winHandle : getBrowser().getWindowHandles())
+        for (String winHandle : getBrowser().getWindowHandles())
         {
             getBrowser().switchTo().window(winHandle);
             if (getBrowser().getCurrentUrl().contains("http://www.reuters.com"))
             {
                 break;
-            }
-            else
+            } else
             {
                 getBrowser().switchTo().window(currentWindow);
             }

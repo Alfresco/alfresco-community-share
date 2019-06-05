@@ -139,11 +139,11 @@ public class EditPropertiesDialog extends ShareDialog
     public boolean verifyAllElementsAreDisplayed()
     {
         return browser.isElementDisplayed(propertyName) &&
-                browser.isElementDisplayed(propertyTitle) &&
-                browser.isElementDisplayed(propertyDescription) &&
-                browser.isElementDisplayed(selectTagsButton) &&
-                browser.isElementDisplayed(saveButton) &&
-                browser.isElementDisplayed(cancelButton);
+            browser.isElementDisplayed(propertyTitle) &&
+            browser.isElementDisplayed(propertyDescription) &&
+            browser.isElementDisplayed(selectTagsButton) &&
+            browser.isElementDisplayed(saveButton) &&
+            browser.isElementDisplayed(cancelButton);
     }
 
     public void typeHost(String host)

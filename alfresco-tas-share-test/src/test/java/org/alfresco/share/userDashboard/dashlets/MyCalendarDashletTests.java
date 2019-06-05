@@ -64,7 +64,7 @@ public class MyCalendarDashletTests extends ContextAwareWebTest
         Assert.assertTrue(userDashboardPage.isDashletAddedInPosition(Dashlets.MY_CALENDAR, 1, 3), "My Calendar dashlet is not displayed");
         Assert.assertEquals(myCalendarDashlet.getDashletTitle(), "My Calendar", "Dashlet title is not correct");
         Assert.assertEquals(myCalendarDashlet.getEmptyDashletText(), language.translate("myCalendarDashlet.EmptyDashletText"),
-                "Dashlet is not empty or text is not correct");
+            "Dashlet is not empty or text is not correct");
     }
 
     @Test (groups = { TestGroup.SHARE, "UserDashboard", "Acceptance" })
@@ -77,7 +77,7 @@ public class MyCalendarDashletTests extends ContextAwareWebTest
         myCalendarDashlet.clickOnHelpIcon(Dashlet.DashletHelpIcon.MY_CALENDAR);
         Assert.assertTrue(myCalendarDashlet.isBalloonDisplayed(), "Help balloon has not been opened.");
         Assert.assertEquals(myCalendarDashlet.getHelpBalloonMessage(), language.translate("myCalendarDashlet.HelpBalloonText"),
-                "Help balloon text is not as expected");
+            "Help balloon text is not as expected");
         LOG.info("Step 3: Close the balloon message and confirm that balloon is no longer displayed.");
         myCalendarDashlet.closeHelpBalloon();
         Assert.assertFalse(myCalendarDashlet.isBalloonDisplayed(), "Help balloon has not been closed.");

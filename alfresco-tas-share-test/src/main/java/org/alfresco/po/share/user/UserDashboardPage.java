@@ -127,10 +127,10 @@ public class UserDashboardPage extends SharePage<UserDashboardPage> implements A
         if (dashlet.equals(Dashlets.WEB_VIEW))
         {
             return browser.isElementDisplayed(By.xpath(String.format("//div[@class='title']/span[contains(@id, 'component-%d-%d')][1]", column,
-                    locationInColumn)));
+                locationInColumn)));
         }
         String dashletLocation = String.format("//div[contains(text(),'%s')]/../../../div[contains(@id,'component-%d-%d')]", dashlet.getDashletName(), column,
-                locationInColumn);
+            locationInColumn);
         return browser.isElementDisplayed(By.xpath(dashletLocation));
     }
 

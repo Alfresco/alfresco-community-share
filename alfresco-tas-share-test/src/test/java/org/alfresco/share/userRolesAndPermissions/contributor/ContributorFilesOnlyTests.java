@@ -185,7 +185,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Mouse over test File and check 'Upload new version' action is not available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, "Upload New Version"),
-                "Upload New Version available for Contributor user");
+            "Upload New Version available for Contributor user");
 
         cleanupAuthenticatedSession();
     }
@@ -426,7 +426,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(googleDocName, "Check In Google Doc"),
-                "Check In Google Doc available for Contributor user");
+            "Check In Google Doc available for Contributor user");
 
         cleanupAuthenticatedSession();
     }

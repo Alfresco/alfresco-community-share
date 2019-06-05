@@ -72,16 +72,16 @@ public class MySitesTests extends ContextAwareWebTest
 
         LOG.info("STEP 5 - Quickly access your sites message is displayed");
         Assert.assertEquals(mySitesDashlet.getDefaultSiteText(), "Quickly access your sites\n"
-                + "A site is a project area where you can share and discuss content with other site members.", "Quick message is not displayed");
+            + "A site is a project area where you can share and discuss content with other site members.", "Quick message is not displayed");
         LOG.info("STEP 6 - Check that help ballon message is correct");
         mySitesDashlet.clickOnHelpIcon(DashletHelpIcon.MY_SITES);
         Assert.assertTrue(mySitesDashlet.isBalloonDisplayed(), "Help balloon is not displayed");
         //TODO: add message in language properties
         Assert.assertEquals(mySitesDashlet.getHelpBalloonMessage(),
-                "Sites are project areas where you collaborate with others, sharing content and working on it together. "
-                        + "This dashlet lists the sites you belong to. You can filter this list to show only your favorite sites.\n" + "From here you can:\n"
-                        + "Navigate to a site\n" + "Create a new site\n" + "Delete a site if you are the site manager\n"
-                        + "Mark a site as a favorite so that it shows in the Sites menu for easy access", "Help balloon message is not correct");
+            "Sites are project areas where you collaborate with others, sharing content and working on it together. "
+                + "This dashlet lists the sites you belong to. You can filter this list to show only your favorite sites.\n" + "From here you can:\n"
+                + "Navigate to a site\n" + "Create a new site\n" + "Delete a site if you are the site manager\n"
+                + "Mark a site as a favorite so that it shows in the Sites menu for easy access", "Help balloon message is not correct");
 
         LOG.info("STEP 7 - Check that help ballon can be closed");
         mySitesDashlet.closeHelpBalloon();

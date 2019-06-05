@@ -97,11 +97,11 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
         userService.create(adminUser, adminPassword, testUser2, password, testUser2 + domain, "firstName2", "lastName2");
         userService.create(adminUser, adminPassword, C8345username, password, C8345username + domain, "C8345firstName",
-                "C8345lastName");
+            "C8345lastName");
         userService.create(adminUser, adminPassword, C286291usernameA, password, C286291usernameA + domain, "C286291firstNameA",
-                "C286291lastNameA");
+            "C286291lastNameA");
         userService.create(adminUser, adminPassword, C286291usernameB, password, C286291usernameB + domain, "C286291firstNameB",
-                "C286291lastNameB");
+            "C286291lastNameB");
         siteService.create(testUser, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.create(C286291usernameA, password, domain, C286291siteName, C286291siteName, SiteService.Visibility.PUBLIC);
         contentService.createFolder(C286291usernameA, password, folderName, C286291siteName);
@@ -111,9 +111,9 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.HTML, docName1, docContent);
         contentService.createDocument(C286291usernameA, password, C286291siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName,
-                docContent);
+            docContent);
         contentService.createDocumentInFolder(C286291usernameA, password, C286291siteName, folderName, CMISUtil.DocumentType.HTML,
-                docName1, docContent);
+            docName1, docContent);
 
     }
 
@@ -218,7 +218,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         selectPopUpPage.clickOkButton();
         startWorkflowPage.cancelStartWorkflow();
         Assert.assertTrue(getBrowser().getCurrentUrl().endsWith("documentlibrary"),
-                "User '" + testUser + "' is successfully redirected to document library page");
+            "User '" + testUser + "' is successfully redirected to document library page");
 
         cleanupAuthenticatedSession();
     }
@@ -273,7 +273,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         //Check if the item selected at the start of the workflow is displayed as attached into the Items List block
         Assert.assertTrue(startWorkflowPage.getItemsList().contains(docName),
-                "Document '" + docName + "' is not displayed as attached to workflow.");
+            "Document '" + docName + "' is not displayed as attached to workflow.");
 
         LOG.info("Precondition 4: Message fields id filled with a correct data, assignee is selected;");
         startWorkflowPage.addWorkflowDescription("PRR Task Message");
@@ -288,49 +288,49 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         //Check if the document used to start the workflow is displayed in PopUp but his 'Add' button is not
         Assert.assertTrue(selectDocumentPopupPage.isSearchedItemDisplayed(docName),
-                "The document used to start the workflow is not displayed in the PopUp.");
+            "The document used to start the workflow is not displayed in the PopUp.");
         Assert.assertFalse(selectPopUpPage.isAddIconDisplayed(docName),
-                "'Add' button is displayed for '" + docName + "' even if it shouldn't.");
+            "'Add' button is displayed for '" + docName + "' even if it shouldn't.");
 
         LOG.info("STEP 2: Go to folder where any content is located;");
         selectPopUpPage.clickItem(folderName);
 
         LOG.info("STEP 3: Verify impossibilities to open item (item does not look like link);");
         Assert.assertFalse(selectDocumentPopupPage.isItemClickable(docName1),
-                "Document '" + docName1 + "' is displayed as a link.");
+            "Document '" + docName1 + "' is displayed as a link.");
 
         LOG.info("STEP 4: Click Add button;");
         //Check if the document has 'Add' ('+') button and click on it
         Assert.assertTrue(selectPopUpPage.isAddIconDisplayed(docName1),
-                "Add '+' button is not displayed for '" + docName1 + "' document.");
+            "Add '+' button is not displayed for '" + docName1 + "' document.");
         selectPopUpPage.clickAddIcon(docName1);
 
         //Check if the Add button disappeared from the left column and the item is now displayed also on the right column with 'Remove' button
         Assert.assertFalse(selectPopUpPage.isAddIconDisplayed(docName1),
-                "Add '+' button is still displayed for '" + docName1 + "' document, although it was pressed.");
+            "Add '+' button is still displayed for '" + docName1 + "' document, although it was pressed.");
         Assert.assertTrue(selectDocumentPopupPage.isSearchedItemDisplayed(docName1),
-                "Document '" + docName1 + "' disappeared from the left column although it should remain displayed.");
+            "Document '" + docName1 + "' disappeared from the left column although it should remain displayed.");
         Assert.assertTrue(selectDocumentPopupPage.isSelectedItemDisplayed(docName1),
-                "Document '" + docName1 + "' is not displayed in right column but it should.");
+            "Document '" + docName1 + "' is not displayed in right column but it should.");
         Assert.assertTrue(selectPopUpPage.isRemoveIconDisplayed(docName1),
-                "'Remove' button is not displayed for the selected item.");
+            "'Remove' button is not displayed for the selected item.");
 
         LOG.info("STEP 5: Click 'OK'.");
         selectPopUpPage.clickOkButton();
         Assert.assertFalse(selectDocumentPopupPage.isSelectDocumentPopupPageHeaderDisplayed(),
-                "'Add Item' PopUp couldn't be closed.");
+            "'Add Item' PopUp couldn't be closed.");
 
         //Check if 'Items List' block contains now the first and the previous attached documents.
         Assert.assertTrue(startWorkflowPage.getItemsList().contains(docName),
-                "Document '" + docName + "' is not displayed as attached to workflow.");
+            "Document '" + docName + "' is not displayed as attached to workflow.");
         Assert.assertTrue(startWorkflowPage.getItemsList().contains(docName1),
-                "Document '" + docName1 + "' is not displayed as attached to workflow.");
+            "Document '" + docName1 + "' is not displayed as attached to workflow.");
 
         LOG.info("STEP 6: Fill 'Message' field and click 'Start workflow' button.");
         startWorkflowPage.addWorkflowDescription(workflowMessage);
         startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(),
-                "After starting the workflow the browser wasn't redirected to 'Document Library' page.");
+            "After starting the workflow the browser wasn't redirected to 'Document Library' page.");
 
         LOG.info("STEP 7: Login as Assignee user.");
         setupAuthenticatedSession(C286291usernameB, password);
@@ -341,15 +341,15 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         LOG.info("STEP 9: Click the task's name.");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(workflowMessage),
-                "'" + workflowMessage + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
+            "'" + workflowMessage + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
         myTasksDashlet.clickOnTaskNameLink(workflowMessage);
         Assert.assertTrue(editTaskPage.getPageTitle().contains("Edit Task"), "Edit task page should be displayed!");
 
         LOG.info("STEP 10: Verify items list.");
         Assert.assertTrue(startWorkflowPage.getItemsList().contains(docName),
-                "Document '" + docName + "' is not displayed as attached to workflow.");
+            "Document '" + docName + "' is not displayed as attached to workflow.");
         Assert.assertTrue(startWorkflowPage.getItemsList().contains(docName1),
-                "Document '" + docName1 + "' is not displayed as attached to workflow.");
+            "Document '" + docName1 + "' is not displayed as attached to workflow.");
 
         cleanupAuthenticatedSession();
     }
@@ -389,12 +389,12 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         LOG.info("STEP 6: Click Calendar icon.");
         startWorkflowPage.clickDatePickerIcon();
         Assert.assertTrue(startWorkflowPage.isCalendarDisplayed(),
-                "Calendar is not displayed after 'Date Picker Icon' was clicked.");
+            "Calendar is not displayed after 'Date Picker Icon' was clicked.");
 
         LOG.info("STEP 7: Click any date.");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         Assert.assertEquals(date, startWorkflowPage.getWorkflowDueDateInputValue(),
-                "The displayed date does not correspond with the selected one.");
+            "The displayed date does not correspond with the selected one.");
 
         LOG.info("STEP 8: Click Assign to button.");
         startWorkflowPage.clickOnSelectButtonSingleAssignee();
@@ -415,7 +415,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         LOG.info("STEP 13: Click OK button.");
         startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isDocumentListDisplayed(),
-                "After starting the workflow the browser wasn't redirected to 'Document Library' page.");
+            "After starting the workflow the browser wasn't redirected to 'Document Library' page.");
 
         LOG.info("STEP 14: Log in as assignee user.");
         cleanupAuthenticatedSession();
@@ -426,7 +426,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         LOG.info("STEP 16: Verify Task is present.");
         Assert.assertTrue(myTasksDashlet.isTaskPresent("C286360_" + workflowMessage),
-                "'" + "C286360_" + workflowMessage + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
+            "'" + "C286360_" + workflowMessage + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
 
         cleanupAuthenticatedSession();
     }
@@ -463,12 +463,12 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         LOG.info("STEP 4: Click Calendar icon;");
         startWorkflowPage.clickDatePickerIcon();
         Assert.assertTrue(startWorkflowPage.isCalendarDisplayed(),
-                "Calendar is not displayed after 'Date Picker Icon' was clicked.");
+            "Calendar is not displayed after 'Date Picker Icon' was clicked.");
 
         LOG.info("STEP 5: Click any date;");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         Assert.assertEquals(date, startWorkflowPage.getWorkflowDueDateInputValue(),
-                "The displayed date does not correspond with the selected one.");
+            "The displayed date does not correspond with the selected one.");
 
         LOG.info("STEP 6: Click Assign to button;");
         startWorkflowPage.clickOnSelectButtonSingleAssignee();
@@ -489,7 +489,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         LOG.info("STEP 11: Click Start Workflow button;");
         startWorkflowPage.clickStartWorkflow(documentDetailsPage);
         Assert.assertTrue(documentDetailsPage.isDocDetailsPageHeaderDisplayed(),
-                "After starting the workflow the browser wasn't redirected to 'Document Library' page.");
+            "After starting the workflow the browser wasn't redirected to 'Document Library' page.");
 
         LOG.info("STEP 12: Log in as assignee user;");
         cleanupAuthenticatedSession();
@@ -500,7 +500,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         LOG.info("STEP 14: Verify Task is present;");
         Assert.assertTrue(myTasksDashlet.isTaskPresent("C286446_" + workflowMessage),
-                "'" + "C286446_" + workflowMessage + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
+            "'" + "C286446_" + workflowMessage + "' task is not displayed in user's 'My Tasks' dashlet, but it should.");
 
         cleanupAuthenticatedSession();
     }
@@ -529,7 +529,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         LOG.info("Precondition 8: New Task workflow is selected;");
         startWorkflowPage.selectAWorkflow(newTaskName);
         Assert.assertTrue(startWorkflowPage.getItemsList().contains(docName),
-                "Document '" + docName + "' is not displayed as attached to workflow.");
+            "Document '" + docName + "' is not displayed as attached to workflow.");
 
         LOG.info("Precondition 9: Message field is filled with a correct data, assignee is selected;");
         startWorkflowPage.addWorkflowDescription("C286469_" + workflowMessage);
@@ -548,9 +548,9 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         //Check if the selected items are listed in "Items block"
         Assert.assertTrue(startWorkflowPage.getItemsList().contains(file1),
-                "Document '" + file1 + "' is not displayed as attached to workflow.");
+            "Document '" + file1 + "' is not displayed as attached to workflow.");
         Assert.assertTrue(startWorkflowPage.getItemsList().contains(file2),
-                "Document '" + file2 + "' is not displayed as attached to workflow.");
+            "Document '" + file2 + "' is not displayed as attached to workflow.");
 
         LOG.info("STEP 1: Click Remove all button;");
         startWorkflowPage.clickRemoveAllItemsButton();
@@ -584,7 +584,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         String documentName = "C286368";
         String documentContent = "TestRail id: C286368";
         contentService
-                .createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, documentName, documentContent);
+            .createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, documentName, documentContent);
 
         LOG.info("Precondition: Document library page is opened;");
         documentLibraryPage.navigate(siteName);
@@ -607,12 +607,12 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         LOG.info("STEP 5: Click Calendar icon.");
         startWorkflowPage.clickDatePickerIcon();
         Assert.assertTrue(startWorkflowPage.isCalendarDisplayed(),
-                "Calendar is not displayed after 'Date Picker Icon' was clicked.");
+            "Calendar is not displayed after 'Date Picker Icon' was clicked.");
 
         LOG.info("STEP 6: Click any date;");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         Assert.assertEquals(date, startWorkflowPage.getWorkflowDueDateInputValue(),
-                "The displayed date does not correspond with the selected one.");
+            "The displayed date does not correspond with the selected one.");
 
         LOG.info("STEP 7: Click Assign to button.");
         startWorkflowPage.clickOnSelectButtonSingleAssignee();
@@ -633,12 +633,12 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         LOG.info("STEP 11: Leave Notify me check box unchecked.");
         startWorkflowPage.toggleSendEmailCheckBox(false);
         Assert.assertTrue(startWorkflowPage.getSendEmailCheckBoxValue().equalsIgnoreCase("false"),
-                "Send Email Notifications checkbox is checked");
+            "Send Email Notifications checkbox is checked");
 
         LOG.info("STEP 12: Click Start Workflow button;");
         startWorkflowPage.clickStartWorkflow(documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(documentName),
-                "Missing start workflow icon for" + documentName);
+            "Missing start workflow icon for" + documentName);
 
         LOG.info("STEP 13: Log in as assignee user.");
         setupAuthenticatedSession(testUser2, password);
@@ -647,11 +647,11 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         userDashboardPage.navigate(testUser2);
         addMyTaskDashletToDashboard();
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks",
-                "'My Tasks' dashlet is not displayed in user's dashboard.");
+            "'My Tasks' dashlet is not displayed in user's dashboard.");
 
         LOG.info("STEP 15: Verify Task is present;");
         Assert.assertEquals(myTasksDashlet.selectTask(workflowMessage).getText(), workflowMessage,
-                "Task is not present in 'My Tasks' dashlet");
+            "Task is not present in 'My Tasks' dashlet");
 
         LOG.info("Clean up");
         contentService.deleteFolder(testUser, password, siteName, documentName);

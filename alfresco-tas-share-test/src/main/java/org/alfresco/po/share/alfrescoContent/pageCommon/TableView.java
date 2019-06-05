@@ -42,8 +42,8 @@ public class TableView extends SiteCommon<TableView>
     private WebElement findItemInTableInTableView(String contentName)
     {
         return browser
-                .findElement(By.xpath("//table[contains(@id,'yuievtautoid')]//tbody[@class ='yui-dt-data']//td[contains(@class, 'yui-dt-col-name')]//a[text()='"
-                        + contentName + "']"));
+            .findElement(By.xpath("//table[contains(@id,'yuievtautoid')]//tbody[@class ='yui-dt-data']//td[contains(@class, 'yui-dt-col-name')]//a[text()='"
+                + contentName + "']"));
     }
 
     @Override

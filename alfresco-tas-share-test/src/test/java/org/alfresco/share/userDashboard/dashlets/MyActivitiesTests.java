@@ -106,7 +106,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, documentName, documentName + " content");
         sitePagesService.createBlogPost(userName, password, siteName, blogTitle, blogTitle + " content", false, null); //TODO check why blog creation isn't in My Activities dashlet
         sitePagesService.addCalendarEvent(userName, password, siteName, eventName, "Where " + eventName, "description " + eventName, today.toDate(), today.toDate(), "6:00 PM",
-                "8:00 PM", false, null);
+            "8:00 PM", false, null);
         dataListsService.createDataList(userName, password, siteName, DataList.CONTACT_LIST, datalistName, "Contact list for user " + userName); //TODO check why data list creation isn't in My Activities dashlet
         sitePagesService.createDiscussion(userName, password, siteName, discussionTitle, discussionTitle + " content", null);
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + fileName);

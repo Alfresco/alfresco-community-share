@@ -73,9 +73,6 @@ public class ManageContactListItems extends ShareDialog
     @FindBy (xpath = "//div[text()='No list items']")
     protected WebElement noListItems;
 
-    @FindBy (css = "")
-    protected WebElement duplicatedItemPopup;
-
     protected String dataListLink = "a[title*='";
 
     /**
@@ -122,7 +119,7 @@ public class ManageContactListItems extends ShareDialog
         browser.waitUntilElementVisible(By.cssSelector("button[id*='newRowButton-button']"));
         newItemButton.click();
         fillInCreateItemForm(newContactFirstName, newContactLastName, newContactEmail, newContactCompany, newContactJob, newContactPhoneOffice,
-                newContactPhoneMobile, newContactNotes);
+            newContactPhoneMobile, newContactNotes);
         save.click();
 
     }
@@ -304,9 +301,9 @@ public class ManageContactListItems extends ShareDialog
         String phoneMobile1 = StringUtils.deleteWhitespace(PhoneMobile);
 
         return browser.isElementDisplayed(By.cssSelector(firstName1)) && browser.isElementDisplayed(By.cssSelector(lastName1)) && browser
-                .isElementDisplayed(By.cssSelector(email1)) && browser.isElementDisplayed(By.cssSelector(company1)) && browser
-                .isElementDisplayed(By.cssSelector(jobTitle1)) && browser.isElementDisplayed(By.cssSelector(phoneOffice1)) && browser
-                .isElementDisplayed(By.cssSelector(phoneMobile1));
+            .isElementDisplayed(By.cssSelector(email1)) && browser.isElementDisplayed(By.cssSelector(company1)) && browser
+            .isElementDisplayed(By.cssSelector(jobTitle1)) && browser.isElementDisplayed(By.cssSelector(phoneOffice1)) && browser
+            .isElementDisplayed(By.cssSelector(phoneMobile1));
 
     }
 }

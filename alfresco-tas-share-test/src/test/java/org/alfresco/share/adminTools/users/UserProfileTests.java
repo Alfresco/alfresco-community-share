@@ -281,10 +281,10 @@ public class UserProfileTests extends ContextAwareWebTest
         userProfileAdminToolsPage.clickDelete();
         Assert.assertTrue(deleteUserDialogPage.isDeleteUserWindowDisplayed(), "Delete User window is not displayed");
         Assert.assertEquals(
-                deleteUserDialogPage.getDeleteUserWindowText(),
-                "Click Delete User to remove this user.\n" +
-                        "\n" +
-                        "Deleting a user removes their permissions from the repository. If you create a user with the same userid as a previously deleted user, the new user gets access to the original user's files but not their permissions as they are removed upon user deletion.");
+            deleteUserDialogPage.getDeleteUserWindowText(),
+            "Click Delete User to remove this user.\n" +
+                "\n" +
+                "Deleting a user removes their permissions from the repository. If you create a user with the same userid as a previously deleted user, the new user gets access to the original user's files but not their permissions as they are removed upon user deletion.");
 
         LOG.info("Step 2: Click the Delete button on the Delete User pop-up window");
         deleteUserDialogPage.clickButton("Delete", usersPage);

@@ -266,7 +266,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
         WebElement footer = browser.findElement(By.cssSelector("div[id='prompt'] div[class='ft'] span[class='button-group']"));
         boolean headerText = header.getText().equals("Turn off Permission Inheritance?");
         boolean bodyText = body.getText().equals("Are you sure you do not want to inherit permissions?" + '\n' + '\n'
-                + "Only local permissions will apply to this document/folder.");
+            + "Only local permissions will apply to this document/folder.");
         return headerText && footer.isDisplayed() && bodyText;
     }
 

@@ -98,7 +98,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         assertTrue(groupsPage.isIdentifierInputFieldDisplayed(), "Properties: 'Identifier' input field is displayed.");
         assertTrue(groupsPage.isDisplayNameInputFieldDisplayed(), "Properties: 'Display Name' input field is displayed.");
         expectedList = new ArrayList<>(Arrays.asList(language.translate("adminTools.groups.newGroupProperties.identifier"),
-                language.translate("adminTools.groups.newGroupProperties.displayName")));
+            language.translate("adminTools.groups.newGroupProperties.displayName")));
         assertEquals(groupsPage.getNewGroupPropertiesLabels(), expectedList, "New Group -> Properties form labels=");
         expectedList.clear();
         assertTrue(groupsPage.isCreateNewGroupButtonDisplayed(), "New Group: 'Create Group' button is displayed.");
@@ -141,7 +141,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         addGroupDialog.searchGroup(groupNameToAdd);
         expectedList = new ArrayList<>(singletonList(groupNameToAdd));
         assertEquals(addGroupDialog.getSearchResultsName(), expectedList,
-                "'Add Group' dialog -> search for " + groupNameToAdd + " returns group firstName results=");
+            "'Add Group' dialog -> search for " + groupNameToAdd + " returns group firstName results=");
         expectedList.clear();
         expectedList = new ArrayList<>(singletonList("ID: " + "GROUP_" + groupNameToAdd));
         assertEquals(addGroupDialog.getSearchResultsId(), expectedList, "'Add Group' dialog -> search for " + groupNameToAdd + " returns group id results=");
@@ -216,7 +216,7 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.clickRemoveUserIcon(user);
         assertEquals(removeUserFromGroupDialog.getDialogHeader(), language.translate("adminTools.groups.removeUser.title"), "Displayed dialog=");
         assertEquals(removeUserFromGroupDialog.getDialogMessage(), String.format(language.translate("adminTools.groups.removeUser.message"), user),
-                "Dialog message=");
+            "Dialog message=");
         assertTrue(removeUserFromGroupDialog.isYesButtonDisplayed(), "'Remove user from Group' dialog: 'Yes' button is displayed.");
         assertTrue(removeUserFromGroupDialog.isNoButtonDisplayed(), "'Remove user from Group' dialog: 'No' button is displayed.");
 
@@ -246,12 +246,12 @@ public class SubgroupsTests extends ContextAwareWebTest
         groupsPage.clickDeleteGroupButtonFromSecondColumn(groupNameToDelete);
         assertEquals(deleteGroupDialog.getDialogHeader(), language.translate("adminTools.groups.deleteGroup.header"), "Displayed dialog=");
         assertEquals(deleteGroupDialog.getMultiparentMessage(),
-                String.format(language.translate("adminTools.groups.deleteGroup.multiparentMessage"), groupNameToDelete), "Displayed message=");
+            String.format(language.translate("adminTools.groups.deleteGroup.multiparentMessage"), groupNameToDelete), "Displayed message=");
         assertEquals(deleteGroupDialog.getParent(), C9490group, "'Delete Group' dialog: Parent of " + groupNameToDelete + " =");
         assertEquals(deleteGroupDialog.getRemoveRow(), String.format(language.translate("adminTools.groups.deleteGroup.removeRow"), groupNameToDelete, C9490group),
-                "'Delete Group' dialog: remove row=");
+            "'Delete Group' dialog: remove row=");
         assertEquals(deleteGroupDialog.getDeleteRow(), String.format(language.translate("adminTools.groups.deleteGroup.deleteRow"), groupNameToDelete),
-                "'Delete Group' dialog: delete row=");
+            "'Delete Group' dialog: delete row=");
         assertTrue(deleteGroupDialog.isDeleteButtonDisplayed(), "'Delete Group' dialog: 'Delete' button is displayed.");
         assertTrue(deleteGroupDialog.isCancelButtonDisplayed(), "'Delete Group' dialog: 'Cancel' button is displayed.");
         assertTrue(deleteGroupDialog.isRemoveRadioButtonDisplayed(), "Remove radio button is displayed.");

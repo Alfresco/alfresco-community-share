@@ -180,7 +180,7 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         Assert.assertTrue(modelManagerPage.isModelDisplayed(name), "C42565Name model is not displayed");
         Assert.assertEquals(modelManagerPage.getModelDetails(name), String.format("%s %s Inactive\nActions▾", name, nameSpace),
-                "Model details are not correct");
+            "Model details are not correct");
     }
 
     @TestRail (id = "C9511")
@@ -263,7 +263,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         modelManagerPage.renderedPage();
 
         Assert.assertEquals(modelManagerPage.getModelDetails(name), String.format("%s %s Inactive\nActions▾", name, editedNamespace),
-                "Model details have not been edited successfully");
+            "Model details have not been edited successfully");
     }
 
     @TestRail (id = "C9518")
@@ -275,7 +275,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         String nameSpace = String.format("C9518nameSpace%s", RandomData.getRandomAlphanumeric());
         String prefix = String.format("C9518%s", RandomData.getRandomAlphanumeric());
         String expectedDialogText = "Are you sure you want to delete model ''" + name
-                + "''? All custom types, aspects and properties in the model will also be deleted.";
+            + "''? All custom types, aspects and properties in the model will also be deleted.";
         modelManagerPage.navigate();
         modelManagerPage.clickCreateModelButton();
         createModelDialogPage.sendNamespaceText(nameSpace);
@@ -295,7 +295,7 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Check the Delete Model window");
         Assert.assertTrue(deleteModelDialogPage.isCloseXButtonDisplayedOnDeleteModelDialog(),
-                "The Close X button is not displayed on the Delete Model dialog page");
+            "The Close X button is not displayed on the Delete Model dialog page");
         Assert.assertEquals(deleteModelDialogPage.getDeleteModelDialogText(), expectedDialogText, "The dialog text is not correct");
         Assert.assertTrue(deleteModelDialogPage.isButtonDisplayed("Delete"), "Delete button is not displayed");
         Assert.assertTrue(deleteModelDialogPage.isButtonDisplayed("Cancel"), "Cancel button is not displayed");
@@ -403,7 +403,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         Assert.assertTrue(importModelDialogPage.isImportModelWindowDisplayed(), "Import Model window is not displayed");
 
         LOG.info(
-                "Step 2&3: Click the Choose Files button, navigate to the location where the testModel file is available locally and select file to import then click open;");
+            "Step 2&3: Click the Choose Files button, navigate to the location where the testModel file is available locally and select file to import then click open;");
         importModelDialogPage.importFile(filePath);
         importModelDialogPage.clickImportButton();
         modelManagerPage.renderedPage();
@@ -411,7 +411,7 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Check the Model details displayed on the Model Manager page");
         Assert.assertEquals(modelManagerPage.getModelDetails(modelName), "C9509TestModelName C9509TestModelName Inactive\n" + "Actions▾",
-                "Imported Model Details are not correct");
+            "Imported Model Details are not correct");
     }
 
     @TestRail (id = "C42566")
@@ -452,7 +452,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         createCustomTypeDialog.sendDescriptionFieldInput(description);
         createCustomTypeDialog.clickCreateButton();
         Assert.assertEquals(modelDetailsPage.getTypeDetails(displayedTypeName), prefix + ":TestCustomTypeName CustomTypeLabel cm:content No\n" + "Actions▾",
-                "Details for the created type are not correct");
+            "Details for the created type are not correct");
     }
 
     @TestRail (id = "C42567")
@@ -493,7 +493,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         createAspectDialogPage.clickCreateButton();
 
         Assert.assertEquals(modelDetailsPage.getAspectDetails(displayedAspectName), prefix + ":TestAspectName aspectNameLabel No\n" + "Actions▾",
-                "Details for the created aspect are not correct");
+            "Details for the created aspect are not correct");
     }
 
     @Bug (id = "TBD")

@@ -296,9 +296,9 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
     public boolean isAddExternalUsersPanelDisplayed()
     {
         return browser.isElementDisplayed(externalUserFirstNameInput) &&
-                browser.isElementDisplayed(externalUserLastNameInput) &&
-                browser.isElementDisplayed(externalUserEmailInput) &&
-                browser.isElementDisplayed(externalUserAddButton);
+            browser.isElementDisplayed(externalUserLastNameInput) &&
+            browser.isElementDisplayed(externalUserEmailInput) &&
+            browser.isElementDisplayed(externalUserAddButton);
     }
 
     public void clickInfoIcon()

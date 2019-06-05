@@ -1,6 +1,5 @@
 package org.alfresco.share.userRolesAndPermissions.collaborator;
 
-import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;

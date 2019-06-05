@@ -68,7 +68,7 @@ public class EditIssueItemTest extends ContextAwareWebTest
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + itemFile);
         contentService.uploadFileInSite(userName, password, siteName, testDataFolder + attachedFile);
         dataListsService.addIssueListItem(adminUser, adminPassword, siteName, listName, itemId, itemTitle, Collections.singletonList(userName), itemStatus, itemPriority,
-                itemDescription, null, itemComment, Collections.singletonList(itemFile));
+            itemDescription, null, itemComment, Collections.singletonList(itemFile));
 
         setupAuthenticatedSession(userName, password);
         dataListsPage.navigate(siteName);
@@ -111,7 +111,7 @@ public class EditIssueItemTest extends ContextAwareWebTest
         editItemPopUp.clickSave();
         List<String> attachmentsList = Arrays.asList(attachedFile, itemFile);
         List<String> expectedItem = Arrays.asList(newItemID, newItemTitle, userAssignee, newItemStatus, newItemPriority, newItemDescription, updatedItemDate,
-                newItemComments, attachmentsList.toString());
+            newItemComments, attachmentsList.toString());
         assertTrue(dataListsPage.currentContent.isListItemDisplayed(expectedItem), newItemTitle + " issue list item is displayed.");
     }
 }

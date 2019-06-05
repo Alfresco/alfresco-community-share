@@ -53,10 +53,10 @@ public class ModelAndMessagesConsoleTests extends ContextAwareWebTest
         softAssert.assertTrue(modelAndMessagesConsolePage.getResults().contains("Meta commands"), "Meta commands is not present in the result");
         softAssert.assertTrue(modelAndMessagesConsolePage.getResults().contains("Quit / Exit"), "Quit / Exit commands is not present in the result");
         softAssert.assertTrue(modelAndMessagesConsolePage.getResults().contains("General Repo Admin Commands"),
-                "General Repo Admin Commands is not present in the result");
+            "General Repo Admin Commands is not present in the result");
         softAssert.assertTrue(modelAndMessagesConsolePage.getResults().contains("Model Admin Commands"), "Model Admin Commands is not present in the result");
         softAssert
-                .assertTrue(modelAndMessagesConsolePage.getResults().contains("Message Admin Commands"), "Message Admin Commands is not present in the result");
+            .assertTrue(modelAndMessagesConsolePage.getResults().contains("Message Admin Commands"), "Message Admin Commands is not present in the result");
         softAssert.assertAll();
     }
 }

@@ -14,7 +14,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
@@ -58,7 +57,7 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-//    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
+    //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C7074")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void uploadFileUsingUploadNewVersion()

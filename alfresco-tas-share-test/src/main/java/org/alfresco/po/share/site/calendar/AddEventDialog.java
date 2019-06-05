@@ -326,7 +326,7 @@ public class AddEventDialog extends ShareDialog
     public boolean hasStartDateValue(DateTime date)
     {
         return eventStartDateLabel.getText().equals("Start Date:") &&
-                eventStartDate.getAttribute("value").equals(date.toString("EEEE, d MMMM, yyyy"));
+            eventStartDate.getAttribute("value").equals(date.toString("EEEE, d MMMM, yyyy"));
     }
 
     /**
@@ -338,7 +338,7 @@ public class AddEventDialog extends ShareDialog
     public boolean hasEndDateValue(DateTime date)
     {
         return eventEndDateLabel.getText().equals("End Date:") &&
-                eventEndDate.getAttribute("value").equals(date.toString("EEEE, d MMMM, yyyy"));
+            eventEndDate.getAttribute("value").equals(date.toString("EEEE, d MMMM, yyyy"));
     }
 
     /**
@@ -371,11 +371,11 @@ public class AddEventDialog extends ShareDialog
     public boolean checkEventDetailsSectionContainsFields()
     {
         return isEventTitleDisplayedAndMandatory() &&
-                eventTitleLabel.findElement(parentSection).getText().equals("Event Details") &&
-                isEventLocationDisplayed() &&
-                eventLocationLabel.findElement(parentSection).getText().equals("Event Details") &&
-                isEventDescriptionDisplayed() &&
-                eventDescriptionLabel.findElement(parentSection).getText().equals("Event Details");
+            eventTitleLabel.findElement(parentSection).getText().equals("Event Details") &&
+            isEventLocationDisplayed() &&
+            eventLocationLabel.findElement(parentSection).getText().equals("Event Details") &&
+            isEventDescriptionDisplayed() &&
+            eventDescriptionLabel.findElement(parentSection).getText().equals("Event Details");
     }
 
     /**
@@ -392,13 +392,13 @@ public class AddEventDialog extends ShareDialog
     public boolean checkTimeSectionDefaultValues(DateTime date)
     {
         return isAllDayCheckBoxDisplayedAndUnchecked() &&
-                eventAllDayLabel.findElement(parentSection).getText().equals("Time") &&
-                hasStartDateValue(date) &&
-                eventStartDateLabel.findElement(parentSection).getText().equals("Time") &&
-                hasEndDateValue(date) &&
-                eventEndDateLabel.findElement(parentSection).getText().equals("Time") &&
-                hasStartTimeValue("12:00 PM") &&
-                hasEndTimeValue("1:00 PM");
+            eventAllDayLabel.findElement(parentSection).getText().equals("Time") &&
+            hasStartDateValue(date) &&
+            eventStartDateLabel.findElement(parentSection).getText().equals("Time") &&
+            hasEndDateValue(date) &&
+            eventEndDateLabel.findElement(parentSection).getText().equals("Time") &&
+            hasStartTimeValue("12:00 PM") &&
+            hasEndTimeValue("1:00 PM");
     }
 
     /**
@@ -412,8 +412,8 @@ public class AddEventDialog extends ShareDialog
     public boolean isTagsSectionDisplayed()
     {
         return popularTagsLink.getText().equals("Choose from popular tags in this site") &&
-                eventTag.isDisplayed() &&
-                addTagButton.isDisplayed();
+            eventTag.isDisplayed() &&
+            addTagButton.isDisplayed();
     }
 
     /**

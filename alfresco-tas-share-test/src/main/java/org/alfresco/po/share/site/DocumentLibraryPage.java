@@ -458,7 +458,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
             WebElement moreMenu = selectDocumentLibraryItemRow(libraryItem).findElement(moreMenuSelector);
             browser.waitUntilElementClickable(moreMenu, 30).click();
             browser.waitUntilElementVisible(
-                    browser.findElement(By.xpath("//div[contains(@id, 'default-actions-yui') and not(@class='hidden')]/div[contains(@class,'action-set')]")));
+                browser.findElement(By.xpath("//div[contains(@id, 'default-actions-yui') and not(@class='hidden')]/div[contains(@class,'action-set')]")));
         }
     }
 
@@ -922,7 +922,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public void clickOnTag(String tagName)
     {
         browser.waitUntilElementVisible(
-                By.xpath("//ul[contains(@class,'filterLink')]/li/span[contains(@class,'tag')]/a[contains(text(),'" + tagName.toLowerCase() + "')]")).click();
+            By.xpath("//ul[contains(@class,'filterLink')]/li/span[contains(@class,'tag')]/a[contains(text(),'" + tagName.toLowerCase() + "')]")).click();
     }
 
     /**

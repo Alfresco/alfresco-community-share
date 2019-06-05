@@ -56,7 +56,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private WebElement selectTagsByTagName(String tag)
     {
         return browser.findElement(By.xpath(
-                "//div[@id = 'alf-filters']//div[contains(@id, '_blog-postlist')]//div[@class = 'filter']//span[@class = 'tag']/a[text() = '" + tag + "']"));
+            "//div[@id = 'alf-filters']//div[contains(@id, '_blog-postlist')]//div[@class = 'filter']//span[@class = 'tag']/a[text() = '" + tag + "']"));
     }
 
     private WebElement selectArchiveMonth(String month)

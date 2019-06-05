@@ -133,14 +133,16 @@ public class SharingFilesTests extends ContextAwareWebTest
 
 
     // The consumer version of Google+ is shutting down in April 2019. This test is now disabled.
-      @Bug (id = "ACE-5768")
-      @TestRail(id = "C7097")
-      @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT}, enabled = false)
+    @Bug (id = "ACE-5768")
+    @TestRail (id = "C7097")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
 
-        public void shareWithGooglePlus() {
+    public void shareWithGooglePlus()
+    {
 
         {
-            try {
+            try
+            {
                 setupAuthenticatedSession(user, password);
                 documentLibraryPage.navigate(siteName);
                 String url = getBrowser().getCurrentUrl();
@@ -164,8 +166,7 @@ public class SharingFilesTests extends ContextAwareWebTest
                 Assert.assertEquals(social.getLinkSharedWithGooglePlus(), expectedLink, "Link shared on Google Plus is not corerct");
                 getBrowser().closeWindowAndSwitchBack();
                 cleanupAuthenticatedSession();
-            }
-            finally
+            } finally
             {
                 getBrowser().closeWindowAndSwitchBackParametrized(windowToSwitchToAlfresco, windowToCloseGPlus);
             }

@@ -58,10 +58,10 @@ public class SiteActivitiesDashlet extends MyActivitiesDashlet
             LocalDate activityDate = LocalDate.parse(date, formatter);
             if (noOfDays <= 28)
                 if (DAYS.between(activityDate, dateToCompare) <= noOfDays && MONTHS.between(activityDate, dateToCompare) == 0
-                        && YEARS.between(activityDate, dateToCompare) == 0)
+                    && YEARS.between(activityDate, dateToCompare) == 0)
                     counter++;
                 else if (DAYS.between(activityDate, dateToCompare) <= noOfDays && MONTHS.between(activityDate, dateToCompare) == 1
-                        && YEARS.between(activityDate, dateToCompare) == 0)
+                    && YEARS.between(activityDate, dateToCompare) == 0)
                     counter++;
         }
         return counter == relativeTime.size();

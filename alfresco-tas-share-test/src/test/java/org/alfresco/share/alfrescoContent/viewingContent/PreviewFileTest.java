@@ -90,7 +90,7 @@ public class PreviewFileTest extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Document is not displayed!");
         documentLibraryPage.clickOnFile(docName);
         Assert.assertEquals(documentDetailsPage.getScaleValue(), newScaleValue, "Wrong scale value! expected " + documentDetailsPage.getScaleValue()
-                + "but found " + newScaleValue);
+            + "but found " + newScaleValue);
         documentDetailsPage.clickOnZoomOutButton();
         Assert.assertFalse(documentDetailsPage.getScaleValue().equals(newScaleValue), "Scale value should be different");
 
