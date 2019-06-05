@@ -356,9 +356,8 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
 
     public void consumerLocateFile()
     {
-        getBrowser().waitInSeconds(12);
-
         documentLibraryPage.navigate(siteName);
+
         LOG.info("Step 1: In Documents Library, go to Documents sections and select Recently Added.");
         documentLibraryPage.clickDocumentsFilterOption("Recently Added");
 

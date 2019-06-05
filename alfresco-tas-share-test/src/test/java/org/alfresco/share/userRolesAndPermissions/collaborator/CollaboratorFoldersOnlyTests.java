@@ -52,7 +52,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, domain, name, user);
         siteService.create(adminUser, adminPassword, domain, site, description, SiteService.Visibility.PUBLIC);
-        userService.createSiteMember(adminUser, adminPassword, user, site, String.valueOf(SiteCollaborator));
+        userService.createSiteMember(adminUser, adminPassword, user, site, "SiteCollaborator");
         contentService.createFolder(adminUser, adminPassword, folderName, site);
         contentService.createFolder(user, password, folderName3, site);
         contentService.createFolderInRepository(adminUser, adminPassword, subFolderName, path);

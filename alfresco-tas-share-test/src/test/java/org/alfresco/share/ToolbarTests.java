@@ -27,6 +27,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class ToolbarTests extends ContextAwareWebTest
@@ -93,6 +94,13 @@ public class ToolbarTests extends ContextAwareWebTest
 
     @Autowired
     SharedFilesPage sharedFilesPage;
+
+
+    @BeforeMethod (alwaysRun = true)
+    public void beforeMethod()
+    {
+        cleanupAuthenticatedSession();
+    }
 
     @TestRail (id = "C2091")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })

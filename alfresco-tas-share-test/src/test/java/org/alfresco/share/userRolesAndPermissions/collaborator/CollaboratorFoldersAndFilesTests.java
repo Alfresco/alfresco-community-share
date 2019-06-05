@@ -85,7 +85,6 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         siteService.create(adminUser, adminPassword, domain, siteName1, "SiteC description", SiteService.Visibility.PUBLIC);
         userService.createSiteMember(adminUser, adminPassword, user, siteName, "SiteCollaborator");
         userService.createSiteMember(adminUser, adminPassword, user, siteName1, "SiteCollaborator");
-        setupAuthenticatedSession(user, password);
     }
 
     @AfterClass (alwaysRun = true)
@@ -101,6 +100,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorLikeUnlike()
     {
+        setupAuthenticatedSession(user, password);
         String testContentC8814 = String.format("FileC8814%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions.");
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, testContentC8814, "test content");
@@ -121,12 +121,14 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         social.clickUnlike(testContentC8814);
         assertEquals(social.getNumberOfLikes(testContentC8814), 0, "The number of likes=");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, testContentC8814));
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8815")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorFavoriteUnfavorite()
     {
+        setupAuthenticatedSession(user, password);
         String testContentC8815 = String.format("FileC8815%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions.");
         contentService.createDocument(user, password, siteName, DocumentType.TEXT_PLAIN, testContentC8815, "test content");
@@ -150,12 +152,14 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getDocumentListHeader(), DocumentsFilters.Favorites.header, "My Favorites documents are displayed.");
         assertEquals(documentLibraryPage.getDocumentListMessage(), "No content items", "There are no favorite items.");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, testContentC8815));
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8818")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorEditBasicDetailsBySelf()
     {
+        setupAuthenticatedSession(user, password);
         folderName = String.format("FolderC8818%s", RandomData.getRandomAlphanumeric());
         String editTag = String.format("editTag%s", RandomData.getRandomAlphanumeric());
         String editedName = String.format("editedName%s", RandomData.getRandomAlphanumeric());
@@ -187,12 +191,14 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.getItemTitle(editedName).contains(editedTitle), " The title of edited document is not correct.");
         Assert.assertEquals(documentLibraryPage.getItemDescription(editedName), editedDescription, "The description of edited document is not correct");
         contentService.deleteFolder(adminUser, adminPassword, siteName, editedName);
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8819")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorEditBasicDetailsByOthers()
     {
+        setupAuthenticatedSession(user, password);
         folderName = String.format("FolderC8819%s", RandomData.getRandomAlphanumeric());
         String editTag2 = String.format("editTag2%s", RandomData.getRandomAlphanumeric());
         String editedName = String.format("editedName%s", RandomData.getRandomAlphanumeric());
@@ -222,12 +228,14 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.getItemTitle(editedName).contains(editedTitle), " The title of edited document is not correct.");
         Assert.assertEquals(documentLibraryPage.getItemDescription(editedName), editedDescription, "The description of edited document is not correct");
         contentService.deleteFolder(adminUser, adminPassword, siteName, editedName);
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8816")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorRenameBySelf()
     {
+        setupAuthenticatedSession(user, password);
         folderName = String.format("FolderC8816%s", RandomData.getRandomAlphanumeric());
         String newFolderName = "newFolderNameC8816";
         LOG.info("Preconditions.");
@@ -246,12 +254,14 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(newFolderName), folderName + " name updated to: " + newFolderName);
         assertFalse(documentLibraryPage.isContentNameInputField(), "Folder is input field.");
         contentService.deleteFolder(adminUser, adminPassword, siteName, newFolderName);
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8817")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorRenameByOthers()
     {
+        setupAuthenticatedSession(user, password);
         folderName = String.format("FolderC8817%s", RandomData.getRandomAlphanumeric());
         String newFolderName = "newFolderNameC8817";
         LOG.info("Preconditions.");
@@ -270,12 +280,14 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(newFolderName), folderName + " name updated to: " + newFolderName);
         assertFalse(documentLibraryPage.isContentNameInputField(), "Folder is input field.");
         contentService.deleteFolder(adminUser, adminPassword, siteName, newFolderName);
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8823")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorMoveBySelf()
     {
+        setupAuthenticatedSession(user, password);
         folderName = String.format("Folder1C8823%s", RandomData.getRandomAlphanumeric());
         String folderName2 = String.format("Folder2C8823%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions.");
@@ -301,12 +313,14 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step 6: Open the 'testFolder4' created in preconditions and verify displayed folders.");
         documentLibraryPage.clickOnFolderName(folderName2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Displayed folders in " + folderName2);
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8824")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorMoveByOthers()
     {
+        setupAuthenticatedSession(user, password);
         folderName = String.format("FolderC8824%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions.");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
@@ -314,12 +328,14 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step 1: Hover over 'testFolder1'.");
         LOG.info("Step 2: Click 'More...' link. The Move to option is not available.");
         assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Move to..."), ("Move to...") + " option is displayed for " + folderName);
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8822")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorCopyTo()
     {
+        setupAuthenticatedSession(user, password);
         folderName = String.format("FolderC8822%s", RandomData.getRandomAlphanumeric());
         LOG.info("Preconditions.");
         contentService.createFolder(user, password, folderName, siteName);
@@ -341,12 +357,14 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step 5: Open the 'testfolder2' created in preconditions and verify displayed folders.");
         documentLibraryPage.clickOnFolderName(folderName);
         Assert.assertTrue(documentLibraryPage.getFoldersList().toString().contains(folderName), "Displayed folders in " + folderName);
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8822")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorDeleteBySelf()
     {
+        setupAuthenticatedSession(user, password);
         folderName = String.format("FolderC8822%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
@@ -362,14 +380,15 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         deleteDialogFolder.confirmDocumentOrFolderDelete();
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName), "Documents item list is refreshed and is empty");
         assertFalse(documentLibraryPage.getExplorerPanelDocuments().contains(folderName),
-            "'DelFolder' is not visible in 'Library' section of the browsing pane.");
-
+                "'DelFolder' is not visible in 'Library' section of the browsing pane.");
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8822")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorDeleteByOthers()
     {
+        setupAuthenticatedSession(user, password);
         folderName = String.format("FolderC8822%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
@@ -379,14 +398,15 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Step 1: Hover 'DelFolder' name from the content item list.");
         LOG.info("Step 2: Click on 'More...' link. The Delete folder option is not available.");
         assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Delete Folder"),
-            ("Delete Folder") + " option is displayed for " + folderName);
-
+                ("Delete Folder") + " option is displayed for " + folderName);
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8827")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorManagePermissionsBySelf()
     {
+        setupAuthenticatedSession(user, password);
         folderName = String.format("FolderC8827%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
@@ -410,12 +430,14 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         assertEquals(managePermissionsPage.getTitle(), "Manage Permissions: " + folderName, "Manage Permissions: " + folderName + " title displayed.");
         assertTrue(managePermissionsPage.isPermissionAddedForUser(user), String.format("User [%s] is not added in permissions.", user));
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8828")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorManagePermissionsByOthers()
     {
+        setupAuthenticatedSession(user, password);
         folderName = String.format("FolderC8828%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
@@ -424,14 +446,16 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Mouse over and click on 'More...' button. 'Manage Permissions' option from 'More' menu must not be displayed.");
         assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Manage Permissions"),
-            "Manage Permissions" + " option is not displayed for " + folderName);
+                "Manage Permissions" + " option is not displayed for " + folderName);
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8829")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorManageAspectsBySelf()
     {
+        setupAuthenticatedSession(user, password);
         folderName = String.format("FolderC8829%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
@@ -450,12 +474,15 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         aspectsForm.clickApplyChangesButton(documentLibraryPage);
         Assert.assertTrue(documentCommon.getFadedDetailsList().contains("No Categories"), "Folder does not have Classifiable aspect added.");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8830")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorManageAspectsByOthers()
     {
+        setupAuthenticatedSession(user, password);
+
         folderName = String.format("FolderC8830%s", RandomData.getRandomAlphanumeric());
 
         LOG.info("Preconditions.");
@@ -474,12 +501,15 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         aspectsForm.clickApplyChangesButton(documentLibraryPage);
         Assert.assertTrue(documentCommon.getFadedDetailsList().contains("No Categories"), "Folder does not have Classifiable aspect added.");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8834")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorAddComment()
     {
+        setupAuthenticatedSession(user, password);
+
         folderName = String.format("FolderC8834%s", RandomData.getRandomAlphanumeric());
         String comment = "Test comment for C8834";
 
@@ -492,7 +522,6 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Folder Details", "Displayed page=");
 
         LOG.info("Step 2: In the 'Comments' area of 'Folder Details' page write a comment and press 'Add Comment' button");
-        getBrowser().waitInSeconds(5);
         documentDetailsPage.addComment(comment);
         assertEquals(documentDetailsPage.getCommentContent(), comment, "Comment content is not as expected.");
 
@@ -500,12 +529,16 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate();
         assertEquals(social.getNumberOfComments(folderName), 1, "Number of comments=");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8835")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorEditCommentBySelf()
     {
+        setupAuthenticatedSession(user, password);
+
         folderName = String.format("FolderC8835%s", RandomData.getRandomAlphanumeric());
         String comment = "Test comment for C8835";
         String editedComment = "Test comment edited for C8835";
@@ -533,15 +566,19 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
         Assert.assertEquals(documentDetailsPage.getCommentContent(editedComment), editedComment, "Edited comment text is not correct");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8836")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorEditCommentByOthers()
     {
+        setupAuthenticatedSession(user, password);
+
         folderName = String.format("FolderC8836%s", RandomData.getRandomAlphanumeric());
         String comment1 = "Test comment for C8836";
-        String editedComment1 = "Test comment edited for C8836";
+        String editedComment1 = "Test comment for C8836. Edited.";
 
         LOG.info("Preconditions.");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
@@ -566,12 +603,16 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
         Assert.assertEquals(documentDetailsPage.getCommentContent(editedComment1), editedComment1, "Edited comment text is not correct");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8837")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorDeleteCommentBySelf()
     {
+        setupAuthenticatedSession(user, password);
+
         folderName = String.format("FolderC8837%s", RandomData.getRandomAlphanumeric());
         String comment2 = "Test comment for C8837";
 
@@ -594,12 +635,16 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         getBrowser().waitUntilElementVisible(documentDetailsPage.noComments);
         Assert.assertEquals(documentDetailsPage.getNoCommentsText(), "No comments", "No comments notification is not displayed");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8838")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorDeleteCommentByOthers()
     {
+        setupAuthenticatedSession(user, password);
+
         folderName = String.format("FolderC8838%s", RandomData.getRandomAlphanumeric());
         String comment3 = "Test comment for C8838";
 
@@ -622,6 +667,8 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         getBrowser().waitUntilElementVisible(documentDetailsPage.noComments);
         Assert.assertEquals(documentDetailsPage.getNoCommentsText(), "No comments", "No comments notification is not displayed");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
+
+        cleanupAuthenticatedSession();
     }
 
 }

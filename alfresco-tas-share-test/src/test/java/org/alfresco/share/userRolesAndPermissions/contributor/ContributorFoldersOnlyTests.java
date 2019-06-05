@@ -18,8 +18,9 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.AfterClass;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 /**
@@ -95,9 +96,8 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
         LOG.info("STEP3: Set input for name, title, description and click on Save button");
         newContentDialog.fillInDetails(folderName2, title, description);
         newContentDialog.clickSaveButton();
-        getBrowser().waitInSeconds(4);
-        //   Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName2));
-        //     notification.waitUntilNotificationDisappears();
+        Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName2));
+        notification.waitUntilNotificationDisappears();
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName2), String.format("Folder [%s] is displayed in Document Library.", folderName2));
     }
 

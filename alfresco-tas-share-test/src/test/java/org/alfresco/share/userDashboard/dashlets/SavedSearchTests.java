@@ -1,6 +1,8 @@
 package org.alfresco.share.userDashboard.dashlets;
 
+import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.ConfigureSavedSearchDashletPopUp;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SavedSearchDashlet;
@@ -27,6 +29,9 @@ public class SavedSearchTests extends ContextAwareWebTest
     ConfigureSavedSearchDashletPopUp configureSavedSearchPopUp;
 
     private String userName;
+    private String siteName = "SearchResultSite" + RandomData.getRandomAlphanumeric();
+    private String docName = "SearchResultDoc" + RandomData.getRandomAlphanumeric();
+    private String content = "search results";
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -34,7 +39,8 @@ public class SavedSearchTests extends ContextAwareWebTest
         userName = String.format("User1%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
         userService.addDashlet(userName, password, DashboardCustomization.UserDashlet.SAVED_SEARCH, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
-
+        siteService.create(userName, password, domain, siteName, "description", SiteService.Visibility.PUBLIC);
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, content);
         setupAuthenticatedSession(userName, password);
     }
 
@@ -83,4 +89,54 @@ public class SavedSearchTests extends ContextAwareWebTest
         LOG.info("Step 6: Close 'Enter Search Term' window");
         configureSavedSearchPopUp.clickCloseButton();
     }
+
+    @Test (groups = { TestGroup.SHARE, "Acceptance", "UserDashboard" }, priority = 1)
+    public void getSearchItemsWithEmptyResult()
+    {
+        String title = "RandomGeneratedString";
+        LOG.info("Step 1: Edit saved search and search for item that does not exits so that no results are returned.");
+        userDashboardPage.navigate(userName);
+        savedSearchDashlet.clickOnConfigureDashletIcon();
+        configureSavedSearchPopUp.setSearchTermField(RandomData.getRandomAlphanumeric());
+        configureSavedSearchPopUp.setTitleField("RandomGeneratedString");
+        configureSavedSearchPopUp.clickOkButton();
+        userDashboardPage.renderedPage();
+        Assert.assertEquals(savedSearchDashlet.getDashletTitle(), title, " is not the title of the Dashlet");
+        Assert.assertEquals(savedSearchDashlet.getResultsText(), "No results found.", "Results are found");
+    }
+
+    @Test (groups = { TestGroup.SHARE, "Acceptance", "UserDashboard" }, priority = 3)
+    public void verifySavedSearchResult()
+    {
+        String title = "valid search";
+        LOG.info("Step 1: Navigate to user dashboard and search for exiting document");
+        userDashboardPage.navigate(userName);
+        savedSearchDashlet.renderedPage();
+        savedSearchDashlet.clickOnConfigureDashletIcon();
+        configureSavedSearchPopUp.setTitleField(title);
+        configureSavedSearchPopUp.setSearchTermField(docName);
+        configureSavedSearchPopUp.clickOkButton();
+        userDashboardPage.renderedPage();
+        LOG.info("Step 2: Verify the saved search results");
+        Assert.assertEquals(savedSearchDashlet.getDashletTitle(), title, "Title is not correct");
+        Assert.assertTrue(savedSearchDashlet.isSearchResultItemDisplayed(docName), docName + " is not displayed");
+        Assert.assertTrue(savedSearchDashlet.isSearchResultItemDisplayed("Document in site " + siteName));
+        Assert.assertTrue(savedSearchDashlet.isSearchResultItemDisplayed("In folder: /"));
+    }
+
+    @Test (groups = { TestGroup.SHARE, "Acceptance", "UserDashboard" }, priority = 2)
+    public void verifySavedSearchLimit()
+    {
+        userDashboardPage.navigate(userName);
+        savedSearchDashlet.renderedPage();
+        savedSearchDashlet.clickOnConfigureDashletIcon();
+        Assert.assertTrue(configureSavedSearchPopUp.isLimitValueDisplayed("10"), "10 limit value is not displayed");
+        Assert.assertTrue(configureSavedSearchPopUp.isLimitValueDisplayed("25"), "25 limit value is not displayed");
+        Assert.assertTrue(configureSavedSearchPopUp.isLimitValueDisplayed("50"), "50 limit value is not displayed");
+        Assert.assertTrue(configureSavedSearchPopUp.isLimitValueDisplayed("100"), "100 limit value is not displayed");
+        Assert.assertFalse(configureSavedSearchPopUp.isLimitValueDisplayed("5"), "5 limit value is displayed");
+        Assert.assertFalse(configureSavedSearchPopUp.isLimitValueDisplayed("0"), "0 limit value is displayed");
+        Assert.assertFalse(configureSavedSearchPopUp.isLimitValueDisplayed("99"), "99 limit value is displayed");
+    }
+
 }

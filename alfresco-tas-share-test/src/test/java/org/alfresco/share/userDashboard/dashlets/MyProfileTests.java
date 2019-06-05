@@ -45,7 +45,6 @@ public class MyProfileTests extends ContextAwareWebTest
         editUserProfilePage.setAboutInformation(userName, userName, jobTitle, "", "");
         editUserProfilePage.setContactInformation(telephone, "", userName + domain, skype, im, "");
         editUserProfilePage.uploadNewPhoto(testDataFolder + "newavatar.jpg");
-        getBrowser().waitInSeconds(7);
         editUserProfilePage.clickSave();
 
         userDashboardPage.navigate(userName);

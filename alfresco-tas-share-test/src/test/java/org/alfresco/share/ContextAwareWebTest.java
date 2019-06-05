@@ -33,23 +33,31 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     @Autowired
     protected UserService userService;
+
     @Autowired
     protected SiteService siteService;
+
     @Autowired
     protected ContentService contentService;
+
     @Autowired
     protected DataListsService dataListsService;
+
     @Autowired
     protected SitePagesService sitePagesService;
+
     @Autowired
     protected ContentActions contentAction;
+
     @Autowired
     protected ContentAspects contentAspects;
+
     @Autowired
     protected GroupService groupService;
 
     @Autowired
     protected Language language;
+
 
     protected String srcRoot = System.getProperty("user.dir") + File.separator;
     protected String testDataFolder = srcRoot + "testdata" + File.separator;

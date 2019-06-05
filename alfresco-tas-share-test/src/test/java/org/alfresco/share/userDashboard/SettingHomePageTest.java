@@ -105,7 +105,6 @@ public class SettingHomePageTest extends ContextAwareWebTest
         setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         documentDetailsPage.renderedPage();
-        getBrowser().waitInSeconds(5);
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
 
         LOG.info("STEP 6 - Repeat steps 1-5 for all Alfresco Share pages");
@@ -119,7 +118,6 @@ public class SettingHomePageTest extends ContextAwareWebTest
         setupAuthenticatedSession(userName1, password);
         getBrowser().refresh();
         userDashboardPage.renderedPage();
-        getBrowser().waitInSeconds(5);
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
 
         LOG.info("STEP 6.2 - My Files Page");
@@ -166,7 +164,6 @@ public class SettingHomePageTest extends ContextAwareWebTest
         assertTrue(myTasksPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userName1, password);
-        getBrowser().waitInSeconds(3);
         getBrowser().refresh();
         myTasksPage.renderedPage();
         assertTrue(myTasksPage.isStartWorkflowDisplayed(), "\"Start Workflow\" button is displayed");
@@ -291,13 +288,10 @@ public class SettingHomePageTest extends ContextAwareWebTest
         LOG.info("STEP 6 - Click on the user drop down in the header bar and select Use My Dashboard link");
         toolbarUserMenu.clickSetDashBoardAsHome();
         documentDetailsPage.renderedPage();
-        getBrowser().waitInSeconds(5);
         assertTrue(documentDetailsPage.isAddCommentBlockDisplayed(), "\"Add Comment\" is displayed");
 
         LOG.info("STEP 7 - Click on the Home link in the header bar");
         toolbarUserMenu.clickHome();
-        getBrowser().waitInSeconds(5);
-
         userDashboardPage.renderedPage();
         assertTrue(userDashboardPage.isCustomizeUserDashboardDisplayed(), "\"Customize User Dashboard\" is displayed");
 

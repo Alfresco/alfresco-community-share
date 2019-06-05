@@ -43,7 +43,7 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
     {
         userService.create(adminUser, adminPassword, user, password, domain, name, user);
         siteService.create(adminUser, adminPassword, domain, site, siteDescription, SiteService.Visibility.PUBLIC);
-        userService.createSiteMember(adminUser, adminPassword, user, site, UserRole.SiteConsumer.toString());
+        userService.createSiteMember(adminUser, adminPassword, user, site, "SiteConsumer");
         contentService.createFolder(adminUser, adminPassword, folderName, site);
         contentService.createFolderInRepository(adminUser, adminPassword, subFolderName, path);
         contentAction.addSingleTag(adminUser, adminPassword, path + "/" + subFolderName, tag);
@@ -76,7 +76,7 @@ public class ConsumerFoldersOnlyTests extends ContextAwareWebTest
             "'Locate Folder' option is displayed for " + subFolderName);
 
         LOG.info("STEP3: Click \"Locate Folder\" option");
-        documentLibraryPage.clickOnAction(subFolderName, language.translate("documentLibrary.contentActions.locateFolder"));
+        documentLibraryPage.clickDocumentLibraryItemAction(subFolderName, language.translate("documentLibrary.contentActions.locateFolder"), documentLibraryPage);
         assertEquals(documentLibraryPage.getBreadcrumbList(), Arrays.asList("Documents", folderName).toString(), "Breadcrumb=");
     }
 

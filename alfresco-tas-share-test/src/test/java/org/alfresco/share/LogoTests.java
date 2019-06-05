@@ -48,6 +48,8 @@ public class LogoTests extends ContextAwareWebTest
         assertTrue(userDashboard.isAlfrescoLogoDisplayed(), "Alfresco Logo is displayed.");
         LOG.info("STEP 2: Click Alfresco logo from bottom page");
         userDashboard.openAboutPage();
+//        assertEquals(aboutPage.getShareVersion(), language.translate("shareVersion"), "Share version=");
+//        assertEquals(aboutPage.getAlfrescoVersion(), language.translate("alfrescoVersion"), "Alfresco version=");
         assertEquals(aboutPage.getShareVersion().substring(0, 14), "Alfresco Share", "Share version=");
         assertEquals(aboutPage.getAlfrescoVersion().substring(0, 19), "Alfresco Enterprise", "Alfresco version=");
         assertFalse(aboutPage.getLicenseHolder().isEmpty(), "License holder is empty.");
@@ -56,7 +58,6 @@ public class LogoTests extends ContextAwareWebTest
         LOG.info("STEP 3: Click 'www.alfresco.com'");
         aboutPage.clickAlfrescoLink();
         getBrowser().switchWindow(1);
-        getBrowser().waitInSeconds(7);
         assertEquals(getBrowser().getCurrentUrl(), "https://www.alfresco.com/", "Displayed URL=");
         closeWindowAndSwitchBack();
         LOG.info("STEP 4: Click Legal and License link");
@@ -64,8 +65,6 @@ public class LogoTests extends ContextAwareWebTest
         userDashboard.openAboutPage();
         aboutPage.clickLegalAndLicenceLink();
         getBrowser().switchWindow(1);
-        getBrowser().waitInSeconds(7);
-
         assertEquals(getBrowser().getCurrentUrl(), "https://www.alfresco.com/legal/agreements", "Displayed URL=");
         closeWindowAndSwitchBack();
     }
