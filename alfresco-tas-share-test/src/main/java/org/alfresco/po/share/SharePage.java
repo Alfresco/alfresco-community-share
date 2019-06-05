@@ -88,6 +88,7 @@ public abstract class SharePage<T> extends HtmlPage
     @SuppressWarnings ("unchecked")
     public T navigate()
     {
+        getBrowser().waitInSeconds(15);
         STEP(String.format("Navigate to: %s", relativePathToURL().getPath()));
         browser.navigate().to(relativePathToURL());
         return (T) renderedPage();
