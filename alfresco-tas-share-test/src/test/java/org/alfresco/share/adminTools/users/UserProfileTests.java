@@ -89,6 +89,7 @@ public class UserProfileTests extends ContextAwareWebTest
         userService.delete(adminUser, adminPassword, c9417User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9417User);
         userService.delete(adminUser, adminPassword, c9431User);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9431User);
         userService.delete(adminUser, adminPassword, c9427User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9427User);
         userService.delete(adminUser, adminPassword, c9426User);
@@ -96,7 +97,7 @@ public class UserProfileTests extends ContextAwareWebTest
         userService.delete(adminUser, adminPassword, c9434User);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9434User);
         userService.delete(adminUser, adminPassword, c9423User);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9431User);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + c9423User);
         groupService.removeGroup(adminUser, adminPassword, c9423Group);
     }
 
