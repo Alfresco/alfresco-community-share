@@ -21,7 +21,7 @@ public class SavedSearchDashlet extends Dashlet<SavedSearchDashlet>
     @RenderWebElement
     @FindBy (css = "div.dashlet.savedsearch")
     protected HtmlElement dashletContainer;
-    @FindBy (css = "div[id$='_default-search-results'] tbody div ")
+    @FindBy (css = "div[id$='_default-search-results'] tbody div")
     private WebElement resultsText;
 
     @FindBy (css = "div[id$='_default-search-results'] table")

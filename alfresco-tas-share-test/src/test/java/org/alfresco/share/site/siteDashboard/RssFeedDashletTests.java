@@ -13,6 +13,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
+import org.alfresco.utility.report.Bug.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -68,7 +69,7 @@ public class RssFeedDashletTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Bug (id = "MNT-17064", status = Bug.Status.OPENED)
+    @Bug (id = "MNT-17064", status = Bug.Status.FIXED)
     @TestRail (id = "C2795")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void rssFeedDashlet()
@@ -78,7 +79,7 @@ public class RssFeedDashletTests extends ContextAwareWebTest
 
         rssFeedDashlet.clickOnConfigureRssFeedDashlet();
         enterFeedURLPopUp.fillUrlField("http://feeds.reuters.com/reuters/businessNews");
-        enterFeedURLPopUp.selectNumberOfItemsToDisplay("5");
+        enterFeedURLPopUp.selectNumberOfItemsToDisplay("10");
         enterFeedURLPopUp.checkNewWindowCheckbox();
         getBrowser().waitInSeconds(5);
         enterFeedURLPopUp.clickOkButton();
@@ -102,7 +103,7 @@ public class RssFeedDashletTests extends ContextAwareWebTest
     }
 
 
-    @Bug (id = "MNT-17064", status = Bug.Status.OPENED)
+    @Bug (id = "MNT-17064", status = Bug.Status.FIXED)
     @Test (groups = { TestGroup.SHARE, "SiteDashboard", "Acceptance" })
     public void configureExternalRss()
     {
@@ -121,7 +122,7 @@ public class RssFeedDashletTests extends ContextAwareWebTest
     }
 
 
-    @Bug (id = "MNT-17064", status = Bug.Status.OPENED)
+    @Bug (id = "MNT-17064", status = Bug.Status.FIXED)
     @Test (groups = { TestGroup.SHARE, "SiteDashboard", "Acceptance" })
     public void configureNumberOfHeadlines()
     {

@@ -114,7 +114,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
         createWikiPage.typeWikiPageContent(wikiPageContent);
 
         LOG.info("STEP 3: Click on Cancel button");
-        createWikiPage.cancelWikiPageAndLeavePage();
+        createWikiPage.cancelWikiPage();
 
         LOG.info("STEP 4: Check that wiki page is not present on the list");
         Assert.assertTrue(wikiListPage.getWikiPageTitlesList().isEmpty(), "There are wiki pages displayed in the list!");

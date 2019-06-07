@@ -381,9 +381,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         LOG.info("STEP 4: Click on the 'Select Role' button for the selected user. Select 'Manager' role from the drop-down menu. Click on 'Add Users' button from 'Add Users to Site' panel.");
         addSiteUsersPage.setUserRole(differentRoleUserA, "Manager");
         assertTrue(addSiteUsersPage.getUserRole(differentRoleUserA).contains("Manager"), differentRoleUserA + " has Manager role selected.");
-
         addSiteUsersPage.clickAddUsers();
-        assertTrue(addSiteUsersPage.getUserRole(differentRoleUserA).contains("Manager"), differentRoleUserA + " has Manager role selected.");
         assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 1");
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserA), "User is added to site.");
         assertEquals(addSiteUsersPage.getUserRoleValue(differentRoleUserA), "Manager");

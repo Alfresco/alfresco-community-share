@@ -23,6 +23,7 @@ import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -67,9 +68,13 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     {
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
+    @AfterMethod (alwaysRun = true)
+    public void afterMethod()
+    {
+        siteService.delete(adminUser, adminPassword, siteName);
+    }
 
     @TestRail (id = "C5844")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })

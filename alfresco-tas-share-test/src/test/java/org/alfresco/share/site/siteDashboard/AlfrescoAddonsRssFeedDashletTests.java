@@ -52,6 +52,8 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
     {
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
+        userService.delete(adminUser, adminPassword, userNameShare);
+        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userNameShare);
         siteService.delete(adminUser, adminPassword, siteName);
         siteService.delete(adminUser, adminPassword, domain, siteNameShare);
     }
@@ -93,17 +95,17 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
 
         //Switch to new window opened
 
-        for (String winHandle : getBrowser().getWindowHandles())
-        {
-            getBrowser().switchTo().window(winHandle);
-            if (getBrowser().getCurrentUrl().contains("http://www.reuters.com"))
-            {
-                break;
-            } else
-            {
-                getBrowser().switchTo().window(currentWindow);
-            }
-        }
+//        for (String winHandle : getBrowser().getWindowHandles())
+//        {
+//            getBrowser().switchTo().window(winHandle);
+//            if (getBrowser().getCurrentUrl().contains("http://www.reuters.com"))
+//            {
+//                break;
+//            } else
+//            {
+//                getBrowser().switchTo().window(currentWindow);
+//            }
+//        }
 
         assertTrue(getBrowser().getCurrentUrl().contains("https://www.reuters.com"), "After clicking on RSS link, the title is: " + getBrowser().getCurrentUrl());
         closeWindowAndSwitchBack();

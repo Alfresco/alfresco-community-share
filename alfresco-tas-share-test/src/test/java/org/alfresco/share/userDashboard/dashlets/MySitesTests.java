@@ -116,7 +116,8 @@ public class MySitesTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void filterSites()
     {
-        LOG.info("STEP 1 - Create 3 sites, mark the first one as favourite");
+        //NOTE: When creating a site it is automatically set as favorite
+        LOG.info("STEP 1 - Create 3 sites, uncheck the first one as favourite");
         siteName1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName1, "description", SiteService.Visibility.PUBLIC);
 
@@ -128,8 +129,7 @@ public class MySitesTests extends ContextAwareWebTest
 
         userDashboardPage.navigate(userName);
 
-        mySitesDashlet.clickOnFavoriteLink(siteName2);
-        mySitesDashlet.clickOnFavoriteLink(siteName3);
+        mySitesDashlet.clickOnFavoriteLink(siteName1);
         mySitesDashlet.accessSite(siteName2);
 
         userDashboardPage.navigate(userName);
@@ -141,14 +141,14 @@ public class MySitesTests extends ContextAwareWebTest
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " is not available");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " is not available");
 
-        LOG.info("STEP 3 - Recent filter, check that only site1 is displayed");
+        LOG.info("STEP 3 - Recent filter, check that only site2 is displayed");
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.Recent.toString());
         getBrowser().waitInSeconds(2);
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " is not available");
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is available");
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " is available");
 
-        LOG.info("STEP 4 - My Favorites filter, check that only site1 is displayed");
+        LOG.info("STEP 4 - My Favorites filter, check that only site2 and site3 are displayed");
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.MyFavorites.toString());
         getBrowser().waitInSeconds(2);
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is not available");

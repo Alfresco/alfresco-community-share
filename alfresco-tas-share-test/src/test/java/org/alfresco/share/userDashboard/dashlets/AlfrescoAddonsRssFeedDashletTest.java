@@ -69,7 +69,7 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
         for (String winHandle : getBrowser().getWindowHandles())
         {
             getBrowser().switchTo().window(winHandle);
-            if (getBrowser().getCurrentUrl().contains("http://www.reuters.com"))
+            if (getBrowser().getCurrentUrl().contains("https://www.reuters.com"))
             {
                 break;
             } else
@@ -78,7 +78,7 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
             }
         }
 
-        Assert.assertTrue(getBrowser().getCurrentUrl().contains("http://www.reuters.com"), "After clicking on RSS link, the title is: " + getBrowser().getCurrentUrl());
+        Assert.assertTrue(getBrowser().getCurrentUrl().contains("https://www.reuters.com"), "After clicking on RSS link, the title is: " + getBrowser().getCurrentUrl());
         closeWindowAndSwitchBack();
 
         userService.delete(adminUser, adminPassword, userName);
