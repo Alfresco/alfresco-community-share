@@ -8,6 +8,8 @@ pipeline {
     string(name: 'SHARE_TAG', defaultValue: '6.1.0', description: 'Docker TAG version for image: quay.io/alfresco/alfresco-share')
     string(name: 'SEARCH_TAG', defaultValue: '1.3.0', description: 'Docker TAG version for image: quay.io/alfresco/search-services')
     string(name: 'WebSuite', defaultValue: 'src/test/resources/share-smoke-with-docker.xml' , description: 'Share Suite XML File or Test (leave empty to skip)')
+    booleanParam(name: 'TestRailEnabled', defaultValue: false, description: 'Save test runs automatically in TestRail')
+    string(name: 'TestRailRunName', defaultValue: 'TestsRun-$ALFRESCO_TAG', description: 'The name of the test run created in https://alfresco.testrail.net/index.php?/runs/overview/1  (if TestRailEnabled)')
   }
 
   
@@ -48,7 +50,7 @@ pipeline {
         steps {
             configFileProvider([configFile(fileId: 'alfresco-maven', variable: 'MAVEN_SETTINGS')]) {   
                 catchError {
-                  executeMavenTests("$WebSuite", "-Denvironment=default -Dalfresco.server=alfresco -Dalfresco.port=8080 -Dalfresco.server.http=127.0.0.1 -Dalfresco.port.http=8081 -Dshare.port=8080 -Dshare.port.http=8082 -Dgrid.enabled=true -Dgrid.url=http://127.0.0.1:4444/wd/hub -Dbrowser.name=firefox -Dbrowser.version=59 -Denv.platform=linux")
+                  executeMavenTests("$WebSuite", "-Denvironment=default -Dalfresco.server=alfresco -Dalfresco.port=8080 -Dalfresco.server.http=127.0.0.1 -Dalfresco.port.http=8081 -Dshare.port=8080 -Dshare.url=http://share:8080/share -Dshare.port.http=8082 -Dgrid.enabled=true -Dgrid.url=http://127.0.0.1:4444/wd/hub -Dbrowser.name=firefox -Dbrowser.version=59 -Denv.platform=linux")
                 }
             }
         }
