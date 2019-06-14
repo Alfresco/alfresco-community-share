@@ -92,7 +92,6 @@ def executeMavenTests(suiteOrTest, componentArgs="", m2Location="~/.m2/") {
                $mvnArgs \
                 $componentArgs
                """
-            sleep 30   
         }
     } else {
         sh "echo Skipping running maven tests. No suite or tests specified!"
