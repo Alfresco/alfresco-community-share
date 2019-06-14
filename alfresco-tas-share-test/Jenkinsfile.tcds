@@ -59,7 +59,7 @@ pipeline {
   post {
     always {
       step([$class: 'Publisher', reportFilenamePattern: 'target/surefire-reports/testng-results.xml'])    
-      archiveArtifacts allowEmptyArchive: true, artifacts: 'target/reports/*.*' 
+      archiveArtifacts allowEmptyArchive: true, artifacts: 'target/reports/**/*' 
     }
   } 
 
