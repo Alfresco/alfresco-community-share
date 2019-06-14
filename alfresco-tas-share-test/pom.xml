@@ -4,19 +4,19 @@
 
    <groupId>org.alfresco.tas</groupId>
    <artifactId>share-test</artifactId>
-   <version>6.0</version>
+   <version>6.0.0.0-SNAPSHOT</version>
    <packaging>jar</packaging>
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-      <maven.compiler.source>1.8</maven.compiler.source>
-      <maven.compiler.target>1.8</maven.compiler.target>
+      <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
       <suiteXmlFile>src/test/resources/share-sanity-suite.xml</suiteXmlFile>
-      <tas.utility.version>1.0.31</tas.utility.version>
+      <tas.utility.version>2.0.26</tas.utility.version>
       <maven-remote-resources.version>1.5</maven-remote-resources.version>
       <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
-      <tas.cmis.version>5.1.0-4</tas.cmis.version>
+      <tas.cmis.version>6.0.0.1</tas.cmis.version>
+      <java.version>11</java.version>
    </properties>
 
    <distributionManagement>
@@ -38,7 +38,7 @@
          <artifactId>utility</artifactId>
          <version>${tas.utility.version}</version>
       </dependency>
-
+           
       <dependency>
          <groupId>org.uncommons</groupId>
          <artifactId>reportng</artifactId>
@@ -106,17 +106,32 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>2.1</version>
+            <version>${maven-compiler-plugin.version}</version>
             <configuration>
-               <source>1.8</source>
-               <target>1.8</target>
+             	<release>${java.version}</release>
+				<showWarnings>true</showWarnings>
+				<showDeprecation>true</showDeprecation>
             </configuration>
          </plugin>
 
+		<plugin>
+			<artifactId>maven-deploy-plugin</artifactId>
+			<version>3.0.0-M1</version>
+			<executions>
+				<execution>
+					<id>default-deploy</id>
+					<phase>deploy</phase>
+					<goals>
+						<goal>deploy</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>		
+		
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.11</version>
+            <version>3.0.0-M2</version>
             <configuration>
                <reportFormat>plain</reportFormat>
                <trimStackTrace>false</trimStackTrace>
@@ -124,6 +139,9 @@
                <suiteXmlFiles>
                   <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                </suiteXmlFiles>
+               <argLine>
+				--illegal-access=permit
+			   </argLine>                              
             </configuration>
          </plugin>
 
