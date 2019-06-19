@@ -52,7 +52,7 @@ pipeline {
         steps {
             configFileProvider([configFile(fileId: 'alfresco-maven', variable: 'MAVEN_SETTINGS')]) {   
                 catchError {
-                  executeMavenTests("$WebSuite", "-Denvironment=default -Dalfresco.server=alfresco -Dalfresco.port=8080 -DincludeGroups$IncludeGroups -DexcludeGroups=$ExcludeGroups  -Dalfresco.server.http=127.0.0.1 -Dalfresco.port.http=8081 -Dshare.port=8080 -Dshare.url=http://share:8080/share -Dshare.port.http=8082 -Dgrid.enabled=true -Dgrid.url=http://127.0.0.1:4444/wd/hub -Dbrowser.name=firefox -Dbrowser.version=59 -Denv.platform=linux")
+                  executeMavenTests("$WebSuite", "-Denvironment=default -Dalfresco.server=alfresco -Dalfresco.port=8080 -DincludeGroups=$IncludeGroups -DexcludeGroups=$ExcludeGroups  -Dalfresco.server.http=127.0.0.1 -Dalfresco.port.http=8081 -Dshare.port=8080 -Dshare.url=http://share:8080/share -Dshare.port.http=8082 -Dgrid.enabled=true -Dgrid.url=http://127.0.0.1:4444/wd/hub -Dbrowser.name=firefox -Dbrowser.version=59 -Denv.platform=linux")
                 }
             }
         }
