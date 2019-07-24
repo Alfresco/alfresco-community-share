@@ -13,7 +13,7 @@
       <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
       <suiteXmlFile>src/test/resources/share-sanity-suite.xml</suiteXmlFile>
       <tas.utility.version>2.0.26</tas.utility.version>
-      <maven-remote-resources.version>1.5</maven-remote-resources.version>
+      <maven-remote-resources.version>1.6.0</maven-remote-resources.version>
       <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
       <tas.cmis.version>6.0.0.1</tas.cmis.version>
       <java.version>11</java.version>
@@ -131,7 +131,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.0.0-M2</version>
+            <version>3.0.0-M3</version>
             <configuration>
                <reportFormat>plain</reportFormat>
                <trimStackTrace>false</trimStackTrace>
