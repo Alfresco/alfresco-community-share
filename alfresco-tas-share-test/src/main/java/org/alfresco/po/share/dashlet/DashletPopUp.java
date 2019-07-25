@@ -58,6 +58,15 @@ public abstract class DashletPopUp extends HtmlPage
         }
     }
 
+    /**
+     * Click on popup "OK" button.
+     * To be used when no need to redirect to a page.
+     */
+    public void clickOkButtonSimple()
+    {
+        okButton.click();
+    }
+
     public boolean isOkButtonDisplayed()
     {
         return okButton.isDisplayed();

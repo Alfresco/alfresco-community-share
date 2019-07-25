@@ -1,6 +1,7 @@
 package org.alfresco.share.tasksAndWorkflows.StartingAWorkflow;
 
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
@@ -11,7 +12,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -92,7 +92,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectButton();
+        startWorkflowPage.clickOnSelectButtonSingleAssignee();
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.clickOkButton();
@@ -125,7 +125,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectButton();
+        startWorkflowPage.clickOnSelectButtonMultipleAssignees();
         selectPopUpPage.search(user2);
         selectPopUpPage.clickAddIcon("firstName2 lastName2 (" + user2 + ")");
         selectPopUpPage.search(user3);
@@ -168,7 +168,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectButton();
+        startWorkflowPage.clickGroupSelectButton();
         selectPopUpPage.search(group);
         selectPopUpPage.clickAddIcon(group);
         selectPopUpPage.clickOkButton();
@@ -200,7 +200,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription("WorkflowTest");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectButton();
+        startWorkflowPage.clickGroupSelectButton();
         selectPopUpPage.search(group);
         selectPopUpPage.clickAddIcon(group);
         selectPopUpPage.clickOkButton();

@@ -25,11 +25,6 @@ public enum SiteUserActivitiesFilter
         this.description = description;
     }
 
-    public String getDescription()
-    {
-        return this.description;
-    }
-
     public static SiteUserActivitiesFilter getFilter(String description)
     {
         for (SiteUserActivitiesFilter filter : SiteUserActivitiesFilter.values())
@@ -40,5 +35,10 @@ public enum SiteUserActivitiesFilter
             }
         }
         return null;
+    }
+
+    public String getDescription()
+    {
+        return this.description;
     }
 }

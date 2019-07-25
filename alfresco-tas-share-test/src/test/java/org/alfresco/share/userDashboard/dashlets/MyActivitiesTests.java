@@ -1,9 +1,19 @@
 package org.alfresco.share.userDashboard.dashlets;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.DataListsService.DataList;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
@@ -29,15 +39,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.testng.Assert.*;
 
 public class MyActivitiesTests extends ContextAwareWebTest
 {
@@ -107,7 +109,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
             "8:00 PM", false, null);
         dataListsService.createDataList(userName, password, siteName, DataList.CONTACT_LIST, datalistName, "Contact list for user " + userName); //TODO check why data list creation isn't in My Activities dashlet
         sitePagesService.createDiscussion(userName, password, siteName, discussionTitle, discussionTitle + " content", null);
-        //contentService.uploadFileInSite(userName, password, siteName, testDataFolder + fileName);
+        contentService.uploadFileInSite(userName, password, siteName, testDataFolder + fileName);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, fileName, fileName);
 
         sitePagesService.createLink(userName, password, siteName, linkTitle, "www.google.com", linkTitle + " description", true, null);
@@ -295,7 +297,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
         datalistName = "Datalist" + uniqueIdentifier;
         discussionTitle = "Disc" + uniqueIdentifier;
         fileName = "File-C2113.txt";
-        documentName = "Doc" + uniqueIdentifier + ".txt";
+        documentName = "Doc" + uniqueIdentifier;
         wikiTitle = "Wiki" + uniqueIdentifier;
         Map<String, String> activitiesObjects = new HashMap<>();
         activitiesObjects.put("link", "New" + linkTitle);

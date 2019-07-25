@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site.members;
 
+import java.util.List;
+
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -7,8 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 @PageObject
 public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
@@ -33,41 +33,29 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 
     @FindAll (@FindBy (css = "div[class='added-users-list'] tbody[class='yui-dt-data'] tr"))
     protected List<WebElement> addedUsersRows;
-
-    @FindAll (@FindBy (css = "div.visible ul.first-of-type li a"))
-    private List<WebElement> dropDownOptionsList;
-
     @RenderWebElement
     @FindBy (css = "[id*='default-invite-button-button']")
     protected WebElement addUsersButton;
-
     @FindBy (css = "[id*='default-firstname']")
     protected WebElement externalUserFirstNameInput;
-
     @FindBy (css = "[id*='default-lastname']")
     protected WebElement externalUserLastNameInput;
-
     @FindBy (css = "[id*='default-email']")
     protected WebElement externalUserEmailInput;
-
     @FindBy (css = "[id*='add-email-button-button']")
     protected WebElement externalUserAddButton;
-
     @FindBy (css = "[id*='selectallroles-button-button']")
     protected WebElement setAllRolesToButton;
-
     @FindBy (css = "[id*='info-button-button']")
     protected WebElement infoIcon;
-
     @FindBy (css = ".alf-info-balloon .text")
     protected WebElement infoBalloonText;
-
     @FindBy (css = ".alf-info-balloon .closeButton")
     protected WebElement infoBalloonCloseButton;
-
     @FindBy (css = ".alf-info-balloon a")
     protected WebElement seeMoreLink;
-
+    @FindAll (@FindBy (css = "div.visible ul.first-of-type li a"))
+    private List<WebElement> dropDownOptionsList;
     private By infoBalloon = By.xpath("//div[contains(@class,'yui-module') and contains(@style, 'visibility: visible')]");
     private By searchResultsRows = By.cssSelector("div[class*='results'] tbody[class='yui-dt-data'] tr");
     private By setUserRoleRows = By.cssSelector("div[class='invitationlist'] tbody[class='yui-dt-data'] tr");
@@ -213,6 +201,10 @@ public class AddSiteUsersPage extends SiteCommon<AddSiteUsersPage>
 
     public void clickAddUsers()
     {
+        while (isWaitPopupDisplayed() == true)
+        {
+            browser.waitUntilElementDisappears(waitPopup);
+        }
         addUsersButton.click();
     }
 

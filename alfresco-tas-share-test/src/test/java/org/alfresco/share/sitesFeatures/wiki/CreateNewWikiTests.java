@@ -1,6 +1,7 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.wiki.CreateWikiPage;
 import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
@@ -10,9 +11,12 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * @author iulia.nechita
@@ -114,7 +118,7 @@ public class CreateNewWikiTests extends ContextAwareWebTest
 
         LOG.info("STEP 4: Check that wiki page is not present on the list");
         Assert.assertTrue(wikiListPage.getWikiPageTitlesList().isEmpty(), "There are wiki pages displayed in the list!");
-        Assert.assertTrue(wikiListPage.noWikiPageDisplayed().equals("There are currently no pages to display"), "Wrong message displayed!");
+        Assert.assertTrue(wikiListPage.noWikiPageDisplayed().equals("There are currently no pages to display"));
     }
 
     @TestRail (id = "C5524")

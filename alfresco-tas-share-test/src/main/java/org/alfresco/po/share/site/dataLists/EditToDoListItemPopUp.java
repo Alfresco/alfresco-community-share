@@ -1,12 +1,12 @@
 package org.alfresco.po.share.site.dataLists;
 
+import java.util.List;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Select;
-
-import java.util.List;
 
 @PageObject
 public class EditToDoListItemPopUp extends CreateNewItemPopUp
@@ -58,9 +58,8 @@ public class EditToDoListItemPopUp extends CreateNewItemPopUp
 
     @FindBy (css = "span.yui-submit-button button")
     protected WebElement createNewItemPopUpSaveButton;
-
-    private By listItems = By.cssSelector("div[id$='default-grid'] table tbody[class='yui-dt-data'] tr");
     ToDoListItemsTable tableRow;
+    private By listItems = By.cssSelector("div[id$='default-grid'] table tbody[class='yui-dt-data'] tr");
 
     public boolean isEditDataItemPopUpDisplayed()
     {

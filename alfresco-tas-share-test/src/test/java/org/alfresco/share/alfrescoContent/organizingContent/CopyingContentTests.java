@@ -1,6 +1,16 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static java.util.Arrays.asList;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -10,41 +20,29 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static java.util.Arrays.asList;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class CopyingContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    private Toolbar toolbar;
-
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private SharedFilesPage sharedFilesPage;
-
-    @Autowired
-    private CopyMoveUnzipToDialog copyMoveToDialog;
-
     private final String userName = String.format("profileUser1-%s", RandomData.getRandomAlphanumeric());
     private final String firstName = "FirstName";
     private final String lastName = "LastName";
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
     private final String copyAction = "Copy to...";
+    @Autowired
+    private Toolbar toolbar;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private CopyMoveUnzipToDialog copyMoveToDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

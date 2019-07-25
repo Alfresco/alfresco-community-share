@@ -1,20 +1,21 @@
 package org.alfresco.share.site;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.SiteProfileDashlet;
 import org.alfresco.po.share.site.EditSiteDetailsDialog;
+import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Laura.Capsa
@@ -22,6 +23,9 @@ import static org.testng.Assert.assertTrue;
 
 public class EditSiteDetailsTests extends ContextAwareWebTest
 {
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
+
     @Autowired
     EditSiteDetailsDialog editSiteDetailsDialog;
 
@@ -59,7 +63,7 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     public void verifyEditSiteDetailsForm()
     {
         LOG.info("STEP1: Go to the created site. Click 'Settings' icon -> 'Edit Site Details'");
-        editSiteDetailsDialog.navigateToDialog(siteName);
+        siteDashboardPage.navigateToEditSiteDetailsDialog(siteName);
 
         LOG.info("STEP2: Verify the items from 'Edit Site Details' form");
         assertTrue(editSiteDetailsDialog.isNameInputDisplayed(), "Name field is displayed");
@@ -93,7 +97,7 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     public void cancelEditSiteDetails()
     {
         LOG.info("STEP1: Go to the created site. Click 'Settings' icon -> 'Edit Site Details'");
-        editSiteDetailsDialog.navigateToDialog(siteName);
+        siteDashboardPage.navigateToEditSiteDetailsDialog(siteName);
 
         LOG.info("STEP2: Type new name and description for the site");
         editSiteDetailsDialog.typeDetails(newSiteName, newDescription);
@@ -107,7 +111,6 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
         editSiteDetailsDialog.clickCancelButton();
         assertEquals(siteProfileDashlet.getWelcomeMessageText(), "Welcome to " + siteName, "Site name is not updated.");
         assertEquals(siteProfileDashlet.getSiteDescription(description).getText(), description, "Description is not updated.");
-        assertEquals(siteProfileDashlet.getSiteVisibility(language.translate("siteProfile.PublicVisibility")).getText()
-                                       .equals(language.translate("siteProfile.PublicVisibility")), true, "Visibility is not updated.");
+        assertEquals(siteProfileDashlet.getSiteVisibility(language.translate("siteProfile.PublicVisibility")).getText().equals(language.translate("siteProfile.PublicVisibility")), true, "Visibility is not updated.");
     }
 }

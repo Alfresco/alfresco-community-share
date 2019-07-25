@@ -1,5 +1,6 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -9,7 +10,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -17,18 +17,6 @@ import org.testng.annotations.Test;
 
 public class MyFilesTests extends ContextAwareWebTest
 {
-    @Autowired
-    private MyFilesPage myFilesPage;
-
-    @Autowired
-    private CreateContent create;
-
-    @Autowired
-    private UserDashboardPage userDashboard;
-
-    @Autowired
-    private Toolbar toolbar;
-
     private final String user = String.format("C7648TestUser%s", RandomData.getRandomAlphanumeric());
     private final String user1 = String.format("C7648TestUser1%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C7658SiteName%s", RandomData.getRandomAlphanumeric());
@@ -37,6 +25,14 @@ public class MyFilesTests extends ContextAwareWebTest
     private final String C7648title = "C7648 title";
     private final String C7648content = "C7648 content";
     private final String C7648description = "C7648 description";
+    @Autowired
+    private MyFilesPage myFilesPage;
+    @Autowired
+    private CreateContent create;
+    @Autowired
+    private UserDashboardPage userDashboard;
+    @Autowired
+    private Toolbar toolbar;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

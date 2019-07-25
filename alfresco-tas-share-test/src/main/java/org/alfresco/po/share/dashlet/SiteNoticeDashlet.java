@@ -1,7 +1,10 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+
 import org.alfresco.po.share.TinyMce.TinyMceColourCode;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
+import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
@@ -10,21 +13,19 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
-import java.util.List;
-
 /**
  * Created by Argint Alex
  */
 @PageObject
 public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 {
-    @Autowired
-    TinyMceEditor tinyMceEditor;
-
     @RenderWebElement
     @FindBy (css = "div[class*='notice-dashlet']")
     protected HtmlElement dashletContainer;
-
+    @Autowired
+    TinyMceEditor tinyMceEditor;
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
     @FindBy (css = "div[class*='notice-dashlet'] div[class*='edit']")
     private WebElement editIcon;
 
@@ -45,6 +46,9 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
 
     @FindBy (css = "button[id*='configDialog-cancel-button']")
     private WebElement configPanelCancel;
+
+    @FindBy (css = "div[id$='_default-configDialog-configDialog'] a.container-close")
+    private WebElement closeConfigPanel;
 
     @Override
     public String getDashletTitle()
@@ -96,20 +100,26 @@ public class SiteNoticeDashlet extends Dashlet<SiteNoticeDashlet>
     {
         tinyMceEditor.setText(text);
         tinyMceEditor.selectTextFromEditor();
-        getBrowser().waitInSeconds(2);
     }
 
-    public void clickOkButton()
+    public SiteDashboardPage clickOkButton()
     {
         getBrowser().waitUntilElementVisible(configPanelOk);
         getBrowser().waitUntilElementClickable(configPanelOk).click();
-
+        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
-    public void clickCancelbutton()
+    public SiteDashboardPage clickCancelbutton()
     {
         getBrowser().waitUntilElementVisible(configPanelCancel);
         getBrowser().waitUntilElementClickable(configPanelCancel).click();
+        return (SiteDashboardPage) siteDashboardPage.renderedPage();
+    }
+
+    public SiteDashboardPage clickCloseButton()
+    {
+        closeConfigPanel.click();
+        return (SiteDashboardPage) siteDashboardPage.renderedPage();
     }
 
     public void setTextColour(String colour)

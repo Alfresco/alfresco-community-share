@@ -1,5 +1,7 @@
 package org.alfresco.share.userProfile;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.ChangePasswordPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
@@ -12,22 +14,17 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-
 public class ChangePasswordTest extends ContextAwareWebTest
 {
-    @Autowired
-    private UserProfilePage userProfilePage;
-
-    @Autowired
-    private ChangePasswordPage changePasswordPage;
-
-    @Autowired
-    private UserDashboardPage userDashboardPage;
-
     private final String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     private final String user = "user" + uniqueIdentifier;
     private final String newPasswordText = "newpassword" + uniqueIdentifier;
+    @Autowired
+    private UserProfilePage userProfilePage;
+    @Autowired
+    private ChangePasswordPage changePasswordPage;
+    @Autowired
+    private UserDashboardPage userDashboardPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

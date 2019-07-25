@@ -1,6 +1,14 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -10,36 +18,26 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class MultiSelectingContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private HeaderMenuBar headerMenuBar;
-
-    @Autowired
-    private StartWorkflowPage startWorkflowPage;
-
-    @Autowired
-    private DeleteDialog deleteDialog;
-
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("Description-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private StartWorkflowPage startWorkflowPage;
+    @Autowired
+    private DeleteDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

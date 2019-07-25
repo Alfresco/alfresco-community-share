@@ -1,5 +1,10 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
@@ -20,31 +25,20 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 public class ActionsEditTests extends ContextAwareWebTest
 {
     @Autowired
+    NewContentDialog newContentDialog;
+    @Autowired
     private RepositoryPage repositoryPage;
-
     @Autowired
     private SiteDashboardPage sitePage;
-
     @Autowired
     private DocumentDetailsPage detailsPage;
-
     @Autowired
     private EditPropertiesDialog editFilePropertiesDialog;
-
     @Autowired
     private SelectDialog selectDialog;
-
-    @Autowired
-    NewContentDialog newContentDialog;
-
     @Autowired
     private EditInAlfrescoPage editInAlfrescoPage;
 
@@ -140,8 +134,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         LOG.info("Step 1: Hover over the test file and click 'Edit Properties' action");
 
         repositoryPage.mouseOverContentItem(fileName);
-        repositoryPage.clickOnAction(fileName, "Edit Properties");
-        getBrowser().waitInSeconds(2);
+        repositoryPage.clickDocumentLibraryItemAction(fileName, "Edit Properties", editFilePropertiesDialog);
 
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "'Edit Properties' dialog box is not correctly displayed");
 
@@ -199,7 +192,6 @@ public class ActionsEditTests extends ContextAwareWebTest
 
         LOG.info("Step 6: Type a tag name and click create");
         selectDialog.typeTag(tagName);
-        getBrowser().waitInSeconds(5);
         selectDialog.clickCreateNewIcon();
         selectDialog.clickOk();
         editFilePropertiesDialog.isTagSelected(tagName.toLowerCase());
@@ -271,7 +263,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         docsCommon.confirmFormatUpgrade();
         getBrowser().waitInSeconds(7);
         docsCommon.switchToGoogleDocsWindowandAndEditContent(editedTitle, editedContent);
-        getBrowser().waitInSeconds(5);
+
         LOG.info("Step5: Verify the file is locked and Google Drive icon is displayed");
         Assert.assertTrue(docsCommon.isLockedIconDisplayed(), "Locked Icon is not displayed");
         Assert.assertTrue(docsCommon.isLockedDocumentMessageDisplayed(), "Message about the file being locked is not displayed");

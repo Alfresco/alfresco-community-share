@@ -1,18 +1,19 @@
 package org.alfresco.share.userDashboard.dashlets;
 
+import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.dashlet.MySitesDashlet.SitesFilter;
+import org.alfresco.po.share.site.CreateSiteDialog;
+import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.junit.After;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -24,6 +25,11 @@ public class MySitesTests extends ContextAwareWebTest
 
     @Autowired
     UserDashboardPage userDashboardPage;
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
+
+    @Autowired
+    CreateSiteDialog createSiteDialog;
 
     private String userName;
     private String siteName1;
@@ -110,7 +116,8 @@ public class MySitesTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void filterSites()
     {
-        LOG.info("STEP 1 - Create 3 sites, mark the first one as favourite");
+        //NOTE: When creating a site it is automatically set as favorite
+        LOG.info("STEP 1 - Create 3 sites, uncheck the first one as favourite");
         siteName1 = String.format("Site1%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName1, "description", SiteService.Visibility.PUBLIC);
 
@@ -134,14 +141,14 @@ public class MySitesTests extends ContextAwareWebTest
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " is not available");
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " is not available");
 
-        LOG.info("STEP 3 - Recent filter, check that only site1 is displayed");
+        LOG.info("STEP 3 - Recent filter, check that only site2 is displayed");
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.Recent.toString());
         getBrowser().waitInSeconds(2);
         Assert.assertTrue(mySitesDashlet.isSitePresent(siteName2), "Site " + siteName2 + " is not available");
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is available");
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName3), "Site " + siteName3 + " is available");
 
-        LOG.info("STEP 4 - My Favorites filter, check that only site1 is displayed");
+        LOG.info("STEP 4 - My Favorites filter, check that only site2 and site3 are displayed");
         mySitesDashlet.selectOptionFromSiteFilters(SitesFilter.MyFavorites.toString());
         getBrowser().waitInSeconds(2);
         Assert.assertFalse(mySitesDashlet.isSitePresent(siteName1), "Site " + siteName1 + " is not available");
@@ -150,5 +157,26 @@ public class MySitesTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName1);
         siteService.delete(adminUser, adminPassword, siteName2);
         siteService.delete(adminUser, adminPassword, siteName3);
+    }
+
+    @Test (groups = { TestGroup.SHARE, "UserDashboard", "Acceptance" })
+    public void createSiteFromSiteDashlet()
+    {
+        userService.addDashlet(userName, password, DashboardCustomization.UserDashlet.MY_SITES, DashboardCustomization.DashletLayout.THREE_COLUMNS, 1, 3);
+        String siteName = "MSTSite" + RandomData.getRandomAlphanumeric();
+        userDashboardPage.navigate(userName);
+        mySitesDashlet.clickCreateSiteButton();
+        Assert.assertTrue(userDashboardPage.isCreateSiteDialogDisplayed(), "The Create site dialog is not displayed.");
+        createSiteDialog.typeInNameInput(siteName);
+        createSiteDialog.typeInSiteID(siteName);
+        createSiteDialog.typeInDescription("description");
+        createSiteDialog.clickCreateButton(userDashboardPage);
+        userDashboardPage.navigate(userName);
+        System.out.print("Links: " + mySitesDashlet.getSiteLinksText());
+        Assert.assertTrue(mySitesDashlet.getSiteLinksText().contains(siteName), siteName + " is not displayed in My Sites dashlet");
+        mySitesDashlet.selectSite(siteName).click();
+        siteDashboardPage.renderedPage();
+        Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Site Dashboard", "User is not redirected to the Site Dashboard page");
+        Assert.assertEquals(siteDashboardPage.getSiteName(), siteName, "User has not been redirected to " + siteName);
     }
 }

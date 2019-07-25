@@ -9,11 +9,28 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class IMAPServicePage extends AdminConsolePage<IMAPServicePage>
 {
+    public static final String IMAP_OBJECT = "Alfresco:Type=Configuration,Category=imap,id1=default";
     @RenderWebElement
     @FindBy (className = "intro")
     WebElement intro;
 
-    public static final String IMAP_OBJECT = "Alfresco:Type=Configuration,Category=imap,id1=default";
+    @Override
+    public String getInfoPage()
+    {
+        return "";
+    }
+
+    @Override
+    public String getIntroPage()
+    {
+        return intro.getText();
+    }
+
+    @Override
+    protected String relativePathToURL()
+    {
+        return "alfresco/s/admin/admin-imap";
+    }
 
     public enum ImapService
     {
@@ -43,24 +60,6 @@ public class IMAPServicePage extends AdminConsolePage<IMAPServicePage>
         {
             return jmxAttribute;
         }
-    }
-
-    @Override
-    public String getInfoPage()
-    {
-        return "";
-    }
-
-    @Override
-    public String getIntroPage()
-    {
-        return intro.getText();
-    }
-
-    @Override
-    protected String relativePathToURL()
-    {
-        return "alfresco/s/admin/admin-imap";
     }
 
 }

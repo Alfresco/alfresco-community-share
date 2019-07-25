@@ -1,7 +1,10 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
+import java.net.URL;
+
 import org.alfresco.common.EnvProperties;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
@@ -12,31 +15,13 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.net.URL;
-
 public class SharingFilesTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private SocialFeatures social;
-
-    @Autowired
-    private LoginPage loginPage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetails;
-
-    @Autowired
-    private EnvProperties envProperties;
-
     private final String user = String.format("C7095User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C7095SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C7095SiteName%s", RandomData.getRandomAlphanumeric());
@@ -49,6 +34,16 @@ public class SharingFilesTests extends ContextAwareWebTest
     private final String folderName = "C7093 folder";
     private final String siteNameC7093 = String.format("C7093%s", RandomData.getRandomAlphanumeric());
     private final String siteNameC7649 = String.format("siteNameC7649%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private SocialFeatures social;
+    @Autowired
+    private LoginPage loginPage;
+    @Autowired
+    private DocumentDetailsPage documentDetails;
+    @Autowired
+    private EnvProperties envProperties;
     private String sharedUrl;
     private String windowToSwitchToAlfresco;
     private String windowToCloseGPlus;
@@ -98,13 +93,11 @@ public class SharingFilesTests extends ContextAwareWebTest
         LOG.info("Step 2: Click Facebook icon");
         social.clickShareWithFacebook();
         getBrowser().switchWindow();
-        getBrowser().waitInSeconds(5);
-
         getBrowser().waitUntilElementIsDisplayedWithRetry(social.facebookHomeLink, 2);
         Assert.assertEquals(social.getFacebookWindowTitle(), "Facebook", "User is not redirected to the Facebook page");
         social.loginFacebook();
-        //       Assert.assertTrue(social.isShareLinkDisplayedOnFacebook(), "Share link is not displayed on Facebook");
-        //       getBrowser().closeWindowAcceptingModalDialog();
+        Assert.assertTrue(social.isShareLinkDisplayedOnFacebook(), "Share link is not displayed on Facebook");
+        getBrowser().closeWindowAcceptingModalDialog();
         cleanupAuthenticatedSession();
     }
 
@@ -138,18 +131,18 @@ public class SharingFilesTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    /*
-
 
     // The consumer version of Google+ is shutting down in April 2019. This test is now disabled.
-      @Bug(id = "ACE-5768")
-      @TestRail(id = "C7097")
-      @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Bug (id = "ACE-5768")
+    @TestRail (id = "C7097")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
 
-        public void shareWithGooglePlus() {
+    public void shareWithGooglePlus()
+    {
 
         {
-            try {
+            try
+            {
                 setupAuthenticatedSession(user, password);
                 documentLibraryPage.navigate(siteName);
                 String url = getBrowser().getCurrentUrl();
@@ -173,15 +166,13 @@ public class SharingFilesTests extends ContextAwareWebTest
                 Assert.assertEquals(social.getLinkSharedWithGooglePlus(), expectedLink, "Link shared on Google Plus is not corerct");
                 getBrowser().closeWindowAndSwitchBack();
                 cleanupAuthenticatedSession();
-            }
-            finally
+            } finally
             {
                 getBrowser().closeWindowAndSwitchBackParametrized(windowToSwitchToAlfresco, windowToCloseGPlus);
             }
-
         }
     }
-    */
+
     @TestRail (id = "C7099")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void unshareDocument()

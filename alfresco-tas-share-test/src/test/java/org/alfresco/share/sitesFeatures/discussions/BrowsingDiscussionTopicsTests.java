@@ -1,6 +1,14 @@
 package org.alfresco.share.sitesFeatures.discussions;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.discussion.TopicListPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -8,16 +16,10 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 8/11/2016.
@@ -26,7 +28,8 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
 {
     @Autowired
     TopicListPage topicListPage;
-
+    private DateTime today;
+    private DateTime eightDaysAgo;
     private String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String user2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -38,9 +41,6 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
     private String topicReply2 = "Reply2 content";
     private String topicTag1 = "tag1";
     private String topicTag2 = "tag2";
-
-    DateTime today;
-    DateTime eightDaysAgo;
 
     @BeforeMethod (alwaysRun = true)
     public void setupMethod()
@@ -131,7 +131,6 @@ public class BrowsingDiscussionTopicsTests extends ContextAwareWebTest
         assertEquals(topicListPage.getTagAssociatedTopicsNo(topicTag1), "(2)", "Tag1 has 2 topics associated.");
         assertTrue(topicListPage.isTagDisplayed(topicTag2), "Tag2 is displayed in te tags list.");
         assertEquals(topicListPage.getTagAssociatedTopicsNo(topicTag2), "(1)", "Tag1 has 1 topic associated.");
-        getBrowser().waitInSeconds(10);
 
         LOG.info("STEP 2 - Click on tag1.");
         topicListPage.clickTag(topicTag1);

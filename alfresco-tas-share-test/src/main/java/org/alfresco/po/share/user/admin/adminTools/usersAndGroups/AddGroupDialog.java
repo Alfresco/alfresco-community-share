@@ -1,15 +1,14 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Laura.Capsa
@@ -37,6 +36,10 @@ public class AddGroupDialog extends ShareDialog
 
     @FindAll (@FindBy (css = "td[class*='actions'] button"))
     private List<WebElement> addButtonsList;
+
+    @RenderWebElement
+    @FindBy (css = "div[id*='default-grouppicker'] a[class='container-close']")
+    private WebElement closeButton;
 
     /**
      * @return 'Add Group' dialog's title
@@ -108,7 +111,7 @@ public class AddGroupDialog extends ShareDialog
      * @param searchResult name of the item from search results list
      * @return position of searchResult in list. -1 if searchResult isn't displayed
      */
-    private int getItemIndexFromSearchResults(String searchResult)
+    public int getItemIndexFromSearchResults(String searchResult)
     {
         ArrayList<String> searchResultsList = getSearchResultsName();
         return searchResultsList.indexOf(searchResult);
@@ -121,9 +124,19 @@ public class AddGroupDialog extends ShareDialog
      */
     public void clickAddButtonForGroup(String searchResult)
     {
-        getBrowser().waitInSeconds(8);
         getBrowser().waitUntilElementsVisible(addButtonsList);
         int index = getItemIndexFromSearchResults(searchResult);
         addButtonsList.get(index).click();
+    }
+
+    public boolean isAddButtonDisplayed(String searchResult)
+    {
+        int index = getItemIndexFromSearchResults(searchResult);
+        return browser.isElementDisplayed(addButtonsList.get(index));
+    }
+
+    public boolean isCloseButtonDisplayed()
+    {
+        return browser.isElementDisplayed(closeButton);
     }
 }

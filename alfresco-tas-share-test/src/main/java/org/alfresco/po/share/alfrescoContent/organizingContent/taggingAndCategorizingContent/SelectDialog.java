@@ -1,5 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
+import java.util.List;
+
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
@@ -12,8 +14,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
-
-import java.util.List;
 
 /**
  * @author Laura.Capsa

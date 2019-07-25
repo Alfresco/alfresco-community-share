@@ -8,12 +8,11 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 @PageObject
 public class MyMeetingWorkspacesDashlet extends Dashlet<MyMeetingWorkspacesDashlet>
 {
+    @FindBy (css = "div.dashlet-padding h3")
+    protected static HtmlElement defaultDashletMessage;
     @RenderWebElement
     @FindBy (css = "div.dashlet.my-meeting-workspaces")
     protected HtmlElement dashletContainer;
-
-    @FindBy (css = "div.dashlet-padding h3")
-    protected static HtmlElement defaultDashletMessage;
 
     @Override
     public String getDashletTitle()

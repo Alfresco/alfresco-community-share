@@ -1,8 +1,14 @@
 package org.alfresco.share.tasksAndWorkflows.EditAWorkflow;
 
+import java.util.Date;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.WorkflowService;
-import org.alfresco.po.share.tasksAndWorkflows.*;
+import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
+import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
+import org.alfresco.po.share.tasksAndWorkflows.TaskDetailsPage;
+import org.alfresco.po.share.tasksAndWorkflows.WorkflowDetailsPage;
+import org.alfresco.po.share.tasksAndWorkflows.WorkflowsIveStartedPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -10,8 +16,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.Date;
 
 /**
  * @author Razvan.Dorobantu

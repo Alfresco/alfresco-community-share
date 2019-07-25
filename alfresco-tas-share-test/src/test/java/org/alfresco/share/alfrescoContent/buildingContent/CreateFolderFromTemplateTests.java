@@ -1,5 +1,10 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
+import static org.alfresco.utility.report.log.Step.STEP;
+
+import java.util.Arrays;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -14,28 +19,22 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-
-import static org.alfresco.utility.report.log.Step.STEP;
-
 public class CreateFolderFromTemplateTests extends ContextAwareWebTest
 {
+    private final String folderTemplateName = "Software Engineering Project";
+    private final String userFirstName = "Jim";
+    private final String userLastName = "Jones";
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
-
     @Autowired
     private Notification notification;
-
     @Autowired
     private CreateFolderFromTemplate createFolderFromTemplate;
-
     @Autowired
     private CreateContent createContent;
-
     @Autowired
     private EditRulesPage editRulesPage;
     @Autowired
@@ -46,10 +45,6 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     private ManagePermissionsPage managePermissionsPage;
     @Autowired
     private AspectsForm aspectsForm;
-
-    private final String folderTemplateName = "Software Engineering Project";
-    private final String userFirstName = "Jim";
-    private final String userLastName = "Jones";
 
     @TestRail (id = "C6292")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })

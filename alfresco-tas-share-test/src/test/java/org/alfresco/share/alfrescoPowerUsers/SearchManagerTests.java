@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoPowerUsers;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.searching.SearchManagerPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -11,7 +12,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -131,12 +131,17 @@ public class SearchManagerTests extends ContextAwareWebTest
     public void editFilterProperty()
     {
         searchManagerPage.navigate();
+
         LOG.info("Step 1: Edit filter property and save changes");
         searchManagerPage.editFilterProperty("cm:created (Created Date)", "audio:album (Album)");
 
         LOG.info("Step 2: Check new filter property is present");
         getBrowser().refresh();
         Assert.assertEquals(searchManagerPage.getFilterProperty("filter_created", "audio:album (Album)"), "audio:album (Album)");
+
+        LOG.info("Step 3: Revert to original property ");
+        searchManagerPage.editFilterProperty("audio:album (Album)", "cm:created (Created Date)");
+
     }
 
 }

@@ -1,6 +1,13 @@
 package org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -9,31 +16,15 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Laura.Capsa
  */
 public class CreateTagTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private EditPropertiesDialog editPropertiesDialog;
-
-    @Autowired
-    private SelectDialog selectDialog;
-
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "profileUser-" + random;
     private final String siteName = "site" + random;
@@ -41,6 +32,12 @@ public class CreateTagTests extends ContextAwareWebTest
     private final String folderName = "folderC10210-" + random;
     private final String fileTag = "tagC10209-" + random;
     private final String folderTag = "tagC10210-" + random;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private EditPropertiesDialog editPropertiesDialog;
+    @Autowired
+    private SelectDialog selectDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

@@ -1,6 +1,10 @@
 package org.alfresco.share.sitesFeatures.Links;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.link.DeleteLinkPopUp;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
@@ -9,14 +13,12 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author iulia.cojocea
@@ -43,6 +45,11 @@ public class DeleteLinkTests extends ContextAwareWebTest
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, testUser, password, testUser + domain, "firstName", "lastName");
+    }
+
+    @BeforeMethod (alwaysRun = true)
+    public void beforeMethod()
+    {
         setupAuthenticatedSession(testUser, password);
     }
 
@@ -53,6 +60,11 @@ public class DeleteLinkTests extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + testUser);
     }
 
+    @AfterMethod (alwaysRun = true)
+    public void afterMethod()
+    {
+        cleanupAuthenticatedSession();
+    }
 
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     @TestRail (id = "C6187")
@@ -209,6 +221,5 @@ public class DeleteLinkTests extends ContextAwareWebTest
         deleteLinkPopUp.clickOnDeleteLinkButtonLinksPage();
         Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 }

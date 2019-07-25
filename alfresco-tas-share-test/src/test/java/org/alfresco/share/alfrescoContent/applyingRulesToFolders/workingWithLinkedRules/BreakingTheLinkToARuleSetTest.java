@@ -1,5 +1,11 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithLinkedRules;
 
+import static org.testng.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.LinkedToRuleSetPage;
@@ -11,39 +17,15 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
 
 /**
  * @author Laura.Capsa
  */
 public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private ManageRulesPage manageRulesPage;
-
-    @Autowired
-    private EditRulesPage editRulesPage;
-
-    @Autowired
-    private RuleDetailsPage ruleDetailsPage;
-
-    @Autowired
-    private LinkedToRuleSetPage linkedToRuleSetPage;
-
-    @Autowired
-    private SelectDestinationDialog selectDestinationDialog;
-
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "user-" + random;
     private final String siteName = "Site-" + random;
@@ -51,6 +33,18 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
     private final String folderName = "Folder-C7332-" + random;
     private final String folderName2 = "Folder2-C7332-" + random;
     private final String ruleName = "rule-C7332-" + random;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
+    @Autowired
+    private EditRulesPage editRulesPage;
+    @Autowired
+    private RuleDetailsPage ruleDetailsPage;
+    @Autowired
+    private LinkedToRuleSetPage linkedToRuleSetPage;
+    @Autowired
+    private SelectDestinationDialog selectDestinationDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -63,7 +57,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page:");
         LOG.info("Navigate to Manage Rule page for folder1");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Rules", manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
         assertEquals(manageRulesPage.getPageTitle(), "Alfresco » Folder Rules", "Displayed page=");
         assertEquals(manageRulesPage.getRuleTitle(), folderName + ": Rules", "Rule title=");
         LOG.info("Navigate to Create rule page");

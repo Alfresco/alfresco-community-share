@@ -16,6 +16,7 @@ public class SystemErrorPage extends HtmlPage
 
     public String getErrorHeader()
     {
+        getBrowser().waitUntilElementVisible(errorHeader, 10L);
         return errorHeader.getText();
     }
 }

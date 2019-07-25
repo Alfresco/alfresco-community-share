@@ -1,6 +1,14 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -9,30 +17,15 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 9/2/2016.
  */
 public class DeletingContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private DeleteDocumentOrFolderDialog deleteDialog;
-
-    @Autowired
-    Notification notification;
-
     private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderNameD = String.format("delFolder%s", RandomData.getRandomAlphanumeric());
@@ -40,6 +33,12 @@ public class DeletingContentTests extends ContextAwareWebTest
     private final String folderNameC = String.format("cancelFolder%s", RandomData.getRandomAlphanumeric());
     private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
     private final String folderPathInRepository = "Sites/" + siteName + "/documentLibrary/";
+    @Autowired
+    Notification notification;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DeleteDocumentOrFolderDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

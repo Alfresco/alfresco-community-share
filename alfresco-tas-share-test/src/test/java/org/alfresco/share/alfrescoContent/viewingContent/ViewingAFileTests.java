@@ -1,5 +1,8 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
+import static org.testng.Assert.assertEquals;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -10,31 +13,26 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-
 public class ViewingAFileTests extends ContextAwareWebTest
 {
+    private final String user = "C9917User1489451372540";
+    private final String siteName = String.format("C9917SiteName%s", RandomData.getRandomAlphanumeric());
+    private final String description = String.format("C9917SiteDescription%s", RandomData.getRandomAlphanumeric());
+    private final String docName = "File-C9917";
+    private final DateTime currentDate = new DateTime();
     @Autowired
     private DocumentDetailsPage documentPreviewPage;
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
     private PreviewFileActionsSection fileActions;
-
     @Autowired
     private UserDashboardPage userDashboard;
-
-    private final String user = "C9917User1489451372540";
-    private final String siteName = String.format("C9917SiteName%s", RandomData.getRandomAlphanumeric());
-    private final String description = String.format("C9917SiteDescription%s", RandomData.getRandomAlphanumeric());
-    private final String docName = "File-C9917";
-    private final DateTime currentDate = new DateTime();
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

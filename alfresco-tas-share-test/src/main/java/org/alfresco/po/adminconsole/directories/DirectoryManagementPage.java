@@ -1,7 +1,18 @@
 package org.alfresco.po.adminconsole.directories;
 
+import static org.alfresco.utility.report.log.Step.STEP;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.adminconsole.AdminConsolePage;
-import org.alfresco.po.adminconsole.directories.DirectoryManagement.*;
+import org.alfresco.po.adminconsole.directories.DirectoryManagement.AuthenticationChain;
+import org.alfresco.po.adminconsole.directories.DirectoryManagement.AuthenticationTestDialog;
+import org.alfresco.po.adminconsole.directories.DirectoryManagement.EditDirectoryDialog;
+import org.alfresco.po.adminconsole.directories.DirectoryManagement.SyncUserDirectoriesDialog;
+import org.alfresco.po.adminconsole.directories.DirectoryManagement.SyncUserDirectoryTestDialog;
+import org.alfresco.po.adminconsole.directories.DirectoryManagement.SynchronizationSettingsDialog;
+import org.alfresco.po.adminconsole.directories.DirectoryManagement.SynchronizationStatus;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -12,11 +23,6 @@ import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Select;
 import ru.yandex.qatools.htmlelements.element.Table;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.alfresco.utility.report.log.Step.STEP;
 
 @PageObject
 public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChain>
@@ -55,33 +61,6 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     @FindBy (css = ".column-full>p>b")
     WebElement syncStatusMessage;
-
-    public enum Type
-    {
-        OPEN_LDAP("ldap", "OpenLDAP"),
-        LDAP("ldap-ad", "LDAP (Active Directory)"),
-        PASSTHRU("passthru", "Passthru"),
-        KERBEROS("kerberos", "Kerberos"),
-        EXTERNAL("external", "External");
-
-        private String value, displayedText;
-
-        Type(String value, String displayedText)
-        {
-            this.value = value;
-            this.displayedText = displayedText;
-        }
-
-        public String getValue()
-        {
-            return value;
-        }
-
-        public String getDisplayedText()
-        {
-            return displayedText;
-        }
-    }
 
     @Override
     public String getInfoPage()
@@ -296,5 +275,32 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
             }
         }
         throw new Exception("Authentication type is not available in the Authentication chain list!");
+    }
+
+    public enum Type
+    {
+        OPEN_LDAP("ldap", "OpenLDAP"),
+        LDAP("ldap-ad", "LDAP (Active Directory)"),
+        PASSTHRU("passthru", "Passthru"),
+        KERBEROS("kerberos", "Kerberos"),
+        EXTERNAL("external", "External");
+
+        private String value, displayedText;
+
+        Type(String value, String displayedText)
+        {
+            this.value = value;
+            this.displayedText = displayedText;
+        }
+
+        public String getValue()
+        {
+            return value;
+        }
+
+        public String getDisplayedText()
+        {
+            return displayedText;
+        }
     }
 }

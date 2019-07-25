@@ -1,5 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -9,8 +11,6 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
-
-import java.util.List;
 
 /**
  * Created by Claudia Agache on 7/13/2016.

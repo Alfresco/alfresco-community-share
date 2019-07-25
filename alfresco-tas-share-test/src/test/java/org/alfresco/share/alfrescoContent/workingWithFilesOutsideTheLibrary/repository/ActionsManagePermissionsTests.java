@@ -1,5 +1,8 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -14,9 +17,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Mirela Tifui on 3/20/2017.

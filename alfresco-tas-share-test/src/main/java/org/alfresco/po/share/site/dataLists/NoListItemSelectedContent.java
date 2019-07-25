@@ -1,9 +1,9 @@
 package org.alfresco.po.share.site.dataLists;
 
+import java.util.List;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
-
-import java.util.List;
 
 @PageObject
 public class NoListItemSelectedContent extends Content

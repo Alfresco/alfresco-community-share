@@ -1,6 +1,12 @@
 package org.alfresco.share.sitesFeatures.calendar.TimeZone;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.io.IOException;
+
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.site.calendar.AddEventDialog;
 import org.alfresco.po.share.site.calendar.CalendarPage;
@@ -12,16 +18,10 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Claudia Agache on 7/26/2016.
@@ -39,15 +39,14 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
 
     @Autowired
     Notification notification;
-
-    private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
-    private String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
     DateTime today;
     DateTime endDate;
     DateTime aWeekAgo;
     DateTime nextWeek;
     DateTime aMonthAgo;
     DateTime nextMonth;
+    private String user = String.format("user%s", RandomData.getRandomAlphanumeric());
+    private String siteName = String.format("SiteName%s", RandomData.getRandomAlphanumeric());
     private String clientATimeZone = "tzutil /s \"GTB Standard Time\"";
     private String clientBTimeZone = "tzutil /s \"GMT Standard Time\"";
 
@@ -95,7 +94,7 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
         }
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5982")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void singleDayEvent()
@@ -153,7 +152,7 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getEndDateTime(), today.toString("EEEE, d MMMM, yyyy"), "Following information is available: Time section with End Date");
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5984")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleDaysEvent()
@@ -211,10 +210,9 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getStartDateTime(), today.toString("EEEE, d MMMM, yyyy"), "Following information is available: Time section with Start Date");
         assertEquals(eventInformationDialog.getEndDateTime(), endDate.toString("EEEE, d MMMM, yyyy"), "Following information is available: Time section with End Date");
         changeTimeZone(clientATimeZone);
-
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5986")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleWeeksEvent()
@@ -275,7 +273,7 @@ public class TimeZoneAgendaViewTests extends ContextAwareWebTest
         assertEquals(eventInformationDialog.getEndDateTime(), nextWeek.toString("EEEE, d MMMM, yyyy"), "Following information is available: Time section with End Date");
     }
 
-    @Bug (id = "SHA-2165", status = Bug.Status.OPENED)
+    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5988")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void multipleMonthsEvent()

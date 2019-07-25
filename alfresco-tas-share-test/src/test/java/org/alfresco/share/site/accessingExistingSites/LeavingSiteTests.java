@@ -1,5 +1,10 @@
 package org.alfresco.share.site.accessingExistingSites;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
@@ -13,12 +18,9 @@ import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 7/5/2016.
@@ -79,7 +81,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         setupAuthenticatedSession(user1, password);
         LOG.info("STEP 1: Navigate to Site Dashboard for'" + siteName + "'");
         siteDashboard.navigate(siteName);
-        LOG.info("STEP 2: Click on 'Site configuration options' icon -> Leave Site.");
+        LOG.info("STEP 2: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
         int counter = 1;
@@ -118,7 +120,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
         setupAuthenticatedSession(user1, password);
         siteDashboard.navigate(siteName);
-        LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave Site.");
+        LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
         int counter = 1;
@@ -183,7 +185,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         userService.createSiteMember(user1, password, user2, siteName, "SiteManager");
         setupAuthenticatedSession(user1, password);
         siteDashboard.navigate(siteName);
-        LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave Site.");
+        LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
         int counter = 1;
@@ -222,7 +224,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
         siteService.create(user1, password, domain, siteName, description, SiteService.Visibility.PUBLIC);
         setupAuthenticatedSession(user1, password);
         siteDashboard.navigate(siteName);
-        LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave Site.");
+        LOG.info("STEP 1: Click on 'Site configuration options' icon -> Leave SiteService.");
         siteDashboard.clickSiteConfiguration();
         siteDashboard.clickOptionInSiteConfigurationDropDown("Leave Site", leaveSiteDialog);
         int counter = 1;

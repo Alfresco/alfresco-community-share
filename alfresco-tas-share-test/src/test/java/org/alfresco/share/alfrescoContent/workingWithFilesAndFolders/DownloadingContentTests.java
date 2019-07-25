@@ -1,6 +1,9 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
+import java.io.File;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -9,13 +12,9 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.io.File;
 
 /**
  * Created by Alex Argint
@@ -23,12 +22,11 @@ import java.io.File;
 public class DownloadingContentTests extends ContextAwareWebTest
 {
 
+    private final String downloadPath = srcRoot + "testdata";
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
-
     @Autowired
     private DocumentCommon documentCommon;
-
     private String uniqueIdentifier;
     private String userName;
     private String siteName;
@@ -38,7 +36,6 @@ public class DownloadingContentTests extends ContextAwareWebTest
     private String windowsUser;
     private File downloadDirectory;
     private String folderName;
-    private final String downloadPath = srcRoot + "testdata";
     private Alert alert;
 
     private void setup(String id)
@@ -104,8 +101,6 @@ public class DownloadingContentTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Hover file and click 'Download' button");
         documentLibraryPage.mouseOverContentItem(docName);
-        getBrowser().waitInSeconds(5);
-
         documentLibraryPage.clickDownloadForItem(docName);
 
         if (documentCommon.isAlertPresent())
@@ -130,7 +125,6 @@ public class DownloadingContentTests extends ContextAwareWebTest
 
         LOG.info("Hover folder and click 'Download as Zip' button from Actions options");
         documentLibraryPage.mouseOverContentItem(folderName);
-        getBrowser().waitInSeconds(5);
         documentLibraryPage.clickDownloadAsZipForItem(folderName);
         if (documentCommon.isAlertPresent())
         {

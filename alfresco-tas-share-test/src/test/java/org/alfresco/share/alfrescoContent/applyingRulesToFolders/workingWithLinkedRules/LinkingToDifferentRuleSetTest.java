@@ -1,6 +1,13 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithLinkedRules;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.LinkedToRuleSetPage;
@@ -11,37 +18,15 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Laura.Capsa
  */
 public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private ManageRulesPage manageRulesPage;
-
-    @Autowired
-    private EditRulesPage editRulesPage;
-
-    @Autowired
-    private LinkedToRuleSetPage linkedToRuleSetPage;
-
-    @Autowired
-    private SelectDestinationDialog selectDestinationDialog;
-
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "user-" + random;
     private final String siteName = "Site-" + random;
@@ -49,6 +34,16 @@ public class LinkingToDifferentRuleSetTest extends ContextAwareWebTest
     private final String folderName = "Folder-C7327-" + random;
     private final String folderName2 = "Folder2-C7327-" + random;
     private final String ruleName1 = "rule-C7327-" + random;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
+    @Autowired
+    private EditRulesPage editRulesPage;
+    @Autowired
+    private LinkedToRuleSetPage linkedToRuleSetPage;
+    @Autowired
+    private SelectDestinationDialog selectDestinationDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

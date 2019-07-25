@@ -1,19 +1,19 @@
 package org.alfresco.share.adminTools.nodeBrowser;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.user.admin.adminTools.NodeBrowserPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Razvan.Dorobantu
@@ -131,6 +131,20 @@ public class NodeBrowserTests extends ContextAwareWebTest
         assertTrue(nodeBrowserPage.getParentFor(fileName).contains(siteName), String.format("Parent result for %s is wrong.", fileName));
     }
 
+    @TestRail (id = "C9305")
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
+    public void localeSupport()
+    {
+//TODO this test C9305
+//            Preconditions
+//            Any user added a doc using browser other locale (e.g. German)
+
+        LOG.info("STEP1: Copy Node reference of added doc");
+        LOG.info("STEP2: Go to Admin Console -> Node Browser");
+        LOG.info("STEP3: Enter copied nodref to search box and click Search button");
+        LOG.info("STEP4: Click on the doc and verify sys:locale");
+    }
+
     @TestRail (id = "C9306")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void checkNodeBrowserPage()
@@ -142,5 +156,27 @@ public class NodeBrowserTests extends ContextAwareWebTest
         assertTrue(nodeBrowserPage.isParentColumnPresent());
         assertTrue(nodeBrowserPage.isReferenceColumnPresent());
         assertTrue(nodeBrowserPage.isSearchButtonPresent());
+    }
+
+    @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
+    public void executeCustomNodeSearch()
+    {
+        LOG.info("Step 1: Navigate to NOde Browser and perform custom node search");
+        nodeBrowserPage.navigate();
+        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
+        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.STORE_ROOT);
+        nodeBrowserPage.clickSearchButton();
+        Assert.assertTrue(nodeBrowserPage.getRowText().toString().contains("workspace://SpacesStore/"));
+    }
+
+    @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
+    public void getSearchResultsNoResults()
+    {
+        LOG.info("Step 1: Navigate to Node Browser page and perform a search that will not return results");
+        nodeBrowserPage.navigate();
+        nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.LUCENE);
+        nodeBrowserPage.writeInSearchInput(String.valueOf(System.currentTimeMillis()));
+        nodeBrowserPage.clickSearchButton();
+        Assert.assertEquals(nodeBrowserPage.getRowText().toString().trim(), "[[No items found]]");
     }
 }

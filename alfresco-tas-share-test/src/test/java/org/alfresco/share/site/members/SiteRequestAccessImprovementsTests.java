@@ -1,5 +1,10 @@
 package org.alfresco.share.site.members;
 
+import static org.testng.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.alfresco.po.share.site.members.PendingInvitesPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
@@ -16,54 +21,36 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.alfresco.utility.constants.UserRole.SiteManager;
-
-import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.testng.Assert.assertEquals;
 
 /**
  * @author Laura.Capsa
  */
 public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
 {
-    @Autowired
-    private UserDashboardPage userDashboardPage;
-
-    @Autowired
-    private SiteMembersPage siteMembersPage;
-
-    @Autowired
-    private PendingInvitesPage pendingInvitesPage;
-
-    @Autowired
-    private MyTasksPage myTasksPage;
-
-    @Autowired
-    private EditTaskPage editTaskPage;
-
-    @Autowired
-    DataSite siteApi;
-
-    @Autowired
-    DataUser dataUser;
-
-    private String userName2, userName3, user2, group, task;
     private final String firstName = "firstName";
     private final String lastName = "lastName";
     private final String email = firstName + domain;
     private final String description = "description";
+    @Autowired
+    DataSite siteApi;
+    @Autowired
+    DataUser dataUser;
     SiteModel moderated;
     UserModel userName1;
-
+    @Autowired
+    private UserDashboardPage userDashboardPage;
+    @Autowired
+    private SiteMembersPage siteMembersPage;
+    @Autowired
+    private PendingInvitesPage pendingInvitesPage;
+    @Autowired
+    private MyTasksPage myTasksPage;
+    @Autowired
+    private EditTaskPage editTaskPage;
+    private String userName2, userName3, user2, group, task;
 
     @BeforeMethod
     public void setupTest()

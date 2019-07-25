@@ -1,5 +1,8 @@
 package org.alfresco.po.share;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -8,9 +11,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
-
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 /**
  * Simple Page Object class
@@ -206,7 +206,6 @@ public class LoginPage extends HtmlPage
 
     public String[] getBackgroundColour()
     {
-
         String colourBodyShare = bodyShare.getCssValue("background-color");
         String colourProductTagline = productTagline.getCssValue("color");
         String[] colours = new String[] { colourBodyShare, colourProductTagline };

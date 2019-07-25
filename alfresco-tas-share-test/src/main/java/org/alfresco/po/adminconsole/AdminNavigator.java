@@ -7,12 +7,50 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.context.ApplicationContext;
-
 import ru.yandex.qatools.htmlelements.element.Link;
 
 @PageObject
 public class AdminNavigator extends HtmlPage implements Navigator
 {
+    public static final String TenantConsole = "Tenant Console";
+    @RenderWebElement
+    @FindBy (linkText = "System Summary")
+    Link systemSymmary;
+    @RenderWebElement
+    @FindBy (linkText = "Model and Messages Console")
+    Link modelAndMessagesConsole;
+    @FindBy (className = "selected")
+    WebElement selected;
+
+    @Override
+    public Link getActiveLink()
+    {
+        return new Link(selected);
+    }
+
+    @SuppressWarnings ("rawtypes")
+    public void goTo(NavigationLink link, ApplicationContext applicationContext)
+    {
+
+        By locator = By.cssSelector(String.format("a[title=\"%s\"]", link.getTitle()));
+        if (!browser.isElementDisplayed(locator))
+        {
+            LOG.error("Cannot find navigation link identified by title: {}", link.getTitle());
+        } else
+        {
+            WebElement e = browser.findElement(locator);
+            e.click();
+
+            Object pageObject = applicationContext.getBean(link.getBeanName());
+            if (pageObject instanceof AdminConsolePage)
+            {
+                AdminConsolePage page = (AdminConsolePage) pageObject;
+                page.setBrowser(getBrowser());
+                page.renderedPage();
+            }
+        }
+    }
+
     enum NavigationLink
     {
         /**
@@ -44,48 +82,5 @@ public class AdminNavigator extends HtmlPage implements Navigator
         {
             return title;
         }
-    }
-
-    public static final String TenantConsole = "Tenant Console";
-
-    @RenderWebElement
-    @FindBy (linkText = "System Summary")
-    Link systemSymmary;
-
-    @RenderWebElement
-    @FindBy (linkText = "Model and Messages Console")
-    Link modelAndMessagesConsole;
-
-    @FindBy (className = "selected")
-    WebElement selected;
-
-    @Override
-    public Link getActiveLink()
-    {
-        return new Link(selected);
-    }
-
-    @SuppressWarnings ("rawtypes")
-    public void goTo(NavigationLink link, ApplicationContext applicationContext)
-    {
-
-        By locator = By.cssSelector(String.format("a[title=\"%s\"]", link.getTitle()));
-        if (!browser.isElementDisplayed(locator))
-        {
-            LOG.error("Cannot find navigation link identified by title: {}", link.getTitle());
-        } else
-        {
-            WebElement e = browser.findElement(locator);
-            e.click();
-
-            Object pageObject = applicationContext.getBean(link.getBeanName());
-            if (pageObject instanceof AdminConsolePage)
-            {
-                AdminConsolePage page = (AdminConsolePage) pageObject;
-                page.setBrowser(getBrowser());
-                page.renderedPage();
-            }
-        }
-
     }
 }

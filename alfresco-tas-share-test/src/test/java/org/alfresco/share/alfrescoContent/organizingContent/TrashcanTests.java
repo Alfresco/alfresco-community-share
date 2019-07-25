@@ -1,6 +1,13 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.EmptyTrashcanDialog;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
@@ -11,39 +18,29 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Collections;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class TrashcanTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private HeaderMenuBar headerMenuBar;
-
-    @Autowired
-    private DeleteDialog deleteDialog;
-
-    @Autowired
-    private UserTrashcanPage userTrashcanPage;
-
-    @Autowired
-    private EmptyTrashcanDialog emptyTrashcanDialog;
-
     private final String random = RandomData.getRandomAlphanumeric();
     private final String userName = "profileUser-" + random;
     private final String description = "Description-" + random;
     private final String fileContent = "file content.";
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private DeleteDialog deleteDialog;
+    @Autowired
+    private UserTrashcanPage userTrashcanPage;
+    @Autowired
+    private EmptyTrashcanDialog emptyTrashcanDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -83,7 +80,6 @@ public class TrashcanTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 2, folderName + "\n" + fileName),
             "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
-        getBrowser().waitInSeconds(6);
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[]", "Document Library folders=");
 
@@ -127,7 +123,6 @@ public class TrashcanTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
             "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
-        getBrowser().waitInSeconds(6);
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), Collections.singletonList(folderName).toString(), "Document Library folders=");
 
@@ -164,7 +159,6 @@ public class TrashcanTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Select all items and delete them by selecting 'Delete' option from 'Selected Items...' menu. Confirm deletion");
         documentLibraryPage.clickCheckBox(folderName);
-        getBrowser().waitInSeconds(4);
         assertFalse(documentLibraryPage.isContentSelected(fileName), fileName + " is selected.");
         assertTrue(documentLibraryPage.isContentSelected(folderName), folderName + " is selected.");
         headerMenuBar.clickSelectedItemsMenu();

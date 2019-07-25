@@ -1,5 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
+import java.util.List;
+
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
@@ -10,49 +12,36 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 /**
  * @author Laura.Capsa
  */
 @PageObject
 public class ManageRulesPage extends SiteCommon<ManageRulesPage>
 {
+    @FindBy (css = "li.rules-list-item.selected.dnd-draggable")
+    public WebElement contentRule;
     @Autowired
     DocumentLibraryPage documentLibraryPage;
-
     @Autowired
     EditRulesPage editRulesPage;
-
     @Autowired
     SelectDestinationDialog selectDestinationDialog;
-
     @RenderWebElement
     @FindBy (css = ".rules-header .rules-title")
     private WebElement title;
-
     @FindBy (xpath = ".//*[contains(@class, 'dialog-options')]/*[1]")
     private WebElement noRulesText;
-
     @FindBy (css = ".dialog-option a[href*='rule-edit']")
     private WebElement createRulesLink;
-
     @FindBy (xpath = "(.//div[@class='dialog-option']/div)[1]")
     private WebElement createRulesDescription;
-
     @FindBy (css = "a[id*='linkToRuleSet']")
     private WebElement linkToRuleSetLink;
-
     @FindBy (xpath = "(.//div[@class='dialog-option']/div)[2]")
     private WebElement linkToRuleSetDescription;
-
     @RenderWebElement
     @FindBy (css = "button[id*='inheritButton']")
     private WebElement inheritButton;
-
-    @FindBy (css = "li.rules-list-item.selected.dnd-draggable")
-    public WebElement contentRule;
-
     @FindBy (css = "span.folder-link a")
     private List<WebElement> breadcrumbList;
 

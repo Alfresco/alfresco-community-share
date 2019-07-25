@@ -122,7 +122,6 @@ public class AboutPopUpPage extends ShareDialog
     public void clickAlfrescoLink()
     {
         alfrescoLink.click();
-        browser.waitInSeconds(2);
     }
 
     /**
@@ -131,6 +130,5 @@ public class AboutPopUpPage extends ShareDialog
     public void clickLegalAndLicenceLink()
     {
         legalAndLicenceLink.click();
-        browser.waitInSeconds(1);
     }
 }

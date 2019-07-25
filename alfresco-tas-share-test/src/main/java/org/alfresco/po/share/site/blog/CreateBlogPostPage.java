@@ -13,35 +13,26 @@ import org.springframework.context.annotation.Primary;
 @PageObject
 public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
 {
-    @Autowired
-    BlogPostViewPage blogPostViewPage;
-
-    private By pageTitle = By.xpath("//div[@id ='bd']//div[@class = 'page-form-header']//h1");
-
     @RenderWebElement
     @FindBy (css = "input[id*='_default-title']")
     protected WebElement titleField;
-
+    @FindBy (css = "button[id$='_default-publish-button-button']")
+    protected WebElement publishInternallyButton;
+    @FindBy (css = "button[id$='_default-save-button-button']")
+    protected WebElement saveAsDraftButton;
+    @FindBy (css = "button[id$='_default-cancel-button-button']")
+    protected WebElement cancelButton;
+    @Autowired
+    BlogPostViewPage blogPostViewPage;
+    private By pageTitle = By.xpath("//div[@id ='bd']//div[@class = 'page-form-header']//h1");
     @RenderWebElement
     @FindBy (xpath = "//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']")
     private WebElement frame;
-
     @FindBy (xpath = "//div[@class = 'taglibrary']//input")
     private WebElement tagsField;
-
     @FindBy (xpath = "//div[@class = 'taglibrary']//span[@class = 'yui-button yui-push-button']//button[text()='Add']")
     private WebElement addTagButton;
-
     private By deleteTagButton = By.xpath("//div[@class = 'taglibrary']//a[@class = 'taglibrary-action']//span[@class = 'remove']");
-
-    @FindBy (css = "button[id$='_default-publish-button-button']")
-    protected WebElement publishInternallyButton;
-
-    @FindBy (css = "button[id$='_default-save-button-button']")
-    protected WebElement saveAsDraftButton;
-
-    @FindBy (css = "button[id$='_default-cancel-button-button']")
-    protected WebElement cancelButton;
 
     public WebElement findTag(String Tag)
     {

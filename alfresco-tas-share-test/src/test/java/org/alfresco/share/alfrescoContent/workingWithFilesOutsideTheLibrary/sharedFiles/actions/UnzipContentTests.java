@@ -1,5 +1,8 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -16,32 +19,28 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 /**
  * @author Laura.Capsa
  */
 public class UnzipContentTests extends ContextAwareWebTest
 {
+    private final String user = String.format("C8040TestUser%s", RandomData.getRandomAlphanumeric());
+    private final String path = "Shared";
+    private final String zipFile = "archiveC8040.zip";
+    private final String zipContent = "fileC8040";
+    private final String acpFile = "archiveC8041.acp";
     @Autowired
     HeaderMenuBar headerMenuBar;
+    @Autowired
+    UploadContent uploadContent;
+    @Autowired
+    DeleteDialog deleteDialog;
     @Autowired
     private SharedFilesPage sharedFilesPage;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
     @Autowired
     private CopyMoveUnzipToDialog unzipToDialog;
-    @Autowired
-    UploadContent uploadContent;
-    @Autowired
-    DeleteDialog deleteDialog;
-
-    private final String user = String.format("C8040TestUser%s", RandomData.getRandomAlphanumeric());
-    private final String path = "Shared";
-    private final String zipFile = "archiveC8040.zip";
-    private final String zipContent = "fileC8040";
-    private final String acpFile = "archiveC8041.acp";
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

@@ -1,10 +1,14 @@
 package org.alfresco.share.site.siteDashboard;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.dashlet.Dashlet;
+import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -13,51 +17,49 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
+import org.testng.asserts.SoftAssert;
 
 public class SiteContentDashletTests extends ContextAwareWebTest
 {
-    @Autowired
-    SiteContentDashlet siteContentDashlet;
-
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    SiteDashboardPage siteDashboard;
-
-    @Autowired
-    DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    EditInAlfrescoPage editInAlfrescoPage;
-
-    @Autowired
-    SocialFeatures socialFeatures;
-
     private final String fileName = String.format("testFile%s", RandomData.getRandomAlphanumeric());
     private final String fileName2 = String.format("testFile2%s", RandomData.getRandomAlphanumeric());
     private final String uploadFileName = "testFile1";
     private final String docContent = "testContent";
     private final String userName1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    SiteContentDashlet siteContentDashlet;
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    SiteDashboardPage siteDashboard;
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired
+    SocialFeatures socialFeatures;
     private String userName2 = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("Site%s", RandomData.getRandomAlphanumeric());
+    private String siteNameFilters = "siteFiltersTest" + RandomData.getRandomAlphanumeric();
+    private String userNameFilters = "userFilters" + RandomData.getRandomAlphanumeric();
+    private String docName = "FiltersTestDoc" + RandomData.getRandomAlphanumeric();
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName1, userName1, userName1, "fName1", "lName1");
         userService.create(adminUser, adminPassword, userName2, userName2, userName2, "fName2", "lName2");
+        userService.create(adminUser, adminPassword, userNameFilters, password, userNameFilters, "Share", "Filters");
         siteService.create(userName1, userName1, domain, siteName, "testDescription", SiteService.Visibility.PUBLIC);
+        siteService.create(userNameFilters, password, domain, siteNameFilters, "testFiltersDescription", SiteService.Visibility.PUBLIC);
         contentService.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName, docContent);
         contentService.createDocument(userName1, userName1, siteName, DocumentType.TEXT_PLAIN, fileName2, docContent);
         contentService.uploadFileInSite(userName1, userName1, siteName, testDataFolder + uploadFileName);
+        contentService.createDocument(userNameFilters, password, siteNameFilters, DocumentType.TEXT_PLAIN, docName, docContent);
         userService.createSiteMember(adminUser, adminPassword, userName2, siteName, "SiteManager");
     }
 
@@ -214,4 +216,40 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getCommentContent(), "testComment", "testComment comment content is not visible");
     }
 
+    @Test (groups = { TestGroup.SHARE, "Acceptance", "SiteDashboard" })
+    public void checkAllAvailableFilters()
+    {
+        SoftAssert softAssert = new SoftAssert();
+        LOG.info("Step 1: Navigate to Site dashboard and check available filters");
+        setupAuthenticatedSession(userNameFilters, password);
+        siteDashboard.navigate(siteNameFilters);
+        softAssert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_CONTENT, 2, 1), "Site Content dashlet is not available");
+        siteContentDashlet.clickDefaultFilterButton();
+        softAssert.assertTrue(siteContentDashlet.isFilterDisplayed("I've Recently Modified"));
+        softAssert.assertTrue(siteContentDashlet.isFilterDisplayed("I'm Editing"));
+        softAssert.assertTrue(siteContentDashlet.isFilterDisplayed("My Favorites"));
+        LOG.info("Step 2: Apply My Favorites Filter");
+        siteContentDashlet.selectFilter("My Favorites");
+        softAssert.assertFalse(siteContentDashlet.isFileLinkPresent(docName));
+        LOG.info("Step 3: Apply My Favorites Filter");
+        siteContentDashlet.clickDefaultFilterButton();
+        siteContentDashlet.selectFilter("I'm Editing");
+        softAssert.assertFalse(siteContentDashlet.isFileLinkPresent(docName));
+        LOG.info("Step 4: Apply I've Recently Modified Filter");
+        siteContentDashlet.clickDefaultFilterButton();
+        siteContentDashlet.selectFilter("I've Recently Modified");
+        softAssert.assertTrue(siteContentDashlet.isFileLinkPresent(docName));
+        LOG.info("Step 5: Add document to favorites and check My Favorites filter");
+        siteContentDashlet.addFileToFavorites(docName);
+        siteContentDashlet.clickDefaultFilterButton();
+        siteContentDashlet.selectFilter("My Favorites");
+        softAssert.assertTrue(siteContentDashlet.isFileLinkPresent(docName));
+        LOG.info("Step 6: Edit offline and check I'm Editing filter");
+        documentLibraryPage.navigate(siteNameFilters);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, "Edit Offline", documentLibraryPage);
+        siteDashboard.navigate(siteNameFilters);
+        siteContentDashlet.clickDefaultFilterButton();
+        siteContentDashlet.selectFilter("I'm Editing");
+        softAssert.assertTrue(siteContentDashlet.isFileLinkPresent(docName));
+    }
 }

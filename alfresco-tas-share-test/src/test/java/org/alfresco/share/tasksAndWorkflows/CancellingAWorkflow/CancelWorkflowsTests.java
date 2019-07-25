@@ -1,5 +1,8 @@
 package org.alfresco.share.tasksAndWorkflows.CancellingAWorkflow;
 
+import java.util.Date;
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
@@ -11,9 +14,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author Razvan.Dorobantu

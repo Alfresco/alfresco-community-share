@@ -1,5 +1,10 @@
 package org.alfresco.common;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Paths;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -7,11 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
-
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Paths;
 
 /**
  * Generic Properties class that will load and override properties based on environment defined
@@ -25,7 +25,7 @@ import java.nio.file.Paths;
  */
 @Configuration
 @PropertySource ("classpath:default.properties")
-@PropertySource (value = "classpath:${environment}.properties", ignoreResourceNotFound = true)
+@PropertySource (value = "classpath:alfresco-share-po-${environment}.properties", ignoreResourceNotFound = true)
 public class EnvProperties
 {
     @Autowired
@@ -54,6 +54,9 @@ public class EnvProperties
 
     @Value ("${share.url}")
     private URL shareUrl;
+
+    @Value ("${alfresco.url}")
+    private URL alfrescoUrl;
 
     @Value ("${server2.url}")
     private String server2Url;
@@ -173,6 +176,21 @@ public class EnvProperties
         return shareUrl;
     }
 
+    public void setShareUrl(URL shareUrl)
+    {
+        this.shareUrl = shareUrl;
+    }
+
+    public URL getAlfrescoUrl()
+    {
+        return alfrescoUrl;
+    }
+
+    public void setAlfrescoUrl(URL alfrescoUrl)
+    {
+        this.alfrescoUrl = alfrescoUrl;
+    }
+
     public URL getShare2Url()
     {
         return share2Url;
@@ -186,11 +204,6 @@ public class EnvProperties
     public String getServer2Url()
     {
         return server2Url;
-    }
-
-    public void setShareUrl(URL shareUrl)
-    {
-        this.shareUrl = shareUrl;
     }
 
     public String getAdminUser()
@@ -228,14 +241,14 @@ public class EnvProperties
         return language;
     }
 
-    public String getCountry()
-    {
-        return country;
-    }
-
     public void setLanguage(String language)
     {
         this.language = language;
+    }
+
+    public String getCountry()
+    {
+        return country;
     }
 
     public void setCountry(String country)

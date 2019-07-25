@@ -1,5 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -8,8 +10,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 /**
  * @author bogdan.simion
  */
@@ -17,52 +17,36 @@ import java.util.List;
 @PageObject
 public class SiteDataListsDashlet extends Dashlet<SiteDataListsDashlet>
 {
-    @Autowired
-    DataListsPage dataListsPage;
-
     @RenderWebElement
     @FindBy (css = "div.dashlet.site-data-lists")
     protected WebElement dashletContainer;
-
     @FindBy (css = ".site-data-lists .detail-list-item")
     protected List<WebElement> siteDataListsItems;
-
     @FindBy (css = ".site-data-lists .body a")
     protected List<WebElement> dataListsLinks;
-
     @FindBy (css = ".dashlet-padding>h3")
     protected WebElement message;
-
     @FindBy (css = ".datagrid-meta h2")
     protected WebElement dataListTitle;
-
     @FindBy (css = ".hd")
     protected WebElement newListWindow;
-
     @FindBy (css = ".item-types div")
     protected WebElement listType;
-
     @FindBy (css = "input[name$='prop_cm_title']")
     protected WebElement listTitleTextInput;
-
     @FindBy (css = "textarea[title$='Content Description']")
     protected WebElement listDescriptionTextAreaInput;
-
     @FindBy (css = ".bdft button[id*='submit-button']")
     protected WebElement newListSaveButton;
-
     @FindBy (css = ".bdft button[id*='cancel-button']")
     protected WebElement newListCancelButton;
-
     protected By newListWindowLocator = By.cssSelector(".hd");
-
     protected By createDataListLinkLocator = By.cssSelector("a[href='data-lists#new']");
-
     protected String listlinkLocator = "a[title='%s']";
-
     @FindBy (css = ".detail-list-item.first-item")
     protected WebElement detailListItem;
-
+    @Autowired
+    DataListsPage dataListsPage;
 
     /**
      * Method to get the title of the current dashlet

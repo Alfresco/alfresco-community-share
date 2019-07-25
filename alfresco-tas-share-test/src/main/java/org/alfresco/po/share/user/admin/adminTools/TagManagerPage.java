@@ -1,17 +1,15 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import java.util.List;
+
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Laura.Capsa
@@ -19,82 +17,59 @@ import java.util.List;
 @PageObject
 public class TagManagerPage extends AdminToolsPage
 {
-    @Autowired
-    private DeleteDialog deleteDialog;
-
-    @Autowired
-    private EditTagDialog editTagDialog;
-
-    @RenderWebElement
-    @FindBy (css = ".title")
-    private WebElement tableTitle;
-
-    //@RenderWebElement
-    @FindBy (css = ".dashlet thead")
-    private WebElement tableHead;
-
-    @FindBy (css = "a[id*='next-link']")
-    private WebElement nextLink;
-
-    @FindBy (css = "span[id*='next-span']")
-    private WebElement nextLinkDisabled;
-
-    @FindBy (css = "a[id*='prev-link']")
-    private WebElement previousLink;
-
-    @FindBy (css = "span[id*='prev-span']")
-    private WebElement previousLinkDisabled;
-
-    //	@RenderWebElement
-    @FindBy (css = "div[id*='list-bar-bottom'] span[id*='pages'] .yui-pg-page")
-    private List<WebElement> pagesList;
-
-    @RenderWebElement
-    @FindBy (css = "span[class*='current-page']")
-    private WebElement currentPage;
-
-    @RenderWebElement
-    @FindAll (@FindBy (css = ".yui-dt-data tr"))
-    private List<WebElement> tagsList;
-
-    @RenderWebElement
-    @FindBy (css = "input[id*='search']")
-    private WebElement searchInput;
-
-    @RenderWebElement
-    @FindBy (css = "button[id*='search']")
-    private WebElement searchButton;
-
-    @FindBy (css = "input[id*='edit-tag']")
-    private WebElement editTagInputField;
-
-    @FindBy (css = "button[id*='ok']")
-    private WebElement okButton;
-
-    @FindBy (css = "button[id*='tag-cancel']")
-    private WebElement cancelButton;
-
-    @FindBy (css = "form[id*='edit-tag'] label")
-    private WebElement renameLabel;
-
-    @FindBy (css = "form[id*='edit-tag'] div[class='yui-u']")
-    private WebElement requiredInput;
-
-    @FindAll (@FindBy (css = "a[id*='edit']"))
-    private List<WebElement> editIconList;
-
-    @FindAll (@FindBy (css = "td[class*='action'] a[id*='delete']"))
-    private List<WebElement> deleteIconList;
-
-    @FindBy (css = "div[class*='tags-list-info']")
-    private WebElement noFoundMessage;
-
-    private String cellsFromColumn = ".yui-dt-data tr td:nth-child(%s)";
-
     private final By editIconSelector = By.cssSelector("a[id*='edit']");
     private final By deleteIconSelector = By.cssSelector("a[id*='delete']");
     private final By tagSelector = By.cssSelector("b");
-
+    @Autowired
+    private DeleteDialog deleteDialog;
+    @Autowired
+    private EditTagDialog editTagDialog;
+    @RenderWebElement
+    @FindBy (css = ".title")
+    private WebElement tableTitle;
+    //@RenderWebElement
+    @FindBy (css = ".dashlet thead")
+    private WebElement tableHead;
+    @FindBy (css = "a[id*='next-link']")
+    private WebElement nextLink;
+    @FindBy (css = "span[id*='next-span']")
+    private WebElement nextLinkDisabled;
+    @FindBy (css = "a[id*='prev-link']")
+    private WebElement previousLink;
+    @FindBy (css = "span[id*='prev-span']")
+    private WebElement previousLinkDisabled;
+    //	@RenderWebElement
+    @FindBy (css = "div[id*='list-bar-bottom'] span[id*='pages'] .yui-pg-page")
+    private List<WebElement> pagesList;
+    @RenderWebElement
+    @FindBy (css = "span[class*='current-page']")
+    private WebElement currentPage;
+    @RenderWebElement
+    @FindAll (@FindBy (css = ".yui-dt-data tr"))
+    private List<WebElement> tagsList;
+    @RenderWebElement
+    @FindBy (css = "input[id*='search']")
+    private WebElement searchInput;
+    @RenderWebElement
+    @FindBy (css = "button[id*='search']")
+    private WebElement searchButton;
+    @FindBy (css = "input[id*='edit-tag']")
+    private WebElement editTagInputField;
+    @FindBy (css = "button[id*='ok']")
+    private WebElement okButton;
+    @FindBy (css = "button[id*='tag-cancel']")
+    private WebElement cancelButton;
+    @FindBy (css = "form[id*='edit-tag'] label")
+    private WebElement renameLabel;
+    @FindBy (css = "form[id*='edit-tag'] div[class='yui-u']")
+    private WebElement requiredInput;
+    @FindAll (@FindBy (css = "a[id*='edit']"))
+    private List<WebElement> editIconList;
+    @FindAll (@FindBy (css = "td[class*='action'] a[id*='delete']"))
+    private List<WebElement> deleteIconList;
+    @FindBy (css = "div[class*='tags-list-info']")
+    private WebElement noFoundMessage;
+    private String cellsFromColumn = ".yui-dt-data tr td:nth-child(%s)";
     private WebElement rowElement;
 
     @Override
@@ -133,7 +108,6 @@ public class TagManagerPage extends AdminToolsPage
      */
     public boolean isTagDisplayed(String tag)
     {
-        getBrowser().waitInSeconds(5);
         browser.waitUntilElementIsDisplayedWithRetry(tagSelector, 10);
         LOG.info("Check that tag is displayed: " + tag);
 
@@ -254,7 +228,6 @@ public class TagManagerPage extends AdminToolsPage
         {
             search(tagName);
             counter++;
-            getBrowser().waitInSeconds(5);
         }
         return isTagDisplayed(tagName);
     }

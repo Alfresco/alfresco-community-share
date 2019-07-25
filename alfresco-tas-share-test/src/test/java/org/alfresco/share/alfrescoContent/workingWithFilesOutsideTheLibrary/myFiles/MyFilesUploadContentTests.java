@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -7,14 +9,11 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Razvan.Dorobantu
@@ -58,7 +57,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
         assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
     }
 
-    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
+    //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C7792")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesUpdateDocumentNewVersion()

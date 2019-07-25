@@ -1,6 +1,13 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
@@ -15,52 +22,36 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Laura.Capsa
  */
 public class ChangeContentTypeTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private ChangeContentTypeDialog changeContentTypeDialog;
-
-    @Autowired
-    private EditPropertiesPage editPropertiesPage;
-
-    @Autowired
-    AdminToolsPage adminToolsPage;
-
-    @Autowired
-    ModelManagerPage modelManagerPage;
-
-    @Autowired
-    CreateModelDialogPage createModelDialogPage;
-
-    @Autowired
-    ModelDetailsPage modelDetailsPage;
-
-    @Autowired
-    CreateCustomTypeDialog createCustomTypeDialog;
-
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "content of the file.";
     private final String siteName = String.format("Site-%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    AdminToolsPage adminToolsPage;
+    @Autowired
+    ModelManagerPage modelManagerPage;
+    @Autowired
+    CreateModelDialogPage createModelDialogPage;
+    @Autowired
+    ModelDetailsPage modelDetailsPage;
+    @Autowired
+    CreateCustomTypeDialog createCustomTypeDialog;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private ChangeContentTypeDialog changeContentTypeDialog;
+    @Autowired
+    private EditPropertiesPage editPropertiesPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -111,7 +102,6 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void changeTypeFolder()
     {
-
         String folderName = String.format("Folder-C7166-%s", RandomData.getRandomAlphanumeric());
         contentService.createFolder(userName, password, folderName, siteName);
 
@@ -139,10 +129,6 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertTrue(changeContentTypeDialog.isButtonDisplayed("OK"), "'OK' button is displayed.");
         assertTrue(changeContentTypeDialog.isButtonDisplayed("Cancel"), "'Cancel' button is displayed.");
 
-
-        //  changeContentTypeDialog.clickButton("Cancel");
-
-        /*
         LOG.info("STEP5: Select 'ws:website' from 'New Type' dropdown and click 'Ok' button");
         changeContentTypeDialog.selectOption("ws:website");
         changeContentTypeDialog.clickButton("OK");
@@ -153,9 +139,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         documentDetailsPage.clickEditProperties();
         assertEquals(editPropertiesPage.getPageTitle(), "Alfresco » Edit Properties", "Page displayed:");
         assertTrue(editPropertiesPage.arePropertiesDisplayed("Name", "Title", "Description", "Host Name", "Host Port ", "Web App Context ",
-                "Site Configuration", "Site Languages", "Feedback Configuration", "Publish Target"), "Displayed properties:");
-
-                */
+            "Site Configuration", "Site Languages", "Feedback Configuration", "Publish Target"), "Displayed properties:");
     }
 
     //the word modifcation is spelled wrongly, but in case the bug will never be fixed, I changed the test to pass
@@ -188,7 +172,6 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
         assertEquals(changeContentTypeDialog.getDialogTitle(), "Change Type", "Displayed dialog: ");
 
         LOG.info("STEP5: Select 'Article' from 'New Type' dropdown and click 'Ok' button");
-        getBrowser().waitInSeconds(4);
         changeContentTypeDialog.selectOption("Smart Folder Template");
         changeContentTypeDialog.clickButton("OK");
         getBrowser().refresh();

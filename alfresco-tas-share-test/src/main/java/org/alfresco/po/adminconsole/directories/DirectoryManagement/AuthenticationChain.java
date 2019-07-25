@@ -1,13 +1,13 @@
 package org.alfresco.po.adminconsole.directories.DirectoryManagement;
 
+import static org.alfresco.utility.report.log.Step.STEP;
+
+import java.util.List;
+
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
-
-import static org.alfresco.utility.report.log.Step.STEP;
 
 /**
  * Created by Mirela Tifui on 7/4/2017.
@@ -15,8 +15,8 @@ import static org.alfresco.utility.report.log.Step.STEP;
  */
 public class AuthenticationChain
 {
-    private List<WebElement> rowInfo;
     WebBrowser browser;
+    private List<WebElement> rowInfo;
 
     public AuthenticationChain(List<WebElement> rowInfo, WebBrowser browser)
     {

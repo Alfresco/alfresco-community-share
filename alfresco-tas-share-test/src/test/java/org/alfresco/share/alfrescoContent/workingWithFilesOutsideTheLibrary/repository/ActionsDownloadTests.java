@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
+import java.io.File;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
@@ -14,22 +16,18 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-
 public class ActionsDownloadTests extends ContextAwareWebTest
 {
-    @Autowired
-    private RepositoryPage repositoryPage;
-
-    @Autowired
-    private DocumentCommon documentCommon;
-
     private final String user = String.format("C8240TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC8240 = "C8240 file";
     private final String folderNameC8243 = "folderNameC8243";
     private final String fileContent = "test content";
     private final String path = "User Homes/" + user;
     private final String downloadPath = srcRoot + "testdata";
+    @Autowired
+    private RepositoryPage repositoryPage;
+    @Autowired
+    private DocumentCommon documentCommon;
     private File downloadDirectory;
     private Alert alert;
 

@@ -3,6 +3,7 @@ package org.alfresco.share.sitesFeatures.dataLists;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.dataLists.CreateDataListPopUp;
 import org.alfresco.po.share.site.dataLists.CreateDataListPopUp.DataListTypes;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -10,23 +11,25 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.junit.After;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class CreateDataListsTests extends ContextAwareWebTest
 {
 
     @Autowired
-    DataListsPage dataListsPage;
+    private DataListsPage dataListsPage;
 
     @Autowired
-    CreateDataListPopUp createDataListPopUp;
+    private CreateDataListPopUp createDataListPopUp;
 
     @Autowired
-    DataListsService dataLists;
+    private DataListsService dataLists;
 
     private String userName;
     private String siteName;
@@ -73,8 +76,8 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListPopUp.selectType(DataListTypes.ContactList.toString());
-        createDataListPopUp.isExpectedTypeSelected(DataListTypes.ContactList.toString());
+        createDataListPopUp.selectType(DataListTypes.ContactList.title);
+        createDataListPopUp.isExpectedTypeSelected(DataListTypes.ContactList.title);
 
         LOG.info("Step 3: Provide an input for Title.");
         createDataListPopUp.typeTitleName(dataListName);
@@ -84,7 +87,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
 
         LOG.info("Step 5: Click on the 'Save' button.");
         createDataListPopUp.clickSaveButton();
-        Assert.assertEquals(dataListsPage.getListsDisplayName().contains(dataListName), true, "The data list was not created.");
+        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(dataListName), "The data list was not created.");
     }
 
     @TestRail (id = "C5862")
@@ -103,8 +106,8 @@ public class CreateDataListsTests extends ContextAwareWebTest
         LOG.info("Step 4: Click on the 'Save' button.");
         createDataListPopUp.clickSaveButton();
         Assert.assertEquals(createDataListPopUp.getInvalidDataListBalloonMessage(), ("The value cannot be empty."), "The pop-up message isn't as expected.");
-        Assert.assertEquals(dataListsPage.getListsDisplayName().contains(dataListName), false, "The data list was created.");
-        Assert.assertEquals(dataListsPage.noListDisplayed(), true, "It shouldn't be any list created.");
+        Assert.assertFalse(dataListsPage.getListsDisplayName().contains(dataListName), "The data list was created.");
+        Assert.assertTrue(dataListsPage.noListDisplayed(), "It shouldn't be any list created.");
     }
 
     @TestRail (id = "C5863")
@@ -115,7 +118,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListPopUp.selectType(DataListTypes.ContactList.toString());
+        createDataListPopUp.selectType(DataListTypes.ContactList.title);
 
         LOG.info("Step 3: Provide an input for Description.");
         createDataListPopUp.typeDescription("Description");
@@ -123,8 +126,8 @@ public class CreateDataListsTests extends ContextAwareWebTest
         LOG.info("Step 4: Click on the 'Save' button.");
         createDataListPopUp.clickSaveButton();
         Assert.assertEquals(createDataListPopUp.invalidTitleBalloonMessage(), ("The value cannot be empty."), "The pop-up message isn't as expected.");
-        Assert.assertEquals(dataListsPage.getListsDisplayName().contains(dataListName), false, "The data list was created.");
-        Assert.assertEquals(dataListsPage.noListDisplayed(), true, "It shouldn't be any list created.");
+        Assert.assertFalse(dataListsPage.getListsDisplayName().contains(dataListName), "The data list was created.");
+        Assert.assertTrue(dataListsPage.noListDisplayed(), "It shouldn't be any list created.");
     }
 
     @TestRail (id = "C5864")
@@ -135,14 +138,14 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListPopUp.selectType(DataListTypes.ContactList.toString());
+        createDataListPopUp.selectType(DataListTypes.ContactList.title);
 
         LOG.info("Step 3: Provide an input for Title.");
         createDataListPopUp.typeTitleName(dataListName);
 
         LOG.info("Step 4: Click on the 'Save' button.");
         createDataListPopUp.clickSaveButton();
-        Assert.assertEquals(dataListsPage.getListsDisplayName().contains(dataListName), true, "The data list was not created.");
+        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(dataListName), "The data list was not created.");
     }
 
     @TestRail (id = "C5865")
@@ -157,14 +160,14 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListPopUp.selectType(DataListTypes.ContactList.toString());
+        createDataListPopUp.selectType(DataListTypes.ContactList.title);
 
         LOG.info("Step 3: Provide 'Test list' for Title.");
         createDataListPopUp.typeTitleName(dataListName);
 
         LOG.info("Step 4: Click on the 'Save' button.");
         createDataListPopUp.clickSaveButton();
-        Assert.assertEquals(dataListsPage.getListsDisplayName().contains(dataListName), true, "The data list was not created.");
+        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(dataListName), "The data list was not created.");
     }
 
     @TestRail (id = "C5881")
@@ -176,7 +179,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListPopUp.selectType(DataListTypes.ContactList.toString());
+        createDataListPopUp.selectType(DataListTypes.ContactList.title);
 
         LOG.info("Step 3: Provide 'Test list' for Title.");
         createDataListPopUp.typeTitleName(dataListName);
@@ -186,8 +189,8 @@ public class CreateDataListsTests extends ContextAwareWebTest
 
         LOG.info("Step 5: Click on the 'Cancel' button.");
         createDataListPopUp.clickCancelFormButton();
-        Assert.assertEquals(dataListsPage.getListsDisplayName().contains(dataListName), false, "The data list was created.");
-        Assert.assertEquals(dataListsPage.noListDisplayed(), true, "It shouldn't be any list created.");
+        Assert.assertFalse(dataListsPage.getListsDisplayName().contains(dataListName), "The data list was created.");
+        Assert.assertTrue(dataListsPage.noListDisplayed(), "It shouldn't be any list created.");
     }
 
     @TestRail (id = "C5882")
@@ -199,7 +202,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListPopUp.selectType(DataListTypes.ContactList.toString());
+        createDataListPopUp.selectType(DataListTypes.ContactList.title);
 
         LOG.info("Step 3: Provide 'Test list' for Title.");
         createDataListPopUp.typeTitleName(dataListName);
@@ -209,8 +212,8 @@ public class CreateDataListsTests extends ContextAwareWebTest
 
         LOG.info("Step 5: Click on the 'X' button to close the 'New List' form.");
         createDataListPopUp.clickClose();
-        Assert.assertEquals(dataListsPage.getListsDisplayName().contains(dataListName), false, "The data list was created.");
-        Assert.assertEquals(dataListsPage.noListDisplayed(), true, "It shouldn't be any list created.");
+        Assert.assertFalse(dataListsPage.getListsDisplayName().contains(dataListName), "The data list was created.");
+        Assert.assertTrue(dataListsPage.noListDisplayed(), "It shouldn't be any list created.");
     }
 
     @TestRail (id = "C5892")
@@ -222,7 +225,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
         dataListsPage.clickOnNewListButton();
 
         LOG.info("Step 2: Select the type of list you want to create.");
-        createDataListPopUp.selectType(DataListTypes.ContactList.toString());
+        createDataListPopUp.selectType(DataListTypes.ContactList.title);
 
         LOG.info("Step 3: Provide 'Test list' for Title.");
         createDataListPopUp.typeTitleName(dataListName);
@@ -232,11 +235,12 @@ public class CreateDataListsTests extends ContextAwareWebTest
 
         LOG.info("Step 5: Click on the 'Save' button.");
         createDataListPopUp.clickSaveButton();
-        Assert.assertEquals(dataListsPage.getListsDisplayName().contains(dataListName), true, "The data list was not created.");
+        Assert.assertEquals(dataListsPage.successfullyCreatedDataListMessage(), "New Data List '" + dataListName + "' successfully created.", "The message of successfully creation isn't as expected.");
+        Assert.assertTrue(dataListsPage.getListsDisplayName().contains(dataListName), "The data list was not created.");
 
         LOG.info("Step 6: Select the 'Test List' created from the Lists browsing panel.");
         dataListsPage.clickContactListItem(dataListName);
-        Assert.assertEquals(dataListsPage.currentContent.areNavigationLinksDisplayed(), true, "The navigation links are not displayed.");
-        Assert.assertEquals(dataListsPage.currentContent.isAnyListItemDisplayed(), false, "Some List Items are displayed.");
+        Assert.assertTrue(dataListsPage.currentContent.areNavigationLinksDisplayed(), "The navigation links are not displayed.");
+        Assert.assertFalse(dataListsPage.currentContent.isAnyListItemDisplayed(), "Some List Items are displayed.");
     }
 }

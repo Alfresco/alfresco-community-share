@@ -1,6 +1,11 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage.DocumentsFilters;
 import org.alfresco.share.ContextAwareWebTest;
@@ -8,21 +13,15 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 9/1/2016.
  */
 public class FavoritingContentTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
     private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private final String siteName1 = String.format("siteC7501%s", RandomData.getRandomAlphanumeric());
     private final String siteName2 = String.format("siteC7502%s", RandomData.getRandomAlphanumeric());
@@ -30,6 +29,8 @@ public class FavoritingContentTests extends ContextAwareWebTest
     private final String siteName4 = String.format("siteC7504%s", RandomData.getRandomAlphanumeric());
     private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
     private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

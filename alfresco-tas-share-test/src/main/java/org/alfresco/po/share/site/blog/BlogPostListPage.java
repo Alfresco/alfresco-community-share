@@ -1,5 +1,9 @@
 package org.alfresco.po.share.site.blog;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -10,39 +14,28 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
 @PageObject
 public class BlogPostListPage extends SiteCommon<BlogPostListPage>
 {
+    @RenderWebElement
+    @FindBy (css = "[class='listTitle']")
+    public WebElement pageTitle;
+    public By blogPageContent = By.cssSelector("tbody.yui-dt-message");
+    public By simpleViewButton = By.cssSelector("button[id$='_default-simpleView-button-button']");
     @Autowired
     CreateBlogPostPage createBlogPostPage;
-
     @Autowired
     BlogPostViewPage blogPostViewPage;
-
     @Autowired
     EditBlogPostPage editBlogPostPage;
-
     @RenderWebElement
     @FindBy (css = "div.new-blog span[id*='_default-create-button']")
     private WebElement newPostButton;
-
-    @RenderWebElement
-    @FindBy (className = "listTitle")
-    public WebElement pageTitle;
-
     @RenderWebElement
     @FindBy (css = "div[id$='_default-postlist']")
     private WebElement defaultBlogPostList;
-
     @FindAll (@FindBy (css = "div[id*='archives'] a.filter-link"))
     private List<WebElement> archivesMonths;
-
-    public By blogPageContent = By.cssSelector("tbody.yui-dt-message");
-    public By simpleViewButton = By.cssSelector("button[id$='_default-simpleView-button-button']");
     private By editButton = By.xpath(".//../div[@class = 'nodeEdit']//div[@class = 'onEditBlogPost']//a//span[text() = 'Edit']");
     private By blogLinkName = By.id("HEADER_SITE_BLOG-POSTLIST");
     private By allFilter = By.cssSelector("ul.filterLink span.all>a");
@@ -368,6 +361,7 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
      */
     public void clickTag(String tag)
     {
+        browser.mouseOver(selectTagsByTagName(tag));
         selectTagsByTagName(tag).click();
         this.renderedPage();
         browser.waitUntilElementContainsText(pageTitle, "Blog Post List");

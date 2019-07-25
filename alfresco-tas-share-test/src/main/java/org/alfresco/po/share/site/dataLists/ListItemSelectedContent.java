@@ -1,5 +1,8 @@
 package org.alfresco.po.share.site.dataLists;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -7,18 +10,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.context.annotation.Primary;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Primary
 @PageObject
 public class ListItemSelectedContent extends NoListItemSelectedContent
 {
-    public ListItemSelectedContent()
-    {
-        super();
-    }
-
+    protected static By balloon = By.cssSelector("div[class='bd'] span[class='message']");
     @RenderWebElement
     @FindBy (css = "h2[id$='default-title']")
     private WebElement listTitle;
@@ -37,7 +33,11 @@ public class ListItemSelectedContent extends NoListItemSelectedContent
     private By invertSelectionButtonOption = By.cssSelector(".datagrid-bar.flat-button .selectInvert");
     private By itemDataTable = By.cssSelector("div[class='grid yui-dt'] table");
     private String selectPage = "span[class*='pages'] a[title='Page %s']";
-    protected static By balloon = By.cssSelector("div[class='bd'] span[class='message']");
+
+    public ListItemSelectedContent()
+    {
+        super();
+    }
 
     public boolean allFilterOptionsAreDisplayed()
     {

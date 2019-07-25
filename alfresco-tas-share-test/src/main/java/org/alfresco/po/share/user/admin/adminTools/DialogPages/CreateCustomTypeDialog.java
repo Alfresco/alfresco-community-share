@@ -1,18 +1,15 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
+import java.util.List;
+
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 /**
  * Created by Mirela Tifui on 12/6/2016.

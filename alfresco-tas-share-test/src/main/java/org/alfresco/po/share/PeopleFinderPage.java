@@ -1,5 +1,7 @@
 package org.alfresco.po.share;
 
+import java.util.List;
+
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.profile.UserProfilePage;
@@ -14,36 +16,26 @@ import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 import ru.yandex.qatools.htmlelements.element.TextInput;
 
-import java.util.List;
-
 @PageObject
 public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements AccessibleByMenuBar
 {
+    @FindAll (@FindBy (css = "tbody[class='yui-dt-data'] tr"))
+    protected List<WebElement> searchResultsList;
     @Autowired
     Toolbar toolbar;
-
     @Autowired
     UserProfilePage userProfilePage;
-
     @RenderWebElement
     @FindBy (css = "input[id$='default-search-text']")
     private TextInput searchInputField;
-
     @FindBy (css = "button[id$='default-search-button-button']")
     private Button searchButton;
-
     @FindBy (css = "[id*='default-help']")
     private TextBlock searchHelpMessage;
-
     @FindBy (css = "[id*='default-results-info']")
     private TextBlock searchResultsInfo;
-
     @FindBy (css = ".yui-dt-empty")
     private TextBlock noResults;
-
-    @FindAll (@FindBy (css = "tbody[class='yui-dt-data'] tr"))
-    protected List<WebElement> searchResultsList;
-
     private By avatar = By.cssSelector(".avatar");
 
     @Override

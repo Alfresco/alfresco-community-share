@@ -1,27 +1,34 @@
 package org.alfresco.share.adminTools.modelManager;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
-import org.alfresco.po.share.user.admin.adminTools.DialogPages.*;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateAspectDialogPage;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteModelDialogPage;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.EditModelDialogPage;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.Export;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.ImportModelDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.CustomContentModel;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
-import org.springframework.http.HttpStatus;
 import org.testng.Assert;
-import org.testng.annotations.*;
-
-import static org.testng.Assert.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Created by Mirela Tifui on 11/28/2016.
@@ -152,6 +159,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     {
         String nameSpace = String.format("C42565Namespace%s", RandomData.getRandomAlphanumeric());
         String prefix = String.format("C42565%s", RandomData.getRandomAlphanumeric());
+        String name = String.format("C42565Name%s", RandomData.getRandomAlphanumeric());
         String creator = String.format("C42565Creator%s", RandomData.getRandomAlphanumeric());
         String description = "C42565 this is a test model";
 
@@ -173,7 +181,6 @@ public class ModelManagerTests extends ContextAwareWebTest
         Assert.assertTrue(modelManagerPage.isModelDisplayed(name), "C42565Name model is not displayed");
         Assert.assertEquals(modelManagerPage.getModelDetails(name), String.format("%s %s Inactive\nActions▾", name, nameSpace),
             "Model details are not correct");
-
     }
 
     @TestRail (id = "C9511")
@@ -201,6 +208,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void activateModel()
     {
         // Preconditions
+        String name = String.format("C9516testModel%s", RandomData.getRandomAlphanumeric());
         String nameSpace = String.format("C9516nameSpace%s", RandomData.getRandomAlphanumeric());
         String prefix = String.format("C9516%s", RandomData.getRandomAlphanumeric());
 
@@ -218,7 +226,6 @@ public class ModelManagerTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on Activate button");
         modelManagerPage.clickOnAction("Activate", modelManagerPage);
         Assert.assertEquals(modelManagerPage.getModelStatus(name), "Active", "C9516testModel status is not Active");
-
     }
 
     @TestRail (id = "C9517")
@@ -226,8 +233,8 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void editModel()
     {
         // Preconditions
+        String name = String.format("C9517testModel%s", RandomData.getRandomAlphanumeric());
         String nameSpace = String.format("C9517nameSpace%s", RandomData.getRandomAlphanumeric());
-
         String prefix = String.format("C9517%s", RandomData.getRandomAlphanumeric());
         String editedNamespace = String.format("C9517editedNamespace%s", RandomData.getRandomAlphanumeric());
         String editedPrefix = String.format("C9517editedPrefix%s", RandomData.getRandomAlphanumeric());
@@ -237,6 +244,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         modelManagerPage.createModel(name, nameSpace, prefix);
 
         LOG.info("Step 1: On the Model Manager Page click Actions for C9516testModel and check available actions");
+        getBrowser().waitUntilElementVisible(modelManagerPage.actionsButton);
         modelManagerPage.clickActionsButtonForModel(name);
         Assert.assertTrue(modelManagerPage.isActionAvailable("Edit"), "Edit is not available for C9516testModel");
 
@@ -256,7 +264,6 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         Assert.assertEquals(modelManagerPage.getModelDetails(name), String.format("%s %s Inactive\nActions▾", name, editedNamespace),
             "Model details have not been edited successfully");
-
     }
 
     @TestRail (id = "C9518")
@@ -264,6 +271,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void deleteModel()
     {
         // Preconditions
+        String name = String.format("C9518testModel%s", RandomData.getRandomAlphanumeric());
         String nameSpace = String.format("C9518nameSpace%s", RandomData.getRandomAlphanumeric());
         String prefix = String.format("C9518%s", RandomData.getRandomAlphanumeric());
         String expectedDialogText = "Are you sure you want to delete model ''" + name
@@ -295,12 +303,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         LOG.info("Step 4: Click the Delete button");
         deleteModelDialogPage.clickButton("Delete");
         modelManagerPage.renderedPage();
-
-        getBrowser().waitInSeconds(6);
-
         Assert.assertFalse(modelManagerPage.isModelDisplayed(name));
-
-
     }
 
     @TestRail (id = "C9520")
@@ -308,6 +311,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void checkAvailableActionsForActiveModel()
     {
         // Preconditions
+        String name = String.format("C9520testModel%s", RandomData.getRandomAlphanumeric());
         String nameSpace = String.format("C9520nameSpace%s", RandomData.getRandomAlphanumeric());
         String prefix = String.format("C9520%s", RandomData.getRandomAlphanumeric());
         modelManagerPage.navigate();
@@ -316,8 +320,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         createModelDialogPage.sendPrefixText(prefix);
         createModelDialogPage.sendNameText(name);
         createModelDialogPage.clickCreateButton();
-        //       modelManagerPage.renderedPage();
-        getBrowser().waitInSeconds(5);
+        modelManagerPage.renderedPage();
         modelManagerPage.clickActionsButtonForModel(name);
         modelManagerPage.clickOnAction("Activate", modelManagerPage);
 
@@ -328,8 +331,6 @@ public class ModelManagerTests extends ContextAwareWebTest
         Assert.assertFalse(modelManagerPage.isActionAvailable("Activate"), "Activate is still available for an active model");
         Assert.assertFalse(modelManagerPage.isActionAvailable("Edit"), "Edit is still available for an active model");
         Assert.assertFalse(modelManagerPage.isActionAvailable("Delete"), "Delete is still available for an active model");
-
-
     }
 
     @TestRail (id = "C9521")
@@ -337,6 +338,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void deactivateModel()
     {
         // Preconditions
+        String name = String.format("C9521testModel%s", RandomData.getRandomAlphanumeric());
         String nameSpace = String.format("C9521nameSpace%s", RandomData.getRandomAlphanumeric());
         String prefix = String.format("C9521%s", RandomData.getRandomAlphanumeric());
         modelManagerPage.navigate();
@@ -357,8 +359,6 @@ public class ModelManagerTests extends ContextAwareWebTest
         LOG.info("Step 2: Click on Deactivate action");
         modelManagerPage.clickOnAction("Deactivate", modelManagerPage);
         Assert.assertEquals(modelManagerPage.getModelStatus(name), "Inactive", "C9521testModel status is not Active");
-
-
     }
 
     @TestRail (id = "C9519")
@@ -366,6 +366,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     public void exportModel()
     {
         // Preconditions
+        String name = String.format("C9517testModel%s", RandomData.getRandomAlphanumeric());
         String nameSpace = String.format("C9517nameSpace%s", RandomData.getRandomAlphanumeric());
         String prefix = String.format("C9517%s", RandomData.getRandomAlphanumeric());
 
@@ -386,8 +387,6 @@ public class ModelManagerTests extends ContextAwareWebTest
         modelManagerPage.clickOnAction("Export", export);
         export.checkIfAlertIsPresentAndIfTrueAcceptAlert();
         Assert.assertTrue(export.isFileInDirectory(name, ".zip"), "The file was not found in the specified location");
-
-
     }
 
     @TestRail (id = "C9509")
@@ -408,13 +407,11 @@ public class ModelManagerTests extends ContextAwareWebTest
         importModelDialogPage.importFile(filePath);
         importModelDialogPage.clickImportButton();
         modelManagerPage.renderedPage();
-        getBrowser().waitInSeconds(5);
         Assert.assertTrue(modelManagerPage.isModelDisplayed(modelName), "Imported model is not present on the Model Manager Page");
 
         LOG.info("Step 4: Check the Model details displayed on the Model Manager page");
         Assert.assertEquals(modelManagerPage.getModelDetails(modelName), "C9509TestModelName C9509TestModelName Inactive\n" + "Actions▾",
             "Imported Model Details are not correct");
-
     }
 
     @TestRail (id = "C42566")
@@ -436,7 +433,8 @@ public class ModelManagerTests extends ContextAwareWebTest
         createModelDialogPage.sendPrefixText(prefix);
         createModelDialogPage.sendNameText(name);
         createModelDialogPage.clickCreateButton();
-        modelManagerPage.navigate();
+        // modelManagerPage.navigate();
+        modelManagerPage.renderedPage();
 
         LOG.info("Step 1: On the Model Manager page click C42566testModel name link.");
         modelManagerPage.clickModelNameWithoutRender(name);
@@ -453,7 +451,6 @@ public class ModelManagerTests extends ContextAwareWebTest
         createCustomTypeDialog.sendDisplayLabelInput(displayLabel);
         createCustomTypeDialog.sendDescriptionFieldInput(description);
         createCustomTypeDialog.clickCreateButton();
-
         Assert.assertEquals(modelDetailsPage.getTypeDetails(displayedTypeName), prefix + ":TestCustomTypeName CustomTypeLabel cm:content No\n" + "Actions▾",
             "Details for the created type are not correct");
     }
@@ -479,7 +476,7 @@ public class ModelManagerTests extends ContextAwareWebTest
         createModelDialogPage.clickCreateButton();
         modelManagerPage.waitForModel(name);
         LOG.info("Step 1: On the Model Manager page click C42567testModel name link.");
-        // getBrowser().waitUntilElementVisible(modelManagerPage.selectRow(name));
+        getBrowser().waitUntilElementVisible(modelManagerPage.selectRow(name));
         modelManagerPage.clickModelNameWithoutRender(name);
         Assert.assertTrue(modelDetailsPage.isCreateAspectButtonDisplayed(), "Create Aspect button is not displayed");
         Assert.assertTrue(modelDetailsPage.isCreateCustomTypeButtonDisplayed(), "Create Custom Type button is not displayed");

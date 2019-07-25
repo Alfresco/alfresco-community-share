@@ -1,6 +1,12 @@
 package org.alfresco.share.site.siteDashboard;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Map;
+
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.SiteFileTypeBreakdownDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -8,31 +14,23 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Map;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Claudia Agache on 7/25/2016.
  */
 public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
 {
-    @Autowired
-    SiteDashboardPage siteDashboard;
-
-    @Autowired
-    SiteFileTypeBreakdownDashlet siteFileTypeBreakdownDashlet;
-
     private final String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     private final String siteNameC5783 = String.format("SiteName-C5783-%s", RandomData.getRandomAlphanumeric());
     private final String siteNameC5785 = String.format("SiteName-C5785-%s", RandomData.getRandomAlphanumeric());
     private final String fileName = "File-C5785";
+    @Autowired
+    SiteDashboardPage siteDashboard;
+    @Autowired
+    SiteFileTypeBreakdownDashlet siteFileTypeBreakdownDashlet;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

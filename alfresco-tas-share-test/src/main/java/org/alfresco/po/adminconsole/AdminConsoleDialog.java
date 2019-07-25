@@ -1,16 +1,16 @@
 package org.alfresco.po.adminconsole;
 
+import static org.alfresco.utility.report.log.Step.STEP;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.alfresco.utility.report.log.Step.STEP;
 
 /**
  * Created by Claudia Agache on 5/9/2017.

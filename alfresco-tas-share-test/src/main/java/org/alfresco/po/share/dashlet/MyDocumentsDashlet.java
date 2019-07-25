@@ -1,5 +1,8 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -15,107 +18,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Link;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @PageObject
 public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 {
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-
     @RenderWebElement
     @FindBy (css = "div.dashlet.my-documents")
     protected WebElement dashletContainer;
-
     @FindBy (css = "div[id$='default-documents']")
     protected WebElement documentsListContainer;
-
     @FindAll (@FindBy (css = "h3.filename > a"))
     protected List<WebElement> documentsLinksList;
-
     @FindAll (@FindBy (css = "div[id$='default-documents'] tr[class*='yui-dt-rec']"))
     protected List<WebElement> documentRowList;
-
     @FindAll (@FindBy (css = "div[class*='my-documents'] div.bd ul li"))
     protected List<WebElement> filterOptions;
-
     @FindBy (css = "div[class*='my-documents'] button[id$='default-filters-button']")
     protected WebElement filterButton;
-
     @FindBy (css = "div[class*='my-documents'] div[class*='empty']")
     protected WebElement defaultDocumentsText;
-
     @FindAll (@FindBy (css = "div[class*='my-documents'] div div div span button"))
     protected List<WebElement> viewButtons;
-
     @FindAll (@FindBy (css = "div[id$='default-documents'] .thumbnail a img"))
     protected List<WebElement> thumbnails;
-
-    public enum DocumentsFilter
-    {
-        RecentlyModified
-            {
-                public String toString()
-                {
-                    return "I've Recently Modified";
-                }
-            },
-
-        Editing
-            {
-                public String toString()
-                {
-                    return "I'm Editing";
-                }
-            },
-
-        MyFavorites
-            {
-                public String toString()
-                {
-                    return "My Favorites";
-                }
-            }
-    }
-
-    public enum FavoriteLinks
-    {
-        Add
-            {
-                public String toString()
-                {
-                    return "Add document to favorites";
-                }
-            },
-
-        Remove
-            {
-                public String toString()
-                {
-                    return "Remove document from favorites";
-                }
-            }
-    }
-
-    public enum DocumentView
-    {
-        SimpleView
-            {
-                public String toString()
-                {
-                    return "Simlpe View";
-                }
-            },
-        DetailedView
-            {
-                public String toString()
-                {
-                    return "Detailed View";
-                }
-            },
-
-    }
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
 
     @Override
     public String getDashletTitle()
@@ -134,7 +60,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
      */
     public List<String> getDocumentsLinks()
     {
-        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("h3.filename > a"), 3);
+        browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("h3.filename > a"));
         List<String> documentLinks = new ArrayList<>();
         for (WebElement element : documentsLinksList)
         {
@@ -147,7 +73,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     /**
      * Retrieves the link that match the document name.
      *
-     * @param name identifier
+     * @param documentName name identifier
      * @return {@link Link} that matches documentName
      */
     public WebElement selectDocument(final String documentName)
@@ -166,7 +92,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     /**
      * Retrieves the link that match the document name.
      *
-     * @param name identifier
+     * @param documentName name identifier
      * @return {@link Link} that matches documentName
      */
     public WebElement selectDocumentDetailsRow(final String documentName)
@@ -177,7 +103,7 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
     /**
      * Select an option from filter dropdown from My Documents Dashlets.
      *
-     * @param String filter
+     * @param filter
      * @return MyDocumentsDashlet
      */
     public MyDocumentsDashlet filterMyDocuments(String filter)
@@ -316,8 +242,6 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
 
     /**
      * Wait for documents dashlet to be populated
-     *
-     * @param documentName
      */
     public MyDocumentsDashlet waitForDocument()
     {
@@ -592,5 +516,70 @@ public class MyDocumentsDashlet extends Dashlet<MyDocumentsDashlet>
             attempt++;
             browser.refresh();
         }
+    }
+
+    public enum DocumentsFilter
+    {
+        RecentlyModified
+            {
+                public String toString()
+                {
+                    return "I've Recently Modified";
+                }
+            },
+
+        Editing
+            {
+                public String toString()
+                {
+                    return "I'm Editing";
+                }
+            },
+
+        MyFavorites
+            {
+                public String toString()
+                {
+                    return "My Favorites";
+                }
+            }
+    }
+
+    public enum FavoriteLinks
+    {
+        Add
+            {
+                public String toString()
+                {
+                    return "Add document to favorites";
+                }
+            },
+
+        Remove
+            {
+                public String toString()
+                {
+                    return "Remove document from favorites";
+                }
+            }
+    }
+
+    public enum DocumentView
+    {
+        SimpleView
+            {
+                public String toString()
+                {
+                    return "Simlpe View";
+                }
+            },
+        DetailedView
+            {
+                public String toString()
+                {
+                    return "Detailed View";
+                }
+            },
+
     }
 }

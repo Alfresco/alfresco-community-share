@@ -10,69 +10,50 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class SocialFeatures extends DocumentLibraryPage
 {
-    @FindBy (css = ".section input[id*='input']")
-    private WebElement publicLinkInputField;
-
-    @FindBy (css = "a.quickshare-action-view")
-    private WebElement publicLinkViewButton;
-
-    @FindBy (css = "a.linkshare-action-facebook")
-    private WebElement shareFacebook;
-
-    @FindBy (css = "a.linkshare-action-twitter")
-    private WebElement shareTwitter;
-
-    @FindBy (css = "a.linkshare-action-google-plus")
-    private WebElement shareGooglePlus;
-
-    @FindBy (css = "a.d-s.ot-anchor")
-    private WebElement shareGooglePlusLink;
-
-    @FindBy (id = "Email")
-    private WebElement googleEmail;
-
-    @FindBy (id = "Passwd")
-    private WebElement googlePassword;
-
-    @FindBy (id = "next")
-    private WebElement nextButton;
-
-    @FindBy (id = "signIn")
-    private WebElement signInButton;
-
-    @FindBy (css = "a.quickshare-action-unshare")
-    private WebElement unshareButton;
-
-    @FindBy (css = "#alf-id6-input")
-    private WebElement sharedUrl;
-
-    @FindBy (xpath = "//a[text()='Login']")
-    private WebElement loginButtonOnSharedFilePage;
-
-    @FindBy (xpath = "//a[text()='Document Details']")
-    private WebElement documentDetailsButtonOnSharedFilePage;
-
-    @FindBy (css = ".textLayer>div")
-    private WebElement contentFromSharedFilePage;
-
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-
     public By facebookHomeLink = By.id("homelink");
     public By googlePlusEmailField = By.id("Email");
-
-    private By commentLinkSelector = By.cssSelector(".comment");
-    private By commentCounterSelector = By.cssSelector(".comment-count");
-    private By shareButton = By.cssSelector("a.quickshare-action");
-    private By likesCount = By.cssSelector("span.likes-count");
     public By quickShareWindow = By.cssSelector("div.yuimenu.quickshare-action-menu.yui-module.yui-overlay.visible");
     public By enabledLikeButton = By.cssSelector("a[class ='like-action enabled']");
-
     protected String user = "alfresco.cloud@gmail.com";
     protected String password = "alfresco123!";
     protected String gEmail = "test.alfresco5@gmail.com";
     protected String gPassword = "Ness2015*";
-
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+    @FindBy (css = ".section input[id*='input']")
+    private WebElement publicLinkInputField;
+    @FindBy (css = "a.quickshare-action-view")
+    private WebElement publicLinkViewButton;
+    @FindBy (css = "a.linkshare-action-facebook")
+    private WebElement shareFacebook;
+    @FindBy (css = "a.linkshare-action-twitter")
+    private WebElement shareTwitter;
+    @FindBy (css = "a.linkshare-action-google-plus")
+    private WebElement shareGooglePlus;
+    @FindBy (css = "a.d-s.ot-anchor")
+    private WebElement shareGooglePlusLink;
+    @FindBy (id = "Email")
+    private WebElement googleEmail;
+    @FindBy (id = "Passwd")
+    private WebElement googlePassword;
+    @FindBy (id = "next")
+    private WebElement nextButton;
+    @FindBy (id = "signIn")
+    private WebElement signInButton;
+    @FindBy (css = "a.quickshare-action-unshare")
+    private WebElement unshareButton;
+    @FindBy (css = "#alf-id6-input")
+    private WebElement sharedUrl;
+    @FindBy (xpath = "//a[text()='Login']")
+    private WebElement loginButtonOnSharedFilePage;
+    @FindBy (xpath = "//a[text()='Document Details']")
+    private WebElement documentDetailsButtonOnSharedFilePage;
+    @FindBy (css = ".textLayer>div")
+    private WebElement contentFromSharedFilePage;
+    private By commentLinkSelector = By.cssSelector(".comment");
+    private By commentCounterSelector = By.cssSelector(".comment-count");
+    private By shareButton = By.cssSelector("a.quickshare-action");
+    private By likesCount = By.cssSelector("span.likes-count");
 
     @Override
     public String getRelativePath()

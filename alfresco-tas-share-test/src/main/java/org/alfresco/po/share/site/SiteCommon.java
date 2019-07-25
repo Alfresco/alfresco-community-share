@@ -5,16 +5,15 @@ import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 
 public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
 {
-    private String currentSiteName;
-
+    public By waitPopup = By.cssSelector(".wait");
     @FindBy (css = "img.alf-user-icon")
     protected Button addUser;
 
@@ -35,18 +34,20 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
 
     @FindBy (css = "span[id='HEADER_REPOSITORY_text'] a")
     protected WebElement repositoryButton;
-
     @FindBy (css = "#yui-gen48")
     protected WebElement errorButton;
-
-    public void setCurrentSiteName(String currentSiteName)
-    {
-        this.currentSiteName = currentSiteName;
-    }
+    private String currentSiteName;
+    @FindBy (css = "h1[id='HEADER_TITLE'] a.alfresco-navigation-_HtmlAnchorMixin")
+    private WebElement siteName;
 
     public String getCurrentSiteName()
     {
         return currentSiteName;
+    }
+
+    public void setCurrentSiteName(String currentSiteName)
+    {
+        this.currentSiteName = currentSiteName;
     }
 
     public void clickSiteConfiguration()
@@ -54,8 +55,17 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
         siteConfiguration.click();
     }
 
+    public boolean isWaitPopupDisplayed()
+    {
+        return browser.isElementDisplayed(waitPopup);
+    }
+
     public SiteMembersPage clickSiteMembers()
     {
+        while (isWaitPopupDisplayed() == true)
+        {
+            browser.waitUntilElementDisappears(waitPopup);
+        }
         members.click();
         return new SiteMembersPage();
     }
@@ -63,11 +73,11 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     /**
      * Check if Site Members link is displayed
      *
-     * @return true if it is displayed
+     * @return true if it is displayed or false if is not.
      */
     public boolean isSiteMembersLinkDisplayed()
     {
-        return members.isDisplayed();
+        return browser.isElementDisplayed(members);
     }
 
     /**
@@ -84,11 +94,11 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     /**
      * Check if Site Dashboard link is displayed
      *
-     * @return true if it is displayed
+     * @return true if it is displayed or false if is not.
      */
     public boolean isSiteDashboardLinkDisplayed()
     {
-        return dashboard.isDisplayed();
+        return browser.isElementDisplayed(dashboard);
     }
 
     /**
@@ -105,11 +115,11 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     /**
      * Check if Document Library link is displayed
      *
-     * @return true if it is displayed
+     * @return true if it is displayed or false if is not.
      */
     public boolean isDocumentLibraryLinkDisplayed()
     {
-        return documentLibrary.isDisplayed();
+        return browser.isElementDisplayed(documentLibrary);
     }
 
     public AddSiteUsersPage clickAddUsersIcon()
@@ -145,6 +155,11 @@ public abstract class SiteCommon<T> extends SharePage<SiteCommon<T>>
     {
         repositoryButton.click();
         return new RepositoryPage();
+    }
+
+    public String getSiteName()
+    {
+        return browser.waitUntilElementVisible(siteName).getText();
     }
 
     public void navigateErrorClick()

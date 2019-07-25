@@ -3,6 +3,7 @@ package org.alfresco.share.site.siteDashboard;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.dataprep.DataListsService.DataList;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteDataListsDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -12,7 +13,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

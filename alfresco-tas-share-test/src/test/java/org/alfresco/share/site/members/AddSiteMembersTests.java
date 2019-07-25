@@ -1,5 +1,10 @@
 package org.alfresco.share.site.members;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.members.AddSiteUsersPage;
@@ -11,12 +16,9 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 8/1/2016.
@@ -379,7 +381,6 @@ public class AddSiteMembersTests extends ContextAwareWebTest
         LOG.info("STEP 4: Click on the 'Select Role' button for the selected user. Select 'Manager' role from the drop-down menu. Click on 'Add Users' button from 'Add Users to Site' panel.");
         addSiteUsersPage.setUserRole(differentRoleUserA, "Manager");
         assertTrue(addSiteUsersPage.getUserRole(differentRoleUserA).contains("Manager"), differentRoleUserA + " has Manager role selected.");
-
         addSiteUsersPage.clickAddUsers();
         assertEquals(addSiteUsersPage.getAddedUsersTally(), language.translate("addUsersPage.addedUsersTally") + " 1");
         assertTrue(addSiteUsersPage.isUserAddedToSite(differentRoleUserA), "User is added to site.");

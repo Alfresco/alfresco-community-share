@@ -1,16 +1,18 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
+import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.MONTHS;
+import static java.time.temporal.ChronoUnit.YEARS;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static java.time.temporal.ChronoUnit.*;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
 
 /**
  * @author Laura.Capsa
@@ -18,13 +20,11 @@ import static java.time.temporal.ChronoUnit.*;
 @PageObject
 public class SiteActivitiesDashlet extends MyActivitiesDashlet
 {
+    @FindAll (@FindBy (css = ".content .detail"))
+    List<WebElement> activityLinks;
     @RenderWebElement
     @FindBy (css = ".time.relativeTime")
     private List<WebElement> relativeTime;
-
-    @FindAll (@FindBy (css = ".content .detail"))
-    List<WebElement> activityLinks;
-
     private LocalDate dateToCompare;
 
     public void setDateToCompare(String dateString)
@@ -78,6 +78,7 @@ public class SiteActivitiesDashlet extends MyActivitiesDashlet
             {
                 if (link.getText().equalsIgnoreCase(entry))
                 {
+                    LOG.info("activiti " + link.getText());
                     found = true;
                     break;
                 }

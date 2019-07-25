@@ -1,5 +1,10 @@
 package org.alfresco.po.adminconsole.supporttools;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.po.adminconsole.supporttools.Node.NodeChild;
 import org.alfresco.po.adminconsole.supporttools.Node.NodeProperty;
@@ -9,20 +14,43 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import ru.yandex.qatools.htmlelements.element.Select;
 import ru.yandex.qatools.htmlelements.element.Table;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @PageObject
 public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
 {
+    @RenderWebElement
+    @FindBy (name = "nodebrowser-store")
+    Select selectNode;
+    @RenderWebElement
+    @FindBy (name = "nodebrowser-search")
+    Select selectQuery;
+    @RenderWebElement
+    @FindBy (id = "query")
+    WebElement query;
+    @RenderWebElement
+    @FindBy (css = "input[value='Execute']")
+    WebElement execute;
+    @FindBy (css = "input[value='Root List']")
+    WebElement rootList;
+    @FindBy (css = "a[class='action toggler']")
+    WebElement searchAdvancedSettings;
+    @FindBy (id = "properties-table")
+    Table propertiesTable;
+    @FindBy (id = "child-table")
+    Table childrenTable;
+    @FindBy (id = "aspects-table")
+    Table aspectsTable;
+    @FindBy (id = "info-table")
+    Table nodeInformationTable;
+    @FindBy (name = "nodebrowser-query-maxresults")
+    WebElement maxResultsFiled;
+    @FindBy (name = "nodebrowser-query-skipcount")
+    WebElement skipCountField;
+
     @Override
     protected String relativePathToURL()
     {
@@ -40,122 +68,6 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
     {
         return "";
     }
-
-    public enum Encryption
-    {
-        MD4("md4"),
-        SHA256("sha256"),
-        BCRYPT10("bcrypt10");
-
-        private String value;
-
-        Encryption(String value)
-        {
-            this.value = value;
-        }
-
-        public String getValue()
-        {
-            return value;
-        }
-    }
-
-    public enum Store
-    {
-        archiveSpaceStore("archive://SpacesStore"),
-        systemSystem("system://system"),
-        userAlfrescoUserStore("user://alfrescoUserStore"),
-        workspaceLightWeightVersionStore("workspace://lightWeightVersionStore"),
-        workspaceSpaceStore("workspace://SpacesStore"),
-        workspaceVersion2Store("workspace://version2Store");
-        private String value;
-
-        Store(String value)
-        {
-            this.value = value;
-        }
-
-        public String getValue()
-        {
-            return value;
-        }
-    }
-
-    public enum Actions
-    {
-        DELETE("Delete"),
-        FORCE_DELETE("Force Delete"),
-        TAKE_OWNERSHIP("Take Ownership"),
-        REVERT_PERMISSIONS("Revert Permissions");
-
-        private String action;
-
-        Actions(String action)
-        {
-            this.action = action;
-        }
-
-        public String getAction()
-        {
-            return action;
-        }
-    }
-
-    public enum Query
-    {
-        noderef("noderef"), ftsAlfresco("fts-alfresco");
-        private String value;
-
-        Query(String value)
-        {
-            this.value = value;
-        }
-
-        public String getValue()
-        {
-            return value;
-        }
-    }
-
-    @RenderWebElement
-    @FindBy (name = "nodebrowser-store")
-    Select selectNode;
-
-    @RenderWebElement
-    @FindBy (name = "nodebrowser-search")
-    Select selectQuery;
-
-    @RenderWebElement
-    @FindBy (id = "query")
-    WebElement query;
-
-    @RenderWebElement
-    @FindBy (css = "input[value='Execute']")
-    WebElement execute;
-
-    @FindBy (css = "input[value='Root List']")
-    WebElement rootList;
-
-    @FindBy (css = "a[class='action toggler']")
-    WebElement searchAdvancedSettings;
-
-    @FindBy (id = "properties-table")
-    Table propertiesTable;
-
-    @FindBy (id = "child-table")
-    Table childrenTable;
-
-    @FindBy (id = "aspects-table")
-    Table aspectsTable;
-
-    @FindBy (id = "info-table")
-    Table nodeInformationTable;
-
-    @FindBy (name = "nodebrowser-query-maxresults")
-    WebElement maxResultsFiled;
-
-    @FindBy (name = "nodebrowser-query-skipcount")
-    WebElement skipCountField;
 
     public NodeBrowserQueryPage usingStore(Store store)
     {
@@ -332,5 +244,81 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
         String actualNodeInformationValue = nodeInformationTable.getCellAt(nodeRowID, 1).getText();
 
         Assert.assertEquals(actualNodeInformationValue, expectedNodeInformationValue, "Node Information ");
+    }
+
+    public enum Encryption
+    {
+        MD4("md4"),
+        SHA256("sha256"),
+        BCRYPT10("bcrypt10");
+
+        private String value;
+
+        Encryption(String value)
+        {
+            this.value = value;
+        }
+
+        public String getValue()
+        {
+            return value;
+        }
+    }
+
+    public enum Store
+    {
+        archiveSpaceStore("archive://SpacesStore"),
+        systemSystem("system://system"),
+        userAlfrescoUserStore("user://alfrescoUserStore"),
+        workspaceLightWeightVersionStore("workspace://lightWeightVersionStore"),
+        workspaceSpaceStore("workspace://SpacesStore"),
+        workspaceVersion2Store("workspace://version2Store");
+        private String value;
+
+        Store(String value)
+        {
+            this.value = value;
+        }
+
+        public String getValue()
+        {
+            return value;
+        }
+    }
+
+    public enum Actions
+    {
+        DELETE("Delete"),
+        FORCE_DELETE("Force Delete"),
+        TAKE_OWNERSHIP("Take Ownership"),
+        REVERT_PERMISSIONS("Revert Permissions");
+
+        private String action;
+
+        Actions(String action)
+        {
+            this.action = action;
+        }
+
+        public String getAction()
+        {
+            return action;
+        }
+    }
+
+    public enum Query
+    {
+        noderef("noderef"), ftsAlfresco("fts-alfresco");
+        private String value;
+
+        Query(String value)
+        {
+            this.value = value;
+        }
+
+        public String getValue()
+        {
+            return value;
+        }
     }
 }

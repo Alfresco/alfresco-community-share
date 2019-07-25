@@ -113,4 +113,20 @@ public class DeleteGroupDialog extends ShareDialog
     {
         return deleteRadioButton.isSelected();
     }
+
+    public void selectRemoveFromGroupRadio()
+    {
+        if (!isRemoveRadioButtonSelected())
+        {
+            removeRadioButton.click();
+        }
+    }
+
+    public void selectDeleteGroupRadio()
+    {
+        if (!isDeleteRadioButtonSelected())
+        {
+            deleteRadioButton.click();
+        }
+    }
 }

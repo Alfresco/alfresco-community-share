@@ -1,5 +1,8 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -14,35 +17,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 /**
  * @author Razvan.Dorobantu
  */
 public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
 {
-    @Autowired
-    private MyFilesPage myFilesPage;
-
-    @Autowired
-    private SiteDashboardPage sitePage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private NewContentDialog newContentDialog;
-
-    @Autowired
-    private UploadContent uploadContent;
-
-    @Autowired
-    private SocialFeatures social;
-
     private final String testFile = RandomData.getRandomAlphanumeric() + "testFile.txt";
     private final String testFilePath = testDataFolder + testFile;
     private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    private MyFilesPage myFilesPage;
+    @Autowired
+    private SiteDashboardPage sitePage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private NewContentDialog newContentDialog;
+    @Autowired
+    private UploadContent uploadContent;
+    @Autowired
+    private SocialFeatures social;
 
     @TestRail (id = "C12839")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
@@ -179,7 +173,6 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         sitePage.clickMyFilesLink();
         Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
         uploadContent.uploadContent(testFilePath);
-        getBrowser().waitInSeconds(9);
         getBrowser().refresh();
         assertTrue(myFilesPage.isContentNameDisplayed(testFile), String.format("The file [%s] is not present", testFile));
 

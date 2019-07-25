@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.socialFeatures;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
@@ -10,7 +11,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,18 +18,6 @@ import org.testng.annotations.Test;
 
 public class LikeFilesAndFoldersTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    CreateContent create;
-
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private SocialFeatures social;
-
     private final String user = String.format("C7906User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C7906SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C7906SiteName%s", RandomData.getRandomAlphanumeric());
@@ -38,6 +26,14 @@ public class LikeFilesAndFoldersTests extends ContextAwareWebTest
     private final String folderNameC7907 = "C7907 folder name";
     private final String fileName7908 = "7908 fileName";
     private final String folderName7909 = "7909 folderName";
+    @Autowired
+    CreateContent create;
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private SocialFeatures social;
 
     @BeforeClass (alwaysRun = true)
 

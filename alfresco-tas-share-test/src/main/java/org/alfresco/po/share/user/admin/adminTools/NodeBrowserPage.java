@@ -1,15 +1,16 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import ru.yandex.qatools.htmlelements.element.Table;
 
 /**
  * @author Razvan.Dorobantu
@@ -17,75 +18,23 @@ import java.util.Map;
 @PageObject
 public class NodeBrowserPage extends AdminToolsPage
 {
-    public enum SEARCH_TYPE
-    {
-        STORE_ROOT("storeroot"),
-        NODEREF("noderef"),
-        XPATH("xpath"),
-        LUCENE("lucene"),
-        FTS_ALFRESCO("fts-alfresco"),
-        CMIS_STRICT("cmis-strict"),
-        CMIS_ALFRESCO("cmis-alfresco"),
-        DB_AFTS("db-afts"),
-        DB_CMIS("db-cmis");
-
-        private String searchType;
-
-        SEARCH_TYPE(String searchType)
-        {
-            this.searchType = searchType;
-        }
-
-        public String getSearchType()
-        {
-            return this.searchType;
-        }
-    }
-
-    public enum SELECT_STORE
-    {
-        ALFRESCO_USER_STORE("user://alfrescoUserStore"),
-        SYSTEM("system://system"),
-        LIGHT_WEIGHT_STORE("workspace://lightWeightVersionStore"),
-        VERSION_2_STORE("workspace://version2Store"),
-        ARCHIVE_SPACES_STORE("archive://SpacesStore"),
-        WORKSPACE_SPACES_STORE("workspace://SpacesStore");
-
-
-        private String storeType;
-
-        SELECT_STORE(String storeType)
-        {
-            this.storeType = storeType;
-        }
-
-        public String getStoreType()
-        {
-            return this.storeType;
-        }
-    }
-
     @FindBy (xpath = "//div[@class='title']/label[text() = 'Node Browser']")
     private WebElement nodeBrowserDiv;
-
     @FindBy (css = "div.search-text textarea")
     private WebElement searchInput;
-
     @RenderWebElement
     @FindBy (css = "button[id$='_default-lang-menu-button-button']")
     private WebElement searchTypeDropdownButton;
-
     @RenderWebElement
     @FindBy (css = "button[id$='_default-store-menu-button-button']")
     private WebElement storeTypeDropdownButton;
-
     @FindBy (css = "button[id$='_default-search-button-button']")
     private WebElement searchButton;
-
     @RenderWebElement
     @FindBy (css = ".search-main")
     private WebElement searchResults;
-
+    @FindBy (css = "div[id$='_default-datatable']")
+    private Table resultsTable;
     private By nameColumn = By.cssSelector("table thead tr th a[href$='name']");
     private By parentColumn = By.cssSelector("table thead tr th a[href$='qnamePath']");
     private By referenceColumn = By.cssSelector("table thead tr th a[href$='nodeRef']");
@@ -176,5 +125,60 @@ public class NodeBrowserPage extends AdminToolsPage
     public String getParentFor(String fileName)
     {
         return getResults().get(fileName).get(0);
+    }
+
+    public List<List<String>> getRowText()
+    {
+        browser.waitUntilElementVisible(By.cssSelector("div[id$='_default-datatable']"));
+        //getBrowser().waitUntilElementIsVisibleWithRetry(By.cssSelector("div.search-main table[id^='yuievtautoid']"), 3);
+        return resultsTable.getRowsAsString();
+    }
+
+    public enum SEARCH_TYPE
+    {
+        STORE_ROOT("storeroot"),
+        NODEREF("noderef"),
+        XPATH("xpath"),
+        LUCENE("lucene"),
+        FTS_ALFRESCO("fts-alfresco"),
+        CMIS_STRICT("cmis-strict"),
+        CMIS_ALFRESCO("cmis-alfresco"),
+        DB_AFTS("db-afts"),
+        DB_CMIS("db-cmis");
+
+        private String searchType;
+
+        SEARCH_TYPE(String searchType)
+        {
+            this.searchType = searchType;
+        }
+
+        public String getSearchType()
+        {
+            return this.searchType;
+        }
+    }
+
+    public enum SELECT_STORE
+    {
+        ALFRESCO_USER_STORE("user://alfrescoUserStore"),
+        SYSTEM("system://system"),
+        LIGHT_WEIGHT_STORE("workspace://lightWeightVersionStore"),
+        VERSION_2_STORE("workspace://version2Store"),
+        ARCHIVE_SPACES_STORE("archive://SpacesStore"),
+        WORKSPACE_SPACES_STORE("workspace://SpacesStore");
+
+
+        private String storeType;
+
+        SELECT_STORE(String storeType)
+        {
+            this.storeType = storeType;
+        }
+
+        public String getStoreType()
+        {
+            return this.storeType;
+        }
     }
 }

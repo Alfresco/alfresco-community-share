@@ -14,62 +14,44 @@ import org.openqa.selenium.support.FindBy;
 public class TinyMceEditor extends HtmlPage
 {
 
-    @FindBy (css = "iframe[id$='-configDialog-text_ifr']")
-    private WebElement iFrame;
-
-    private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
-
-    // private static final String XPATH_COLOUR_FONT = "//font";
-
-    @FindBy (css = "div[aria-label*='Background'] button span")
-    private WebElement CSS_COLOUR_FONT2;
-
-    @FindBy (css = "i.mce-i-removeformat")
-    private WebElement CSS_REMOVE_FORMAT;
-
-    @FindBy (css = "rich.txt.editor.color.code")
-    private WebElement CSS_COLOR_ATT;
-
-    @FindBy (css = "i[class$='mce-i-bold']")
-    private WebElement CSS_STR_BOLD;
-
     public String FRAME_ID = "";
-
     public String TINYMCE_CONTENT = "body[id$='tinymce']";
 
-    @FindBy (css = "i[class$='mce-i-italic']")
-    private WebElement CSS_STR_ITALIC;
-
-    @FindBy (css = "i[class$='mce-i-underline']")
-    private WebElement CSS_STR_UNDER_LINED;
-
-    @FindBy (css = "i[class$='mce-i-bullist']")
-    private WebElement CSS_STR_BULLETS;
-
-    @FindBy (css = "i[class$='mce-i-numlist']")
-    private WebElement CSS_STR_NUMBERS;
-
-    @FindBy (css = "#tinymce>p>b")
-    private WebElement CSS_STR_BOLD_FMT_TXT;
-
-    @FindBy (css = "#tinymce>p>i")
-    private WebElement CSS_STR_ITALIC_FMT_TXT;
-
-    @FindBy (css = "#tinymce>p>u")
-    private WebElement CSS_STR_UNDER_LINED_FMT_TXT;
-
-    @FindBy (css = "#tinymce>ul>li")
-    private WebElement CSS_STR_BULLET_FMT_TXT;
-
-    @FindBy (css = "#tinymce>ol>li")
-    private WebElement CSS_STR_NUMBER_FMT_TXT;
-
-    @FindBy (css = "#tinymce>p")
-    private WebElement CSS_STR_TEXT_TAG;
-
+    // private static final String XPATH_COLOUR_FONT = "//font";
+    public String BoldContent = "//body[@id='tinymce']//p//strong";
     @FindBy (css = "div[aria-label^='Text'] button[class$='mce-open']")
     public WebElement CSS_STR_FORE_COLOUR;
-
+    @FindBy (css = "iframe[id*='content_ifr']")
+    private WebElement iFrame;
+    private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
+    @FindBy (css = "div[aria-label*='Background'] button span")
+    private WebElement CSS_COLOUR_FONT2;
+    @FindBy (css = "i.mce-i-removeformat")
+    private WebElement CSS_REMOVE_FORMAT;
+    @FindBy (css = "rich.txt.editor.color.code")
+    private WebElement CSS_COLOR_ATT;
+    @FindBy (css = "i[class$='mce-i-bold']")
+    private WebElement CSS_STR_BOLD;
+    @FindBy (css = "i[class$='mce-i-italic']")
+    private WebElement CSS_STR_ITALIC;
+    @FindBy (css = "i[class$='mce-i-underline']")
+    private WebElement CSS_STR_UNDER_LINED;
+    @FindBy (css = "i[class$='mce-i-bullist']")
+    private WebElement CSS_STR_BULLETS;
+    @FindBy (css = "i[class$='mce-i-numlist']")
+    private WebElement CSS_STR_NUMBERS;
+    @FindBy (css = "#tinymce>p>b")
+    private WebElement CSS_STR_BOLD_FMT_TXT;
+    @FindBy (css = "#tinymce>p>i")
+    private WebElement CSS_STR_ITALIC_FMT_TXT;
+    @FindBy (css = "#tinymce>p>u")
+    private WebElement CSS_STR_UNDER_LINED_FMT_TXT;
+    @FindBy (css = "#tinymce>ul>li")
+    private WebElement CSS_STR_BULLET_FMT_TXT;
+    @FindBy (css = "#tinymce>ol>li")
+    private WebElement CSS_STR_NUMBER_FMT_TXT;
+    @FindBy (css = "#tinymce>p")
+    private WebElement CSS_STR_TEXT_TAG;
     @FindBy (css = "#tinymce>p>font")
     private WebElement CSS_COLOR_FONT;
 
@@ -97,31 +79,6 @@ public class TinyMceEditor extends HtmlPage
     private WebElement CSS_STR_BACK_GROUND_COLOUR;
     private String frameId = null;
     private FormatType formatType;
-
-    public enum FormatType
-    {
-        BOLD,
-        ITALIC,
-        UNDERLINED,
-        NUMBER,
-        BULLET,
-        BOLD_FMT_TXT,
-        ITALIC_FMT_TXT,
-        UNDER_LINED_FMT_TXT,
-        BULLET_FMT_TXT,
-        NUMBER_FMT_TXT,
-        COLOR,
-        FORMAT,
-        EDIT,
-        UNDO,
-        REDO,
-        DEFAULT,
-        COLOR_FONT,
-        BULLET_TEXT,
-        BOLD_EDIT,
-        BACK_GROUND_COLOR
-    }
-
 
     public String getFrameId()
     {
@@ -203,18 +160,6 @@ public class TinyMceEditor extends HtmlPage
         setFrameId(frameId);
     }
 
-//    /**
-//     * Constructor
-//     */
-//    public TinyMceEditor() {
-//
-//        try {
-//            this.FRAME_ID = iFrame.getAttribute("id");
-//            setFrameId(FRAME_ID);
-//        } catch (NoSuchElementException nse) {
-//        }
-//    }
-
     /**
      * @param txt
      */
@@ -230,29 +175,17 @@ public class TinyMceEditor extends HtmlPage
         }
     }
 
-    /**
-     * This method sets the given text into Site Content Configure text editor.
-     *
-     * @param text
-     */
-
-    public void setText(String text)
-    {
-        if (text == null)
-        {
-            throw new IllegalArgumentException("Text is required");
-        }
-
-        String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
-
-        getBrowser().waitInSeconds(5);
-        browser.executeJavaScript(setCommentJs);
-
-        setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", text);
-        browser.executeJavaScript(setCommentJs);
-
-    }
-
+//    /**
+//     * Constructor
+//     */
+//    public TinyMceEditor() {
+//
+//        try {
+//            this.FRAME_ID = iFrame.getAttribute("id");
+//            setFrameId(FRAME_ID);
+//        } catch (NoSuchElementException nse) {
+//        }
+//    }
 
     /**
      * Click on TinyMCE editor's format option.
@@ -325,7 +258,6 @@ public class TinyMceEditor extends HtmlPage
         clickElementOnRichTextFormatter(textElements());
     }
 
-
     /**
      * Click to remove formatting from text.
      */
@@ -381,6 +313,27 @@ public class TinyMceEditor extends HtmlPage
         }
     }
 
+    /**
+     * This method sets the given text into Site Content Configure text editor.
+     *
+     * @param text
+     */
+
+    public void setText(String text)
+    {
+        browser.clickJS(iFrame);
+
+        if (text == null)
+        {
+            throw new IllegalArgumentException("Text is required");
+        }
+
+        String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
+        browser.executeJavaScript(setCommentJs);
+        setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", text);
+        browser.executeJavaScript(setCommentJs);
+
+    }
 
     /**
      * Click on TinyMCE editor's format option.
@@ -402,5 +355,29 @@ public class TinyMceEditor extends HtmlPage
         String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
         browser.executeJavaScript(setCommentJs);
 
+    }
+
+    public enum FormatType
+    {
+        BOLD,
+        ITALIC,
+        UNDERLINED,
+        NUMBER,
+        BULLET,
+        BOLD_FMT_TXT,
+        ITALIC_FMT_TXT,
+        UNDER_LINED_FMT_TXT,
+        BULLET_FMT_TXT,
+        NUMBER_FMT_TXT,
+        COLOR,
+        FORMAT,
+        EDIT,
+        UNDO,
+        REDO,
+        DEFAULT,
+        COLOR_FONT,
+        BULLET_TEXT,
+        BOLD_EDIT,
+        BACK_GROUND_COLOR
     }
 }

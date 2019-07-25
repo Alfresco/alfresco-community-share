@@ -1,5 +1,8 @@
 package org.alfresco.share.adminTools.users;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -8,9 +11,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class UserToolTests extends ContextAwareWebTest
 {
@@ -52,12 +52,9 @@ public class UserToolTests extends ContextAwareWebTest
         assertTrue(usersPage.isSpecificUserDataDisplayed("Quota"), "Quota column displayed");
 //        assertTrue(usersPage.isSpecificUserDataDisplayed("Authorization State"), "Authorization State column displayed");
 //        assertTrue(usersPage.isSpecificUserDataDisplayed("Deleted?"), "Deleted? column displayed");
-        //       assertTrue(usersPage.isSpecificUserDataDisplayed("Action"), "Action column displayed");
-
+//        assertTrue(usersPage.isSpecificUserDataDisplayed("Action"), "Action column displayed");
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
-
     }
 
     @TestRail (id = "C9393")

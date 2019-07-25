@@ -1,17 +1,23 @@
 package org.alfresco.po.share.searching;
 
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.qatools.htmlelements.element.*;
-
-import java.util.List;
+import ru.yandex.qatools.htmlelements.element.Button;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.element.Image;
+import ru.yandex.qatools.htmlelements.element.Select;
+import ru.yandex.qatools.htmlelements.element.TextBlock;
+import ru.yandex.qatools.htmlelements.element.TextInput;
 
 @PageObject
 public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements AccessibleByMenuBar
@@ -34,8 +40,9 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
     @FindBy (css = "button[id$='_default-search-button-2-button']")
     private Button searchButton2;
 
+    @RenderWebElement
     @FindBy (css = ".selected-form-button button")
-    private Button lookForDropdownButton;
+    private WebElement lookForDropdownButton;
 
     @FindAll (@FindBy (css = ".selected-form-button .yuimenuitem"))
     private List<HtmlElement> lookForDropdownOptions;
@@ -64,6 +71,21 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
     private By lookForDropdownOptionLabel = By.cssSelector(".yuimenuitemlabel");
     private By lookForDropdownOptionDescription = By.cssSelector(".form-type-description");
 
+    @FindBy (css = "input[id$='_default_0_prop_cm_modified-cntrl-date-from']")
+    private WebElement fromDateInputField;
+
+    @FindBy (css = "input[id$='_default_0_prop_cm_modified-cntrl-date-to']")
+    private WebElement toDateInputField;
+
+    @FindBy (css = "input[id$='_prop_cm_name']")
+    private TextInput nameInputField;
+
+    @FindBy (css = "textarea[id$='prop_cm_description']")
+    private WebElement descriptionBox;
+
+    @FindBy (css = "textarea[id$='_prop_cm_title']")
+    private WebElement titleBox;
+
     @Override
     public String getRelativePath()
     {
@@ -85,7 +107,15 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
 
     public SearchPage click1stSearch()
     {
+        getBrowser().waitUntilElementClickable(searchButton1.getWrappedElement());
         searchButton1.click();
+        return (SearchPage) searchPage.renderedPage();
+    }
+
+    public SearchPage click2ndSearchButton()
+    {
+        getBrowser().waitUntilElementClickable(searchButton2.getWrappedElement());
+        searchButton2.click();
         return (SearchPage) searchPage.renderedPage();
     }
 
@@ -107,7 +137,7 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
 
     public void clickOnLookForDropdown()
     {
-        lookForDropdownButton.click();
+        browser.waitUntilElementClickable(lookForDropdownButton).click();
     }
 
     public boolean isLookForDropdownOptionDisplayed(String label, String description)
@@ -227,6 +257,15 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
                 descriptionTextarea.getWrappedElement().sendKeys(description);
             }
         }
+
+
+    }
+
+    public void typeDescriptionText(String description)
+    {
+        browser.waitUntilElementVisible(descriptionBox);
+        descriptionBox.clear();
+        descriptionBox.sendKeys(description);
     }
 
     public void selectMimetype(String mimetype)
@@ -238,5 +277,31 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
     {
         modifierInput.clear();
         modifierInput.sendKeys(modifier);
+    }
+
+    public void setFromDate(String dateToBeSet)
+    {
+        getBrowser().waitUntilElementVisible(fromDateInputField);
+        fromDateInputField.clear();
+        fromDateInputField.sendKeys(dateToBeSet);
+    }
+
+    public void setToDate(String dateToBeSet)
+    {
+        getBrowser().waitUntilElementVisible(toDateInputField);
+        toDateInputField.clear();
+        toDateInputField.sendKeys(dateToBeSet);
+    }
+
+    public String getSelectedContentTypeOption()
+    {
+        return lookForDropdownButton.getText();
+    }
+
+    public void setTitle(String criteria)
+    {
+        browser.waitUntilElementVisible(titleBox);
+        titleBox.clear();
+        titleBox.sendKeys(criteria);
     }
 }

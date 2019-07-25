@@ -8,17 +8,16 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class OutboundEmailPage extends AdminConsolePage<OutboundEmailPage>
 {
+    @FindBy (className = "intro")
+    WebElement intro;
+    @FindBy (className = "info")
+    WebElement info;
+
     @Override
     protected String relativePathToURL()
     {
         return "alfresco/s/enterprise/admin/admin-outboundemail";
     }
-
-    @FindBy (className = "intro")
-    WebElement intro;
-
-    @FindBy (className = "info")
-    WebElement info;
 
     @Override
     public String getInfoPage()

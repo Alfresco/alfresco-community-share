@@ -1,6 +1,10 @@
 package org.alfresco.share.sitesFeatures.Links;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
@@ -11,15 +15,11 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author iulia.cojocea
@@ -34,11 +34,10 @@ public class AccessingLinkTests extends ContextAwareWebTest
 
     @Autowired
     CustomizeSitePage customizeSitePage;
-
+    DateTime currentDate;
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private List<String> tags = new ArrayList<>();
-    DateTime currentDate;
 
     @BeforeMethod (alwaysRun = true)
     public void setupMethod()

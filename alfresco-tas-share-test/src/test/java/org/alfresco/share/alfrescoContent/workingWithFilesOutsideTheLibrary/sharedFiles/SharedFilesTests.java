@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
@@ -12,21 +14,17 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertTrue;
-
 /**
  * @author Laura.Capsa
  */
 public class SharedFilesTests extends ContextAwareWebTest
 {
-    @Autowired
-    private SharedFilesPage sharedFilesPage;
-
-    @Autowired
-    private SocialFeatures socialFeatures;
-
     private final String docName = String.format("Doc-C7661-%s", RandomData.getRandomAlphanumeric());
     private final String path = "Shared/";
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private SocialFeatures socialFeatures;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -51,6 +49,7 @@ public class SharedFilesTests extends ContextAwareWebTest
     @AfterClass
     public void cleanUp()
     {
+        cleanupAuthenticatedSession();
         contentService.deleteContentByPath(adminUser, adminPassword, path + docName);
     }
 }

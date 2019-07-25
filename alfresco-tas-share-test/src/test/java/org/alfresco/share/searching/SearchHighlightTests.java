@@ -1,7 +1,14 @@
 package org.alfresco.share.searching;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
@@ -14,17 +21,10 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Razvan.Dorobantu
@@ -32,23 +32,13 @@ import static org.testng.Assert.assertTrue;
 public class SearchHighlightTests extends ContextAwareWebTest
 {
     @Autowired
-    private AdvancedSearchPage advancedSearchPage;
-
-    @Autowired
-    private SearchPage searchPage;
-
-    @Autowired
     DocumentLibraryPage documentLibraryPage;
-
     @Autowired
     EditPropertiesDialog editFilePropertiesDialog;
-
     @Autowired
     BlogPostListPage blogPage;
-
     @Autowired
     CreateBlogPostPage createBlogPost;
-
     String uniqueIdentifier = RandomData.getRandomAlphanumeric();
     String userName = "highlightSearch-" + uniqueIdentifier;
     String firstName = "FirstName";
@@ -59,7 +49,6 @@ public class SearchHighlightTests extends ContextAwareWebTest
     String docTitle = "docTitle" + uniqueIdentifier;
     String docContent = "docContent" + uniqueIdentifier;
     String docDescription = "docDescription" + uniqueIdentifier;
-    private String blogPostTitle = "HighlightBlogTitle" + uniqueIdentifier;
     String C42550testFile = "C42550Doc.docx";
     String C42550testFilePath = testDataFolder + C42550testFile;
     String C42558file = "C42558file";
@@ -71,6 +60,11 @@ public class SearchHighlightTests extends ContextAwareWebTest
     String C42564file1 = "C42564file";
     String C42564file2 = "big C42564file";
     String C42549file = siteName;
+    @Autowired
+    private AdvancedSearchPage advancedSearchPage;
+    @Autowired
+    private SearchPage searchPage;
+    private String blogPostTitle = "HighlightBlogTitle" + uniqueIdentifier;
 
     @BeforeClass (alwaysRun = true)
     public void createPrecondition()

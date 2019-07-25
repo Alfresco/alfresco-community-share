@@ -1,5 +1,8 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
@@ -7,9 +10,6 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.context.annotation.Primary;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @PageObject
 @Primary

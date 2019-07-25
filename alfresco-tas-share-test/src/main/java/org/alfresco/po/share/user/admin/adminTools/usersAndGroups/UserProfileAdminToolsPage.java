@@ -1,7 +1,9 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteUserDialogPage;
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
+import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteUserDialogPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -10,58 +12,42 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 /**
  * Created by Mirela Tifui on 12/8/2016.
  */
 @PageObject
 public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPage>
 {
+    @FindBy (css = "div.name-label")
+    public WebElement userName;
+    @FindBy (css = "span[id$='_default-view-enabled']")
+    public WebElement accountStatus;
     @Autowired
     EditUserPage editUserPage;
-
     @Autowired
     DeleteUserDialogPage deleteUserDialogPage;
-
     @RenderWebElement
     @FindBy (css = "button[id$='_default-edituser-button-button']")
     private WebElement editUserButton;
-
     @RenderWebElement
     @FindBy (css = "button[id$='_default-deleteuser-button-button']")
     private WebElement deleteUserButton;
-
     @RenderWebElement
     @FindBy (css = "button[id$='_default-goback-button-button']")
     private WebElement goBackButton;
-
     private By userProfileUserName = By.cssSelector("span[id$='_default-view-title']");
-
     @FindBy (css = "div [id$='_default-view-name']")
     private WebElement userNameInAboutSection;
-
     @FindAll (@FindBy (css = "div.header-bar"))
     private List<WebElement> userProfileHeaderList;
-
     private By sectionsInfo = By.xpath("//div[@class='field-row']");
-
     private By userPhoto = By.cssSelector("div.photo img.view-photoimg");
-
     @FindBy (css = "span[id$='_default-view-quota']")
     private WebElement userQuota;
-
-    @FindBy (css = "div.name-label")
-    public WebElement userName;
-
     @FindBy (css = "span[id$='_default-view-email']")
     private WebElement email;
-
-    @FindBy (css = "span[id$='_default-view-enabled']")
-    public WebElement accountStatus;
-
     @FindBy (xpath = "//span[text()='Groups:']/../span[@class='field-value']")
-    public WebElement groupName;
+    private WebElement groupName;
 
     @Override
     public String getRelativePath()
@@ -153,9 +139,8 @@ public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPa
         return accountStatus.getText();
     }
 
-    public String getGroupsNames()
+    public String getGroupName()
     {
-        getBrowser().waitInSeconds(5);
         return groupName.getText();
     }
 }

@@ -1,5 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.aspects;
 
+import java.util.List;
+
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -9,8 +11,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 @PageObject
 public class AspectsForm extends ShareDialog
@@ -161,5 +161,10 @@ public class AspectsForm extends ShareDialog
     public void clickCloseButton()
     {
         closeButton.click();
+    }
+
+    public void clickCancelButton()
+    {
+        cancelButton.click();
     }
 }

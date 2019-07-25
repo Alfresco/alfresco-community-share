@@ -1,5 +1,8 @@
 package org.alfresco.share.adminTools.users;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.AdminToolsUserProfile;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.CreateUsers;
@@ -10,11 +13,7 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class CreateUsersTests extends ContextAwareWebTest
 {
@@ -30,6 +29,9 @@ public class CreateUsersTests extends ContextAwareWebTest
     @Autowired
     private LoginPage loginPage;
 
+    private String userName = String.format("UserProfileUser%s", RandomData.getRandomAlphanumeric());
+    private String c9410User = String.format("C9410user%s", RandomData.getRandomAlphanumeric());
+
 
     @TestRail (id = "C9396")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
@@ -44,10 +46,10 @@ public class CreateUsersTests extends ContextAwareWebTest
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("share/page/console/admin-console/users#state=panel%3Dcreate"), "Create users page displayed");
     }
 
+
     @TestRail (id = "C9397")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createUser()
-
     {
         String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
 
@@ -74,16 +76,13 @@ public class CreateUsersTests extends ContextAwareWebTest
         LOG.info("Step4: Search for the created user");
         usersPage.searchUser(userName);
         assertTrue(usersPage.verifyUserIsFound(userName), "User " + userName + " displayed");
-
-        userService.delete(adminUser, adminPassword, userName);
-        contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-
     }
+
+
 
     @TestRail (id = "C9401")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void createAndStartAnother()
-
     {
         String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
 
@@ -125,7 +124,6 @@ public class CreateUsersTests extends ContextAwareWebTest
     @TestRail (id = "C9405")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void managePassword()
-
     {
         String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         String message = "Password fields don't match.";
@@ -157,14 +155,12 @@ public class CreateUsersTests extends ContextAwareWebTest
         assertEquals(createUsers.getPasswordsDontMatchNotificationText(), message, "Displayed message:");
         createUsers.renderedPage();
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("share/page/console/admin-console/users#state=panel%3Dcreate"), "Create users page displayed");
-
-
     }
+
 
     @TestRail (id = "C9406")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addingUserToGroup()
-
     {
         String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         String group = "ALFRESCO_ADMINISTRATORS";
@@ -202,7 +198,6 @@ public class CreateUsersTests extends ContextAwareWebTest
         LOG.info("Step8: Verify the the new user is added to group");
         usersPage.searchUser(userName);
         usersPage.clickUserLink("First Name");
-        getBrowser().waitInSeconds(5);
         assertEquals(adminToolsUserProfile.isUserAddedToGroup(), "ALFRESCO_ADMINISTRATORS", "User added to group");
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
@@ -212,9 +207,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     @TestRail (id = "C9407")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void disableAccount()
-
     {
-
         String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         String authenticatinError = language.translate("login.authError");
 
@@ -295,9 +288,7 @@ public class CreateUsersTests extends ContextAwareWebTest
     @TestRail (id = "C42597")
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void verifyCreateUsersPage()
-
     {
-
         LOG.info("Preconditions: Login as admin user and navigate to 'Users' page from 'Admin Console'");
         setupAuthenticatedSession(adminUser, adminPassword);
         usersPage.navigate();
@@ -314,6 +305,5 @@ public class CreateUsersTests extends ContextAwareWebTest
 
         LOG.info("Step4: Verify buttons available on the page.");
         assertTrue(createUsers.areAllButtonsDisplayed(), "All buttons displayed");
-
     }
 }

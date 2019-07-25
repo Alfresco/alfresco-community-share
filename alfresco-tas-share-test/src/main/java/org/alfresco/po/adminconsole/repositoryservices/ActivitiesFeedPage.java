@@ -9,17 +9,28 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class ActivitiesFeedPage extends AdminConsolePage<ActivitiesFeedPage>
 {
+    public static final String ACTIVITIES_FEED_OBJECT = "Alfresco:Type=Configuration,Category=ActivitiesFeed,id1=default";
+    @RenderWebElement
+    @FindBy (className = "intro-tall")
+    WebElement intro;
+
     @Override
     protected String relativePathToURL()
     {
         return "alfresco/s/enterprise/admin/admin-activitiesfeed";
     }
 
-    public static final String ACTIVITIES_FEED_OBJECT = "Alfresco:Type=Configuration,Category=ActivitiesFeed,id1=default";
+    @Override
+    public String getInfoPage()
+    {
+        return "";
+    }
 
-    @RenderWebElement
-    @FindBy (className = "intro-tall")
-    WebElement intro;
+    @Override
+    public String getIntroPage()
+    {
+        return intro.getText();
+    }
 
     public enum ActivitiesFeedFields
     {
@@ -46,18 +57,6 @@ public class ActivitiesFeedPage extends AdminConsolePage<ActivitiesFeedPage>
         {
             return jmxAttribute;
         }
-    }
-
-    @Override
-    public String getInfoPage()
-    {
-        return "";
-    }
-
-    @Override
-    public String getIntroPage()
-    {
-        return intro.getText();
     }
 
 }

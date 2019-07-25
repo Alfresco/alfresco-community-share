@@ -1,8 +1,11 @@
 package org.alfresco.share.sitesFeatures.dataLists.workingWithListItems;
 
+import java.util.Arrays;
+
 import junit.framework.Assert;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
 import org.alfresco.share.ContextAwareWebTest;
@@ -10,21 +13,16 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-
 public class DuplicateAListItemTests extends ContextAwareWebTest
 {
     @Autowired
-    DataListsPage dataListsPage;
-
-    @Autowired
     protected EditItemPopUp editItemPopUp;
-
+    @Autowired
+    DataListsPage dataListsPage;
     private String userName;
     private String siteName;
 
@@ -67,7 +65,6 @@ public class DuplicateAListItemTests extends ContextAwareWebTest
         LOG.info("Step 2: Click the 'Duplicate' button for the contact list item to be edited.");
         dataListsPage.currentContent.duplicateItem(Arrays.asList("firstName", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes"));
         dataListsPage.waitUntilMessageDisappears();
-        getBrowser().waitInSeconds(5);
         Assert.assertEquals("The data list item was not duplicated.", dataListsPage.currentContent.isListItemDisplayed(Arrays.asList("firstName", "lastName", "test@test.com", "companyName", "jobTitle", "123456", "+41256422", "testNotes")), true);
 
 

@@ -1,6 +1,10 @@
 package org.alfresco.share.userRolesAndPermissions.consumer;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
@@ -13,14 +17,10 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Razvan.Dorobantu
@@ -47,7 +47,8 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
 
     @Autowired
     SiteUsersPage siteUsersPage;
-
+    String copyAction = "Copy to...";
+    String comment = String.format("Comment%s", RandomData.getRandomAlphanumeric());
     private String user = String.format("Consumer%s", RandomData.getRandomAlphanumeric());
     private String user8865 = String.format("user8865%s", RandomData.getRandomAlphanumeric());
     private String description = String.format("ConsumerDescription%s", RandomData.getRandomAlphanumeric());
@@ -60,12 +61,10 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     private String fileC8784 = "C8784 test file";
     private String fileC8865consumer = "C8865consumer test file";
     private String fileC8865collaborator = "C8865collaborator test file";
+    String filePath8865 = testDataFolder + fileC8865collaborator;
     private String testContent = "testContent";
     private String folderC8761 = "C8761 folder";
     private String folderC8784 = "C8784 folder";
-    String copyAction = "Copy to...";
-    String comment = String.format("Comment%s", RandomData.getRandomAlphanumeric());
-    String filePath8865 = testDataFolder + fileC8865collaborator;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

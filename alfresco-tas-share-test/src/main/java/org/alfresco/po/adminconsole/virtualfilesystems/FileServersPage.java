@@ -9,11 +9,28 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class FileServersPage extends AdminConsolePage<FileServersPage>
 {
+    public static final String FILE_SERVERS_OBJECT = "Alfresco:Type=Configuration,Category=fileServers,id1=default";
     @RenderWebElement
     @FindBy (className = "intro")
     WebElement intro;
 
-    public static final String FILE_SERVERS_OBJECT = "Alfresco:Type=Configuration,Category=fileServers,id1=default";
+    @Override
+    public String getInfoPage()
+    {
+        return "";
+    }
+
+    @Override
+    public String getIntroPage()
+    {
+        return intro.getText();
+    }
+
+    @Override
+    protected String relativePathToURL()
+    {
+        return "alfresco/s/enterprise/admin/admin-fileservers";
+    }
 
     public enum FILE_SERVERS_FIELDS
     {
@@ -45,24 +62,6 @@ public class FileServersPage extends AdminConsolePage<FileServersPage>
         {
             return jmxAttribute;
         }
-    }
-
-    @Override
-    public String getInfoPage()
-    {
-        return "";
-    }
-
-    @Override
-    public String getIntroPage()
-    {
-        return intro.getText();
-    }
-
-    @Override
-    protected String relativePathToURL()
-    {
-        return "alfresco/s/enterprise/admin/admin-fileservers";
     }
 
 }

@@ -15,37 +15,28 @@ import ru.yandex.qatools.htmlelements.element.Link;
 @PageObject
 public class MyProfileNavigation extends SharePage<MyProfileNavigation>
 {
+    public String myProfilePageUrl = "";
     @Autowired
     UserTrashcanPage userTrashcanPage;
-
     @RenderWebElement
     @FindBy (css = "a[id$='default-profile-link']")
     private Link info;
-
     @RenderWebElement
     @FindBy (css = "a[id$='default-user-sites-link']")
     private Link sites;
-
     @RenderWebElement
     @FindBy (css = "a[id$='user-content-link']")
     private Link content;
-
     @FindBy (css = "a[id$='following-link']")
     private Link following;
-
     @FindBy (css = "a[id$='followers-link']")
     private Link followers;
-
     @FindBy (css = "a[id$='change-password-link']")
     private Link changePassword;
-
     @FindBy (css = "a[id$='user-notifications-link']")
     private Link notification;
-
     @FindBy (css = "a[id$='user-trashcan-link']")
     private Link trashcan;
-
-    public String myProfilePageUrl = "";
 
     @Override
     public String getRelativePath()

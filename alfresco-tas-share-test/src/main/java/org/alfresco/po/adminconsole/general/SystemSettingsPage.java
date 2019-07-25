@@ -9,19 +9,40 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class SystemSettingsPage extends AdminConsolePage<SystemSettingsPage>
 {
+    public static final String SYSTEM_SETTINGS_OBJECT = "Alfresco:Type=Configuration,Category=sysAdmin,id1=default";
     @RenderWebElement
     @FindBy (className = "title")
     WebElement title;
-
     @RenderWebElement
     @FindBy (className = "intro")
     WebElement intro;
-
     @RenderWebElement
     @FindBy (className = "info")
     WebElement info;
 
-    public static final String SYSTEM_SETTINGS_OBJECT = "Alfresco:Type=Configuration,Category=sysAdmin,id1=default";
+    @Override
+    public String getInfoPage()
+    {
+        return info.getText();
+    }
+
+    @Override
+    public String getIntroPage()
+    {
+        return intro.getText();
+    }
+
+    @Override
+    public String getPageTitle()
+    {
+        return title.getText();
+    }
+
+    @Override
+    protected String relativePathToURL()
+    {
+        return "alfresco/s/enterprise/admin/admin-systemsettings";
+    }
 
     public enum SYSTEM_SETTINGS_LABELS
     {
@@ -55,31 +76,6 @@ public class SystemSettingsPage extends AdminConsolePage<SystemSettingsPage>
         {
             return jmxAttribute;
         }
-    }
-
-
-    @Override
-    public String getInfoPage()
-    {
-        return info.getText();
-    }
-
-    @Override
-    public String getIntroPage()
-    {
-        return intro.getText();
-    }
-
-    @Override
-    public String getPageTitle()
-    {
-        return title.getText();
-    }
-
-    @Override
-    protected String relativePathToURL()
-    {
-        return "alfresco/s/enterprise/admin/admin-systemsettings";
     }
 
 }

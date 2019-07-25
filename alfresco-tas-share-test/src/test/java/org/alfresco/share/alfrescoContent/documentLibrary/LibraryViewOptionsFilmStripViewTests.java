@@ -1,25 +1,22 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
     private final String user = String.format("C2247User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C2247SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C2247Site%s", RandomData.getRandomAlphanumeric());
@@ -29,6 +26,8 @@ public class LibraryViewOptionsFilmStripViewTests extends ContextAwareWebTest
     private final String folderName = "folderName";
     private final String videoFile = "Video2.WMV";
     private final String picture = "Lighthouse.jpg";
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

@@ -1,6 +1,11 @@
 package org.alfresco.share.searching.facetedSearch;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
@@ -17,13 +22,10 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Razvan.Dorobantu
@@ -93,8 +95,6 @@ public class FacetedSearchTests extends ContextAwareWebTest
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docForMove, docContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docForDelete, docContent);
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docWorkflow, docContent);
-        getBrowser().waitInSeconds(12);
-
     }
 
     @BeforeMethod (alwaysRun = true)
@@ -196,7 +196,6 @@ public class FacetedSearchTests extends ContextAwareWebTest
         LOG.info("STEP2: Click on 'Download as Zip' option from 'Selected Items...' dropdown.");
         searchPage.clickSelectedItemsDropdown();
         searchPage.clickOptionFromSelectedItemsDropdown("Download as Zip");
-        getBrowser().waitInSeconds(8);
         LOG.info("STEP3: Choose Save option and verify archive is displayed in specified location.");
         download.acceptAlertIfDisplayed();
         assertTrue(download.isFileInDirectory("Archive", ".zip"), "The zip archive was not found in the specified location");
@@ -219,7 +218,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
         copyMoveUnzipToDialog.clickButton("Copy");
         LOG.info("STEP7: Verify that the files have been copied");
         documentLibraryPage.navigate(siteForCopy);
-        getBrowser().waitInSeconds(10);
+        getBrowser().waitInSeconds(1);
         assertTrue(documentLibraryPage.isFileDisplayed(docName1));
         contentService.deleteDocument(userName, password, siteForCopy, docName1);
         cleanupAuthenticatedSession();
@@ -231,7 +230,6 @@ public class FacetedSearchTests extends ContextAwareWebTest
     {
         LOG.info("STEP1: Select the document to move.");
         searchPage.clickCheckbox(docForMove);
-        getBrowser().waitInSeconds(3);
         LOG.info("STEP2: Click on 'Move to...' option from 'Selected Items...' dropdown.");
         searchPage.clickSelectedItemsDropdown();
         searchPage.clickOptionFromSelectedItemsDropdown("Move to...");
@@ -264,11 +262,9 @@ public class FacetedSearchTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription("FacetedWorkflowDescription");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("High");
-        startWorkflowPage.clickOnSelectButton();
+        startWorkflowPage.clickOnSelectButtonSingleAssignee();
         selectAssigneeToWorkflowPopUp.searchUser(userName);
         selectPopUpPage.clickAddIcon("FirstName LastName (" + userName + ")");
-        getBrowser().waitInSeconds(3);
-
         selectAssigneeToWorkflowPopUp.clickOkButton();
         startWorkflowPage.clickStartWorkflow(searchPage);
         userDashboardPage.navigate(userName);

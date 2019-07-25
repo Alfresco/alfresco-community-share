@@ -73,9 +73,6 @@ public class ManageContactListItems extends ShareDialog
     @FindBy (xpath = "//div[text()='No list items']")
     protected WebElement noListItems;
 
-    @FindBy (css = "")
-    protected WebElement duplicatedItemPopup;
-
     protected String dataListLink = "a[title*='";
 
     /**

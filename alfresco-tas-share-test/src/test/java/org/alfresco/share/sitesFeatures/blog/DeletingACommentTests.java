@@ -1,6 +1,10 @@
 package org.alfresco.share.sitesFeatures.blog;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.BlogPostViewPage;
@@ -9,14 +13,10 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Collections;
-import java.util.List;
 
 public class DeletingACommentTests extends ContextAwareWebTest
 {

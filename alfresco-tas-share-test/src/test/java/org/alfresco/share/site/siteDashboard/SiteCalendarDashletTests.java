@@ -1,6 +1,14 @@
 package org.alfresco.share.site.siteDashboard;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.Dashlet.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteCalendarDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -11,15 +19,11 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 7/21/2016.
@@ -49,6 +53,11 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
         siteService.create(user, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPagesToSite(user, password, siteName, pagesToAdd);
         siteService.addDashlet(user, password, siteName, DashboardCustomization.SiteDashlet.SITE_CALENDAR, DashboardCustomization.DashletLayout.THREE_COLUMNS, 3, 1);
+    }
+
+    @BeforeMethod (alwaysRun = true)
+    public void beforeMethod()
+    {
         setupAuthenticatedSession(user, password);
     }
 
@@ -59,6 +68,13 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
         siteService.delete(adminUser, adminPassword, siteName);
     }
+
+    @AfterMethod (alwaysRun = true)
+    public void afterMethod()
+    {
+        cleanupAuthenticatedSession();
+    }
+
 
     @TestRail (id = "C5492")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })

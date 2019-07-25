@@ -141,7 +141,6 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
 
         LOG.info("Step 4 - On Site Dashboard page verify that several dashlets have an expand ");
         getBrowser().executeJavaScript("scroll(0, 250);");
-        getBrowser().waitInSeconds(2);
         Assert.assertTrue(mySitesDashlet.isDashletExpandable());
         Assert.assertTrue(savedSearchDashlet.isDashletExpandable());
 
@@ -149,7 +148,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
         int sizeBeforeMyProfile = mySitesDashlet.getDashletHeight();
         int sizeBeforeMyDiscussions = savedSearchDashlet.getDashletHeight();
         mySitesDashlet.resizeDashlet(500, 1);
-        //     savedSearchDashlet.resizeDashlet(600);
+//     savedSearchDashlet.resizeDashlet(600);
         int sizeAfterMyMeeting = mySitesDashlet.getDashletHeight();
         //   int sizeAfterMyDiscussions = savedSearchDashlet.getDashletHeight();
         Assert.assertTrue(sizeAfterMyMeeting > sizeBeforeMyProfile);

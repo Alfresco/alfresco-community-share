@@ -12,13 +12,13 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 @PageObject
 public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
 {
-    @Autowired
-    UserProfilePage userProfilePage;
-
     @RenderWebElement
     @FindBy (css = "div[class='dashlet']")
     protected HtmlElement dashletContainer;
-
+    protected String helpIcon = "div[class='%s'] div[class='titleBarActionIcon help']";
+    protected String dashletBar = "div[class='%s'] div[class='title']";
+    @Autowired
+    UserProfilePage userProfilePage;
     private By viewFullProfile = By.cssSelector(".toolbar>div>span>span[class='first-child']>a");
     private By avatar = By.cssSelector(".photo>img");
     private By name = By.cssSelector(".namelabel>a");
@@ -27,9 +27,6 @@ public class MyProfileDashlet extends Dashlet<MyProfileDashlet>
     private By telephone = By.xpath("(//div[@class='fieldvalue'])[2]");
     private By skype = By.xpath("(//div[@class='fieldvalue'])[3]");
     private By im = By.xpath("(//div[@class='fieldvalue'])[4]");
-
-    protected String helpIcon = "div[class='%s'] div[class='titleBarActionIcon help']";
-    protected String dashletBar = "div[class='%s'] div[class='title']";
 
     @Override
     public String getDashletTitle()

@@ -1,5 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -10,41 +12,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
 
-import java.util.List;
-
 @PageObject
 public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
 {
-    @Autowired
-    UserProfilePage userProfilePage;
-
     @RenderWebElement
     @FindBy (css = "div.dashlet.site-profile")
     protected HtmlElement dashletContainer;
-
-    @RenderWebElement
-    @FindBy (css = ".msg.dashlet-padding>h2")
-    private WebElement welcomeMessage;
-
-    @RenderWebElement
-    @FindBy (xpath = "//span[normalize-space(.) = 'Site Manager(s):']")
-    private WebElement siteManagersLabel;
-
-    @RenderWebElement
-    @FindBy (xpath = "//span[normalize-space(.) = 'Visibility:']")
-    private WebElement visibilityLabel;
-
-    @RenderWebElement
-    @FindBy (xpath = "//div[normalize-space(.) = 'This dashlet displays the site details. Only the site manager can change this information.']")
-    private WebElement helpText;
-
     @RenderWebElement
     @FindAll (@FindBy (css = "p"))
     protected List<WebElement> sitesProfileLabels;
-
     @RenderWebElement
     @FindAll (@FindBy (css = "p a"))
     protected List<WebElement> siteManagersList;
+    @Autowired
+    UserProfilePage userProfilePage;
+    @RenderWebElement
+    @FindBy (css = ".msg.dashlet-padding>h2")
+    private WebElement welcomeMessage;
+    @RenderWebElement
+    @FindBy (xpath = "//span[normalize-space(.) = 'Site Manager(s):']")
+    private WebElement siteManagersLabel;
+    @RenderWebElement
+    @FindBy (xpath = "//span[normalize-space(.) = 'Visibility:']")
+    private WebElement visibilityLabel;
+    @RenderWebElement
+    @FindBy (xpath = "//div[normalize-space(.) = 'This dashlet displays the site details. Only the site manager can change this information.']")
+    private WebElement helpText;
 
     @Override
     public String getDashletTitle()
@@ -107,7 +100,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     /**
      * Retrieves the link that match the user's name.
      *
-     * @param name identifier
+     * @param siteManager name identifier
      * @return {@link Link} that matches userName
      */
 
@@ -119,7 +112,7 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
     /**
      * Verify if a user name is displayed in Site Profile dashlet
      *
-     * @param siteMAnager
+     * @param siteManager
      * @return True if user exists
      */
 

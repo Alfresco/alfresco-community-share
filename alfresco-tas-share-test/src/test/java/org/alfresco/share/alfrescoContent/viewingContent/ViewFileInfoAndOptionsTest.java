@@ -1,6 +1,9 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
+import java.io.File;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -9,31 +12,26 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-
 /**
  * @author iulia.cojocea
  */
 public class ViewFileInfoAndOptionsTest extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
     private final String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = "testFolder";
     private final String docName = String.format("testDoc%s", RandomData.getRandomAlphanumeric());
     private final DateTime currentDate = new DateTime();
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

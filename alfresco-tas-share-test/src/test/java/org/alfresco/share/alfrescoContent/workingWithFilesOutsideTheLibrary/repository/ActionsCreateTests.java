@@ -1,6 +1,9 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
+import static org.testng.Assert.assertEquals;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -11,32 +14,14 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import static org.testng.Assert.assertEquals;
-
 public class ActionsCreateTests extends ContextAwareWebTest
 {
-    @Autowired
-    private CreateContent create;
-
-    @Autowired
-    private RepositoryPage repository;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private CreateFolderFromTemplate createFolderFromTemplate;
-
-    @Autowired
-    private Notification notification;
-
     private final String user = String.format("C8156User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C8156SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C8156SiteName%s", RandomData.getRandomAlphanumeric());
@@ -45,6 +30,16 @@ public class ActionsCreateTests extends ContextAwareWebTest
     private final String docContent = "C8159 template content";
     private final String pathFolderTemplate = "Data Dictionary/Space Templates";
     private final String folderName = String.format("C8158%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    private CreateContent create;
+    @Autowired
+    private RepositoryPage repository;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private CreateFolderFromTemplate createFolderFromTemplate;
+    @Autowired
+    private Notification notification;
 
     @BeforeClass (alwaysRun = true)
 
@@ -220,10 +215,11 @@ public class ActionsCreateTests extends ContextAwareWebTest
         LOG.info("Step 1:Click 'Create' then click 'Create document from template'.");
 
         repository.clickCreateButton();
-        Assert.assertTrue(create.isFileTemplateDisplayed(docName), "Template is not displayed");
+        create.clickCreateFromTemplateButton("Create document from template");
+        Assert.assertTrue(create.isTemplateDisplayed(docName), "Template is not displayed");
 
         LOG.info("Step 2: Select the template and check that the new file is created with the content from the template used");
-        create.clickOnDocumentTemplate(docName, repository);
+        create.clickOnTemplate(docName, repository);
         Assert.assertTrue(repository.isContentNameDisplayed(docName), "Newly created document is not displayed in Repository/UserHomes ");
         repository.clickOnFile(docName);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Document is not previewed");
@@ -244,11 +240,11 @@ public class ActionsCreateTests extends ContextAwareWebTest
         LOG.info("Step 1: Select the Create menu > Create folder from templates");
         repository.clickCreateButton();
         create.clickCreateFromTemplateButton("Create folder from template");
-        Assert.assertTrue(create.isFolderTemplateDisplayed(folderName), "Template is not displayed");
+        Assert.assertTrue(create.isTemplateDisplayed(folderName), "Template is not displayed");
 
         LOG.info("Step 2: Select the test template, provide title and description and check that the new folder is created");
 
-        create.clickOnFolderTemplate(folderName, createFolderFromTemplate);
+        create.clickOnTemplate(folderName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderName);
 
@@ -256,8 +252,8 @@ public class ActionsCreateTests extends ContextAwareWebTest
         createFolderFromTemplate.fillInDetails(folderName, "C8158 Test Title", "C8158 Test Description");
         createFolderFromTemplate.clickSaveButton();
 
-        //assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName));
-        // notification.waitUntilNotificationDisappears();
+        assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", folderName));
+        notification.waitUntilNotificationDisappears();
         Assert.assertTrue(repository.getFoldersList().contains(folderName), "Subfolder not found");
         Assert.assertTrue(repository.getExplorerPanelDocuments().contains(folderName), "Subfolder not found in Documents explorer panel");
     }

@@ -1,25 +1,24 @@
 package org.alfresco.share.sitesFeatures.blog;
 
-import org.alfresco.dataprep.DashboardCustomization.Page;
-import org.alfresco.po.share.site.blog.BlogPostListPage;
-import org.alfresco.share.ContextAwareWebTest;
-import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.report.Bug;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
+import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.share.site.blog.BlogPostListPage;
+import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.TestGroup;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 public class BrowsingBlogPostsTests extends ContextAwareWebTest
 {
@@ -146,12 +145,13 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser1Draft), "Draft blog post of User 1 is displayed");
     }
 
+
     @TestRail (id = "C6008")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void browseTheBlogPostsByTags()
     {
         blogPage.navigate(siteName);
-        getBrowser().waitInSeconds(10);
+
         LOG.info("Step 1: Click tag1 tag in Tags area.");
         blogPage.clickTag("tag1");
         getBrowser().waitUntilElementVisible(blogPage.blogPostTitle(blogTitleUser1Published));
@@ -170,7 +170,7 @@ public class BrowsingBlogPostsTests extends ContextAwareWebTest
 
         LOG.info("Step 3: Click tag2 tag in Tags area.");
         blogPage.clickTag("tag2");
-        getBrowser().waitInSeconds(2);
+
         LOG.info("Step 4: Check that only posts with tag2 are displayed");
         assertEquals(blogPage.getBlogPostTitle(blogTitleUser1Published + "C6008SecondTag"), blogTitleUser1Published + "C6008SecondTag");
         assertFalse(blogPage.isBlogPostDisplayed(blogTitleUser1Published), "Blog post published by user 1 with tag1 is displayed");

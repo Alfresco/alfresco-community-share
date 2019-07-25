@@ -1,6 +1,5 @@
 package org.alfresco.po.share.tasksAndWorkflows;
 
-import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -19,6 +18,9 @@ public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
     @Autowired
     TaskDetailsPage taskDetailsPage;
 
+    @Autowired
+    EditTaskPage editTaskPage;
+
     @RenderWebElement
     @FindBy (css = "div[class$='workflow-details-header'] h1")
     private WebElement workflowDetailsHeader;
@@ -32,6 +34,7 @@ public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
 
     @FindBy (css = "tbody.yui-dt-data tr td[class$='yui-dt-col-owner'] div a")
     private WebElement assignedToUser;
+
     @FindBy (css = "span[id$='_default-due']")
     private WebElement dueDate;
 
@@ -43,7 +46,28 @@ public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
     @FindBy (css = "span[id$='_default-message']")
     private WebElement message;
 
+    @RenderWebElement
+    @FindBy (css = "span[id$='default-status']")
+    private WebElement status;
+
+    @FindBy (css = "div[id*='workflowHistory']")
+    private WebElement historyBlock;
+
+    @FindBy (css = "a[class='task-edit']")
+    private WebElement editTaskButton;
+
+    @FindBy (css = "span[id$='recentTaskOutcome']")
+    private WebElement recentOutcome;
+
+    @FindBy (css = "div[id$='recentTaskOwnersComment']")
+    private WebElement recentTaskComment;
+
+    private String historyOutcome = "//td[contains(@class, 'col-owner')]//a[text()='%s']//ancestor::tr//td[contains(@class, 'col-state')]//div";
+
+    private String historyComment = "//td[contains(@class, 'col-owner')]//a[text()='%s']//ancestor::tr//td[contains(@class, 'col-properties')]//div";
+
     private By taskDetailsButton = By.cssSelector("a.task-details");
+
 
     @Override
     public String getRelativePath()
@@ -97,9 +121,45 @@ public class WorkflowDetailsPage extends SharePage<WorkflowDetailsPage>
         return message.getText();
     }
 
+    public String getStatus()
+    {
+        return status.getText();
+    }
+
+    public String getRecentOutcome()
+    {
+        return recentOutcome.getText();
+    }
+
+    public String getRecentComment()
+    {
+        return recentTaskComment.getText();
+    }
+
     public TaskDetailsPage clickTaskDetailsButton()
     {
         browser.findElement(taskDetailsButton).click();
         return (TaskDetailsPage) taskDetailsPage.renderedPage();
+    }
+
+    public EditTaskPage clickEditTaskButton()
+    {
+        browser.waitUntilElementVisible(editTaskButton).click();
+        return (EditTaskPage) editTaskPage.renderedPage();
+    }
+
+    public boolean isHistoryBlockPresent()
+    {
+        return browser.isElementDisplayed(historyBlock);
+    }
+
+    public String getHistoryOutcome(String completedByUser)
+    {
+        return browser.findElement(By.xpath(String.format(historyOutcome, completedByUser))).getText();
+    }
+
+    public String getHistoryComment(String completedByUser)
+    {
+        return browser.findElement(By.xpath(String.format(historyComment, completedByUser))).getText();
     }
 }

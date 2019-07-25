@@ -10,16 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class DeleteListPopUp extends ShareDialog
 {
-    @Autowired
-    DataListsPage dataListsPage;
-
     @RenderWebElement
     @FindBy (css = "span[class='button-group'] span[class*='primary-button'] button")
     protected WebElement deleteButton;
-
-
     @FindBy (css = "span[class='button-group'] span[class*='default'] span button")
     protected WebElement cancelButton;
+    @Autowired
+    DataListsPage dataListsPage;
 
     public DataListsPage clickDeleteButton()
     {

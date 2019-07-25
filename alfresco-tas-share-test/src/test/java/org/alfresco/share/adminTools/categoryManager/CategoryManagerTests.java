@@ -1,6 +1,14 @@
 package org.alfresco.share.adminTools.categoryManager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.ContentAspects;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.dataprep.UserService;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.user.admin.adminTools.CategoryManagerPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -12,34 +20,40 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-
 /**
  * @author Razvan.Dorobantu
  */
 public class CategoryManagerTests extends ContextAwareWebTest
 {
+    private final String categoryDoc = String.format("removeCategoryDoc%s", RandomData.getRandomAlphanumeric());
     @Autowired
     CategoryManagerPage categoryManagerPage;
-
+    @Autowired
+    ContentAspects contentAspects;
     @Autowired
     UserService userService;
-
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
     String category9295 = String.format("categoryC9295%s", RandomData.getRandomAlphanumeric());
     String category9301 = String.format("categoryC9301%s", RandomData.getRandomAlphanumeric());
     String category9298 = String.format("categoryC9298%s", RandomData.getRandomAlphanumeric());
     String categoryEdited = String.format("categoryEdited%s", RandomData.getRandomAlphanumeric());
+    List<String> categories = new ArrayList<>();
+    private String userName = "testUser" + RandomData.getRandomAlphanumeric();
+    private String siteName = "testSite" + RandomData.getRandomAlphanumeric();
 
     @BeforeClass (alwaysRun = true)
     public void beforeClass()
     {
+        userService.create(adminUser, adminPassword, userName, password, userName + "@test.com", "test", "user");
+        siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         userService.createRootCategory(adminUser, adminPassword, category9301);
         userService.createRootCategory(adminUser, adminPassword, category9298);
-
+        contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, categoryDoc, "Document content");
+        contentAspects.addClasifiable(userName, password, siteName, categoryDoc, categories);
         setupAuthenticatedSession(adminUser, adminPassword);
         categoryManagerPage.navigate();
     }
-
 
     @AfterClass
     public void afterClassDeleteAddedCategories()
@@ -75,7 +89,6 @@ public class CategoryManagerTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Verify the category is added in the 'Category Manager' page.");
         categoryManagerPage.navigate();
-        getBrowser().waitInSeconds(8);
         Assert.assertTrue(categoryManagerPage.isCategoryDisplayed(category9295), "New category displayed");
     }
 
@@ -101,6 +114,15 @@ public class CategoryManagerTests extends ContextAwareWebTest
 
         Assert.assertTrue(categoryManagerPage.isCategoryDisplayed(categoryEdited));
         Assert.assertTrue(categoryManagerPage.isCategoryNotDisplayed(category9298));
+    }
 
+    @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
+    public void addAndOpenSubCategory()
+    {
+        LOG.info("Step 1: Add subcategory");
+        String subCategoryName = "testSubCategory" + RandomData.getRandomAlphanumeric();
+        categoryManagerPage.navigate();
+        categoryManagerPage.addSubCategory("Languages", subCategoryName);
+        Assert.assertTrue(categoryManagerPage.isSubcategoryDisplayed("Languages", subCategoryName), subCategoryName + " is not displayed in the list");
     }
 }

@@ -1,21 +1,22 @@
 package org.alfresco.po.share.searching;
 
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.security.Key;
-import java.util.ArrayList;
-import java.util.List;
+import ru.yandex.qatools.htmlelements.element.Table;
 
 /**
  * @author Laura.Capsa
@@ -23,108 +24,80 @@ import java.util.List;
 @PageObject
 public class SearchPage extends SharePage<SearchPage> implements AccessibleByMenuBar
 {
+    @FindBy (id = "FCTSRCH_SEARCH_RESULT")
+    public WebElement searchResult;
+    @FindBy (css = "span#ALF_DELETE_CONTENT_DIALOG_CONFIRMATION")
+    public WebElement deleteDialogConfirm;
+    @FindBy (css = "span#ALF_DELETE_CONTENT_DIALOG_CANCELLATION")
+    public WebElement deleteDialogCancel;
     @Autowired
     SearchManagerPage searchManagerPage;
-
     @FindBy (id = "FCTSRCH_RESULTS_COUNT_LABEL")
     private WebElement numberOfResultsLabel;
-
     @FindBy (id = "SELECTED_ITEMS_MENU_text")
     private WebElement selectedItemsMenu;
-
     @FindBy (id = "onActionCopyTo_text")
     private WebElement copyToSelectedItemsOption;
-
     @FindBy (css = ".propertiesCell .nameAndTitleCell a .value")
     private List<WebElement> resultsDetailedViewList;
-
     @RenderWebElement
     @FindBy (id = "FCTSRCH_TOP_MENU_BAR_SCOPE_LABEL")
     private WebElement searchInLabel;
-
-    @FindBy (css = "span[class*='confirmationButton'] ")
+    @RenderWebElement
+    @FindBy (css = "div[id='FCTSRCH_TOP_MENU_BAR']")
+    private WebElement searchTopMenu;
+    @RenderWebElement
+    @FindBy (css = "span[class*='confirmationButton'] span")
     private WebElement searchButton;
-
     @FindBy (css = "[id=FCTSRCH_SCOPE_SELECTION_MENU_text]")
     private WebElement searchInDropdown;
-
     private By searchInDropdownOptionsSelector = By.cssSelector("div[id='FCTSRCH_SCOPE_SELECTION_MENU_GROUP'] td[class*='dijitMenuItemLabel']");
-
     @FindBy (css = ".label.alfresco-layout-Twister--open>h3")
     private List<WebElement> filterTypeList;
-
     @FindBy (css = ".showMore .details")
     private List<WebElement> showMore;
-
     @FindBy (css = ".showLess .details")
     private List<WebElement> showLess;
-
-    @FindBy (id = "FCTSRCH_SORT_MENU_text")
-    private WebElement sortDropdown;
-
+    @FindBy (css = "div[id='FCTSRCH_SORT_MENU'] span[class$='arrow']")
+    private WebElement sortDropdownButton;
     @FindBy (css = "tr[id*='alfresco_menus_AlfCheckableMenuItem'] td:nth-child(3)")
     private List<WebElement> sortOptions;
-
     @FindBy (css = ".filterLabel")
     private List<WebElement> allOptions;
-
     @FindBy (css = "div[id='FCTSRCH_VIEWS_MENU'] img")
     private WebElement viewsDropdown;
     private By viewsDropdownOptionsSelector = By.cssSelector("#DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP .dijitMenuItemLabel");
-
     @FindBy (css = "[id*='FCTSRCH_GALLERY_VIEW_THUMBNAIL']")
     private List<WebElement> resultsGalleryViewList;
-
     @FindBy (css = ".dijitSliderIncrementIconH")
     private WebElement sliderIncrementIcon;
-
     @FindBy (css = ".dijitSliderDecrementIconH")
     private WebElement sliderDecrementIcon;
-
     @FindBy (css = ".dijitSliderMoveable")
     private WebElement sliderGalleryView;
-
     @FindBy (css = ".dateCell .value")
     private List<WebElement> resultModifiedByList;
-
     @FindBy (css = "#FCTSRCH_CONFIG_PAGE_LINK_text>a")
     private WebElement searchManager;
-
     @FindBy (css = "#FCTSRCH_SEARCH_RESULT_ACTIONS span[class*='dijitButtonContents']")
     private WebElement actionsLink;
-
     @FindAll (@FindBy (css = "#FCTSRCH_SEARCH_RESULT_ACTIONS_DROPDOWN tr td[id*='text']"))
     private List<WebElement> actionsOptions;
-
-    @FindBy (id = "FCTSRCH_SEARCH_RESULT")
-    public WebElement searchResult;
-
     @FindAll (@FindBy (css = "span[id*='SELECTOR']"))
     private List<WebElement> checkboxList;
-
     @FindBy (id = "SELECTED_LIST_ITEMS")
     private WebElement selectedItemsList;
-
     @FindAll (@FindBy (css = "#SELECTED_LIST_ITEMS_dropdown tr td[id*='text']"))
     private List<WebElement> selectedItemsCheckboxOptions;
-
     @FindBy (css = "span[id='SELECTED_ITEMS_MENU_text']")
     private WebElement selectedItemsDropdown;
-
     @FindAll (@FindBy (css = "#SELECTED_ITEMS_ACTIONS_GROUP tr td[id*='text']"))
     private List<WebElement> selectedItemsOptions;
-
-    @FindBy (css = "span#ALF_DELETE_CONTENT_DIALOG_CONFIRMATION")
-    public WebElement deleteDialogConfirm;
-
-    @FindBy (css = "span#ALF_DELETE_CONTENT_DIALOG_CANCELLATION")
-    public WebElement deleteDialogCancel;
-
     @FindBy (css = "div[id='SELECTED_LIST_ITEMS'] img")
     private WebElement selectAllButton;
 
-    @FindBy (css = "div[id='SELECTED_LIST_ITEMS_dropdown'] tr[title='All']")
-    private WebElement allOption;
+    @FindBy (css = "div[id='FCTSRCH_SEARCH_ADVICE_NO_RESULTS'] div[title='Search suggestions:']")
+    private WebElement noSearchResults;
 
     @FindBy (id = "onActionCopyTo_text")
     private WebElement copyToAction;
@@ -132,6 +105,65 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     @FindAll (@FindBy (css = "tr[class$='dijitMenuItem']"))
     private List<WebElement> optionsList;
 
+    @FindBy (css = "img[src*='folder']")
+    private WebElement folderResult;
+
+    @FindBy (css = "img[src*='content']")
+    private WebElement contentResult;
+
+    @FindBy (id = "FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS")
+    private Table resultsTable;
+
+    @FindBy (id = "ALF_DELETE_CONTENT_DIALOG")
+    private WebElement confirmDeleteDialog;
+
+    @FindBy (css = "tbody[id=\"FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS\"]")
+    private Table searchResults;
+
+    @FindBy (css = "div[id='FCTSRCH_SORT_MENU_dropdown'] tbody[class='dijitReset']")
+    private List<WebElement> sortDropdown;
+
+    @FindBy (css = "div[id='FCTSRCH_SORT_ORDER_TOGGLE'] img")
+    private WebElement sortOrderToggleButton;
+
+    @FindBy (css = "span[id='FCTSRCH_SEARCH_RESULT_SELECTOR']")
+    private WebElement selector;
+    @RenderWebElement
+    @FindBy (css = "input[id$='_CONTROL']")
+    private WebElement inputField;
+
+    @FindBy (css = "span[id='FCTSRCH_SORT_MENU_text']")
+    private WebElement currentSortFilter;
+
+    @FindBy (css = "tbody[id='FCTSRCH_SEARCH_ADVICE_NO_RESULTS_ITEMS'] tr")
+    private List<WebElement> resultsList;
+
+    @FindBy (css = "[id='FCTSRCH_GALLERY_VIEW_ITEMS'] td")
+    private List<WebElement> galleryViewResultsList;
+
+    @FindBy (css = "div[class='alfresco-dialog-AlfDialog dialogDisplayed dijitDialog'] span.dijitDialogCloseIcon span")
+    private WebElement closeInfo;
+
+    @FindBy (css = "div[id='aikauLightbox'] div[id='aikauLightboxCaption']")
+    private WebElement imagePreview;
+
+    @FindBy (css = "span.dijitDialogTitle")
+    private WebElement previewTitle;
+
+    @FindAll (@FindBy (css = "span.alfresco-renderers-DateLink"))
+    private List<WebElement> modifiedBy;
+
+    @FindBy (css = "div[id='FCTSRCH_CONFIG_PAGE_LINK'] span")
+    private WebElement configureSearchButton;
+
+    @FindBy (css = "img[id='aikauCloseButton']")
+    private WebElement closePicturePreview;
+
+    @FindBy (css = "div[class*='dialogDisplayed dijitDialog'] span.dijitDialogCloseIcon")
+    private WebElement closeFilePreviewButton;
+
+    private By highlightedSite = By.cssSelector("span[id='FCTSRCH_SEARCH_RESULT_SITE'] span mark");
+    private By highlightedModifiedDate = By.cssSelector("span[id='FCTSRCH_SEARCH_RESULT_DATE'] span mark");
     @FindBy (css = "DIV[ID='SELECTED_LIST_ITEMS'] span.alfresco-menus-AlfMenuBarPopup__arrow")
     private WebElement selectedListItemsDropdownArrow;
     private int i;
@@ -141,11 +173,32 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     private By contentHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_CONTENT_SNIPPET']/span/span[@class='value']/mark");
     private By descriptionHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_DESCRIPTION']/span/span[@class='value']/mark");
     private By titleHighlight = By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_TITLE']/span/span[@class='value']/mark");
+    private By highlight = By.cssSelector("span.inner span mark");
+
+    private WebElement docName(String docName)
+    {
+        return browser.findElement(By.xpath("//span[@id='FCTSRCH_SEARCH_RESULT_DISPLAY_NAME']//mark[text()='" + docName + "']"));
+    }
+
+    private WebElement fileTypeOption(String option)
+    {
+        return browser.findElement(By.xpath("//div[@id='FCTSRCH_filter_mimetype']//span[text()='" + option + "']"));
+    }
+
+    private WebElement galleryViewItemSelector(String fileName)
+    {
+        return browser.findElement(By.cssSelector("//table[@id='FCTSRCH_GALLERY_VIEW_ITEMS']//td//div[text()='" + fileName + "']/../.."));
+    }
+
+    private WebElement image(String imageName)
+    {
+        return browser.findElement(By.cssSelector("span[class^='alfresco-renderers-Thumbnail'] img[title='" + imageName + "']"));
+    }
 
     @Override
     public String getRelativePath()
     {
-        return "share/page/dp/ws/faceted-search#searchTerm=%s&scope=repo&sortField=Relevance";
+        return "/share/page/dp/ws/faceted-search";
     }
 
     @SuppressWarnings ("unchecked")
@@ -158,6 +211,26 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     public String getNumberOfResultsText()
     {
         return numberOfResultsLabel.getText();
+    }
+
+    public Object executeJavaScript(final String js, Object... args)
+    {
+        if (js == null || js.isEmpty())
+        {
+            throw new IllegalArgumentException("JS script is required");
+        }
+        return ((JavascriptExecutor) getBrowser()).executeScript(js, args);
+    }
+
+    public void scrollToPageBottom()
+    {
+        executeJavaScript(
+                "window.scrollTo(0,Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,document.documentElement.clientHeight));", "");
+    }
+
+    public void scrollSome(int distance)
+    {
+        executeJavaScript("window.scrollTo(0," + distance + ");", "");
     }
 
     private void clickSelectedItemsMenu()
@@ -207,6 +280,16 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
         {
             if (result.getText().contains(query))
                 browser.mouseOver(result);
+        }
+    }
+
+
+    public void mouseOverContentGalleryView(String contentName)
+    {
+        for (WebElement item : galleryViewResultsList)
+        {
+            if (item.getText().contains(contentName))
+                browser.mouseOver(item);
         }
     }
 
@@ -262,8 +345,10 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     public void clickSortDropdown()
     {
-        sortDropdown.click();
+        getBrowser().waitUntilElementClickable(sortDropdownButton, 6L);
+        sortDropdownButton.click();
     }
+
 
     public void clickSearchInDropdown()
     {
@@ -323,18 +408,18 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     {
         if (sortOptions.size() == 12)
             if (sortOptions.get(0).getText().equals("Relevance") && sortOptions.get(1).getText().equals("Name") && sortOptions.get(2).getText().equals("Title")
-                && sortOptions.get(3).getText().equals("Description") && sortOptions.get(4).getText().equals("Author") && sortOptions.get(5).getText()
-                                                                                                                                     .equals("Modifier") && sortOptions.get(6).getText().equals("Modified date") && sortOptions.get(7).getText().equals("Creator") && sortOptions
-                .get(8).getText().equals("Created date") && sortOptions.get(9).getText().equals("Size") && sortOptions.get(10).getText().equals("Mime type")
-                && sortOptions.get(11).getText().equals("Type"))
+                    && sortOptions.get(3).getText().equals("Description") && sortOptions.get(4).getText().equals("Author") && sortOptions.get(5).getText()
+                                                                                                                                         .equals("Modifier") && sortOptions.get(6).getText().equals("Modified date") && sortOptions.get(7).getText().equals("Creator") && sortOptions
+                    .get(8).getText().equals("Created date") && sortOptions.get(9).getText().equals("Size") && sortOptions.get(10).getText().equals("Mime type")
+                    && sortOptions.get(11).getText().equals("Type"))
                 return true;
         return false;
     }
 
     public void clickViewsDropdown()
     {
-        browser.waitInSeconds(3);
-        viewsDropdown.click();
+        browser.waitUntilElementClickable(viewsDropdown).click();
+        browser.waitUntilElementVisible(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP']"));
     }
 
     public ArrayList<String> getViewsDropdownOptions()
@@ -354,14 +439,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
      */
     public boolean isSearchResultsListInDetailedView()
     {
-        try
-        {
-            browser.waitUntilElementsVisible(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"));
-            return resultsDetailedViewList.size() > 0;
-        } catch (TimeoutException ex)
-        {
-            browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"), 3);
-        }
+        browser.waitUntilElementsVisible(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"));
         return resultsDetailedViewList.size() > 0;
     }
 
@@ -377,27 +455,25 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     public SearchPage clickGalleryView()
     {
         clickViewsDropdown();
-        browser.waitInSeconds(2);
+        browser.waitUntilElementIsPresent(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP'] td[class='dijitReset dijitMenuItemLabel']"));
         browser.selectOptionFromFilterOptionsList("Gallery View", browser.findElements(viewsDropdownOptionsSelector));
         return (SearchPage) this.renderedPage();
     }
 
     public SearchPage clickDetailedView()
     {
-        browser.waitInSeconds(2);
-
         clickViewsDropdown();
-        //   getBrowser().waitUntilElementVisible(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP']"));
-        getBrowser().waitInSeconds(5);
+        //getBrowser().waitUntilElementVisible(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP']"));
+        browser.waitUntilElementIsPresent(By.cssSelector("div[id='DOCLIB_CONFIG_MENU_VIEW_SELECT_GROUP'] td[class='dijitReset dijitMenuItemLabel']"));
         browser.selectOptionFromFilterOptionsList("Detailed View", browser.findElements(viewsDropdownOptionsSelector));
-        //     browser.waitUntilElementDisappears(By.cssSelector("table[class*='alfresco-documentlibrary-AlfGalleryViewSlider']"));
+        browser.waitUntilElementDisappears(By.cssSelector("table[class*='alfresco-documentlibrary-AlfGalleryViewSlider']"));
         return (SearchPage) this.renderedPage();
     }
 
     public boolean isSliderGalleryViewDisplayed()
     {
         return (browser.isElementDisplayed(sliderGalleryView) && browser.isElementDisplayed(sliderIncrementIcon) && browser
-            .isElementDisplayed(sliderDecrementIcon));
+                .isElementDisplayed(sliderDecrementIcon));
     }
 
     /**
@@ -448,7 +524,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     public SearchManagerPage clickSearchManagerLink()
     {
-        searchManager.click();
+        browser.waitUntilElementVisible(searchManager).click();
         return (SearchManagerPage) searchManagerPage.renderedPage();
     }
 
@@ -583,7 +659,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
     public boolean isALLItemsCheckboxChecked()
     {
         return browser
-            .isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have all items selected. Click this icon to deselect all.']"));
+                .isElementDisplayed(By.xpath("//div[@id='SELECTED_LIST_ITEMS']/img[@alt='You have all items selected. Click this icon to deselect all.']"));
     }
 
     public boolean isNoneItemsCheckboxChecked()
@@ -620,11 +696,9 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     public void clickSelectAll()
     {
-        getBrowser().findElement(By.cssSelector("div[id='SELECTED_LIST_ITEMS'] img")).click();
-        browser.waitInSeconds(2);
-
-        browser.mouseOver(allOption);
-        allOption.sendKeys(Keys.ENTER);
+        getBrowser().findElement(By.cssSelector("div[id='SELECTED_LIST_ITEMS']")).click();
+        getBrowser().waitUntilElementIsVisibleWithRetry(By.id("SELECTED_LIST_ITEMS_dropdown"), 5);
+        getBrowser().waitUntilElementClickable(By.cssSelector("tr[title='All'] td[class*='dijitMenuItemLabel']"), 3).click();
     }
 
     public void clickSelectedItemsListDropdownArrow()
@@ -645,16 +719,257 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     public boolean isContentHighlighted(String content)
     {
-        return browser.findElement(contentHighlight).getText().equals(content);
+        boolean isHighlighted = false;
+        if (browser.isElementDisplayed(contentHighlight) == false)
+        {
+            isHighlighted = false;
+            return isHighlighted;
+        }
+        if (browser.isElementDisplayed(contentHighlight) == true)
+        {
+            isHighlighted = browser.findElement(contentHighlight).getText().equals(content);
+            return isHighlighted;
+        }
+        return isHighlighted;
     }
 
     public boolean isDescriptionHighlighted(String description)
     {
-        return browser.findElement(descriptionHighlight).getText().equals(description);
+        boolean isHighlighted = false;
+        if (browser.isElementDisplayed(descriptionHighlight) == false)
+        {
+            isHighlighted = false;
+            return isHighlighted;
+        }
+
+        if (browser.isElementDisplayed(descriptionHighlight) == true)
+        {
+            isHighlighted = browser.findElement(descriptionHighlight).getText().equals(description);
+            return isHighlighted;
+        }
+
+        return isHighlighted;
     }
 
     public boolean isTitleHighlighted(String title)
     {
-        return browser.findElement(titleHighlight).getText().equals(title);
+        boolean isHighlighted = false;
+        if (browser.isElementDisplayed(titleHighlight) == false)
+        {
+            isHighlighted = false;
+            return isHighlighted;
+        }
+
+        if (browser.isElementDisplayed(titleHighlight) == true)
+        {
+            isHighlighted = browser.findElement(titleHighlight).getText().equals(title);
+        }
+        return isHighlighted;
+    }
+
+
+    public String getNoSearchResultsText()
+    {
+        return noSearchResults.getText();
+    }
+
+    public boolean isAnyFolderReturnedInResults()
+    {
+        return browser.isElementDisplayed(folderResult);
+    }
+
+    public boolean isAnyFileReturnedInResults()
+    {
+        return browser.isElementDisplayed(contentResult);
+    }
+
+    public boolean isConfirmDeletionDialogDisplayed()
+    {
+        return browser.isElementDisplayed(confirmDeleteDialog);
+    }
+
+    public boolean isSiteHighlighted()
+    {
+        return browser.isElementDisplayed(highlightedSite);
+    }
+
+    public boolean isModifiedOnHighlighted()
+    {
+        return browser.isElementDisplayed(highlightedModifiedDate);
+    }
+
+    public void setSearchExpression(String searchExpression)
+    {
+        inputField.clear();
+        inputField.sendKeys(searchExpression);
+    }
+
+    public void clickSearchButton()
+    {
+        searchButton.click();
+    }
+
+    public boolean confirmNoItemIsHighlighted()
+    {
+        browser.waitUntilElementDeletedFromDom(highlight);
+        return browser.isElementDisplayed(highlight);
+    }
+
+    public HtmlPage clickContentName(String contentName, HtmlPage page)
+    {
+        docName(contentName).click();
+        return page.renderedPage();
+    }
+
+    public HtmlPage clickSortDropdownOption(String sortingOption)
+    {
+        getBrowser().findFirstDisplayedElement(By.xpath("//div[@id='DOCLIB_SORT_FIELD_SELECT_GROUP']//td[text()='" + sortingOption + "']")).click();
+        getBrowser().waitUntilElementContainsText(currentSortFilter, sortingOption);
+        return renderedPage();
+    }
+
+    public boolean isSortOrderToggleButtonDisplayed()
+    {
+        return getBrowser().isElementDisplayed(sortOrderToggleButton);
+    }
+
+    public void clickToggleButton()
+    {
+        sortOrderToggleButton.click();
+    }
+
+    public boolean isDescendingOrderSet()
+    {
+        return getBrowser().isElementDisplayed(By.cssSelector("div[title='Change sort order to descending']"));
+    }
+
+    public boolean isAscendingOrderSet()
+    {
+        return getBrowser().isElementDisplayed(By.cssSelector("div[title='Change sort order to ascending']"));
+    }
+
+    public String getSortFilter()
+    {
+        return currentSortFilter.getText().trim();
+    }
+
+    public int getResultsListSize()
+    {
+        LOG.info("List size is: " + resultsList.size());
+        return resultsList.size();
+    }
+
+    public boolean areResultsSortedByName()
+    {
+        boolean status;
+        List<String> resultsListText = new ArrayList<>();
+        List<WebElement> resultsName = browser.findElements(By.cssSelector("tr[id='FCTSRCH_SEARCH_RESULT'] a[class^='alfresco-navigation'] span.value"));
+        List<String> sortedList = new ArrayList<>();
+        for (WebElement item : resultsName)
+        {
+            resultsListText.add(item.getText());
+            sortedList.add(item.getText());
+        }
+        Collections.sort(sortedList);
+        LOG.info("Actual list: " + resultsListText);
+        LOG.info("Sorted list: " + sortedList);
+
+        if (!resultsListText.equals(sortedList))
+        {
+            status = false;
+        } else
+        {
+            status = true;
+        }
+        return status;
+    }
+
+    public List<String> getAvailableFilters()
+    {
+        List<String> availableOptions = new ArrayList<>();
+        getBrowser().waitUntilElementClickable(sortDropdownButton);
+        sortDropdownButton.click();
+        for (WebElement option : sortOptions)
+        {
+            availableOptions.add(option.getText());
+        }
+
+        LOG.info("Available options are: " + availableOptions);
+
+        return availableOptions;
+    }
+
+    public HtmlPage selectFileTypeFilter(String fileType, HtmlPage page)
+    {
+        fileTypeOption(fileType).click();
+        return page.renderedPage();
+    }
+
+    public int getGalleryViewResultsNumber()
+    {
+        LOG.info("Results number is: " + galleryViewResultsList.size());
+        return galleryViewResultsList.size();
+    }
+
+    public HtmlPage openFileFromGalleryView(String fileName, HtmlPage page)
+    {
+        browser.findFirstElementWithExactValue(galleryViewResultsList, fileName).click();
+        return page.renderedPage();
+    }
+
+    public void clickInfo()
+    {
+        browser.findElement(By.cssSelector("span[id='FCTSRCH_GALLERY_VIEW_MORE_INFO_OR_FOLDER']")).click();
+        //browser.waitUntilElementVisible(By.cssSelector("div[class='alfresco-dialog-AlfDialog dialogDisplayed dijitDialog']"));
+    }
+
+    public void clickCloseInfo()
+    {
+        browser.mouseOver(closeInfo);
+        closeInfo.click();
+    }
+
+    public void clickContentThumbnailByName(String contentName)
+    {
+        image(contentName).click();
+    }
+
+    public String getPreviewedImageName()
+    {
+        return imagePreview.getText();
+    }
+
+    public boolean isContentPreviewed(String docName)
+    {
+        return previewTitle.getText().equals(docName);
+    }
+
+    public boolean isConfigureSearchButtonDisplayed()
+    {
+        return browser.isElementDisplayed(configureSearchButton);
+    }
+
+    public HtmlPage clickConfigureButton(HtmlPage page)
+    {
+        configureSearchButton.click();
+        return page.renderedPage();
+    }
+
+    public HtmlPage clickModifiedBy(String modifierName, HtmlPage page)
+    {
+        browser.findFirstElementWithValue(modifiedBy, modifierName).click();
+        return page.renderedPage();
+    }
+
+    public void closePicturePreview()
+    {
+        closePicturePreview.click();
+        getBrowser().waitUntilElementDisappears(By.cssSelector("img[id='aikauLightboxImage']"));
+    }
+
+    public void closeFilePreview()
+    {
+        closeFilePreviewButton.click();
+        getBrowser().waitUntilElementDisappears(By.cssSelector("div[class$='dialogDisplayed dijitDialog']"));
     }
 }

@@ -1,5 +1,8 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -9,9 +12,6 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Razvan.Dorobantu
@@ -92,7 +92,7 @@ public class GroupsPage extends AdminToolsPage
 
     private By groupEditDisplayNameInput = By.cssSelector("input[id$='default-update-displayname']");
 
-    @FindBy (css = "span[id$='_default-creategroup-ok-button'] button")
+    @FindBy (css = "button[id*='creategroup-ok']")
     private WebElement createGroupOKButton;
 
     @FindBy (css = "button[id*='creategroup-cancel']")
@@ -107,6 +107,8 @@ public class GroupsPage extends AdminToolsPage
     private By deleteGroupCancelButton = By.cssSelector("button[id$='_default-cancel-button-button']");
     private By updateGroupOKButton = By.cssSelector("button[id$='_default-updategroup-save-button-button']");
     private By updateGroupCancelButton = By.cssSelector("button[id$='_default-updategroup-cancel-button-button']");
+    private By deleteMessage = By.cssSelector("div[id='message_c'");
+    private By browseNextPage = By.cssSelector("a[class='yui-pg-next']");
 
     @Override
     public String getRelativePath()
@@ -128,6 +130,7 @@ public class GroupsPage extends AdminToolsPage
     {
         getBrowser().waitUntilElementVisible(searchButton);
         getBrowser().waitUntilElementClickable(searchButton).click();
+        browser.waitUntilElementVisible(By.cssSelector("a[class=\'update\']"));
     }
 
     public void clickBrowseButton()
@@ -177,8 +180,22 @@ public class GroupsPage extends AdminToolsPage
      */
     public void checkGroupIsInList(String name)
     {
-        WebElement element = getItemGroup(name);
-        Assert.assertNotNull(element, String.format("%s group is displayed.", name));
+        boolean isGroupPresent = false;
+        WebElement nextPage;
+        while (!isGroupPresent)
+        {
+            WebElement element = getItemGroup(name);
+            if (element != null)
+            {
+                Assert.assertNotNull(element, String.format("%s group is displayed.", name));
+                isGroupPresent = true;
+            } else
+            {
+                nextPage = browser.findElement(browseNextPage);
+                nextPage.click();
+                browser.waitUntilElementVisible(browser.findElement(browseNextPage));
+            }
+        }
     }
 
     public WebElement getItemGroup(String name)
@@ -251,7 +268,7 @@ public class GroupsPage extends AdminToolsPage
         browser.waitUntilElementVisible(addGroupButton).click();
     }
 
-    public boolean isAddUSerButtonDisplayed()
+    public boolean isAddUserButtonDisplayed()
     {
         return browser.isElementDisplayed(addUserButton);
     }
@@ -339,6 +356,16 @@ public class GroupsPage extends AdminToolsPage
         groupDisplayNameInput.clear();
         groupDisplayNameInput.sendKeys(identifierName);
 
+    }
+
+    public boolean isNewGroupButtonDisplayed()
+    {
+        return browser.isElementDisplayed(newGroupButton);
+    }
+
+    public boolean isAddGroupButtonDisplayed()
+    {
+        return browser.isElementDisplayed(addGroupButton);
     }
 
     public boolean isCreateNewGroupButtonDisplayed()
@@ -434,14 +461,22 @@ public class GroupsPage extends AdminToolsPage
         if (areYouSure)
         {
             browser.findElement(updateGroupOKButton).click();
+            this.renderedPage();
         } else
         {
             browser.findElement(updateGroupCancelButton).click();
+            this.renderedPage();
         }
     }
 
     public String getSeachBarText()
     {
         return searchBar.getText();
+    }
+
+    public String getDeleteMessage()
+    {
+        browser.waitUntilElementVisible(deleteMessage);
+        return browser.findElement(deleteMessage).getText();
     }
 }

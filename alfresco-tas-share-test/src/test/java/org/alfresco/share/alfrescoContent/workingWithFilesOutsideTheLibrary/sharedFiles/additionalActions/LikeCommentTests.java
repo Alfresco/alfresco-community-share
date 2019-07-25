@@ -1,5 +1,9 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.additionalActions;
 
+import static org.alfresco.dataprep.CMISUtil.DocumentType.TEXT_PLAIN;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
@@ -12,24 +16,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.alfresco.dataprep.CMISUtil.DocumentType.TEXT_PLAIN;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 /**
  * @author Laura.Capsa
  */
 public class LikeCommentTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private SharedFilesPage sharedFilesPage;
-
-    @Autowired
-    private SocialFeatures social;
-
     private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String user = "user" + uniqueId;
     private final String fileName1 = uniqueId + "testFile1.txt";
@@ -38,6 +29,12 @@ public class LikeCommentTests extends ContextAwareWebTest
     private final String folderName2 = uniqueId + "folder2";
     private final String path = "Shared/";
     private final String comment = "Comment " + uniqueId;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private SocialFeatures social;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

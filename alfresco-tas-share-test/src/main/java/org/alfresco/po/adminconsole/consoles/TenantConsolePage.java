@@ -1,14 +1,14 @@
 package org.alfresco.po.adminconsole.consoles;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.alfresco.po.adminconsole.Notifications;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.network.JmxBuilder;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-
-import java.util.Arrays;
-import java.util.List;
 
 @PageObject
 public class TenantConsolePage extends ConsolePage<TenantConsolePage>
@@ -21,20 +21,6 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
     protected String relativePathToURL()
     {
         return "alfresco/s/admin/admin-tenantconsole";
-    }
-
-    public enum ConsoleCommand
-    {
-        CREATE("create"), ENABLE("enable"), DISABLE("disable"), DELETE("delete"),
-        SHOW_TENANTS("show tenants"), SHOW_TENANT("show tenant"), CHANGE_ADMIN_PASSWORD("changeAdminPassword"),
-        EXPORT("export"), IMPORT("import");
-
-        private String cmd;
-
-        ConsoleCommand(String cmd)
-        {
-            this.cmd = cmd;
-        }
     }
 
     /**
@@ -225,6 +211,20 @@ public class TenantConsolePage extends ConsolePage<TenantConsolePage>
                 break;
             default:
                 throw new IllegalArgumentException("Invalid console command: " + action);
+        }
+    }
+
+    public enum ConsoleCommand
+    {
+        CREATE("create"), ENABLE("enable"), DISABLE("disable"), DELETE("delete"),
+        SHOW_TENANTS("show tenants"), SHOW_TENANT("show tenant"), CHANGE_ADMIN_PASSWORD("changeAdminPassword"),
+        EXPORT("export"), IMPORT("import");
+
+        private String cmd;
+
+        ConsoleCommand(String cmd)
+        {
+            this.cmd = cmd;
         }
     }
 }

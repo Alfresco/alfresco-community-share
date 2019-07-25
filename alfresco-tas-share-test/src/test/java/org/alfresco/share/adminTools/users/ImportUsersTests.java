@@ -1,15 +1,16 @@
 package org.alfresco.share.adminTools.users;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UploadResults;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertTrue;
 
 public class ImportUsersTests extends ContextAwareWebTest
 {
@@ -23,7 +24,7 @@ public class ImportUsersTests extends ContextAwareWebTest
     UploadResults uploadResults;
 
     @TestRail (id = "C9438")
-    @Test
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void importUsers()
     {
 

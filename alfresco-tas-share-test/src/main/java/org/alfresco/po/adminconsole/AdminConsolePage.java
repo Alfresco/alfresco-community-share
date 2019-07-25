@@ -1,5 +1,7 @@
 package org.alfresco.po.adminconsole;
 
+import static org.alfresco.utility.report.log.Step.STEP;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,13 +13,27 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.alfresco.utility.report.log.Step.STEP;
-
 /**
  * As for SharePage, we have one for AdminConsole page
  */
 public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConsole
 {
+    @Autowired
+    protected AdminNavigator navigator;
+    @FindBy (tagName = "h1")
+    WebElement header;
+    @FindBy (className = "message")
+    WebElement message;
+    /*
+     * save all web elements that contains "control" keyword - these are custom web elements for admin Pages
+     */
+    @FindAll (@FindBy (css = "div[class~=control]"))
+    List<WebElement> pageControls;
+    @FindBy (css = ".submission.buttons>input[type='submit']")
+    WebElement saveButton;
+    @FindBy (css = ".submission.buttons>input.cancel")
+    WebElement cancelButton;
+
     protected abstract String relativePathToURL();
 
     @SuppressWarnings ("unchecked")
@@ -32,27 +48,6 @@ public abstract class AdminConsolePage<T> extends HtmlPage implements AdminConso
         navigator.renderedPage();
         return (T) renderedPage();
     }
-
-    @Autowired
-    protected AdminNavigator navigator;
-
-    @FindBy (tagName = "h1")
-    WebElement header;
-
-    @FindBy (className = "message")
-    WebElement message;
-
-    /*
-     * save all web elements that contains "control" keyword - these are custom web elements for admin Pages
-     */
-    @FindAll (@FindBy (css = "div[class~=control]"))
-    List<WebElement> pageControls;
-
-    @FindBy (css = ".submission.buttons>input[type='submit']")
-    WebElement saveButton;
-
-    @FindBy (css = ".submission.buttons>input.cancel")
-    WebElement cancelButton;
 
     @Override
     public AdminNavigator getNavigator()

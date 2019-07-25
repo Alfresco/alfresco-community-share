@@ -1,5 +1,7 @@
 package org.alfresco.po.share.searching;
 
+import java.util.List;
+
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -12,8 +14,6 @@ import org.springframework.context.annotation.Primary;
 import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.TextInput;
 
-import java.util.List;
-
 /**
  * Created by Claudia Agache on 8/16/2016.
  */
@@ -21,87 +21,61 @@ import java.util.List;
 @PageObject
 public class CreateNewFilterPopup extends ShareDialog
 {
-    @Autowired
-    SearchManagerPage searchManagerPage;
-
     @RenderWebElement
     @FindBy (className = "dijitDialogTitle")
     protected WebElement dialogTitle;
-
     @FindBy (id = "FORM_FILTER_ID")
     protected WebElement filterId;
-
     @FindBy (id = "FORM_DISPLAY_NAME")
     protected WebElement filterName;
-
     @FindBy (css = "input[name='isEnabled']")
     protected CheckBox showWithSearch;
-
     @FindBy (id = "FORM_FACET_QNAME_CONTROL")
     protected WebElement filterPropertyInput;
-
     protected By filterPropertyDropdown = By.id("widget_FORM_FACET_QNAME_CONTROL_dropdown");
-
     @FindBy (css = "div[id^='FORM_FACET_QNAME_CONTROL_popup'].dijitMenuItem")
     protected List<WebElement> filterPropertyOptions;
-
     @FindBy (css = "table#FORM_SORTBY_CONTROL  div.dijitButtonText")
     protected WebElement sortByInput;
-
     @FindBy (css = "table#FORM_SORTBY_CONTROL input.dijitArrowButtonInner")
     protected WebElement sortByArrow;
-
     protected By sortByDropdown = By.id("FORM_SORTBY_CONTROL_dropdown");
-
     @FindBy (css = "div#FORM_MAX_FILTERS input[role='spinbutton']")
     protected TextInput noFilters;
-
     @FindBy (css = "div#FORM_MIN_FILTER_VALUE_LENGTH input[role='spinbutton']")
     protected TextInput minFilterLength;
-
     @FindBy (css = "div#FORM_HIT_THRESHOLD input[role='spinbutton']")
     protected TextInput minRequiredResults;
-
     @FindBy (css = "div#FORM_SCOPE div.dijitButtonText")
     protected WebElement filterAvailabilityInput;
-
     @FindBy (css = "div#FORM_SCOPE input.dijitArrowButtonInner")
     protected WebElement filterAvailabilityArrow;
-
     protected By filterAvailabilityDropdown = By.id("FORM_SCOPE_CONTROL_dropdown");
-
-    @FindBy (css = "#FORM_SCOPED_SITES div.button.add>img")
-    private WebElement sitesAddButton;
-
     @FindBy (xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='button doneEditing']/img")
     protected WebElement sitesDoneEditingButton;
-
     @FindBy (xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='button cancelEditing']/img")
     protected WebElement sitesCancelEditingButton;
-
     @FindBy (xpath = "//div[@id='FORM_SCOPED_SITES']//div[@class='edit-display']//input[contains(@class, 'dijitArrowButtonInner')]")
     protected WebElement sitesSiteNameArrow;
-
     protected By sitesSiteNameDropdown = By.xpath("//div[contains(@id,'alfresco_forms_controls_') and @class='dijitPopup dijitMenuPopup' and not(contains(@style, 'display: none;'))]");
-
     @FindAll (@FindBy (css = "div.entries div.read-display"))
     protected List<WebElement> currentSitesEntries;
-
     @RenderWebElement
     @FindBy (css = "span[id$='_OK_label']")
     protected WebElement saveButton;
-
     @FindBy (css = "span[id$='_CANCEL_label']")
     protected WebElement cancelButton;
-
     @FindBy (xpath = "//div[@role='dialog' and not(contains(@style, 'display: none'))]//span[@class='dijitDialogCloseIcon']")
     protected WebElement closeButton;
-
     protected By fieldValue = By.cssSelector("input.dijitInputInner+span");
     protected By fieldInput = By.cssSelector("input.dijitInputInner");
     protected By fieldDescription = By.cssSelector("div.description");
     protected By requiredMark = By.className("required");
     protected By dropdownOptions = By.className("dijitMenuItemLabel");
+    @Autowired
+    SearchManagerPage searchManagerPage;
+    @FindBy (css = "#FORM_SCOPED_SITES div.button.add>img")
+    private WebElement sitesAddButton;
 
     public Boolean isDialogDisplayed()
     {
@@ -298,7 +272,6 @@ public class CreateNewFilterPopup extends ShareDialog
      */
     public SearchManagerPage clickSave()
     {
-        //    browser.waitInSeconds(5);
         browser.waitUntilElementClickable(saveButton);
         saveButton.click();
         browser.waitInSeconds(5);
