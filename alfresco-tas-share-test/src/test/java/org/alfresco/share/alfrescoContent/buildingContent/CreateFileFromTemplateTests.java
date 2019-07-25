@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -9,7 +10,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -17,21 +17,18 @@ import org.testng.annotations.Test;
 
 public class CreateFileFromTemplateTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private CreateContent createContent;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
     private final String user = String.format("C7000User%s", RandomData.getRandomAlphanumeric());
     private final String description = String.format("C7000SiteDescription%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("C7000SiteName%s", RandomData.getRandomAlphanumeric());
     private final String path = "Data Dictionary/Node Templates";
     private final String docName = "template" + RandomData.getRandomAlphanumeric();
     private final String docContent = "template content";
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private CreateContent createContent;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
 
     @BeforeClass (alwaysRun = true)
 

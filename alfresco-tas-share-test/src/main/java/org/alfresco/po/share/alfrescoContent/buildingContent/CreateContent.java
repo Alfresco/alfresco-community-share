@@ -1,5 +1,8 @@
 package org.alfresco.po.share.alfrescoContent.buildingContent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
@@ -12,84 +15,58 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @PageObject
 public class CreateContent extends SiteCommon<CreateContent>
 {
+    public By message = By.cssSelector("span.message span.wait");
     @Autowired
     TinyMceEditor tinyMceEditor;
-
     @Autowired
     GoogleDocsCommon googleDocs;
-
     @Autowired
     DocumentDetailsPage documentDetailsPage;
-
     @FindBy (css = "span.folder-file")
     private WebElement createFolderLink;
-
     @FindBy (css = "span.text-file")
     private WebElement plainTextButton;
-
     @FindBy (css = "span.html-file")
     private WebElement htmlButton;
-
     @FindBy (css = "span.xml-file")
     private WebElement xmlButton;
-
     @FindBy (css = "span.document-file")
     private WebElement googleDocsDoc;
-
     @FindBy (css = "span.spreadsheet-file")
     private WebElement googleDocsSpreadsheet;
-
     @FindBy (css = "span.presentation-file")
     private WebElement googleDocsPresentation;
-
     @FindBy (css = "div[id*='_default-form-fields']")
     private WebElement createForm;
-
     @FindBy (css = "input[id*='prop_cm_name']")
     private WebElement nameField;
-
     @FindBy (css = "textarea[id*='prop_cm_content']")
     private WebElement contentField;
-
     @FindBy (css = "input[id*='prop_cm_title']")
     private WebElement titleField;
-
     @FindBy (css = "textarea[id*='prop_cm_description']")
     private WebElement descriptionField;
-
     @FindBy (xpath = "//div[@class ='form-field']//label[contains(@for,'_default_prop_cm_name')]//span[@class = 'mandatory-indicator']")
     private WebElement nameFieldIsMandatoryMarker;
-
     @FindBy (css = "button[id*='form-submit-button']")
     private WebElement submitButton;
-
     @FindBy (css = "button[id*='form-cancel-button']")
     private WebElement cancelButton;
-
     @FindBy (css = "div[class ='mce-edit-area mce-container mce-panel mce-stack-layout-item'] iframe")
     private WebElement htmlContentField;
-
     @FindBy (css = "div[id*='_default-createFolder-dialog_c']")
     private WebElement createFolderDialog;
-
     @FindBy (css = "div[id*='_default-createFolder-dialog_c'] div[id*='_default-createFolder-dialogTitle']")
     private WebElement createFolderDialogTitle;
-
     @FindAll (@FindBy (css = ".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible span"))
     private List<WebElement> templatesList;
 
-    public By message = By.cssSelector("span.message span.wait");
-
     private WebElement selectCreateFromTemplateButton(String buttonName)
     {
-        return browser.findElement(By.xpath(""
-            + "//span[text()='" + buttonName + "']"));
+        return browser.findElement(By.xpath("//a[contains(@class, 'yuimenuitemlabel-hassubmenu')]//span[text()='" + buttonName + "']"));
     }
 
     public WebElement selectTemplate(String templateName)
@@ -391,15 +368,33 @@ public class CreateContent extends SiteCommon<CreateContent>
         browser.waitUntilElementVisible(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible"));
     }
 
-    public void mouseOverButton(String btnName)
+    /**
+     * Method to select template
+     */
+    public HtmlPage clickOnTemplate(String templateName, HtmlPage page)
     {
-        WebElement button = selectCreateFromTemplateButton(btnName);
-        browser.mouseOver(button);
+        selectTemplate(templateName).click();
+        return page.renderedPage();
     }
 
     /**
-     * Method to select document template
+     * Method to check if the template is present
      */
+    public boolean isTemplateDisplayed(String templateName)
+    {
+        return selectTemplate(templateName).isDisplayed();
+    }
+
+    public boolean isCreateFolderDialogDisplayed()
+    {
+        return browser.isElementDisplayed(createFolderDialog);
+    }
+
+    public String getCreateFolderDialogTitle()
+    {
+        return createFolderDialogTitle.getText();
+    }
+
     public HtmlPage clickOnDocumentTemplate(String templateName, HtmlPage page)
     {
         // browser.mouseOver(browser.findElement(By.cssSelector("li[class$='yuimenuitem-hassubmenu first-of-type']")));
@@ -419,31 +414,6 @@ public class CreateContent extends SiteCommon<CreateContent>
         return page.renderedPage();
     }
 
-    /**
-     * Method to check if the template is present
-     */
-    public boolean isFolderTemplateDisplayed(String templateName)
-    {
-        List<String> templatesName = new ArrayList<>();
-        browser.waitUntilElementsVisible(templatesList);
-        for (WebElement template : templatesList)
-        {
-            templatesName.add(template.getText());
-        }
-
-        System.out.println("templates available are: " + templatesName.toArray());
-        return templatesName.contains(templateName);
-
-        // browser.findFirstElementWithValue(templatesList, templateName);
-
-//        browser.mouseOver(browser.waitUntilElementVisible(By.cssSelector("li[class$='yuimenuitem-hassubmenu']")));
-//        if(!selectTemplate(templateName).isDisplayed())
-//        {
-//            browser.findElement(By.cssSelector("By.cssSelector(\"li[class$='yuimenuitem-hassubmenu']")).click();
-//        }
-//        return selectTemplate(templateName).isDisplayed();
-    }
-
     public boolean isFileTemplateDisplayed(String templateName)
     {
         browser.mouseOver(browser.waitUntilElementVisible(By.cssSelector("li[class$='yuimenuitem-hassubmenu first-of-type']")));
@@ -455,13 +425,18 @@ public class CreateContent extends SiteCommon<CreateContent>
         return selectTemplate(templateName).isDisplayed();
     }
 
-    public boolean isCreateFolderDialogDisplayed()
+    /**
+     * Method to check if the template is present
+     */
+    public boolean isFolderTemplateDisplayed(String templateName)
     {
-        return browser.isElementDisplayed(createFolderDialog);
-    }
-
-    public String getCreateFolderDialogTitle()
-    {
-        return createFolderDialogTitle.getText();
+        List<String> templatesName = new ArrayList<>();
+        browser.waitUntilElementsVisible(templatesList);
+        for (WebElement template : templatesList)
+        {
+            templatesName.add(template.getText());
+        }
+        LOG.info("templates available are: " + templatesName.toArray());
+        return templatesName.contains(templateName);
     }
 }

@@ -12,9 +12,20 @@ import ru.yandex.qatools.htmlelements.element.Link;
 @PageObject
 public class LicensePage extends AdminConsolePage<LicensePage>
 {
+    public static final String LICENSE_OBJECT = "Alfresco:Name=License";
+    @RenderWebElement
+    @FindBy (className = "intro-tall")
+    WebElement intro;
+    @RenderWebElement
+    @FindBy (id = "upload-license")
+    Button uploadLicenseButton;
+    @RenderWebElement
+    @FindBy (id = "apply-new-license")
+    Button applyNewLicenseButton;
+    @FindBy (css = ".info>a")
+    Link uploadingNewLicense;
     @Autowired
     private UploadNewLicenseDialog uploadNewLicenseDialog;
-
     @Autowired
     private ApplyNewLicenseDialog applyNewLicenseDialog;
 
@@ -23,23 +34,6 @@ public class LicensePage extends AdminConsolePage<LicensePage>
     {
         return "alfresco/s/enterprise/admin/admin-license";
     }
-
-    public static final String LICENSE_OBJECT = "Alfresco:Name=License";
-
-    @RenderWebElement
-    @FindBy (className = "intro-tall")
-    WebElement intro;
-
-    @RenderWebElement
-    @FindBy (id = "upload-license")
-    Button uploadLicenseButton;
-
-    @RenderWebElement
-    @FindBy (id = "apply-new-license")
-    Button applyNewLicenseButton;
-
-    @FindBy (css = ".info>a")
-    Link uploadingNewLicense;
 
     @Override
     public String getInfoPage()
@@ -51,6 +45,23 @@ public class LicensePage extends AdminConsolePage<LicensePage>
     public String getIntroPage()
     {
         return intro.getText();
+    }
+
+    public UploadNewLicenseDialog clickUploadLicense()
+    {
+        uploadLicenseButton.click();
+        return (UploadNewLicenseDialog) uploadNewLicenseDialog.renderedPage();
+    }
+
+    public ApplyNewLicenseDialog clickApplyNewLicense()
+    {
+        applyNewLicenseButton.click();
+        return (ApplyNewLicenseDialog) applyNewLicenseDialog.renderedPage();
+    }
+
+    public void clickUploadingNewLicense()
+    {
+        uploadingNewLicense.click();
     }
 
     public enum LicenseFields
@@ -89,22 +100,5 @@ public class LicensePage extends AdminConsolePage<LicensePage>
         {
             return jmxAttribute;
         }
-    }
-
-    public UploadNewLicenseDialog clickUploadLicense()
-    {
-        uploadLicenseButton.click();
-        return (UploadNewLicenseDialog) uploadNewLicenseDialog.renderedPage();
-    }
-
-    public ApplyNewLicenseDialog clickApplyNewLicense()
-    {
-        applyNewLicenseButton.click();
-        return (ApplyNewLicenseDialog) applyNewLicenseDialog.renderedPage();
-    }
-
-    public void clickUploadingNewLicense()
-    {
-        uploadingNewLicense.click();
     }
 }

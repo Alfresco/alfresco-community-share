@@ -1,5 +1,7 @@
 package org.alfresco.po.adminconsole;
 
+import java.util.ArrayList;
+
 import org.alfresco.po.adminconsole.AdminNavigator.NavigationLink;
 import org.alfresco.po.adminconsole.consoles.TenantConsolePage;
 import org.alfresco.po.adminconsole.consoles.WorkflowConsolePage;
@@ -10,8 +12,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.utility.exception.TestConfigurationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
 
 public class ConsoleExampleTest extends ContextAwareWebTest
 {

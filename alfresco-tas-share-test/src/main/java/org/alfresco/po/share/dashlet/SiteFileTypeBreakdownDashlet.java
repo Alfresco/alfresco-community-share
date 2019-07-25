@@ -1,5 +1,9 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -8,10 +12,6 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.context.annotation.Primary;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Claudia Agache on 7/25/2016.
@@ -52,7 +52,6 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
     public int getNumberOfPieChartSlices()
     {
         browser.waitUntilElementIsDisplayedWithRetry(By.cssSelector("div[id^='alfresco_charts_ccc_PieChart'] path[transform]"));
-        getBrowser().waitInSeconds(5);
         return pieChartSlices.size();
     }
 

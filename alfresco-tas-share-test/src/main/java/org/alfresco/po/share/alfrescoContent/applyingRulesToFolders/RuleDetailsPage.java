@@ -1,5 +1,8 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -7,9 +10,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Laura.Capsa
@@ -119,18 +119,28 @@ public class RuleDetailsPage extends SiteCommon<RuleDetailsPage>
      * Click on any button from page
      *
      * @param buttonId id used in selector to find the button, can be: edit, delete, view, change, unlink, inheritButton, runRules, newRule, done
-     * @return
      */
     public void clickButton(String buttonId)
     {
         browser.waitUntilElementClickable(By.cssSelector(String.format(buttonSelector, buttonId)), properties.getExplicitWait()).click();
-        if (buttonId.equals("edit"))
-            editRulesPage.renderedPage();
-        if (buttonId.equals("unlink"))
-        {
-            browser.refresh();
-            browser.waitInSeconds(3);
-        }
+    }
+
+    public void clickEditButton()
+    {
+        clickButton("edit");
+        editRulesPage.renderedPage();
+    }
+
+    public void clickUnlinkButton()
+    {
+        clickButton("unlink");
+        browser.refresh();
+        browser.waitInSeconds(3);
+    }
+
+    public void clickRunRulesButton()
+    {
+        clickButton("runRules");
     }
 
     /**

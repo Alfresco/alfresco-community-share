@@ -1,8 +1,22 @@
 package org.alfresco.share.searching;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertEqualsNoOrder;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
-import org.alfresco.po.share.searching.*;
+import org.alfresco.po.share.searching.AdvancedSearchPage;
+import org.alfresco.po.share.searching.ConfirmDeletionDialog;
+import org.alfresco.po.share.searching.CreateNewFilterPopup;
+import org.alfresco.po.share.searching.EditFilterPopup;
+import org.alfresco.po.share.searching.SearchManagerPage;
+import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -12,15 +26,9 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 8/16/2016.
@@ -205,20 +213,13 @@ public class SearchManagerTests extends ContextAwareWebTest
 
         LOG.info("STEP 8: Click on " + site2 + " option.");
         getBrowser().navigate().back();
-        getBrowser().waitInSeconds(5);
         searchPage.clickFilterOption(site2, filterId);
-        getBrowser().waitInSeconds(5);
-
         assertTrue(searchPage.isSearchResultsAsExpected(Arrays.asList(documentName + "3", documentName + "4")),
             "Only site2 files are displayed on the search results.");
 
         LOG.info("STEP 9: Click on " + site3 + " option.");
         getBrowser().navigate().back();
-        getBrowser().waitInSeconds(5);
-
         searchPage.clickFilterOption(site3, filterId);
-        getBrowser().waitInSeconds(5);
-
         assertTrue(searchPage.isSearchResultsAsExpected(Arrays.asList(documentName + "5", documentName + "6")),
             "Only site 3 files are displayed on the search results.");
     }

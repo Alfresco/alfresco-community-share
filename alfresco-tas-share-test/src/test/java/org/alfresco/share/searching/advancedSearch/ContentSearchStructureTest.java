@@ -1,8 +1,16 @@
 package org.alfresco.share.searching.advancedSearch;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.alfresco.common.DataUtil;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.searching.SearchPage;
@@ -16,15 +24,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class ContentSearchStructureTest extends ContextAwareWebTest
 {

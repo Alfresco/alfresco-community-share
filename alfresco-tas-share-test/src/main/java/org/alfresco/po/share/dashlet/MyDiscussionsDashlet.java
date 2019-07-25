@@ -1,5 +1,9 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
@@ -8,20 +12,14 @@ import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 @PageObject
 public class MyDiscussionsDashlet extends Dashlet<MyDiscussionsDashlet>
 {
+    @FindBy (css = "div.dashlet.forumsummary td div[class$='yui-dt-liner']")
+    protected static HtmlElement defaultDashletMessage;
     @RenderWebElement
     @FindBy (css = "div.dashlet.forumsummary")
     protected HtmlElement dashletContainer;
-
-    @FindBy (css = "div.dashlet.forumsummary td div[class$='yui-dt-liner']")
-    protected static HtmlElement defaultDashletMessage;
-
     @FindBy (css = "button[id$='default-topics-button']")
     private Button topicsButton;
 

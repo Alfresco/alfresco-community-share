@@ -1,5 +1,8 @@
 package org.alfresco.po.share.site.members;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -13,66 +16,43 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @PageObject
 public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
 {
-    @Autowired
-    SiteGroupsPage siteGroupsPage;
-
     @RenderWebElement
     @FindBy (css = "div[class='finder-wrapper']")
     protected WebElement groupFinderWrapper;
-
     @RenderWebElement
     @FindBy (css = "div[class='groupslist']")
     protected WebElement groupsListBox;
-
     @FindBy (css = "div[class='title'] label")
     protected WebElement defaultSearchText;
-
     @FindBy (css = "input[id*='group-finder']")
     protected WebElement groupSearchBox;
-
     @FindBy (css = "button[id*='group-search-button']")
     protected WebElement groupSearchButton;
-
     @FindBy (css = "div[class*='grouplistWrapper'] div[class*='title']")
     protected WebElement groupsListTitle;
-
     @FindBy (css = "button[id*='selectallroles']")
     protected WebElement setRolesButton;
-
     @FindBy (css = "button[id*='default-add-button']")
     protected WebElement addGroupsButton;
-
     @RenderWebElement
     @FindBy (css = "span[id*='backTo'] a")
     protected WebElement backToSiteGroups;
-
     @FindAll (@FindBy (css = "div[id*='default-results'] tbody[class='yui-dt-data'] tr"))
     protected List<WebElement> groupResultsList;
-
     @FindAll (@FindBy (css = "div[id*='inviteelist'] tbody[class='yui-dt-data'] tr"))
     protected List<WebElement> groupInvitedList;
-
     @FindAll (@FindBy (css = "li[class*='yuimenuitem']"))
     protected List<WebElement> allRolesFilterOptions;
-
     @FindBy (css = "div[id*='invitationBar'] button")
     protected WebElement setAllRolesToButton;
-
     protected By roleOptions = By.cssSelector("div[id*='inviteelist'] div.yui-menu-button-menu.visible a.yuimenuitemlabel");
-
+    @Autowired
+    SiteGroupsPage siteGroupsPage;
     @FindBy (css = "div[id*='default-results'] td[class='yui-dt-empty']")
     private WebElement searchResultsText;
-
-    public enum GroupRoles
-    {
-        Manager, Collaborator, Contributor, Consumer
-    }
 
     @Override
     public String getRelativePath()
@@ -308,5 +288,10 @@ public class AddSiteGroupsPage extends SiteCommon<AddSiteGroupsPage>
         browser.waitUntilElementClickable(addGroupsButton, 30).click();
         browser.waitInSeconds(1);
         return (AddSiteGroupsPage) this.renderedPage();
+    }
+
+    public enum GroupRoles
+    {
+        Manager, Collaborator, Contributor, Consumer
     }
 }

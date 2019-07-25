@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -9,7 +10,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -91,5 +91,22 @@ public class ApplyingAspectsTests extends ContextAwareWebTest
         documentDetailsPage.clickManageAspects();
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Audio"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Audio"), "Aspect is present on 'Available to Add' list");
+    }
+
+    @Test (groups = { TestGroup.SHARE, TestGroup.CONTENT })
+    public void addAspectCancelCloseTest()
+    {
+        documentLibraryPage.navigate(siteName);
+        documentLibraryPage.clickOnFile(fileName);
+        documentDetailsPage.clickManageAspects();
+        aspectsForm.addAspect("Audio");
+        aspectsForm.clickCloseButton();
+        Assert.assertFalse(aspectsForm.isAspectsFormTitleDisplayed(), "Aspects form is still displayed");
+        Assert.assertFalse(documentDetailsPage.isAspectDisplayed("Versionable"), "Versionable aspect is displayed");
+        documentDetailsPage.clickManageAspects();
+        aspectsForm.addAspect("Audio");
+        aspectsForm.clickCancelButton();
+        Assert.assertFalse(aspectsForm.isAspectsFormTitleDisplayed(), "Aspects form is still displayed");
+        Assert.assertFalse(documentDetailsPage.isAspectDisplayed("Versionable"), "Versionable aspect is displayed");
     }
 }

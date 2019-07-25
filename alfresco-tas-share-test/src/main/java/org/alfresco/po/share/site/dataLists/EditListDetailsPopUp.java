@@ -10,25 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class EditListDetailsPopUp extends ShareDialog
 {
-    @Autowired
-    DataListsPage dataListsPage;
-
     @RenderWebElement
     @FindBy (css = "input[id$='editList_prop_cm_title']")
     protected WebElement titleField;
-
     @RenderWebElement
     @FindBy (css = "textarea[id$='editList_prop_cm_description']")
     protected WebElement descriptionField;
-
     @FindBy (css = "button[id$='editList-form-submit-button']")
     protected WebElement saveButton;
-
     @FindBy (css = "button[id$='editList-form-cancel-button']")
     protected WebElement cancelButton;
-
     @FindBy (css = "div[id$='editList-dialog'] a")
     protected WebElement closeButton;
+    @Autowired
+    DataListsPage dataListsPage;
 
     public void modifyTitle(String newTitle)
     {

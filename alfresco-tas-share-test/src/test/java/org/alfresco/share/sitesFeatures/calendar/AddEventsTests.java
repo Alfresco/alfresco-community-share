@@ -1,9 +1,14 @@
 package org.alfresco.share.sitesFeatures.calendar;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.dashlet.MyCalendarDashlet;
 import org.alfresco.po.share.dashlet.SiteCalendarDashlet;
@@ -17,13 +22,10 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 7/15/2016.
@@ -50,12 +52,11 @@ public class AddEventsTests extends ContextAwareWebTest
 
     @Autowired
     Notification notification;
-
+    DateTime today;
     private String user1 = String.format("user1-%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("SiteName-%s", RandomData.getRandomAlphanumeric());
     private String siteName2 = String.format("SiteName-C5452%s", RandomData.getRandomAlphanumeric());
     private String siteName3 = String.format("SiteName-C5465%s", RandomData.getRandomAlphanumeric());
-    DateTime today;
     private String eventTitle = "testEvent";
     private String defaultStartTime = "12:00 PM";
     private String defaultEndTime = "1:00 PM";

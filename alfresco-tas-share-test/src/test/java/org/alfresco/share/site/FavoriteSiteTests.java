@@ -1,5 +1,6 @@
 package org.alfresco.share.site;
 
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
@@ -15,7 +16,6 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

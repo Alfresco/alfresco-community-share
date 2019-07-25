@@ -1,5 +1,9 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -14,19 +18,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
-
 public class ActionsDeleteTests extends ContextAwareWebTest
 {
-    @Autowired
-    private RepositoryPage repositoryPage;
-
-    @Autowired
-    private DeleteDialog deleteDialog;
-
-    @Autowired
-    DeleteDocumentOrFolderDialog deleteDocumentOrFolderDialog;
-
     private final String user = String.format("C8308TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileName = "0-C8308_file" + RandomData.getRandomAlphanumeric();
     private final String fileContent = "C8308 content";
@@ -35,6 +28,12 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     private final String fileNameC13749 = "0-Repo_file" + RandomData.getRandomAlphanumeric();
     private final String folderNameC13751 = "0-Repo_Folder" + RandomData.getRandomAlphanumeric();
     private final String path1 = "/";
+    @Autowired
+    DeleteDocumentOrFolderDialog deleteDocumentOrFolderDialog;
+    @Autowired
+    private RepositoryPage repositoryPage;
+    @Autowired
+    private DeleteDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -68,6 +67,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(fileName), fileName + " is not available in Repository");
 
         LOG.info("Step 1: Hover over the file you want to delete and press More, select Delete Document");
+        repositoryPage.mouseOverContentItem(fileName);
         repositoryPage.clickDocumentLibraryItemAction(fileName, "Delete Document", deleteDialog);
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), fileName), "Delete dialog message= ");
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete' button is not displayed.");

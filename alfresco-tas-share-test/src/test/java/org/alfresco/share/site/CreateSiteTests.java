@@ -1,25 +1,26 @@
 package org.alfresco.share.site;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.CreateSiteDialog;
 import org.alfresco.po.share.site.DeleteSiteDialog;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
-import org.alfresco.po.share.user.admin.adminTools.ModuleBrowserPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 public class CreateSiteTests extends ContextAwareWebTest
 {
@@ -37,13 +38,10 @@ public class CreateSiteTests extends ContextAwareWebTest
 
     @Autowired
     SitesManagerPage sitesManagerPage;
-
-    @Autowired
-    private DeleteSiteDialog deleteSiteDialog;
-
-
     String user = String.format("user%s", RandomData.getRandomAlphanumeric());
     String testSiteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    private DeleteSiteDialog deleteSiteDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -85,7 +83,7 @@ public class CreateSiteTests extends ContextAwareWebTest
 
         assertEquals(createSiteDialog.getVisibilityLabel(), language.translate("siteDetails.visibility"), "Visibility label-");
 
-        assertEquals(createSiteDialog.isPublicVisibilityButtonDisplayed(), "PUBLIC", "Public option: radio button is displayed.");
+        assertEquals(createSiteDialog.getPublicVisibilityButtonState(), "PUBLIC", "Public option: radio button is displayed.");
 
         assertEquals(createSiteDialog.isModeratedVisibilityButtonDisplayed(), "MODERATED", "Moderated option: radio button is displayed.");
 
@@ -159,7 +157,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertEquals(createSiteDialog.getNameInputText(), siteName, "The new site title is filled in.");
 
         LOG.info("STEP3: Click \"Create\" button");
-        getBrowser().waitInSeconds(5);
         createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
@@ -198,7 +195,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isModeratedVisibilityRadioButtonChecked(), "Moderated visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        getBrowser().waitInSeconds(5);
         createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
@@ -276,7 +272,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isPublicVisibilityRadioButtonChecked(), "Public visibility selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        getBrowser().waitInSeconds(5);
         createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
@@ -314,7 +309,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isModeratedVisibilityRadioButtonChecked(), "Moderated visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        getBrowser().waitInSeconds(5);
         createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
@@ -352,7 +346,6 @@ public class CreateSiteTests extends ContextAwareWebTest
         assertTrue(createSiteDialog.isPrivateVisibilityRadioButtonChecked(), "Private visibility is not selected.");
 
         LOG.info("STEP4: Click \"Save\" button");
-        getBrowser().waitInSeconds(5);
         createSiteDialog.clickCreateButton(siteDashboardPage);
         siteDashboardPage.setCurrentSiteName(siteName);
         String expectedRelativePath = "share/page/site/" + siteName + "/dashboard";
@@ -430,11 +423,11 @@ public class CreateSiteTests extends ContextAwareWebTest
         createSiteDialog.typeInDescription(description);
 
         LOG.info("STEP3: Delete the pre-populated value from the \"URL Name\" field");
-        createSiteDialog.clearUrlNameInput();
-        assertEquals(createSiteDialog.isUrlNameInputEmpty(), true, "URL Name field is empty.");
+        createSiteDialog.clearSiteIdInput();
+        assertEquals(createSiteDialog.isSiteIdInputEmpty(), true, "URL Name field is empty.");
 
         LOG.info("STEP4: Fill in \"URL Name\" field with an existing site name and click \"Save\" button");
-        createSiteDialog.typeUrlName(testSiteName);
+        createSiteDialog.typeSiteID(testSiteName);
         createSiteDialog.clickCreateButtonWithoutRenderer();
         assertEquals(createSiteDialog.getUrlErrorMessage(), language.translate("siteDetails.urlError"), "Create site: Existent url error message displayed-");
 

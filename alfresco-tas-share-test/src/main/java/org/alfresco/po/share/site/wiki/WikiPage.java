@@ -1,5 +1,7 @@
 package org.alfresco.po.share.site.wiki;
 
+import java.util.List;
+
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -7,8 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 @PageObject
 public class WikiPage extends SiteCommon<WikiPage>

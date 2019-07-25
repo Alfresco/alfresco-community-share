@@ -1,6 +1,10 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
@@ -23,9 +27,6 @@ import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.element.Link;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * My activities dashlet page object, holds all elements of the HTML page relating to
  * share's my activities dashlet on user dashboard page.
@@ -34,70 +35,61 @@ import java.util.List;
 @Primary
 public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
 {
-    @Autowired
-    WikiMainPage wikiPage;
-
-    @Autowired
-    LinkPage linkPage;
-
-    @Autowired
-    DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    TopicViewPage discussionsPage;
-
-    @Autowired
-    CalendarPage calendarPage;
-
-    @Autowired
-    BlogPostListPage blogPostListPage;
-
-    @Autowired
-    DataListsPage dataListsPage;
-
+    private static By userActivitesList = By.cssSelector("ul.first-of-type>li>a");
     @RenderWebElement
     @FindBy (css = "div.dashlet.activities")
     protected HtmlElement dashletContainer;
-
     @FindBy (css = "div.dashlet.activities div.title")
     protected WebElement activitiesDashletTitle;
-
+    @Autowired
+    WikiMainPage wikiPage;
+    @Autowired
+    LinkPage linkPage;
+    @Autowired
+    DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    TopicViewPage discussionsPage;
+    @Autowired
+    CalendarPage calendarPage;
+    @Autowired
+    BlogPostListPage blogPostListPage;
+    @Autowired
+    DataListsPage dataListsPage;
+    @Autowired
+    SiteDashboardPage siteDashboardPage;
     @FindAll (@FindBy (xpath = "//div[@class='activity']//div[@class='hidden']/preceding-sibling::div[@class='more']/a"))
     private List<Link> linksMore;
-
     @FindAll (@FindBy (css = "div[id$='default-activityList'] > div.activity div:last-child[class$='content']"))
     private List<WebElement> activityLinks;
-
     @FindBy (css = "div[id$='default-activityList']")
     private WebElement activitiesEmptyList;
-
     @FindBy (css = "button[id$='default-user-button']")
     private Button myActivitiesButton;
-
     @FindAll (@FindBy (css = "div.activities div.visible ul.first-of-type li a"))
     private List<WebElement> dropDownOptionsList;
-
     @FindBy (css = "button[id$='default-range-button']")
     private Button daysRangeButton;
-
+    @FindBy (css = "div[class$='yui-menu-button-menu visible'] a")
+    private List<WebElement> filterOptions;
     @FindAll (@FindBy (css = "div[id$='default-activityList']>div.activity"))
     private List<WebElement> activitiesList;
+    @FindBy (css = "button[id$='_default-activities-button']")
+    private WebElement defaultActivitiesButton;
+    @FindBy (css = "button[id$='_default-user-button']")
+    private WebElement userFilterButton;
     private By rssFeedButton = By.cssSelector("div[class='titleBarActionIcon rss']");
-
-    private static By userActivitesList = By.cssSelector("ul.first-of-type>li>a");
     private By userLinkLocator = By.cssSelector("span.detail>a[class^='theme-color']");
     private By siteLinkLocator = By.cssSelector("span.detail>a[class^='site-link']");
     private By documentLinkLocator = By.cssSelector("span.detail>a[class*='item-link']");
     private By detailLocator = By.cssSelector("span.detail");
 
     private By activityListCheckedForDisplay = By.cssSelector("div[id$='default-activityList']>div.activity");
-
-    public enum LinkType
-    {
-        User, Document, Site
-    }
-
     private List<ActivityLink> activities;
+
+    private WebElement documentInActivities(String documentName)
+    {
+        return browser.findElement(By.xpath("//div[@class='content']//a[text()='" + documentName + "']"));
+    }
 
     @Override
     public String getDashletTitle()
@@ -180,6 +172,7 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
      */
     public HtmlPage clickOnItemNameFromActivityList(final String name, HtmlPage pageToBeRendered)
     {
+        LOG.info("doc name: " + name);
         browser.scrollIntoView(selectActivityDocument(name));
         browser.waitUntilElementClickable(selectActivityDocument(name)).click();
         return pageToBeRendered.renderedPage();
@@ -309,6 +302,17 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
         }
     }
 
+    /**
+     * Method returns if the specified option is selected in My Activities button
+     *
+     * @param myActivitiesOption String
+     * @return boolean
+     */
+    public boolean isMyActivitiesOptionSelected(String myActivitiesOption)
+    {
+        return browser.isOptionSelectedForFilter(myActivitiesOption, myActivitiesButton.getWrappedElement());
+    }
+
     // /**
     // * Method for navigate to RSS Feed Page from site activity dashlet.
     // *
@@ -339,17 +343,6 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
     // }
     // throw new PageOperationException("Not able to select RSS Feed option");
     // }
-
-    /**
-     * Method returns if the specified option is selected in My Activities button
-     *
-     * @param myActivitiesOption String
-     * @return boolean
-     */
-    public boolean isMyActivitiesOptionSelected(String myActivitiesOption)
-    {
-        return browser.isOptionSelectedForFilter(myActivitiesOption, myActivitiesButton.getWrappedElement());
-    }
 
     /**
      * Method returns if the specified option is selected in history button
@@ -412,6 +405,78 @@ public class MyActivitiesDashlet extends Dashlet<MyActivitiesDashlet>
     public By getActivitiElement()
     {
         return activityListCheckedForDisplay;
+    }
+
+    public HtmlPage clickOnDocumentLinkInActivities(String docName, HtmlPage pageToRender)
+    {
+        browser.waitUntilElementClickable(documentInActivities(docName)).click();
+        return pageToRender.renderedPage();
+    }
+
+    public void enableRSSFeed(String partialUnchangedUrl, String siteName)
+    {
+        String ipAddress = "http://" + properties.getServer();
+        String url = String.format("s%s%s%", ipAddress, partialUnchangedUrl, siteName) + "&dateFilter=7&userFilter=all&activityFilter=";
+        LOG.info("url " + url);
+        browser.navigate().to(url);
+    }
+
+    public List<String> getItemTypeFilterOptionAvailable()
+    {
+        defaultActivitiesButton.click();
+        getBrowser().waitUntilElementsVisible(filterOptions);
+        List<String> actualOptions = new ArrayList<>();
+        for (WebElement option : filterOptions)
+        {
+            actualOptions.add(option.getText());
+        }
+        return actualOptions;
+    }
+
+    public List<String> getRangeFilterOptions()
+    {
+        daysRangeButton.click();
+        getBrowser().waitUntilElementsVisible(filterOptions);
+        List<String> actualOptions = new ArrayList<>();
+        for (WebElement option : filterOptions)
+        {
+            actualOptions.add(option.getText());
+        }
+        return actualOptions;
+    }
+
+    public SiteDashboardPage selectUserFilterOption(String filterOption)
+    {
+        userFilterButton.click();
+        getBrowser().waitUntilElementsVisible(filterOptions);
+        browser.findFirstElementWithExactValue(filterOptions, filterOption).click();
+        return (SiteDashboardPage) siteDashboardPage.renderedPage();
+    }
+
+    public SiteDashboardPage selectItemTypeFilterOption(String filterOption)
+    {
+        defaultActivitiesButton.click();
+        getBrowser().waitUntilElementsVisible(filterOptions);
+        browser.findFirstElementWithExactValue(filterOptions, filterOption).click();
+        return (SiteDashboardPage) siteDashboardPage.renderedPage();
+    }
+
+    public SiteDashboardPage selectRangeFilterOption(String filterOption)
+    {
+        daysRangeButton.click();
+        getBrowser().waitUntilElementsVisible(filterOptions);
+        browser.findFirstElementWithExactValue(filterOptions, filterOption).click();
+        return (SiteDashboardPage) siteDashboardPage.renderedPage();
+    }
+
+    public String getActivitiesDashletResultsText()
+    {
+        return getBrowser().findElement(By.cssSelector("div[id$='_default-activityList'] div.empty")).getText();
+    }
+
+    public enum LinkType
+    {
+        User, Document, Site
     }
 }
 

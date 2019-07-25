@@ -1,14 +1,14 @@
 package org.alfresco.po.adminconsole.directories.DirectoryManagement;
 
-import org.alfresco.po.adminconsole.AdminConsoleDialog;
-import org.alfresco.utility.web.annotation.PageObject;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import static org.alfresco.utility.report.log.Step.STEP;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.alfresco.utility.report.log.Step.STEP;
+import org.alfresco.po.adminconsole.AdminConsoleDialog;
+import org.alfresco.utility.web.annotation.PageObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Created by Claudia Agache on 8/23/2017.
@@ -16,17 +16,16 @@ import static org.alfresco.utility.report.log.Step.STEP;
 @PageObject
 public class SyncUserDirectoryTestDialog extends AdminConsoleDialog
 {
+    List<String> syncGroups = new ArrayList<>();
+    List<String> syncUsers = new ArrayList<>();
+    int noGroups;
+    int noUsers;
     private By runTestButton = By.className("inline");
     private By result = By.id("test-auth-passed");
     private By resultSyncActive = By.id("test-auth-active");
     private By groupsList = By.cssSelector("#groupList td");
     private By usersList = By.cssSelector("#userList td");
     private By testDisgnostics = By.cssSelector(".results>tbody>tr>td:nth-of-type(1)");
-
-    List<String> syncGroups = new ArrayList<>();
-    List<String> syncUsers = new ArrayList<>();
-    int noGroups;
-    int noUsers;
 
     public List<String> runTest()
     {

@@ -1,6 +1,9 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
-import org.alfresco.dataprep.CMISUtil;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -8,29 +11,25 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
-
 /**
  * @author Andrei.Nechita
  */
 public class ActionsUploadTests extends ContextAwareWebTest
 {
+    private final String random = RandomData.getRandomAlphanumeric();
+    private final String user = "user1-" + random;
     @Autowired
     private RepositoryPage repositoryPage;
     @Autowired
     private UploadContent uploadContent;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
-
-    private final String random = RandomData.getRandomAlphanumeric();
-    private final String user = "user1-" + random;
     private String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8172-.txt";
     private String testFilePath = testDataFolder + testFile;
     private String testFile2 = RandomData.getRandomAlphanumeric() + "-OldFile-C8175.txt";
@@ -57,6 +56,8 @@ public class ActionsUploadTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void uploadDocument()
     {
+        String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8172-.txt";
+        String testFilePath = testDataFolder + testFile;
         LOG.info("Precondition: Navigate to Repository page.");
         repositoryPage.navigate();
         LOG.info("STEP1: Check if the Upload button is greyed on the Repository page .");
@@ -68,7 +69,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
         assertTrue(repositoryPage.isContentNameDisplayed(testFile), String.format("File [%s] is displayed", testFile));
     }
 
-    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
+    //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C8175")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void updateDocumentNewVersion()

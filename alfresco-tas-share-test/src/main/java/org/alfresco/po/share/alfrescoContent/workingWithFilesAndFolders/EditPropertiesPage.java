@@ -1,5 +1,8 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
@@ -14,44 +17,32 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Laura.Capsa
  */
 @PageObject
 public class EditPropertiesPage extends SiteCommon<EditPropertiesPage>
 {
+    @FindBy (css = "button[id*='yui-gen21-button']")
+    protected WebElement selectButtonForCustomSmartFolder;
+    @FindBy (css = "[id*='default_prop_dp_offlineExpiresAfter-help-icon']")
+    protected WebElement helpIconForRestrictableAspect;
+    @FindBy (css = "[id='template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_dp_offlineExpiresAfter-help']")
+    protected WebElement helpMessageForRestrictableAspect;
+    @FindBy (css = "[id*='default_prop_dp_offlineExpiresAfter-entry']")
+    protected WebElement offlineExpiresafterInput;
     @Autowired
     DocumentDetailsPage documentDetailsPage;
-
     @Autowired
     DocumentLibraryPage documentLibraryPage;
-
     @Autowired
     SelectDialog selectDialog;
-
     @RenderWebElement
     @FindAll (@FindBy (css = "button[id*='form']"))
     private List<WebElement> buttonsList;
-
     @RenderWebElement
     @FindAll (@FindBy (css = ".form-field>label"))
     private List<WebElement> propertiesElements;
-
-    @FindBy (css = "button[id*='yui-gen21-button']")
-    protected WebElement selectButtonForCustomSmartFolder;
-
-    @FindBy (css = "[id*='default_prop_dp_offlineExpiresAfter-help-icon']")
-    protected WebElement helpIconForRestrictableAspect;
-
-    @FindBy (css = "[id='template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_dp_offlineExpiresAfter-help']")
-    protected WebElement helpMessageForRestrictableAspect;
-
-    @FindBy (css = "[id*='default_prop_dp_offlineExpiresAfter-entry']")
-    protected WebElement offlineExpiresafterInput;
-
     private By selectorSF = By.cssSelector("select[id*='default_prop_smf_system-template-location']");
 
     @Override

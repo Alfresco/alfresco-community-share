@@ -1,32 +1,45 @@
 package org.alfresco.po.share.site.dataLists;
 
-import org.alfresco.utility.web.annotation.PageObject;
-import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import static org.alfresco.common.DataUtil.isEnumContainedByList;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.alfresco.utility.web.annotation.PageObject;
+import org.apache.commons.collections.CollectionUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
+
 @PageObject
 public class ContactListSelectedContent extends ListItemSelectedContent
 {
-    @RenderWebElement
-    @FindBy (css = "div[id$='default-grid'] table thead tr")
-    private List<WebElement> listItemsTableHead;
-
+    protected static By balloon = By.cssSelector("div[class='bd'] span[class='message']");
+    @FindAll (@FindBy (css = "div[id$='default-grid'] th span"))
+    protected List<WebElement> tableColumnHeader;
+    @Autowired
+    DataListsPage dataListsPage;
+    ContactListItemsTable tableRow;
+    @FindBy (css = "div[class='grid yui-dt'] table")
+    private WebElement table;
     private By noListItems = By.cssSelector("div[id$='default-grid'] table tbody tr");
     private By listItems = By.cssSelector("div[id$='default-grid'] table tbody[class='yui-dt-data'] tr");
     private String selectColumn = "div[id$='default-grid'] table thead tr div[id*='%s'] span a";
     private String selectedColumnItems = "table tbody td[class*='%s']";
-    protected static By balloon = By.cssSelector("div[class='bd'] span[class='message']");
-    ContactListItemsTable tableRow;
 
-    public enum ListColumns
+    /**
+     * This method is checking if all the columns that should be in 'Contact List' table are actually displayed.
+     * Checking if all the elements from the enum list exists in getTextOfTableColumnHeader() list method.
+     *
+     * @return - true if all the elements from the enum are displayed in 'New Item' table.
+     * - false if there is at least one element missing.
+     */
+    public boolean isTableHeaderComplete()
     {
-        Email, Company, Notes, Actions
+        return isEnumContainedByList(ContactListColumns.class, dataListsPage.getTextOfTableColumnHeader());
     }
 
     private void clickOnSpecificColumn(String column)
@@ -78,41 +91,23 @@ public class ContactListSelectedContent extends ListItemSelectedContent
         List<WebElement> found = new ArrayList<>();
         for (WebElement row : rows)
         {
-            int i = 0;
-            tableRow = new ContactListItemsTable(row, browser);
-            if (tableRow.getFirstNameColumn().getText().equals(listDetails.get(i)))
-            {
-                i++;
-                if (tableRow.getLastNameColumn().getText().equals(listDetails.get(i)))
-                {
-                    i++;
-                    if (tableRow.getEmailColumn().getText().equals(listDetails.get(i)))
-                    {
-                        i++;
-                        if (tableRow.getCompanyColumn().getText().equals(listDetails.get(i)))
-                        {
-                            i++;
-                            if (tableRow.getJobTitleColumn().getText().equals(listDetails.get(i)))
-                            {
-                                i++;
-                                if (tableRow.getOfficePhoneColumn().getText().equals(listDetails.get(i)))
-                                {
-                                    i++;
-                                    if (tableRow.getMobilePhoneColumn().getText().equals(listDetails.get(i)))
-                                    {
-                                        i++;
-                                        if (tableRow.getNotesColumn().getText().equals(listDetails.get(i)))
-                                        {
-                                            found.add(row);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            List<String> rowValues = new ArrayList<>();
 
+            tableRow = new ContactListItemsTable(row, browser);
+
+            rowValues.add(tableRow.getFirstNameColumn().getText());
+            rowValues.add(tableRow.getLastNameColumn().getText());
+            rowValues.add(tableRow.getEmailColumn().getText());
+            rowValues.add(tableRow.getCompanyColumn().getText());
+            rowValues.add(tableRow.getJobTitleColumn().getText());
+            rowValues.add(tableRow.getOfficePhoneColumn().getText());
+            rowValues.add(tableRow.getMobilePhoneColumn().getText());
+            rowValues.add(tableRow.getNotesColumn().getText());
+
+            if (CollectionUtils.isEqualCollection(rowValues, listDetails))
+            {
+                found.add(row);
+            }
         }
         return found;
     }
@@ -166,6 +161,32 @@ public class ContactListSelectedContent extends ListItemSelectedContent
         results.add(Integer.toString(uncheckedItems));
 
         return results;
+    }
+
+    public enum ContactListColumns
+    {
+        FirstName("First Name"),
+        LastName("Last Name"),
+        Email("Email"),
+        Company("Company"),
+        JobTitle("Job Title"),
+        PhoneOffice("Phone (Office)"),
+        PhoneMobile("Phone (Mobile)"),
+        Notes("Notes"),
+        Actions("Actions");
+
+        public final String name;
+
+        ContactListColumns(String name)
+        {
+            this.name = name;
+        }
+
+        @Override
+        public String toString()
+        {
+            return this.name;
+        }
     }
 
 }

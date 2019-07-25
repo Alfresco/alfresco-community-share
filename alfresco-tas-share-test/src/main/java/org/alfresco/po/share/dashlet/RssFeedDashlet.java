@@ -1,5 +1,7 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -7,8 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 @PageObject
 public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
@@ -56,8 +56,7 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
      */
     public EnterFeedURLPopUp clickOnConfigureRssFeedDashlet()
     {
-        getBrowser().waitInSeconds(5);
-        browser.mouseOver(browser.findElement(configureDashlet));
+        browser.mouseOver(browser.findElement(By.cssSelector("div.dashlet.rssfeed div[id$='_default-title']")));
         browser.findElement(configureDashlet).click();
         return (EnterFeedURLPopUp) enterFeedURLPopUp.renderedPage();
     }
@@ -70,7 +69,6 @@ public class RssFeedDashlet extends Dashlet<RssFeedDashlet>
     public void clickOnRssLink(int position)
     {
         feedsList.get(position).click();
-        getBrowser().waitInSeconds(5);
         browser.switchWindow();
     }
 }

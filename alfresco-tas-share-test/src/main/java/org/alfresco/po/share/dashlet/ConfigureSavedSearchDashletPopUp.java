@@ -1,9 +1,13 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.Select;
 import ru.yandex.qatools.htmlelements.element.TextInput;
@@ -21,6 +25,9 @@ public class ConfigureSavedSearchDashletPopUp extends DashletPopUp
     @FindBy (css = "select[name='limit']")
     protected Select searchLimit;
 
+    @FindBy (css = "select[id$='_default-configDialog-limit']")
+    private Select numberOfResultsToDisplay;
+
     public void setSearchTermField(String searchTerm)
     {
         searchTermField.sendKeys(searchTerm);
@@ -28,6 +35,7 @@ public class ConfigureSavedSearchDashletPopUp extends DashletPopUp
 
     public void setTitleField(String title)
     {
+        titleField.clear();
         titleField.sendKeys(title);
     }
 
@@ -55,5 +63,16 @@ public class ConfigureSavedSearchDashletPopUp extends DashletPopUp
     public boolean isSearchLimitDisplayed()
     {
         return searchLimit.isDisplayed();
+    }
+
+    public boolean isLimitValueDisplayed(String expectedValue)
+    {
+        List<String> availableOptions = new ArrayList<>();
+        List<WebElement> actualOptions = numberOfResultsToDisplay.getOptions();
+        for (WebElement option : actualOptions)
+        {
+            availableOptions.add(option.getText());
+        }
+        return availableOptions.contains(expectedValue);
     }
 }

@@ -1,5 +1,9 @@
 package org.alfresco.po.share.site.calendar;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -7,10 +11,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Claudia Agache on 7/19/2016.

@@ -1,6 +1,10 @@
 package org.alfresco.share.sitesFeatures.Links;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.link.EditLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
@@ -10,14 +14,10 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author iulia.cojocea
@@ -32,10 +32,9 @@ public class EditingLinkTests extends ContextAwareWebTest
 
     @Autowired
     EditLinkPage editLinkPage;
-
+    DateTime currentDate;
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName = "";
-    DateTime currentDate;
     private String linkTitle = String.format("Google%s", RandomData.getRandomAlphanumeric());
     private String linkURL = "https://www.google.ro";
     private String linkDescription = String.format("Link description%s", RandomData.getRandomAlphanumeric());
@@ -275,7 +274,6 @@ public class EditingLinkTests extends ContextAwareWebTest
          */
         Assert.assertTrue(getBrowser().getCurrentUrl().contains("bing"), "After clicking on the link, the title is: " + getBrowser().getCurrentUrl());
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -316,6 +314,5 @@ public class EditingLinkTests extends ContextAwareWebTest
         Assert.assertTrue(linkPage.getLinkTags(linkTitle).contains("tag1"), "Tag1 is not displayed in the list of tags!");
         Assert.assertTrue(linkPage.getLinkTags(linkTitle).contains("tag2"), "Tag2 is not displayed in the list of tags!");
         siteService.delete(adminUser, adminPassword, siteName);
-
     }
 }

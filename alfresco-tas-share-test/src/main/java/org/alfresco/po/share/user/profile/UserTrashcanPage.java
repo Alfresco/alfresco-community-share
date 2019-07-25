@@ -1,5 +1,8 @@
 package org.alfresco.po.share.user.profile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.EmptyTrashcanDialog;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -12,9 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.TextInput;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author bogdan.bocancea
  */
@@ -23,24 +23,19 @@ public class UserTrashcanPage extends SharePage<UserTrashcanPage>
 {
     @Autowired
     EmptyTrashcanDialog emptyTrashcanDialog;
-
+    int counter = 0;
     @RenderWebElement
     @FindBy (css = "input[id$='default-search-text']")
     private TextInput searchInput;
-
     @RenderWebElement
     @FindBy (css = "button[id$='search-button-button']")
     private Button searchButton;
-
     @FindBy (css = "button[id*='empty']")
     private WebElement emptyButton;
-
     @FindBy (css = ".yui-dt-data tr")
     private List<WebElement> itemRowsList;
-
     @FindAll (@FindBy (css = ".yui-dt-liner > .name"))
     private List<WebElement> itemsNameList;
-
     private By deletionTimestampSelector = By.cssSelector(".yui-dt-liner div:nth-child(2)");
     private By locationBeforeDeletionSelector = By.cssSelector(".yui-dt-liner div:nth-child(3)");
     private By recoverButtonSelector = By.cssSelector(".yui-dt-liner>span[id*='user-trashcan']>span:nth-child(1) button");
@@ -153,8 +148,6 @@ public class UserTrashcanPage extends SharePage<UserTrashcanPage>
         emptyButton.click();
         return (EmptyTrashcanDialog) emptyTrashcanDialog.renderedPage();
     }
-
-    int counter = 0;
 
     public String getNoItemsMessage()
     {

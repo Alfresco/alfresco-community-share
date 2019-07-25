@@ -11,7 +11,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -46,7 +45,6 @@ public class MyProfileTests extends ContextAwareWebTest
         editUserProfilePage.setAboutInformation(userName, userName, jobTitle, "", "");
         editUserProfilePage.setContactInformation(telephone, "", userName + domain, skype, im, "");
         editUserProfilePage.uploadNewPhoto(testDataFolder + "newavatar.jpg");
-        getBrowser().waitInSeconds(7);
         editUserProfilePage.clickSave();
 
         userDashboardPage.navigate(userName);

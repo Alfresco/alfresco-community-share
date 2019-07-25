@@ -1,6 +1,14 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
@@ -11,43 +19,29 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 
 /**
  * @author Laura.Capsa
  */
 public class EditRulesTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private ManageRulesPage manageRulesPage;
-
-    @Autowired
-    private EditRulesPage editRulesPage;
-
-    @Autowired
-    private RuleDetailsPage ruleDetailsPage;
-
-    @Autowired
-    private SelectDestinationDialog selectDestinationDialog;
-
     private final String userName = "user-" + RandomData.getRandomAlphanumeric();
     private final String siteName = "Site-" + RandomData.getRandomAlphanumeric();
     private final String description = "description-" + RandomData.getRandomAlphanumeric();
     private final String path = "Documents";
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
+    @Autowired
+    private EditRulesPage editRulesPage;
+    @Autowired
+    private RuleDetailsPage ruleDetailsPage;
+    @Autowired
+    private SelectDestinationDialog selectDestinationDialog;
     private String folderName, ruleName;
 
     @BeforeClass (alwaysRun = true)
@@ -103,7 +97,7 @@ public class EditRulesTests extends ContextAwareWebTest
         LOG.info("STEP2: Fill in Create Rule details with new details and submit form");
         List<Integer> indexOfOptionFromDropdown = Arrays.asList(1, 0, 2);
         editRulesPage.typeRuleDetails(updatedRuleName, updatedDescription, indexOfOptionFromDropdown);
-        //       editRulesPage.clickCopySelectButton();
+//        editRulesPage.clickCopySelectButton();
         selectDestinationDialog.clickSite(siteName);
         selectDestinationDialog.clickPathFolder(path);
         selectDestinationDialog.clickOkButton();

@@ -1,5 +1,12 @@
 package org.alfresco.po.share;
 
+import static org.alfresco.utility.report.log.Step.STEP;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.renderer.ElementState;
@@ -11,13 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Image;
 import ru.yandex.qatools.htmlelements.element.TextBlock;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-
-import static org.alfresco.utility.report.log.Step.STEP;
-
 /**
  * handle common cases related to a share page
  *
@@ -25,30 +25,23 @@ import static org.alfresco.utility.report.log.Step.STEP;
  */
 public abstract class SharePage<T> extends HtmlPage
 {
+    public String userName;
+    @Autowired
+    AboutPopUpPage pop;
     @RenderWebElement (state = ElementState.PAGE_LOADED)
     @FindBy (id = "Share")
     private WebElement body;
-
-    @Autowired
-    AboutPopUpPage pop;
-
     @RenderWebElement (state = ElementState.PRESENT)
     @FindBy (id = "HEADER_TITLE")
     private TextBlock pageHeader;
-
     @FindBy (id = "HEADER_LOGO")
     private Image headerLogo;
-
     @FindBy (css = ".copyright>a>img")
     private WebElement alfrescoOneFooterLogo;
-
     @FindBy (id = "HEADER_USER_MENU_POPUP")
     private WebElement userMenu;
-
     @FindBy (id = "HEADER_USER_MENU_LOGOUT")
     private WebElement logoutLink;
-
-    public String userName;
 
     public String getUserName()
     {
@@ -114,7 +107,7 @@ public abstract class SharePage<T> extends HtmlPage
     }
 
     /**
-     * Click Alfresco One footer logo and open {@link AboutPopUpPage.class}
+     * Click Alfresco One footer logo and open {@link AboutPopUpPage .class}
      */
     public AboutPopUpPage openAboutPage()
     {
@@ -145,10 +138,10 @@ public abstract class SharePage<T> extends HtmlPage
     /**
      * Set the relative path for a page that contains the user name in the url
      *
-     * @param username         String user name
-     * @param url              String page url
-     * @param exceptionMessage exception if user is null
+     * @param username String user name
+     * @param pageUrl  String page url
      * @return String page url
+     * exceptionMessage exception if user is null
      */
     public String setRelativePathForUserPage(String pageUrl, String username)
     {
@@ -164,7 +157,7 @@ public abstract class SharePage<T> extends HtmlPage
     /**
      * Get background color of element or color of element (font color)
      *
-     * @param locator    By
+     * @param element    WebElement
      * @param background if needed to find color of element's background - param must be true
      *                   if needed to find color of element itself - param must be false
      * @return hex

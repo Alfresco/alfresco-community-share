@@ -1,21 +1,19 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import java.util.List;
+
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.ImportModelDialogPage;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.alfresco.utility.web.browser.Browser;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 /**
  * Created by Mirela Tifui on 11/28/2016.
@@ -23,35 +21,25 @@ import java.util.List;
 @PageObject
 public class ModelManagerPage extends AdminToolsPage
 {
+    public By actionsButton = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup']");
+    public By status = By.xpath(".//td[contains(@class, 'statusColumn ')]//span[@class='value']");
     @Autowired
     CreateModelDialogPage createModelDialogPage;
     @Autowired
     ImportModelDialogPage importModelDialogPage;
     @Autowired
     ModelDetailsPage modelDetailsPage;
-
     @RenderWebElement
     @FindBy (css = "span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
     private WebElement createModelButton;
-
     @RenderWebElement
     @FindBy (css = "span[class*='importButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
     private WebElement importModelButton;
-
     private By nameColumn = By.cssSelector("th[class*=' nameColumn '] span");
-
     private By namespaceColumn = By.cssSelector("th[class*=' namespaceColumn '] span");
-
     private By statusColumn = By.cssSelector("th[class*=' statusColumn '] span");
-
     private By actionsColumn = By.cssSelector("th[class*=' actionsColumn '] span");
-
     private By modelsList = By.cssSelector("tr[id^='alfresco_lists_views_layouts_Row']");
-
-    public By actionsButton = By.cssSelector("div[id^='alfresco_menus_AlfMenuBarPopup']");
-
-    public By status = By.xpath(".//td[contains(@class, 'statusColumn ')]//span[@class='value']");
-
     private String modelRow = "//tr[contains(@id,'alfresco_lists_views_layouts_Row')]//span[text()='%s']/../../../..";
 
     @FindBy (css = "div.alfresco-lists-views-AlfListView__no-data")
@@ -119,13 +107,15 @@ public class ModelManagerPage extends AdminToolsPage
     public WebElement selectModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        return browser.waitUntilElementVisible(modelRowLocator);
+        browser.waitUntilElementIsDisplayedWithRetry(modelRowLocator);
+        return browser.findElement(modelRowLocator);
     }
 
     public boolean isModelDisplayed(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        return getBrowser().isElementDisplayed(modelRowLocator);
+        browser.waitUntilElementIsDisplayedWithRetry(modelRowLocator, 2);
+        return browser.isElementDisplayed(modelRowLocator);
     }
 
     public void waitForModel(String modelName)
@@ -178,8 +168,8 @@ public class ModelManagerPage extends AdminToolsPage
 
     public void clickActionsButtonForModel(String modelName)
     {
-        //Parameter.checkIsMandotary("Model", selectModelByName(modelName));
-        selectModelByName(modelName).findElement(actionsButton).click();
+        Parameter.checkIsMandotary("Model", selectModelByName(modelName));
+        browser.waitUntilElementClickable(selectModelByName(modelName).findElement(actionsButton), 5).click();
     }
 
     public void mouseOverModelItem(String modelName)

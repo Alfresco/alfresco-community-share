@@ -1,6 +1,15 @@
 package org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -9,31 +18,15 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class AddExistingTagTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private EditPropertiesDialog editPropertiesDialog;
-
-    @Autowired
-    private SelectDialog selectDialog;
-
     private final String userName = String.format("profileUser-%s", RandomData.getRandomAlphanumeric());
     private final String fileContent = "content of the file.";
     private final String random = RandomData.getRandomAlphanumeric();
@@ -42,6 +35,12 @@ public class AddExistingTagTests extends ContextAwareWebTest
     private final String folderName = "folder-C7464-" + random;
     private final String tagName1 = "C7464-1" + random;
     private final String tagName2 = "C7464-2" + random;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private EditPropertiesDialog editPropertiesDialog;
+    @Autowired
+    private SelectDialog selectDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

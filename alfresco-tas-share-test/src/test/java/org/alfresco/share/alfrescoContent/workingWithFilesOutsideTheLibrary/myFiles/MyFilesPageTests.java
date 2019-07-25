@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
@@ -13,24 +15,19 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
 /**
  * @author Razvan.Dorobantu
  */
 public class MyFilesPageTests extends ContextAwareWebTest
 {
-    @Autowired
-    private MyFilesPage myFilesPage;
-
-    @Autowired
-    private DocumentsFilters filters;
-
     private final String user = String.format("C7659User%s", RandomData.getRandomAlphanumeric());
     private final String nonAdminFile = String.format("nonAdminDoc%s", RandomData.getRandomAlphanumeric());
     private final String adminFile = String.format("adminDoc%s", RandomData.getRandomAlphanumeric());
-    private final String tag1 = "testTag" + RandomData.getRandomAlphanumeric().toLowerCase();
-    //private final String tag2 = "testTag" + RandomData.getRandomAlphanumeric().toLowerCase();
+    private final String tag = String.format("testTag%s", RandomData.getRandomAlphanumeric()).toLowerCase();
+    @Autowired
+    private MyFilesPage myFilesPage;
+    @Autowired
+    private DocumentsFilters filters;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -38,13 +35,13 @@ public class MyFilesPageTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
 
         LOG.info("Precondition: Admin uploads a file in My Files and adds a tag to it.");
-        contentService.createDocumentInRepository(adminUser, adminPassword, "/", CMISUtil.DocumentType.TEXT_PLAIN, adminFile, "some content");
-        contentAction.addSingleTag(adminUser, adminPassword, adminFile, tag1);
+        contentService.createDocumentInRepository(adminUser, adminPassword, null, CMISUtil.DocumentType.TEXT_PLAIN, adminFile, "some content");
+        contentAction.addSingleTag(adminUser, adminPassword, adminFile, tag);
 
         LOG.info("Precondition: User uploads a file in My Files and adds a tag to it.");
         String userMyFiles = "User Homes/" + user;
         contentService.createDocumentInRepository(user, password, userMyFiles, CMISUtil.DocumentType.TEXT_PLAIN, nonAdminFile, "some content");
-        contentAction.addSingleTag(user, password, userMyFiles + "/" + nonAdminFile, tag1);
+        contentAction.addSingleTag(user, password, userMyFiles + "/" + nonAdminFile, tag);
     }
 
     @AfterClass (alwaysRun = true)
@@ -91,10 +88,10 @@ public class MyFilesPageTests extends ContextAwareWebTest
         LOG.info("Step2: Verify the list of tags in the tags section.");
         List<String> tags = myFilesPage.getAllTagNames();
         LOG.info("Tags: " + tags.toString());
-        Assert.assertTrue(tags.contains(tag1.toLowerCase()), String.format("Tag: %s is not found", tag1));
+        Assert.assertTrue(tags.contains(tag.toLowerCase()), String.format("Tag: %s is not found", tag));
 
         LOG.info("Step3: Click on the tag and verify the files are displayed.");
-        myFilesPage.clickOnTag(tag1);
+        myFilesPage.clickOnTag(tag);
         getBrowser().waitInSeconds(4);
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(adminFile));
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(nonAdminFile));
@@ -105,10 +102,10 @@ public class MyFilesPageTests extends ContextAwareWebTest
 
         LOG.info("Step5: Verify the list of tags in the tags section.");
         tags = myFilesPage.getAllTagNames();
-        Assert.assertTrue(tags.contains(tag1.toLowerCase()), String.format("Tag: %s is not found", tag1));
+        Assert.assertTrue(tags.contains(tag.toLowerCase()), String.format("Tag: %s is not found", tag));
 
         LOG.info("Step6: Click on the tag and verify the files are displayed.");
-        myFilesPage.clickOnTag(tag1);
+        myFilesPage.clickOnTag(tag);
         getBrowser().waitInSeconds(4);
         Assert.assertFalse(myFilesPage.isContentNameDisplayed(adminFile));
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(nonAdminFile));

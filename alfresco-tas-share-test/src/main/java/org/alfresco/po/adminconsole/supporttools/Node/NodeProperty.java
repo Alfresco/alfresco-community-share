@@ -1,13 +1,9 @@
 package org.alfresco.po.adminconsole.supporttools.Node;
 
-import org.alfresco.po.adminconsole.supporttools.NodeBrowserQueryPage;
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
 import java.util.List;
+
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.WebElement;
 
 /**
  * Created by Mirela Tifui on 7/3/2017.
@@ -16,38 +12,8 @@ import java.util.List;
 public class NodeProperty
 {
 
-    public enum Properties
-    {
-        username("usr:username"),
-        accountExpires("usr:accountExpires"),
-        salt("usr:salt"),
-        enabled("usr:enabled"),
-        nodeUuid("sys:node-uuid"),
-        passwordHash("usr:passwordHash"),
-        storeProtocol("sys:store-protocol"),
-        name("cm:name"),
-        storeIdentifier("sys:store-identifier"),
-        nodeDbid("sys:node-dbid"),
-        locale("sys:locale"),
-        accountLocked("usr:accountLocked"),
-        credentialsExpire("usr:credentialsExpire"),
-        hashIndicator("usr:hashIndicator");
-
-        private String label;
-
-        Properties(String label)
-        {
-            this.label = label;
-        }
-
-        public String getLabel()
-        {
-            return label;
-        }
-    }
-
-    private List<WebElement> rowInfo;
     WebBrowser browser;
+    private List<WebElement> rowInfo;
 
     public NodeProperty(List<WebElement> rowInfo, WebBrowser browser)
     {
@@ -85,5 +51,35 @@ public class NodeProperty
     {
         return String.format("\nvalue=%s,type=%s",
             getValue(), getType());
+    }
+
+    public enum Properties
+    {
+        username("usr:username"),
+        accountExpires("usr:accountExpires"),
+        salt("usr:salt"),
+        enabled("usr:enabled"),
+        nodeUuid("sys:node-uuid"),
+        passwordHash("usr:passwordHash"),
+        storeProtocol("sys:store-protocol"),
+        name("cm:name"),
+        storeIdentifier("sys:store-identifier"),
+        nodeDbid("sys:node-dbid"),
+        locale("sys:locale"),
+        accountLocked("usr:accountLocked"),
+        credentialsExpire("usr:credentialsExpire"),
+        hashIndicator("usr:hashIndicator");
+
+        private String label;
+
+        Properties(String label)
+        {
+            this.label = label;
+        }
+
+        public String getLabel()
+        {
+            return label;
+        }
     }
 }

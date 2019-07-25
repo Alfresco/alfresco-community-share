@@ -9,15 +9,15 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class SubscriptionServicePage extends AdminConsolePage<SubscriptionServicePage>
 {
+    @RenderWebElement
+    @FindBy (className = "intro")
+    WebElement intro;
+
     @Override
     protected String relativePathToURL()
     {
         return "alfresco/s/enterprise/admin/admin-subscriptions";
     }
-
-    @RenderWebElement
-    @FindBy (className = "intro")
-    WebElement intro;
 
     @Override
     public String getInfoPage()

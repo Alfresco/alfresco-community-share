@@ -1,6 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -8,31 +13,26 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Razvan.Dorobantu
  */
 public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private ManagePermissionsPage managePermissionsPage;
-
     private final String docContent = "content of the file.";
     private final String testUser1 = String.format("testUser1%s", RandomData.getRandomAlphanumeric());
     private final String testUser2 = String.format("testUser2%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String testFileName = "testDoc.txt";
     private final String testFolderName = "testFolder";
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private ManagePermissionsPage managePermissionsPage;
 
     @BeforeClass (alwaysRun = true)
     public void createPrecondition()
@@ -92,7 +92,6 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
 
         LOG.info("STEP3: Return to Manage Permissions page for the file and check if permissions were added successfully.");
         documentLibraryPage.clickDocumentLibraryItemAction(testFileName, "Manage Permissions", managePermissionsPage);
-        getBrowser().waitInSeconds(5);
         assertTrue(managePermissionsPage.isPermissionAddedForUser(testUser2), String.format("User [%s] is not added in permissions.", testUser2));
         managePermissionsPage.clickButton("Cancel");
         getBrowser().waitInSeconds(5);

@@ -9,15 +9,15 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class IndexServerShardingPage extends AdminConsolePage<IndexServerShardingPage>
 {
+    @RenderWebElement
+    @FindBy (className = "intro")
+    WebElement intro;
+
     @Override
     protected String relativePathToURL()
     {
         return "alfresco/s/enterprise/admin/admin-flocs";
     }
-
-    @RenderWebElement
-    @FindBy (className = "intro")
-    WebElement intro;
 
     @Override
     public String getInfoPage()

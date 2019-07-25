@@ -1,5 +1,10 @@
 package org.alfresco.share.searching;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.toolbar.ToolbarSitesMenu;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -8,12 +13,9 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa

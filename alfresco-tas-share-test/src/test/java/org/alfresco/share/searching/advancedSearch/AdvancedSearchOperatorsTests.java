@@ -1,6 +1,12 @@
 package org.alfresco.share.searching.advancedSearch;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -11,15 +17,9 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Claudia Agache on 8/29/2016.

@@ -1,16 +1,12 @@
 package org.alfresco.po.adminconsole.directories.DirectoryManagement;
 
-import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.WebElement;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
-import static org.alfresco.utility.report.log.Step.STEP;
+import org.alfresco.utility.web.browser.WebBrowser;
+import org.openqa.selenium.WebElement;
 
 /**
  * Created by Claudia Agache on 8/24/2017.
@@ -18,28 +14,8 @@ import static org.alfresco.utility.report.log.Step.STEP;
  */
 public class SynchronizationStatus
 {
-    public enum BeanNames
-    {
-        groupAnalysis("1 Group Analysis"),
-        groupCreation("3 Group Creation and Association Deletion"),
-        userCreation("6 User Creation and Association"),
-        authorityDeletion("7 Authority Deletion");
-
-        public String getName()
-        {
-            return name;
-        }
-
-        private String name;
-
-        BeanNames(String name)
-        {
-            this.name = name;
-        }
-    }
-
-    private List<WebElement> rowInfo;
     WebBrowser browser;
+    private List<WebElement> rowInfo;
 
     public SynchronizationStatus(List<WebElement> rowInfo, WebBrowser browser)
     {
@@ -106,5 +82,25 @@ public class SynchronizationStatus
     public int getTotalResults()
     {
         return Integer.parseInt(getPercentCompleteAndTotalResults().split(": ")[2]);
+    }
+
+    public enum BeanNames
+    {
+        groupAnalysis("1 Group Analysis"),
+        groupCreation("3 Group Creation and Association Deletion"),
+        userCreation("6 User Creation and Association"),
+        authorityDeletion("7 Authority Deletion");
+
+        private String name;
+
+        BeanNames(String name)
+        {
+            this.name = name;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
     }
 }

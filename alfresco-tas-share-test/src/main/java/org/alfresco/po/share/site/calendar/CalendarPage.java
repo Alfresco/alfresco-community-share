@@ -1,21 +1,22 @@
 package org.alfresco.po.share.site.calendar;
 
+import java.util.List;
+
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.joda.time.DateTime;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.Table;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @PageObject
 public class CalendarPage extends SiteCommon<CalendarPage>
@@ -79,9 +80,9 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     @FindBy (xpath = "//div[contains(@class, 'fc-view') and not(contains(@style, 'display: none'))]//td[contains(@class, 'fc-today')]")
     private WebElement today;
 
-    private By eventsList = By.xpath("//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
+    private By eventsList = By.xpath(
+        "//div[contains(@class, 'fc-view') and not(contains(@style,'display: none'))]//a[contains(@class , 'fc-event')]//*[@class='fc-event-title']");
 
-    //private By eventsList = By.cssSelector("div.fc-event-bg");
     @FindAll (@FindBy (css = ".yui-dt-data .yui-dt-col-name .yui-dt-liner"))
     private List<WebElement> agendaEventsName;
 
@@ -217,7 +218,6 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         return (EventInformationDialog) eventInformationDialog.renderedPage();
     }
 
-
     public EventInformationDialog clickEvent(String eventName)
     {
         return null;
@@ -253,7 +253,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public CalendarPage clickDayButton()
     {
         dayButton.click();
-        browser.waitInSeconds(1);
+        browser.waitInSeconds(2);
         return (CalendarPage) this.renderedPage();
     }
 

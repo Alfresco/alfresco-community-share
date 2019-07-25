@@ -1,6 +1,11 @@
 package org.alfresco.share.smartFolders;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.SmartFolders;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
@@ -15,15 +20,10 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Collections;
-
-import static org.testng.Assert.assertTrue;
 
 public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
 {

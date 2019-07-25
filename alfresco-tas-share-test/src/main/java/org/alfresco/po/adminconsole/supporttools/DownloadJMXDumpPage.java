@@ -9,19 +9,18 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class DownloadJMXDumpPage extends AdminConsolePage<DownloadJMXDumpPage>
 {
+    @RenderWebElement
+    @FindBy (className = "intro")
+    WebElement intro;
+    @RenderWebElement
+    @FindBy (css = "input[value='Export']")
+    WebElement export;
+
     @Override
     protected String relativePathToURL()
     {
         return "alfresco/s/enterprise/admin/admin-supporttools";
     }
-
-    @RenderWebElement
-    @FindBy (className = "intro")
-    WebElement intro;
-
-    @RenderWebElement
-    @FindBy (css = "input[value='Export']")
-    WebElement export;
 
     public void clickExport()
     {

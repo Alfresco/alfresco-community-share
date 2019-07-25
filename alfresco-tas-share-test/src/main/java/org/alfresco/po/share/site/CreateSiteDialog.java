@@ -20,11 +20,11 @@ public class CreateSiteDialog extends ShareDialog
     @FindBy (css = "label[for='alfresco-createSite-instance-shortName']")
     private WebElement urlNameLabel;
 
-    @FindBy (css = "div[id='CREATE_SITE_FIELD_SHORTNAME'] div[class*='dijitInputField'] input")
+    @FindBy (css = "div[id='CREATE_SITE_FIELD_SHORTNAME'] div[class*='InputField'] input")
     private WebElement siteIDInput;
 
     @FindBy (css = "div[id='CREATE_SITE_FIELD_SHORTNAME'] div.description")
-    private WebElement urlNameDescription;
+    private WebElement siteIdDescription;
 
     @FindBy (css = "div[id='CREATE_SITE_FIELD_TITLE'] span[class='requirementIndicator required']")
     private WebElement nameMandatory;
@@ -102,12 +102,13 @@ public class CreateSiteDialog extends ShareDialog
 
     private By urlErrorMessage = By.cssSelector("div[id='CREATE_SITE_FIELD_SHORTNAME'] span.validation-message");
     private By urlErrorOkButton = By.cssSelector("div[class='ft'] button");
+    private By createButtonState = By.cssSelector("span[aria-labelledby='CREATE_SITE_DIALOG_OK_label']");
 
     @Autowired
-    MySitesDashlet mySitesDashlet;
+    private MySitesDashlet mySitesDashlet;
 
     @Autowired
-    ToolbarSitesMenu toolbarSitesMenu;
+    private ToolbarSitesMenu toolbarSitesMenu;
 
     @SuppressWarnings ("unchecked")
 
@@ -128,9 +129,9 @@ public class CreateSiteDialog extends ShareDialog
         return getBrowser().isElementDisplayed(siteIDInput);
     }
 
-    public String getUrlNameInputText()
+    public String getSiteIdInputText()
     {
-        return siteIDInput.getText();
+        return siteIDInput.getAttribute("value");
     }
 
     public String getSiteIDFieldLabel()
@@ -140,22 +141,22 @@ public class CreateSiteDialog extends ShareDialog
 
     public String getSiteIDDescriptionText()
     {
-        return urlNameDescription.getText();
+        return siteIdDescription.getText();
     }
 
-    public void clearUrlNameInput()
+    public void clearSiteIdInput()
     {
         siteIDInput.clear();
     }
 
-    public boolean isUrlNameInputEmpty()
+    public boolean isSiteIdInputEmpty()
     {
         return siteIDInput.getText().isEmpty();
     }
 
-    public void typeUrlName(String urlName)
+    public void typeSiteID(String siteID)
     {
-        siteIDInput.sendKeys(urlName);
+        siteIDInput.sendKeys(siteID);
     }
 
 
@@ -200,7 +201,7 @@ public class CreateSiteDialog extends ShareDialog
         return getBrowser().waitUntilElementVisible(visibilityLabel).getText();
     }
 
-    public String isPublicVisibilityButtonDisplayed()
+    public String getPublicVisibilityButtonState()
     {
         return publicVisibilityRadioButton.getAttribute("value").toString().trim();
     }
@@ -235,6 +236,17 @@ public class CreateSiteDialog extends ShareDialog
         return getBrowser().isElementDisplayed(createButton);
     }
 
+    /**
+     * Get PopUp Create Site button state.
+     *
+     * @return - false if button is enabled.
+     * - true if button is disabled.
+     */
+    public String getCreateButtonState()
+    {
+        return browser.waitUntilElementVisible(createButtonState).getAttribute("aria-disabled");
+    }
+
     public boolean isCancelButtonDisplayed()
     {
         return getBrowser().isElementDisplayed(cancelButton);
@@ -256,7 +268,9 @@ public class CreateSiteDialog extends ShareDialog
 
     public void typeInSiteID(String siteID)
     {
-        getBrowser().waitUntilElementVisible(siteIDInput);
+        browser.waitUntilElementVisible(siteIDInput);
+        siteIDInput.click();
+        siteIDInput.clear();
         siteIDInput.click();
         siteIDInput.sendKeys(siteID);
     }
@@ -270,6 +284,16 @@ public class CreateSiteDialog extends ShareDialog
     public String getNameInputText()
     {
         return nameInputField.getAttribute("value");
+    }
+
+    /**
+     * Get Description input text
+     *
+     * @return description input text
+     */
+    public String getDescriptionInputText()
+    {
+        return descriptionInputField.getAttribute("value");
     }
 
     public void selectPublicVisibility()

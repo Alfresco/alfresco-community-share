@@ -1,10 +1,10 @@
 package org.alfresco.po.adminconsole.directories.DirectoryManagement;
 
+import static org.alfresco.utility.report.log.Step.STEP;
+
 import org.alfresco.po.adminconsole.AdminConsoleDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
-
-import static org.alfresco.utility.report.log.Step.STEP;
 
 /**
  * Created by Mirela Tifui on 7/4/2017.

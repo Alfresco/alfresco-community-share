@@ -1,5 +1,9 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
@@ -16,28 +20,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
-
 /**
  * @author Laura.Capsa
  */
 public class UploadTests extends ContextAwareWebTest
 {
-    @Autowired
-    private SharedFilesPage sharedFilesPage;
-
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-
-    @Autowired
-    private HeaderMenuBar headerMenuBar;
-
-    @Autowired
-    private UploadContent uploadContent;
-
-    @Autowired
-    private DeleteDialog deleteDialog;
-
     private final String random = RandomData.getRandomAlphanumeric();
     private final String user = "user1-" + random;
     private final String user2 = "user2-" + random;
@@ -46,6 +33,16 @@ public class UploadTests extends ContextAwareWebTest
     private final String doc2 = random + "-OldFile-C7942.txt";
     private final String newDoc2 = random + "-NewFile-C7942.txt";
     private final String doc3 = "Doc-C13756-" + random;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private UploadContent uploadContent;
+    @Autowired
+    private DeleteDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

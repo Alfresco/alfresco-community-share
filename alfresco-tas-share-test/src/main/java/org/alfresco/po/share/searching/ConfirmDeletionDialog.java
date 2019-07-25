@@ -13,14 +13,11 @@ import ru.yandex.qatools.htmlelements.element.Button;
 @PageObject
 public class ConfirmDeletionDialog extends ConfirmationDialog
 {
-    @RenderWebElement
-    //@FindBy(css = "div.dialogDisplayed span.dijitDialogTitle")
-    @FindBy (id = "ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_title")
-    private WebElement dialogTitle;
-
-    //@FindBy(xpath = "//div[contains(@class, 'dijitDialogPaneContent')]//span[contains(@id, 'alfresco_buttons_AlfButton') and (text()='No')]")
     @FindBy (id = "ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CANCEL_label")
     protected Button dialogNoButton;
+    @RenderWebElement
+    @FindBy (id = "ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_title")
+    private WebElement dialogTitle;
 
     /**
      * Obtain the title of Request Sent dialog

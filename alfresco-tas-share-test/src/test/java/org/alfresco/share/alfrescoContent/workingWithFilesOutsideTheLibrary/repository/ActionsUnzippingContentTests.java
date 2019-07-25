@@ -1,5 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
@@ -12,26 +18,19 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 public class ActionsUnzippingContentTests extends ContextAwareWebTest
 {
+    private final String user = String.format("C8256TestUser%s", RandomData.getRandomAlphanumeric());
+    private final String zipFile = "testFileC8256.zip";
+    private final String zipContent = "testFile1";
+    private final String acpFile = "archiveC8257.acp";
+    private final String acpContent = "fileC8257";
     @Autowired
     private RepositoryPage repositoryPage;
     @Autowired
     private CopyMoveUnzipToDialog unzipToDialog;
     @Autowired
     private DocumentDetailsPage documentDetailsPage;
-
-    private final String user = String.format("C8256TestUser%s", RandomData.getRandomAlphanumeric());
-    private final String zipFile = "testFileC8256.zip";
-    private final String zipContent = "testFile1";
-    private final String acpFile = "archiveC8257.acp";
-    private final String acpContent = "fileC8257";
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -105,10 +104,5 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
         repositoryPage.getDocumentListHeader();
         repositoryPage.selectDocumentLibraryItemRow("fileC8257");
         assertTrue(repositoryPage.isContentNameDisplayed("fileC8257"), acpFile + " is not displayed ");
-
-        //     contentService.deleteContentByPath(adminUser, adminPassword,  "User Homes/"+ user+"/"+acpContent);
-
-        //     contentService.deleteContentByPath(adminUser, adminPassword,  "User Homes/"+ user);
-
     }
 }

@@ -1,5 +1,8 @@
 package org.alfresco.po.share.dashlet;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.apache.commons.lang3.StringUtils;
@@ -9,45 +12,32 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 @PageObject
 public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
 {
+    private static By helpBalloonCloseButton = By.cssSelector("div[style*='visible']>div.bd>div.balloon>div.closeButton");
     @RenderWebElement
     @FindBy (xpath = "//div[normalize-space(.) = 'Image Preview']")
     protected HtmlElement dashletContainer;
-
+    @FindAll (@FindBy (xpath = ".//div[@class='thumbnail']/a"))
+    protected List<WebElement> ImagePreviewLinks;
     @FindBy (css = "div[id*='default-images'] img[src*='document-view-details']")
     private WebElement viewDetailsIcon;
-
     @FindBy (css = "div[id*='default-images'] img[src*='download']")
     private WebElement downloadIcon;
-
     @RenderWebElement
     @FindBy (xpath = "//div[starts-with(@class,'dashlet resizable')] // div[@class='title']")
     private WebElement dashletTitle;
-
     @FindBy (xpath = "//div[starts-with(@class,'dashlet resizable')] //div[@class='titleBarActionIcon help']")
     private WebElement helpIcon;
-
     private String dashletHelpIcon = "//div[starts-with(@class,'dashlet resizable')] //div[@class='titleBarActionIcon help']";
-
     private String helpBallon = "div[style*='visible']>div.bd>div.balloon";
-
     // @RenderWebElement
     @FindBy (css = "div[style*='visible']>div.bd>div.balloon")
     private WebElement helpBalloon;
-
     @FindBy (css = "div[style*='visible']>div.bd>div.balloon>div.text")
     private WebElement helpBalloonText;
-
     private String imageLink = "//img[contains(@title,'";
-    private static By helpBalloonCloseButton = By.cssSelector("div[style*='visible']>div.bd>div.balloon>div.closeButton");
-
-    @FindAll (@FindBy (xpath = ".//div[@class='thumbnail']/a"))
-    protected List<WebElement> ImagePreviewLinks;
 
     @Override
     protected String getDashletTitle()

@@ -1,14 +1,14 @@
 package org.alfresco.po.share.alfrescoContent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.context.annotation.Primary;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Laura.Capsa
@@ -17,18 +17,14 @@ import java.util.List;
 @Primary
 public class SelectDestinationDialog extends ShareDialog
 {
-    @FindBy (css = "div[id*='title']")
-    private WebElement dialogTitle;
-
     @FindBy (css = "button[role='radio']")
     protected List<WebElement> destinationList;
-
-    @FindBy (css = "div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']")
-    private List<WebElement> sitesListCopyFilesTo;
-
     @FindBy (css = ".site-picker h4")
     protected List<WebElement> siteList;
-
+    @FindBy (css = "div[id*='title']")
+    private WebElement dialogTitle;
+    @FindBy (css = "div.alfresco-pickers-SingleItemPicker div[id^='alfresco_menus_AlfMenuBarItem']")
+    private List<WebElement> sitesListCopyFilesTo;
     @FindBy (css = ".path .ygtvlabel")
     private List<WebElement> pathList;
 
@@ -52,7 +48,6 @@ public class SelectDestinationDialog extends ShareDialog
 
     public void clickOkButton()
     {
-        getBrowser().waitInSeconds(5);
         getBrowser().waitUntilElementClickable(okButton).click();
     }
 

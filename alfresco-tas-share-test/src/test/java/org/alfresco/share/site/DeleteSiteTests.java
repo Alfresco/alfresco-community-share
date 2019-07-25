@@ -1,7 +1,11 @@
 package org.alfresco.share.site;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+
 import org.alfresco.common.EnvProperties;
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.SystemErrorPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
@@ -17,14 +21,10 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 
 /**
  * @author Laura.Capsa
@@ -82,6 +82,7 @@ public class DeleteSiteTests extends ContextAwareWebTest
     String userC2291 = String.format("userC2291%s", RandomData.getRandomAlphanumeric());
     String siteNameC2291 = String.format("0-C2291-%s", RandomData.getRandomAlphanumeric());
     String siteNameC2292 = String.format("0-C2292-%s", RandomData.getRandomAlphanumeric());
+    SoftAssert softAssert = new SoftAssert();
 
     @BeforeClass (alwaysRun = true)
     public void testSetup()
@@ -106,8 +107,6 @@ public class DeleteSiteTests extends ContextAwareWebTest
         siteService.create(userC2291, password, domain, siteNameC2291, description, SiteService.Visibility.PUBLIC);
         siteService.create(adminUser, adminPassword, domain, siteNameC2292, description, SiteService.Visibility.PUBLIC);
     }
-
-    SoftAssert softAssert = new SoftAssert();
 
     @AfterClass (alwaysRun = true)
     public void cleanup()
@@ -146,30 +145,37 @@ public class DeleteSiteTests extends ContextAwareWebTest
     public void deleteSiteAsManagerFromSiteFinder()
     {
         setupAuthenticatedSession(userC2280, password);
+
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         siteFinderPage.navigateByMenuBar();
         assertEquals(getBrowser().getTitle(), "Alfresco » Site Finder", "Site Finder page is displayed.");
+
         LOG.info("STEP2: Search for the created site");
         siteFinderPage.searchSiteWithRetry(siteNameC2280_1);
         assertEquals(siteFinderPage.checkSiteWasFound(siteNameC2280_1), true, "Site is found.");
+
         LOG.info("STEP3: Verify options available for the site");
         assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameC2280_1, "Delete"), true, "Delete option is displayed.");
         assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameC2280_1, "Leave"), true, "Leave option is displayed.");
+
         LOG.info("STEP4: Click on 'Delete' button");
         siteFinderPage.clickSiteButton(siteNameC2280_1, "Delete");
         assertEquals(deleteSiteDialog.isPopupDisplayed(), true, "Delete popup is displayed.");
         assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2280_1 + "''?"), true, "Confirm delete message is correct.");
+
         LOG.info("STEP5: Click on \"Delete\" button from popup");
         deleteSiteDialog.clickDelete();
         assertEquals(deleteSiteDialog.getConfirmMessage().contains(language.translate("deleteSite.confirmAgain")), true, "Second confirm delete message is correct");
+
         LOG.info("STEP6: Click \"Yes\" button");
         deleteSiteDialog.clickYes();
-        getBrowser().waitInSeconds(9);
         siteFinderPage.searchSiteWithRetry(siteNameC2280_1);
         assertFalse(siteFinderPage.isSiteFound(siteNameC2280_1), "The site isn't displayed on \"Site Finder\" page.");
+
         LOG.info("STEP7: Search for the file created within the site");
         toolbar.search(fileNameC2280);
         assertEquals(searchFromToolbarPage.getNumberOfResultsText(), "0 - results found", "Search page: number of results");
+
         LOG.info("STEP8: Open created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteNameC2280_1 + "/dashboard";
         getBrowser().navigate().to(url);
@@ -182,22 +188,25 @@ public class DeleteSiteTests extends ContextAwareWebTest
     public void deleteSiteAsManagerFromDashlet()
     {
         setupAuthenticatedSession(userC2280, password);
+
         LOG.info("STEP1&2: Hover over the created site from \"My sites\" dashlet. Click on \"Delete\" button");
         getBrowser().refresh();
         mySitesDashlet.clickDeleteSiteIconForSite(siteNameC2280_2);
         assertEquals(deleteSiteDialog.isPopupDisplayed(), true, "Delete popup is displayed.");
         assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2280_2 + "''?"), true, "Confirm delete message is correct.");
+
         LOG.info("STEP3: Click again on \"Delete\" button.");
         deleteSiteDialog.clickDelete();
         assertEquals(deleteSiteDialog.getConfirmMessage().contains(language.translate("deleteSite.confirmAgain")), true, "Second confirm delete message is correct");
+
         LOG.info("STEP4: Click \"Yes\" button");
-        getBrowser().waitInSeconds(5);
         deleteSiteDialog.clickYes();
-        getBrowser().waitInSeconds(10);
         assertEquals(mySitesDashlet.isSitePresent(siteNameC2280_2), false, "Site isn't displayed in 'MySites' dashlet.");
+
         LOG.info("STEP5: Search for the file created within the site");
         toolbar.search(siteNameC2280_2);
         assertEquals(searchFromToolbarPage.getNumberOfResultsText(), "0 - results found", "No results");
+
         LOG.info("STEP6: Open created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteNameC2280_2 + "/dashboard";
         getBrowser().navigate().to(url);
@@ -210,16 +219,20 @@ public class DeleteSiteTests extends ContextAwareWebTest
     public void deleteSiteAsContributorFromSiteFinder()
     {
         setupAuthenticatedSession(userC2281, password);
+
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         toolbarSitesMenu.clickSiteFinder();
         softAssert.assertEquals(siteFinderPage.isSearchFieldDisplayed(), true, "Site Finder page is displayed.");
+
         LOG.info("STEP2: Search for the created site");
         siteFinderPage.searchSiteWithRetry(siteNameUserCanNotDelete);
         softAssert.assertEquals(siteFinderPage.checkSiteWasFound(siteNameUserCanNotDelete), true, "Site is found.");
+
         LOG.info("STEP3: Verify options available for the site");
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Delete"), false, "Delete option is not displayed.");
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Leave"), true, "Leave option is displayed.");
         userDashboardPage.navigate(userC2281);
+
         LOG.info("Step 4: Verify options available on My Sites Dashlet");
         mySitesDashlet.hoverSite(siteNameUserCanNotDelete);
         softAssert.assertEquals(mySitesDashlet.isDeleteButtonDisplayed(siteNameUserCanNotDelete), false, "Delete button isn't displayed.");
@@ -232,15 +245,19 @@ public class DeleteSiteTests extends ContextAwareWebTest
     public void deleteSiteAsCollaboratorFromSiteFinder()
     {
         setupAuthenticatedSession(userc2282, password);
+
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         toolbarSitesMenu.clickSiteFinder();
         softAssert.assertEquals(siteFinderPage.isSearchFieldDisplayed(), true, "Site Finder page is displayed.");
+
         LOG.info("STEP2: Search for the created site");
         siteFinderPage.searchSiteWithRetry(siteNameUserCanNotDelete);
         softAssert.assertEquals(siteFinderPage.checkSiteWasFound(siteNameUserCanNotDelete), true, "Site is found.");
+
         LOG.info("STEP3: Verify options available for the site");
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Delete"), false, "Delete option is not displayed.");
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Leave"), true, "Leave option is displayed.");
+
         LOG.info("Step 4: Verify options available on My Sites Dashlet");
         userDashboardPage.navigateByMenuBar();
         mySitesDashlet.hoverSite(siteNameUserCanNotDelete);
@@ -254,15 +271,19 @@ public class DeleteSiteTests extends ContextAwareWebTest
     public void deleteSiteAsConsumerFromSiteFinder()
     {
         setupAuthenticatedSession(userC2283, password);
+
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         siteFinderPage.navigateByMenuBar();
         softAssert.assertEquals(siteFinderPage.isSearchFieldDisplayed(), true, "Site Finder page is displayed.");
+
         LOG.info("STEP2: Search for the created site");
         siteFinderPage.searchSiteWithRetry(siteNameUserCanNotDelete);
         softAssert.assertEquals(siteFinderPage.checkSiteWasFound(siteNameUserCanNotDelete), true, "Site is found.");
+
         LOG.info("STEP3: Verify options available for the site");
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Delete"), false, "Delete option is not displayed.");
         softAssert.assertEquals(siteFinderPage.isButtonDisplayedForSite(siteNameUserCanNotDelete, "Leave"), true, "Leave option is displayed.");
+
         LOG.info("Step 4: Verify options available on My Sites Dashlet");
         userDashboardPage.navigate(userC2283);
         mySitesDashlet.hoverSite(siteNameUserCanNotDelete);
@@ -276,24 +297,30 @@ public class DeleteSiteTests extends ContextAwareWebTest
     public void cancelDeleteSiteFromSiteFinder()
     {
         setupAuthenticatedSession(userC2284, password);
+
         LOG.info("STEP1: Navigate to \"Site Finder\" page (from Alfresco Toolbar -> Sites menu -> Site Finder)");
         siteFinderPage.navigateByMenuBar();
         assertEquals(siteFinderPage.isSearchFieldDisplayed(), true, "Site Finder page is displayed.");
+
         LOG.info("STEP2: Search for the created site");
         siteFinderPage.searchSiteWithRetry(siteNameC2284);
         assertEquals(siteFinderPage.checkSiteWasFound(siteNameC2284), true, "Site is found.");
+
         LOG.info("STEP3: Click on 'Delete' button");
         siteFinderPage.clickSiteButton(siteNameC2284, "Delete");
         assertEquals(deleteSiteDialog.isPopupDisplayed(), true, "Delete popup is displayed.");
         assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2284 + "''?"), true, "Confirm delete message is correct.");
+
         LOG.info("STEP4: Click on 'Cancel' button");
         deleteSiteDialog.clickCancel();
         siteFinderPage.searchSiteWithRetry(siteNameC2284);
         assertEquals(siteFinderPage.checkSiteWasFound(siteNameC2284), true, "Site is found, it wasn't deleted.");
+
         LOG.info("STEP5: Click again on 'Delete' button");
         siteFinderPage.clickSiteButton(siteNameC2284, "Delete");
         assertEquals(deleteSiteDialog.isPopupDisplayed(), true, "Delete popup is displayed.");
         assertEquals(deleteSiteDialog.getConfirmMessage().equals(language.translate("deleteSite.confirm") + siteNameC2284 + "''?"), true, "Confirm delete message is correct.");
+
         LOG.info("STEP6: Click on 'Delete' button");
         deleteSiteDialog.clickDelete();
         assertEquals(deleteSiteDialog.getConfirmMessage().contains(language.translate("deleteSite.confirmAgain")), true, "Second confirm delete message is correct");
@@ -303,20 +330,25 @@ public class DeleteSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
+
     @TestRail (id = "C2291")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void deleteSiteAsAdminFromSiteManager()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
+
         LOG.info("STEP1: Open \"Site Manager\" page");
         sitesManagerPage.navigate();
         assertEquals(sitesManagerPage.isSitesTableDisplayed(), true, "Site Manager page is displayed.");
+
         LOG.info("STEP2: Click on \"Actions\" -> \"Delete\" button for \"siteA\"");
         sitesManagerPage.clickActionForManagedSiteRow(siteNameC2291, "Delete Site", deleteSiteDialog);
         assertEquals(deleteSiteDialog.getConfirmMessageFromSitesManager(), String.format(language.translate("deleteSite.confirmFromSitesManager"), siteNameC2291));
+
         LOG.info("STEP3: Confirm site deletion");
         deleteSiteDialog.clickDeleteFromSitesManager();
-        assertEquals(sitesManagerPage.isActionAvailableForManagedSiteRow(siteNameC2291, "Delete Site"), false, "The site is deleted - it is no longer displayed in \"manage sites\" table.\n");
+        assertFalse(sitesManagerPage.isSiteDisplayed(siteNameC2291), "The site " + siteNameC2291 + " should be deleted but it's still displayed in table.");
+
         LOG.info("STEP4: Open the created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteNameC2291 + "/dashboard";
         getBrowser().navigate().to(url);
@@ -324,20 +356,25 @@ public class DeleteSiteTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
+
     @TestRail (id = "C2292")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelDeleteSiteFromSitesManager()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
+
         LOG.info("STEP1: Open \"Site Manager\" page");
         sitesManagerPage.navigate();
         assertEquals(sitesManagerPage.isSitesTableDisplayed(), true, "Site Manager page is displayed.");
+
         LOG.info("STEP2: Click on \"Actions\" -> \"Delete\" button for \"siteA\"");
         sitesManagerPage.clickActionForManagedSiteRow(siteNameC2292, "Delete Site", deleteSiteDialog);
         assertEquals(deleteSiteDialog.getConfirmMessageFromSitesManager(), String.format(language.translate("deleteSite.confirmFromSitesManager"), siteNameC2292));
+
         LOG.info("STEP3: Click \"Cancel\" button");
         deleteSiteDialog.clickCancelFromSitesManager();
         assertEquals(sitesManagerPage.findManagedSiteRowByNameFromPaginatedResults(siteNameC2292).getSiteName().getText(), siteNameC2292, "Site is displayed.");
+
         LOG.info("STEP4: Open the created site by link");
         String url = envProperties.getShareUrl() + "/page/site/" + siteNameC2292 + "/dashboard";
         getBrowser().navigate().to(url);

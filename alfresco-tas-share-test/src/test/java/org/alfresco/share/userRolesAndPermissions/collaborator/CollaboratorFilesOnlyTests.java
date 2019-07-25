@@ -1,6 +1,10 @@
 package org.alfresco.share.userRolesAndPermissions.collaborator;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
@@ -18,16 +22,13 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
+import org.alfresco.utility.report.Bug.Status;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Rusu Andrei
@@ -35,31 +36,6 @@ import static org.testng.Assert.assertTrue;
 
 public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
-    @Autowired
-    private CreateContent create;
-    @Autowired
-    private UploadContent uploadContent;
-    @Autowired
-    private EditInAlfrescoPage editInAlfrescoPage;
-    @Autowired
-    private GoogleDocsCommon googleDocsCommon;
-    @Autowired
-    private StartWorkflowPage startWorkflowPage;
-    @Autowired
-    private SelectPopUpPage selectPopUpPage;
-    @Autowired
-    private ToolbarTasksMenu toolbarTasksMenu;
-    @Autowired
-    private WorkflowDetailsPage workflowDetailsPage;
-    @Autowired
-    private MyTasksPage myTasksPage;
-    @Autowired
-    private Download download;
-
     private final String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8939-.txt";
     private final String testFilePath = testDataFolder + testFile;
     private final String newVersionFile = RandomData.getRandomAlphanumeric() + "-NewFile-C8942" + ".txt";
@@ -89,6 +65,30 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     private final String msWordFileCreatedBySelf = String.format("msWordFilePlainSelf file%s", RandomData.getRandomAlphanumeric());
     private final String msWordFileCreatedByOther = String.format("msWordFilePlainOther file%s", RandomData.getRandomAlphanumeric());
     private final String deletePath = String.format("Sites/%s/documentLibrary", siteName);
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private DocumentDetailsPage documentDetailsPage;
+    @Autowired
+    private CreateContent create;
+    @Autowired
+    private UploadContent uploadContent;
+    @Autowired
+    private EditInAlfrescoPage editInAlfrescoPage;
+    @Autowired
+    private GoogleDocsCommon googleDocsCommon;
+    @Autowired
+    private StartWorkflowPage startWorkflowPage;
+    @Autowired
+    private SelectPopUpPage selectPopUpPage;
+    @Autowired
+    private ToolbarTasksMenu toolbarTasksMenu;
+    @Autowired
+    private WorkflowDetailsPage workflowDetailsPage;
+    @Autowired
+    private MyTasksPage myTasksPage;
+    @Autowired
+    private Download download;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -186,6 +186,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(download.isFileInDirectory(textFilePlainCreatedBySelf, null), "The file was not found in the specified location");
     }
 
+    @Bug (id = "SHA-2055", status = Status.FIXED)
     @TestRail (id = "C8941")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorViewInBrowser()
@@ -286,7 +287,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         startWorkflowPage.addWorkflowDescription("test workflow");
         startWorkflowPage.selectCurrentDateFromDatePicker();
         startWorkflowPage.selectWorkflowPriority("Medium");
-        startWorkflowPage.clickOnSelectButton();
+        startWorkflowPage.clickOnSelectButtonSingleAssignee();
         selectPopUpPage.search(user);
         selectPopUpPage.clickAddIcon("(" + user + ")");
         selectPopUpPage.clickOkButton();
@@ -306,7 +307,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, startWorkflowFile));
     }
 
-    @Bug (id = "MNT-18059", status = Bug.Status.OPENED)
+    @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8942")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorUploadNewVersionSelfCreated()
@@ -336,7 +337,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFile));
     }
 
-    @Bug (id = "MNT-18059", status = Bug.Status.OPENED)
+    @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8943")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorUploadNewVersionOtherUserCreated()
@@ -377,7 +378,6 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step 2: Click Check out to Google docs or Edit in Google Docs.");
         //    googleDocsCommon.loginToGoogleDocs();
         documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedBySelf, "Edit in Google Docs™", googleDocsCommon);
-        getBrowser().waitInSeconds(5);
         googleDocsCommon.clickOkButton();
         LOG.info("Step 3: Check the testFile status in Document Library.");
         getBrowser().waitUntilWebElementIsDisplayedWithRetry(googleDocsCommon.lockedIcon);
@@ -417,9 +417,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         googleDocsCommon.loginToGoogleDocs();
         documentLibraryPage.clickDocumentLibraryItemAction(msWordFileCreatedByOther, "Edit in Google Docs™", googleDocsCommon);
         googleDocsCommon.clickOkButton();
-        getBrowser().waitInSeconds(8);
         googleDocsCommon.confirmDocumentFormatUpgradeYes();
-        getBrowser().waitInSeconds(5);
 
         LOG.info("Step 3: Check the testFile status in Document Library.");
         getBrowser().waitUntilElementVisible(googleDocsCommon.lockedIcon);
@@ -466,7 +464,6 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Mouse over testFile and check that Edit in Microsoft Office™ is one of the available actions");
-        getBrowser().waitInSeconds(7);
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(msWordFileCreatedByOther, "Edit in Microsoft Office™"),
             "Edit in Microsoft Office™ is not available");
         // TODO edit in MSOffice has not yet been automated

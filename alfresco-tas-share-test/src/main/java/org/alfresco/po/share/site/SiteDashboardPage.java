@@ -1,5 +1,8 @@
 package org.alfresco.po.share.site;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -8,9 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author bogdan.bocancea
@@ -18,6 +19,9 @@ import java.util.List;
 @PageObject
 public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 {
+    @Autowired
+    EditSiteDetailsDialog editSiteDetailsDialog;
+
     @RenderWebElement
     @FindBy (css = "div[class*='grid columnSize']")
     private WebElement dashboardLayout;
@@ -37,6 +41,9 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
 
     @FindBy (id = "HEADER_SITE_MORE_PAGES")
     private WebElement morePagesDropDown;
+
+    @FindBy (css = "div[id$='_default-configDialog-configDialog']")
+    private WebElement editRssDialog;
 
     private By moreOptions = By.cssSelector("#HEADER_SITE_MORE_PAGES_GROUP a");
 
@@ -102,6 +109,16 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
     }
 
     /**
+     * Verify presence of visibility type label that is right after Site name (e.g. Public, Private, Moderated)
+     *
+     * @return true if displayed
+     */
+    public boolean isSiteVisibilityDisplayed()
+    {
+        return browser.isElementDisplayed(siteVisibility);
+    }
+
+    /**
      * Search for an option in Site Configuration Options dropdown list
      *
      * @param option String - option to be found in dropdown list
@@ -127,7 +144,6 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
      * Click on the specified option from Site Configuration Options dropdown list
      *
      * @param option String - option to be clicked in dropdown list
-     * @return
      */
     public void clickOptionInSiteConfigurationDropDown(String option, HtmlPage page)
     {
@@ -174,7 +190,6 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
      * Click on the specified link from More menu
      *
      * @param link String - option to be clicked in menu
-     * @return current page
      */
     public void clickLinkFromMoreMenu(String link)
     {
@@ -252,8 +267,27 @@ public class SiteDashboardPage extends SiteCommon<SiteDashboardPage>
         return pageElem.findElement(By.cssSelector("span a")).getText();
     }
 
+    /**
+     * Navigate to site
+     * Opens Edit Details dialog
+     *
+     * @param siteId
+     */
+    public EditSiteDetailsDialog navigateToEditSiteDetailsDialog(String siteId)
+    {
+        navigate(siteId);
+        clickSiteConfiguration();
+        clickOptionInSiteConfigurationDropDown("Edit Site Details", editSiteDetailsDialog);
+        return (EditSiteDetailsDialog) editSiteDetailsDialog.renderedPage();
+    }
+
     public boolean somethingWentWrongMessage()
     {
         return browser.isElementDisplayed(By.xpath("//div[contains(text(),'wrong with this page...')]"));
+    }
+
+    public boolean isRSSFeedConfigurationDialogDisplayed()
+    {
+        return getBrowser().isElementDisplayed(editRssDialog);
     }
 }

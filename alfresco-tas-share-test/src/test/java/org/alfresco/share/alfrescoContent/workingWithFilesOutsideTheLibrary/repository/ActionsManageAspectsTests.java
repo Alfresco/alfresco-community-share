@@ -64,6 +64,8 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         Assert.assertTrue(aspectsForm.isSaveButtonDisplayed(), "Apply Chnages button is not displayed");
         Assert.assertTrue(aspectsForm.isCancelButtonDisplayed(), "Cancel button is not displayed");
         Assert.assertTrue(aspectsForm.isCloseButtonDisplayed(), "Close button is not displayed");
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8250")
@@ -89,6 +91,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
 
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C13763")
@@ -101,6 +104,8 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         repositoryPage.mouseOverContentItem(folderInRepoMainPath);
         Assert.assertEquals(repositoryPage.isMoreMenuDisplayed(folderInRepoMainPath), false);
         Assert.assertEquals(repositoryPage.isActionAvailableForLibraryItem(folderInRepoMainPath, "Manage Aspects"), false);
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C13764")
@@ -111,9 +116,13 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
         repositoryPage.navigate();
 
         LOG.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
-        repositoryPage.mouseOverContentItem(folderInRepoMainPath);
-        Assert.assertEquals(repositoryPage.isMoreMenuDisplayed(folderInRepoMainPath), true);
-        Assert.assertEquals(repositoryPage.isActionAvailableForLibraryItem(folderInRepoMainPath, "Manage Aspects"), true);
+        Assert.assertTrue(repositoryPage.getFoldersList().contains(folderInRepoMainPath), "Folder is not displayed!");
 
+        repositoryPage.mouseOverContentItem(folderInRepoMainPath);
+        Assert.assertTrue(repositoryPage.isMoreMenuDisplayed(folderInRepoMainPath), "More menu is not displayed");
+        Assert.assertTrue(repositoryPage.isActionAvailableForLibraryItem(folderInRepoMainPath, "Manage Aspects"), "'Manage Aspects' action is not available.");
+
+        cleanupAuthenticatedSession();
     }
+
 }

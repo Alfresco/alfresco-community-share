@@ -9,11 +9,28 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class ReplicationServicePage extends AdminConsolePage<ReplicationServicePage>
 {
+    public static final String REPLICATION_SERVICE_OBJECT = "Alfresco:Type=Configuration,Category=Replication,id1=default";
     @RenderWebElement
     @FindBy (className = "intro")
     WebElement intro;
 
-    public static final String REPLICATION_SERVICE_OBJECT = "Alfresco:Type=Configuration,Category=Replication,id1=default";
+    @Override
+    protected String relativePathToURL()
+    {
+        return "alfresco/s/enterprise/admin/admin-replicationservice";
+    }
+
+    @Override
+    public String getInfoPage()
+    {
+        return "";
+    }
+
+    @Override
+    public String getIntroPage()
+    {
+        return intro.getText();
+    }
 
     public enum REPLICATION_SERVICE_LABELS
     {
@@ -37,24 +54,6 @@ public class ReplicationServicePage extends AdminConsolePage<ReplicationServiceP
         {
             return jmxAttribute;
         }
-    }
-
-    @Override
-    protected String relativePathToURL()
-    {
-        return "alfresco/s/enterprise/admin/admin-replicationservice";
-    }
-
-    @Override
-    public String getInfoPage()
-    {
-        return "";
-    }
-
-    @Override
-    public String getIntroPage()
-    {
-        return intro.getText();
     }
 
 }

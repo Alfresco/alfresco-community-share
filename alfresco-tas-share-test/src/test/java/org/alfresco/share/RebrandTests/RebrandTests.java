@@ -1,5 +1,9 @@
 package org.alfresco.share.RebrandTests;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.po.share.AboutPopUpPage;
 import org.alfresco.po.share.LoginPage;
@@ -17,10 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 public class RebrandTests extends ContextAwareWebTest
 {

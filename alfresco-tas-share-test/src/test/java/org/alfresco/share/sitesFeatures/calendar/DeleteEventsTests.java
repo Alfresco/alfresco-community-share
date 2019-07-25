@@ -1,8 +1,17 @@
 package org.alfresco.share.sitesFeatures.calendar;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.SiteCalendarDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
@@ -13,16 +22,9 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 7/12/2016.
@@ -345,7 +347,6 @@ public class DeleteEventsTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Click 'Delete' button.");
         deleteEventDialog.confirmEventDelete();
-        getBrowser().waitInSeconds(5);
         assertFalse(calendarPage.isEventPresentInAgenda(eventName), "The event is displayed on the 'Calendar' page.");
 
         LOG.info("STEP 3: Go to site's dashboard and verify 'Site Calendar' dashlet.");

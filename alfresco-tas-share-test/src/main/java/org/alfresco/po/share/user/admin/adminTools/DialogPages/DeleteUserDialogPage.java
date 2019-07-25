@@ -1,7 +1,7 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
-import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -31,7 +31,6 @@ public class DeleteUserDialogPage extends ShareDialog
 
     public HtmlPage clickButton(String buttonName, HtmlPage page)
     {
-        //  browser.findElement(By.xpath("//button[text()='" + buttonName + "']" )).click();
         getBrowser().waitUntilElementVisible(deleteUserButton);
         getBrowser().waitUntilElementClickable(deleteUserButton).click();
         return page.renderedPage();

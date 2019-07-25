@@ -1,7 +1,6 @@
 package org.alfresco.po.share.site.blog;
 
 import org.alfresco.utility.web.annotation.PageObject;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class EditBlogPostPage extends CreateBlogPostPage
 {
+    public By editBlogPageTitle = By.xpath("//div[@class = 'page-form-header']//h1[text() = 'Edit Blog Post']");
     @Autowired
     BlogPostViewPage blogPostViewPage;
-
-    public By editBlogPageTitle = By.xpath("//div[@class = 'page-form-header']//h1[text() = 'Edit Blog Post']");
 
     /**
      * Method to send input to the Title field

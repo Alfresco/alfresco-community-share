@@ -1,7 +1,11 @@
 package org.alfresco.share.searching.advancedSearch;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -11,13 +15,8 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AdvancedSearchPageTest extends ContextAwareWebTest
 {

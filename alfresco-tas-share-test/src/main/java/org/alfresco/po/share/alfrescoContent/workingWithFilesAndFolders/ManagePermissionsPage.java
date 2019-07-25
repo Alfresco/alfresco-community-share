@@ -1,5 +1,8 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -12,105 +15,68 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Razvan.Dorobantu
  */
 @PageObject
 public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 {
+    private final String userRowLocator = "//div[contains(@id, 'default-directPermissions')]//td//div[contains(text(), '%s')]/../..";
+    @FindAll (@FindBy (css = "button[id*='yui-gen']"))
+    protected List<WebElement> addButtonsList;
     @Autowired
     DocumentLibraryPage documentLibraryPage;
-
     @Autowired
     UserDashboardPage userDashboardPage;
-
     @RenderWebElement
     @FindBy (css = "div.add-user-group button")
     private WebElement addUserGroupButton;
-
     @RenderWebElement
     @FindBy (css = "button[id$='_default-okButton-button']")
     private WebElement saveButton;
-
     @FindBy (css = "button[id$='-cancelButton-button']")
     private WebElement cancelButton;
-
     @FindBy (css = "div.search-text input")
     private WebElement searchUserInput;
-
     @FindBy (css = "div.authority-search-button button")
     private WebElement searchUserButton;
-
     @FindBy (css = "div[id$='_manage-permissions_x0023_default-inheritedButtonContainer']")
     private WebElement inheritPermissionButton;
-
     @FindBy (css = "td[class$='displayName']")
     private WebElement userNameLocator;
-
     @FindBy (css = "td[class*='role']")
     private WebElement userRoleLocator;
-
     @FindBy (css = "span[id$='_default-title']")
     private WebElement pageTitle;
-
     @FindBy (css = "span[class$='button' span button]")
     private WebElement addUser;
-
     @FindBy (css = "div[id$='_default-inheritedPermissions']")
     private WebElement inheritPermissionTable;
-
     @FindBy (css = "div[class$='inherited-on']")
     private WebElement inheritButtonStatus;
-
     @FindBy (css = "span.folder-link a")
     private List<WebElement> breadcrumbList;
-
-    @FindAll (@FindBy (css = "button[id*='yui-gen']"))
-    protected List<WebElement> addButtonsList;
-
     @FindAll (@FindBy (css = "div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']"))
     private List<WebElement> usersAndGroupsList;
-
     private By usersAndGroupsLocallySetPermissions = By.cssSelector("div[id$='_default-directPermissions'] tr[class^='yui-dt-rec ']");
-
     private By inheritedPermissionsUsersAndGroups = By.cssSelector("div[id$='_default-inheritedPermissions'] tr[class^='yui-dt-rec ']");
-
     @FindBy (css = "div[id$='_default-directContainer'] div[id$='_default-directPermissions']")
     private WebElement locallySetPermissionsList;
-
     @FindBy (css = "div.onActionDelete")
     private WebElement deleteButton;
-
     @FindBy (css = "input[id$='_default-authorityFinder-search-text']")
     private WebElement searchInputBox;
-
     @FindBy (css = "div[id$='_manage-permissions_x0023_default-authorityFinder-body']")
     private WebElement addUserGroupWindow;
-
     @FindBy (css = "button[id$='_manage-permissions_x0023_default-authorityFinder-authority-search-button-button']")
     private WebElement searchButton;
-
     @FindBy (css = "td[class$='yui-dt-col-role'] button")
     private WebElement roleButton;
-
     @FindBy (css = "div[id$='_default-directPermissions'] td[class='yui-dt-empty'] div")
     private WebElement noPermissionsSet;
-
     private By searchResultsList = By.cssSelector("td[class$='yui-dt-col-fullName'] span");
-
     private By addButton = By.xpath("//button[text()='Add ']");
-
-    private final String userRowLocator = "//div[contains(@id, 'default-directPermissions')]//td//div[contains(text(), '%s')]/../..";
-
     private By roles = By.cssSelector("div.yui-module.yui-overlay.yuimenu.yui-button-menu.yui-menu-button-menu.visible li");
-
-    public enum ButtonType
-    {
-        Yes, No
-    }
 
     @Override
     public String getRelativePath()
@@ -224,7 +190,6 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
             return false;
         }
     }
-
 
     public void searchAndAddUserOrGroup(String searchQuery, int add)
     {
@@ -496,5 +461,10 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     {
         browser.waitUntilElementVisible(noPermissionsSet);
         return noPermissionsSet.getText();
+    }
+
+    public enum ButtonType
+    {
+        Yes, No
     }
 }

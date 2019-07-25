@@ -1,5 +1,7 @@
 package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
+import java.util.List;
+
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -9,9 +11,6 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.TextInput;
-
-import java.util.List;
 
 /**
  * Created by Claudia Agache on 9/14/2016.
@@ -94,7 +93,7 @@ public class EditPropertiesDialog extends ShareDialog
 
     public SelectDialog clickSelectTags()
     {
-        selectTagsButton.click();
+        browser.waitUntilElementClickable(selectTagsButton).click();
         return (SelectDialog) selectDialog.renderedPage();
     }
 

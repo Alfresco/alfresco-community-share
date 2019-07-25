@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class WelcomePanelTests extends ContextAwareWebTest
@@ -52,8 +53,14 @@ public class WelcomePanelTests extends ContextAwareWebTest
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName3);
     }
 
+    @BeforeMethod (alwaysRun = true)
+    public void beforeMethod()
+    {
+        cleanupAuthenticatedSession();
+    }
+
     @TestRail (id = "C202855")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 3)
     public void verifyWelcomePanel()
     {
 
@@ -69,7 +76,7 @@ public class WelcomePanelTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C202856")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 2)
     public void hideWelcomePanel()
     {
         logger.info("Step1: Login to Share and verify Get Started panel");
@@ -80,13 +87,12 @@ public class WelcomePanelTests extends ContextAwareWebTest
 
         logger.info("Step2: Click on the Hide button and verify Get Started Panel is not displayed anymore");
         welcomePanel.clickOnHideButton();
-        getBrowser().waitInSeconds(4);
         hideWelcomePanelDialogue.confirmHideWelcomePanel();
         Assert.assertFalse(welcomePanel.isWelcomePanelDisplayed(), "Welcome panel displayed");
     }
 
     @TestRail (id = "C202857")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 1)
     public void restoreWelcomePanel()
     {
         logger.info("Step1: Login to Share and verify Get Started panel");
@@ -104,7 +110,6 @@ public class WelcomePanelTests extends ContextAwareWebTest
         userDashboard.clickCustomizeUserDashboard();
         customizeUserDashboard.activateGetStartedPanel(true);
         customizeUserDashboard.clickOk();
-        getBrowser().waitInSeconds(3);
         Assert.assertTrue(welcomePanel.isWelcomePanelDisplayed(), "Welcome panel displayed");
 
         logger.info("Step4: Click on the Customise User Dashboard icon on the right, select Hide on Dashboard radio button and click OK button");

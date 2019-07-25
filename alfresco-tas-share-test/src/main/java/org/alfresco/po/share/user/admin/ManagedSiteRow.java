@@ -1,8 +1,8 @@
 package org.alfresco.po.share.user.admin;
 
-import org.openqa.selenium.WebElement;
-
 import java.util.List;
+
+import org.openqa.selenium.WebElement;
 
 /**
  * Created by Claudia Agache on 7/1/2016.
@@ -69,14 +69,14 @@ public class ManagedSiteRow
         this.siteVisibilityOptions = siteVisibilityOptions;
     }
 
-    void setUpdateVisibilitySuccessIndicator(WebElement successIndicator)
-    {
-        this.successIndicator = successIndicator;
-    }
-
     WebElement getUpdateVisibilitySuccessIndicator()
     {
         return successIndicator;
+    }
+
+    void setUpdateVisibilitySuccessIndicator(WebElement successIndicator)
+    {
+        this.successIndicator = successIndicator;
     }
 
     String getSiteManager()

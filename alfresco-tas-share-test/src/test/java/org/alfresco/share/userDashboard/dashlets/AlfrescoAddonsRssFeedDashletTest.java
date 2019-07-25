@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-
 /**
  * @author bogdan.simion
  */
@@ -56,7 +54,6 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
         Assert.assertTrue(enterFeedURLPopUp.isNewWindowCheckBoxChecked(), "Check-box has not been selected");
 
         LOG.info("STEP 5 - Press OK button");
-        getBrowser().waitInSeconds(5);
         enterFeedURLPopUp.clickOkButton();
         rssFeedDashlet.renderedPage();
         Assert.assertTrue(rssFeedDashlet.getDashletTitle().contains("Reuters: Business News"), " Feed information is updated: ");

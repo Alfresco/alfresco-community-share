@@ -1,6 +1,16 @@
 package org.alfresco.share.sitesFeatures.discussions;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
+
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.discussion.TopicListPage;
@@ -9,17 +19,9 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 8/9/2016.
@@ -30,11 +32,10 @@ public class AccessingDiscussionsTests extends ContextAwareWebTest
     TopicListPage topicListPage;
     @Autowired
     SiteDashboardPage siteDashboardPage;
-
+    DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
     private String user = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
     private String topicTitle = "Topic1";
-    DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

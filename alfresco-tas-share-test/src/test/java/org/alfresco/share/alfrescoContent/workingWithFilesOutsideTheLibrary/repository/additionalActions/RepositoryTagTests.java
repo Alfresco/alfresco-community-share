@@ -1,5 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
@@ -14,23 +20,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 public class RepositoryTagTests extends ContextAwareWebTest
 {
-    @Autowired
-    private RepositoryPage repositoryPage;
-
-    @Autowired
-    private EditPropertiesDialog editPropertiesDialog;
-
-    @Autowired
-    private SelectDialog selectDialog;
-
     private final String user = String.format("C8266TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC8266 = "C8266 file";
     private final String fileNameC8290 = "C8290 file";
@@ -44,6 +35,12 @@ public class RepositoryTagTests extends ContextAwareWebTest
     private final String tagC8267 = String.format("tag-C8267%s", RandomData.getRandomAlphanumeric());
     private final String tagC8278 = String.format("tag-C8278%s", RandomData.getRandomAlphanumeric());
     private final String tagC8290 = String.format("tag-C8290%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    private RepositoryPage repositoryPage;
+    @Autowired
+    private EditPropertiesDialog editPropertiesDialog;
+    @Autowired
+    private SelectDialog selectDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

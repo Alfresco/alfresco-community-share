@@ -1,28 +1,25 @@
 package org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Laura.Capsa
  */
 public class RemoveTagsTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
     private final String random = RandomData.getRandomAlphanumeric();
     private final String siteName1 = "site1-" + random;
     private final String siteName2 = "site2-" + random;
@@ -34,6 +31,8 @@ public class RemoveTagsTests extends ContextAwareWebTest
     private final String lastName = "LastName";
     private final String description = "Description-" + random;
     private final String fileContent = "content of the file.";
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

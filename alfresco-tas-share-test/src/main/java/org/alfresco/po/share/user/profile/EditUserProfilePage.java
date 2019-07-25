@@ -1,5 +1,7 @@
 package org.alfresco.po.share.user.profile;
 
+import java.util.List;
+
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -9,10 +11,6 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
-import org.openqa.selenium.JavascriptExecutor;
-
-
-import java.util.List;
 
 /**
  * @author bogdan.bocancea
@@ -83,7 +81,7 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
 
     @FindBy (css = "button[id$='button-cancel-button']")
     private Button cancel;
-    @FindBy (css = "span[id$='button-save']")
+    @FindBy (css = "button[id$='save-button']")
     private Button save;
 
     @Override
@@ -276,8 +274,7 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
 
     public UserProfilePage clickSave()
     {
-        //   ((JavascriptExecutor) getBrowser()).executeScript("window.scrollBy(0,500)");
-        save.click();
+        getBrowser().waitUntilElementClickable(save.getWrappedElement()).click();
         return (UserProfilePage) userProfilePage.renderedPage();
     }
 

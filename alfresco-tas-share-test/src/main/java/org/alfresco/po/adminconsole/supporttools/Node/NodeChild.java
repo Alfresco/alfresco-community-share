@@ -1,12 +1,10 @@
 package org.alfresco.po.adminconsole.supporttools.Node;
 
-import org.alfresco.po.adminconsole.supporttools.NodeBrowserQueryPage;
+import java.util.List;
+
 import org.alfresco.utility.web.browser.WebBrowser;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 /**
  * Created by Mirela Tifui on 7/3/2017.
@@ -14,8 +12,8 @@ import java.util.List;
  */
 public class NodeChild
 {
-    private List<WebElement> rowInfo;
     WebBrowser browser;
+    private List<WebElement> rowInfo;
 
     public NodeChild(List<WebElement> rowInfo, WebBrowser browser)
     {

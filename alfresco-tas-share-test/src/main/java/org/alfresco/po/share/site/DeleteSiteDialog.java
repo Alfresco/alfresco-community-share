@@ -3,6 +3,7 @@ package org.alfresco.po.share.site;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -35,11 +36,13 @@ public class DeleteSiteDialog extends ShareDialog
     @FindBy (xpath = "(//button)[2]")
     private Button no;
 
-    @FindBy (id = "ALF_SITE_SERVICE_DIALOG_CANCELLATION_label")
+    @RenderWebElement
+    @FindBy (css = "div#ALF_SITE_SERVICE_DIALOG:not([style*='display: none']) #ALF_SITE_SERVICE_DIALOG_CANCELLATION_label")
     private WebElement cancelFromSitesManager;
 
-    @FindBy (css = "span[widgetid='ALF_SITE_SERVICE_DIALOG_CONFIRMATION'] > span")
-    private WebElement sitesManager_actions_delete;
+    @RenderWebElement
+    @FindBy (xpath = "//span[@id='ALF_SITE_SERVICE_DIALOG_CONFIRMATION_label']//ancestor::span[contains(@class, 'dijitButtonNode')]")
+    private WebElement confirmFromSitesManager;
 
 
     private By deleteSiteWindow = By.cssSelector("div[id='ALF_SITE_SERVICE_DIALOG']");
@@ -95,13 +98,13 @@ public class DeleteSiteDialog extends ShareDialog
     /**
      * Click 'Ok' button from Delete site dialog, from Sites Manager page
      */
-    public void clickDeleteFromSitesManager()
+    public SitesManagerPage clickDeleteFromSitesManager()
     {
-        getBrowser().waitUntilElementClickable(sitesManager_actions_delete).click();
+        browser.waitUntilElementClickable(confirmFromSitesManager);
+        deleteSiteConfirmFromSitesManager.click();
+        confirmFromSitesManager.click();
 
-        getBrowser().clickJS(sitesManager_actions_delete);
-        getBrowser().waitInSeconds(5);
-        //     browser.waitUntilElementVisible(sitesManager_actions_delete, 10).click();
-        //      browser.waitUntilElementDisappears(deleteSiteWindow, 10L);
+        browser.waitUntilElementDisappearsWithRetry(deleteSiteWindow, 10);
+        return (SitesManagerPage) sitesManagerPage.renderedPage();
     }
 }

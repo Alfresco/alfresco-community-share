@@ -1,19 +1,23 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
-import org.alfresco.po.share.site.dataLists.ContactListSelectedContent.ListColumns;
+import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.share.site.dataLists.ContactListSelectedContent.ContactListColumns;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.*;
-
-import static org.testng.Assert.assertTrue;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class ViewingDataListsTests extends ContextAwareWebTest
 {
@@ -161,7 +165,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
         dataListsPage.clickContactListItem(listName);
 
         LOG.info("Step 2: In the table click 'Company' column headings and check the items are sorted by Company Name.");
-        assertTrue(dataListsPage.currentContent.areItemsSortedByColumnAfterClickingTheColumn(ListColumns.Company.toString()), "The data list items are sorted by Company");
+        assertTrue(dataListsPage.currentContent.areItemsSortedByColumnAfterClickingTheColumn(ContactListColumns.Company.toString()), "The data list items are sorted by Company");
     }
 
     @TestRail (id = "C5860")

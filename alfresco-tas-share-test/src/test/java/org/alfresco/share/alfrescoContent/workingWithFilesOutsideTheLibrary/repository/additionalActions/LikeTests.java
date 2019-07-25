@@ -15,13 +15,6 @@ import org.testng.annotations.Test;
 
 public class LikeTests extends ContextAwareWebTest
 {
-    @Autowired
-    private RepositoryPage repositoryPage;
-
-    @Autowired
-    private SocialFeatures socialFeatures;
-
-
     private final String user = String.format("C8301TestUser%s", RandomData.getRandomAlphanumeric());
     private final String fileNameC8301 = "C8301 file";
     private final String fileNameC8303 = "C8303 file";
@@ -29,7 +22,10 @@ public class LikeTests extends ContextAwareWebTest
     private final String path = "User Homes/" + user;
     private final String folderNameC8302 = "C8302 Folder";
     private final String folderNameC8304 = "C8304 Folder";
-
+    @Autowired
+    private RepositoryPage repositoryPage;
+    @Autowired
+    private SocialFeatures socialFeatures;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

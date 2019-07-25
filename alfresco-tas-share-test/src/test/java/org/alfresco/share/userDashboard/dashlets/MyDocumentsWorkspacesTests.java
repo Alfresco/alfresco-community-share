@@ -1,6 +1,7 @@
 package org.alfresco.share.userDashboard.dashlets;
 
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet.DocumentsFilter;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -10,7 +11,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -46,7 +46,7 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
         Assert.assertFalse(contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, file, file).getId().isEmpty(),
             file + " document creation failed");
         contentAction.setFileAsFavorite(userName, password, siteName, file);
-        getBrowser().waitInSeconds(10);
+
         myDocumentsDashlet.waitForDocument();
 
         LOG.info("STEP 1 - Select \"I've Recently Modified\" value from filter");
@@ -76,7 +76,6 @@ public class MyDocumentsWorkspacesTests extends ContextAwareWebTest
         LOG.info("STEP 4 - Log out and log in again");
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(userName, password);
-        getBrowser().waitInSeconds(8);
         userDashboardPage.navigate(userName);
         myDocumentsDashlet.waitForDocument();
         myDocumentsDashlet.refreshWhileErrorLoadingDocumentsIsDisplayed();

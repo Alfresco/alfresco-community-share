@@ -9,49 +9,35 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class TableView extends SiteCommon<TableView>
 {
-    @FindBy (css = "div[class ='documents yui-dt alf-table']")
-    private WebElement tableInTableView;
-
     @FindBy (css = "span[class ='removeDefaultView']")
     public WebElement removeDefaultView;
-
     @FindBy (css = "span[class ='setDefaultView']")
     public WebElement setDefaultView;
-
+    public By tableView = By.cssSelector("div[class ='documents yui-dt alf-table']");
+    @FindBy (css = "div[class ='documents yui-dt alf-table']")
+    private WebElement tableInTableView;
     @FindBy (css = "th[id*='-th-nodeRef']")
     private WebElement selectedColumnTitle;
-
     @FindBy (css = "th[id*='-th-status']")
     private WebElement statusColumnTitle;
-
     @FindBy (css = "th[id*='-th-thumbnail']")
     private WebElement thumbnailColumnTitle;
-
     @FindBy (css = "th[id*='-th-name']")
     private WebElement nameColumnTitle;
-
     @FindBy (css = "th[id*='-th-cmtitle']")
     private WebElement titleColumnTitle;
-
     @FindBy (css = "th[id*='-th-cmdescription']")
     private WebElement descriptionColumnTitle;
-
     @FindBy (css = "th[id*='-th-cmcreator']")
     private WebElement creatorColumnTitle;
-
     @FindBy (css = "th[id*='-th-cmcreated']")
     private WebElement createdColumnTitle;
-
     @FindBy (css = "th[id*='-th-cmmodifier']")
     private WebElement modifierColumnTitle;
-
     @FindBy (css = "th[id*='-th-modified']")
     private WebElement modifiedColumnTitle;
-
     @FindBy (css = "th[id*='-th-actions']")
     private WebElement actionsColumnTitle;
-
-    public By tableView = By.cssSelector("div[class ='documents yui-dt alf-table']");
 
     private WebElement findItemInTableInTableView(String contentName)
     {

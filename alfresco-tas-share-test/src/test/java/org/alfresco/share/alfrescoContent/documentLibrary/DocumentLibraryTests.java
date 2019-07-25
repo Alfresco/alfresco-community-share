@@ -1,7 +1,14 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -11,36 +18,25 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 public class DocumentLibraryTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private HeaderMenuBar headerMenuBar;
-
-    @Autowired
-    private DocumentsFilters filters;
-
-    @Autowired
-    private SiteDashboardPage sitePage;
-
     private final String random = RandomData.getRandomAlphanumeric();
     private final String user = "User" + random;
     private final String description = "SiteDescription" + random;
     private final String siteName = String.format("C6907Site-%s", RandomData.getRandomAlphanumeric());
     private final String docContent = "C6936 Doc content";
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private HeaderMenuBar headerMenuBar;
+    @Autowired
+    private DocumentsFilters filters;
+    @Autowired
+    private SiteDashboardPage sitePage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -68,7 +64,6 @@ public class DocumentLibraryTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Click on Document Library link.");
         sitePage.clickDocumentLibrary();
-        getBrowser().waitInSeconds(5);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library");
     }
 
@@ -137,8 +132,6 @@ public class DocumentLibraryTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Navigate to testSite's document library page.");
         documentLibraryPage.navigate(siteName);
-        getBrowser().waitInSeconds(5);
-
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library");
         assertEquals(documentLibraryPage.getCurrentSiteName(), siteName);
 

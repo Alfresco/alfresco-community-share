@@ -1,6 +1,13 @@
 package org.alfresco.po.share.dashlet;
 
-import org.alfresco.po.share.tasksAndWorkflows.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.alfresco.po.share.tasksAndWorkflows.ActiveTasksPage;
+import org.alfresco.po.share.tasksAndWorkflows.CompletedTasksPage;
+import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
+import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
+import org.alfresco.po.share.tasksAndWorkflows.ViewTaskPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -14,12 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import ru.yandex.qatools.htmlelements.element.Link;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @PageObject
 public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
 {
+    public String finalApproveMessage = "The document was reviewed and approved.";
+    public String finalRejectedMessage = "The document was reviewed and rejected.";
     @Autowired
     EditTaskPage editTaskPage;
 
@@ -191,7 +197,7 @@ public class MyTasksDashlet extends Dashlet<MyTasksDashlet>
      */
     public boolean isTaskPresent(String taskName)
     {
-        return selectTask(taskName) != null;
+        return browser.isElementDisplayed(selectTask(taskName));
     }
 
     /**

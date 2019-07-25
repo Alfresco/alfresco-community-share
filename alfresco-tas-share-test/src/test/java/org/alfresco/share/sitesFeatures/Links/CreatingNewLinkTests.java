@@ -1,6 +1,7 @@
 package org.alfresco.share.sitesFeatures.Links;
 
 import org.alfresco.dataprep.DashboardCustomization;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
@@ -10,7 +11,6 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -31,10 +31,9 @@ public class CreatingNewLinkTests extends ContextAwareWebTest
 
     @Autowired
     LinkDetailsViewPage linkDetailsViewPage;
-
+    DateTime currentDate;
     private String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
     private String siteName = "";
-    DateTime currentDate;
     private String linkTitle = String.format("Link%s", RandomData.getRandomAlphanumeric());
     private String linkURL = "https://www.google.com";
     private String linkDescription = String.format("Link description%s", RandomData.getRandomAlphanumeric());

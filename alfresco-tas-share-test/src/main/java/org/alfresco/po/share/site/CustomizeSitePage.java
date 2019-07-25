@@ -1,5 +1,8 @@
 package org.alfresco.po.share.site;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.Theme;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -9,9 +12,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.qatools.htmlelements.element.Button;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author bogdan.bocancea
@@ -128,7 +128,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
     /**
      * Verify if rename action is displayed for a current page
      *
-     * @param SitePageType page
+     * @param page
      * @return true if displayed
      */
     public boolean isRenameDisplayed(SitePageType page)
@@ -139,7 +139,7 @@ public class CustomizeSitePage extends SiteCommon<CustomizeSiteDashboardPage>
     /**
      * Verify if remove action is displayed for a current page
      *
-     * @param SitePageType page
+     * @param page
      * @return true if displayed
      */
     public boolean isRemoveDisplayed(SitePageType page)

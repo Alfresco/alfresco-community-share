@@ -24,16 +24,6 @@ public enum SiteActivitiesDaysRangeFilter
         this.description = description;
     }
 
-    /**
-     * Gets description.
-     *
-     * @return String description
-     */
-    public String getDescription()
-    {
-        return this.description;
-    }
-
     public static SiteActivitiesDaysRangeFilter getFilter(String description)
     {
         for (SiteActivitiesDaysRangeFilter filter : SiteActivitiesDaysRangeFilter.values())
@@ -44,5 +34,15 @@ public enum SiteActivitiesDaysRangeFilter
             }
         }
         return null;
+    }
+
+    /**
+     * Gets description.
+     *
+     * @return String description
+     */
+    public String getDescription()
+    {
+        return this.description;
     }
 }

@@ -1,14 +1,14 @@
 package org.alfresco.po.adminconsole.directories.DirectoryManagement;
 
+import static org.alfresco.utility.report.log.Step.STEP;
+
+import java.util.HashMap;
+
 import org.alfresco.po.adminconsole.AdminConsoleDialog;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import java.util.HashMap;
-
-import static org.alfresco.utility.report.log.Step.STEP;
 
 /**
  * Created by Claudia Agache on 8/23/2017.
@@ -16,13 +16,12 @@ import static org.alfresco.utility.report.log.Step.STEP;
 @PageObject
 public class AuthenticationTestDialog extends AdminConsoleDialog
 {
+    String message = "";
+    HashMap<String, String> diagnostic = new HashMap<>();
     private By runTestButton = By.cssSelector(".buttons>.inline");
     private By resultLocator = By.id("test-results");
     private By messageLocator = By.cssSelector("#test-diagnostics>div");
     private By diagnosticLocator = By.cssSelector(".results>tbody>tr");
-
-    String message = "";
-    HashMap<String, String> diagnostic = new HashMap<>();
 
     public String runTest(UserModel userModel) throws Exception
     {

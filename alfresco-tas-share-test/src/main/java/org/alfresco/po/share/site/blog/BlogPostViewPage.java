@@ -1,5 +1,8 @@
 package org.alfresco.po.share.site.blog;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -10,69 +13,47 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @PageObject
 public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 {
+    public By commentText = By.cssSelector("div[class ='comment-content'] p");
+    @FindBy (xpath = "//tbody[@class = 'yui-dt-message']//div[@class = 'yui-dt-liner']")
+    public WebElement noCommentsText;
     @Autowired
     CreateBlogPostPage createBlogPostPage;
-
     @Autowired
     BlogPostListPage blogPostListPage;
-
     @Autowired
     EditBlogPostPage editBlogPostPage;
-
     @Autowired
     DeleteDialog deleteDialog;
-
     @Autowired
     BlogPromptWindow blogPromptWindow;
-
     @RenderWebElement
     @FindBy (css = "div[id*='_blog-postview'] div.nodeTitle>a")
     private WebElement blogPostTitle;
-
     //@RenderWebElement
     @FindBy (css = "div[id*='_blog-postview'] div.content")
     private WebElement blogPostContent;
-
     @FindBy (css = ".published .nodeAttrValue>a")
     private WebElement blogPostAuthor;
-
     @FindBy (css = ".nodeTitle .nodeStatus")
     private WebElement blogPostNote;
-
     @FindBy (css = "div[id*='_blog-postview'] .backLink>a")
     private WebElement blogPostListButton;
-
     @FindBy (css = "button[id$='_default-create-button-button']")
     private WebElement newPostButton;
-
     @FindBy (css = ".onEditBlogPost>a")
     private WebElement editButton;
-
     @FindBy (css = ".onDeleteBlogPost>a")
     private WebElement deleteButton;
-
     @FindBy (css = ".onAddCommentClick button")
     private WebElement addCommentButton;
-
     @FindAll (@FindBy (css = ".tag>a"))
     private List<WebElement> blogTags;
-
     private By commentAuthorName = By.xpath("//span[@class = 'info']/a");
-
-    public By commentText = By.cssSelector("div[class ='comment-content'] p");
-
     private By editCommentButton = By.xpath("//a[@title='Edit Comment']");
-
     private By deleteCommentButton = By.xpath("//a[@title = 'Delete Comment']");
-
-    @FindBy (xpath = "//tbody[@class = 'yui-dt-message']//div[@class = 'yui-dt-liner']")
-    public WebElement noCommentsText;
 
     @Override
     public String getRelativePath()

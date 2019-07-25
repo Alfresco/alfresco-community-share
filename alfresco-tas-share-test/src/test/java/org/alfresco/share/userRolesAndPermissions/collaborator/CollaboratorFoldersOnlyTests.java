@@ -1,5 +1,12 @@
 package org.alfresco.share.userRolesAndPermissions.collaborator;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Arrays;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
@@ -9,33 +16,15 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-
-import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
-import static org.testng.Assert.*;
 
 /**
  * @author Laura.Capsa
  */
 public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentsFilters documentsFilters;
-
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
-    @Autowired
-    private CreateContent createContent;
-
-    @Autowired
-    private ManageRulesPage manageRulesPage;
-
     private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String user = "Collaborator-" + uniqueId;
     private final String site = "site-" + uniqueId;
@@ -48,13 +37,21 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
     private final String path = "Sites/" + site + "/documentLibrary/" + folderName;
     private final String tag = "tag-" + uniqueId.toLowerCase();
     private final String title = "Title-" + uniqueId;
+    @Autowired
+    private DocumentsFilters documentsFilters;
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
+    @Autowired
+    private CreateContent createContent;
+    @Autowired
+    private ManageRulesPage manageRulesPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, domain, name, user);
         siteService.create(adminUser, adminPassword, domain, site, description, SiteService.Visibility.PUBLIC);
-        userService.createSiteMember(adminUser, adminPassword, user, site, String.valueOf(SiteCollaborator));
+        userService.createSiteMember(adminUser, adminPassword, user, site, "SiteCollaborator");
         contentService.createFolder(adminUser, adminPassword, folderName, site);
         contentService.createFolder(user, password, folderName3, site);
         contentService.createFolderInRepository(adminUser, adminPassword, subFolderName, path);

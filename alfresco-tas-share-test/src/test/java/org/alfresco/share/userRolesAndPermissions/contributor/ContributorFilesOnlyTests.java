@@ -1,6 +1,13 @@
 package org.alfresco.share.userRolesAndPermissions.contributor;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
@@ -14,18 +21,12 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
+import org.alfresco.utility.report.Bug.Status;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class ContributorFilesOnlyTests extends ContextAwareWebTest
 {
@@ -93,6 +94,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Page displayed");
         assertEquals(documentDetailsPage.getContentText(), "test", "File preview displayed");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/test", deletePath));
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8911")
@@ -110,6 +113,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.renderedPage();
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), String.format("The file [%s] is not present", fileName));
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8912")
@@ -124,6 +129,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         download.acceptAlertIfDisplayed();
         getBrowser().waitInSeconds(2);
         Assert.assertTrue(download.isFileInDirectory(adminFile, null), "The file was not found in the specified location");
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8913")
@@ -139,9 +146,11 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.clickAction(adminFile, "View In Browser");
         getBrowser().waitInSeconds(2);
         assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), fileContent, "Correct file content/ file opened in new window");
+
+        cleanupAuthenticatedSession();
     }
 
-    @Bug (id = "MNT-18059", status = Bug.Status.OPENED)
+    @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8914")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void uploadNewVersionForItemCreatedBySelf()
@@ -163,6 +172,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFile(newVersionFileName);
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFileName));
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8915")
@@ -175,6 +186,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Step1: Mouse over test File and check 'Upload new version' action is not available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, "Upload New Version"),
             "Upload New Version available for Contributor user");
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8916")
@@ -200,6 +213,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Upload New Version"),
             "Upload New Version available for Contributor user");
 
+        cleanupAuthenticatedSession();
         siteService.delete(adminUser, adminPassword, siteNameC8916);
 
     }
@@ -217,6 +231,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit in Microsoft Office"),
             "Edit in Microsoft Office available for Contributor user");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8918")
@@ -232,6 +248,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Edit in Microsoft Office"),
             "Edit in Microsoft Office available for Contributor user");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8919")
@@ -254,6 +272,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFile("editedName");
         Assert.assertEquals(documentDetailsPage.getContentText(), "editedContent");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/editedName", deletePath));
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8920")
@@ -268,6 +288,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
             "Edit in Alfresco available for Contributor user");
     }
 
+    @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8921")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void editOfflineForContentCreatedBySelf()
@@ -297,6 +318,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFile(newVersionFileName);
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFileName));
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8922")
@@ -308,6 +331,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         LOG.info("Steps1: Mouse over file and check 'Edit Offline' action is available.");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, "Edit Offline"), "Edit Offline available for Contributor user");
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8925")
@@ -353,6 +378,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Steps9: Verify the file content is correct");
         Assert.assertTrue(documentDetailsPage.getContentText().replaceAll("\\s+", "").contains("Edited"), "File preview correctly displayed");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/GDTitle.docx", deletePath));
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8926")
@@ -374,6 +401,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(googleDocName, "Edit in Google Docs"),
             "Edit in Google Docs available for Contributor user");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, googleDocName));
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8928")
@@ -398,6 +427,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(googleDocName, "Check In Google Doc"),
             "Check In Google Doc available for Contributor user");
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8929")
@@ -424,6 +455,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         documentLibraryPage.renderedPage();
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(fileName), "Document appears to be locked");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8930")
@@ -448,9 +481,9 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertEquals(documentLibraryPage.getLockedByUserName(), "Administrator", "The document is not locked");
         LOG.info("Step3: Hover over test file and check whether 'Cancel Editing' action is missing");
         Assert.assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(fileName, "Cancel Editing"), "Cancel Editing available for Contributor user");
+
+        cleanupAuthenticatedSession();
         siteService.delete(adminUser, adminPassword, siteNameC8930);
-
-
     }
 
     @TestRail (id = "C8931")
@@ -479,8 +512,9 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Page displayed");
         assertEquals(documentDetailsPage.getContentText(), content, "File preview successfully displayed");
         Assert.assertEquals(documentDetailsPage.getLockedMessage(), "This document is locked by Administrator.", "Document appears to be locked by admin user");
-        siteService.delete(adminUser, adminPassword, siteNameC8931);
 
+        cleanupAuthenticatedSession();
+        siteService.delete(adminUser, adminPassword, siteNameC8931);
     }
 
     @TestRail (id = "C8932")
@@ -514,6 +548,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         assertEquals(documentDetailsPage.getContentText(), content, "File preview successfully displayed");
         Assert.assertTrue(documentDetailsPage.isActionAvailable("View Original Document"));
 
+        cleanupAuthenticatedSession();
         siteService.delete(adminUser, adminPassword, siteNameC8932);
 
     }
@@ -539,6 +574,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         assertTrue(getBrowser().getCurrentUrl().contains(docsUrl),
             "After clicking on Google Docs link, the title is: " + getBrowser().getCurrentUrl());
         closeWindowAndSwitchBack();
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8934")
@@ -558,6 +595,8 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         startWorkflowPage.selectAWorkflow("New Task");
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Start Workflow", "Displayed page=");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
+
+        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8935")
@@ -583,9 +622,11 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(fileName), "User is redirected to location of the created document.");
         siteService.delete(adminUser, adminPassword, siteNameC8935);
         // On 5.2, the file it's checked
+
+        cleanupAuthenticatedSession();
     }
 
-
+    @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8936")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void downloadPreviousVersion()
@@ -615,8 +656,11 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         getBrowser().waitInSeconds(2);
         Assert.assertTrue(download.isFileInDirectory(fileName, null), "The file was not found in the specified location");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
+
+        cleanupAuthenticatedSession();
     }
 
+    @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8937")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void revertToPreviousVersion()
@@ -647,5 +691,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getContentText(), "original content", "New version's content");
         Assert.assertTrue(documentDetailsPage.isNewVersionAvailable("1.2"), "New minor version created");
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, fileName));
+
+        cleanupAuthenticatedSession();
     }
 }

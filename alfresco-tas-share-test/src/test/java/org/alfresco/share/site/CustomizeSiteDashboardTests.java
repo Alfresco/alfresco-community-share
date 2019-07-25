@@ -1,5 +1,6 @@
 package org.alfresco.share.site;
 
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.DashboardCustomizationImpl.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
@@ -10,7 +11,6 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -134,13 +134,13 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
         LOG.info("Step 2 - Click 'Add dashlets' button. Drag and drop available dashlets into a column.");
         customizeSite.addDashlet(Dashlets.WIKI, 1);
         customizeSite.addDashlet(Dashlets.SITE_PROFILE, 2);
-        customizeSite.addDashlet(Dashlets.SITE_LINKS, 1);
+        customizeSite.addDashlet(Dashlets.SITE_LINKS, 2);
 
         LOG.info("Step 3 - Click 'Ok' button.");
         customizeSite.clickOk();
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.WIKI, 1, 2), "Dashlet " + Dashlets.WIKI.getDashletName() + " is missing");
         Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_PROFILE, 2, 3), "Dashlet " + Dashlets.SITE_PROFILE.getDashletName() + " is missing");
-        Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_LINKS, 1, 3), "Dashlet " + Dashlets.SITE_LINKS.getDashletName() + " is missing");
+        Assert.assertTrue(siteDashboard.isDashletAddedInPosition(Dashlets.SITE_LINKS, 2, 4), "Dashlet " + Dashlets.SITE_LINKS.getDashletName() + " is missing");
 
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);

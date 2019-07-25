@@ -1,5 +1,10 @@
 package org.alfresco.share.site.members;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.site.members.AddSiteGroupsPage;
@@ -13,41 +18,32 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
-
 public class AddSiteGroupsTest extends ContextAwareWebTest
 {
-    @Autowired
-    MySitesDashlet mySitesDashlet;
-
-    @Autowired
-    AddSiteUsersPage addSiteUsers;
-
-    @Autowired
-    AddSiteGroupsPage addSiteGroups;
-
-    @Autowired
-    SiteGroupsPage siteGroups;
-
-    @Autowired
-    SiteUsersPage siteUsers;
-
-    @Autowired
-    Notification notification;
-
     private final String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private final String user2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
-    private String user3 = String.format("User3%s", RandomData.getRandomAlphanumeric());
-    private String siteName;
     private final String description = String.format("description%s", RandomData.getRandomAlphanumeric());
     private final String group = String.format("aGroup%s", RandomData.getRandomAlphanumeric());
     private final String group2 = String.format("aGroup2%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    MySitesDashlet mySitesDashlet;
+    @Autowired
+    AddSiteUsersPage addSiteUsers;
+    @Autowired
+    AddSiteGroupsPage addSiteGroups;
+    @Autowired
+    SiteGroupsPage siteGroups;
+    @Autowired
+    SiteUsersPage siteUsers;
+    @Autowired
+    Notification notification;
+    private String user3 = String.format("User3%s", RandomData.getRandomAlphanumeric());
+    private String siteName;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

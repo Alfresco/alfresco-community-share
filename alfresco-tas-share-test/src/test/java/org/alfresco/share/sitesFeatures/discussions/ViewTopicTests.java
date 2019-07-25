@@ -1,6 +1,16 @@
 package org.alfresco.share.sitesFeatures.discussions;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
+
 import org.alfresco.dataprep.DashboardCustomization.Page;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.discussion.TopicListPage;
 import org.alfresco.po.share.site.discussion.TopicViewPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -8,17 +18,9 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 8/10/2016.
@@ -30,7 +32,8 @@ public class ViewTopicTests extends ContextAwareWebTest
 
     @Autowired
     TopicViewPage topicViewPage;
-
+    DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
+    String today;
     private String user1 = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String user2 = String.format("User2%s", RandomData.getRandomAlphanumeric());
     private String siteName = String.format("Site1%s", RandomData.getRandomAlphanumeric());
@@ -38,8 +41,6 @@ public class ViewTopicTests extends ContextAwareWebTest
     private String topicContent = "Some content";
     private String topicTag = "tag1";
     private String topicReply = "Some reply from user2.";
-    DateFormat df = new SimpleDateFormat("EE d MMM yyyy");
-    String today;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

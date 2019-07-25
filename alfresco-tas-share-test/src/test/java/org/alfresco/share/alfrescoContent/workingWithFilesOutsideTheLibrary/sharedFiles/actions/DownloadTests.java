@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
+import java.io.File;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
@@ -12,24 +14,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.io.File;
 
 public class DownloadTests extends ContextAwareWebTest
 {
-    @Autowired
-    private SharedFilesPage sharePage;
-
-    @Autowired
-    private DocumentCommon documentCommon;
-
+    private final String random = RandomData.getRandomAlphanumeric();
     private final String user = String.format("C8024TestUser%s", RandomData.getRandomAlphanumeric());
-    private final String fileNameC8024 = "C8024 file2";
-    private final String folderNameC8027 = "folderNameC80272";
+    private final String fileNameC8024 = "C8024 file2 " + random;
+    private final String folderNameC8027 = "folderNameC80272 " + random;
     private final String fileContent = "test content";
     private final String path = "Shared";
     private final String downloadPath = srcRoot + "testdata";
+    @Autowired
+    private SharedFilesPage sharePage;
+    @Autowired
+    private DocumentCommon documentCommon;
     private File downloadDirectory;
     private Alert alert;
 
@@ -60,13 +60,18 @@ public class DownloadTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, fileNameC8024, fileContent);
         contentService.createFolderInRepository(adminUser, adminPassword, folderNameC8027, path);
+    }
 
+    @BeforeMethod (alwaysRun = true)
+    public void beforeMethod()
+    {
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass
+    @AfterClass (alwaysRun = true)
     public void cleanUp()
     {
+        cleanupAuthenticatedSession();
         userService.delete(adminUser, adminPassword, user);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
 
@@ -95,7 +100,7 @@ public class DownloadTests extends ContextAwareWebTest
         Assert.assertTrue(isFileInDirectory(fileNameC8024, null), "The file was not found in the specified location");
     }
 
-    @TestRail (id = " C8027")
+    @TestRail (id = "C8027")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
 
     public void downloadFolder()
@@ -104,7 +109,7 @@ public class DownloadTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Mouse over folder, click Download");
         sharePage.clickDocumentLibraryItemAction(folderNameC8027, "Download as Zip", sharePage);
-        getBrowser().waitInSeconds(10);
+
         if (documentCommon.isAlertPresent())
         {
             alert = getBrowser().switchTo().alert();

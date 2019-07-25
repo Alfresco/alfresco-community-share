@@ -1,5 +1,10 @@
 package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
+import static org.testng.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -8,11 +13,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
 
 /**
  * @author Laura.Capsa
@@ -56,10 +56,21 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     @FindBy (css = "input[id*='default-applyToChildren']")
     private WebElement ruleAppliesToSubfoldersCheckbox;
 
+    @FindBy (css = "input[id*='ruleConfigUnlessCondition']")
+    private WebElement unlessCheckbox;
+
     private String dropdownSelector = "div[id*='%s'] select[class='config-name']";
+
+    private String secondDropdownSelector = "div[id*='%s'] select[class='suppress-validation']";
+
+    private String inputConfigText = "ul[id*='%s'] input[type='text']";
+
     private By ifConditionCompareSelector = By.cssSelector("div[id*='ruleConfigIfCondition'] span[class*='compare-property'] select");
+
     private By copySelectButtonSelector = By.cssSelector("div[id*='ruleConfigAction'] .parameters button");
+
     private ArrayList<String> selectedValues = new ArrayList<>();
+
     private By aspectDropdownList = By.cssSelector("select[title='aspect-name']>option");
 
     @Override
@@ -100,6 +111,13 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     public void selectOptionFromDropdown(String dropdownId, int indexOfOption)
     {
         Select dropdown = new Select(browser.findElement(By.cssSelector(String.format(dropdownSelector, dropdownId))));
+        dropdown.selectByIndex(indexOfOption);
+        selectedValues.add(dropdown.getFirstSelectedOption().getText());
+    }
+
+    public void selectOptionFromSecondDropdown(String dropdownId, int indexOfOption)
+    {
+        Select dropdown = new Select(browser.findElement(By.cssSelector(String.format(secondDropdownSelector, dropdownId))));
         dropdown.selectByIndex(indexOfOption);
         selectedValues.add(dropdown.getFirstSelectedOption().getText());
     }
@@ -207,5 +225,42 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
     public void selectAspect(String aspectName)
     {
         browser.selectOptionFromFilterOptionsList(aspectName, browser.findElements(aspectDropdownList));
+    }
+
+    /**
+     * Click on checkbox  "Unless all criteria are met:".
+     */
+    public void clickUnlessCheckbox()
+    {
+        browser.waitUntilElementClickable(unlessCheckbox).click();
+    }
+
+    /**
+     * Verify if "Unless all criteria are met:" is checked.
+     *
+     * @return true if is checked.
+     */
+    public boolean isUnlessCheckboxSelected()
+    {
+        return unlessCheckbox.isSelected();
+    }
+
+    /**
+     * Method typeInputConfigText used for write the condtion on "Unless all criteria are met:" textbox.
+     *
+     * @param textBoxId used for
+     */
+    public void typeInputConfigText(String textBoxId, String condition)
+    {
+        WebElement element = browser.findElement(By.cssSelector(String.format(inputConfigText, textBoxId)));
+        element.clear();
+        element.sendKeys(condition);
+
+    }
+
+    public String getInputConfigText(String textBoxId)
+    {
+        WebElement element = browser.findElement(By.cssSelector(String.format(inputConfigText, textBoxId)));
+        return element.getAttribute("value");
     }
 }

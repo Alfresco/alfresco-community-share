@@ -1,12 +1,12 @@
 package org.alfresco.po.share.alfrescoContent.organizingContent;
 
+import java.util.List;
+
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 /**
  * @author Laura.Capsa

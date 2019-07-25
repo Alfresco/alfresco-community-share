@@ -1,7 +1,11 @@
 package org.alfresco.share.sitesFeatures.dataLists;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService.DataList;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
@@ -17,12 +21,12 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class AccessingDataListsComponentTests extends ContextAwareWebTest
 {
@@ -49,20 +53,28 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     {
         userName = String.format("User%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
+    }
+
+    @BeforeMethod (alwaysRun = true)
+    public void precondition()
+    {
         siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
         siteService.create(userName, password, domain, siteName, siteName, SiteService.Visibility.PUBLIC);
         siteService.addPageToSite(userName, password, siteName, Page.DATALISTS, null);
     }
-
 
     @AfterClass (alwaysRun = true)
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, userName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + userName);
-        siteService.delete(adminUser, adminPassword, siteName);
     }
 
+    @AfterMethod (alwaysRun = true)
+    public void afterMethod()
+    {
+        siteService.delete(adminUser, adminPassword, siteName);
+    }
 
     @TestRail (id = "C5844")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
@@ -176,7 +188,6 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
         Assert.assertFalse(dataListsPage.currentContent.isSelectItemsButtonEnabled(), "'Select items' button is enabled.");
 
         LOG.info("Step 3: Mouse over the list displayed under Lists");
-        getBrowser().waitInSeconds(5);
         Assert.assertTrue(dataListsPage.isEditButtonDisplayedForList(listName), "'Edit' button is displayed.");
         Assert.assertTrue(dataListsPage.isDeleteButtonDisplayedForList(listName), "'Delete' button is displayed.");
     }

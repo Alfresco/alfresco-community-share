@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles;
 
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -9,9 +10,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 /**
@@ -28,7 +27,6 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
 
     @Autowired
     private SelectDialog selectDialog;
-
 
     private String uniqueIdentifier;
     private String userName;
@@ -55,7 +53,6 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
     }
-
 
     @TestRail (id = "C7005")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })

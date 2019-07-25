@@ -1,6 +1,14 @@
 package org.alfresco.share.alfrescoContent.organizingContent;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -9,28 +17,21 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.report.Bug;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by Claudia Agache on 9/13/2016.
  */
 public class LocateItemsAndFoldersTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentLibraryPage documentLibraryPage;
-
     private final String testUser = String.format("user%s", RandomData.getRandomAlphanumeric());
     private final String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private final String folderName = String.format("locateFolder%s", RandomData.getRandomAlphanumeric());
     private final String docName = String.format("locateDoc%s", RandomData.getRandomAlphanumeric());
+    @Autowired
+    private DocumentLibraryPage documentLibraryPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

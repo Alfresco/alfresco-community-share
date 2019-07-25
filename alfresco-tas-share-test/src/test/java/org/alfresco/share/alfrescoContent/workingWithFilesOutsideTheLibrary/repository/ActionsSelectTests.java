@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
+import static org.testng.Assert.assertTrue;
+
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
@@ -15,25 +17,19 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertTrue;
-
 public class ActionsSelectTests extends ContextAwareWebTest
 {
-    @Autowired
-    private RepositoryPage repositoryPage;
-
-    @Autowired
-    private HeaderMenuBar menuBar;
-
-    @Autowired
-    private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
-
     private final String user = String.format("8163TestUser%s", RandomData.getRandomAlphanumeric());
-
     private final String fileName = "C8163 file";
     private final String fileContent = "8163 content";
     private final String path = "User Homes/" + user;
     private final String folderName = "C8164 Folder";
+    @Autowired
+    private RepositoryPage repositoryPage;
+    @Autowired
+    private HeaderMenuBar menuBar;
+    @Autowired
+    private CopyMoveUnzipToDialog copyMoveUnzipToDialog;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()

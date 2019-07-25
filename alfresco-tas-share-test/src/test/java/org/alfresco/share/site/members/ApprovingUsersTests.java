@@ -1,5 +1,6 @@
 package org.alfresco.share.site.members;
 
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
@@ -19,9 +20,7 @@ import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -53,23 +52,18 @@ public class ApprovingUsersTests extends ContextAwareWebTest
 
     @Autowired
     MyTasksDashlet myTasksDashlet;
-
-    @Autowired
-    private SiteDashboardPage siteDashboardPage;
-
     @Autowired
     DataUser dataUser;
-
     @Autowired
     DataSite dataSite;
-
     UserModel testUser;
     UserModel managerUser;
     UserModel collaboratorUser;
     UserModel contributorUser;
     UserModel consumerUser;
     SiteModel moderatedSite;
-
+    @Autowired
+    private SiteDashboardPage siteDashboardPage;
     private String userManager = String.format("User1%s", RandomData.getRandomAlphanumeric());
     private String userTest = String.format("User2%s", RandomData.getRandomAlphanumeric());
     private String siteNameC2461 = "SiteC2461" + RandomData.getRandomAlphanumeric();
@@ -91,10 +85,10 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, userManager, password, userManager + domain, userManager, userManager);
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
         siteService.create(userManager, password, domain, siteNameC2461, siteNameC2461, SiteService.Visibility.MODERATED);
-        siteService.create(userManager, password, domain, siteNameC2462, siteNameC2461, SiteService.Visibility.MODERATED);
-        siteService.create(userManager, password, domain, siteNameC2463, siteNameC2461, SiteService.Visibility.MODERATED);
-        siteService.create(userManager, password, domain, siteNameC2464, siteNameC2461, SiteService.Visibility.MODERATED);
-        siteService.create(userManager, password, domain, siteNameC2549, siteNameC2461, SiteService.Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2462, siteNameC2462, SiteService.Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2463, siteNameC2463, SiteService.Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2464, siteNameC2464, SiteService.Visibility.MODERATED);
+        siteService.create(userManager, password, domain, siteNameC2549, siteNameC2549, SiteService.Visibility.MODERATED);
         dataUser.addUserToSite(collaboratorUser, moderatedSite, UserRole.SiteCollaborator);
         dataUser.addUserToSite(contributorUser, moderatedSite, UserRole.SiteContributor);
         dataUser.addUserToSite(consumerUser, moderatedSite, UserRole.SiteConsumer);
@@ -325,7 +319,6 @@ public class ApprovingUsersTests extends ContextAwareWebTest
         Assert.assertFalse(myTasksDashlet.isTaskPresent(taskName), "Task is present");
 
         LOG.info("Step 7: Switch the filter to 'Completed tasks'");
-        getBrowser().waitInSeconds(5);
         myTasksDashlet.selectOptionFromTaskFilters("Completed Tasks");
         Assert.assertTrue(myTasksDashlet.isTaskPresent(taskName), "Task is not present in Completed tasks");
 

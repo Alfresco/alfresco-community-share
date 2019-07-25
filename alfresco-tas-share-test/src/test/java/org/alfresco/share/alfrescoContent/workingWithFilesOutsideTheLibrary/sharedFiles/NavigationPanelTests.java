@@ -1,5 +1,11 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.share.ContextAwareWebTest;
@@ -11,27 +17,19 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 /**
  * @author Laura.Capsa
  */
 public class NavigationPanelTests extends ContextAwareWebTest
 {
-    @Autowired
-    private DocumentsFilters documentsFilters;
-
-    @Autowired
-    private SharedFilesPage sharedFilesPage;
-
     private final String uniqueId = RandomData.getRandomAlphanumeric();
     private final String folderName = "folder-C7928-" + uniqueId;
     private final String path = "Shared/";
     private final String tag = "tag-" + uniqueId.toLowerCase();
+    @Autowired
+    private DocumentsFilters documentsFilters;
+    @Autowired
+    private SharedFilesPage sharedFilesPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
