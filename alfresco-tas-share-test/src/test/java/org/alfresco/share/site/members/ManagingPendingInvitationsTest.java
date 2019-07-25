@@ -1,6 +1,9 @@
 package org.alfresco.share.site.members;
 
+import java.util.Date;
+
 import org.alfresco.common.DataUtil;
+import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.po.share.site.members.PendingInvitesPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
@@ -10,11 +13,8 @@ import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.alfresco.dataprep.SiteService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.Date;
 
 public class ManagingPendingInvitationsTest extends ContextAwareWebTest
 {
@@ -27,11 +27,11 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
     @Autowired
     PendingInvitesPage pendingInvitesPage;
 
+    /**
+     * Deprecated for Alfresco 5.1.N and above
+     */
     @TestRail (id = "C2894")
     @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SITES})
-    /**
-     * Deprecated from Alfresco 5.1.N
-     */
     public void pendingInvitesAreAvailableOnlyForSiteManagers()
     {
         String userManager = String.format("User1%s", RandomData.getRandomAlphanumeric());
@@ -88,11 +88,11 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
 
     }
 
+    /**
+     * Deprecated for Alfresco 5.1.N and above
+     */
     @TestRail (id = "C2895")
     @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SITES, "ExternalUsers" })
-    /**
-     * Deprecated from Alfresco 5.1.N
-     */
     public void searchForPendingInvites()
     {
         String userRole = "Contributor";
@@ -170,11 +170,11 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
 
     }
 
+    /**
+     * Deprecated for Alfresco 5.1.N and above
+     */
     @TestRail (id = "C2898")
     @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SITES, "ExternalUsers" })
-    /**
-     * Deprecated from Alfresco 5.1.N
-     */
     public void verifyPendingInvitesPage()
     {
         String userRole = "Collaborator";
@@ -217,11 +217,11 @@ public class ManagingPendingInvitationsTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
+    /**
+     * Deprecated for Alfresco 5.1.N and above
+     */
     @TestRail (id = "C2900")
     @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SITES })
-    /**
-     * Deprecated from Alfresco 5.1.N
-     */
     public void verifyPendingInvitesForInternalUsers()
     {
         String userRole = "Consumer";
