@@ -1,0 +1,2174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Tests for Test Group = sanity" verbose="1">
+    <test name="Tas sanity suite">
+        <classes>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.SharedFilesTests">
+                <methods>
+                    <include name="verifyShareButton"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.MyMeetingWorkspacesTests">
+                <methods>
+                    <include name="meetingWorkspacesDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.BecomeContentOwnerTests">
+                <methods>
+                    <include name="becomeFileOwner"/>
+                    <include name="becomeFolderOwner"/>
+                    <include name="cancelBecomeOwner"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userRolesAndPermissions.collaborator.CollaboratorFoldersAndFilesTests">
+                <methods>
+                    <include name="collaboratorAddComment"/>
+                    <include name="collaboratorCopyTo"/>
+                    <include name="collaboratorDeleteByOthers"/>
+                    <include name="collaboratorDeleteBySelf"/>
+                    <include name="collaboratorDeleteCommentByOthers"/>
+                    <include name="collaboratorDeleteCommentBySelf"/>
+                    <include name="collaboratorEditBasicDetailsByOthers"/>
+                    <include name="collaboratorEditBasicDetailsBySelf"/>
+                    <include name="collaboratorEditCommentByOthers"/>
+                    <include name="collaboratorEditCommentBySelf"/>
+                    <include name="collaboratorFavoriteUnfavorite"/>
+                    <include name="collaboratorLikeUnlike"/>
+                    <include name="collaboratorManageAspectsByOthers"/>
+                    <include name="collaboratorManageAspectsBySelf"/>
+                    <include name="collaboratorManagePermissionsByOthers"/>
+                    <include name="collaboratorManagePermissionsBySelf"/>
+                    <include name="collaboratorMoveByOthers"/>
+                    <include name="collaboratorMoveBySelf"/>
+                    <include name="collaboratorRenameByOthers"/>
+                    <include name="collaboratorRenameBySelf"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.WorkingWithTagsTests">
+                <methods>
+                    <include name="updateTags"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.searching.advancedSearch.AdvancedSearchOperatorsTests">
+                <methods>
+                    <include name="explicitSpansPositions"/>
+                    <include name="extendedSearch"/>
+                    <include name="recurringPhrases"/>
+                    <include name="wildcards"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.ViewingDataListsTests">
+                <methods>
+                    <include name="aSinglePageOfListItemsViewed"/>
+                    <include name="dataListItemsSortedByColumn"/>
+                    <include name="filterAreVisibleOnlyIfAListIsSelected"/>
+                    <include name="multiplePagesViewedInDataListsExplorerPanel"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.security.DashboardXSSTests">
+                <methods>
+                    <include name="configureWebViewForUserDashboard"/>
+                    <include name="editingSiteDetailsWithXSS"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesDeleteTests">
+                <methods>
+                    <include name="myFilesDeleteDocument"/>
+                    <include name="myFilesDeleteFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.UnzippingContentTests">
+                <methods>
+                    <include name="cancelUnzipAcpFile"/>
+                    <include name="unzipAcpFileToDocumentLibraryOfTheSameSite"/>
+                    <include name="unzipZipFileToDocumentLibraryOfTheSameSite"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.MultiSelectingContentTests">
+                <methods>
+                    <include name="selectItemsByCheckbox"/>
+                    <include name="selectItemsByMenu"/>
+                    <include name="selectMultipleDocumentsStartWorkflow"/>
+                    <include name="selectedItemsDelete"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsManageAspectsTests">
+                <methods>
+                    <include name="checkAspectsForm"/>
+                    <include name="manageAspectsAdminOnRepositoryMainFolder"/>
+                    <include name="manageAspectsApplyChanges"/>
+                    <include name="manageAspectsForNonAdminOnRepositoryMainFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.locationList.EditLocationItemTest">
+                <methods>
+                    <include name="saveEditItem"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.SharedFilesManageAspectsTests">
+                <methods>
+                    <include name="checkManageAspectActions"/>
+                    <include name="manageAspectsActionMissing"/>
+                    <include name="manageAspectsApplyChanges"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.ToolbarTests">
+                <methods>
+                    <include name="adminToolsAreAvailableOnlyForSystemAdministrators"/>
+                    <include name="siteManagerIsAvailableOnlyForSiteAdministrators"/>
+                    <include name="theToolbarIsAlwaysAvailableAtTheTopOfThePage"/>
+                    <include name="verifyAlfrescoToolbarItems"/>
+                    <include name="verifyTheLinksFromAlfrescoToolbar"/>
+                    <include name="verifyTheLinksFromSitesMenu"/>
+                    <include name="verifyTheLinksFromTasksMenu"/>
+                    <include name="verifyTheLinksFromTheUserMenu"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.blog.BrowsingBlogPostsTests">
+                <methods>
+                    <include name="browseTheBlogPosts"/>
+                    <include name="browseTheBlogPostsArchive"/>
+                    <include name="browseTheBlogPostsByTags"/>
+                    <include name="browseTheBlogPostsLatestPosts"/>
+                    <include name="browseTheBlogPostsMyDrafts"/>
+                    <include name="browseTheBlogPostsMyPublishedPosts"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.tasksAndWorkflows.CancellingAWorkflow.CancelWorkflowsTests">
+                <methods>
+                    <include name="cancelWorkflow"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.RenamingContentTests">
+                <methods>
+                    <include name="cancelRenamingContent"/>
+                    <include name="renameFileByEditIcon"/>
+                    <include name="renameFolderByEditIcon"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.security.SiteXSSTests">
+                <methods>
+                    <include name="creatingSiteWithXSSDescription"/>
+                    <include name="creatingSiteWithXSSName"/>
+                    <include name="creatingSiteWithXSSSiteID"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.DeleteSiteTests">
+                <methods>
+                    <include name="cancelDeleteSiteFromSiteFinder"/>
+                    <include name="cancelDeleteSiteFromSitesManager"/>
+                    <include name="deleteSiteAsAdminFromSiteManager"/>
+                    <include name="deleteSiteAsCollaboratorFromSiteFinder"/>
+                    <include name="deleteSiteAsConsumerFromSiteFinder"/>
+                    <include name="deleteSiteAsContributorFromSiteFinder"/>
+                    <include name="deleteSiteAsManagerFromDashlet"/>
+                    <include name="deleteSiteAsManagerFromSiteFinder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.security.WorkflowSecurityTests">
+                <methods>
+                    <include name="findGroupWithXSSPooledTask"/>
+                    <include name="verifyEditTaskButtonReject"/>
+                    <include name="verifyEditTaskButtonSaveAndClose"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.discussions.ReplyingToDiscussionTests">
+                <methods>
+                    <include name="cancelCreatingReplyToDiscussion"/>
+                    <include name="createReplyToDiscussion"/>
+                    <include name="editReplyAddedToTopic"/>
+                    <include name="insertImageInReplyToDiscussion"/>
+                    <include name="insertLinkInReplyToDiscussion"/>
+                    <include name="replyToAReply"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.CategorizingContent">
+                <methods>
+                    <include name="addCategoryForFile_NoCategoriesAdded"/>
+                    <include name="addCategoryForFolder_NoCategoriesAdded"/>
+                    <include name="addCategory_ContentWithCategory"/>
+                    <include name="removeCategory"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.adminTools.users.CreateUsersTests">
+                <methods>
+                    <include name="addQuotaToUser"/>
+                    <include name="addingUserToGroup"/>
+                    <include name="browseCreateUserPage"/>
+                    <include name="createAndStartAnother"/>
+                    <include name="createUser"/>
+                    <include name="disableAccount"/>
+                    <include name="managePassword"/>
+                    <include name="verifyCreateUsersPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.tasksAndWorkflows.StartingAWorkflow.CreateNewTaskTests">
+                <methods>
+                    <include name="cancelStartingWorkflow"/>
+                    <include name="createNewTaskAddItem"/>
+                    <include name="createNewTaskAndAssignToAnotherUser"/>
+                    <include name="createNewTaskAndAssignToYourself"/>
+                    <include name="createNewTaskRemoveAll"/>
+                    <include name="createNewTaskViaDetailsPage"/>
+                    <include name="createNewTaskViaSelectedItemsSingleDocument"/>
+                    <include name="startWorkflowForMultipleFiles"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.SiteContributorBreakdownDashletTests">
+                <methods>
+                    <include name="checkTheSiteContributorBreakdownDashlet"/>
+                    <include name="openUsersProfileFromSiteContributorBreakdownDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.eventAgenda.EditEventAgendaItemTest">
+                <methods>
+                    <include name="verifyPossibilityToEditItem"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.MyDocumentsTests">
+                <methods>
+                    <include name="detailedView"/>
+                    <include name="filterDocuments"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.DeleteTests">
+                <methods>
+                    <include name="deleteDocument"/>
+                    <include name="deleteFolder"/>
+                    <include name="optionNotDisplayed"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules.EditRulesTests">
+                <methods>
+                    <include name="disableRule"/>
+                    <include name="editRuleDetails"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.MovingContentTests">
+                <methods>
+                    <include name="moveFile"/>
+                    <include name="moveFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.SiteCalendarDashletTests">
+                <methods>
+                    <include name="siteCalendarDashletWithNoEvents"/>
+                    <include name="siteCalendarDashletWithSomeEvents"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.SavedSearchDashletTests">
+                <methods>
+                    <include name="savedSearchDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.MyDocumentsWorkspacesTests">
+                <methods>
+                    <include name="noDocumentsAdded"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.viewingContent.ViewingFolderDetailsTest">
+                <methods>
+                    <include name="viewFolderDetails"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.calendar.AccessingCalendarTests">
+                <methods>
+                    <include name="accessTheCalendarPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFilesOnlyTests">
+                <methods>
+                    <include name="cancelEditingContentLockedByOthers"/>
+                    <include name="cancelEditingContentLockedBySelf"/>
+                    <include name="checkInGoogleDocForContentCreatedByOthers"/>
+                    <include name="checkInOutGoogleDocsCreatedBySelf"/>
+                    <include name="createContent"/>
+                    <include name="downloadContent"/>
+                    <include name="downloadPreviousVersion"/>
+                    <include name="editInGoogleDocForContentCreatedByOthers"/>
+                    <include name="editInGoogleDocs"/>
+                    <include name="editInlineForContentCreatedByOthers"/>
+                    <include name="editInlineForContentCreatedBySelf"/>
+                    <include name="editOfflineForContentCreatedByOthers"/>
+                    <include name="editOfflineForContentCreatedBySelf"/>
+                    <include name="editOnlineForContentCreatedByOthers"/>
+                    <include name="editOnlineForContentCreatedBySelf"/>
+                    <include name="locateFile"/>
+                    <include name="revertToPreviousVersion"/>
+                    <include name="startWorkflow"/>
+                    <include name="uploadContent"/>
+                    <include name="uploadNewVersionForItemCreatedByOthers"/>
+                    <include name="uploadNewVersionForItemCreatedBySelf"/>
+                    <include name="uploadNewVersionForItemLockedByUser"/>
+                    <include name="viewInBrowser"/>
+                    <include name="viewOriginalVersion"/>
+                    <include name="viewWorkingCopy"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userRolesAndPermissions.consumer.ConsumerFilesOnlyTests">
+                <methods>
+                    <include name="consumerCancelEditingLockedByOtherUser"/>
+                    <include name="consumerCheckoutToGoogleDocsFileCreateByOtherUser"/>
+                    <include name="consumerCreateContent"/>
+                    <include name="consumerDownloadContent"/>
+                    <include name="consumerDownloadPreviousVersion"/>
+                    <include name="consumerEditInGoogleDocs"/>
+                    <include name="consumerEditInlineCreatedAddedByOtherUser"/>
+                    <include name="consumerEditOfflineCreatedAddedByOtherUser"/>
+                    <include name="consumerEditOnlineCreatedAddedByOtherUser"/>
+                    <include name="consumerLocateFile"/>
+                    <include name="consumerRevertToPreviousVersion"/>
+                    <include name="consumerStartWorkflow"/>
+                    <include name="consumerUploadContent"/>
+                    <include name="consumerUploadNewVersionCreatedByOtherUser"/>
+                    <include name="consumerUploadNewVersionLockedByOtherUser"/>
+                    <include name="consumerViewInBrowser"/>
+                    <include name="consumerViewOriginalDocument"/>
+                    <include name="consumerViewWorkingCopy"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.Links.DeleteLinkTests">
+                <methods>
+                    <include name="cancelDeletingLink"/>
+                    <include name="deleteLinkFromLinkDetailsPage"/>
+                    <include name="deleteLinkFromLinksPage"/>
+                    <include name="deleteMultipleLinks"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesTests">
+                <methods>
+                    <include name="myFilesContentAvailability"/>
+                    <include name="verifyPresenceOfMyFilesInHeaderBar"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.issueList.EditIssueItemTest">
+                <methods>
+                    <include name="saveEditItem"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.adminTools.users.UserToolTests">
+                <methods>
+                    <include name="accessingUsersTool"/>
+                    <include name="searchingForUser"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.smartFolders.UsingSmartFoldersTests">
+                <methods>
+                    <include name="addFileToSmartFolder"/>
+                    <include name="checkAvailableActions"/>
+                    <include name="checkFilesAreCorrectlyFilled"/>
+                    <include name="checkSmartFolderStructure"/>
+                    <include name="createFileInSmartFolder"/>
+                    <include name="updateFileInSmartFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.DeletingAListItemTest">
+                <methods>
+                    <include name="deleteSingleItemList"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.calendar.DeleteEventsTests">
+                <methods>
+                    <include name="cancelDeletingEventByClickingDeleteIconAgendaView"/>
+                    <include name="cancelDeletingEventByClickingOnTheEventAgendaView"/>
+                    <include name="cancelDeletingEventDayView"/>
+                    <include name="cancelDeletingEventMonthView"/>
+                    <include name="cancelDeletingEventWeekView"/>
+                    <include name="deleteEventByClickingDeleteIconAgendaView"/>
+                    <include name="deleteEventByClickingOnTheEventAgendaView"/>
+                    <include name="deleteEventDayView"/>
+                    <include name="deleteEventMonthView"/>
+                    <include name="deleteEventWeekView"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.searching.SearchHighlightTests">
+                <methods>
+                    <include name="highlightSearchByContent"/>
+                    <include name="highlightSearchByContentOnDifferentPage"/>
+                    <include name="highlightSearchByDescription"/>
+                    <include name="highlightSearchByName"/>
+                    <include name="highlightSearchByNameOfBlog"/>
+                    <include name="highlightSearchByPropertyDescription"/>
+                    <include name="highlightSearchByPropertyName"/>
+                    <include name="highlightSearchByPropertyTitle"/>
+                    <include name="highlightSearchByTermFoundInSiteName"/>
+                    <include name="highlightSearchByTitle"/>
+                    <include name="highlightSearchCMISStyleProperty"/>
+                    <include name="highlightSearchWithConjunctions"/>
+                    <include name="highlightSearchWithDisjunctions"/>
+                    <include name="highlightSearchWithNegation"/>
+                    <include name="highlightSearchWithWildcards"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.buildingContent.CreatingGoogleDocsFilesTests">
+                <methods>
+                    <include name="createGoogleDocsDocument"/>
+                    <include name="createGoogleDocsPresentation"/>
+                    <include name="createGoogleDocsSpreadsheet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesCreateContentTests">
+                <methods>
+                    <include name="myFilesCreateFileFromTemplate"/>
+                    <include name="myFilesCreateFolderFromTemplate"/>
+                    <include name="myFilesCreateGoogleDocsDocument"/>
+                    <include name="myFilesCreateGoogleDocsPresentation"/>
+                    <include name="myFilesCreateGoogleDocsSpreadsheet"/>
+                    <include name="myFilesCreateHTMLFile"/>
+                    <include name="myFilesCreatePlainTextFile"/>
+                    <include name="myFilesCreateXMLFile"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.calendar.TagsTests">
+                <methods>
+                    <include name="addTagForEvent"/>
+                    <include name="tagsSectionFromCalendarPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.calendar.ViewEventTests">
+                <methods>
+                    <include name="closeEventInformationPopup"/>
+                    <include name="viewEventByClickingOnTheEventAgendaView"/>
+                    <include name="viewEventByClickingViewIconAgendaView"/>
+                    <include name="viewEventDayView"/>
+                    <include name="viewEventMonthView"/>
+                    <include name="viewEventWeekView"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.SiteActivitiesTests">
+                <methods>
+                    <include name="activitiesDashletDisplaysGroupNameWhenGroupIsRemovedFromSite"/>
+                    <include name="activitiesDashletDisplaysGroupNameWhenGroupsRoleIsChanged"/>
+                    <include name="activitiesDashletDisplaysGroupNameWhenLoggedInAsAdmin"/>
+                    <include name="activitiesDashletDisplaysGroupNameWhenLoginWithOtherUserThanAdmin"/>
+                    <include name="dateFilter"/>
+                    <include name="groupNameIsDisplayedInGroupsTabAddGroup"/>
+                    <include name="groupNameIsDisplayedInGroupsTabSiteMembersGroup"/>
+                    <include name="noActivitiesCreated"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.blog.DeletingACommentTests">
+                <methods>
+                    <include name="deletingACommentOfABlogPost"/>
+                    <include name="deletingACommentOfADraftPost"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.SiteLinksDashletTests">
+                <methods>
+                    <include name="siteLinksDashletCreateLink"/>
+                    <include name="siteLinksDashletDetailsButton"/>
+                    <include name="siteLinksDashletHelpNotification"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.discussions.EditTopicTests">
+                <methods>
+                    <include name="cancelEditingTopic"/>
+                    <include name="editTopicFromDiscussionsTopicListPage"/>
+                    <include name="editTopicFromTopicViewPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.CreateTagTests">
+                <methods>
+                    <include name="createTagEditPropertiesDialog"/>
+                    <include name="createTagEditTagIcon"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.WorkingWithLinksTests">
+                <methods>
+                    <include name="deleteLinkRemovesLink"/>
+                    <include name="linkToFileRedirectsToDocDetailsPage"/>
+                    <include name="linkToFolderRedirectsToFolderContentsPage"/>
+                    <include name="linkToLockedDocRedirectsToOriginalDoc"/>
+                    <include name="linkToMultipleVersionsDocRedirectsToLastVersion"/>
+                    <include name="verifyDisabledActionsForCreatedLink"/>
+                    <include name="verifyDisplayedActionsForLinkToFile"/>
+                    <include name="verifyLocateLinkedItemRedirectsToFolder"/>
+                    <include name="verifyLocateLinkedItemRedirectsToOriginalDoc"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.ImagePreviewDashletTests">
+                <methods>
+                    <include name="imagePreviewAvailableActions"/>
+                    <include name="imagePreviewDashletWithNoImage"/>
+                    <include name="imagePreviewDashletWithSomeImages"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.AddExistingTagTests">
+                <methods>
+                    <include name="addExistingTagFromEditPropertiesDialog"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.AccessingDataListsComponentTests">
+                <methods>
+                    <include name="browsingPaneDisplay"/>
+                    <include name="onlySiteManagerIsAbleToRenameDataListsFeatures"/>
+                    <include name="viewListsFromDataLists"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.CreateSiteTests">
+                <methods>
+                    <include name="cancelCreatingSite"/>
+                    <include name="createModeratedSiteFromDashlet"/>
+                    <include name="createModeratedSiteFromToolbar"/>
+                    <include name="createPrivateSiteFromDashlet"/>
+                    <include name="createPrivateSiteFromToolbar"/>
+                    <include name="createPublicSiteFromDashlet"/>
+                    <include name="createPublicSiteFromToolbar"/>
+                    <include name="createSiteWithANameThatIsInUse"/>
+                    <include name="createSiteWithoutDescription"/>
+                    <include name="urlNameAlreadyExists"/>
+                    <include name="verifyCloseButton"/>
+                    <include name="verifyItemsPresentOnCreateSiteForm"/>
+                    <include name="verifyItemsPresentOnForm"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.DeletingContentTests">
+                <methods>
+                    <include name="cancelDeletingFolder"/>
+                    <include name="deleteDocument"/>
+                    <include name="deleteFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.SiteFileTypeBreakdownDashletTests">
+                <methods>
+                    <include name="checkSiteFileTypeBreakdownDashletWithNoFiles"/>
+                    <include name="multipleFileTypesAvailableInTheSiteLibrary"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.searching.advancedSearch.ContentSearchStructureTest">
+                <methods>
+                    <include name="searchByAWordOrPhraseAnywhereItExists"/>
+                    <include name="searchByAnyWords"/>
+                    <include name="searchByMultipleWords"/>
+                    <include name="searchByPropertyCreated"/>
+                    <include name="searchByPropertyCreator"/>
+                    <include name="searchByPropertyDescription"/>
+                    <include name="searchByPropertyModified"/>
+                    <include name="searchByPropertyModifier"/>
+                    <include name="searchByPropertyName"/>
+                    <include name="searchByPropertyText"/>
+                    <include name="searchByPropertyTitle"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.blog.DeletingABlogPostTests">
+                <methods>
+                    <include name="deletingABlogDirectlyFromBlogPage"/>
+                    <include name="deletingABlogDraftPostFromBlogPostView"/>
+                    <include name="deletingABlogPostFromBlogPostView"/>
+                    <include name="deletingADraftBlogPostDirectlyFromBlogPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.discussions.ViewTopicTests">
+                <methods>
+                    <include name="viewTopicByClickingOnItsName"/>
+                    <include name="viewTopicFromDiscussionsTopicListPage"/>
+                    <include name="viewTopicUsingReadAction"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.tasksAndWorkflows.DeletingAWorkflow.DeletingWorkflowsTests">
+                <methods>
+                    <include name="deleteWorkflow"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.security.LoginXSSTests">
+                <methods>
+                    <include name="loginWithXssStrings"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.searching.SearchManagerTests">
+                <methods>
+                    <include name="cancelCreatingNewSearchFilter"/>
+                    <include name="cancelDeletingSearchFilter"/>
+                    <include name="cancelModifyingExistingSearchFilter"/>
+                    <include name="cancelModifyingSearchFilterName"/>
+                    <include name="changeSearchFiltersOrder"/>
+                    <include name="createNewSearchFilter"/>
+                    <include name="createNewSearchFilterWithoutSaving"/>
+                    <include name="deleteSearchFilter"/>
+                    <include name="modifyExistingSearchFilter"/>
+                    <include name="modifySearchFilterName"/>
+                    <include name="modifySearchFilterWithoutSaving"/>
+                    <include name="switchOnOffShowWithSearchResults"/>
+                    <include name="verifyFilterAvailabilityProperty"/>
+                    <include name="verifyMinimumRequiredResultsProperty"/>
+                    <include name="verifyNumberOfFiltersProperty"/>
+                    <include name="verifySearchManagerPage"/>
+                    <include name="verifySitesSection"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.SiteProfileDashletTests">
+                <methods>
+                    <include name="verifySiteProfileDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.EditSiteDetailsTests">
+                <methods>
+                    <include name="cancelEditSiteDetails"/>
+                    <include name="verifyEditSiteDetailsForm"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.viewingContent.PreviewFileTest">
+                <methods>
+                    <include name="previewFile"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.adminTools.nodeBrowser.NodeBrowserTests">
+                <methods>
+                    <include name="checkNodeBrowserPage"/>
+                    <include name="cmisAlfrescoSearch"/>
+                    <include name="cmisStrictSearch"/>
+                    <include name="ftsAlfrescoSearch"/>
+                    <include name="luceneSearch"/>
+                    <include name="nodeRefSearch"/>
+                    <include name="xpathSearch"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithLinkedRules.BreakingTheLinkToARuleSetTest">
+                <methods>
+                    <include name="unlinkRules"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures.MyFilesSocialFeaturesTests">
+                <methods>
+                    <include name="myFilesAddCommentToFile"/>
+                    <include name="myFilesAddCommentToFolder"/>
+                    <include name="myFilesLikeFile"/>
+                    <include name="myFilesLikeFolder"/>
+                    <include name="myFilesUnlikeFile"/>
+                    <include name="myFilesUnlikeFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListSimple.EditSimpleTaskListItemTest">
+                <methods>
+                    <include name="verifyEditDataItem"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.Links.ViewLinkDetailsTest">
+                <methods>
+                    <include name="viewLinkDetails"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.workingWithMultipleListItems.SelectingMultipleListItems">
+                <methods>
+                    <include name="deselectByUsingInvertSelection"/>
+                    <include name="deselectByUsingSelectNone"/>
+                    <include name="selectAllByUsingInvertSelection"/>
+                    <include name="selectAllItemsTest"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.EditFilesPropertiesTest">
+                <methods>
+                    <include name="editFileProperties"/>
+                    <include name="editFolderProperties"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userRolesAndPermissions.consumer.ConsumerFoldersAndFilesTests">
+                <methods>
+                    <include name="consumerAddCommentForContent"/>
+                    <include name="consumerChangeTypeForContent"/>
+                    <include name="consumerCopyContent"/>
+                    <include name="consumerDeleteContent"/>
+                    <include name="consumerEditAndDeleteCommentForContent"/>
+                    <include name="consumerEditPropertiesForContent"/>
+                    <include name="consumerFavoriteUnfavoriteFile"/>
+                    <include name="consumerLikeUnlikeFile"/>
+                    <include name="consumerManageAspectsForContent"/>
+                    <include name="consumerManagePermissionsForContent"/>
+                    <include name="consumerMoveContent"/>
+                    <include name="consumerPermissionRetention"/>
+                    <include name="consumerViewFolderItemDetailsPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsDeleteTests">
+                <methods>
+                    <include name="adminUserCanDeleteFileOrFolderInMainRepository"/>
+                    <include name="deleteDocument"/>
+                    <include name="deleteFolder"/>
+                    <include name="nonAdminUserCanNotDeleteFileOrFolderFromTheMainRepository"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.MyTasksTest">
+                <methods>
+                    <include name="someTasksAssigned"/>
+                    <include name="userAddedAfterWorkflowStarts"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.adminTools.users.ImportUsersTests">
+                <methods>
+                    <include name="importUsers"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.Links.LinkCommentsTests">
+                <methods>
+                    <include name="addingACommentToALink"/>
+                    <include name="cancelAddingACommentToALink"/>
+                    <include name="cancelDeletingLinkComment"/>
+                    <include name="deleteLinkComment"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.wiki.EditWikiPageTests">
+                <methods>
+                    <include name="cancelEditingWikiPage"/>
+                    <include name="editWikiPageFromPageView"/>
+                    <include name="editWikiPageFromWikiPageList"/>
+                    <include name="verifyInsertDocumentLibraryFeature"/>
+                    <include name="verifyInsertLibraryImageFeature"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.viewingContent.ViewingAFileTests">
+                <methods>
+                    <include name="checkActionsAvailability"/>
+                    <include name="informationAndOptionsCheckAvailableInfo"/>
+                    <include name="informationAndOptionsCheckLinkToReturnToDocumentLibrary"/>
+                    <include name="informationAndOptionsFavoriteOption"/>
+                    <include name="informationAndOptionsLikeOption"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.SiteNoticeTests">
+                <methods>
+                    <include name="addSiteNoticeDashlet"/>
+                    <include name="customizeDashlet"/>
+                    <include name="customizeDashletCancelClose"/>
+                    <include name="noticeDashletActions"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userRolesAndPermissions.consumer.ConsumerFoldersOnlyTests">
+                <methods>
+                    <include name="locateFolder"/>
+                    <include name="manageRulesFolderCreatedByOther"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.LoginTests">
+                <methods>
+                    <include name="invalidUserRedirectedToLoginPage"/>
+                    <include name="loginAutoComplete"/>
+                    <include name="loginInvalidCredentials"/>
+                    <include name="loginInvalidPassword"/>
+                    <include name="loginUserWithSpecialChar"/>
+                    <include name="loginUserWithSpecialPassword"/>
+                    <include name="loginValidCredentials"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.members.ReviewingSiteMembersTest">
+                <methods>
+                    <include name="listAllSiteMembers"/>
+                    <include name="searchForMembersUsingFullName"/>
+                    <include name="searchForMembersUsingPartialName"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.documentLibrary.ExploringTheLibraryTagsTests">
+                <methods>
+                    <include name="contentItemsWithDifferentTags"/>
+                    <include name="noTagsAdded"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.members.RemoveMembersOrGroupsTest">
+                <methods>
+                    <include name="onlyManagerCanRemoveGroupsTest"/>
+                    <include name="onlyManagerCanRemoveUsersTest"/>
+                    <include name="removeSiteGroupTest"/>
+                    <include name="removeSiteMemberFromModeratedSiteTest"/>
+                    <include name="removeSiteMemberFromPrivateSiteTest"/>
+                    <include name="removeSiteMemberFromPublicSiteTest"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.adminTools.TagManagerTests">
+                <methods>
+                    <include name="deleteTag"/>
+                    <include name="renamingTag"/>
+                    <include name="verifyTagManagerPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.UnzipContentTests">
+                <methods>
+                    <include name="unzipAcpArchiveToSharedFiles"/>
+                    <include name="unzipZipArchiveToSharedFile"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.calendar.BrowsingTheCalendarTests">
+                <methods>
+                    <include name="browserEventsByTags"/>
+                    <include name="changeTheMainCalendarView"/>
+                    <include name="displayTodayEvents"/>
+                    <include name="displayUpcomingEvents"/>
+                    <include name="moveBackwardsThroughTheCalendar"/>
+                    <include name="moveForwardThroughTheCalendar"/>
+                    <include name="showAllHours"/>
+                    <include name="verifyTheMiniCalendar"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.buildingContent.CreateLinksTests">
+                <methods>
+                    <include name="createdLinkDisplayedInMyActivitiesDashlet"/>
+                    <include name="createdLinkDisplayedInSiteActivitiesDashlet"/>
+                    <include name="duplicateLinksAreNotAllowed"/>
+                    <include name="verifyCreateLinkButtonFromDocLibraryActions"/>
+                    <include name="verifyCreateLinkButtonFromDocLibrarySelectedItemsMultipleItems"/>
+                    <include name="verifyCreateLinkButtonFromDocLibrarySelectedItemsSingleItem"/>
+                    <include name="verifyCreateLinkButtonFromDocumentDetailsActions"/>
+                    <include name="verifyCreateLinkButtonFromSearchResultsActions"/>
+                    <include name="verifyCreateLinkButtonFromSearchResultsMultipleItemsSelected"/>
+                    <include name="verifyCreateLinkButtonFromSearchResultsSingleItemSelected"/>
+                    <include name="verifyCreateLinkButtonInMoveToDialog"/>
+                    <include name="verifyLinkIsCreatedAtDestination"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.RecoveringDeletedContentTests">
+                <methods>
+                    <include name="recoverDeletedDocument"/>
+                    <include name="recoverDeletedFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userProfile.UpdateAndViewProfileTests">
+                <methods>
+                    <include name="checkEditUserProfilePage"/>
+                    <include name="checkUserProfilePage"/>
+                    <include name="updateUserProfile"/>
+                    <include name="uploadNewPhoto"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.documentLibrary.LibraryViewOptionsLibraryViewsTests">
+                <methods>
+                    <include name="checkThatDefaultViewIsDetailedView"/>
+                    <include name="setCurrentViewAsDefault"/>
+                    <include name="verifyDocumentLibraryViewOptions"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.adminTools.users.UserProfileTests">
+                <methods>
+                    <include name="addUserToGroup"/>
+                    <include name="addingQuotaToUser"/>
+                    <include name="browsingEditUserPage"/>
+                    <include name="browsingNewUserPage"/>
+                    <include name="deletingAUser"/>
+                    <include name="editingUser"/>
+                    <include name="enablingAccount"/>
+                    <include name="removeGroupFromUserProfile"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.tasksAndWorkflows.ManagingTasksTests">
+                <methods>
+                    <include name="editTaskFromTasksDashletChangeStatus"/>
+                    <include name="editTaskFromTasksDashletReassign"/>
+                    <include name="groupReviewApproveReject"/>
+                    <include name="groupTaskSubgroup"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.additionalActions.TagTests">
+                <methods>
+                    <include name="addExistingTag"/>
+                    <include name="createTagForFile"/>
+                    <include name="createTagForFolder"/>
+                    <include name="editTagForASharedFile"/>
+                    <include name="noTagsOptionDisplayed"/>
+                    <include name="removeTag"/>
+                    <include name="updateTags"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsUploadTests">
+                <methods>
+                    <include name="updateDocumentNewVersion"/>
+                    <include name="uploadDocument"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.wiki.WikiMainPageTests">
+                <methods>
+                    <include name="cancelCreationOfWikiMainPage"/>
+                    <include name="createWikiMainPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules.ManuallyRunningRulesTest">
+                <methods>
+                    <include name="runRule"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.EditingAListItemTests">
+                <methods>
+                    <include name="editingAMandatoryFieldOfAListItem"/>
+                    <include name="editingANonMandatoryFieldOfAListItem"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.NavigationPanelTests">
+                <methods>
+                    <include name="verifyFilters"/>
+                    <include name="verifyTags"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.tasksAndWorkflows.ViewingAStartedWorkflow.ViewingStartedWorkflowTests">
+                <methods>
+                    <include name="verifyMyTasksPage"/>
+                    <include name="verifyWorkflowIveStartedPage"/>
+                    <include name="viewMyTaskAndWorkflowDetailsPages"/>
+                    <include name="viewOptionsAvailableForTasksIveStarted"/>
+                    <include name="viewOptionsAvailableForWorkflowsAssignedToOthers"/>
+                    <include name="viewWorkflowAssignedToNonAdminUserTaskCompleted"/>
+                    <include name="viewWorkflowAssignedToOtherUser"/>
+                    <include name="viewWorkflowIveStarted"/>
+                    <include name="viewWorkflowIveStartedOptions"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.SiteSearchTest">
+                <methods>
+                    <include name="siteSearchDashletTest"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.documentLibrary.ExploringTheLibraryLibraryTests">
+                <methods>
+                    <include name="OpenFoldersFromTree"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoPowerUsers.SearchManagerTests">
+                <methods>
+                    <include name="editFilterProperty"/>
+                    <include name="userHasSearchManagerRightsWhenAddedToALFRESCO_ADMINISTRATORS"/>
+                    <include name="userHasSearchManagerRightsWhenAddedToALFRESCO_SEARCH_ADMINISTRATORS"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsUnzippingContentTests">
+                <methods>
+                    <include name="unzipAcpFileToRepository"/>
+                    <include name="unzipZipFileToRepository"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.RestrictingMobileAccessTests">
+                <methods>
+                    <include name="addRestrictableAspect"/>
+                    <include name="editRestrictableProperty"/>
+                    <include name="removeRestrictableProperty"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesManageAspectsTests">
+                <methods>
+                    <include name="checkManageAspectsForm"/>
+                    <include name="manageAspectsApplyChanges"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.contactList.EditContactListItemTest">
+                <methods>
+                    <include name="verifyPossibilityToEditItem"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.adminTools.moduleBrowser.ModuleBrowserTests">
+                <methods>
+                    <include name="accessModuleBrowserPage"/>
+                    <include name="verifyTheAccessModuleBrowserPageInfo"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.SiteMembersTest">
+                <methods>
+                    <include name="oneUserAdded"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.searching.peopleFinder.SearchByProfilePropertiesTest">
+                <methods>
+                    <include name="searchByFullName"/>
+                    <include name="searchByFullUsername"/>
+                    <include name="searchByPartialName"/>
+                    <include name="searchByPartialUsername"/>
+                    <include name="searchByUsernameOrName"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.WikiDashletTests">
+                <methods>
+                    <include name="configureWikiDashletMultipleWikiPagesAvailable"/>
+                    <include name="configureWikiDashletOneWikiPageAvailable"/>
+                    <include name="wikiDashletNoWikiPageCreated"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.buildingContent.OrganizingFoldersTests">
+                <methods>
+                    <include name="cancelCreatingFolder"/>
+                    <include name="checkFolderStructure"/>
+                    <include name="createFolderLink"/>
+                    <include name="createNewFolderUsingMenu"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.security.DataListXSSTests">
+                <methods>
+                    <include name="creatingContactListItemWithXSS"/>
+                    <include name="creatingContactListWithXSS"/>
+                    <include name="creatingEventAgendaItemWithXSS"/>
+                    <include name="creatingMeetingAgendaItemWithXSS"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.CreateDataListsTests">
+                <methods>
+                    <include name="cancelCreationOfNewDataList"/>
+                    <include name="closeCreationWindowOfNewDataList"/>
+                    <include name="createNewList"/>
+                    <include name="newListCantBeCreatedWithEmptyTitle"/>
+                    <include name="newListCantBeCreatedWithoutSelectingListType"/>
+                    <include name="newListCreatedWithEmptyDescription"/>
+                    <include name="newListCreatedWithExistingTitle"/>
+                    <include name="newListDoesNotContainAnyListItems"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.CreatingAListItemTests">
+                <methods>
+                    <include name="createNewAdvancedTaskListItem"/>
+                    <include name="createNewContactListItem"/>
+                    <include name="createNewEventAgendaItem"/>
+                    <include name="createNewEventListItem"/>
+                    <include name="createNewIssueListItem"/>
+                    <include name="createNewLocationListItem"/>
+                    <include name="createNewMeetingAgendaListItem"/>
+                    <include name="createNewSimpleTaskListItem"/>
+                    <include name="createNewToDoListItem"/>
+                    <include name="createNewVisitorFeedbackListItem"/>
+                    <include name="provideAllRequiredInfoAndCancel"/>
+                    <include name="provideAllRequiredInfoAndClose"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.CopyingContentTests">
+                <methods>
+                    <include name="cancelCopyFileToSharedFiles"/>
+                    <include name="copyFileToSharedFiles"/>
+                    <include name="copyFolderToPublicSite"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userRolesAndPermissions.collaborator.CollaboratorFilesOnlyTests">
+                <methods>
+                    <include name="collaboratorCancelEditingBySelf"/>
+                    <include name="collaboratorCheckOutGoogleDocByOthers"/>
+                    <include name="collaboratorCheckOutGoogleDocBySelf"/>
+                    <include name="collaboratorCreateContent"/>
+                    <include name="collaboratorDownloadContent"/>
+                    <include name="collaboratorEditInlineByOthers"/>
+                    <include name="collaboratorEditInlineBySelf"/>
+                    <include name="collaboratorStartWorkflow"/>
+                    <include name="collaboratorUploadContent"/>
+                    <include name="collaboratorUploadNewVersionOtherUserCreated"/>
+                    <include name="collaboratorUploadNewVersionSelfCreated"/>
+                    <include name="collaboratorViewInBrowser"/>
+                    <include name="editOfflineCreatedByOtherUser"/>
+                    <include name="editOfflineCreatedBySelf"/>
+                    <include name="editOnlineCreatedByOtherUser"/>
+                    <include name="editOnlineCreatedBySelf"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.CustomizeSiteDashboardTests">
+                <methods>
+                    <include name="addNewDashlet"/>
+                    <include name="changeSiteDashboardLayout"/>
+                    <include name="moveOrReorderDashlets"/>
+                    <include name="resizeDashlet"/>
+                    <include name="verifyCustomizeSiteDashboardPage"/>
+                    <include name="verifyDefaultLayoutAndDashlets"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.tasksAndWorkflows.EditAWorkflow.EditingWorkflowsTests">
+                <methods>
+                    <include name="editTask"/>
+                    <include name="editWorkflow"/>
+                    <include name="verifyEditTaskForm"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.LogoTests">
+                <methods>
+                    <include name="checkAboutBox"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.UploadTests">
+                <methods>
+                    <include name="optionNotDisplayed"/>
+                    <include name="updateDocumentNewVersion"/>
+                    <include name="uploadDocument"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.RssFeedDashletTests">
+                <methods>
+                    <include name="rssFeedDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.Links.AccessingLinkTests">
+                <methods>
+                    <include name="accessingTheSiteLinks"/>
+                    <include name="toggleBetweenSimpleAndDetailedView"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.Links.EditingLinkTests">
+                <methods>
+                    <include name="cancelEditingLink"/>
+                    <include name="editLinkFromLinkPageView"/>
+                    <include name="editLinkFromLinksPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.wiki.BrowsingWikiPagesTests">
+                <methods>
+                    <include name="browseWikiByTagTest"/>
+                    <include name="browseWikiPagesAllPagesTest"/>
+                    <include name="browseWikiPagesMyPagesTest"/>
+                    <include name="verifyPageSummaryFromWikiListTest"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.AlfrescoAddonsRssFeedDashletTest">
+                <methods>
+                    <include name="verifyAlfrescoAddonsNewsFeedDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.wiki.AccessingTheWikiTests">
+                <methods>
+                    <include name="accessWikiMainPageTest"/>
+                    <include name="accessWikiPageListTest"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.searching.peopleFinder.PeopleFinderPageTest">
+                <methods>
+                    <include name="emptyInputSearchField"/>
+                    <include name="noResultsFound"/>
+                    <include name="verifyPeopleFinderPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions.CommentTests">
+                <methods>
+                    <include name="addCommentToFile"/>
+                    <include name="addCommentToFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ApplyingAspectsTests">
+                <methods>
+                    <include name="checkAspectsForm"/>
+                    <include name="manageAspectsApplyChanges"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.DownloadTests">
+                <methods>
+                    <include name="downloadFileFromAlfresco"/>
+                    <include name="downloadFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.documentLibrary.DocumentLibraryTests">
+                <methods>
+                    <include name="accessTheDocumentLibrary"/>
+                    <include name="checkAvailableOptionsForFile"/>
+                    <include name="checkAvailableOptionsForFolder"/>
+                    <include name="verifyTheDocumentLibraryMainPage"/>
+                    <include name="viewFolderContents"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesUnzipContentTests">
+                <methods>
+                    <include name="unzipACPArchiveToMyFiles"/>
+                    <include name="unzipZipArchiveToMyFiles"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.RemoveTagsTests">
+                <methods>
+                    <include name="removeTagFile"/>
+                    <include name="removeTagFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.accessingExistingSites.MovingAroundASiteTests">
+                <methods>
+                    <include name="addAdditionalFeatures"/>
+                    <include name="siteFeaturesAreAvailableOnAnyPageFromTheSite"/>
+                    <include name="verifyDefaultAreas"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.members.BecomeSiteManagerTest">
+                <methods>
+                    <include name="becomeSiteManagerActionAvailableForAdminNotSiteMember"/>
+                    <include name="becomeSiteManagerActionAvailableForAdmins"/>
+                    <include name="becomeSiteManagerActionIsMissingForNonAdmins"/>
+                    <include name="becomeSiteManagerActionWhenAdminIsSiteManager"/>
+                    <include name="becomeSiteManagerFromSitesManagerAdminIsNotSiteMember"/>
+                    <include name="becomeSiteManagerFromSitesManagerAdminIsSiteMember"/>
+                    <include name="becomeSiteManagerUsingSiteConfigurationIcon"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.FavoritingContentTests">
+                <methods>
+                    <include name="favoriteFile"/>
+                    <include name="favoriteFolder"/>
+                    <include name="removeFavoriteForFile"/>
+                    <include name="removeFavoriteForFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.discussions.CreateNewTopicTests">
+                <methods>
+                    <include name="cancelCreatingNewTopic"/>
+                    <include name="createNewTopic"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.Links.BrowsingTheSiteLinksTests">
+                <methods>
+                    <include name="browseLinksByLinksMenu"/>
+                    <include name="browseLinksByTags"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.adminTools.categoryManager.CategoryManagerTests">
+                <methods>
+                    <include name="addNewCategory"/>
+                    <include name="deleteCategory"/>
+                    <include name="editCategory"/>
+                    <include name="verifyCategoryManagerPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.wiki.CreateNewWikiTests">
+                <methods>
+                    <include name="cancelCreationOfNewWikiPage"/>
+                    <include name="createNewWikiPage"/>
+                    <include name="createWikiPageFromWikiPageList"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.adminTools.modelManager.ModelManagerTests">
+                <methods>
+                    <include name="activateModel"/>
+                    <include name="checkAvailableActionsForActiveModel"/>
+                    <include name="checkImportModelForm"/>
+                    <include name="checkModelManagerPage"/>
+                    <include name="createAspect"/>
+                    <include name="createCustomType"/>
+                    <include name="createModel"/>
+                    <include name="deactivateModel"/>
+                    <include name="deleteModel"/>
+                    <include name="editModel"/>
+                    <include name="exportModel"/>
+                    <include name="importModel"/>
+                    <include name="useCreatedModel"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.SiteSearchDashletTests">
+                <methods>
+                    <include name="siteSearchDashletTest"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.wiki.DeleteWikiPageTests">
+                <methods>
+                    <include name="cancelDeletingWikiPage"/>
+                    <include name="deleteWikiMainPageFromPageView"/>
+                    <include name="deleteWikiMainPageFromWikiPageList"/>
+                    <include name="deleteWikiPageFromPageView"/>
+                    <include name="deleteWikiPageFromWikiPageList"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures.MyFilesTaggingTests">
+                <methods>
+                    <include name="myFilesAddExistingTag"/>
+                    <include name="myFilesCreateFileTag"/>
+                    <include name="myFilesCreateFolderTag"/>
+                    <include name="myFilesEditTagFile"/>
+                    <include name="myFilesRemoveTag"/>
+                    <include name="myFilesUpdateTag"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.members.SiteRequestAccessImprovementsTests">
+                <methods>
+                    <include name="cancelSitePendingRequest"/>
+                    <include name="claimRequestPendingTaskAsGroupManager"/>
+                    <include name="claimRequestPendingTaskAsGroupManagerAndRemoveUserFromGroup"/>
+                    <include name="claimRequestPendingTaskAsSiteManager"/>
+                    <include name="releaseToPoolRequestPendingTaskAsGroupManager"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.buildingContent.UploadingFilesTests">
+                <methods>
+                    <include name="UploadASingleFileToSite"/>
+                    <include name="UploadFileInFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.SiteContentDashletTests">
+                <methods>
+                    <include name="addCommentOnItem"/>
+                    <include name="favoriteItem"/>
+                    <include name="likeUnlikeItem"/>
+                    <include name="noDocumentsAdded"/>
+                    <include name="siteContentDashletDetailedView"/>
+                    <include name="siteContentDashletSimpleView"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.blog.EditingABlogPostTests">
+                <methods>
+                    <include name="editABlogDraftPostAndPublishIt"/>
+                    <include name="editABlogDraftPostDirectlyFromBlogPage"/>
+                    <include name="editABlogPostDirectlyFromBlogPage"/>
+                    <include name="editBlogDraftPostFromBlogPostView"/>
+                    <include name="editBlogPostFromBlogPostView"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.socialFeatures.ManagingCommentsTests">
+                <methods>
+                    <include name="commentsDeleteComment"/>
+                    <include name="commentsEditComment"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.wiki.RenameWikiPageTests">
+                <methods>
+                    <include name="cancelRenameWikiMainPage"/>
+                    <include name="cancelRenameWikiPage"/>
+                    <include name="renameWikiMainPage"/>
+                    <include name="renameWikiPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.MySitesTests">
+                <methods>
+                    <include name="deleteSiteThenCancel"/>
+                    <include name="filterSites"/>
+                    <include name="noSitesCreated"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.searching.BasicSearchTests">
+                <methods>
+                    <include name="defaultPlaceholderText"/>
+                    <include name="verifyDetailedView"/>
+                    <include name="verifyGalleryView"/>
+                    <include name="verifyLiveSearchableContent"/>
+                    <include name="verifySearchInDropdownOptions"/>
+                    <include name="verifySearchPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.searching.SiteFinderTests">
+                <methods>
+                    <include name="fullOrPartialSitename"/>
+                    <include name="moderatedSiteLabel"/>
+                    <include name="privateSiteLabel"/>
+                    <include name="siteFinderPage"/>
+                    <include name="usernameWithSpaceCanAccessSiteFinder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.documentLibrary.ExploringTheLibraryDocumentsTests">
+                <methods>
+                    <include name="viewAllDocumentsInLibrary"/>
+                    <include name="viewFilesFromMyFavorites"/>
+                    <include name="viewImEditingFiles"/>
+                    <include name="viewOthersAreEditingFiles"/>
+                    <include name="viewRecentlyAddedFiles"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.members.SiteGroupsTest">
+                <methods>
+                    <include name="listAllSiteGroups"/>
+                    <include name="searchForGroupsUsingFullName"/>
+                    <include name="searchForGroupsUsingPartialName"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userProfile.ChangePasswordTest">
+                <methods>
+                    <include name="changeUserPassword"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.documentLibrary.LibraryViewOptionsFilmStripViewTests">
+                <methods>
+                    <include name="filmstripViewDisplayingItems"/>
+                    <include name="filmstripViewPresence"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesEditTests">
+                <methods>
+                    <include name="myFilesEditFileInAlfresco"/>
+                    <include name="myFilesEditFileProperties"/>
+                    <include name="myFilesEditFilesInGoogleDocs"/>
+                    <include name="myFilesEditFolderProperties"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userRolesAndPermissions.collaborator.CollaboratorFoldersOnlyTests">
+                <methods>
+                    <include name="collaboratorCreateFolder"/>
+                    <include name="locateFolder"/>
+                    <include name="manageRulesFolderCreatedByOther"/>
+                    <include name="manageRulesFolderSelfCreated"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.buildingContent.CreateFileFromTemplateTests">
+                <methods>
+                    <include name="createFileFromTemplate"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.SettingHomePageTest">
+                <methods>
+                    <include name="useCurrentPage"/>
+                    <include name="useMyDashboard"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.LocateItemsAndFoldersTests">
+                <methods>
+                    <include name="locateFileDetailedView"/>
+                    <include name="locateFolderDetailedView"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.searching.facetedSearch.FacetedSearchTests">
+                <methods>
+                    <include name="facetedSearchALLOption"/>
+                    <include name="facetedSearchBulkActionsTest"/>
+                    <include name="facetedSearchCopyToAction"/>
+                    <include name="facetedSearchDeleteAction"/>
+                    <include name="facetedSearchDownloadAsZipAction"/>
+                    <include name="facetedSearchInvertOption"/>
+                    <include name="facetedSearchMoveToAction"/>
+                    <include name="facetedSearchNoneOption"/>
+                    <include name="facetedSearchStartWorkflowAction"/>
+                    <include name="stateOfCheckbox"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.WelcomePanelTests">
+                <methods>
+                    <include name="hideWelcomePanel"/>
+                    <include name="restoreWelcomePanel"/>
+                    <include name="verifyWelcomePanel"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.calendar.AddEventsTests">
+                <methods>
+                    <include name="addAllDayEvent"/>
+                    <include name="addEventByClickingOnTheCalendar"/>
+                    <include name="addEventUsingAddEventButton"/>
+                    <include name="addEventWithTags"/>
+                    <include name="addEventWithoutSaving"/>
+                    <include name="addSeveralDaysDurationEvent"/>
+                    <include name="agendaViewAddAnEventToThisCalendar"/>
+                    <include name="cancelAddingEvent"/>
+                    <include name="requiredFieldsForAddingAnEvent"/>
+                    <include name="verifyAddEventForm"/>
+                    <include name="verifyDefaultStartEndDatesForEvents"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.smartFolders.ApplyingSmartFolderTemplateTests">
+                <methods>
+                    <include name="applyCustomSmartFolder"/>
+                    <include name="applySFTemplateToCreatedFolder"/>
+                    <include name="applySFTemplateToExistingFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.searching.advancedSearch.AdvancedSearchPageTest">
+                <methods>
+                    <include name="searchByDescription"/>
+                    <include name="searchByKeyword"/>
+                    <include name="searchByName"/>
+                    <include name="searchByTitle"/>
+                    <include name="verifyAdvancedSearchPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.RssFeedTest">
+                <methods>
+                    <include name="rssFeedDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.calendar.EditEventsTests">
+                <methods>
+                    <include name="cancelEditEventByClickingEditIconAgendaView"/>
+                    <include name="cancelEditEventByClickingOnEventAgendaView"/>
+                    <include name="cancelEditEventDayView"/>
+                    <include name="cancelEventMonthView"/>
+                    <include name="cancelEventWeekView"/>
+                    <include name="editEventByClickingEditIconAgendaView"/>
+                    <include name="editEventByClickingOnTheEventAgendaView"/>
+                    <include name="editEventDayView"/>
+                    <include name="editEventMonthView"/>
+                    <include name="editEventWeekView"/>
+                    <include name="editEventWithoutSavingAgendaView"/>
+                    <include name="editEventWithoutSavingDayView"/>
+                    <include name="editEventWithoutSavingMonthView"/>
+                    <include name="editEventWithoutSavingWeekView"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.viewingContent.ViewingAFileInBrowserTests">
+                <methods>
+                    <include name="viewingAFileInBrowser"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.calendar.TimeZone.TimeZoneMonthViewTests">
+                <methods>
+                    <include name="multipleDaysAllDayEvent"/>
+                    <include name="multipleDaysEvent"/>
+                    <include name="multipleMonthsAllDayEvent"/>
+                    <include name="multipleMonthsEvent"/>
+                    <include name="multipleWeeksAllDayEvent"/>
+                    <include name="multipleWeeksEvent"/>
+                    <include name="singleDayAllDayEvent"/>
+                    <include name="singleDayEvent"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.members.ApprovingUsersTests">
+                <methods>
+                    <include name="approvingUsersUsingMyTasksDashlet"/>
+                    <include name="approvingUsersUsingMyTasksPage"/>
+                    <include name="onlySiteManagersApproveRejectRequestToJoinSite"/>
+                    <include name="rejectingUsersUsingMyTasksDashlet"/>
+                    <include name="rejectingUsersUsingMyTasksPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userProfile.UserProfileSitesTests">
+                <methods>
+                    <include name="viewSitesWhereUserHasMembership"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules.DeleteRuleTest">
+                <methods>
+                    <include name="deleteRule"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesSelectContentTests">
+                <methods>
+                    <include name="selectFileByMenu"/>
+                    <include name="selectFolderByMenu"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.EditTagTests">
+                <methods>
+                    <include name="editTagFile"/>
+                    <include name="editTagFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.DefiningRulesForFolderTests">
+                <methods>
+                    <include name="cancelCreateRule"/>
+                    <include name="checkoutToSite"/>
+                    <include name="copyToSite"/>
+                    <include name="createAndCreateAnother"/>
+                    <include name="createRule"/>
+                    <include name="createRuleWithUnlessShowMoreOption"/>
+                    <include name="disableRule"/>
+                    <include name="itemsAreCreated"/>
+                    <include name="itemsAreCreatedRuleAppliesToSubfolders"/>
+                    <include name="itemsAreDeleted"/>
+                    <include name="itemsAreDeletedRuleAppliesToSubfolders"/>
+                    <include name="itemsAreUpdated"/>
+                    <include name="itemsAreUpdatedRuleAppliesToSubfolders"/>
+                    <include name="moveToSite"/>
+                    <include name="verifyEditRulePageDropdownElements"/>
+                    <include name="verifyFolderRulesPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.Links.CreatingNewLinkTests">
+                <methods>
+                    <include name="cancelCreatingNewLink"/>
+                    <include name="createExternalLink"/>
+                    <include name="createInternalLink"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.DuplicateAListItemTests">
+                <methods>
+                    <include name="editingAMandatoryFieldOfAListItem"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ManageFileAndFolderPermissionsTest">
+                <methods>
+                    <include name="cancelChangesFromManagePermissions"/>
+                    <include name="cancelManagePermissions"/>
+                    <include name="deleteUser"/>
+                    <include name="saveManagePermissions"/>
+                    <include name="turnOffInheritPermissions"/>
+                    <include name="turnOnInheritPermissions"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.additionalActions.LikeCommentTests">
+                <methods>
+                    <include name="addCommentToFile"/>
+                    <include name="addCommentToFolder"/>
+                    <include name="likeFile"/>
+                    <include name="likeFolder"/>
+                    <include name="unlikeFile"/>
+                    <include name="unlikeFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesDownloadTests">
+                <methods>
+                    <include name="downloadFolder"/>
+                    <include name="myFilesDownloadFileFromAlfresco"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.members.AddSiteMembersTests">
+                <methods>
+                    <include name="addCollaboratorMemberToSite"/>
+                    <include name="addConsumerMemberToSite"/>
+                    <include name="addContributorMemberToSite"/>
+                    <include name="addManagerMemberToSite"/>
+                    <include name="addMultipleUsersWithDifferentRoles"/>
+                    <include name="addMultipleUsersWithSameRole"/>
+                    <include name="removeUserFromSelectRolesPanel"/>
+                    <include name="searchUsersFromAddUsersPage"/>
+                    <include name="verifyDefaultItemsFromAddUsersPage"/>
+                    <include name="verifyInfoIconFromAddUsersPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.CustomizeUserDashboardTests">
+                <methods>
+                    <include name="changeDashboardLayout"/>
+                    <include name="changeDefaultDashlets"/>
+                    <include name="expandNarrowDashlets"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions.RepositoryTagTests">
+                <methods>
+                    <include name="addExistingTag"/>
+                    <include name="createTagForFile"/>
+                    <include name="createTagForFolder"/>
+                    <include name="editTag"/>
+                    <include name="removeTag"/>
+                    <include name="updateTags"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.buildingContent.CreatingFilesTests">
+                <methods>
+                    <include name="checkAllCreateAvailableActions"/>
+                    <include name="createHTMLFile"/>
+                    <include name="createPlainTextFile"/>
+                    <include name="createXMLFile"/>
+                    <include name="verifyCreateContentPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions.LikeTests">
+                <methods>
+                    <include name="likeFile"/>
+                    <include name="likeFolder"/>
+                    <include name="unlikeFile"/>
+                    <include name="unlikeFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.blog.AccessingTheBlogTests">
+                <methods>
+                    <include name="renameTheBlogPage"/>
+                    <include name="simpleAndDetailedViewOfCreatedPosts"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.analyzingASite.AnalyzingASiteTests">
+                <methods>
+                    <include name="verifySiteContributorBreakdownDashlet"/>
+                    <include name="verifySiteFileTypeBreakdownDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.SharingFilesTests">
+                <methods>
+                    <include name="shareFolder"/>
+                    <include name="shareWithFacebook"/>
+                    <include name="shareWithTwitter"/>
+                    <include name="sharedFilesContentAvailability"/>
+                    <include name="unshareDocument"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.MyActivitiesTests">
+                <methods>
+                    <include name="checkUsersFilter"/>
+                    <include name="noActivitiesCreated"/>
+                    <include name="someActivitiesCreated"/>
+                    <include name="someActivitiesDeleted"/>
+                    <include name="someActivitiesUpdated"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.taskListAdvanced.EditAdvancedTaskListItemTest">
+                <methods>
+                    <include name="verifyEditDataItem"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.EditingFilesInGoogleDocsTests">
+                <methods>
+                    <include name="editFilesInGoogleDocs"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.calendar.TimeZone.TimeZoneDayViewTests">
+                <methods>
+                    <include name="multipleDaysAllDayEvent"/>
+                    <include name="multipleDaysEvent"/>
+                    <include name="multipleMonthsAllDayEvent"/>
+                    <include name="multipleMonthsEvent"/>
+                    <include name="multipleWeeksAllDayEvent"/>
+                    <include name="multipleWeeksEvent"/>
+                    <include name="singleDayAllDayEvent"/>
+                    <include name="singleDayEvent"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsEditTests">
+                <methods>
+                    <include name="repositoryEditFileInAlfresco"/>
+                    <include name="repositoryEditFilesInGoogleDocs"/>
+                    <include name="repositoryEditFilesProperties"/>
+                    <include name="repositoryEditFolderProperties"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.members.AddSiteGroupsTest">
+                <methods>
+                    <include name="addGroupWithCollaboratorRole"/>
+                    <include name="addGroupWithConsumerRole"/>
+                    <include name="addGroupWithContributorRole"/>
+                    <include name="addGroupWithManagerRole"/>
+                    <include name="groupMembersAreAddedToUsersList"/>
+                    <include name="onlySiteManagerCanAddGroups"/>
+                    <include name="returnToSiteGroupsPage"/>
+                    <include name="searchForGroups"/>
+                    <include name="verifyAddGroupsPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.MyDiscussionsTests">
+                <methods>
+                    <include name="myDiscussionsDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesPageTests">
+                <methods>
+                    <include name="verifyMyFilesMainPage"/>
+                    <include name="verifyMyFilesPageTags"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.viewingContent.ViewFileInfoAndOptionsTest">
+                <methods>
+                    <include name="viewFileInfoAndOptions"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.eventList.EditEventListItemTest">
+                <methods>
+                    <include name="saveEditItem"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.wiki.ViewWikiPageTests">
+                <methods>
+                    <include name="revertWikiPageToAnEarlierVersion"/>
+                    <include name="viewWikiPageDetailsFromPageView"/>
+                    <include name="viewWikiPageDetailsFromWikiPageList"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.workingWithMultipleListItems.PerformingActionsOnMultipleListItems">
+                <methods>
+                    <include name="deleteMultipleItems"/>
+                    <include name="deselectAllItems"/>
+                    <include name="duplicateMultipleListItems"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.DeletingADataListTests">
+                <methods>
+                    <include name="cancelDeletingDataList"/>
+                    <include name="deletingExistingListWithSiteManagerUser"/>
+                    <include name="deletingOwnExistingList"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoPowerUsers.SitesManagerTests">
+                <methods>
+                    <include name="deleteSiteAsSiteAdmin"/>
+                    <include name="removeUserFromAlfrescoAdmin"/>
+                    <include name="removeUserFromSiteAdmin"/>
+                    <include name="siteAdminBecomeSitesManager"/>
+                    <include name="updateSiteVisibilityToModerated"/>
+                    <include name="updateSiteVisibilityToPrivate"/>
+                    <include name="updateSiteVisibilityToPublic"/>
+                    <include name="verifyPresenceInToolbarBasicUser"/>
+                    <include name="verifySiteManagerPage"/>
+                    <include name="verifyUserIsAddedToAlfrescoAdminGroup"/>
+                    <include name="verifyUserIsAddedToSiteAdminGroup"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.dataListTypes.meetingAgenda.EditMeetingAgendaItemTest">
+                <methods>
+                    <include name="verifyPossibilityToEditItem"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.calendar.TimeZone.TimeZoneAgendaViewTests">
+                <methods>
+                    <include name="multipleDaysAllDayEvent"/>
+                    <include name="multipleDaysEvent"/>
+                    <include name="multipleMonthsAllDayEvent"/>
+                    <include name="multipleMonthsEvent"/>
+                    <include name="multipleWeeksAllDayEvent"/>
+                    <include name="multipleWeeksEvent"/>
+                    <include name="singleDayAllDayEvent"/>
+                    <include name="singleDayEvent"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsManagePermissionsTests">
+                <methods>
+                    <include name="managePermissionOption"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.adminTools.groups.GroupsTests">
+                <methods>
+                    <include name="createGroup"/>
+                    <include name="deleteGroup"/>
+                    <include name="editGroup"/>
+                    <include name="searchForAGroup"/>
+                    <include name="verifyAddedToSiteGroupPresence"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFoldersAndFilesTests">
+                <methods>
+                    <include name="addComment"/>
+                    <include name="changeTypeForContentCreatedByOthers"/>
+                    <include name="changeTypeForContentCreatedBySelf"/>
+                    <include name="contributorCopy"/>
+                    <include name="deleteCommentCreatedByOthers"/>
+                    <include name="deleteCommentCreatedBySelf"/>
+                    <include name="deleteContentCreatedByOthers"/>
+                    <include name="deleteContentCreatedBySelf"/>
+                    <include name="editBasicDetailsCreatedByOthers"/>
+                    <include name="editBasicDetailsCreatedBySelf"/>
+                    <include name="editCommentCreatedByOthers"/>
+                    <include name="editCommentCreatedBySelf"/>
+                    <include name="favoriteAndUnfavorite"/>
+                    <include name="likeAndUnlike"/>
+                    <include name="manageAspectsForContentCreatedByOthers"/>
+                    <include name="manageAspectsForContentCreatedBySelf"/>
+                    <include name="managePermissionsContentCreatedBySelf"/>
+                    <include name="managePermissionsForContentCreatedByOthers"/>
+                    <include name="moveContentCreatedByOthers"/>
+                    <include name="moveContentCreatedBySelf"/>
+                    <include name="renameItemAddedByOthers"/>
+                    <include name="renameItemAddedBySelf"/>
+                    <include name="viewItemDetailsPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.tasksAndWorkflows.StartingAWorkflow.CreateNewReviewAndApproveTests">
+                <methods>
+                    <include name="createNewReviewAndApproveGroupReview"/>
+                    <include name="createNewReviewAndApproveOneOrMoreReviewers"/>
+                    <include name="createNewReviewAndApprovePooledReview"/>
+                    <include name="createNewReviewAndApproveSingleReviewer"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.documentLibrary.ExploringTheLibraryCategoriesTests">
+                <methods>
+                    <include name="expandCollapseNodeInCategoriesTree"/>
+                    <include name="verifyCategoryRootTreeNodes"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsCreateTests">
+                <methods>
+                    <include name="checkAllCreateAvailableActions"/>
+                    <include name="checkThatTheCreateOptionIsAvailableForAdminInMainRepository"/>
+                    <include name="checkThatUserWithoutAdminPermissionsCannotCreateInMainRepository"/>
+                    <include name="createDocumentFromTemplate"/>
+                    <include name="createFolderFromTemplateInRepository"/>
+                    <include name="createHTMLDocumentInRepository"/>
+                    <include name="createPlainTextDocumentInRepository"/>
+                    <include name="createXMLFile"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.discussions.AccessingDiscussionsTests">
+                <methods>
+                    <include name="accessTheDiscussionForum"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.MyDiscussionsDashletTests">
+                <methods>
+                    <include name="myDiscussionsDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.SelectTests">
+                <methods>
+                    <include name="selectFile"/>
+                    <include name="selectFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.DataListsDashletTests">
+                <methods>
+                    <include name="verifySiteDataListsDashletCreateDataList"/>
+                    <include name="verifySiteDataListsDashletNoListCreated"/>
+                    <include name="verifySiteDataListsDashletTwoListsCreated"/>
+                    <include name="verifySiteDataListsDashletUserWithConsumerRole"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.DownloadingContentTests">
+                <methods>
+                    <include name="downloadFileFromAlfresco"/>
+                    <include name="nonEmptyFolderDownloadAsZip"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.RebrandTests.RebrandTests">
+                <methods>
+                    <include name="checkAlfrescoOneLogoInVersiondialog"/>
+                    <include name="checkLoginPage"/>
+                    <include name="checkNewAlfrescoLogo"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.documentLibrary.LibraryViewOptionsTableViewTests">
+                <methods>
+                    <include name="tableViewDisplayingItems"/>
+                    <include name="tableViewOption"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.AlfrescoAddonsRssFeedDashletTests">
+                <methods>
+                    <include name="configureAlfrescoAddonsRssFeedDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithLinkedRules.LinkingToDifferentRuleSetTest">
+                <methods>
+                    <include name="linkToRuleSet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.EditingTheListDetailsTests">
+                <methods>
+                    <include name="cancelModifyingTitleAndDescriptionOfAnExistingList"/>
+                    <include name="closeEditFormWithoutSavingChanges"/>
+                    <include name="consumerRoleIsNotAbleToEditExistingList"/>
+                    <include name="contributorRoleIsAbleToEditListCreatedBySameUser"/>
+                    <include name="contributorRoleIsNotAbleToEditExistingList"/>
+                    <include name="editingExistingListWithSiteCollaboratorUser"/>
+                    <include name="modifyTitleAndDescriptionOfAnExistingList"/>
+                    <include name="siteManagerIsAbleToEditList"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.FavoriteSiteTests">
+                <methods>
+                    <include name="addCurrentSiteToFavoritesUsingSitesMenu"/>
+                    <include name="addSiteToFavoritesUsingMySitesDashlet"/>
+                    <include name="removeCurrentSiteFromFavoritesUsingSitesMenu"/>
+                    <include name="removeSiteFromFavoritesUsingMySitesDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.discussions.BrowsingDiscussionTopicsTests">
+                <methods>
+                    <include name="browseByTopicsFilter"/>
+                    <include name="browseTopicsByTags"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.members.ChangingASiteRoleTests">
+                <methods>
+                    <include name="changeRoleForAGroup"/>
+                    <include name="changeRoleForAnUser"/>
+                    <include name="onlySiteManagerIsAbleToChangeRoles"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userProfile.UserProfileContentTests">
+                <methods>
+                    <include name="noAddedOrModifiedContent"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.RepositoryTests">
+                <methods>
+                    <include name="checkTheFilesAndFoldersAvailabilityInRepository"/>
+                    <include name="checkTheRepositoryIsAvailableInTheToolBar"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.MyFilesUploadContentTests">
+                <methods>
+                    <include name="myFilesUpdateDocumentNewVersion"/>
+                    <include name="myFilesUploadDocument"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.siteDashboard.WebViewDashletTests">
+                <methods>
+                    <include name="checkWebViewDashlet"/>
+                    <include name="configureWebViewDashlet"/>
+                    <include name="configureWebViewDashletCancel"/>
+                    <include name="configureWebViewDashletDisplayHTTPSPages"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.adminTools.application.ApplicationTests">
+                <methods>
+                    <include name="addAndResetNewLogo"/>
+                    <include name="changeTheme"/>
+                    <include name="checkText"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.buildingContent.CreateFolderFromTemplateTests">
+                <methods>
+                    <include name="cancelCreatingFolderFromTemplate"/>
+                    <include name="createFolderFromTemplate"/>
+                    <include name="createFolderFromTemplateUsingWildcards"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFoldersOnlyTests">
+                <methods>
+                    <include name="collaboratorCreateFolder"/>
+                    <include name="locateFolder"/>
+                    <include name="manageRulesFolderCreatedByOther"/>
+                    <include name="manageRulesFolderSelfCreated"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.blog.ViewingABlogPostTests">
+                <methods>
+                    <include name="viewingABlogPostSmallAmountOfContent"/>
+                    <include name="visibilityOfPublishedDraft"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.EditingFilesInAlfrescoTests">
+                <methods>
+                    <include name="editFileInAlfresco"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles.UpdateFileWithContentFromComputerTests">
+                <methods>
+                    <include name="uploadFileUsingUploadNewVersion"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.calendar.TimeZone.TimeZoneWeekViewTests">
+                <methods>
+                    <include name="multipleDaysEvent"/>
+                    <include name="multipleDaysFAllDayEvent"/>
+                    <include name="multipleMonthsAllDayEvent"/>
+                    <include name="multipleMonthsEvent"/>
+                    <include name="multipleWeeksAllDayEvent"/>
+                    <include name="multipleWeeksEvent"/>
+                    <include name="singleDayAllDayEvent"/>
+                    <include name="singleDayEvent"/>
+                    <include name="specificScenario"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.security.DashletXSSTests">
+                <methods>
+                    <include name="configuringRssFeedWithXssUrl"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.EditTests">
+                <methods>
+                    <include name="editFileInAlfresco"/>
+                    <include name="editFileInGoogleDocs"/>
+                    <include name="editFileProperties"/>
+                    <include name="editFolderProperties"/>
+                    <include name="optionNotDisplayed"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.accessingExistingSites.EnteringSiteTests">
+                <methods>
+                    <include name="accessSiteUsingMyProfileSites"/>
+                    <include name="accessSiteUsingMySitesDashlet"/>
+                    <include name="accessSiteUsingSearchBoxOnTheToolbar"/>
+                    <include name="accessSiteUsingSiteFinderPage"/>
+                    <include name="accessSiteUsingSitesMenuFavorites"/>
+                    <include name="accessSiteUsingSitesMenuMySites"/>
+                    <include name="accessSiteUsingSitesMenuRecentSites"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.accessingExistingSites.LeavingSiteTests">
+                <methods>
+                    <include name="cancelLeavingSiteUsingSiteConfigurationOptions"/>
+                    <include name="leaveSiteUsingSiteConfigurationOptions"/>
+                    <include name="leaveSiteUsingSiteFinder"/>
+                    <include name="leaveSiteWithoutConfirmation"/>
+                    <include name="verifyLeaveSitePopup"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.blog.CreatingABlogPostTests">
+                <methods>
+                    <include name="cancelCreatingNewBlogPost"/>
+                    <include name="creatingANewBlogPostFromBlogPage"/>
+                    <include name="creatingANewBlogPostFromBlogPostView"/>
+                    <include name="creatingANewDraftBlogPostFromBlogPostView"/>
+                    <include name="creatingANewDraftPost"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.accessingExistingSites.JoiningSiteTests">
+                <methods>
+                    <include name="cancelRequestToJoinModeratedSite"/>
+                    <include name="joinPublicSiteFromSiteDashboardPage"/>
+                    <include name="joinPublicSiteFromSiteFinderPage"/>
+                    <include name="requestToJoinModeratedSiteFromSiteDashboardPage"/>
+                    <include name="requestToJoinModeratedSiteFromSiteFinderPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.socialFeatures.LikeFilesAndFoldersTests">
+                <methods>
+                    <include name="likeFile"/>
+                    <include name="likeFolder"/>
+                    <include name="unlikeFile"/>
+                    <include name="unlikeFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.SavedSearchTests">
+                <methods>
+                    <include name="savedSearchDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.adminTools.groups.SubgroupsTests">
+                <methods>
+                    <include name="addGroup"/>
+                    <include name="addUser"/>
+                    <include name="createSubgroup"/>
+                    <include name="deleteSubgroup"/>
+                    <include name="removeUser"/>
+                    <include name="searchGroup"/>
+                    <include name="searchUser"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.EditToDoListTest">
+                <methods>
+                    <include name="verifyPossibilityToEditItem"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.blog.BlogPostEditCommentsTests">
+                <methods>
+                    <include name="editBlogPostComment"/>
+                    <include name="editDraftBlogPostComment"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.MyProfileTests">
+                <methods>
+                    <include name="myLimitedProfileDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsDownloadTests">
+                <methods>
+                    <include name="downloadFileFromAlfresco"/>
+                    <include name="downloadFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.discussions.DeleteTopicTests">
+                <methods>
+                    <include name="cancelDeletingTopic"/>
+                    <include name="deleteTopicFromDiscussionsTopicListPage"/>
+                    <include name="deleteTopicFromTopicViewPage"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userRolesAndPermissions.DashboardPermissions.SiteDashboardPermissionsTests">
+                <methods>
+                    <include name="siteDashboardPermissionsCollaboratorRole"/>
+                    <include name="siteDashboardPermissionsConsumerRole"/>
+                    <include name="siteDashboardPermissionsContributorRole"/>
+                    <include name="siteDashboardPermissionsSiteManagerRole"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.organizingContent.TrashcanTests">
+                <methods>
+                    <include name="emptyTrashcan"/>
+                    <include name="trashcanDeleteFile"/>
+                    <include name="trashcanDeleteFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules.SwitchOffInheritedRulesTest">
+                <methods>
+                    <include name="switchOffInheritRules"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.CreateTests">
+                <methods>
+                    <include name="sharedFilesCreateDocumentFromTemplate"/>
+                    <include name="sharedFilesCreateFolderFromTemplate"/>
+                    <include name="sharedFilesCreateGoogleDocsDocument"/>
+                    <include name="sharedFilesCreateGoogleDocsPresentation"/>
+                    <include name="sharedFilesCreateGoogleDocsSpreadsheet"/>
+                    <include name="sharedFilesCreateHTMLFile"/>
+                    <include name="sharedFilesCreatePlainTextFile"/>
+                    <include name="sharedFilesCreateXMLFile"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeTests">
+                <methods>
+                    <include name="cancelChangeType"/>
+                    <include name="changeTypeFile"/>
+                    <include name="changeTypeFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.ActionsSelectTests">
+                <methods>
+                    <include name="selectFile"/>
+                    <include name="selectFolder"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.site.CustomizeSiteTests">
+                <methods>
+                    <include name="addAvailablePagesToSite"/>
+                    <include name="cancelChangeSiteTheme"/>
+                    <include name="changeSiteTheme"/>
+                    <include name="removePageFromSite"/>
+                    <include name="renamePage"/>
+                    <include name="verifyDefaultCurrentAndAvailablePages"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.userDashboard.dashlets.WebViewTests">
+                <methods>
+                    <include name="webViewDashlet"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.dataLists.DataListTableActionsTests">
+                <methods>
+                    <include name="deleteAction"/>
+                    <include name="duplicateAction"/>
+                    <include name="editAction"/>
+                </methods>
+            </class>
+            <class name="org.alfresco.share.sitesFeatures.blog.BlogPostAddCommentTests">
+                <methods>
+                    <include name="addCommentToDraftBlogPost"/>
+                    <include name="addingACommentToABlogPost"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
