@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Tests for Test Group = sanity" verbose="1">
+
+<suite name="Tests for Test Group = sanity" preserve-order="true"
+   parallel="false" thread-count="2">
+   <listeners>
+      <listener class-name="org.alfresco.utility.report.HtmlReportListener" />
+   </listeners>
     <test name="Tas sanity suite">
         <classes>
             <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.SharedFilesTests">
