@@ -1,9 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="prr" preserve-order="true"
-       parallel="false" thread-count="2">
+<suite name="prrSuite" parallel="false" preserve-order="true" thread-count="1">
    <listeners>
-      <listener class-name="org.alfresco.utility.report.HtmlReportListener" />
+      <listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
+      <listener class-name="org.alfresco.utility.testrail.TestRailExecutorListener"></listener>
+      <listener class-name="org.alfresco.utility.testng.OSTestMethodSelector"></listener>
    </listeners>
+
    <!-- in order for this to work you need to pass -Denvironment=docker to
       use the docker.properties -->
    <test name="Share">
@@ -111,19 +114,6 @@
                <include name="createSiteFromSiteDashlet" />
             </methods>
          </class>
-
-
-
-
-
-
-
-
-
-
-
-
-
       </classes>
    </test>
 </suite>
