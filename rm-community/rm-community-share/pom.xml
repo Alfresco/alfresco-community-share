@@ -270,24 +270,24 @@
          </build>
       </profile>
        <!--Docker profiles used to build specific docker images for community share, defined in parent pom -->
-       <profile>
-           <id>buildDockerImage</id>
-           <build>
-               <plugins>
-                   <plugin>
-                       <groupId>io.fabric8</groupId>
-                       <artifactId>fabric8-maven-plugin</artifactId>
-                   </plugin>
-               </plugins>
-           </build>
-       </profile>
+      <profile>
+         <id>buildDockerImage</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>io.fabric8</groupId>
+                  <artifactId>docker-maven-plugin</artifactId>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
        <profile>
            <id>internal</id>
            <build>
                <plugins>
                    <plugin>
                        <groupId>io.fabric8</groupId>
-                       <artifactId>fabric8-maven-plugin</artifactId>
+                       <artifactId>docker-maven-plugin</artifactId>
                    </plugin>
                </plugins>
            </build>
@@ -298,7 +298,7 @@
                <plugins>
                    <plugin>
                        <groupId>io.fabric8</groupId>
-                       <artifactId>fabric8-maven-plugin</artifactId>
+                       <artifactId>docker-maven-plugin</artifactId>
                    </plugin>
                </plugins>
            </build>
@@ -309,7 +309,7 @@
             <plugins>
                <plugin>
                   <groupId>io.fabric8</groupId>
-                  <artifactId>fabric8-maven-plugin</artifactId>
+                  <artifactId>docker-maven-plugin</artifactId>
                </plugin>
             </plugins>
          </build>
