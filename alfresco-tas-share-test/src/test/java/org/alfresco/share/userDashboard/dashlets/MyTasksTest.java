@@ -166,7 +166,7 @@ public class MyTasksTest extends ContextAwareWebTest
 
 
     @TestRail (id = "C8548, C8597")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD }, enabled = false)
     public void userAddedAfterWorkflowStarts()
     {
         LOG.info("Precondition 1: User with administrator rights are logged into Share;");
