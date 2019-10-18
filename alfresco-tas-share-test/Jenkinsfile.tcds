@@ -27,7 +27,7 @@ pipeline {
 
     stage ('Clone alfresco-tas-share') {
        steps  {
-           cloneRepository('https://git.alfresco.com/tas/alfresco-tas-share-test.git', 'v6.1.0-tcds-AWS')
+           cloneRepository('https://git.alfresco.com/tas/alfresco-tas-share-test.git', '6.2-TSE-2')
        }
     }
 
