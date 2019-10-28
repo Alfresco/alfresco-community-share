@@ -133,9 +133,6 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>3.0.0-M2</version>
             <configuration>
-               <reportFormat>plain</reportFormat>
-               <trimStackTrace>false</trimStackTrace>
-               <forkMode>never</forkMode>
                <suiteXmlFiles>
                   <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                </suiteXmlFiles>
