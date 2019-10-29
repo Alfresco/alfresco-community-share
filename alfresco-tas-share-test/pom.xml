@@ -12,9 +12,9 @@
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
       <suiteXmlFile>src/test/resources/share-sanity-suite.xml</suiteXmlFile>
-      <tas.utility.version>2.0.26</tas.utility.version>
+      <tas.utility.version>2.0.31</tas.utility.version>
       <maven-remote-resources.version>1.6.0</maven-remote-resources.version>
-      <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
+      <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
       <tas.cmis.version>6.0.0.1</tas.cmis.version>
       <java.version>11</java.version>
    </properties>
