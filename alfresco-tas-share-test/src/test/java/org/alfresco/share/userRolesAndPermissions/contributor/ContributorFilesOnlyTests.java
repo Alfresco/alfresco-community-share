@@ -219,7 +219,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8917")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "office" })
     public void editOnlineForContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -236,7 +236,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8918")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "office" })
     public void editOnlineForContentCreatedByOthers()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());

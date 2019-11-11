@@ -84,7 +84,7 @@ public class MyFilesUnzipContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7817")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
     public void unzipACPArchiveToMyFiles()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and upload a zip archive.");

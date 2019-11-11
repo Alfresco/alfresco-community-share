@@ -166,6 +166,8 @@ public class TrashcanTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, folderName),
             "'Confirm multiple delete' dialog message=");
         deleteDialog.clickDelete();
+        deleteDialog.waitUntilMessageDisappears();
+
         assertEquals(documentLibraryPage.getFilesList().toString(), Collections.singletonList(fileName).toString(), "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[]", "Document Library folders=");
 

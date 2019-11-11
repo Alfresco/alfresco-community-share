@@ -643,6 +643,22 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
         editCommentButton.click();
     }
 
+    public void clickDeleteComment(String comment, String comment2)
+    {
+        getBrowser().waitUntilElementVisible(commContent);
+        try{
+            browser.mouseOver(selectCommentDetailsRow(comment).findElement(commContent));
+
+        }
+        catch(Exception e)
+        {
+            browser.mouseOver(selectCommentDetailsRow(comment2).findElement(commContent));
+        }
+
+        getBrowser().waitUntilElementClickable(deleteCommentButton).click();
+    }
+
+
     public void clickDeleteOnDeleteComment()
     {
         deleteButtonOnPrompt.click();

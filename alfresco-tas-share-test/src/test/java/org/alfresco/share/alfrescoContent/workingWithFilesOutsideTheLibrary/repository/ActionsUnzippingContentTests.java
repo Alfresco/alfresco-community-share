@@ -79,7 +79,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8257")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
 
     public void unzipAcpFileToRepository()
     {
