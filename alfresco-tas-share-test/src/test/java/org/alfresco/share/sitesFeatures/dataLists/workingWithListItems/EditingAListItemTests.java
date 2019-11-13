@@ -59,6 +59,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editingAMandatoryFieldOfAListItem()
     {
+        getBrowser().waitInSeconds(5);
         LOG.info("Preconditions: Create a second user");
         String userTest = String.format("userTest%s", RandomData.getRandomAlphanumeric());
         userService.create(adminUser, adminPassword, userTest, password, userTest + domain, userTest, userTest);
@@ -97,7 +98,7 @@ public class EditingAListItemTests extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void editingANonMandatoryFieldOfAListItem()
     {
-
+        getBrowser().waitInSeconds(5);
         LOG.info("Preconditions: Create a new 'Contact' List with an item");
         String contactListName = "contact" + System.currentTimeMillis();
         dataLists.createDataList(adminUser, adminPassword, siteName, DataList.CONTACT_LIST, contactListName, "Contact list description");

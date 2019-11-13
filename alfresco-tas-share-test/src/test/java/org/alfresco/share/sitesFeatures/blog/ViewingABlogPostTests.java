@@ -67,10 +67,11 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C5528")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, priority=2)
     public void viewingABlogPostSmallAmountOfContent()
     {
         sitePagesService.createBlogPost(user1, password, siteName, blogTitleUser1Published, blogContent, false, tags);
+
         blogPostListPage.navigate(siteName);
 
         LOG.info("Step 1: Click 'Read' beneath the Post1.");
@@ -102,7 +103,7 @@ public class ViewingABlogPostTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6116")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, priority=1)
     public void visibilityOfPublishedDraft()
     {
         setupAuthenticatedSession(user1, password);

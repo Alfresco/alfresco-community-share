@@ -53,7 +53,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8097")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 1)
     public void likeFile()
     {
         LOG.info("Step 1: Hover over the file Like link.");
@@ -69,7 +69,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8098")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 2)
     public void likeFolder()
     {
         LOG.info("Step 1: Hover over the folder's Like link.");
@@ -86,7 +86,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8099")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 3)
     public void unlikeFile()
     {
         LOG.info("Step 1: Hover over the file Like link.");
@@ -99,7 +99,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8100")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 4)
     public void unlikeFolder()
     {
         LOG.info("Step 1: Hover over the folder's Like link.");
@@ -112,7 +112,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8101")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 5)
     public void addCommentToFile()
     {
         LOG.info("STEP1: Hover over a document and press \"Comment\"");
@@ -129,7 +129,7 @@ public class LikeCommentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8102")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 6)
     public void addCommentToFolder()
     {
         LOG.info("STEP1: Hover over a document and press \"Comment\"");

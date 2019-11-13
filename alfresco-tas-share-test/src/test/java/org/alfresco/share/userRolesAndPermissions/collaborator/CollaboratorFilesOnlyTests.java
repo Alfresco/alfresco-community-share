@@ -446,7 +446,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8945")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "office"})
     public void editOnlineCreatedBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -458,7 +458,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8946")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "office" })
     public void editOnlineCreatedByOtherUser()
     {
         setupAuthenticatedSession(user, password);

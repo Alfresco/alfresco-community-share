@@ -91,7 +91,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7410")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
     public void unzipAcpFileToDocumentLibraryOfTheSameSite()
     {
         documentLibraryPage.navigate(siteName);
@@ -116,7 +116,7 @@ public class UnzippingContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C202869")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
     public void cancelUnzipAcpFile()
     {
         String acpFolderName = acpFile.substring(0, acpFile.indexOf("."));

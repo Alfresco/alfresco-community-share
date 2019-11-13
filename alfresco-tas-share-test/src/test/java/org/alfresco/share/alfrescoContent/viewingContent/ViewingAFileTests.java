@@ -143,7 +143,7 @@ public class ViewingAFileTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C9936")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "office" })
 
     public void checkActionsAvailability()
     {

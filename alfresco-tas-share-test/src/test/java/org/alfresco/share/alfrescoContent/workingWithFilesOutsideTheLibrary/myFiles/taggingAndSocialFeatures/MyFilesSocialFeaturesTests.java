@@ -81,6 +81,8 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         myFilesPage.clickFolderLink();
         newContentDialog.fillInNameField(folderName);
         newContentDialog.clickSaveButton();
+        newContentDialog.waitUntilMessageDisappears();
+
         getBrowser().waitInSeconds(3);
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
@@ -142,7 +144,8 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         myFilesPage.clickFolderLink();
         newContentDialog.fillInNameField(folderName);
         newContentDialog.clickSaveButton();
-        getBrowser().waitInSeconds(3);
+        newContentDialog.waitUntilMessageDisappears();
+
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("Precondition: Like the folder.");
@@ -207,7 +210,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
         myFilesPage.clickFolderLink();
         newContentDialog.fillInNameField(folderName);
         newContentDialog.clickSaveButton();
-        getBrowser().waitInSeconds(3);
+        newContentDialog.waitUntilMessageDisappears();
         assertTrue(myFilesPage.isContentNameDisplayed(folderName), folderName + " displayed in My Files documents list.");
 
         LOG.info("STEP1: Hover over a document and press \"Comment\"");

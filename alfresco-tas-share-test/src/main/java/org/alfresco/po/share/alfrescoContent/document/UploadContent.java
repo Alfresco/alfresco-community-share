@@ -30,7 +30,7 @@ public class UploadContent extends SiteCommon<UploadContent>
     private WebElement uploadButton;
 
     @FindBy (className = "dnd-file-selection-button")
-    private FileInput fileInput;
+    private WebElement fileInput;
 
     // private By uploadFilesToDialog =
     // By.cssSelector("div[id$='_default-dialog_c']");
@@ -76,13 +76,14 @@ public class UploadContent extends SiteCommon<UploadContent>
         // click Upload button
         browser.waitUntilElementClickable(uploadButton);
         uploadButton.click();
+        waitUntilMessageDisappears();
 
         // set the file to upload
         File fileToUpload = newFile(filePath, contentsOfFile);
         try
         {
-            fileInput.setFileToUpload(fileToUpload.getCanonicalPath());
-        } catch (IOException e)
+            fileInput.sendKeys(fileToUpload.getAbsolutePath());
+        } catch (IllegalArgumentException e)
         {
             e.printStackTrace();
         }
@@ -119,8 +120,8 @@ public class UploadContent extends SiteCommon<UploadContent>
         File fileToUpload = newFile(filePath, "updated by upload new version");
         try
         {
-            fileInput.setFileToUpload(fileToUpload.getCanonicalPath());
-        } catch (IOException e)
+            fileInput.sendKeys(fileToUpload.getAbsolutePath());
+        } catch (Exception e)
         {
             e.printStackTrace();
         }

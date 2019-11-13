@@ -22,6 +22,7 @@ public class ListItemTable extends WebDriverAware
 
     public WebElement getEditButton()
     {
+        browser.waitUntilElementVisible(webElement);
         browser.mouseOver(webElement.findElement(actionsColumn));
         return webElement.findElement(actionsColumn).findElement(edit);
     }
