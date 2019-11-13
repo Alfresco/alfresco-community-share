@@ -330,7 +330,7 @@
                {
                   if(oRecordData.nodeName != "")
                   {
-                      elLiner.innerHTML = oRecordData.event + '&nbsp;-&nbsp;<a class="theme-color-1 site-link" href="' + Alfresco.util.profileURL(oRecordData.nodeName) + '">' + $html(oRecordData.nodeName) + '</a>';
+                      elLiner.innerHTML = oRecordData.event + '&nbsp;-&nbsp;<span class="audit-link-item"><a class="theme-color-1 site-link" href="' + Alfresco.util.profileURL(oRecordData.nodeName) + '">' + $html(oRecordData.nodeName) + '</a></span>';
                   }
                   else
                   {
@@ -349,7 +349,8 @@
                      {
                         if (oRecordData.nodeName != "documentLibrary")
                         {
-                           elLiner.innerHTML = oRecordData.event + '&nbsp;-&nbsp;<a href="' + Alfresco.constants.URL_PAGECONTEXT + 'site/' + me.options.siteId + '/document-details?nodeRef=' + oRecordData.nodeRef + '">' + oRecordData.nodeName + '</a>&nbsp;&nbsp;&nbsp;';
+                            var linkPath = Alfresco.constants.URL_PAGECONTEXT + 'site/' + me.getSiteIdFromPath(oRecordData.path) + '/document-details?nodeRef=' + oRecordData.nodeRef;
+                           elLiner.innerHTML = oRecordData.event + '&nbsp;-&nbsp;<span class="audit-link-item"><a href="' + linkPath + '">' + $html(oRecordData.nodeName) + '</a></span>&nbsp;&nbsp;&nbsp;';
                         }
                         else
                         {
@@ -912,6 +913,7 @@
       {
          var el = Event.getTarget(e);
          var data = this.widgets.auditDataTable.getRecord(el).getData();
+         var me = this;
 
          if (!this.widgets.auditDialog)
          {
@@ -950,6 +952,11 @@
 
          if (data.path)
          {
+            var index = data.path.indexOf("/documentLibrary");
+            var displayPath1 = data.path.substring(index);
+            var displayPath = displayPath1.replace('/documentLibrary', '');
+            var linkPath = Alfresco.constants.URL_PAGECONTEXT + 'site/' + me.getSiteIdFromPath(data.path) + '/document-details?nodeRef=' + data.nodeRef;
+
             body+='<table id="auditEntry-nodeDetails">'+
                '<tr>'+
                   '<th>' + this.msg('label.identifier') + ':</th>'+
@@ -961,7 +968,7 @@
                '</tr>'+
                '<tr>'+
                   '<th>' + this.msg('label.location') + ':</th>'+
-                  '<td>' + data.path.replace('/documentLibrary','') + '</td>'+
+                '<td class="audit-link-item">' + '<a href="' + linkPath + '">' + $html(displayPath) + '</a>'+ '</td>'+
                '</tr>'+
             '</table>';
          }
@@ -973,6 +980,7 @@
                '<td>{name}</td>'+
                '<td>{previous}</td>'+
                '<td>{new}</td>'+
+            '</tr>';
             '</tr>';
             for (var i=0,len=data.changedValues.length;i<len;i++)
             {
@@ -1073,6 +1081,21 @@
          this.toggleUI();
          //update caption
          this.widgets['auditDataTable']._elCaption.innerHTML = this.msg('label.pagination', response.results.length);
-      }
+      },
+
+       /**
+        * Parses the path and return the site
+        *
+        */
+       getSiteIdFromPath : function RM_Audit_getSiteIdFromPath(nodePath)
+       {
+           var siteId = "rm";
+           //example: /Company Home/Sites/siteId/documentLibrary/folderName/nodeName'
+           if (nodePath.includes('/Sites/')) {
+               var res = nodePath.split("/");
+               siteId = res[3];
+           }
+           return siteId;
+       }
    });
 })();
