@@ -95,9 +95,8 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
 
     }
 
-    @Bug (id = "TBD")
     @TestRail (id = "C14280")
-    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelSitePendingRequest()
     {
         LOG.info("Precondition: Cancel request");
@@ -114,9 +113,8 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
 
-    @Bug (id = "TBD")
     @TestRail (id = "C14283")
-    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsGroupManager()
     {
         setupAuthenticatedSession(userName1.getUsername(), password);
@@ -143,9 +141,8 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
 
-    @Bug (id = "TBD")
     @TestRail (id = "C14284")
-    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES })
     public void releaseToPoolRequestPendingTaskAsGroupManager()
     {
         setupAuthenticatedSession(userName1.getUsername(), password);
@@ -176,9 +173,8 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequestsList.toString(), "Pending Requests=");
     }
 
-    @Bug (id = "TBD")
     @TestRail (id = "C14285")
-    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsGroupManagerAndRemoveUserFromGroup()
     {
         setupAuthenticatedSession(userName3, password);
@@ -203,9 +199,8 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
         assertEquals(pendingInvitesPage.getPendingRequests().toString(), pendingRequests.toString(), "Pending Requests=");
     }
 
-    @Bug (id = "TBD")
     @TestRail (id = "C14286")
-    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void claimRequestPendingTaskAsSiteManager()
     {
         String userName4 = "user4" + RandomData.getRandomAlphanumeric();

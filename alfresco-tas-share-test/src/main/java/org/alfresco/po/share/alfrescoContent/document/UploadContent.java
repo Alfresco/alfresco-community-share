@@ -83,7 +83,7 @@ public class UploadContent extends SiteCommon<UploadContent>
         try
         {
             fileInput.sendKeys(fileToUpload.getAbsolutePath());
-        } catch (Exception e)
+        } catch (IllegalArgumentException e)
         {
             e.printStackTrace();
         }
