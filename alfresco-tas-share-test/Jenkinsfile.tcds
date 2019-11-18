@@ -4,9 +4,10 @@ pipeline {
   }
   
   parameters {
-    string(name: 'ALFRESCO_TAG', defaultValue: '6.1.0', description: 'Docker TAG version for image: quay.io/alfresco/alfresco-content-repository')
-    string(name: 'SHARE_TAG', defaultValue: '6.1.0', description: 'Docker TAG version for image: quay.io/alfresco/alfresco-share')
-    string(name: 'SEARCH_TAG', defaultValue: '1.3.0', description: 'Docker TAG version for image: quay.io/alfresco/search-services')
+    string(name: 'ALFRESCO_TAG', defaultValue: '6.2.0', description: 'Docker TAG version for image: quay.io/alfresco/alfresco-content-repository')
+    string(name: 'SHARE_TAG', defaultValue: '6.2.0-RC4', description: 'Docker TAG version for image: quay.io/alfresco/alfresco-share')
+    string(name: 'SEARCH_TAG', defaultValue: '1.4.0', description: 'Docker TAG version for image: quay.io/alfresco/search-services')
+    string(name: 'GitTag', defaultValue: '6.2-TSE-4', description: 'The Git Tag for Alfresco TSE tests project')
     string(name: 'WebSuite', defaultValue: 'src/test/resources/share-po-runner-suite.xml' , description: 'Share Suite XML File or Test (leave empty to skip)')
     string(defaultValue: 'sanity', description: '', name: 'IncludeGroups')
     string(defaultValue: 'google-docs,unit,SmartFolders,ExternalUsers', description: '', name: 'ExcludeGroups')
@@ -27,7 +28,7 @@ pipeline {
 
     stage ('Clone alfresco-tas-share') {
        steps  {
-           cloneRepository('https://git.alfresco.com/tas/alfresco-tas-share-test.git', '6.2-TSE-3')
+           cloneRepository('https://git.alfresco.com/tas/alfresco-tas-share-test.git', "$GitTag")
        }
     }
 
