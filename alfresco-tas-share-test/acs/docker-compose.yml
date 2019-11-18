@@ -63,7 +63,7 @@ services:
       - 61613:61613 # STOMP
 
   selenium-firefox:
-    image: selenium/standalone-firefox-debug:3.11
+    image: selenium/standalone-firefox-debug:3.141
     environment:
       - VNC_NO_PASSWORD=1
     ports:
