@@ -339,7 +339,7 @@
                }
                else
                {
-                  if (oRecordData.deleteObject === true)
+                  if (oRecordData.deleteObject === true || oRecordData.event == "Delete Hold")
                   {
                      elLiner.innerHTML = oRecordData.event + '&nbsp;-&nbsp;' + oRecordData.path.replace('/documentLibrary','') + '&nbsp;&nbsp;&nbsp;';
                   }
