@@ -339,7 +339,7 @@
                }
                else
                {
-                  if (oRecordData.deleteObject === true || oRecordData.event == "Delete Hold")
+                  if (oRecordData.deleteObject === true)
                   {
                      elLiner.innerHTML = oRecordData.event + '&nbsp;-&nbsp;' + oRecordData.path.replace('/documentLibrary','') + '&nbsp;&nbsp;&nbsp;';
                   }
@@ -952,9 +952,7 @@
 
          if (data.path)
          {
-            var index = data.path.indexOf("/documentLibrary");
-            var displayPath1 = data.path.substring(index);
-            var displayPath = displayPath1.replace('/documentLibrary', '');
+            var displayPath = data.path.substring(data.path.indexOf("/documentLibrary"));
             var linkPath = Alfresco.constants.URL_PAGECONTEXT + 'site/' + me.getSiteIdFromPath(data.path) + '/document-details?nodeRef=' + data.nodeRef;
 
             body+='<table id="auditEntry-nodeDetails">'+
@@ -968,7 +966,7 @@
                '</tr>'+
                '<tr>'+
                   '<th>' + this.msg('label.location') + ':</th>'+
-                '<td class="audit-link-item">' + '<a href="' + linkPath + '">' + $html(displayPath) + '</a>'+ '</td>'+
+                '<td class="audit-link-item">' + '<a href="' + linkPath + '">' + $html(displayPath.replace('/documentLibrary', '')) + '</a>'+ '</td>'+
                '</tr>'+
             '</table>';
          }
