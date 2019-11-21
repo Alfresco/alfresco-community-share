@@ -979,7 +979,6 @@
                '<td>{previous}</td>'+
                '<td>{new}</td>'+
             '</tr>';
-            '</tr>';
             for (var i=0,len=data.changedValues.length;i<len;i++)
             {
                var o = data.changedValues[i];
