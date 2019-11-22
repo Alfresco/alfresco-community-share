@@ -1090,10 +1090,12 @@
          if (data.nodeType === "Record Folder" || data.nodeType === "Unfiled Record Folder")
          {
             details = "site/rm/rm-record-folder-details?nodeRef=";
-         } else if (data.nodeType === "Record Category")
+         }
+         else if (data.nodeType === "Record Category")
          {
             details = "site/rm/rm-record-category-details?nodeRef=";
-         } else
+         }
+         else
          {
             var siteId = "rm";
             //example: /Company Home/Sites/siteId/documentLibrary/folderName/nodeName
