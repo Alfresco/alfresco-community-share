@@ -88,6 +88,6 @@ public class DashletXSSTests extends ContextAwareWebTest
             userService.addDashlet(testUser, password, UserDashlet.RSS_FEED, DashletLayout.THREE_COLUMNS, 3, 1);
             userDashboardPage.refresh();
         }
-        Assert.assertEquals(rssFeedDashlet.getDashletTitle(), "Alfresco Blog", "'RSS Feed' ('Alfresco Blog') dashlet is not displayed in user's dashboard.");
+        Assert.assertTrue(rssFeedDashlet.isDashletDisplayed(Dashlet.DashletHelpIcon.RSS_FEED), "'RSS Feed' ('Alfresco Blog') dashlet is not displayed in user's dashboard.");
     }
 }
