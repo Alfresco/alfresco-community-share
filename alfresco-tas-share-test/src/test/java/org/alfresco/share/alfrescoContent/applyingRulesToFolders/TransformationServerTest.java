@@ -38,7 +38,7 @@ public class TransformationServerTest extends ContextAwareWebTest {
     private String sourceFolderName = "FOR";
     private String targetFolderName = "Transformed";
     private String ruleName = "RuleName_" + random;
-    private String[] imageToTransform = {"Lighthouse.jpg", "png_noBackground_file.png", "tiff_file.tif"};
+    private String[] imageToTransform = {"Lighthouse.jpg", "png_noBackground_file.png", "tiff_file.tif", "gif_animated.gif"};
 
     @BeforeClass(alwaysRun = true)
     public void setupTest() {
@@ -65,7 +65,7 @@ public class TransformationServerTest extends ContextAwareWebTest {
 
         LOG.info("STEP 1: Go to the folder with rule and upload document.");
         documentLibraryPage.navigate(siteName).clickOnFolderName(sourceFolderName);
-        for (int i = 0; i <= 2; i++) {
+        for (int i = 0; i <= 3; i++) {
             LOG.info("STEP: Upload " + imageToTransform[i]);
             documentLibraryPage.uploadNewImage(String.format(testDataFolder + imageToTransform[i]));
             assertTrue(documentLibraryPage.isContentNameDisplayed(imageToTransform[i]), String.format("File [%s] is not displayed", imageToTransform[i]));
@@ -73,14 +73,14 @@ public class TransformationServerTest extends ContextAwareWebTest {
 
         LOG.info("STEP 2: Go to the target (e.g. Transformed space) and verify the *bmp copy of the file.");
         documentLibraryPage.navigate(siteName).clickOnFolderName(targetFolderName);
-        for (int i = 0; i <= 2; i++) {
+        for (int i = 0; i <= 3; i++) {
             LOG.info("STEP: Check transformation of " + imageToTransform[i]);
             assertTrue(documentLibraryPage.isContentNameDisplayed(String.format((imageToTransform[i].substring(0, imageToTransform[i].length() - 3) + "bmp"))), String.format("Transformed file [%s] is not displayed", imageToTransform[i].substring(0, imageToTransform[i].length() - 3) + "bmp"));
         }
 
         LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " and verify successful info about your transformation.");
         navigate(properties.getTransformationServerUrl().toString());
-        for (int i = 0; i <= 2; i++) {
+        for (int i = 0; i <= 3; i++) {
             LOG.info("STEP: Check in DTE server after " + imageToTransform[i]);
             assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), imageToTransform[i], PerformActionRulePage.Mimetype.BITMAP_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform[i]));
         }

@@ -1,7 +1,7 @@
 package org.alfresco.po;
 
-import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.PerformActionRulePage;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -16,12 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @author iulia.burca
  */
 @PageObject
-public class DocumentTransformationEnginePage extends AdminConsolePage<DocumentTransformationEnginePage> {
-    @Override
-    protected String relativePathToURL() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+public class DocumentTransformationEnginePage extends HtmlPage {
 
     @RenderWebElement
     @FindBy(className = "intro")
@@ -32,16 +27,6 @@ public class DocumentTransformationEnginePage extends AdminConsolePage<DocumentT
     public String fileNameColumn = "#transformation-table tbody[class*='data'] tr[id='yui-rec%s'] [class*='col-filename'] div";
     public String toTransformationColumn = "#transformation-table tbody[class*='data'] tr[id='yui-rec%s'] td:nth-of-type(7) img";
     public String userNameColumn = "#transformation-table tbody[class*='data'] tr[id='yui-rec%s'] [class*='col-user'] div";
-
-    @Override
-    public String getInfoPage() {
-        return "";
-    }
-
-    @Override
-    public String getIntroPage() {
-        return intro.getText();
-    }
 
     /**
      * This method verifies if the transformation of a document (performed through a rule) in Alfresco Share has been made through DTE (Document Transformation Server).
