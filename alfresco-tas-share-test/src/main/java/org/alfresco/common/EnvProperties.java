@@ -1,10 +1,5 @@
 package org.alfresco.common;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Paths;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Paths;
 
 /**
  * Generic Properties class that will load and override properties based on environment defined
@@ -51,6 +51,9 @@ public class EnvProperties
 
     @Value ("${env.platform}")
     private String envPlatformName;
+
+    @Value("${transformserver.url}")
+    private URL transformationServerUrl;
 
     @Value ("${share.url}")
     private URL shareUrl;
@@ -169,6 +172,13 @@ public class EnvProperties
     public void setEnvPlatformName(String envPlatformName)
     {
         this.envPlatformName = envPlatformName;
+    }
+
+    public URL getTransformationServerUrl() {return transformationServerUrl;}
+
+    public void setTransformationServerUrl(URL transformationServerUrl)
+    {
+        this.transformationServerUrl=transformationServerUrl;
     }
 
     public URL getShareUrl()
