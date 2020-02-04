@@ -58,6 +58,9 @@ public class EnvProperties
     @Value ("${share.url}")
     private URL shareUrl;
 
+    @Value("${alfresco.server}")
+    private String alfrescoServer;
+
     @Value ("${alfresco.url}")
     private URL alfrescoUrl;
 
@@ -84,6 +87,9 @@ public class EnvProperties
 
     @Value ("${locale.country}")
     private String country;
+
+    @Value ("${mail.port}")
+    private int mailPort;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer()
@@ -265,4 +271,20 @@ public class EnvProperties
     {
         this.country = country;
     }
+
+    public int getMailPort() { return mailPort; }
+
+    public void setMailPort(int mailPort) { this.mailPort = mailPort; }
+
+    public String getAlfrescoServer()
+    {
+        return alfrescoServer;
+    }
+
+    public void setAlfrescoServer(String alfrescoServer)
+    {
+        this.alfrescoServer = alfrescoServer;
+    }
 }
+
+

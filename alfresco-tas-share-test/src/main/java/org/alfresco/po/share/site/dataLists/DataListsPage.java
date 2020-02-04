@@ -127,7 +127,7 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         browser.waitInSeconds(3);
         try
         {
-            currentContent = (Content) c.newInstance();
+            currentContent = (Content) c.getDeclaredConstructor().newInstance();
         } catch (Exception e)
         {
             e.printStackTrace();

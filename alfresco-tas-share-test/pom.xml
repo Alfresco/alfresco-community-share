@@ -12,7 +12,7 @@
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
       <suiteXmlFile>src/test/resources/share-sanity-suite.xml</suiteXmlFile>
-      <tas.utility.version>2.0.31</tas.utility.version>
+      <tas.utility.version>2.0.35</tas.utility.version>
       <maven-remote-resources.version>1.6.0</maven-remote-resources.version>
       <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
       <tas.cmis.version>6.0.0.1</tas.cmis.version>
@@ -38,7 +38,7 @@
          <artifactId>utility</artifactId>
          <version>${tas.utility.version}</version>
       </dependency>
-           
+
       <dependency>
          <groupId>org.uncommons</groupId>
          <artifactId>reportng</artifactId>
@@ -61,7 +61,7 @@
       <dependency>
          <groupId>commons-collections</groupId>
          <artifactId>commons-collections</artifactId>
-         <version>RELEASE</version>
+         <version>3.2.2</version>
       </dependency>
 
       <!--<dependency>
@@ -76,6 +76,11 @@
          <groupId>org.alfresco.tas</groupId>
          <artifactId>cmis-test</artifactId>
          <version>${tas.cmis.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>commons-net</groupId>
+         <artifactId>commons-net</artifactId>
+         <version>3.6</version>
       </dependency>
 
    </dependencies>
@@ -108,26 +113,26 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <version>${maven-compiler-plugin.version}</version>
             <configuration>
-             	<release>${java.version}</release>
-				<showWarnings>true</showWarnings>
-				<showDeprecation>true</showDeprecation>
+               <release>${java.version}</release>
+               <showWarnings>true</showWarnings>
+               <showDeprecation>true</showDeprecation>
             </configuration>
          </plugin>
 
-		<plugin>
-			<artifactId>maven-deploy-plugin</artifactId>
-			<version>3.0.0-M1</version>
-			<executions>
-				<execution>
-					<id>default-deploy</id>
-					<phase>deploy</phase>
-					<goals>
-						<goal>deploy</goal>
-					</goals>
-				</execution>
-			</executions>
-		</plugin>		
-		
+         <plugin>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>3.0.0-M1</version>
+            <executions>
+               <execution>
+                  <id>default-deploy</id>
+                  <phase>deploy</phase>
+                  <goals>
+                     <goal>deploy</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
@@ -137,8 +142,8 @@
                   <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                </suiteXmlFiles>
                <argLine>
-				--illegal-access=permit
-			   </argLine>                              
+                  --illegal-access=permit
+               </argLine>
             </configuration>
          </plugin>
 

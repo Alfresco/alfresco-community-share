@@ -22,16 +22,17 @@ public abstract class AdminConsoleDialog extends HtmlPage
     protected WebElement dialogFrame;
 
     private By pageControlLocator = By.cssSelector("div[class~=control]");
-    private By closeButtonLocator = By.className("cancel");
+    protected By closeButtonLocator = By.className("cancel");
     private By titleLocator = By.className("title");
     private By introLocator = By.className("intro");
 
-    public void clickClose()
+    public HtmlPage clickClose(HtmlPage t)
     {
         STEP("Click Close button");
         browser.switchTo().frame(dialogFrame);
         browser.waitUntilElementClickable(closeButtonLocator, properties.getExplicitWait()).click();
         browser.switchTo().defaultContent();
+        return t.renderedPage();
     }
 
     public boolean isCloseButtonDisplayed()

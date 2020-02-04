@@ -107,6 +107,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
+
         LOG.info("Step1: On the Document Library Page click on 'Upload' button.");
         uploadContent.uploadContent(testFilePath);
         LOG.info("Step2: Verify the file is successfully uploaded.");

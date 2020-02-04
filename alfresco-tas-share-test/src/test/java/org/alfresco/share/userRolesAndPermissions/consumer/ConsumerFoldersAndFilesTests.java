@@ -16,6 +16,8 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -289,6 +291,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
         setupAuthenticatedSession(user8865, password);
         documentLibraryPage.navigate(site8865);
+//        ((RemoteWebDriver)(documentLibraryPage.getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
         uploadContent.uploadContent(filePath8865);
         getBrowser().waitInSeconds(2);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(fileC8865collaborator), String.format("File %s was not uploaded", fileC8865collaborator));

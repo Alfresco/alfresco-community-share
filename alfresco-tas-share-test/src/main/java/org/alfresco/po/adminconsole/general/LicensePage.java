@@ -50,7 +50,8 @@ public class LicensePage extends AdminConsolePage<LicensePage>
     public UploadNewLicenseDialog clickUploadLicense()
     {
         uploadLicenseButton.click();
-        return (UploadNewLicenseDialog) uploadNewLicenseDialog.renderedPage();
+//        return (UploadNewLicenseDialog) uploadNewLicenseDialog.renderedPage();
+        return uploadNewLicenseDialog;
     }
 
     public ApplyNewLicenseDialog clickApplyNewLicense()

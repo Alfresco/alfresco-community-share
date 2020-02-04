@@ -12,8 +12,11 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import ru.yandex.qatools.htmlelements.element.FileInput;
 
 /**
@@ -25,6 +28,9 @@ public class UploadContent extends SiteCommon<UploadContent>
 
     @Autowired
     DocumentLibraryPage documentLibraryPage;
+
+    @Autowired
+    private Environment env;
 
     @FindBy (css = "button[id$='-fileUpload-button-button']")
     private WebElement uploadButton;
@@ -73,6 +79,10 @@ public class UploadContent extends SiteCommon<UploadContent>
 
     public void uploadContent(String filePath, String contentsOfFile)
     {
+        if (env.getProperty("grid.enabled").equals("true"))
+        {
+            ((RemoteWebDriver)(documentLibraryPage.getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
+        }
         // click Upload button
         browser.waitUntilElementClickable(uploadButton);
         uploadButton.click();
@@ -108,6 +118,10 @@ public class UploadContent extends SiteCommon<UploadContent>
 
     public DocumentLibraryPage updateDocumentVersion(String filePath, String comments, Version versionType)
     {
+        if (env.getProperty("grid.enabled").equals("true"))
+        {
+            ((RemoteWebDriver)(documentLibraryPage.getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
+        }
         if (versionType.equals(Version.Major))
         {
             browser.waitUntilElementClickable(By.cssSelector("input[id$='_default-majorVersion-radioButton']"),

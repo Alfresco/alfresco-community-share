@@ -14,6 +14,7 @@ import org.alfresco.po.adminconsole.directories.DirectoryManagement.SyncUserDire
 import org.alfresco.po.adminconsole.directories.DirectoryManagement.SynchronizationSettingsDialog;
 import org.alfresco.po.adminconsole.directories.DirectoryManagement.SynchronizationStatus;
 import org.alfresco.utility.Utility;
+import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
@@ -194,11 +195,11 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
         return syncStatusMessage.getText();
     }
 
-    public void synchronize()
+    public HtmlPage synchronize()
     {
         clickRunSynchronize();
         Assert.assertEquals(syncUserDirectoriesDialog.clickSync(), "Sync Started", "Sync message should appear");
-        syncUserDirectoriesDialog.clickClose();
+        return syncUserDirectoriesDialog.clickClose(this);
     }
 
     public SynchronizationStatus getStatusForBean(SynchronizationStatus.BeanNames beanName) throws Exception

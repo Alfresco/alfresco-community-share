@@ -5,7 +5,11 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 /**
  * Created by Mirela Tifui on 11/28/2016.
@@ -13,6 +17,9 @@ import org.openqa.selenium.support.FindBy;
 @PageObject
 public class ImportModelDialogPage extends ShareDialog
 {
+    @Autowired
+    private Environment env;
+
     @RenderWebElement
     @FindBy (id = "CMM_IMPORT_DIALOG_OK")
     private WebElement importButton;
@@ -68,6 +75,10 @@ public class ImportModelDialogPage extends ShareDialog
 
     public void importFile(String filePath)
     {
+        if (env.getProperty("grid.enabled").equals("true"))
+        {
+            ((RemoteWebDriver)browser.getWrappedDriver()).setFileDetector(new LocalFileDetector());
+        }
         browser.findElement(browserButton).sendKeys(filePath);
     }
 
