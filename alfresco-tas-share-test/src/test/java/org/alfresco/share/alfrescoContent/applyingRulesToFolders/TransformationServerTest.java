@@ -114,4 +114,23 @@ public class TransformationServerTest extends ContextAwareWebTest {
         navigate(properties.getTransformationServerUrl().toString());
         assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), documentToTransform, PerformActionRulePage.Mimetype.ADOBE_PDF_DOCUMENT, userName), String.format("Document %s wasn't transformed!", documentToTransform));
     }
+
+
+    @TestRail(id = "C239082")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT, "TransformationServer"}, dataProvider = "ImageTransformToJPG", dataProviderClass = DataProviderClass.class)
+    public void supportedTypesTransformationToJPG(String imageToTransform) {
+
+        LOG.info("STEP 1: Go to the folder with rule and upload " + imageToTransform);
+        documentLibraryPage.navigate(siteName_C239082).clickOnFolderName(sourceFolderName);
+        documentLibraryPage.uploadNewImage(String.format(testDataFolder + imageToTransform));
+        assertTrue(documentLibraryPage.isContentNameDisplayed(imageToTransform), String.format("File [%s] is not displayed.", imageToTransform));
+
+        LOG.info("STEP 2: Go to the target (e.g. Transformed space) and verify the .jpg transformation of " + imageToTransform + " file.");
+        documentLibraryPage.navigate(siteName_C239082).clickOnFolderName(targetFolderName);
+        assertTrue(documentLibraryPage.isContentNameDisplayed(documentLibraryPage.replaceFileExtension(imageToTransform, ".jpg")), String.format("Transformed file [%s] is not displayed", documentLibraryPage.replaceFileExtension(imageToTransform, ".jpg")));
+
+        LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " and verify successful info about " + imageToTransform + " transformation.");
+        navigate(properties.getTransformationServerUrl().toString());
+        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), imageToTransform, PerformActionRulePage.Mimetype.JPEG_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
+    }
 }
