@@ -1,10 +1,8 @@
 package org.alfresco.share.security;
 
-import static org.testng.Assert.assertTrue;
-
+import org.alfresco.common.DataProviderClass;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
-import org.alfresco.po.share.DataProviderClass;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.EnterFeedURLPopUp;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
@@ -19,6 +17,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertTrue;
 
 public class DashletXSSTests extends ContextAwareWebTest
 {

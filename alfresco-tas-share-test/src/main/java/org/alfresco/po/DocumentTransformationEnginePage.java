@@ -41,7 +41,7 @@ public class DocumentTransformationEnginePage extends HtmlPage {
      * <false> if at least one of all the three parameters is not found with expected value on the same row
      * The method will run until the expected row is found.
      */
-    public boolean searchTransformation(WebDriver driver, String uploadedFile, PerformActionRulePage.Mimetype mimetypeTransformation, String username) throws InterruptedException {
+    public boolean searchTransformation(WebDriver driver, String uploadedFile, PerformActionRulePage.Mimetype mimetypeTransformation, String username){
 
         boolean isFound = false;
         Integer numberOfRowsPerPage = Integer.parseInt(driver.findElement(rowsPerPage).getText());

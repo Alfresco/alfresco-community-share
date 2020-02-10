@@ -1,8 +1,5 @@
 package org.alfresco.po.share.site;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.common.DataUtil;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
@@ -11,15 +8,15 @@ import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Primary
 @PageObject
@@ -169,6 +166,16 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         WebElement webElement = selectDocumentLibraryItemRow(contentName);
         return browser.isElementDisplayed(webElement);
+    }
+
+    /**
+     * Replace the extension of the file. Replace what comes after '.' character with a string representing another extension.
+     * @param fileName          the name of the file that will have another extension type
+     * @param newFileExtension  the expected extension
+     * @return                  the file name with changed extension
+     */
+    public String replaceFileExtension(String fileName, String newFileExtension){
+        return String.format(StringUtils.substringBefore(fileName, ".") + newFileExtension);
     }
 
     /**

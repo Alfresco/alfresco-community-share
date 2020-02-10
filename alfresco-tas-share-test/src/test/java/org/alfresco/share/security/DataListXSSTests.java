@@ -1,24 +1,16 @@
 package org.alfresco.share.security;
 
-import java.util.Arrays;
-import java.util.List;
-
+import org.alfresco.common.DataProviderClass;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.DataProviderClass;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.SiteDataListsDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
-import org.alfresco.po.share.site.dataLists.ContactListSelectedContent;
-import org.alfresco.po.share.site.dataLists.CreateDataListPopUp;
+import org.alfresco.po.share.site.dataLists.*;
 import org.alfresco.po.share.site.dataLists.CreateDataListPopUp.DataListTypes;
-import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.NewItemPopupForm;
-import org.alfresco.po.share.site.dataLists.DataListsPage;
-import org.alfresco.po.share.site.dataLists.EventAgendaSelectedContent;
-import org.alfresco.po.share.site.dataLists.MeetingAgendaListSelectedContent;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -28,6 +20,9 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class DataListXSSTests extends ContextAwareWebTest
 {
