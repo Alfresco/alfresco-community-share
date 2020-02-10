@@ -116,6 +116,21 @@ public class DataProviderClass {
     }
 
     /**
+     * Data Provider with list of images for .tiff transformation
+     *
+     * @return the image from the list that is present in testdata
+     */
+    @DataProvider(name = "ImageTransformToTIFF")
+    public static Object[][] ImageTransformToTIFF() {
+        return new Object[][]{
+            {"Lighthouse.jpg"},
+            {"gif_animated.gif"},
+            {"png_noBackground_file.png"},
+            {"newavatar.bmp"}
+        };
+    }
+
+    /**
      * Data Provider with list of documents for .pdf transformation
      *
      * @return the document from the list that is present in testdata

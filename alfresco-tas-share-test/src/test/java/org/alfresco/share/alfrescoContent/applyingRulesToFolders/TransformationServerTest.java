@@ -49,7 +49,7 @@ public class TransformationServerTest extends ContextAwareWebTest {
     private String targetFolderName = "Transformed";
     private String ruleName = "RuleName_" + random;
 
-  
+
     @BeforeClass(alwaysRun = true)
     public void setupTest() {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName + "-First Name", userName + "-Last Name");
@@ -58,6 +58,7 @@ public class TransformationServerTest extends ContextAwareWebTest {
         siteService.create(userName, password, domain, siteName_C239082, description, SiteService.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteName_C239083, description, SiteService.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteName_C239084, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName_C239085, description, SiteService.Visibility.PUBLIC);
         contentService.createFolder(userName, password, sourceFolderName, siteName_C239081);
         contentService.createFolder(userName, password, targetFolderName, siteName_C239081);
         contentService.createFolder(userName, password, sourceFolderName, siteName_C239079);
@@ -68,6 +69,8 @@ public class TransformationServerTest extends ContextAwareWebTest {
         contentService.createFolder(userName, password, targetFolderName, siteName_C239083);
         contentService.createFolder(userName, password, sourceFolderName, siteName_C239084);
         contentService.createFolder(userName, password, targetFolderName, siteName_C239084);
+        contentService.createFolder(userName, password, sourceFolderName, siteName_C239085);
+        contentService.createFolder(userName, password, targetFolderName, siteName_C239085);
         setupAuthenticatedSession(userName, password);
         editRulesPage.defineRule(ruleName, siteName_C239081, sourceFolderName, EditRulesPage.WhenRule.itemsCreatedOrEnterFolder, EditRulesPage.IfAllCriteriaAreMetRule.ALL_ITEMS, EditRulesPage.PerformActionList.TRANSFORM_AND_COPY_IMAGE);
         performActionRulePage.transformAndCopy(PerformActionRulePage.Mimetype.BITMAP_IMAGE, siteName_C239081, targetFolderName);
@@ -79,7 +82,8 @@ public class TransformationServerTest extends ContextAwareWebTest {
         performActionRulePage.transformAndCopy(PerformActionRulePage.Mimetype.GIF_IMAGE, siteName_C239083, targetFolderName);
         editRulesPage.defineRule(ruleName, siteName_C239084, sourceFolderName, EditRulesPage.WhenRule.itemsCreatedOrEnterFolder, EditRulesPage.IfAllCriteriaAreMetRule.ALL_ITEMS, EditRulesPage.PerformActionList.TRANSFORM_AND_COPY_IMAGE);
         performActionRulePage.transformAndCopy(PerformActionRulePage.Mimetype.PNG_IMAGE, siteName_C239084, targetFolderName);
-
+        editRulesPage.defineRule(ruleName, siteName_C239085, sourceFolderName, EditRulesPage.WhenRule.itemsCreatedOrEnterFolder, EditRulesPage.IfAllCriteriaAreMetRule.ALL_ITEMS, EditRulesPage.PerformActionList.TRANSFORM_AND_COPY_IMAGE);
+        performActionRulePage.transformAndCopy(PerformActionRulePage.Mimetype.TIFF_IMAGE, siteName_C239085, targetFolderName);
     }
 
     @AfterClass(alwaysRun = true)
@@ -91,6 +95,7 @@ public class TransformationServerTest extends ContextAwareWebTest {
         siteService.delete(adminUser, adminPassword, siteName_C239082);
         siteService.delete(adminUser, adminPassword, siteName_C239083);
         siteService.delete(adminUser, adminPassword, siteName_C239084);
+        siteService.delete(adminUser, adminPassword, siteName_C239085);
     }
 
 
@@ -186,5 +191,24 @@ public class TransformationServerTest extends ContextAwareWebTest {
         LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " URL and verify successful info about " + imageToTransform + " transformation.");
         navigate(properties.getTransformationServerUrl().toString());
         assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), imageToTransform, PerformActionRulePage.Mimetype.PNG_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
+    }
+
+
+    @TestRail(id = "C239085")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT, "TransformationServer"}, dataProvider = "ImageTransformToTIFF", dataProviderClass = DataProviderClass.class)
+    public void supportedTypesTransformationToTIFF(String imageToTransform) {
+
+        LOG.info("STEP 1: Go to the folder with rule and upload " + imageToTransform);
+        documentLibraryPage.navigate(siteName_C239085).clickOnFolderName(sourceFolderName);
+        documentLibraryPage.uploadNewImage(testDataFolder + imageToTransform);
+        assertTrue(documentLibraryPage.isContentNameDisplayed(imageToTransform), String.format("File [%s] is not displayed.", imageToTransform));
+
+        LOG.info("STEP 2: Go to the target (e.g. Transformed space) and verify the .tiff transformation of " + imageToTransform + " file.");
+        documentLibraryPage.navigate(siteName_C239085).clickOnFolderName(targetFolderName);
+        assertTrue(documentLibraryPage.isContentNameDisplayed(documentLibraryPage.replaceFileExtension(imageToTransform, ".tiff")), String.format("Transformed file [%s] is not displayed", documentLibraryPage.replaceFileExtension(imageToTransform, ".tiff")));
+
+        LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " URL and verify successful info about " + imageToTransform + " transformation.");
+        navigate(properties.getTransformationServerUrl().toString());
+        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), imageToTransform, PerformActionRulePage.Mimetype.TIFF_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
     }
 }
