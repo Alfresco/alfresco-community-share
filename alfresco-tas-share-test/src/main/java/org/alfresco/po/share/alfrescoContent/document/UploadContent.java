@@ -1,11 +1,5 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
-
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -17,7 +11,11 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import ru.yandex.qatools.htmlelements.element.FileInput;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 
 /**
  * @author Razvan.Dorobantu
@@ -97,7 +95,7 @@ public class UploadContent extends SiteCommon<UploadContent>
         {
             e.printStackTrace();
         }
-
+        browser.waitUntilElementDisappears(uploadFilesToDialog);
         // wait for the file to be visible
         String[] strPaths = filePath.split("\\\\");
         String fileName = strPaths[strPaths.length - 1];
