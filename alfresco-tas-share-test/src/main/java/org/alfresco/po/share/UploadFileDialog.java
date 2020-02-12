@@ -23,6 +23,12 @@ public class UploadFileDialog extends ShareDialog
     @FindBy (css = "input.dnd-file-selection-button")
     private WebElement uploadButton;
 
+    @FindBy (css = "[class*='fileupload-progressFailure']")
+    private WebElement uploadFailedTransformationMessage;
+
+    @FindBy (css = "div[id*='dnd-upload'] a[class*='close']")
+    private WebElement closeUploadDialogButton;
+
     @Autowired
     private Environment env;
 
@@ -30,9 +36,22 @@ public class UploadFileDialog extends ShareDialog
     {
         if (env.getProperty("grid.enabled").equals("true"))
         {
-            ((RemoteWebDriver)(browser.getWrappedDriver())).setFileDetector(new LocalFileDetector());
+            ((RemoteWebDriver) (browser.getWrappedDriver())).setFileDetector(new LocalFileDetector());
         }
         uploadInput.sendKeys(location);
+    }
+
+    public boolean isUploadFailedMessageDisplayed()
+    {
+        return browser.isElementDisplayed(uploadFailedTransformationMessage);
+    }
+
+    /**
+     * Close dialog
+     */
+    public void clickClose()
+    {
+        browser.waitUntilElementClickable(closeUploadDialogButton).click();
     }
 
     public void clickSelectFilesToUpload()

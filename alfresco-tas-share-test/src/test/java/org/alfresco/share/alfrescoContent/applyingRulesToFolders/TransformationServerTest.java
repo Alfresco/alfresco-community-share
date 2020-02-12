@@ -1,12 +1,14 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders;
 
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 import org.alfresco.common.DataProviderClass;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.DocumentTransformationEnginePage;
+import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.PerformActionRulePage;
+import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.PerformActionRulePage.Mimetype;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -32,6 +34,9 @@ public class TransformationServerTest extends ContextAwareWebTest
     DocumentLibraryPage documentLibraryPage;
 
     @Autowired
+    UploadFileDialog uploadFileDialog;
+
+    @Autowired
     DocumentTransformationEnginePage documentTransformationEnginePage;
 
     @Autowired
@@ -45,6 +50,7 @@ public class TransformationServerTest extends ContextAwareWebTest
     private String siteName_C239083 = "C239083Site-" + random;
     private String siteName_C239084 = "C239084Site-" + random;
     private String siteName_C239085 = "C239085Site-" + random;
+    private String siteName_C239088 = "C239088Site-" + random;
     private final String description = "description-" + random;
     private String sourceFolderName = "FOR";
     private String targetFolderName = "Transformed";
@@ -61,6 +67,7 @@ public class TransformationServerTest extends ContextAwareWebTest
         siteService.create(userName, password, domain, siteName_C239083, description, SiteService.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteName_C239084, description, SiteService.Visibility.PUBLIC);
         siteService.create(userName, password, domain, siteName_C239085, description, SiteService.Visibility.PUBLIC);
+        siteService.create(userName, password, domain, siteName_C239088, description, SiteService.Visibility.PUBLIC);
         contentService.createFolder(userName, password, sourceFolderName, siteName_C239081);
         contentService.createFolder(userName, password, targetFolderName, siteName_C239081);
         contentService.createFolder(userName, password, sourceFolderName, siteName_C239079);
@@ -73,6 +80,8 @@ public class TransformationServerTest extends ContextAwareWebTest
         contentService.createFolder(userName, password, targetFolderName, siteName_C239084);
         contentService.createFolder(userName, password, sourceFolderName, siteName_C239085);
         contentService.createFolder(userName, password, targetFolderName, siteName_C239085);
+        contentService.createFolder(userName, password, sourceFolderName, siteName_C239088);
+        contentService.createFolder(userName, password, targetFolderName, siteName_C239088);
         setupAuthenticatedSession(userName, password);
         editRulesPage.defineRule(ruleName, siteName_C239081, sourceFolderName, EditRulesPage.WhenRule.itemsCreatedOrEnterFolder, EditRulesPage.IfAllCriteriaAreMetRule.ALL_ITEMS, EditRulesPage.PerformActionList.TRANSFORM_AND_COPY_IMAGE);
         performActionRulePage.transformAndCopy(PerformActionRulePage.Mimetype.BITMAP_IMAGE, siteName_C239081, targetFolderName);
@@ -86,6 +95,9 @@ public class TransformationServerTest extends ContextAwareWebTest
         performActionRulePage.transformAndCopy(PerformActionRulePage.Mimetype.PNG_IMAGE, siteName_C239084, targetFolderName);
         editRulesPage.defineRule(ruleName, siteName_C239085, sourceFolderName, EditRulesPage.WhenRule.itemsCreatedOrEnterFolder, EditRulesPage.IfAllCriteriaAreMetRule.ALL_ITEMS, EditRulesPage.PerformActionList.TRANSFORM_AND_COPY_IMAGE);
         performActionRulePage.transformAndCopy(PerformActionRulePage.Mimetype.TIFF_IMAGE, siteName_C239085, targetFolderName);
+        editRulesPage.defineRule(ruleName, siteName_C239088, sourceFolderName, EditRulesPage.WhenRule.itemsCreatedOrEnterFolder, EditRulesPage.IfAllCriteriaAreMetRule.ALL_ITEMS, EditRulesPage.PerformActionList.TRANSFORM_AND_COPY_IMAGE);
+        performActionRulePage.transformAndCopy(Mimetype.ADOBE_PDF_DOCUMENT, siteName_C239088, targetFolderName);
+
     }
 
     @AfterClass (alwaysRun = true)
@@ -99,6 +111,7 @@ public class TransformationServerTest extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName_C239083);
         siteService.delete(adminUser, adminPassword, siteName_C239084);
         siteService.delete(adminUser, adminPassword, siteName_C239085);
+        siteService.delete(adminUser, adminPassword, siteName_C239088);
     }
 
 
@@ -106,7 +119,6 @@ public class TransformationServerTest extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "TransformationServer" }, dataProvider = "ImageTransformToBMP", dataProviderClass = DataProviderClass.class)
     public void supportedTypesTransformationToBMP(String imageToTransform)
     {
-
         LOG.info("STEP 1: Go to the folder with rule and upload " + imageToTransform);
         documentLibraryPage.navigate(siteName_C239081).clickOnFolderName(sourceFolderName);
         documentLibraryPage.uploadNewImage(testDataFolder + imageToTransform);
@@ -126,7 +138,6 @@ public class TransformationServerTest extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "TransformationServer" }, dataProvider = "DocumentTransformToPDF", dataProviderClass = DataProviderClass.class)
     public void supportedTypesTransformationToPDF(String documentToTransform)
     {
-
         LOG.info("STEP 1: Go to the folder with rule and upload " + documentToTransform);
         documentLibraryPage.navigate(siteName_C239079).clickOnFolderName(sourceFolderName);
         uploadContent.uploadContent(testDataFolder + documentToTransform);
@@ -146,7 +157,6 @@ public class TransformationServerTest extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "TransformationServer" }, dataProvider = "ImageTransformToJPG", dataProviderClass = DataProviderClass.class)
     public void supportedTypesTransformationToJPG(String imageToTransform)
     {
-
         LOG.info("STEP 1: Go to the folder with rule and upload " + imageToTransform);
         documentLibraryPage.navigate(siteName_C239082).clickOnFolderName(sourceFolderName);
         documentLibraryPage.uploadNewImage(testDataFolder + imageToTransform);
@@ -166,7 +176,6 @@ public class TransformationServerTest extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "TransformationServer" }, dataProvider = "ImageTransformToGIF", dataProviderClass = DataProviderClass.class)
     public void supportedTypesTransformationToGIF(String imageToTransform)
     {
-
         LOG.info("STEP 1: Go to the folder with rule and upload " + imageToTransform);
         documentLibraryPage.navigate(siteName_C239083).clickOnFolderName(sourceFolderName);
         documentLibraryPage.uploadNewImage(testDataFolder + imageToTransform);
@@ -186,7 +195,6 @@ public class TransformationServerTest extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "TransformationServer" }, dataProvider = "ImageTransformToPNG", dataProviderClass = DataProviderClass.class)
     public void supportedTypesTransformationToPNG(String imageToTransform)
     {
-
         LOG.info("STEP 1: Go to the folder with rule and upload " + imageToTransform);
         documentLibraryPage.navigate(siteName_C239084).clickOnFolderName(sourceFolderName);
         documentLibraryPage.uploadNewImage(testDataFolder + imageToTransform);
@@ -226,7 +234,6 @@ public class TransformationServerTest extends ContextAwareWebTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "TransformationServer" }, dataProvider = "LargeDocumentTransformToPDF", dataProviderClass = DataProviderClass.class)
     public void transformationFileWithLargeSize(String largeDocumentToTransform)
     {
-
         LOG.info("STEP 1: Go to the folder with rule and upload " + largeDocumentToTransform);
         documentLibraryPage.navigate(siteName_C239079).clickOnFolderName(sourceFolderName);
         uploadContent.uploadContent(testDataFolder + largeDocumentToTransform);
@@ -240,5 +247,27 @@ public class TransformationServerTest extends ContextAwareWebTest
         navigate(properties.getTransformationServerUrl().toString());
         assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), largeDocumentToTransform, PerformActionRulePage.Mimetype.ADOBE_PDF_DOCUMENT, userName), String.format("Document %s wasn't transformed!", largeDocumentToTransform));
     }
+    
+    
+    @TestRail (id = "C239088")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "TransformationServer" })
+    public void nonSupportedTypesTransformation()
+    {
+        String nonSupportedDocumentToTransform = "mp4.mp4";
 
+        LOG.info("STEP 1: Go to the folder with rule and upload " + nonSupportedDocumentToTransform);
+        documentLibraryPage.navigate(siteName_C239088).clickOnFolderName(sourceFolderName);
+        documentLibraryPage.clickUpload().uploadFile(testDataFolder + nonSupportedDocumentToTransform);
+        assertTrue(uploadFileDialog.isUploadFailedMessageDisplayed(), "'Upload Failed' message is not displayed but it should.");
+        uploadFileDialog.clickClose();
+        assertFalse(documentLibraryPage.isContentNameDisplayed(nonSupportedDocumentToTransform), String.format("File [%s] is displayed.", nonSupportedDocumentToTransform));
+
+        LOG.info("STEP 2: Go to the target (e.g. Transformed space) and verify the .pdf copy of " + nonSupportedDocumentToTransform + " was not created.");
+        documentLibraryPage.navigate(siteName_C239088).clickOnFolderName(targetFolderName);
+        assertFalse(documentLibraryPage.isContentNameDisplayed(documentLibraryPage.replaceFileExtension(nonSupportedDocumentToTransform, ".pdf")), String.format("Transformed file [%s] not displayed", documentLibraryPage.replaceFileExtension(nonSupportedDocumentToTransform, ".pdf")));
+
+        LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " URL and verify successful info about " + nonSupportedDocumentToTransform + " transformation.");
+        navigate(properties.getTransformationServerUrl().toString());
+        assertFalse(documentTransformationEnginePage.searchTransformation(getBrowser(), nonSupportedDocumentToTransform, Mimetype.ADOBE_PDF_DOCUMENT, userName), String.format("Document %s is present in Transformation Server but it shouldn't.", nonSupportedDocumentToTransform));
+    }
 }
