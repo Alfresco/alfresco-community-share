@@ -34,6 +34,12 @@
 
    <dependencies>
       <dependency>
+         <groupId>commons-net</groupId>
+         <artifactId>commons-net</artifactId>
+         <version>3.6</version>
+      </dependency>
+
+      <dependency>
          <groupId>org.alfresco.tas</groupId>
          <artifactId>utility</artifactId>
          <version>${tas.utility.version}</version>

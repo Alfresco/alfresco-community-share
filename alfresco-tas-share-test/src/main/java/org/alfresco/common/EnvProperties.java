@@ -88,6 +88,12 @@ public class EnvProperties
     @Value ("${locale.country}")
     private String country;
 
+    @Value ("${ftp.port}")
+    private String ftpPort;
+
+    @Value ("${alfresco.server}")
+    private String alfrescoServer;
+
     @Value ("${mail.port}")
     private int mailPort;
 
@@ -272,19 +278,22 @@ public class EnvProperties
         this.country = country;
     }
 
-    public int getMailPort() { return mailPort; }
+    public String getFtpPort() { return ftpPort; }
 
-    public void setMailPort(int mailPort) { this.mailPort = mailPort; }
+    public void setFtpPort(String ftpPort) { this.ftpPort = ftpPort; }
 
-    public String getAlfrescoServer()
-    {
+
+    public String getAlfrescoServer() {
         return alfrescoServer;
     }
 
-    public void setAlfrescoServer(String alfrescoServer)
-    {
-        this.alfrescoServer = alfrescoServer;
+    public void setAlfrescoServer(String alfrescoServer) {
+      this.alfrescoServer = alfrescoServer;
     }
+
+    public int getMailPort() { return mailPort; }
+
+    public void setMailPort(int mailPort) { this.mailPort = mailPort; }
 }
 
 
