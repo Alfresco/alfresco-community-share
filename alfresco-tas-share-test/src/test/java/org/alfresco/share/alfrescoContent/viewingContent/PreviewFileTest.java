@@ -53,7 +53,7 @@ public class PreviewFileTest extends ContextAwareWebTest
 
     @Bug (id = "ACE-5914", status = Bug.Status.OPENED)
     @TestRail (id = "C5884")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
     public void previewFile()
     {
         LOG.info("STEP 1: Navigate to 'Document Library' page for 'siteName'");

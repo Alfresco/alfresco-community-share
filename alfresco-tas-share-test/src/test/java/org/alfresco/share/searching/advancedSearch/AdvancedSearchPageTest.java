@@ -132,7 +132,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5891")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, enabled = false)
     public void searchByKeyword()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -196,7 +196,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5907")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, enabled = false)
     public void searchByName()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -236,7 +236,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5908")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, enabled = false)
     public void searchByTitle()
     {
         String identifier = RandomData.getRandomAlphanumeric();

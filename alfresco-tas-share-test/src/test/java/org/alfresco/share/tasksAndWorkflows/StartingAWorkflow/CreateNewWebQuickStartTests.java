@@ -12,7 +12,6 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
-import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -67,7 +66,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
     }
 
 
-    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
+//    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail (id = "C8352")
     //@Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewWebQuickStartReviewAndPublishSectionStructure()
@@ -103,7 +102,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
+//    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail (id = "C8353")
     // @Test(groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void createNewWebQuickStartReviewAndPublishWebAssets()

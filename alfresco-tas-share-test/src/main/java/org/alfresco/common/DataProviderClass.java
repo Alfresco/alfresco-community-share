@@ -68,7 +68,7 @@ public class DataProviderClass
     {
         return new Object[][] {
             { "Lighthouse.jpg" },
-            { "png_noBackground_file.png" },
+            { "png_noBackground_file.PNG" },
             { "tif_file.tif" },
             { "gif_animated.gif" }
         };
@@ -84,7 +84,7 @@ public class DataProviderClass
     {
         return new Object[][] {
             { "newavatar.bmp" },
-            { "png_noBackground_file.png" },
+            { "png_noBackground_file.PNG" },
             { "tif_file.tif" },
             { "gif_animated.gif" }
         };
@@ -100,7 +100,7 @@ public class DataProviderClass
     {
         return new Object[][] {
             { "Lighthouse.jpg" },
-            { "png_noBackground_file.png" },
+            { "png_noBackground_file.PNG" },
             { "tif_file.tif" },
             { "newavatar.bmp" }
         };
@@ -133,7 +133,7 @@ public class DataProviderClass
         return new Object[][] {
             { "Lighthouse.jpg" },
             { "gif_animated.gif" },
-            { "png_noBackground_file.png" },
+            { "png_noBackground_file.PNG" },
             { "newavatar.bmp" }
         };
     }
@@ -156,7 +156,7 @@ public class DataProviderClass
             { "docx_file.docx" },
             { "xlsx_file.xlsx" },
             { "ppt_file.ppt" },
-            { "pptx_file.ptx" }
+            { "pptx_file.pptx" }
         };
     }
 

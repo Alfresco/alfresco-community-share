@@ -26,7 +26,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.report.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -127,7 +126,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         siteService.delete(adminUser, adminPassword, siteName);
     }
 
-    @Bug (id = "MNT-17015 won't fix")
+//    @Bug (id = "MNT-17015 won't fix")
     @TestRail (id = "C8344")
     @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void createNewTaskAndAssignToYourself()
@@ -156,7 +155,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
+//    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail (id = "C8345")
     @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void createNewTaskAndAssignToAnotherUser()
@@ -192,7 +191,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
+//    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail (id = "C8376")
     @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void cancelStartingWorkflow()
@@ -223,7 +222,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
+//    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail (id = "C8388")
     @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void startWorkflowForMultipleFiles()

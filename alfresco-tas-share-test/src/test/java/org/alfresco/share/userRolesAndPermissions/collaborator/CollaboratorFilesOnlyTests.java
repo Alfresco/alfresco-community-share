@@ -270,7 +270,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
         Assert.assertFalse(documentLibraryPage.isInfoBannerDisplayed(msWordFileCreatedBySelf), "Locked message is still displayed");
     }
 
-    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
+//    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail (id = "C8962")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER })
     public void collaboratorStartWorkflow()

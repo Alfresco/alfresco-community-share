@@ -169,7 +169,7 @@ public class SearchManagerTests extends ContextAwareWebTest
 
     @Bug (id = "ACE-5698")
     @TestRail (id = "C6275")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, enabled = false)
     public void createNewSearchFilter()
     {
         filterId = String.format("filter.site%s", RandomData.getRandomAlphanumeric());

@@ -94,7 +94,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
 
     @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5928")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
     public void singleDayEvent()
     {
         String currentEventName = "testEvent-C5928-" + random;
@@ -153,7 +153,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
 
     @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5930")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
     public void multipleDaysEvent()
     {
         String currentEventName = "testEvent-C5930-" + random;
@@ -216,7 +216,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
 
     @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5932")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
     public void multipleWeeksEvent()
     {
         String currentEventName = "testEvent-C5932-" + random;
@@ -279,7 +279,7 @@ public class TimeZoneMonthViewTests extends ContextAwareWebTest
 
     @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5943")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
     public void multipleMonthsEvent()
     {
         String currentEventName = "testEvent-C5943-" + random;

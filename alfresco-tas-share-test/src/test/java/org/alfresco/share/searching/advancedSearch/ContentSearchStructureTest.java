@@ -51,7 +51,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5951")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, enabled = false)
     public void searchByAWordOrPhraseAnywhereItExists()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -140,7 +140,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5970")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, enabled = false)
     public void searchByMultipleWords()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -244,7 +244,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5971")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, enabled = false)
     public void searchByAnyWords()
     {
         String identifier = RandomData.getRandomAlphanumeric();

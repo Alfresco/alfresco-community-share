@@ -13,7 +13,6 @@ import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.alfresco.utility.report.Bug;
 import org.apache.chemistry.opencmis.commons.data.RepositoryInfo;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -75,7 +74,7 @@ public class RebrandTests extends ContextAwareWebTest
         cleanupAuthenticatedSession();
     }
 
-    @Bug (id = "SHA-2178", description = "Share version is not correct")
+//    @Bug (id = "SHA-2178", description = "Share version is not correct")
     @TestRail (id = "C42582, C42583")
     @Test (groups = { TestGroup.SANITY, TestGroup.SHARE })
     public void checkAlfrescoOneLogoInVersiondialog()
