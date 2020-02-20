@@ -95,6 +95,7 @@ public class UploadContent extends SiteCommon<UploadContent>
         {
             e.printStackTrace();
         }
+        browser.waitUntilElementDisappears(uploadFilesToDialog);
         // wait for the file to be visible
         String[] strPaths = filePath.split("\\\\");
         String fileName = strPaths[strPaths.length - 1];
@@ -136,7 +137,6 @@ public class UploadContent extends SiteCommon<UploadContent>
         {
             e.printStackTrace();
         }
-        browser.waitUntilElementDisappears(uploadFilesToDialog);
         WebElement submitButton = browser
             .waitUntilElementVisible(By.cssSelector("button[id$='_default-upload-button-button']"));
         submitButton.click();

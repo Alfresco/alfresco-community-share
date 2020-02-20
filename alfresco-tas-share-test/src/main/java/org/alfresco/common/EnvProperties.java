@@ -91,9 +91,6 @@ public class EnvProperties
     @Value ("${ftp.port}")
     private String ftpPort;
 
-    @Value ("${alfresco.server}")
-    private String alfrescoServer;
-
     @Value ("${mail.port}")
     private int mailPort;
 
