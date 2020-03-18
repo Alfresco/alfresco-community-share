@@ -40,7 +40,7 @@ public class LogoTests extends ContextAwareWebTest
 
     //copyRightText is hardcoded with year 2019, so running on older builds will make this test fail
     @TestRail (id = "C2088")
-    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.AUTH, "tobefixed" })
     public void checkAboutBox()
     {
         LOG.info("STEP 1: Verify bottom of User Dashboard page");

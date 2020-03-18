@@ -309,7 +309,7 @@ public class SitesManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8696")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void deleteSiteAsSiteAdmin()
     {
         setupAuthenticatedSession(siteAdmin, password);

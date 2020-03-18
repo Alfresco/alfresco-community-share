@@ -56,7 +56,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
 
 
     @TestRail (id = "C6092")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void cancelManagePermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -75,7 +75,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7121")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void saveManagePermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -112,7 +112,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7124")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void turnOffInheritPermissions()
     {
         setupAuthenticatedSession(testUser1, password);
@@ -212,7 +212,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7143")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void deleteUser()
     {
         LOG.info("Precondition: Login as testUser1 and add local permissions for testUser2 for the file and folder.");
@@ -268,7 +268,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7123")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void cancelChangesFromManagePermissions()
     {
         LOG.info("Precondition: Login as testUser1 and navigate to Manage Permissions for the testFile.");

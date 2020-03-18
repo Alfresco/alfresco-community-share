@@ -103,7 +103,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6293")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void cancelCreatingFolderFromTemplate()
     {
         String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());
@@ -134,7 +134,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8139")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void createFolderFromTemplateUsingWildcards()
     {
         String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());

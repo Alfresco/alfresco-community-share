@@ -87,7 +87,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6367")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void verifyFolderRulesPage()
     {
         String folderName = "Folder-C6367-" + random;
@@ -111,7 +111,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12857")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void verifyEditRulePageDropdownElements()
     {
         String folderName = "Folder-C12857-" + random;
@@ -238,7 +238,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7239")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void createAndCreateAnother()
     {
         String ruleName1 = "rule1-C7239-" + random;
@@ -320,7 +320,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7245")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void disableRule()
     {
         String ruleName1 = "rule-C7245-" + random;
@@ -361,7 +361,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6621")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void itemsAreUpdated()
     {
         String ruleName1 = "rule-C6621-" + random;
@@ -413,7 +413,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6623")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void itemsAreDeleted()
     {
         String ruleName1 = "rule-C6623-" + random;
@@ -528,7 +528,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C202963")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void itemsAreUpdatedRuleAppliesToSubfolders()
     {
         String ruleName1 = "rule-C202963-" + random;
@@ -590,7 +590,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C202964")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void itemsAreDeletedRuleAppliesToSubfolders()
     {
         String ruleName1 = "rule-C202964-" + random;
@@ -655,7 +655,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7285")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void checkoutToSite()
     {
         String ruleName1 = "rule-C7285-" + random;
@@ -711,7 +711,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7284")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void moveToSite()
     {
         String ruleName1 = "rule-C7284-" + random;

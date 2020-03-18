@@ -43,7 +43,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
     private String workflowName = String.format("taskName%s", RandomData.getRandomAlphanumeric());
 
     @TestRail (id = "C8463")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void editWorkflow()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -84,7 +84,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8464")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void editTask()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -114,7 +114,7 @@ public class EditingWorkflowsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8465")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void verifyEditTaskForm()
     {
         LOG.info("Precondition: Create user and a workflow.");

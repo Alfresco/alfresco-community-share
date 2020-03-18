@@ -55,7 +55,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2134")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void detailedView()
     {
         LOG.info("STEP 1 - Create document then update its content");
@@ -129,7 +129,7 @@ public class MyDocumentsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2138")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void filterDocuments()
     {
         LOG.info("STEP 1 - Create 3 documents, one is checked out for edit and one is favorite");

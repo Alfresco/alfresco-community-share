@@ -187,7 +187,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12821")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 5)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" }, priority = 5)
     public void facetedSearchDownloadAsZipAction()
     {
         LOG.info("STEP1: Select 'ALL' option from the Select Items List checkbox.");
@@ -203,7 +203,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12823")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 6)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" }, priority = 6)
     public void facetedSearchCopyToAction()
     {
         LOG.info("STEP1: Select the documents to be copied.");
@@ -247,7 +247,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12826")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 8)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" }, priority = 8)
     public void facetedSearchStartWorkflowAction()
     {
         LOG.info("STEP1: Select a document to start workflow.");
@@ -273,7 +273,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12828")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 10)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" }, priority = 10)
     public void facetedSearchDeleteAction()
     {
         int retry = 0;

@@ -94,7 +94,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42605")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void verifyCreateLinkButtonFromDocLibraryActions()
     {
         documentLibraryPage.navigate(siteName1);
@@ -154,7 +154,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42609")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void verifyCreateLinkButtonFromSearchResultsActions()
     {
         documentLibraryPage.navigate(siteName1);
@@ -202,7 +202,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42613")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void verifyCreateLinkButtonInMoveToDialog()
     {
         documentLibraryPage.navigate(siteName1);
@@ -215,7 +215,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42614")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void verifyLinkIsCreatedAtDestination()
     {
         documentLibraryPage.navigate(siteName1);
@@ -233,7 +233,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42620")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void duplicateLinksAreNotAllowed()
     {
         documentLibraryPage.navigate(siteName2);

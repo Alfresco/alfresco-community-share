@@ -155,7 +155,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7979")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void editFileInAlfresco()
     {
         String updatedContent = "Content updated C7979";

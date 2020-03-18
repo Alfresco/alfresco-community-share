@@ -46,7 +46,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
     private UserTrashcanPage userTrashcanPage;
 
     @TestRail (id = "C7570")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void recoverDeletedDocument()
     {
         String random = RandomData.getRandomAlphanumeric();

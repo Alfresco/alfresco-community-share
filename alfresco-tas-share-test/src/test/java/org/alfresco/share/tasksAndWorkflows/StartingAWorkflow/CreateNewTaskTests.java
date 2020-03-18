@@ -128,7 +128,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
 //    @Bug (id = "MNT-17015 won't fix")
     @TestRail (id = "C8344")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void createNewTaskAndAssignToYourself()
     {
         LOG.info("Precondition");
@@ -157,7 +157,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
 //    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail (id = "C8345")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void createNewTaskAndAssignToAnotherUser()
     {
         LOG.info("Precondition");
@@ -193,7 +193,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
 //    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail (id = "C8376")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void cancelStartingWorkflow()
     {
         LOG.info("Precondition");
@@ -257,7 +257,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C286291")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void createNewTaskAddItem()
     {
         LOG.info("Precondition 1: Login as first user '" + C286291usernameA + "'.");
@@ -355,7 +355,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C286360")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void createNewTaskViaSelectedItemsSingleDocument()
     {
         LOG.info("Precondition 1: Any user logged in Share;");
@@ -506,7 +506,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C286469")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void createNewTaskRemoveAll()
     {
         LOG.info("Precondition 1: Any folder is created in Repository with admin user;");

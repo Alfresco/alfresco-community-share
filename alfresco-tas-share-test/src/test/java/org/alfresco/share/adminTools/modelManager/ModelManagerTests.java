@@ -267,7 +267,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9518")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void deleteModel()
     {
         // Preconditions
@@ -307,7 +307,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9520")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void checkAvailableActionsForActiveModel()
     {
         // Preconditions
@@ -362,7 +362,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9519")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void exportModel()
     {
         // Preconditions

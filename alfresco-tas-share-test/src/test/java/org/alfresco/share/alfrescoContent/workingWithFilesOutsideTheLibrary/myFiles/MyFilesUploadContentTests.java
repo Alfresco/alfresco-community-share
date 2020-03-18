@@ -59,7 +59,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
 
     //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C7792")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesUpdateDocumentNewVersion()
     {
         String testFile = RandomData.getRandomAlphanumeric() + "testFile.txt";

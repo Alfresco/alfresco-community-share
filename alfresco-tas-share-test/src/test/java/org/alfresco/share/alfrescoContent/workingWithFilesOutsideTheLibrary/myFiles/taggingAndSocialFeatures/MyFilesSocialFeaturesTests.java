@@ -39,7 +39,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     private SocialFeatures social;
 
     @TestRail (id = "C12839")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesLikeFile()
     {
         String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -67,7 +67,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C13661")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesLikeFolder()
     {
         String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -101,7 +101,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C13662")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesUnlikeFile()
     {
         String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -130,7 +130,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C13663")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesUnlikeFolder()
     {
         String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -164,7 +164,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12841")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesAddCommentToFile()
     {
         String user = String.format("user%s", RandomData.getRandomAlphanumeric());
@@ -195,7 +195,7 @@ public class MyFilesSocialFeaturesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C13664")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesAddCommentToFolder()
     {
         String user = String.format("user%s", RandomData.getRandomAlphanumeric());

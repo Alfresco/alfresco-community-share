@@ -96,7 +96,7 @@ public class SwitchOffInheritedRulesTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7325")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void switchOffInheritRules()
     {
         LOG.info("STEP1: Navigate to 'Manage Rules' page for " + folder2);

@@ -150,7 +150,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8212")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesEditFileInAlfresco()
     {
         editedDocName = String.format("editedDocName%s", RandomData.getRandomAlphanumeric());

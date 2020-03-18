@@ -68,7 +68,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C6864")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void duplicateAction()
     {
         LOG.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
@@ -121,7 +121,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6867")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void editAction()
     {
         LOG.info("Step 1: Hover over the new item and verify Edit, Duplicate, Delete actions are visible");

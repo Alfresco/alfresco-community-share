@@ -79,7 +79,7 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8874")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void collaboratorCreateFolder()
     {
         documentLibraryPage.navigate(site);

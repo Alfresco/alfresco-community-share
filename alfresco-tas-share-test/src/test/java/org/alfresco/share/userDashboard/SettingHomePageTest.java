@@ -69,7 +69,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
     ChangePasswordPage changePasswordPage;
 
     @TestRail (id = "C2858")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void useCurrentPage()
     {
         String folderName = "TestFolder";
@@ -249,7 +249,7 @@ public class SettingHomePageTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2859")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void useMyDashboard()
     {
         String folderName = "TestFolder";

@@ -39,7 +39,7 @@ public class RebrandTests extends ContextAwareWebTest
     private CmisWrapper cmisApi;
 
     @TestRail (id = "C42575, C42576, C42577, C42578, C42580, C42579")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SHARE })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SHARE, "tobefixed" })
     public void checkLoginPage()
     {
         cleanupAuthenticatedSession();

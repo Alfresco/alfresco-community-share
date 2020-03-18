@@ -231,7 +231,7 @@ public class ToolbarTests extends ContextAwareWebTest
 
     //this test will fail if we are testing a non released version
     @TestRail (id = "C2864")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void verifyTheLinksFromTheUserMenu()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());

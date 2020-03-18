@@ -244,7 +244,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8796")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void moveContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -283,7 +283,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8798")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void deleteContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());

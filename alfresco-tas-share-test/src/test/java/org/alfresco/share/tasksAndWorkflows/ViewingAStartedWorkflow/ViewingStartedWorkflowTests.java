@@ -39,7 +39,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     private String workflowName = String.format("taskName%s", RandomData.getRandomAlphanumeric());
 
     @TestRail (id = "C8425")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void viewWorkflowIveStarted()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -65,7 +65,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8426")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void viewWorkflowAssignedToOtherUser()
     {
         LOG.info("Precondition: Create 2 users and a workflow assigned by user1 to user2.");
@@ -95,7 +95,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8427")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void viewWorkflowIveStartedOptions()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -115,7 +115,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8428")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void viewOptionsAvailableForWorkflowsAssignedToOthers()
     {
         LOG.info("Precondition: Create 2 users and a workflow assigned by user1 to user2.");
@@ -195,7 +195,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8460")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void viewOptionsAvailableForTasksIveStarted()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -216,7 +216,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8500")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void viewMyTaskAndWorkflowDetailsPages()
     {
         LOG.info("Precondition: Create user and a workflow.");
@@ -249,7 +249,7 @@ public class ViewingStartedWorkflowTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C284893")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void viewWorkflowAssignedToNonAdminUserTaskCompleted()
     {
         String c284893testUser = String.format("c284893testUser%s", RandomData.getRandomAlphanumeric());

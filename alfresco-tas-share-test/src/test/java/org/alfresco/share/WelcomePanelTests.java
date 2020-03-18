@@ -76,7 +76,7 @@ public class WelcomePanelTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C202856")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 2)
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" }, priority = 2)
     public void hideWelcomePanel()
     {
         logger.info("Step1: Login to Share and verify Get Started panel");
@@ -92,7 +92,7 @@ public class WelcomePanelTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C202857")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, priority = 1)
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" }, priority = 1)
     public void restoreWelcomePanel()
     {
         logger.info("Step1: Login to Share and verify Get Started panel");

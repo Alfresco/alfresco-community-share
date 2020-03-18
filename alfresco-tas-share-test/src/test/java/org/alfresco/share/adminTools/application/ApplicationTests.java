@@ -35,7 +35,7 @@ public class ApplicationTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9292")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void addAndResetNewLogo()
     {
         LOG.info("Step 1: Upload a new logo image in the 'Application' page.");
@@ -51,7 +51,7 @@ public class ApplicationTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9281")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void changeTheme()
     {
         LOG.info("Step 1: Select a new theme in the 'Application' page.");

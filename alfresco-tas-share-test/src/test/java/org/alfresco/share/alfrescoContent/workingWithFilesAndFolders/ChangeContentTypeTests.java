@@ -99,7 +99,7 @@ public class ChangeContentTypeTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7166")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void changeTypeFolder()
     {
         String folderName = String.format("Folder-C7166-%s", RandomData.getRandomAlphanumeric());

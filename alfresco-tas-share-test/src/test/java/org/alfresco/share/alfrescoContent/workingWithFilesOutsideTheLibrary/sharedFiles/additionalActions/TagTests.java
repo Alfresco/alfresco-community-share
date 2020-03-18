@@ -78,7 +78,7 @@ public class TagTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8062")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void createTagForFile()
     {
         LOG.info("STEP1: Hover over one tag from the content name");

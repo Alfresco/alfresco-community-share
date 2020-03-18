@@ -138,7 +138,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2461")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void approvingUsersUsingMyTasksPage()
     {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");
@@ -234,7 +234,7 @@ public class ApprovingUsersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2463")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void rejectingUsersUsingMyTasksPage()
     {
         LOG.info("Step 1: Open 'Site Finder' page and search for 'moderatedSite'");

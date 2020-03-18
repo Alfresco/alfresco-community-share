@@ -147,7 +147,7 @@ public class ViewingDataListsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5859")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void dataListItemsSortedByColumn()
     {
         LOG.info("Preconditions: Create a new List and add two items to it, descendent ordered by Company Name");

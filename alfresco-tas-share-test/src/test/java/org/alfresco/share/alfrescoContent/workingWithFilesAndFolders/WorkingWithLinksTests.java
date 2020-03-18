@@ -102,7 +102,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42624")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void verifyDisabledActionsForCreatedLink()
     {
         LOG.info("STEP1: Go to Document Library of the site");
@@ -169,7 +169,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42627")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void linkToLockedDocRedirectsToOriginalDoc()
     {
         logger.info("Precondition1: Login to Share/Google Docs and navigate to Document Library page for the test site; upload a .docx file");
@@ -196,7 +196,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
 
     //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C42628")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void linkToMultipleVersionsDocRedirectsToLastVersion()
     {
         documentLibraryPage.navigate(siteName1);
@@ -220,7 +220,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42629")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void verifyDisplayedActionsForLinkToFile()
     {
         LOG.info("Precondition: For a file click 'Copy to' option");

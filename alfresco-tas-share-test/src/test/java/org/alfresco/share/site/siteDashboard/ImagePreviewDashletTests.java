@@ -108,7 +108,7 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5422")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void imagePreviewAvailableActions()
     {
         LOG.info("Precondition: Navigate to site's dashboard");

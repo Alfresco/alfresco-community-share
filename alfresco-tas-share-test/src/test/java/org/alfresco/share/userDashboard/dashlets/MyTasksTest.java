@@ -109,7 +109,7 @@ public class MyTasksTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2122")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void someTasksAssigned()
     {
         setupAuthenticatedSession(C2122userName, password);

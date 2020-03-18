@@ -171,7 +171,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8940")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void collaboratorDownloadContent()
     {
         setupAuthenticatedSession(user, password);
@@ -204,7 +204,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8947")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void collaboratorEditInlineBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -227,7 +227,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8948")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void collaboratorEditInlineByOthers()
     {
         setupAuthenticatedSession(user, password);
@@ -309,7 +309,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8942")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void collaboratorUploadNewVersionSelfCreated()
     {
         String fileName = "C8942" + RandomData.getRandomAlphanumeric();
@@ -446,7 +446,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8945")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "office"})
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "office", "tobefixed"})
     public void editOnlineCreatedBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -483,7 +483,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8950")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
 
     public void editOfflineCreatedByOtherUser()
     {

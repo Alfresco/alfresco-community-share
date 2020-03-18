@@ -59,7 +59,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2793")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void configureAlfrescoAddonsRssFeedDashlet()
     {
         setupAuthenticatedSession(userName, password);

@@ -119,7 +119,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8912")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void downloadContent()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -153,7 +153,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8914")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void uploadNewVersionForItemCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -192,7 +192,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8916")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void uploadNewVersionForItemLockedByUser()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -433,7 +433,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8929")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void cancelEditingContentLockedBySelf() throws Exception
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -461,7 +461,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8930")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void cancelEditingContentLockedByOthers() throws Exception
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -488,7 +488,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8931")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void viewOriginalVersion() throws Exception
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -519,7 +519,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8932")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void viewWorkingCopy() throws Exception
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -580,7 +580,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8934")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void startWorkflow()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -629,7 +629,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8936")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void downloadPreviousVersion()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -663,7 +663,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8937")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void revertToPreviousVersion()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());

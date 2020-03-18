@@ -58,7 +58,7 @@ public class DeletingContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9544")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void deleteDocument()
     {
         contentService.createDocument(testUser, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, "Document content");

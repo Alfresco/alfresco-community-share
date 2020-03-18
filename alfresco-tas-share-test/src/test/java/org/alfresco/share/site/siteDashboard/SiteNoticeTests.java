@@ -95,7 +95,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5558")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void customizeDashlet() throws DataPreparationException
     {
         LOG.info("Starting C5558");
@@ -120,7 +120,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5559")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void customizeDashletCancelClose() throws DataPreparationException
     {
         SoftAssert softAssert = new SoftAssert();

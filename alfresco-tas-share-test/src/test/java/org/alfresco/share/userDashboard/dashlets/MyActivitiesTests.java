@@ -195,7 +195,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2112")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void someActivitiesCreated()
     {
         // preconditions
@@ -284,7 +284,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C2113")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void someActivitiesUpdated() throws Exception
     {
         // preconditions
@@ -357,7 +357,7 @@ public class MyActivitiesTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C2114")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void someActivitiesDeleted()
     {
         // preconditions

@@ -71,7 +71,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
 
     //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C8175")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void updateDocumentNewVersion()
     {
         String testFilePath2 = testDataFolder + testFile2;

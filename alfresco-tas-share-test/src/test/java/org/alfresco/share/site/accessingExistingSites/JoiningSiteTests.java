@@ -190,7 +190,7 @@ public class JoiningSiteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C3059")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void requestToJoinModeratedSiteFromSiteDashboardPage()
     {
         String dialogMessage = String.format(language.translate("requestToJoin.dialogMessage"), siteNameC3059);

@@ -75,7 +75,7 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7036")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void editFileInAlfresco()
     {
         LOG.info("Preconditions: Navigate to document library page for the test site");

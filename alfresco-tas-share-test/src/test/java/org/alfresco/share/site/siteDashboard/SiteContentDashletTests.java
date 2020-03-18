@@ -75,7 +75,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5425")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void siteContentDashletSimpleView()
     {
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");
@@ -166,7 +166,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5457")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void siteContentDashletDetailedView()
     {
         LOG.info("Preconditions: create site, add another user to site, add document to site, login to Share, navigate to site's dashboard");

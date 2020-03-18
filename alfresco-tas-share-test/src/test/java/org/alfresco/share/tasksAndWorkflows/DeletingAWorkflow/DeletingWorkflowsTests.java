@@ -32,7 +32,7 @@ public class DeletingWorkflowsTests extends ContextAwareWebTest
     private String workflowName = String.format("taskName%s", RandomData.getRandomAlphanumeric());
 
     @TestRail (id = "C8501")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void deleteWorkflow()
     {
         LOG.info("Precondition: Create user and a workflow.");

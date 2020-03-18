@@ -131,7 +131,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8520")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void editTaskFromTasksDashletChangeStatus()
     {
         LOG.info("Precondition");
@@ -148,7 +148,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8521")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void editTaskFromTasksDashletReassign()
     {
         LOG.info("Precondition");
@@ -227,7 +227,7 @@ public class ManagingTasksTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8596")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void groupReviewApproveReject()
     {
         String firstUserMessage = "This is the text message from the first user.";

@@ -30,7 +30,7 @@ public class MyProfileTests extends ContextAwareWebTest
     EditUserProfilePage editUserProfilePage;
 
     @TestRail (id = "C2141")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void myLimitedProfileDashlet()
     {
         String userName = String.format("User1%s", RandomData.getRandomAlphanumeric());

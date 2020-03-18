@@ -207,7 +207,7 @@ public class ActionsEditTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7767")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void repositoryEditFileInAlfresco()
     {
         LOG.info("Precondition: Precondition: Login to Share and navigate to Repository->User Homes->Test User page");

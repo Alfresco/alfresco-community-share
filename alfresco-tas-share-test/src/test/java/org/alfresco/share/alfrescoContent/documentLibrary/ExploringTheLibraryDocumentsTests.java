@@ -83,7 +83,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6321")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void viewImEditingFiles()
     {
         String siteNameC6321 = String.format("C6321SiteName%s", RandomData.getRandomAlphanumeric());

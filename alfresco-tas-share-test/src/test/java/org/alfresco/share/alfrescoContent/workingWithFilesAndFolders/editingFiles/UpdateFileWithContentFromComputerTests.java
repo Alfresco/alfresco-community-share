@@ -59,7 +59,7 @@ public class UpdateFileWithContentFromComputerTests extends ContextAwareWebTest
 
     //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C7074")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void uploadFileUsingUploadNewVersion()
     {
         documentLibraryPage.navigate(siteName);

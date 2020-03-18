@@ -202,7 +202,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8159")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
 
     public void createDocumentFromTemplate()
     {
@@ -227,7 +227,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8158")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
 
     public void createFolderFromTemplateInRepository()
     {

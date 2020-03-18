@@ -90,7 +90,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7378")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void cancelCopyFileToSharedFiles()
     {
         String siteName = String.format("Site-C7378-%s", RandomData.getRandomAlphanumeric());

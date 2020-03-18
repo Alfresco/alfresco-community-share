@@ -69,7 +69,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "6244")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void deleteTopicFromDiscussionsTopicListPage()
     {
         //precondition

@@ -74,7 +74,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8351")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void createNewReviewAndApproveSingleReviewer()
     {
         LOG.info("Precondition");
@@ -107,7 +107,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8349")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void createNewReviewAndApproveOneOrMoreReviewers()
     {
         LOG.info("Precondition");
@@ -150,7 +150,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8348")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void createNewReviewAndApproveGroupReview()
     {
         LOG.info("Precondition");
@@ -182,7 +182,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8350")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
     public void createNewReviewAndApprovePooledReview()
     {
         LOG.info("Precondition");

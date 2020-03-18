@@ -71,7 +71,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8240")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
 
     public void downloadFileFromAlfresco()
     {
@@ -95,7 +95,7 @@ public class ActionsDownloadTests extends ContextAwareWebTest
     }
 
     @TestRail (id = " C8243")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
 
     public void downloadFolder()
     {

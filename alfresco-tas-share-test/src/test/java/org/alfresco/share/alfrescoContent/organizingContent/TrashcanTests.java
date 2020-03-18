@@ -57,7 +57,7 @@ public class TrashcanTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C10506")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void emptyTrashcan()
     {
         String siteName = "site-C10506-" + random;
@@ -100,7 +100,7 @@ public class TrashcanTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7572")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void trashcanDeleteFile()
     {
         String siteName = "site-C7572-" + random;

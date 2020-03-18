@@ -355,7 +355,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6084")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void cancelDeletingEventByClickingDeleteIconAgendaView()
     {
         // precondition

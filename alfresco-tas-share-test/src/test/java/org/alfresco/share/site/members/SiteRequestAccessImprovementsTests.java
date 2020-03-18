@@ -96,7 +96,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C14280")
-    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void cancelSitePendingRequest()
     {
         LOG.info("Precondition: Cancel request");

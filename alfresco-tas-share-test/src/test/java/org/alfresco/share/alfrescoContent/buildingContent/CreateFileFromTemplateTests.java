@@ -49,7 +49,7 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7000")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
 
     public void createFileFromTemplate()
     {

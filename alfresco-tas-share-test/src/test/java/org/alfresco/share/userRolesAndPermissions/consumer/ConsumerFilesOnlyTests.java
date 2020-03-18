@@ -141,7 +141,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8884")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
 
     public void consumerDownloadContent()
     {
@@ -267,7 +267,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8902")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
 
     public void consumerCancelEditingLockedByOtherUser()
     {
@@ -288,7 +288,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8903")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
 
     public void consumerViewOriginalDocument()
     {
@@ -310,7 +310,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8904")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void consumerViewWorkingCopy()
     {
         LOG.info("Step 1: Login with admin user and Mouse over testFile and click Edit Offline");
@@ -372,7 +372,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8908")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
 
     public void consumerDownloadPreviousVersion()
     {
@@ -405,7 +405,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8909")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
 
     public void consumerRevertToPreviousVersion()
     {
