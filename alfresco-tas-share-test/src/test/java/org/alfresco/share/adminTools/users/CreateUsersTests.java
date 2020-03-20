@@ -159,7 +159,7 @@ public class CreateUsersTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C9406")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void addingUserToGroup()
     {
         String userName = String.format("User%s", RandomData.getRandomAlphanumeric());

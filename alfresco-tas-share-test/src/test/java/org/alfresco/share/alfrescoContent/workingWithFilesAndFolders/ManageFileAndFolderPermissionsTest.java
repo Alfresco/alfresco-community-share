@@ -164,7 +164,7 @@ public class ManageFileAndFolderPermissionsTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7125")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void turnOnInheritPermissions()
     {
         setupAuthenticatedSession(testUser1, password);

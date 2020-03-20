@@ -78,7 +78,7 @@ public class DeletingContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6968")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void deleteFolder()
     {
         contentService.createFolder(testUser, password, folderNameD, siteName);

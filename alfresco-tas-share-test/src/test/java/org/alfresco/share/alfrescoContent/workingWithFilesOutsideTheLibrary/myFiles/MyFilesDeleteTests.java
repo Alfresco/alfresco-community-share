@@ -70,7 +70,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7896")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesDeleteFolder()
     {
         LOG.info("Precondition: Login as user, navigate to My Files page and create a folder.");

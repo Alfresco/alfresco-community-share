@@ -46,7 +46,7 @@ public class DeleteTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8014")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void deleteDocument()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -68,7 +68,7 @@ public class DeleteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8015")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void deleteFolder()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

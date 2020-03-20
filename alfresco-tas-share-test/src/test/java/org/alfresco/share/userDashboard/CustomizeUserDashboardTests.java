@@ -123,7 +123,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2857")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void expandNarrowDashlets()
     {
         String userName = "user2855-" + RandomData.getRandomAlphanumeric() + domain;

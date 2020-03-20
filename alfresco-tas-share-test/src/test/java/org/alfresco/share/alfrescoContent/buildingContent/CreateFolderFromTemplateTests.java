@@ -47,7 +47,7 @@ public class CreateFolderFromTemplateTests extends ContextAwareWebTest
     private AspectsForm aspectsForm;
 
     @TestRail (id = "C6292")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void createFolderFromTemplate()
     {
         String userName = String.format("userName%s", RandomData.getRandomAlphanumeric());

@@ -225,7 +225,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12825")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 1)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" }, priority = 1)
     public void facetedSearchMoveToAction()
     {
         LOG.info("STEP1: Select the document to move.");

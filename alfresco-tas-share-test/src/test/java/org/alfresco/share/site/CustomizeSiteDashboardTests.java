@@ -119,7 +119,7 @@ public class CustomizeSiteDashboardTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2200")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void addNewDashlet()
     {
         String userName = "user2200-" + RandomData.getRandomAlphanumeric() + domain;

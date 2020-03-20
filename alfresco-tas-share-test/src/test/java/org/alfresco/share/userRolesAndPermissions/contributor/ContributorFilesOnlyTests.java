@@ -254,7 +254,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8919")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void editInlineForContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -601,7 +601,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8935")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void locateFile()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());

@@ -59,7 +59,7 @@ public class MyFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7810")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void manageAspectsApplyChanges()
     {
         myFilesPage.navigate();

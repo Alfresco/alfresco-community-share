@@ -194,7 +194,7 @@ public class ConsumerFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8888")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
 
     public void consumerUploadNewVersionLockedByOtherUser()
     {
