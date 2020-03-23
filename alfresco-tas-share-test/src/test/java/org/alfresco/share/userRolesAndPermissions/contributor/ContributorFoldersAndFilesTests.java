@@ -165,7 +165,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8791")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void editBasicDetailsCreatedBySelf()
     {
         String folderName = String.format("folderName%s", RandomData.getRandomAlphanumeric());
@@ -348,7 +348,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8802")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void manageAspectsForContentCreatedBySelf()
     {
         String folderName = String.format("folderName%s", RandomData.getRandomAlphanumeric());

@@ -174,7 +174,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C14285")
-    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test ( groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void claimRequestPendingTaskAsGroupManagerAndRemoveUserFromGroup()
     {
         setupAuthenticatedSession(userName3, password);

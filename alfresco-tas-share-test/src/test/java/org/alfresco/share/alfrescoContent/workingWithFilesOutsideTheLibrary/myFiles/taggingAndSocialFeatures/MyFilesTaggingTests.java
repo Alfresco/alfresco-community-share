@@ -170,7 +170,7 @@ public class MyFilesTaggingTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7886")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesRemoveTag()
     {
         myFilesPage.navigate();

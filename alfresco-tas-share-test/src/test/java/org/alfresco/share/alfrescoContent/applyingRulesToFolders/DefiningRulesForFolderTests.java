@@ -191,7 +191,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6622")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void itemsAreCreated()
     {
         String ruleName1 = "rule-C6622-" + random;

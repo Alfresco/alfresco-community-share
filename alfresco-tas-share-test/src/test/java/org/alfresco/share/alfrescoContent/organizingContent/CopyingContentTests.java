@@ -119,7 +119,7 @@ public class CopyingContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7388")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void copyFolderToPublicSite()
     {
         String siteName1 = String.format("Site1-C7388-%s", RandomData.getRandomAlphanumeric());

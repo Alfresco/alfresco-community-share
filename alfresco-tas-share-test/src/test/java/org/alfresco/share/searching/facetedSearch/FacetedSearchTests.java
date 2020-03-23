@@ -115,7 +115,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12816")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 2)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" }, priority = 2)
     public void facetedSearchBulkActionsTest()
     {
         LOG.info("STEP1: Verify search items are displayed.");

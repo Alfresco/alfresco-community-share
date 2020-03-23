@@ -88,7 +88,7 @@ public class DeletingADataListTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5912")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void deletingOwnExistingList()
     {
         LOG.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the 'Delete' button.");

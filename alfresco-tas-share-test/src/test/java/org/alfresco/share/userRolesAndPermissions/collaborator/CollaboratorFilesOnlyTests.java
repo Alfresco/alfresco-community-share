@@ -470,7 +470,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8949")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void editOfflineCreatedBySelf()
     {
         setupAuthenticatedSession(user, password);
