@@ -200,7 +200,7 @@ public class SiteRequestAccessImprovementsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C14286")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void claimRequestPendingTaskAsSiteManager()
     {
         String userName4 = "user4" + RandomData.getRandomAlphanumeric();

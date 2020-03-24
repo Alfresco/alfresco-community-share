@@ -83,7 +83,7 @@ public class EditRulesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7254")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void editRuleDetails()
     {
         documentLibraryPage.navigate(siteName);
@@ -115,7 +115,7 @@ public class EditRulesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7258")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void disableRule()
     {
         String fileName = "fileC7258-" + RandomData.getRandomAlphanumeric();
