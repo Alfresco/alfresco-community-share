@@ -339,7 +339,7 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8943")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void collaboratorUploadNewVersionOtherUserCreated()
     {
         String fileName = "C8943" + RandomData.getRandomAlphanumeric();
