@@ -21,7 +21,7 @@ public class LoginXSSTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C286512, C286520")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY }, dataProvider = "XSSCredentials", dataProviderClass = DataProviderClass.class)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSCredentials", dataProviderClass = DataProviderClass.class)
     public void loginWithXssStrings(String XSSUsername, String XSSPassword)
     {
         LOG.info("STEP 1: Navigate to Login page");

@@ -89,7 +89,7 @@ public class DataListXSSTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C286626")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
     public void creatingContactListWithXSS(String XSSString)
     {
         LOG.info("Precondition 1: Navigate to site dashboard.");
@@ -139,7 +139,7 @@ public class DataListXSSTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C286627")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
     public void creatingContactListItemWithXSS(String XSSString)
     {
         List<String> listOfXSSStrings = Arrays.asList(XSSString, XSSString, XSSString, XSSString, XSSString, XSSString, XSSString, XSSString);
@@ -178,7 +178,7 @@ public class DataListXSSTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C286628")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
     public void creatingEventAgendaItemWithXSS(String XSSString)
     {
         List<String> listOfXSSStrings = Arrays.asList(XSSString, XSSString, XSSString, XSSString, XSSString, XSSString, XSSString, XSSString);
@@ -217,7 +217,7 @@ public class DataListXSSTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C286629")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
     public void creatingMeetingAgendaItemWithXSS(String XSSString)
     {
         List<String> listOfXSSStrings = Arrays.asList(XSSString, XSSString, XSSString, XSSString, XSSString, XSSString, XSSString, XSSString);

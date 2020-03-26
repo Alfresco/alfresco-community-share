@@ -62,7 +62,7 @@ public class DashboardXSSTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C286554")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
     public void configureWebViewForUserDashboard(String XSSString)
     {
         LOG.info("Precondition 2: Add 'Web View' to user dashboard.");
@@ -88,7 +88,7 @@ public class DashboardXSSTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C286570")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
     public void editingSiteDetailsWithXSS(String XSSString)
     {
         LOG.info("Precondition 2: Create a new site.");

@@ -48,7 +48,7 @@ public class SiteXSSTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C286607")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
     public void creatingSiteWithXSSSiteID(String XSSSiteID)
     {
         LOG.info("STEP 1: Navigate to the Sites drop-down menu and select Create site link;");
@@ -72,7 +72,7 @@ public class SiteXSSTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C286608")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
     public void creatingSiteWithXSSName(String XSSName)
     {
         String siteId = "test" + RandomData.getRandomAlphanumeric();
@@ -106,7 +106,7 @@ public class SiteXSSTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C286609")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
     public void creatingSiteWithXSSDescription(String XSSDescription)
     {
         String siteName = "test" + RandomData.getRandomAlphanumeric();

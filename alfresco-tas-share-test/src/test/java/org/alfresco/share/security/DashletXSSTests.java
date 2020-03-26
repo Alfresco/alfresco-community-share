@@ -52,7 +52,7 @@ public class DashletXSSTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C286547")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
     public void configuringRssFeedWithXssUrl(String XSSUrl)
     {
         LOG.info("STEP 1: Any user logged in Share.");

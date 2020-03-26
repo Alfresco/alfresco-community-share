@@ -87,7 +87,7 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C286553")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "tobefixed", "xsstests" })
     public void verifyEditTaskButtonSaveAndClose()
     {
         LOG.info("Precondition 3: Create a \"New Task\" with message, due date, assign it to yourself, uncheck \"Send Email Notifications");
@@ -113,7 +113,7 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C286584")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" })
     public void findGroupWithXSSPooledTask()
     {
         setupAuthenticatedSession(testUser, password);
@@ -141,7 +141,7 @@ public class WorkflowSecurityTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C286704")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "tobefixed", "xsstests" })
     public void verifyEditTaskButtonReject()
     {
         LOG.info("Precondition 2: Add \"My Task\" dashlet to user dashboard if the dashlet is not present\n");
