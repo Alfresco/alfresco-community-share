@@ -171,7 +171,7 @@ public class ViewEventTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5402")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void closeEventInformationPopup()
     {
         setupAuthenticatedSession(user1, password);

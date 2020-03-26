@@ -153,7 +153,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12818")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 4)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" }, priority = 4)
     public void facetedSearchNoneOption()
     {
         LOG.info("STEP1: Select ALL option from the Select Items List checkbox.");
