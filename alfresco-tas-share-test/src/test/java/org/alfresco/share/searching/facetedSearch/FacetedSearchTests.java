@@ -304,7 +304,7 @@ public class FacetedSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12832, C12831")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 9)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" }, priority = 9)
     public void stateOfCheckbox()
     {
         LOG.info("STEP1: Observe that Selected Items' drop down menu is disabled; 'Check box' drop down menu is enabled");
