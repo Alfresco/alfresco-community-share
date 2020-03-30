@@ -46,7 +46,7 @@ public class DuplicateAListItemTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6391")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void editingAMandatoryFieldOfAListItem()
     {
 
