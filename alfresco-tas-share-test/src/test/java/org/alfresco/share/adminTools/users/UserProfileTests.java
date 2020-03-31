@@ -79,7 +79,7 @@ public class UserProfileTests extends ContextAwareWebTest
         setupAuthenticatedSession(adminUser, adminPassword);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass (alwaysRun = false)
     public void cleanUp()
     {
         userService.delete(adminUser, adminPassword, userName);

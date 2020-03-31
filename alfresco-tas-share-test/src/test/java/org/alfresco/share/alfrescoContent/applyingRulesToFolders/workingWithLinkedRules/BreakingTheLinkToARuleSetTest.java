@@ -105,7 +105,7 @@ public class BreakingTheLinkToARuleSetTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7332")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void unlinkRules()
     {
         LOG.info("STEP1: Click 'Unlink' button for the linked rule set");

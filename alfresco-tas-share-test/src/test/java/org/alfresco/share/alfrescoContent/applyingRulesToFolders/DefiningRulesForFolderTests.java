@@ -821,7 +821,7 @@ public class DefiningRulesForFolderTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C286441")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void createRuleWithUnlessShowMoreOption()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

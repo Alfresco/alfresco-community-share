@@ -85,7 +85,7 @@ public class ManuallyRunningRulesTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7320")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void runRule()
     {
         LOG.info("STEP1: Click 'Run' button for rule");

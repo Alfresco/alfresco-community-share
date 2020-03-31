@@ -55,7 +55,7 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
         setupAuthenticatedSession(userName, password);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass (alwaysRun = false)
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, userName);

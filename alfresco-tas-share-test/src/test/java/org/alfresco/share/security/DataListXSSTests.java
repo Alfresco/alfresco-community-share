@@ -76,7 +76,7 @@ public class DataListXSSTests extends ContextAwareWebTest
         dataListsService.createDataList(testUser, password, siteName, DataList.MEETING_AGENDA, meetingAgendaList, "Description.");
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass (alwaysRun = false)
     private void afterClass()
     {
         dataListsService.deleteDataList(testUser, password, siteName, contactListName);
@@ -89,7 +89,7 @@ public class DataListXSSTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C286626")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SECURITY, "xsstests", "tobefixed" }, dataProvider = "XSSSecurity", dataProviderClass = DataProviderClass.class)
     public void creatingContactListWithXSS(String XSSString)
     {
         LOG.info("Precondition 1: Navigate to site dashboard.");
