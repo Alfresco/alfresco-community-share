@@ -280,7 +280,7 @@ public class CreateLinksTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42622")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void createdLinkDisplayedInSiteActivitiesDashlet()
     {
         String name = firstName + " " + lastName;
