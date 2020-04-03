@@ -201,7 +201,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5458")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
     public void addCommentOnItem()
     {
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");

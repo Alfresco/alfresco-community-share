@@ -77,7 +77,7 @@ public class AccessingDataListsComponentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5844")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void onlySiteManagerIsAbleToRenameDataListsFeatures() throws DataPreparationException
     {
         LOG.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
