@@ -343,7 +343,7 @@ public class ContentSearchStructureTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5936")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
     public void searchByPropertyName()
     {
         String identifier = RandomData.getRandomAlphanumeric();

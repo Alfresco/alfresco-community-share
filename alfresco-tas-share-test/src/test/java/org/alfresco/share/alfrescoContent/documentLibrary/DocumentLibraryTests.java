@@ -123,7 +123,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6936")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void checkAvailableOptionsForFile()
     {
         String docName = "docName-C6936-" + random;

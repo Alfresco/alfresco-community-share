@@ -77,7 +77,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6403")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void selectAllItemsTest()
     {
 
@@ -125,7 +125,7 @@ public class SelectingMultipleListItems extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6404")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void selectAllByUsingInvertSelection()
     {
 

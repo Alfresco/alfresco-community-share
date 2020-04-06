@@ -73,7 +73,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C3174")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void deleteEventMonthView()
     {
         // precondition
@@ -201,7 +201,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5417")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void deleteEventWeekView()
     {
         // precondition

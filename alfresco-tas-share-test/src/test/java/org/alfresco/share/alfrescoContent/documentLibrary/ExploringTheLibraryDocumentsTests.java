@@ -124,7 +124,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C10597")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void viewOthersAreEditingFiles()
     {
         String docName = "C10597-1";
@@ -161,7 +161,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6325")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void viewFilesFromMyFavorites()
     {
         String docName = "C6325-1";

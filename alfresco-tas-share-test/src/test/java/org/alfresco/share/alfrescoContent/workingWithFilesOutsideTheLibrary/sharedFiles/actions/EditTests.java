@@ -114,7 +114,7 @@ public class EditTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7958")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void editFolderProperties()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

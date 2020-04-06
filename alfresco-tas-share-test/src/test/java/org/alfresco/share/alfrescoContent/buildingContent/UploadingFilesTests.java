@@ -24,7 +24,7 @@ public class UploadingFilesTests extends ContextAwareWebTest
     private UploadContent uploadContent;
 
     @TestRail (id = "C6970")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void UploadASingleFileToSite()
     {
         String user = "user" + random;
@@ -51,7 +51,7 @@ public class UploadingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C11833")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void UploadFileInFolder() throws AWTException
     {
         String testUser = "user" + random;

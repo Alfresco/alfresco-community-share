@@ -145,7 +145,7 @@ public class WorkingWithLinksTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42626")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void linkToFolderRedirectsToFolderContentsPage()
     {
         documentLibraryPage.navigate(siteName1);

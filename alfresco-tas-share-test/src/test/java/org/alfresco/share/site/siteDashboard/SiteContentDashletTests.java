@@ -133,7 +133,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5456")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void favoriteItem() throws Exception
     {
         LOG.info(
@@ -150,7 +150,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5457")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void likeUnlikeItem()
     {
         LOG.info("Preconditions: create site, add document to site, login to Share, navigate to site's dashboard");

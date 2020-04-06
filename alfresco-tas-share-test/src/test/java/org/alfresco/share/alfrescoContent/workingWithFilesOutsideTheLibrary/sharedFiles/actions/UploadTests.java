@@ -53,7 +53,7 @@ public class UploadTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7939")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void uploadDocument()
     {
         setupAuthenticatedSession(user, password);

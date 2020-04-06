@@ -46,7 +46,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8254")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void checkAspectsForm()
     {
         setupAuthenticatedSession(nonAdminUser, password);
@@ -69,7 +69,7 @@ public class ActionsManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8250")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void manageAspectsApplyChanges()
     {
         setupAuthenticatedSession(nonAdminUser, password);

@@ -68,7 +68,7 @@ public class SearchByProfilePropertiesTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6451")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
     public void searchByFullUsername()
     {
         String identifier = RandomData.getRandomAlphanumeric();

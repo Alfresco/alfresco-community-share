@@ -44,7 +44,7 @@ public class RenamingContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7419")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void renameFileByEditIcon()
     {
         String docName = String.format("Doc-C7419-%s", RandomData.getRandomAlphanumeric());

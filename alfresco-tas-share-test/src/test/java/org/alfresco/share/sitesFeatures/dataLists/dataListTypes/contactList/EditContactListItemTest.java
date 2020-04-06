@@ -69,7 +69,7 @@ public class EditContactListItemTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6549")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void verifyPossibilityToEditItem()
     {
         LOG.info("STEP1: Click the 'Edit' icon for the contact list item to be edited");

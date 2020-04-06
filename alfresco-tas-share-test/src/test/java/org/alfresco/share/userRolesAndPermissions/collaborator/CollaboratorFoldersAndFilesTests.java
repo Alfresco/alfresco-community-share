@@ -385,7 +385,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8822")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void collaboratorDeleteByOthers()
     {
         setupAuthenticatedSession(user, password);
@@ -403,7 +403,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8827")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void collaboratorManagePermissionsBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -534,7 +534,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8835")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void collaboratorEditCommentBySelf()
     {
         setupAuthenticatedSession(user, password);

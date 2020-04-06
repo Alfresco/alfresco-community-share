@@ -53,7 +53,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8172")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void uploadDocument()
     {
         String testFile = RandomData.getRandomAlphanumeric() + "-testFile-C8172-.txt";

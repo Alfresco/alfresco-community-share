@@ -390,7 +390,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9509")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void importModel()
     {
         String filePath = testDataFolder + "C9509TestModelName.zip";

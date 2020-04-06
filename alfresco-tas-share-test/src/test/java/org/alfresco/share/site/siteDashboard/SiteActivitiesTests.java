@@ -308,7 +308,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12837")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"})
     public void activitiesDashletDisplaysGroupNameWhenGroupsRoleIsChanged()
     {
         String user = String.format("C12837User%s", RandomData.getRandomAlphanumeric());
@@ -362,7 +362,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12838")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
 
     public void activitiesDashletDisplaysGroupNameWhenGroupIsRemovedFromSite()
     {

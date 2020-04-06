@@ -47,7 +47,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C7651")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesUploadDocument()
     {
         myFilesPage.navigate();

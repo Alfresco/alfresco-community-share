@@ -471,7 +471,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "2822")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void searchUsersFromAddUsersPage()
     {
         LOG.info("STEP 1: Navigate to the created site. Click on 'Add Users' icon.");

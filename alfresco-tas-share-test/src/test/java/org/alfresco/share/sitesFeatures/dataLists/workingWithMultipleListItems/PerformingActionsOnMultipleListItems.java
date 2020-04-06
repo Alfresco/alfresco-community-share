@@ -158,7 +158,7 @@ public class PerformingActionsOnMultipleListItems extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6407")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void deselectAllItems()
     {
         LOG.info("Starting test C6407");

@@ -81,7 +81,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8309")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
 
     public void deleteFolder()
     {
@@ -128,7 +128,7 @@ public class ActionsDeleteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C13751")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
 
     public void adminUserCanDeleteFileOrFolderInMainRepository()
     {

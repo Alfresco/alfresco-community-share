@@ -93,7 +93,7 @@ public class CollaboratorFoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8875")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void locateFolder()
     {
         documentLibraryPage.navigate(site);

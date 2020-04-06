@@ -37,7 +37,7 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8038")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void checkManageAspectActions()
     {
         LOG.info("Preconditions: Login to Share and navigate to 'Shared Files' page");
@@ -57,7 +57,7 @@ public class SharedFilesManageAspectsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8034")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void manageAspectsApplyChanges()
     {
         LOG.info("Preconditions: Login to Share and navigate to 'Shared Files' page");

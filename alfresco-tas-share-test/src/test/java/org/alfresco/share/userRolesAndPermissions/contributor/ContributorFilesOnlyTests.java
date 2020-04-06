@@ -99,7 +99,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8911")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void uploadContent()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());

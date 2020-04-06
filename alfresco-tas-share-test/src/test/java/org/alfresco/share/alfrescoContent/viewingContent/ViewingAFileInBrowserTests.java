@@ -51,7 +51,7 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5920")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
 
     public void viewingAFileInBrowser()
     {

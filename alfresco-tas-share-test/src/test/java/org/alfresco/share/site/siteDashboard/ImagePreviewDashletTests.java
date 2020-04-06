@@ -84,7 +84,7 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5421")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES , "tobefixed"})
     public void imagePreviewDashletWithSomeImages()
     {
         LOG.info("STEP 1 - Create images in the \"Document Library\" of the site");

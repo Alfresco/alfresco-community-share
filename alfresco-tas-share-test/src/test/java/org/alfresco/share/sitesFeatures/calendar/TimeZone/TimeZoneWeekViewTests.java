@@ -297,7 +297,7 @@ public class TimeZoneWeekViewTests extends ContextAwareWebTest
 
     @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5966")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" }, enabled = false)
     public void multipleMonthsEvent()
     {
         String currentEventName = "testEvent-C5966";

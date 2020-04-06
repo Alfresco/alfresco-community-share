@@ -178,7 +178,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8770")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void consumerCopyContent()
     {
         documentLibraryPage.navigate(siteName);
@@ -285,7 +285,7 @@ public class ConsumerFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8865")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void consumerPermissionRetention()
     {
         cleanupAuthenticatedSession();
