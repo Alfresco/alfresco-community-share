@@ -50,7 +50,7 @@ public class RssFeedTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2162")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void rssFeedDashlet()
     {
         LOG.info("Step 1: Verify \"RSS Feed\" dashlet");

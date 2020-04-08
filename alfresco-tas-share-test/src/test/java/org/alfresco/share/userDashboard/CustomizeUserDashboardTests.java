@@ -32,7 +32,7 @@ public class CustomizeUserDashboardTests extends ContextAwareWebTest
     SavedSearchDashlet savedSearchDashlet;
 
     @TestRail (id = "C2853")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void changeDefaultDashlets()
     {
         String userName = String.format("user2853-%s%s", RandomData.getRandomAlphanumeric(), domain);

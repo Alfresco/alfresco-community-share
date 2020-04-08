@@ -242,7 +242,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8145")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
     public void verifyDetailedView()
     {
         setupAuthenticatedSession(userName1, password);

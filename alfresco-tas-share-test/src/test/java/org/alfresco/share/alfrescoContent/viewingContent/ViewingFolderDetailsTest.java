@@ -46,7 +46,7 @@ public class ViewingFolderDetailsTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5850")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void viewFolderDetails()
     {
         LOG.info("Step 1 - Navigate to 'Document Library' page for 'testSite'.");

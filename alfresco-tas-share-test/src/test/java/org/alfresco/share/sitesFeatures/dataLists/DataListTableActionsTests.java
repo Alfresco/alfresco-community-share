@@ -96,7 +96,7 @@ public class DataListTableActionsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6865")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void deleteAction()
     {
         LOG.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");

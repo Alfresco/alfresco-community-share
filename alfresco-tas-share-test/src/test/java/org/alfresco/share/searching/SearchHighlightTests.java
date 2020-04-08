@@ -187,7 +187,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42550")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
     public void highlightSearchByContentOnDifferentPage()
     {
         LOG.info("Step 1: Login with username and navigate to Advanced Search page.");

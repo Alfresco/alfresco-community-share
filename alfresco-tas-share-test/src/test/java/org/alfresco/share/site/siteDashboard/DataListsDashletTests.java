@@ -107,7 +107,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5570")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void verifySiteDataListsDashletCreateDataList()
     {
         String userName = String.format("userC5570-%s", RandomData.getRandomAlphanumeric());

@@ -152,7 +152,7 @@ public class OrganizingFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6291")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void checkFolderStructure()
     {
         String siteName1 = "Site-C6291-" + uniqueId;

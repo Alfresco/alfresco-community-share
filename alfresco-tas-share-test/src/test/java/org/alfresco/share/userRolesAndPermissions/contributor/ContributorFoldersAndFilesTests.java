@@ -311,7 +311,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8800")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void managePermissionsContentCreatedBySelf()
     {
         String folderName = "FolderName";

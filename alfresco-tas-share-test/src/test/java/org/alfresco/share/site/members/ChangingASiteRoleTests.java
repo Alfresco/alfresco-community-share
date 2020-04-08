@@ -116,7 +116,7 @@ public class ChangingASiteRoleTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2837")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void changeRoleForAnUser() throws DataPreparationException
     {
         LOG.info("Preconditions: Add the userTest to the created site with 'Manager' role");

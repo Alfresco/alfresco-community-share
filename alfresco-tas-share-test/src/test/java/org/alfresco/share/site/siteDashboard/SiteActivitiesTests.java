@@ -150,7 +150,7 @@ public class SiteActivitiesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C12833")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
 
     public void activitiesDashletDisplaysGroupNameWhenLoggedInAsAdmin()
     {

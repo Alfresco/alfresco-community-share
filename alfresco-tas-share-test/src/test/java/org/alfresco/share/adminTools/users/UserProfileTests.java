@@ -269,7 +269,7 @@ public class UserProfileTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9431")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void deletingAUser()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
