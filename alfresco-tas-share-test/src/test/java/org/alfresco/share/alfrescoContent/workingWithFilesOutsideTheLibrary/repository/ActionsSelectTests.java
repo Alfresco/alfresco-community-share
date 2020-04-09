@@ -40,7 +40,7 @@ public class ActionsSelectTests extends ContextAwareWebTest
         setupAuthenticatedSession(user, password);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass (alwaysRun = false)
     public void cleanup()
     {
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + folderName);

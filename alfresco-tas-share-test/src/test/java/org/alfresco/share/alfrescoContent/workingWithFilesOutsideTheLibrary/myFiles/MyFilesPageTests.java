@@ -44,7 +44,7 @@ public class MyFilesPageTests extends ContextAwareWebTest
         contentAction.addSingleTag(user, password, userMyFiles + "/" + nonAdminFile, tag);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass (alwaysRun = false)
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, user);

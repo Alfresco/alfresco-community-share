@@ -41,7 +41,7 @@ public class ActionsUnzippingContentTests extends ContextAwareWebTest
         contentService.uploadFileInRepository(adminUser, adminPassword, null, testDataFolder + acpFile);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass (alwaysRun = false)
     public void cleanup()
     {
         contentService.deleteContentByPath(adminUser, adminPassword, zipFile);

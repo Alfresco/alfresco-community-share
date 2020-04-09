@@ -640,7 +640,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8838")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void collaboratorDeleteCommentByOthers()
     {
         setupAuthenticatedSession(user, password);

@@ -53,7 +53,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass (alwaysRun = false)
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, user);
