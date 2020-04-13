@@ -48,7 +48,7 @@ public class EditToDoListTest extends ContextAwareWebTest
     private Date dueDateToday = today.toDate();
     private String titleInputToEdit;
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass (alwaysRun = false)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);

@@ -130,7 +130,7 @@ public class EditingTheListDetailsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5898")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void editingExistingListWithSiteCollaboratorUser()
     {
 
