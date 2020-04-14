@@ -173,7 +173,7 @@ public class AnalyzingASiteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2234")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
 
     public void verifySiteContributorBreakdownDashlet()
     {

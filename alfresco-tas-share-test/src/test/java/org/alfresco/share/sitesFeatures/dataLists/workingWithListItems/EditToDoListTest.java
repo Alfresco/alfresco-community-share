@@ -67,7 +67,7 @@ public class EditToDoListTest extends ContextAwareWebTest
         dataListsPage.clickToDoListItem(todoListName);
     }
 
-    @AfterMethod (alwaysRun = true)
+    @AfterMethod (alwaysRun = false)
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, userName);
@@ -78,7 +78,7 @@ public class EditToDoListTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C10352")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void verifyPossibilityToEditItem()
     {
         titleInputToEdit = "test edited title";
