@@ -305,7 +305,7 @@ public class AddSiteMembersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "2413")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void addMultipleUsersWithSameRole()
     {
         LOG.info("STEP 1: Navigate to 'Add Users' page for " + siteName);

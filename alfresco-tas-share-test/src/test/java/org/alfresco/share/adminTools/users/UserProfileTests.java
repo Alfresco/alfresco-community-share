@@ -198,7 +198,7 @@ public class UserProfileTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9417")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void editingUser()
     {
         String firstName = "c9417editedFN";
@@ -226,7 +226,7 @@ public class UserProfileTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9423")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void addUserToGroup()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -303,7 +303,7 @@ public class UserProfileTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9427")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void addingQuotaToUser()
     {
         setupAuthenticatedSession(adminUser, adminPassword);

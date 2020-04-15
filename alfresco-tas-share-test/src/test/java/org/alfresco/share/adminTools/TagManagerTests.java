@@ -76,7 +76,7 @@ public class TagManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9383")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void renamingTag()
     {
         LOG.info("STEP1: Click 'Edit tag' for content");

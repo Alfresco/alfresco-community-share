@@ -282,7 +282,7 @@ public class AdvancedSearchPageTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5909")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
     public void searchByDescription()
     {
         String identifier = RandomData.getRandomAlphanumeric();

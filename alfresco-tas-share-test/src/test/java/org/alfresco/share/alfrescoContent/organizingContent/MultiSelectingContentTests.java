@@ -54,7 +54,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7546")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void selectItemsByCheckbox()
     {
         String random = RandomData.getRandomAlphanumeric();
@@ -90,7 +90,7 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7548")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void selectItemsByMenu()
     {
         String random = RandomData.getRandomAlphanumeric();

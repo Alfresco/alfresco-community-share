@@ -109,7 +109,7 @@ public class RecoveringDeletedContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7571")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void recoverDeletedFolder()
     {
         String random = RandomData.getRandomAlphanumeric();

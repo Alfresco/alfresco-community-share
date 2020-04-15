@@ -110,7 +110,7 @@ public class MyFilesEditTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8191")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesEditFolderProperties()
     {
         contentService.createFolderInRepository(user, password, folderName, myFilesPath);

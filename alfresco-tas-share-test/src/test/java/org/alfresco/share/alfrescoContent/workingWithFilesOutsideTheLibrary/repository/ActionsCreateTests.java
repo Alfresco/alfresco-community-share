@@ -155,7 +155,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8162")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
 
     public void createXMLFile()
     {

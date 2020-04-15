@@ -47,7 +47,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9309")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void luceneSearch()
     {
         LOG.info("Step 1: Do a 'lucene' search.");
@@ -104,7 +104,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9311")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void cmisStrictSearch()
     {
         LOG.info("Step 1: Do a 'cmis-strict' search.");

@@ -102,7 +102,7 @@ public class DocumentLibraryTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6935")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void checkAvailableOptionsForFolder()
     {
         String folderName = "folder-C6935-" + random;

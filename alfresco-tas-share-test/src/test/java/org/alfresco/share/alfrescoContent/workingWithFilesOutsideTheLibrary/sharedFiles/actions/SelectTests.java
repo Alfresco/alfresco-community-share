@@ -81,7 +81,7 @@ public class SelectTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8005")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void selectFolder()
     {
         LOG.info("STEP1: Click on Select -> Folders option");

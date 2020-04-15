@@ -131,7 +131,7 @@ public class CreateDataListsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5864")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void newListCreatedWithEmptyDescription()
     {
         LOG.info("Step 1: On the Data Lists page click on the New List button.");

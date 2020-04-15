@@ -90,7 +90,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5534")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void siteLinksDashletCreateLink()
     {
         siteName = String.format("SiteName-C5534-%s", RandomData.getRandomAlphanumeric());

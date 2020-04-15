@@ -258,7 +258,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8817")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void collaboratorRenameByOthers()
     {
         setupAuthenticatedSession(user, password);
@@ -452,7 +452,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8829")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void collaboratorManageAspectsBySelf()
     {
         setupAuthenticatedSession(user, password);

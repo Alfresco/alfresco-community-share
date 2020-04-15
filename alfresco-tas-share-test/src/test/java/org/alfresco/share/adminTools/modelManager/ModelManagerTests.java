@@ -154,7 +154,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42565")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void createModel()
     {
         String nameSpace = String.format("C42565Namespace%s", RandomData.getRandomAlphanumeric());
@@ -229,7 +229,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9517")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void editModel()
     {
         // Preconditions
@@ -415,7 +415,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C42566")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
     public void createCustomType()
     {
         // Preconditions

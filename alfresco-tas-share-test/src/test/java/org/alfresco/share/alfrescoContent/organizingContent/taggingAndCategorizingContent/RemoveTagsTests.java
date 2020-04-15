@@ -82,7 +82,7 @@ public class RemoveTagsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C10530")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void removeTagFile()
     {
         setupAuthenticatedSession(userName, password);

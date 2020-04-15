@@ -102,7 +102,7 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8875")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void locateFolder()
     {
         documentLibraryPage.navigate(site);
@@ -122,7 +122,7 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8876")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void manageRulesFolderSelfCreated()
     {
         documentLibraryPage.navigate(site);

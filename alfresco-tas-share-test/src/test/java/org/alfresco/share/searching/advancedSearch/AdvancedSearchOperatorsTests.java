@@ -114,7 +114,7 @@ public class AdvancedSearchOperatorsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5991")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
     public void wildcards()
     {
         userDashboardPage.navigate(user1);

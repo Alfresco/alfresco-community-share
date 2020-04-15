@@ -355,7 +355,7 @@ public class RemoveMembersOrGroupsTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2890")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void removeSiteMemberFromPrivateSiteTest() throws DataPreparationException
     {
         LOG.info("Starting test C2890");
