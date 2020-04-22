@@ -206,7 +206,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7706")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
     public void verifySearchInDropdownOptions()
     {
         setupAuthenticatedSession(userName1, password);

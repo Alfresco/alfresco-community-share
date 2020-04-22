@@ -133,7 +133,7 @@ public class ReplyingToDiscussionTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "6216")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void insertLinkInReplyToDiscussion()
     {
         today = df.format(new Date());
