@@ -14,6 +14,7 @@ import org.alfresco.dataprep.GroupService;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.dataprep.UserService;
+import org.alfresco.po.share.LoginPage;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.web.AbstractWebTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,8 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     protected String domain;
     protected String password;
     protected String mainWindow;
-
+    @Autowired
+    LoginPage loginPage;
     @BeforeClass (alwaysRun = true)
     public void setup() throws DataPreparationException
     {
@@ -90,7 +92,12 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
      */
     protected void setupAuthenticatedSession(String userName, String password)
     {
-        getBrowser().authenticatedSession(userService.login(userName, password));
+        cleanupAuthenticatedSession();
+        loginPage.navigate();
+        loginPage.login(userName,password);
+
+
+     //   getBrowser().authenticatedSession(userService.login(userName, password));
     }
 
     /**
