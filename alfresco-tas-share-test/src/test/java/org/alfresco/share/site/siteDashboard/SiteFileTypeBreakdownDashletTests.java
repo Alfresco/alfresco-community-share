@@ -60,7 +60,7 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5783")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void checkSiteFileTypeBreakdownDashletWithNoFiles()
     {
         LOG.info("STEP 1:Check the dashlet title for Site File Type Breakdown.");
@@ -69,7 +69,7 @@ public class SiteFileTypeBreakdownDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5785")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void multipleFileTypesAvailableInTheSiteLibrary()
     {
         siteDashboard.navigate(siteNameC5785);

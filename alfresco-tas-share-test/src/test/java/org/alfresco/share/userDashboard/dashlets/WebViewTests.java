@@ -50,7 +50,7 @@ public class WebViewTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2143")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed"  })
     public void webViewDashlet()
     {
         userDashboardPage.navigate(userName);

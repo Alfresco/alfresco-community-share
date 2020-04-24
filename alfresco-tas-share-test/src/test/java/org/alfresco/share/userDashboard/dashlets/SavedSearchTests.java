@@ -52,7 +52,7 @@ public class SavedSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2427")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed"  })
     public void savedSearchDashlet()
     {
         userDashboardPage.navigate(userName);

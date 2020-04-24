@@ -51,7 +51,7 @@ public class EditEventAgendaItemTest extends ContextAwareWebTest
     String newItemAudience = "Updated Audience";
     String newItemNotes = "Updated Notes";
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass (alwaysRun = false)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -69,7 +69,7 @@ public class EditEventAgendaItemTest extends ContextAwareWebTest
         dataListsPage.clickEventAgendaListItem(listName);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass (alwaysRun = false)
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, userName);
@@ -79,7 +79,7 @@ public class EditEventAgendaItemTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C10537")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void verifyPossibilityToEditItem()
     {
         LOG.info("STEP1: Click Edit icon for the item");

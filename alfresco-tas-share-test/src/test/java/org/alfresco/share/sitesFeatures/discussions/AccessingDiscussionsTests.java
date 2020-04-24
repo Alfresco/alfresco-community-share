@@ -57,7 +57,7 @@ public class AccessingDiscussionsTests extends ContextAwareWebTest
 
 
     @TestRail (id = "6198")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed"  })
     public void accessTheDiscussionForum()
     {
         String today = df.format(new Date());

@@ -52,7 +52,7 @@ public class WikiDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5428")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
     public void wikiDashletNoWikiPageCreated()
     {
         //precondition
@@ -92,7 +92,7 @@ public class WikiDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5433")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
 
     public void configureWikiDashletOneWikiPageAvailable()
     {
@@ -154,7 +154,7 @@ public class WikiDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5553")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
 
     public void configureWikiDashletMultipleWikiPagesAvailable()
 

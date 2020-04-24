@@ -55,7 +55,7 @@ public class AccessingCalendarTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5437")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
 
     public void accessTheCalendarPage()
     {

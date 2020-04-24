@@ -46,7 +46,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6976")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed"  })
 
     public void createPlainTextFile()
     {

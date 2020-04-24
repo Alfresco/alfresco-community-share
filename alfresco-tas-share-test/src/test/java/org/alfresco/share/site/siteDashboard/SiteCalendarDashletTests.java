@@ -77,7 +77,7 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C5492")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void siteCalendarDashletWithNoEvents()
     {
         siteDashboard.navigate(siteName);
@@ -98,7 +98,7 @@ public class SiteCalendarDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5499")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void siteCalendarDashletWithSomeEvents()
     {
         String format = "EEEE, d MMMM, yyyy";

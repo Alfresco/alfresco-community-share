@@ -62,7 +62,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5525")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void siteLinksDashletHelpNotification()
     {
         siteName = String.format("SiteName-C5525-%s", RandomData.getRandomAlphanumeric());
@@ -130,7 +130,7 @@ public class SiteLinksDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5804")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void siteLinksDashletDetailsButton()
     {
         siteName = String.format("SiteName-C5804-%s", RandomData.getRandomAlphanumeric());

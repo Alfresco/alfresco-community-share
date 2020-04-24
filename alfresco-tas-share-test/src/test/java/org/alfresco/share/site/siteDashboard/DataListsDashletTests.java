@@ -29,7 +29,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
     DataListsPage dataListsPage;
 
     @TestRail (id = "C5568")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
     public void verifySiteDataListsDashletNoListCreated()
     {
         String userName = String.format("user5568-%s", RandomData.getRandomAlphanumeric());
@@ -62,7 +62,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5569")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
     public void verifySiteDataListsDashletTwoListsCreated()
     {
         String userName = String.format("userC5569-%s", RandomData.getRandomAlphanumeric());
@@ -164,7 +164,7 @@ public class DataListsDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5571")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
     public void verifySiteDataListsDashletUserWithConsumerRole()
     {
         String userNameSiteManager = String.format("userC5571-%s", RandomData.getRandomAlphanumeric());

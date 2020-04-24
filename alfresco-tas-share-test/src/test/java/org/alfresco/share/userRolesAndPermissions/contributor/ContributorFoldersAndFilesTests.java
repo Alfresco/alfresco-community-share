@@ -507,7 +507,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8812")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed"  })
     public void viewItemDetailsPage()
     {
         LOG.info("Step1: Navigate to document library page and click on the created file. Verify the preview for the file is successfully displayed on the Document details page.");

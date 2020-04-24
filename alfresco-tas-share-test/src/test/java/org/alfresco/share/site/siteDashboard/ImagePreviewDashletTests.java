@@ -64,7 +64,7 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5414")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void imagePreviewDashletWithNoImage()
     {
         LOG.info("STEP 1 - View \"Image Preview\" dashlet");

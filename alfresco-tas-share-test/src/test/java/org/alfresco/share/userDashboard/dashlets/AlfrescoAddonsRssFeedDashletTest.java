@@ -28,7 +28,7 @@ public class AlfrescoAddonsRssFeedDashletTest extends ContextAwareWebTest
     UserDashboardPage userDashboardPage;
 
     @TestRail (id = "C2168")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed"  })
     public void verifyAlfrescoAddonsNewsFeedDashlet()
     {
         String userName = String.format("C2168-%s", RandomData.getRandomAlphanumeric());

@@ -43,7 +43,7 @@ public class MyMeetingWorkspacesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2772")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed" })
     public void meetingWorkspacesDashlet()
     {
         userDashboardPage.navigate(userName);

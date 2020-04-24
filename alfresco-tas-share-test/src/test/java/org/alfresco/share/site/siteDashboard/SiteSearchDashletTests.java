@@ -54,7 +54,7 @@ public class SiteSearchDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2775")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
     public void siteSearchDashletTest()
     {
         LOG.info("Step 1: Verify Site Search dashlet");

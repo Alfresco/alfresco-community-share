@@ -69,7 +69,7 @@ public class SiteProfileDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2811")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void verifySiteProfileDashlet()
     {
 

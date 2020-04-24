@@ -93,7 +93,7 @@ public class EditSiteDetailsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2211")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void cancelEditSiteDetails()
     {
         LOG.info("STEP1: Go to the created site. Click 'Settings' icon -> 'Edit Site Details'");

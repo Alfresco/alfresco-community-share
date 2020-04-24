@@ -64,7 +64,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8156")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed"  })
 
     public void createPlainTextDocumentInRepository()
     {

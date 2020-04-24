@@ -64,7 +64,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7650")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void myFilesCreatePlainTextFile()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");

@@ -71,7 +71,7 @@ public class RssFeedDashletTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-17064", status = Bug.Status.FIXED)
     @TestRail (id = "C2795")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
     public void rssFeedDashlet()
     {
         LOG.info("Step 1: Verify \"RSS Feed\" dashlet");

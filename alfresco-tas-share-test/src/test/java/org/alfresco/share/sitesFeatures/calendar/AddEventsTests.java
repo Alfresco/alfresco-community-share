@@ -115,7 +115,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5451")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed"  })
     public void addEventUsingAddEventButton()
     {
         String currentEventName = eventTitle + "C5451";
@@ -255,7 +255,7 @@ public class AddEventsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C3091")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed"  })
     public void addSeveralDaysDurationEvent()
     {
         calendarPage.navigate(siteName);

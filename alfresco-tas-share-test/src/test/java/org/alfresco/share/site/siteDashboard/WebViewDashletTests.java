@@ -33,7 +33,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
     private String url;
 
     @TestRail (id = "C5449")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
     public void checkWebViewDashlet()
 
     {
@@ -94,7 +94,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5450")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
 
     public void configureWebViewDashlet()
     {
@@ -138,7 +138,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5453")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed"  })
 
     public void configureWebViewDashletCancel()
     {
@@ -183,7 +183,7 @@ public class WebViewDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5459")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES , "tobefixed" })
 
     public void configureWebViewDashletDisplayHTTPSPages()
     {

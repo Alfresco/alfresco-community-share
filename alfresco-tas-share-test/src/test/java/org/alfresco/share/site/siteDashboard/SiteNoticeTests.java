@@ -51,7 +51,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5556")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void addSiteNoticeDashlet() throws DataPreparationException
     {
 
@@ -68,7 +68,7 @@ public class SiteNoticeTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5557")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void noticeDashletActions() throws DataPreparationException
     {
         LOG.info("Starting C5557");

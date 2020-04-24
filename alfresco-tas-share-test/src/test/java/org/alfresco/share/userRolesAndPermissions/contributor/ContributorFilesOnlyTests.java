@@ -73,7 +73,7 @@ public class ContributorFilesOnlyTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8910")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
     public void createContent()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");

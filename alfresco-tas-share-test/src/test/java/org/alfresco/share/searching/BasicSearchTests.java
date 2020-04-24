@@ -232,7 +232,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6168")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed"  })
     public void defaultPlaceholderText()
     {
         setupAuthenticatedSession(userName1, password);

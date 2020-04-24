@@ -44,7 +44,7 @@ public class MyDiscussionsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2774")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, "tobefixed"  })
     public void myDiscussionsDashlet()
     {
         userDashboardPage.navigate(userName);

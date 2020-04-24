@@ -68,7 +68,7 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C202732")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void checkTheSiteContributorBreakdownDashlet()
     {
         LOG.info("Step 1: Check the Site Contributor Breakdown dashlet default data");
@@ -83,7 +83,7 @@ public class SiteContributorBreakdownDashletTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C202304")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void openUsersProfileFromSiteContributorBreakdownDashlet()
     {
         LOG.info("Step 1: Click on \"user2\" section.");
