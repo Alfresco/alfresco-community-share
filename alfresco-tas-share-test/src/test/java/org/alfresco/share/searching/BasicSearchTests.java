@@ -97,7 +97,7 @@ public class BasicSearchTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5933")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
     public void verifyLiveSearchableContent()
     {
         setupAuthenticatedSession(userName1, password);

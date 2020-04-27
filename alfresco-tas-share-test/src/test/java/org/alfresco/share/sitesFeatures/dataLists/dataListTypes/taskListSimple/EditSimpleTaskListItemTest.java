@@ -50,7 +50,7 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
 
     String newDateString = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 
-    @BeforeClass (alwaysRun = true)
+    @BeforeClass (alwaysRun = false)
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, userName, password, userName + domain, userName, userName);
@@ -65,7 +65,7 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
         dataListsPage.clickSimpleTaskListItem(taskListSimple);
     }
 
-    @AfterClass (alwaysRun = true)
+    @AfterClass (alwaysRun = false)
     public void cleanup()
     {
         userService.delete(adminUser, adminPassword, userName);
@@ -74,7 +74,7 @@ public class EditSimpleTaskListItemTest extends ContextAwareWebTest
     }
 
     @TestRail (id = "C6588")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
     public void verifyEditDataItem()
     {
         LOG.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");

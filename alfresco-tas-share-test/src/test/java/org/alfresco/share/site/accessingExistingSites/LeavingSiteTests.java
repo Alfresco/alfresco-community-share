@@ -152,7 +152,7 @@ public class LeavingSiteTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C2928")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, "tobefixed" })
     public void leaveSiteUsingSiteFinder()
     {
         siteName = String.format("SiteName-C2928-%s", RandomData.getRandomAlphanumeric());
