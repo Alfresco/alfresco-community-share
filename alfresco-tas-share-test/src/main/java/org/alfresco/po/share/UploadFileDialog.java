@@ -1,6 +1,8 @@
 package org.alfresco.po.share;
 
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -14,18 +16,15 @@ import org.springframework.core.env.Environment;
 @PageObject
 public class UploadFileDialog extends ShareDialog
 {
-    @FindBy (css = "div[id*='default-dialog_h']")
-    private WebElement updateFileDialogTitle;
+    private By dialog = By.cssSelector("div[id*='dnd-upload']");
 
     @FindBy (css = "input.dnd-file-selection-button")
     private WebElement uploadInput;
 
-    @FindBy (css = "input.dnd-file-selection-button")
-    private WebElement uploadButton;
-
     @FindBy (css = "[class*='fileupload-progressFailure']")
     private WebElement uploadFailedTransformationMessage;
 
+    @RenderWebElement
     @FindBy (css = "div[id*='dnd-upload'] a[class*='close']")
     private WebElement closeUploadDialogButton;
 
@@ -41,6 +40,13 @@ public class UploadFileDialog extends ShareDialog
         uploadInput.sendKeys(location);
     }
 
+    public <T> SharePage uploadFileAndRenderPage(String location, SharePage<T> page)
+    {
+        uploadFile(location);
+        browser.waitUntilElementDisappears(dialog);
+        return page;
+    }
+
     public boolean isUploadFailedMessageDisplayed()
     {
         return browser.isElementDisplayed(uploadFailedTransformationMessage);
@@ -49,15 +55,9 @@ public class UploadFileDialog extends ShareDialog
     /**
      * Close dialog
      */
+    @Override
     public void clickClose()
     {
         browser.waitUntilElementClickable(closeUploadDialogButton).click();
-    }
-
-    public void clickSelectFilesToUpload()
-
-    {
-        uploadButton.click();
-
     }
 }

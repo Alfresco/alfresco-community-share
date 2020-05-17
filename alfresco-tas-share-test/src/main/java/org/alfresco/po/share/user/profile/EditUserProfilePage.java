@@ -246,8 +246,7 @@ public class EditUserProfilePage extends SharePage<EditUserProfilePage>
 
     public EditUserProfilePage uploadNewPhoto(String pathToPhoto)
     {
-        clickUpload().uploadFile(pathToPhoto);
-        return (EditUserProfilePage) this.renderedPage();
+        return (EditUserProfilePage) clickUpload().uploadFileAndRenderPage(pathToPhoto, this);
     }
 
     public UploadFileDialog clickUpload()

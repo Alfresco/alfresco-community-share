@@ -14,6 +14,11 @@ public enum Theme
     public final String selectValue;
     public final String dashletHexColor;
 
+    public String getSelectValue()
+    {
+        return this.selectValue;
+    }
+
     Theme(String name, String selectValue, String hexColor)
     {
         this.name = name;
