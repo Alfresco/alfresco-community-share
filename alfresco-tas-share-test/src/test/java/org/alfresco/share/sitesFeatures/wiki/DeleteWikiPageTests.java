@@ -4,7 +4,7 @@ import java.util.Collections;
 
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.site.wiki.DeleteWikiPagePopUp;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.po.share.site.wiki.WikiPage;
@@ -30,7 +30,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
     WikiMainPage wikiMainPage;
 
     @Autowired
-    DeleteWikiPagePopUp deleteWikiPagePopUp;
+    DeleteDialog deleteWikiPagePopUp;
 
     @Autowired
     WikiListPage wikiListPage;
@@ -84,7 +84,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
         Assert.assertEquals(deleteWikiPagePopUp.getMessage(), "Are you sure you want to delete this page?", "Wrong confirmation message!");
 
         LOG.info("STEP 2: Click 'Delete' button");
-        deleteWikiPagePopUp.clickDeleteWikiPage();
+        deleteWikiPagePopUp.clickDelete(wikiListPage);
         Assert.assertEquals(wikiListPage.noWikiPageDisplayed(), "There are currently no pages to display", "Wrong message displayed!");
     }
 
@@ -101,7 +101,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
         Assert.assertEquals(deleteWikiPagePopUp.getMessage(), "Are you sure you want to delete this page?", "Wrong confirmation message!");
 
         LOG.info("STEP 2: Click 'Delete' button");
-        deleteWikiPagePopUp.clickDeleteWikiPage();
+        deleteWikiPagePopUp.clickDelete(wikiListPage);
         Assert.assertEquals(wikiListPage.noWikiPageDisplayed(), "There are currently no pages to display", "Wrong message displayed!");
     }
 
@@ -121,7 +121,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
         Assert.assertEquals(deleteWikiPagePopUp.getMessage(), "Are you sure you want to delete this page?", "Wrong confirmation message!");
 
         LOG.info("STEP 3: Click 'Delete' button");
-        deleteWikiPagePopUp.clickDeleteWikiPage();
+        deleteWikiPagePopUp.clickDelete(wikiListPage);
         Assert.assertEquals(wikiListPage.noWikiPageDisplayed(), "There are currently no pages to display", "Wrong message displayed!");
     }
 
@@ -141,7 +141,7 @@ public class DeleteWikiPageTests extends ContextAwareWebTest
         Assert.assertEquals(deleteWikiPagePopUp.getMessage(), "Are you sure you want to delete this page?", "Wrong confirmation message!");
 
         LOG.info("STEP 2: Click 'Delete'");
-        deleteWikiPagePopUp.clickDeleteWikiPage();
+        deleteWikiPagePopUp.clickDelete(wikiListPage);
         Assert.assertEquals(wikiListPage.getWikiPageTitlesListSize(), 2, "Wiki page titles list size is: ");
         Assert.assertTrue(wikiListPage.getWikiPageTitlesList().contains("Page1") && wikiListPage.getWikiPageTitlesList().contains("Page3"),
             "Pages are not listed.");

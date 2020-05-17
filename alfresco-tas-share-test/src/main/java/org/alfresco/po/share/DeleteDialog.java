@@ -38,10 +38,10 @@ public class DeleteDialog extends ShareDialog
         return message.getText();
     }
 
-    public void clickDelete()
+    public <T> SharePage clickDelete(SharePage page)
     {
-        getBrowser().waitUntilElementVisible(deleteButton);
         getBrowser().waitUntilElementClickable(deleteButton).click();
+        return (SharePage) page.renderedPage();
     }
 
     public void clickCancel()

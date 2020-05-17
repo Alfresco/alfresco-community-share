@@ -276,9 +276,8 @@ public class MultiSelectingContentTests extends ContextAwareWebTest
             "'Confirm Multiple Delete' dialog message=");
 
         LOG.info("STEP5: Click 'Delete' button");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(documentLibraryPage);
         expectedContentList3.clear();
-        documentLibraryPage.renderedPage();
         assertEquals(documentLibraryPage.getFoldersList().toString(), expectedContentList3.toString(), "Document Library - displayed folders=");
         assertEquals(documentLibraryPage.getFilesList().toString(), expectedContentList3.toString(), "Document Library - displayed files=");
         siteService.delete(adminUser, adminPassword, siteName);

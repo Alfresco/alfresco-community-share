@@ -5,8 +5,8 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -29,7 +29,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
     @Autowired
     private MyFilesPage myFilesPage;
     @Autowired
-    private DeleteDocumentOrFolderDialog deleteDialog;
+    private DeleteDialog deleteDialog;
 
     @BeforeClass (alwaysRun = true)
     public void createUser()
@@ -63,7 +63,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), testFile));
 
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.confirmDocumentOrFolderDelete();
+        deleteDialog.clickDelete(myFilesPage);
 
         LOG.info("STEP4: Verify that the file was deleted");
         assertFalse(myFilesPage.isContentNameDisplayed(testFile), "Documents item list is refreshed and is empty");
@@ -85,7 +85,7 @@ public class MyFilesDeleteTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), folderName));
 
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.confirmDocumentOrFolderDelete();
+        deleteDialog.clickDelete(myFilesPage);
         assertFalse(myFilesPage.isContentNameDisplayed(folderName), "Documents item list is refreshed and is empty");
         assertFalse(myFilesPage.getExplorerPanelDocuments().contains(folderName), "'DelFolder' is not visible in 'Library' section of the browsing pane.");
     }

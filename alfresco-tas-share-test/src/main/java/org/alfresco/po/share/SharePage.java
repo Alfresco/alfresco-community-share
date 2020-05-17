@@ -25,6 +25,7 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
  */
 public abstract class SharePage<T> extends HtmlPage
 {
+    public static final int WAIT_15_SEC = 15;
     public String userName;
     @Autowired
     AboutPopUpPage pop;
@@ -88,7 +89,7 @@ public abstract class SharePage<T> extends HtmlPage
     @SuppressWarnings ("unchecked")
     public T navigate()
     {
-        getBrowser().waitInSeconds(15);
+        getBrowser().waitInSeconds(WAIT_15_SEC);
         STEP(String.format("Navigate to: %s", relativePathToURL().getPath()));
         browser.navigate().to(relativePathToURL());
         return (T) renderedPage();

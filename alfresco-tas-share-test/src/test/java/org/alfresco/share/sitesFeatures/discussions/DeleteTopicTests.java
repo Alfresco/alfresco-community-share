@@ -8,8 +8,8 @@ import java.util.Collections;
 
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.Notification;
-import org.alfresco.po.share.site.discussion.DeleteTopicDialog;
 import org.alfresco.po.share.site.discussion.TopicListPage;
 import org.alfresco.po.share.site.discussion.TopicViewPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -30,7 +30,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
     TopicListPage topicListPage;
 
     @Autowired
-    DeleteTopicDialog deleteDialog;
+    DeleteDialog deleteDialog;
 
     @Autowired
     TopicViewPage topicViewPage;
@@ -81,7 +81,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("discussions.deleteTopic.message"), topic1Title));
 
         LOG.info("STEP 2 - Click on 'Delete' button.");
-        deleteDialog.confirmTopicDelete();
+        deleteDialog.clickDelete(topicListPage);
         //assertEquals(notification.getDisplayedNotification(), language.translate("discussions.topicDeletedNotification"), "Topic deleted notification appears.");
         assertFalse(topicListPage.isTopicDisplayed(topic1Title), "Topic1 is deleted.");
     }
@@ -100,7 +100,7 @@ public class DeleteTopicTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("discussions.deleteTopic.message"), topic2Title));
 
         LOG.info("STEP 2 - Click on 'Delete' button.");
-        deleteDialog.confirmTopicDelete();
+        deleteDialog.clickDelete(topicListPage);
 //        assertEquals(notification.getDisplayedNotification(), language.translate("discussions.topicDeletedNotification"), "Topic deleted notification appears.");
         assertFalse(topicListPage.isTopicDisplayed(topic2Title), "Topic2 is deleted.");
         assertFalse(topicListPage.isTagDisplayed(topicTag2), "tag1 is not displayed, the list of tags is empty.");

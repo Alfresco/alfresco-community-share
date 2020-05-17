@@ -71,7 +71,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
         Assert.assertEquals(deleteDialog.getMessage(), "Are you sure you want to delete this comment?");
 
         LOG.info("Step 2: Click Delete button");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(blogPostView);
         getBrowser().waitUntilElementContainsText(blogPostView.noCommentsText, "No comments");
         Assert.assertEquals(blogPostView.getNoCommentsText(), "No comments");
     }
@@ -94,7 +94,7 @@ public class DeletingACommentTests extends ContextAwareWebTest
         Assert.assertEquals(deleteDialog.getMessage(), "Are you sure you want to delete this comment?");
 
         LOG.info("Step 2: Click Delete button");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(blogPostView);
         getBrowser().waitUntilElementContainsText(blogPostView.noCommentsText, "No comments");
         Assert.assertEquals(blogPostView.getNoCommentsText(), "No comments");
     }

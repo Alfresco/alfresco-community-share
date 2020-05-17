@@ -71,7 +71,7 @@ public class DeletingAListItemTest extends ContextAwareWebTest
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "Delete dialog - Delete button is displayed.");
 
         LOG.info("STEP2: Click the Delete button on the Delete Item form");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(dataListsPage);
         assertFalse(dataListsPage.currentContent.isAnyListItemDisplayed(), "Data list item is displayed in Data List items list.");
 
         cleanupAuthenticatedSession();

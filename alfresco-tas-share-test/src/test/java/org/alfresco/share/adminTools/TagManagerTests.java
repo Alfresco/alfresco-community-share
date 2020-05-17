@@ -127,7 +127,7 @@ public class TagManagerTests extends ContextAwareWebTest
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Delete Tag' dialog: Cancel button is displayed.");
 
         LOG.info("STEP2: Click 'Delete' button");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(tagManagerPage);
         assertFalse(tagManagerPage.isTagDisplayed(tag3), tag3 + " is displayed.");
     }
 }

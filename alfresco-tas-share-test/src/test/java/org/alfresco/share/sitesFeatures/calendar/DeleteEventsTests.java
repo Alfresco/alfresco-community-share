@@ -12,10 +12,10 @@ import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.dashlet.SiteCalendarDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
-import org.alfresco.po.share.site.calendar.DeleteEventDialog;
 import org.alfresco.po.share.site.calendar.EventInformationDialog;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -38,7 +38,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
     EventInformationDialog eventInformationDialog;
 
     @Autowired
-    DeleteEventDialog deleteEventDialog;
+    DeleteDialog deleteEventDialog;
 
     @Autowired
     SiteDashboardPage siteDashboardPage;
@@ -94,7 +94,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
             "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 4: Click 'Delete' button.");
-        deleteEventDialog.confirmEventDelete();
+        deleteEventDialog.clickDelete(calendarPage);
         assertFalse(calendarPage.isEventPresentInCalendar(eventName), "The event is displayed on the 'Calendar' page.");
 
         LOG.info("STEP 5: Go to site's dashboard and verify 'Site Calendar' dashlet.");
@@ -158,7 +158,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
             "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 4: Click 'Delete' button.");
-        deleteEventDialog.confirmEventDelete();
+        deleteEventDialog.clickDelete(calendarPage);
         assertFalse(calendarPage.isEventPresentInCalendar(eventName), "The event is displayed on the 'Calendar' page.");
 
         LOG.info("STEP 5: Go to site's dashboard and verify 'Site Calendar' dashlet.");
@@ -223,7 +223,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
             "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 4: Click 'Delete' button.");
-        deleteEventDialog.confirmEventDelete();
+        deleteEventDialog.clickDelete(calendarPage);
         assertFalse(calendarPage.isEventPresentInCalendar(eventName), "The event is displayed on the 'Calendar' page.");
 
         LOG.info("STEP 5: Go to site's dashboard and verify 'Site Calendar' dashlet.");
@@ -288,7 +288,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
             "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 4: Click 'Delete' button.");
-        deleteEventDialog.confirmEventDelete();
+        deleteEventDialog.clickDelete(calendarPage);
         assertFalse(calendarPage.isEventPresentInAgenda(eventName), "The event is displayed on the 'Calendar' page.");
 
         LOG.info("STEP 5: Go to site's dashboard and verify 'Site Calendar' dashlet.");
@@ -346,7 +346,7 @@ public class DeleteEventsTests extends ContextAwareWebTest
             "'Delete Event' confirmation pop-up is displayed.");
 
         LOG.info("STEP 2: Click 'Delete' button.");
-        deleteEventDialog.confirmEventDelete();
+        deleteEventDialog.clickDelete(calendarPage);
         assertFalse(calendarPage.isEventPresentInAgenda(eventName), "The event is displayed on the 'Calendar' page.");
 
         LOG.info("STEP 3: Go to site's dashboard and verify 'Site Calendar' dashlet.");

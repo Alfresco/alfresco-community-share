@@ -16,7 +16,6 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentCommon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
-import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
@@ -64,9 +63,6 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
     @Autowired
     CopyMoveUnzipToDialog copyMoveUnzipToDialog;
-
-    @Autowired
-    DeleteDocumentOrFolderDialog deleteDialogFolder;
 
     @Autowired
     ManagePermissionsPage managePermissionsPage;
@@ -377,7 +373,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), folderName));
 
         LOG.info("Step 2: Click 'Delete' button");
-        deleteDialogFolder.confirmDocumentOrFolderDelete();
+        deleteDialog.clickDelete(documentLibraryPage);
         assertFalse(documentLibraryPage.isContentNameDisplayed(folderName), "Documents item list is refreshed and is empty");
         assertFalse(documentLibraryPage.getExplorerPanelDocuments().contains(folderName),
             "'DelFolder' is not visible in 'Library' section of the browsing pane.");

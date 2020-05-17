@@ -79,7 +79,7 @@ public class TrashcanTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsOption("Delete");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 2, folderName + "\n" + fileName),
             "'Confirm multiple delete' dialog message=");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(documentLibraryPage);
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), "[]", "Document Library folders=");
 
@@ -122,7 +122,7 @@ public class TrashcanTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsOption("Delete");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, fileName),
             "'Confirm multiple delete' dialog message=");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(documentLibraryPage);
         assertEquals(documentLibraryPage.getFilesList().toString(), "[]", "Document Library files=");
         assertEquals(documentLibraryPage.getFoldersList().toString(), Collections.singletonList(folderName).toString(), "Document Library folders=");
 
@@ -165,7 +165,7 @@ public class TrashcanTests extends ContextAwareWebTest
         headerMenuBar.clickSelectedItemsOption("Delete");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmMultipleDeleteDialog.message"), 1, folderName),
             "'Confirm multiple delete' dialog message=");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(documentLibraryPage);
         deleteDialog.waitUntilMessageDisappears();
 
         assertEquals(documentLibraryPage.getFilesList().toString(), Collections.singletonList(fileName).toString(), "Document Library files=");

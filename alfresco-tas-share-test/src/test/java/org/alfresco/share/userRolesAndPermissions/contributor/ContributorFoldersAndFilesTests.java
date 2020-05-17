@@ -11,11 +11,11 @@ import java.util.Collections;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.SiteService;
+import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
-import org.alfresco.po.share.alfrescoContent.organizingContent.DeleteDocumentOrFolderDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
@@ -60,7 +60,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     @Autowired
     EditPropertiesPage editPropertiesPage;
     @Autowired
-    private DeleteDocumentOrFolderDialog deleteDialog;
+    private DeleteDialog deleteDialog;
     private String userContributor;
 
     @BeforeClass (alwaysRun = true)
@@ -295,7 +295,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteDocument"), "'Delete Document' pop-up displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), fileName));
         LOG.info("STEP3: Click 'Delete' button");
-        deleteDialog.confirmDocumentOrFolderDelete();
+        deleteDialog.clickDelete(documentLibraryPage);
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         assertFalse(documentLibraryPage.isContentNameDisplayed(fileName), fileName + " displayed in Document Library of " + siteName);
     }

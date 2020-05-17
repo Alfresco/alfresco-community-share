@@ -71,7 +71,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(deleteDialog.getMessage(), "Do you really want to delete blog post 'C5955 blog post title'?");
 
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(blogPage);
         // TODO get popup text for Post Deleted
         getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
@@ -97,7 +97,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(deleteDialog.getMessage(), "Do you really want to delete blog post 'C5957 blog post title'?");
 
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(blogPage);
         // TODO get popup text for Post Deleted
         blogPage.clickMyDraftsFilter();
         getBrowser().waitUntilElementContainsText(getBrowser().findElement(By.cssSelector("tbody.yui-dt-message")), "No blog posts found");
@@ -121,7 +121,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(deleteDialog.getMessage(), "Do you really want to delete blog post 'C5959 blog post title'?");
 
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(blogPage);
         getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
         Assert.assertEquals(blogPage.getBlogContentText(), "No blog posts found");
         // TODO get popup text for Post Deleted
@@ -148,7 +148,7 @@ public class DeletingABlogPostTests extends ContextAwareWebTest
         Assert.assertEquals(deleteDialog.getMessage(), "Do you really want to delete blog post 'C5967 blog post title'?");
 
         LOG.info("Step 2: Click Delete button on the Delete Blog Post prompt");
-        deleteDialog.clickDelete();
+        deleteDialog.clickDelete(blogPage);
         // TODO get popup text for Post Deleted
         getBrowser().waitUntilElementContainsText(blogPage.pageTitle, "New Posts");
         Assert.assertEquals(blogPage.getPageTitle(), "New Posts");
