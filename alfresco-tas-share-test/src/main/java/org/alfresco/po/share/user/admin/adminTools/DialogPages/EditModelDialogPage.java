@@ -1,11 +1,15 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
+import static org.alfresco.common.Utils.clearAndType;
+
 import org.alfresco.po.share.ShareDialog;
+import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Mirela Tifui on 11/29/2016.
@@ -14,54 +18,54 @@ import org.openqa.selenium.support.FindBy;
 public class EditModelDialogPage extends ShareDialog
 {
     @RenderWebElement
-    private By saveButton = By.id("CMM_EDIT_MODEL_DIALOG_OK_label");
+    @FindBy(id = "CMM_EDIT_MODEL_DIALOG_OK_label")
+    private WebElement saveButton;
+
+    @FindBy(id =  "CMM_EDIT_MODEL_DIALOG_CANCEL_label")
+    private WebElement cancelButton;
 
     @RenderWebElement
-    private By cancelButton = By.id("CMM_EDIT_MODEL_DIALOG_CANCEL_label");
+    @FindBy(id = "CMM_EDIT_MODEL_DIALOG")
+    private WebElement editModelWindow;
 
     @RenderWebElement
-    private By editModelWindow = By.id("CMM_EDIT_MODEL_DIALOG");
-
-    @RenderWebElement
-    @FindBy (xpath = "//div[@id='CMM_EDIT_MODEL_DIALOG']//input[@name='namespace']")
+    @FindBy (css = "div[id='CMM_EDIT_MODEL_DIALOG'] input[name='namespace']")
     private WebElement namespaceField;
 
-    @FindBy (xpath = "//div[@id='CMM_EDIT_MODEL_DIALOG']//input[@name='prefix']")
+    @FindBy (css = "div[id='CMM_EDIT_MODEL_DIALOG'] input[name='prefix']")
     private WebElement prefixField;
 
     @RenderWebElement
-    @FindBy (xpath = "//div[@id='CMM_EDIT_MODEL_DIALOG']//input[@name='name']")
+    @FindBy (css = "div[id='CMM_EDIT_MODEL_DIALOG'] input[name='name']")
     private WebElement nameField;
 
-
-    @FindBy (xpath = "//div[@id='CMM_EDIT_MODEL_DIALOG']//input[@name='author']")
+    @FindBy (css = "div[id='CMM_EDIT_MODEL_DIALOG'] input[name='author']")
     private WebElement creatorField;
 
-    @FindBy (xpath = "//div[@id='CMM_EDIT_MODEL_DIALOG']//textarea[@name='description']")
+    @FindBy (css = "div[id='CMM_EDIT_MODEL_DIALOG'] textarea[name='description']")
     private WebElement descriptionField;
+
+    @Autowired
+    private ModelManagerPage modelManagerPage;
 
     public void editNamespace(String nameSpace)
     {
-        namespaceField.clear();
-        namespaceField.sendKeys(nameSpace);
+        clearAndType(namespaceField, nameSpace);
     }
 
     public void editPrefix(String prefix)
     {
-        prefixField.clear();
-        prefixField.sendKeys(prefix);
+        clearAndType(prefixField, prefix);
     }
 
     public void editCreator(String creator)
     {
-        creatorField.clear();
-        creatorField.sendKeys(creator);
+        clearAndType(creatorField, creator);
     }
 
     public void editDescription(String description)
     {
-        descriptionField.clear();
-        descriptionField.sendKeys(description);
+        clearAndType(descriptionField, description);
     }
 
     public String getNameFieldStatus()
@@ -74,13 +78,15 @@ public class EditModelDialogPage extends ShareDialog
         return browser.isElementDisplayed(editModelWindow);
     }
 
-    public void clickSaveButton()
+    public ModelManagerPage clickSaveButton()
     {
-        browser.findElement(saveButton).click();
+        browser.waitUntilElementClickable(saveButton).click();
+        return (ModelManagerPage) modelManagerPage.renderedPage();
     }
 
-    public void clickCancelButton()
+    public ModelManagerPage clickCancelButton()
     {
-        browser.findElement(cancelButton).click();
+        browser.waitUntilElementClickable(cancelButton).click();
+        return (ModelManagerPage) modelManagerPage.renderedPage();
     }
 }

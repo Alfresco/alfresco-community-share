@@ -1,10 +1,11 @@
 package org.alfresco.po.share.user.admin.adminTools.DialogPages;
 
+import static org.alfresco.common.Utils.clearAndType;
+
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,51 +36,43 @@ public class CreateModelDialogPage extends ShareDialog
     @FindBy (css = "span[widgetid='CMM_CREATE_MODEL_DIALOG_OK']>span")
     private WebElement createButton;
 
-
     @Autowired
     private ModelManagerPage modelManagerPage;
-
-    private By cancelButton = By.id("CMM_CREATE_MODEL_DIALOG_CANCEL_label");
-    private By closeWindowButton = By.cssSelector("div[id='CMM_CREATE_MODEL_DIALOG'] .dijitDialogCloseIcon");
 
     public void sendNamespaceText(String namespace)
     {
         browser.waitUntilElementVisible(namespaceField);
-        namespaceField.clear();
-        namespaceField.sendKeys(namespace);
+        clearAndType(namespaceField, namespace);
     }
 
     public void sendPrefixText(String prefix)
     {
         browser.waitUntilElementVisible(prefixField);
-        prefixField.clear();
-        prefixField.sendKeys(prefix);
+        clearAndType(prefixField, prefix);
     }
 
     public void sendNameText(String name)
     {
         browser.waitUntilElementVisible(nameField);
-        nameField.clear();
-        nameField.sendKeys(name);
+        clearAndType(nameField, name);
     }
 
     public void sendCreatorText(String creator)
     {
         browser.waitUntilElementVisible(creatorField);
-        creatorField.clear();
-        creatorField.sendKeys(creator);
+        clearAndType(creatorField, creator);
     }
 
     public void sendDescription(String description)
     {
         browser.waitUntilElementVisible(descriptionField);
-        descriptionField.clear();
-        descriptionField.sendKeys(description);
+        clearAndType(descriptionField, description);
     }
 
-    public void clickCreateButton()
+    public ModelManagerPage clickCreateButton()
     {
         getBrowser().waitUntilElementVisible(createButton);
         getBrowser().waitUntilElementClickable(createButton).click();
+        return (ModelManagerPage) modelManagerPage.renderedPage();
     }
 }
