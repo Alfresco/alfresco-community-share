@@ -19,13 +19,16 @@ public class ModuleBrowserPage extends AdminToolsPage
     private WebElement moduleContent;
 
     @RenderWebElement
-    private By titleTableHeader = By.id("titleTableHeader");
+    @FindBy (id = "titleTableHeader")
+    private WebElement titleTableHeader;
 
     @RenderWebElement
-    private By descriptionTableHeader = By.id("descriptionTableHeader");
+    @FindBy (id = "descriptionTableHeader")
+    private WebElement descriptionTableHeader;
 
     @RenderWebElement
-    private By versionTableHeader = By.id("versionTableHeader");
+    @FindBy (id = "versionTableHeader")
+    private WebElement versionTableHeader;
 
     private By modulesList = By.cssSelector("tr[id*=alfresco_lists_views_layouts_Row]");
 
@@ -38,12 +41,10 @@ public class ModuleBrowserPage extends AdminToolsPage
         return null;
     }
 
-
     public WebElement selectModuleName(String moduleName)
     {
-        browser.waitUntilElementIsDisplayedWithRetry(modulesList, 6);
-        List<WebElement> itemsList = browser.findElements(modulesList);
-        return browser.findFirstElementWithValue(itemsList, moduleName);
+        browser.waitUntilElementIsDisplayedWithRetry(modulesList, WAIT_15_SEC);
+        return browser.findFirstElementWithValue(modulesList, moduleName);
     }
 
     public boolean isModuleAvailable(String moduleName)

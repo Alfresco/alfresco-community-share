@@ -16,7 +16,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
- * @author Razvan.Dorobantu
+ * UI tests for Admin Tools > Node browser page
  */
 public class NodeBrowserTests extends ContextAwareWebTest
 {
@@ -47,7 +47,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9309")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void luceneSearch()
     {
         LOG.info("Step 1: Do a 'lucene' search.");
@@ -104,7 +104,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9311")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void cmisStrictSearch()
     {
         LOG.info("Step 1: Do a 'cmis-strict' search.");
@@ -132,7 +132,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9305")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.ADMIN_TOOLS }, enabled = false)
     public void localeSupport()
     {
 //TODO this test C9305

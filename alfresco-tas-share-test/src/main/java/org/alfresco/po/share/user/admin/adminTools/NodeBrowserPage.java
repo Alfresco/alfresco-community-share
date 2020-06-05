@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.alfresco.common.Utils;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
@@ -73,46 +74,43 @@ public class NodeBrowserPage extends AdminToolsPage
         return storeTypeDropdownButton.getText().equals(storeType.getStoreType());
     }
 
-    public void clickSearchButton()
+    public NodeBrowserPage clickSearchButton()
     {
-        browser.waitUntilElementClickable(searchButton, 5).click();
-        browser.waitInSeconds(3);
+        browser.waitUntilElementClickable(searchButton).click();
+        return (NodeBrowserPage) this.renderedPage();
     }
 
     public boolean isSearchButtonPresent()
     {
-        return searchButton.isDisplayed();
+        return browser.isElementDisplayed(searchButton);
     }
 
     public boolean isNameColumnPresent()
     {
-        return browser.findElement(nameColumn).isDisplayed();
+        return browser.isElementDisplayed(nameColumn);
     }
 
     public boolean isParentColumnPresent()
     {
-        return browser.findElement(parentColumn).isDisplayed();
+        return browser.isElementDisplayed(parentColumn);
     }
 
     public boolean isReferenceColumnPresent()
     {
-        return browser.findElement(referenceColumn).isDisplayed();
+        return browser.isElementDisplayed(referenceColumn);
     }
 
     public void writeInSearchInput(String searchItem)
     {
-        searchInput.clear();
-        browser.waitInSeconds(2);
-        searchInput.sendKeys(searchItem);
-        browser.waitInSeconds(2);
+        Utils.clearAndType(searchInput, searchItem);
     }
 
     private Map<String, List<String>> getResults()
     {
         Map<String, List<String>> results = new HashMap<>();
-        List<WebElement> nameRows = browser.findElements(By.cssSelector("div[id$='-datatable'] td[class*='col-name'] div a"));
-        List<WebElement> parentRows = browser.findElements(By.cssSelector("div[id$='-datatable'] td[class*='namePath'] div"));
-        List<WebElement> referenceRows = browser.findElements(By.cssSelector("div[id$='-datatable'] td[class*='nodeRef'] div a"));
+        List<WebElement> nameRows = browser.waitUntilElementsVisible(By.cssSelector("div[id$='-datatable'] td[class*='col-name'] div a"));
+        List<WebElement> parentRows = browser.waitUntilElementsVisible(By.cssSelector("div[id$='-datatable'] td[class*='namePath'] div"));
+        List<WebElement> referenceRows = browser.waitUntilElementsVisible(By.cssSelector("div[id$='-datatable'] td[class*='nodeRef'] div a"));
 
         for (int i = 0; i < nameRows.size(); i++)
         {
@@ -167,7 +165,6 @@ public class NodeBrowserPage extends AdminToolsPage
         VERSION_2_STORE("workspace://version2Store"),
         ARCHIVE_SPACES_STORE("archive://SpacesStore"),
         WORKSPACE_SPACES_STORE("workspace://SpacesStore");
-
 
         private String storeType;
 
