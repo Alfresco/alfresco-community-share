@@ -52,7 +52,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Do a 'lucene' search.");
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.LUCENE);
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(content);
         nodeBrowserPage.clickSearchButton();
 
@@ -67,7 +66,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
         LOG.info("Step 1: Do a 'nodeRef' search.");
         String nodeRef = contentService.getNodeRef(adminUser, adminPassword, siteName, fileName);
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.NODEREF);
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput("workspace://SpacesStore/" + nodeRef);
         nodeBrowserPage.clickSearchButton();
 
@@ -81,7 +79,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Do a 'xpath' search.");
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.XPATH);
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(xpathSearchTerm);
         nodeBrowserPage.clickSearchButton();
 
@@ -95,7 +92,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Do a 'fts-alfresco' search.");
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.FTS_ALFRESCO);
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput("cm:name:" + fileName);
         nodeBrowserPage.clickSearchButton();
 
@@ -109,7 +105,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Do a 'cmis-strict' search.");
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.CMIS_STRICT);
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(cmisSearchTerm);
         nodeBrowserPage.clickSearchButton();
 
@@ -123,7 +118,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Do a 'cmis-alfresco' search.");
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.CMIS_ALFRESCO);
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.writeInSearchInput(cmisSearchTerm);
         nodeBrowserPage.clickSearchButton();
 
@@ -163,7 +157,6 @@ public class NodeBrowserTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Navigate to NOde Browser and perform custom node search");
         nodeBrowserPage.navigate();
-        nodeBrowserPage.selectStoreType(NodeBrowserPage.SELECT_STORE.WORKSPACE_SPACES_STORE);
         nodeBrowserPage.selectSearchType(NodeBrowserPage.SEARCH_TYPE.STORE_ROOT);
         nodeBrowserPage.clickSearchButton();
         Assert.assertTrue(nodeBrowserPage.getRowText().toString().contains("workspace://SpacesStore/"));

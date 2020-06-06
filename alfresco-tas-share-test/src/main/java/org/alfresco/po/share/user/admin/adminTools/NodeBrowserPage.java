@@ -34,6 +34,7 @@ public class NodeBrowserPage extends AdminToolsPage
     @RenderWebElement
     @FindBy (css = ".search-main")
     private WebElement searchResults;
+    @RenderWebElement
     @FindBy (css = "div[id$='_default-datatable']")
     private Table resultsTable;
     private By nameColumn = By.cssSelector("table thead tr th a[href$='name']");
@@ -127,8 +128,6 @@ public class NodeBrowserPage extends AdminToolsPage
 
     public List<List<String>> getRowText()
     {
-        browser.waitUntilElementVisible(By.cssSelector("div[id$='_default-datatable']"));
-        //getBrowser().waitUntilElementIsVisibleWithRetry(By.cssSelector("div.search-main table[id^='yuievtautoid']"), 3);
         return resultsTable.getRowsAsString();
     }
 
