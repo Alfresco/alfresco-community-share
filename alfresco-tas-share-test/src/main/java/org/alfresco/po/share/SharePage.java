@@ -26,6 +26,7 @@ import ru.yandex.qatools.htmlelements.element.TextBlock;
 public abstract class SharePage<T> extends HtmlPage
 {
     public static final int WAIT_15_SEC = 15;
+    public static final int DEFAULT_RETRY = 3;
     public String userName;
     @Autowired
     AboutPopUpPage pop;

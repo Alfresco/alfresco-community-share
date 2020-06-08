@@ -23,7 +23,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * @author Laura.Capsa
+ * UI tests for Admin Tools > Tag Manager page
  */
 public class TagManagerTests extends ContextAwareWebTest
 {
@@ -56,6 +56,7 @@ public class TagManagerTests extends ContextAwareWebTest
         siteService.create(user, password, domain, site, siteDescription, SiteService.Visibility.PUBLIC);
         contentService.createDocument(user, password, site, CMISUtil.DocumentType.TEXT_PLAIN, fileName, content);
         contentAction.addMultipleTags(user, password, site, fileName, Arrays.asList(tag1, tag2, tag3));
+        setupAuthenticatedSession(userAdmin, password);
     }
 
     @AfterClass (alwaysRun = true)
@@ -71,18 +72,15 @@ public class TagManagerTests extends ContextAwareWebTest
     @BeforeMethod (alwaysRun = true)
     private void preconditionsTest()
     {
-        setupAuthenticatedSession(userAdmin, password);
         tagManagerPage.navigate();
     }
 
     @TestRail (id = "C9383")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void renamingTag()
     {
         LOG.info("STEP1: Click 'Edit tag' for content");
-        assertTrue(tagManagerPage.searchTag(tag1), String.format("%s is displayed", tag1));
-        assertEquals(tagManagerPage.clickEditTagIcon(tag1), "'Edit tag' icon clicked for " + tag1, "Result on click edit tag icon=");
-        assertTrue(tagManagerPage.isEditTagDialogDisplayed(), "'Edit Tag' dialog is displayed for " + fileName + " -> tag " + tag1);
+        tagManagerPage.clickEditTagIcon(tag1);
 
         LOG.info("STEP2: Type tag in dialog, and click 'Ok' button");
         editTagDialog.renameTag(updatedTag);
@@ -91,8 +89,8 @@ public class TagManagerTests extends ContextAwareWebTest
         LOG.info("STEP3: Login as user who created content. Navigate to Document Library page");
         setupAuthenticatedSession(user, password);
         documentLibraryPage.navigate(site);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         assertTrue(documentLibraryPage.getTags(fileName).contains(updatedTag), "Tags found =" + documentLibraryPage.getTags(fileName));
+        setupAuthenticatedSession(userAdmin, password);
     }
 
     @TestRail (id = "C9385")
@@ -106,13 +104,11 @@ public class TagManagerTests extends ContextAwareWebTest
         assertEquals(tagManagerPage.getTableHead(), language.translate("tagManager.tableHead"), "Tags List section-> Table head=");
 
         LOG.info("STEP2: Click \"edit tag\" icon for any content");
-        assertTrue(tagManagerPage.searchTag(tag2), String.format("%s is displayed", tag2));
-        assertEquals(tagManagerPage.clickEditTagIcon(tag2), "'Edit tag' icon clicked for " + tag2, "Result on click edit tag icon=");
-        assertTrue(tagManagerPage.isEditTagDialogDisplayed(), "'Edit Tag' input field is displayed for " + fileName + " -> tag " + tag2);
-        assertEquals(tagManagerPage.getRenameLabel(), language.translate("editTag.renameLabel"), "'Edit Tag' dialog: rename label=");
-        assertTrue(tagManagerPage.isOkButtonDisplayed(), "'Edit Tag' dialog: Ok button is displayed.");
-        assertTrue(tagManagerPage.isCancelButtonDisplayed(), "'Edit Tag' dialog: Cancel button is displayed.");
-        assertEquals(tagManagerPage.getRequiredInput(), " *", "'Edit Tag' dialog: Rename tag is marked as required field with=");
+        tagManagerPage.clickEditTagIcon(tag2);
+        assertEquals(editTagDialog.getRenameLabel(), language.translate("editTag.renameLabel"), "'Edit Tag' dialog: rename label=");
+        assertTrue(editTagDialog.isOkButtonDisplayed(), "'Edit Tag' dialog: Ok button is displayed.");
+        assertTrue(editTagDialog.isCancelButtonDisplayed(), "'Edit Tag' dialog: Cancel button is displayed.");
+        assertEquals(editTagDialog.getRequiredSymbol(), " *", "'Edit Tag' dialog: Rename tag is marked as required field with=");
     }
 
     @TestRail (id = "C9388")
@@ -120,8 +116,7 @@ public class TagManagerTests extends ContextAwareWebTest
     public void deleteTag()
     {
         LOG.info("STEP1: Hover any tag and click \"Delete\" button");
-        assertTrue(tagManagerPage.searchTag(tag3), String.format("%s is displayed", tag3));
-        assertEquals(tagManagerPage.clickDeleteTagIcon(tag3), "'Delete tag' icon clicked for " + tag3, "Result on click Delete tag icon=");
+        tagManagerPage.clickDeleteTagIcon(tag3);
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), tag3), "'Delete Tag' dialog message=");
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete Tag' dialog: Delete button is displayed.");
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Delete Tag' dialog: Cancel button is displayed.");

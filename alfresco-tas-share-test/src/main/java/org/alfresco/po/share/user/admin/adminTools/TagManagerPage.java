@@ -1,13 +1,18 @@
 package org.alfresco.po.share.user.admin.adminTools;
 
+import static org.alfresco.common.Utils.retry;
+import static org.alfresco.common.Utils.retryUntil;
+import static org.testng.AssertJUnit.assertTrue;
+
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,17 +22,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class TagManagerPage extends AdminToolsPage
 {
-    private final By editIconSelector = By.cssSelector("a[id*='edit']");
-    private final By deleteIconSelector = By.cssSelector("a[id*='delete']");
-    private final By tagSelector = By.cssSelector("b");
+    private static final By editIconSelector = By.cssSelector("a[id*='edit']");
+    private static final By deleteIconSelector = By.cssSelector("a[id*='delete']");
+    private static final By tagSelector = By.cssSelector("td.yui-dt-col-name b");
+    private static final By tagsRow = By.cssSelector(".yui-dt-data tr");
+    private WebElement rowElement;
+
     @Autowired
     private DeleteDialog deleteDialog;
     @Autowired
     private EditTagDialog editTagDialog;
+
     @RenderWebElement
-    @FindBy (css = ".title")
+    @FindBy (css = ".tags-List>.title")
     private WebElement tableTitle;
-    //@RenderWebElement
     @FindBy (css = ".dashlet thead")
     private WebElement tableHead;
     @FindBy (css = "a[id*='next-link']")
@@ -38,39 +46,18 @@ public class TagManagerPage extends AdminToolsPage
     private WebElement previousLink;
     @FindBy (css = "span[id*='prev-span']")
     private WebElement previousLinkDisabled;
-    //	@RenderWebElement
     @FindBy (css = "div[id*='list-bar-bottom'] span[id*='pages'] .yui-pg-page")
     private List<WebElement> pagesList;
-    @RenderWebElement
     @FindBy (css = "span[class*='current-page']")
     private WebElement currentPage;
-    @RenderWebElement
-    @FindAll (@FindBy (css = ".yui-dt-data tr"))
-    private List<WebElement> tagsList;
     @RenderWebElement
     @FindBy (css = "input[id*='search']")
     private WebElement searchInput;
     @RenderWebElement
     @FindBy (css = "button[id*='search']")
     private WebElement searchButton;
-    @FindBy (css = "input[id*='edit-tag']")
-    private WebElement editTagInputField;
-    @FindBy (css = "button[id*='ok']")
-    private WebElement okButton;
-    @FindBy (css = "button[id*='tag-cancel']")
-    private WebElement cancelButton;
-    @FindBy (css = "form[id*='edit-tag'] label")
-    private WebElement renameLabel;
-    @FindBy (css = "form[id*='edit-tag'] div[class='yui-u']")
-    private WebElement requiredInput;
-    @FindAll (@FindBy (css = "a[id*='edit']"))
-    private List<WebElement> editIconList;
-    @FindAll (@FindBy (css = "td[class*='action'] a[id*='delete']"))
-    private List<WebElement> deleteIconList;
     @FindBy (css = "div[class*='tags-list-info']")
     private WebElement noFoundMessage;
-    private String cellsFromColumn = ".yui-dt-data tr td:nth-child(%s)";
-    private WebElement rowElement;
 
     @Override
     public String getRelativePath()
@@ -82,22 +69,38 @@ public class TagManagerPage extends AdminToolsPage
      * Click 'Edit Tag' icon for a tag
      *
      * @param tag to be edited
-     * @return message if tag is displayed (icon clicked) or not
+     * @return the edit tag dialog
      */
-    public String clickEditTagIcon(String tag)
+    public EditTagDialog clickEditTagIcon(String tag)
     {
-        if (isTagDisplayed(tag))
+        WebElement editIcon = retry(() ->
         {
-            browser.waitUntilElementVisible(rowElement.findElement(editIconSelector)).click();
-            editTagDialog.renderedPage();
-            return "'Edit tag' icon clicked for " + tag;
-        } else
-            return tag + " isn't displayed. 'Edit tag' icon not clicked!";
+            search(tag);
+            assertTrue(isTagDisplayed(tag));
+            browser.mouseOver(rowElement);
+            return browser.waitUntilElementVisible(rowElement.findElement(editIconSelector), WAIT_15_SEC);
+        }, DEFAULT_RETRY, TimeoutException.class, AssertionError.class);
+        editIcon.click();
+        return (EditTagDialog) editTagDialog.renderedPage();
     }
 
-    public boolean isEditTagDialogDisplayed()
+    /**
+     * Click 'Delete Tag' icon for a tag
+     *
+     * @param tag to be deleted
+     * @return the delete tag dialog
+     */
+    public DeleteDialog clickDeleteTagIcon(String tag)
     {
-        return browser.isElementDisplayed(editTagInputField);
+        WebElement deleteIcon = retry(() ->
+        {
+            search(tag);
+            assertTrue(isTagDisplayed(tag));
+            browser.mouseOver(rowElement);
+            return browser.waitUntilElementVisible(rowElement.findElement(deleteIconSelector), WAIT_15_SEC);
+        }, DEFAULT_RETRY);
+        deleteIcon.click();
+        return (DeleteDialog) deleteDialog.renderedPage();
     }
 
     /**
@@ -108,7 +111,7 @@ public class TagManagerPage extends AdminToolsPage
      */
     public boolean isTagDisplayed(String tag)
     {
-        browser.waitUntilElementIsDisplayedWithRetry(tagSelector, 10);
+        browser.waitUntilElementIsDisplayedWithRetry(tagSelector, WAIT_15_SEC);
         LOG.info("Check that tag is displayed: " + tag);
 
         int counter = 0;
@@ -119,7 +122,9 @@ public class TagManagerPage extends AdminToolsPage
             counter++;
             searchTagInTable(tag);
             if (rowElement != null)
+            {
                 return true;
+            }
             clickNextPage();
         }
         return false;
@@ -128,6 +133,7 @@ public class TagManagerPage extends AdminToolsPage
     private void searchTagInTable(String tag)
     {
         LOG.info(String.format("Looking for tag '%s' on page number #%s", tag, currentPage.getText()));
+        List<WebElement> tagsList = browser.waitUntilElementsVisible(tagsRow);
         for (WebElement row : tagsList)
         {
             WebElement tagElement = row.findElement(tagSelector);
@@ -143,10 +149,11 @@ public class TagManagerPage extends AdminToolsPage
     private TagManagerPage clickNextPage()
     {
         if (!currentPage.getText().equals(Integer.toString(pagesList.size())))
+        {
             nextLink.click();
+        }
         return (TagManagerPage) this.renderedPage();
     }
-
 
     public boolean isSearchButtonDisplayed()
     {
@@ -158,61 +165,15 @@ public class TagManagerPage extends AdminToolsPage
         return browser.isElementDisplayed(searchInput);
     }
 
-    private boolean isTableTitleDisplayed()
-    {
-        return browser.isElementDisplayed(tableTitle);
-    }
-
     public String getTableTitle()
     {
-        if (isTableTitleDisplayed())
-            return tableTitle.getText();
-
-        return "Table title isn't displayed";
+        return tableTitle.getText();
     }
 
     public String getTableHead()
     {
         return tableHead.getText();
     }
-
-    public String getRenameLabel()
-    {
-        return renameLabel.getText();
-    }
-
-    public boolean isOkButtonDisplayed()
-    {
-        return browser.isElementDisplayed(okButton);
-    }
-
-    public boolean isCancelButtonDisplayed()
-    {
-        return browser.isElementDisplayed(cancelButton);
-    }
-
-    public String getRequiredInput()
-    {
-        return requiredInput.getText();
-    }
-
-    /**
-     * Click 'Delete Tag' icon for a tag
-     *
-     * @param tag to be deleted
-     * @return message if tag is displayed (icon clicked) or not
-     */
-    public String clickDeleteTagIcon(String tag)
-    {
-        if (isTagDisplayed(tag))
-        {
-            browser.waitUntilElementVisible(rowElement.findElement(deleteIconSelector)).click();
-            browser.waitUntilElementClickable(deleteDialog.deleteButton, 10);
-            return "'Delete tag' icon clicked for " + tag;
-        } else
-            return tag + " isn't displayed. 'Delete tag' icon not clicked!";
-    }
-
 
     /**
      * Search by a specific tag name
@@ -221,23 +182,21 @@ public class TagManagerPage extends AdminToolsPage
      */
     public boolean searchTag(String tagName)
     {
-
-        int counter = 0;
-        search(tagName);
-        while (!isTagDisplayed(tagName) && counter < 3)
+        try
         {
-            search(tagName);
-            counter++;
+            retryUntil(() -> search(tagName), () -> isTagDisplayed(tagName), DEFAULT_RETRY);
+            return true;
         }
-        return isTagDisplayed(tagName);
+        catch(Exception exception)
+        {
+            return false;
+        }
     }
 
-    private void search(String tagName)
+    private TagManagerPage search(String tagName)
     {
-        searchInput.clear();
-        searchInput.sendKeys(tagName);
+        Utils.clearAndType(searchInput, tagName);
         searchButton.click();
-        browser.waitInSeconds(2);
+        return (TagManagerPage) this.renderedPage();
     }
-
 }
