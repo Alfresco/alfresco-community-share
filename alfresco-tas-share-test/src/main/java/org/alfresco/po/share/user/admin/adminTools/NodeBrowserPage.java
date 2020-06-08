@@ -108,8 +108,10 @@ public class NodeBrowserPage extends AdminToolsPage
 
     private Map<String, List<String>> getResults()
     {
+        By fileName = By.cssSelector("div[id$='-datatable'] td[class*='col-name'] div a");
         Map<String, List<String>> results = new HashMap<>();
-        List<WebElement> nameRows = browser.waitUntilElementsVisible(By.cssSelector("div[id$='-datatable'] td[class*='col-name'] div a"));
+        browser.waitUntilElementIsDisplayedWithRetry(fileName, WAIT_15_SEC);
+        List<WebElement> nameRows = browser.waitUntilElementsVisible(fileName);
         List<WebElement> parentRows = browser.waitUntilElementsVisible(By.cssSelector("div[id$='-datatable'] td[class*='namePath'] div"));
         List<WebElement> referenceRows = browser.waitUntilElementsVisible(By.cssSelector("div[id$='-datatable'] td[class*='nodeRef'] div a"));
 
