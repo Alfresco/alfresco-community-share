@@ -33,9 +33,11 @@ public class TagManagerPage extends AdminToolsPage
     @Autowired
     private EditTagDialog editTagDialog;
 
-    @RenderWebElement
     @FindBy (css = ".tags-List>.title")
     private WebElement tableTitle;
+    @RenderWebElement
+    @FindBy (css = ".tags-List div.yui-dt:not([class*='hidden']), .tags-List div.tags-list-info:not([class*='hidden'])")
+    private WebElement tableBody;
     @FindBy (css = ".dashlet thead")
     private WebElement tableHead;
     @FindBy (css = "a[id*='next-link']")
