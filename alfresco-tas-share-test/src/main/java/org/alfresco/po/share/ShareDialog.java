@@ -9,8 +9,8 @@ import org.openqa.selenium.support.FindBy;
  */
 public abstract class ShareDialog extends HtmlPage
 {
-    @FindBy (css = "div[class*='dialog']:not([style*='visibility: hidden']) .dijitDialogCloseIcon," +
-            "div[class*='dialog']:not([style*='visibility: hidden']) [class*='close'] [class*='close']")
+    @FindBy (css = "div.dijitDialog:not([style*='display: none']) .dijitDialogCloseIcon," +
+            "div.yui-dialog:not([style*='visibility: hidden']) [class*='close']")
     protected WebElement closeButton;
 
     /**

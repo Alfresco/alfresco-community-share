@@ -254,10 +254,10 @@ public class ModelManagerTests extends ContextAwareWebTest
         Assert.assertTrue(deleteModelDialogPage.isDeleteModelDialogDisplayed(), "Delete Model dialog is not displayed");
 
         LOG.info("Step 3: Check the Delete Model window");
-        Assert.assertTrue(deleteModelDialogPage.isCloseButtonDisplayed(), "The Close X button is not displayed on the Delete Model dialog page");
         Assert.assertEquals(deleteModelDialogPage.getDeleteModelDialogText(), expectedDialogText, "The dialog text is not correct");
         Assert.assertTrue(deleteModelDialogPage.isButtonDisplayed("Delete"), "Delete button is not displayed");
         Assert.assertTrue(deleteModelDialogPage.isButtonDisplayed("Cancel"), "Cancel button is not displayed");
+        Assert.assertTrue(deleteModelDialogPage.isCloseButtonDisplayed(), "The Close X button is not displayed on the Delete Model dialog page");
 
         LOG.info("Step 4: Click the Delete button");
         deleteModelDialogPage.clickDelete();
