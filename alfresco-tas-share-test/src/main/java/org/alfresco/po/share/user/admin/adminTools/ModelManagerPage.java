@@ -115,7 +115,7 @@ public class ModelManagerPage extends AdminToolsPage
 
     public void waitForModel(String modelName)
     {
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath(String.format(modelRow, modelName)), WAIT_5_SEC);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath(String.format(modelRow, modelName)), WAIT_15_SEC);
     }
 
     public void createModel(String name, String nameSpace, String prefix)
