@@ -11,9 +11,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,9 +43,12 @@ public class ModelManagerPage extends AdminToolsPage
     @FindBy (css = "span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
     private WebElement createModelButton;
 
-    @RenderWebElement
     @FindBy (css = "span[class*='importButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
     private WebElement importModelButton;
+
+    @RenderWebElement
+    @FindBy (className = "alfresco-lists-views-AlfListView")
+    private WebElement modelsList;
 
     @FindBy (css = "div.alfresco-lists-views-AlfListView__no-data")
     private WebElement noModelsText;
