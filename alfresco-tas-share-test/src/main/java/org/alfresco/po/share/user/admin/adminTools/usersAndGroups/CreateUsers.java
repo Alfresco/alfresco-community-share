@@ -3,6 +3,7 @@ package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
@@ -18,12 +19,10 @@ import ru.yandex.qatools.htmlelements.element.Select;
 @PageObject
 public class CreateUsers extends SharePage<CreateUsers>
 {
+    public static final String URL = "share/page/console/admin-console/users#state=panel%3Dcreate";
+
     @FindAll (@FindBy (css = "span[id*='default_group']"))
     protected List<WebElement> addedGroupsList;
-    @Autowired
-    AdminToolsPage adminToolsPage;
-    @Autowired
-    private Toolbar toolbar;
     @RenderWebElement
     @FindBy (xpath = "//div[contains(text(),'New User')]")
     private WebElement newUserLabel;
@@ -65,122 +64,92 @@ public class CreateUsers extends SharePage<CreateUsers>
     @FindBy (css = "div[id='prompt'] button")
     private WebElement duplicateUserPromptButton;
 
+    @Autowired
+    AdminToolsPage adminToolsPage;
+    @Autowired
+    private Toolbar toolbar;
+    @Autowired
+    private UsersPage usersPage;
+
     @Override
     public String getRelativePath()
     {
-        return "share/page/console/admin-console/users#state=panel%3Dcreate";
-
+        return URL;
     }
 
     public boolean areAllElementsFromInfoSectionDisplayed()
     {
-
-        if (!firstNameInputField.isDisplayed())
-            return false;
-        if (!lastNameInputField.isDisplayed())
-            return false;
-        if (!emailInputField.isDisplayed())
-            return false;
-        return true;
-
+        return browser.isElementDisplayed(firstNameInputField) &&
+                browser.isElementDisplayed(lastNameInputField) &&
+                browser.isElementDisplayed(emailInputField);
     }
 
     public boolean areAllElementsFromAboutUserSectionDisplayed()
     {
-
-        if (!usernameInputField.isDisplayed())
-            return false;
-        if (!passwordInputField.isDisplayed())
-            return false;
-        if (!verifypasswordInputField.isDisplayed())
-            return false;
-        if (!groupFinderInputField.isDisplayed())
-            return false;
-        if (!quotaInputField.isDisplayed())
-            return false;
-        if (!quotaType.isDisplayed())
-            return false;
-        if (!searchButton.isDisplayed())
-            return false;
-        return searchForGroupsMessage.isDisplayed();
-
+        return browser.isElementDisplayed(usernameInputField) &&
+                browser.isElementDisplayed(passwordInputField) &&
+                browser.isElementDisplayed(verifypasswordInputField) &&
+                browser.isElementDisplayed(groupFinderInputField) &&
+                browser.isElementDisplayed(quotaInputField) &&
+                browser.isElementDisplayed(quotaType) &&
+                browser.isElementDisplayed(searchButton) &&
+                browser.isElementDisplayed(searchForGroupsMessage);
     }
 
     public boolean areAllButtonsDisplayed()
     {
-
-        if (!createUserButton.isDisplayed())
-            return false;
-        if (!createUserAndStartAnotherButton.isDisplayed())
-            return false;
-        return cancelButton.isDisplayed();
-
+        return browser.isElementDisplayed(createUserButton) &&
+                browser.isElementDisplayed(createUserAndStartAnotherButton) &&
+                browser.isElementDisplayed(cancelButton);
     }
 
     public void setFirstName(String firstName)
     {
-        firstNameInputField.clear();
-        firstNameInputField.sendKeys(firstName);
+        Utils.clearAndType(firstNameInputField, firstName);
     }
 
     public void setLastName(String lastName)
     {
-        lastNameInputField.clear();
-        lastNameInputField.sendKeys(lastName);
+        Utils.clearAndType(lastNameInputField, lastName);
     }
 
     public void setEmail(String email)
     {
-        emailInputField.clear();
-        emailInputField.sendKeys(email);
+        Utils.clearAndType(emailInputField, email);
     }
 
-    public void setUsrName(String userName)
+    public void setUsername(String userName)
     {
-        usernameInputField.clear();
-        usernameInputField.sendKeys(userName);
+        Utils.clearAndType(usernameInputField, userName);
     }
 
     public void setPassword(String password)
     {
-        passwordInputField.clear();
-        passwordInputField.sendKeys(password);
+        Utils.clearAndType(passwordInputField, password);
     }
 
     public void setVerifyPassword(String verifyPassword)
     {
-        verifypasswordInputField.clear();
-        verifypasswordInputField.sendKeys(verifyPassword);
+        Utils.clearAndType(verifypasswordInputField, verifyPassword);
     }
 
     public void setQuota(String quotaValue)
     {
-
-        quotaInputField.clear();
-        quotaInputField.sendKeys(quotaValue);
+        Utils.clearAndType(quotaInputField, quotaValue);
     }
 
-    public void addUserToGroup(String group)
+    public CreateUsers addUserToGroup(String group)
     {
+        Utils.clearAndType(groupFinderInputField, group);
 
-        {
-
-            List<WebElement> searchRows = new ArrayList<>();
-            groupFinderInputField.clear();
-            groupFinderInputField.sendKeys(group);
-
-            searchButton.click();
-            browser.waitInSeconds(3);
-            By DATA_ROWS = By.cssSelector("div.finder-wrapper tbody.yui-dt-data tr");
-            for (WebElement element : browser.findElements(DATA_ROWS))
-            {
-                searchRows.add(element);
-            }
-            for (WebElement searchRow : searchRows)
-                if (searchRow.getText().contains(group))
-                    searchRow.findElement(By.cssSelector("span[class$='button'] span button")).click();
-        }
-
+        searchButton.click();
+        By DATA_ROWS = By.cssSelector("div.finder-wrapper tbody.yui-dt-data tr");
+        List<WebElement> searchRows = browser.waitUntilElementsVisible(DATA_ROWS);
+        searchRows.stream()
+                  .filter(searchRow -> searchRow.getText().contains(group))
+                  .forEach(searchRow -> browser.waitUntilChildElementIsPresent(searchRow, By.cssSelector("span[class$='button'] span button"))
+                                               .click());
+        return (CreateUsers) this.renderedPage();
     }
 
     /**
@@ -188,44 +157,43 @@ public class CreateUsers extends SharePage<CreateUsers>
      *
      * @param group String
      */
-
-    public void removeGroup(final String group)
-
+    public CreateUsers removeGroup(final String group)
     {
-
         browser.findFirstElementWithValue(addedGroupsList, group).click();
-
+        return (CreateUsers) this.renderedPage();
     }
 
     public boolean isGroupAdded(final String group)
-
     {
         return browser.findFirstElementWithValue(addedGroupsList, group) != null;
     }
 
-    public void clickCreateButton()
+    public UsersPage clickCreateButton()
     {
-        browser.waitUntilElementVisible(createUserButton);
-        createUserButton.click();
-
+        browser.waitUntilElementClickable(createUserButton).click();
+        return (UsersPage) usersPage.renderedPage();
     }
 
-    public void clickCreateUserAndStartAnotherButton()
+    public CreateUsers clickCreateButtonAndExpectFailure()
     {
-        createUserAndStartAnotherButton.click();
-
+        browser.waitUntilElementClickable(createUserButton).click();
+        return (CreateUsers) this.renderedPage();
     }
 
-    public void clickCancelButton()
+    public CreateUsers clickCreateUserAndStartAnotherButton()
     {
+        browser.waitUntilElementClickable(createUserAndStartAnotherButton).click();
+        return (CreateUsers) this.renderedPage();
+    }
 
+    public UsersPage clickCancelButton()
+    {
         cancelButton.click();
-
+        return (UsersPage) usersPage.renderedPage();
     }
 
     public boolean areAllFieldsClear()
     {
-
         String firstName = firstNameInputField.getAttribute("value");
         String lastName = lastNameInputField.getAttribute("value");
         String email = emailInputField.getAttribute("value");
@@ -234,22 +202,18 @@ public class CreateUsers extends SharePage<CreateUsers>
         String groupFinder = groupFinderInputField.getAttribute("value");
         String quota = quotaInputField.getAttribute("value");
 
-        return firstName.length() == 0 && lastName.length() == 0 && email.length() == 0 && password.length() == 0 && verifyPassword.length() == 0
-            && groupFinder.length() == 0 && quota.length() == 0;
-
+        return firstName.isEmpty() && lastName.isEmpty() && email.isEmpty() && password.isEmpty() &&
+                verifyPassword.isEmpty() && groupFinder.isEmpty() && quota.isEmpty();
     }
 
     public String getPasswordsDontMatchNotificationText()
-
     {
-        browser.waitUntilElementVisible(passwordsDontMatchNotification);
-        return passwordsDontMatchNotification.getText();
+        return browser.waitUntilElementVisible(passwordsDontMatchNotification).getText();
     }
 
     public void checkDisableAccount()
     {
         dissableAccountCheckBox.click();
-
     }
 
     public String getValueForQuotaType()

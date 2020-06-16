@@ -18,14 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class UserProfileAdminToolsPage extends SharePage<UserProfileAdminToolsPage>
 {
-    @FindBy (css = "div.name-label")
-    public WebElement userName;
-    @FindBy (css = "span[id$='_default-view-enabled']")
-    public WebElement accountStatus;
     @Autowired
     EditUserPage editUserPage;
     @Autowired
     DeleteUserDialogPage deleteUserDialogPage;
+
+    @FindBy (css = "div.name-label")
+    public WebElement userName;
+    @FindBy (css = "span[id$='_default-view-enabled']")
+    public WebElement accountStatus;
     @RenderWebElement
     @FindBy (css = "button[id$='_default-edituser-button-button']")
     private WebElement editUserButton;
