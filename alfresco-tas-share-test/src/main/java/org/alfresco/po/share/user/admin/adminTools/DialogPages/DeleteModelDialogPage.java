@@ -15,11 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class DeleteModelDialogPage extends ShareDialog
 {
+    static final String dialogLocator ="CMM_DELETE_MODEL_DIALOG";
+
     @FindBy(id = "CMM_DELETE_MODEL_DIALOG_title")
     private WebElement deleteModelDialogTitle;
 
     @RenderWebElement
-    @FindBy(id = "CMM_DELETE_MODEL_DIALOG")
+    @FindBy(id = dialogLocator)
     private WebElement deleteModelDialog;
 
     @RenderWebElement
@@ -56,6 +58,7 @@ public class DeleteModelDialogPage extends ShareDialog
     public ModelManagerPage clickDelete()
     {
         getBrowser().waitUntilElementClickable(deleteButton).click();
+        getBrowser().waitUntilElementDisappears(By.id(dialogLocator));
         return (ModelManagerPage) modelManagerPage.renderedPage();
     }
 

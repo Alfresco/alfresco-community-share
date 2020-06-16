@@ -2,6 +2,7 @@ package org.alfresco.po.share.user.admin.adminTools;
 
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.ImportModelDialogPage;
 import org.alfresco.utility.web.HtmlPage;
@@ -10,6 +11,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -49,9 +51,6 @@ public class ModelManagerPage extends AdminToolsPage
 
     @FindBy (css = "div.alfresco-lists-views-AlfListView__no-data")
     private WebElement noModelsText;
-
-    @FindAll (@FindBy (css = "tr[id^='alfresco_lists_views_layouts_Row']"))
-    private List<WebElement> modelItemsList;
 
     @Override
     public String getRelativePath()
@@ -104,7 +103,7 @@ public class ModelManagerPage extends AdminToolsPage
     public WebElement selectModelByName(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        getBrowser().waitUntilElementIsDisplayedWithRetry(modelRowLocator, (int) properties.getImplicitWait());
+        getBrowser().waitUntilElementIsDisplayedWithRetry(modelRowLocator, WAIT_5_SEC);
         return getBrowser().findElement(modelRowLocator);
     }
 
@@ -116,7 +115,7 @@ public class ModelManagerPage extends AdminToolsPage
 
     public void waitForModel(String modelName)
     {
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath(String.format(modelRow, modelName)), WAIT_15_SEC);
+        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath(String.format(modelRow, modelName)), WAIT_5_SEC);
     }
 
     public void createModel(String name, String nameSpace, String prefix)
@@ -157,7 +156,13 @@ public class ModelManagerPage extends AdminToolsPage
     public void clickActionsButtonForModel(String modelName)
     {
         Parameter.checkIsMandotary("Model", selectModelByName(modelName));
-        browser.waitUntilElementClickable(selectModelByName(modelName).findElement(actionsButton)).click();
+
+        Utils.retry(() ->
+                {
+                    browser.waitUntilElementClickable(selectModelByName(modelName).findElement(actionsButton)).click();
+                    return browser.waitUntilElementVisible(actions, WAIT_5_SEC);
+                },
+                DEFAULT_RETRY);
     }
 
     public boolean isActionAvailable(String actionName)
@@ -182,6 +187,7 @@ public class ModelManagerPage extends AdminToolsPage
             {
                 browser.mouseOver(action);
                 action.click();
+                browser.waitInSeconds(2);
                 break;
             }
         }
