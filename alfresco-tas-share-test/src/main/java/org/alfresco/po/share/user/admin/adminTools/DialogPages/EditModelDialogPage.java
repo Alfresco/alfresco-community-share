@@ -81,6 +81,7 @@ public class EditModelDialogPage extends ShareDialog
     public ModelManagerPage clickSaveButton()
     {
         browser.waitUntilElementClickable(saveButton).click();
+        modelManagerPage.refresh();
         return (ModelManagerPage) modelManagerPage.renderedPage();
     }
 

@@ -349,7 +349,6 @@ public class ModelManagerTests extends ContextAwareWebTest
             "Step 2&3: Click the Choose Files button, navigate to the location where the testModel file is available locally and select file to import then click open;");
         importModelDialogPage.importFile(filePath);
         importModelDialogPage.clickImportButton();
-        modelManagerPage.waitForModel(name);
 
         LOG.info("Step 4: Check the Model details displayed on the Model Manager page");
         Assert.assertTrue(modelManagerPage.isModelDisplayed(name), "Imported model is not present on the Model Manager Page");
@@ -436,7 +435,6 @@ public class ModelManagerTests extends ContextAwareWebTest
         modelManagerPage.clickImportModel();
         importModelDialogPage.importFile(filePath);
         importModelDialogPage.clickImportButton();
-        modelManagerPage.waitForModel(name);
         Assert.assertTrue(modelManagerPage.isModelDisplayed(name), "Model should be displayed");
         modelManagerPage.clickActionsButtonForModel(name);
         modelManagerPage.clickOnAction("Activate", modelManagerPage);

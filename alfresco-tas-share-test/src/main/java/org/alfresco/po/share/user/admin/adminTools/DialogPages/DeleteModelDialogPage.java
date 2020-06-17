@@ -59,6 +59,7 @@ public class DeleteModelDialogPage extends ShareDialog
     {
         getBrowser().waitUntilElementClickable(deleteButton).click();
         getBrowser().waitUntilElementDisappears(By.id(dialogLocator));
+        modelManagerPage.refresh();
         return (ModelManagerPage) modelManagerPage.renderedPage();
     }
 

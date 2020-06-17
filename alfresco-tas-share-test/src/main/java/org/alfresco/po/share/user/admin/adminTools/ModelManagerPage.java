@@ -11,6 +11,7 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,15 +112,17 @@ public class ModelManagerPage extends AdminToolsPage
     public boolean isModelDisplayed(String modelName)
     {
         By modelRowLocator = By.xpath(String.format(modelRow, modelName));
-        return browser.isElementDisplayed(modelRowLocator);
+        try
+        {
+            return browser.isElementDisplayed(getBrowser().waitUntilElementVisible(modelRowLocator));
+        }
+        catch (TimeoutException e)
+        {
+            return false;
+        }
     }
 
-    public void waitForModel(String modelName)
-    {
-        getBrowser().waitUntilElementIsDisplayedWithRetry(By.xpath(String.format(modelRow, modelName)), WAIT_15_SEC);
-    }
-
-    public void createModel(String name, String nameSpace, String prefix)
+    public ModelManagerPage createModel(String name, String nameSpace, String prefix)
     {
         navigate();
         clickCreateModelButton();
@@ -127,10 +130,11 @@ public class ModelManagerPage extends AdminToolsPage
         createModelDialogPage.sendPrefixText(prefix);
         createModelDialogPage.sendNameText(name);
         createModelDialogPage.clickCreateButton();
-        waitForModel(name);
+        this.refresh();
+        return (ModelManagerPage) this.renderedPage();
     }
 
-    public void createModel(String name, String nameSpace, String prefix, String creator, String description)
+    public ModelManagerPage createModel(String name, String nameSpace, String prefix, String creator, String description)
     {
         clickCreateModelButton();
         createModelDialogPage.sendNamespaceText(nameSpace);
@@ -139,7 +143,8 @@ public class ModelManagerPage extends AdminToolsPage
         createModelDialogPage.sendCreatorText(creator);
         createModelDialogPage.sendDescription(description);
         createModelDialogPage.clickCreateButton();
-        waitForModel(name);
+        this.refresh();
+        return (ModelManagerPage) this.renderedPage();
     }
 
     public ImportModelDialogPage clickImportModel()
