@@ -7,10 +7,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.alfresco.common.Timeout;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.renderer.ElementState;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -28,6 +30,9 @@ public abstract class SharePage<T> extends HtmlPage
     public static final int WAIT_5_SEC = 5;
     public static final int WAIT_15_SEC = 15;
     public static final int DEFAULT_RETRY = 3;
+    /** For example "<object> has been deleted.." popup */
+    public static final By MESSAGE_LOCATOR = By.className("div.bd span.message");
+
     public String userName;
     @Autowired
     AboutPopUpPage pop;
@@ -193,5 +198,22 @@ public abstract class SharePage<T> extends HtmlPage
 
         }
         return hex;
+    }
+
+    /**
+     * Method for wait while balloon message about some changes hide.
+     */
+    @Override
+    public void waitUntilMessageDisappears()
+    {
+        try
+        {
+            getBrowser().waitUntilElementVisible(MESSAGE_LOCATOR, Timeout.SHORT.getTimeoutSeconds());
+            getBrowser().waitUntilElementDisappears(MESSAGE_LOCATOR);
+        }
+        catch (TimeoutException exception)
+        {
+            // do nothing and carry on as this might be expected, meaning that the element might be expected to already disappear
+        }
     }
 }

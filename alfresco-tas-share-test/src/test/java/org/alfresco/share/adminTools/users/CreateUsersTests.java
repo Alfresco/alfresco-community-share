@@ -95,6 +95,7 @@ public class CreateUsersTests extends ContextAwareWebTest
 
         LOG.info("Step3: Click 'Create and Start Another' button");
         createUsers.clickCreateUserAndStartAnotherButton();
+        createUsers.waitUntilMessageDisappears();
         assertTrue(createUsers.areAllFieldsClear(), "All fields from 'Create Users' page cleared");
 
         LOG.info("Step4: Click 'Cancel' button and check 'Admin Tools - Users Page' is opened");
@@ -169,7 +170,7 @@ public class CreateUsersTests extends ContextAwareWebTest
         LOG.info("Step8: Verify the the new user is added to group");
         usersPage.searchUser(userName);
         usersPage.clickUserLink("First Name");
-        assertEquals(adminToolsUserProfile.isUserAddedToGroup(), "ALFRESCO_ADMINISTRATORS", "User added to group");
+        assertEquals(adminToolsUserProfile.getUserGroup(), "ALFRESCO_ADMINISTRATORS", "User added to group");
         deleteCreatedUser(userName);
     }
 

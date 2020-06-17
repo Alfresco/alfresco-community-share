@@ -1,6 +1,5 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.common.Utils;
@@ -171,6 +170,7 @@ public class CreateUsers extends SharePage<CreateUsers>
     public UsersPage clickCreateButton()
     {
         browser.waitUntilElementClickable(createUserButton).click();
+        waitUntilMessageDisappears();
         return (UsersPage) usersPage.renderedPage();
     }
 

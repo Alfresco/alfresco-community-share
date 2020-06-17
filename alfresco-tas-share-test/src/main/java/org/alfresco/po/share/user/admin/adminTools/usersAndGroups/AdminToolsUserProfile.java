@@ -34,8 +34,7 @@ public class AdminToolsUserProfile extends SharePage<AdminToolsUserProfile>
         return (AdminToolsUserProfile) navigate();
     }
 
-    public String isUserAddedToGroup()
-
+    public String getUserGroup()
     {
         return addedGroups.getText();
     }
