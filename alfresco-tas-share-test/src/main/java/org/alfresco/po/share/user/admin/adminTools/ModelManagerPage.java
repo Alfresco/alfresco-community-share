@@ -192,6 +192,10 @@ public class ModelManagerPage extends AdminToolsPage
                 break;
             }
         }
+        if(page instanceof ModelManagerPage)
+        {
+            page.refresh();
+        }
         return page.renderedPage();
     }
 
