@@ -1,7 +1,7 @@
 package org.alfresco.share.alfrescoConsoleTest;
 
 import org.alfresco.po.adminconsole.consoles.TenantConsolePage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.share.ContextAwareWebAdminConsoleTest;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 /**
  * Created by Mirela Tifui on 11/2/2017.
  */
-public class TenantConsoleTests extends ContextAwareWebTest
+public class TenantConsoleTests extends ContextAwareWebAdminConsoleTest
 {
     @Autowired
     TenantConsolePage tenantConsolePage;
@@ -37,9 +37,9 @@ public class TenantConsoleTests extends ContextAwareWebTest
     {
         String tenantName = "tenant" + RandomData.getRandomAlphanumeric();
         LOG.info("Step 1: Navigate to Tenant Console");
-        tenantConsolePage.setBrowser(getBrowser());
+
         tenantConsolePage.navigate();
-        Assert.assertNotNull(tenantConsolePage.getPageTitle(), "Page title is not empty");
+        Assert.assertTrue(tenantConsolePage.getPageTitle().startsWith(language.translate("tenantConsole.PageTitle")), "Page title is not empty");
         LOG.info("Step 2: Create tenant");
         tenantConsolePage.createTenant(tenantName, adminPassword);
         Assert.assertEquals(tenantConsolePage.getResults().trim(), "created tenant: " + tenantName.toLowerCase(), tenantName + " has not been created");

@@ -17,14 +17,6 @@ public class BulkImportConsolePageTests extends ContextAwareWebTest
     @Autowired
     BulkImportConsolePage bulkImportConsolePage;
 
-    private String userName = "BulkImportUser" + RandomData.getRandomAlphanumeric();
-
-    @BeforeClass (alwaysRun = true)
-    private void testSetup()
-    {
-        userService.create(adminUser, adminPassword, userName, password, userName + "@test.com", "Bulk", "Import");
-    }
-
     @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
     public void accessBulkImportPage()
     {
