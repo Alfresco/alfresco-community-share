@@ -93,6 +93,9 @@ public class EnvProperties
 
     @Value ("${mail.port}")
     private int mailPort;
+    
+    @Value("${aims.enabled}")
+    private boolean aimsEnabled;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer()
@@ -291,6 +294,12 @@ public class EnvProperties
     public int getMailPort() { return mailPort; }
 
     public void setMailPort(int mailPort) { this.mailPort = mailPort; }
+    
+    public boolean isAimsEnabled()
+    {
+        return aimsEnabled;
+    }
+
 }
 
 

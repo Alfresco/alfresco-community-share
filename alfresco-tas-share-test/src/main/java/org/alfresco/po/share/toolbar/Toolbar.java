@@ -2,6 +2,9 @@ package org.alfresco.po.share.toolbar;
 
 import java.util.List;
 
+import org.alfresco.common.EnvProperties;
+import org.alfresco.po.share.AIMSPage;
+import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.AdminToolsPage;
@@ -67,8 +70,17 @@ public class Toolbar extends HtmlPage
     @FindBy (css = "span.alfresco-buttons-AlfButton.confirmationButton.call-to-action.dijitButton")
     private WebElement searchButton;
 
-    @FindBy (id = "HEADER_MY_FILES")
+    @FindBy(id = "HEADER_MY_FILES")
     private WebElement myFilesButton;
+
+    @Autowired
+    protected AIMSPage aimsPage;
+
+    @Autowired
+    protected LoginPage loginPage;
+
+    @Autowired
+    protected EnvProperties envProperties;
 
     public boolean isToolbarDisplayed()
     {
