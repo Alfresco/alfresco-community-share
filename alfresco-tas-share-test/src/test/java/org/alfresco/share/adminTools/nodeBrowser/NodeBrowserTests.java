@@ -152,7 +152,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
         assertTrue(nodeBrowserPage.isSearchButtonPresent());
     }
 
-    @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
     public void executeCustomNodeSearch()
     {
         LOG.info("Step 1: Navigate to NOde Browser and perform custom node search");
@@ -162,7 +162,7 @@ public class NodeBrowserTests extends ContextAwareWebTest
         Assert.assertTrue(nodeBrowserPage.getRowText().toString().contains("workspace://SpacesStore/"));
     }
 
-    @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
     public void getSearchResultsNoResults()
     {
         LOG.info("Step 1: Navigate to Node Browser page and perform a search that will not return results");

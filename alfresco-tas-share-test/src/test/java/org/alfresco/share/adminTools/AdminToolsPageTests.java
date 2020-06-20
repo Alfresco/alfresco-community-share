@@ -37,7 +37,7 @@ public class AdminToolsPageTests extends ContextAwareWebTest
         userService.delete(adminUser, adminPassword, userName);
     }
 
-    @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
     public void adminToolsAccessTest()
     {
         LOG.info("Step 1: Authenticate as non-admin user and check Admin Tools page is not available");

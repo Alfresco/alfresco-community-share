@@ -95,7 +95,7 @@ public class CategoryManagerTests extends ContextAwareWebTest
         assertTrue(categoryManagerPage.isCategoryNotDisplayed(category9298));
     }
 
-    @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
+    @Test (groups = { TestGroup.SHARE, TestGroup.ADMIN_TOOLS, "Acceptance" })
     public void addAndOpenSubCategory()
     {
         LOG.info("Step 1: Add subcategory");
