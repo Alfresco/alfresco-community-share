@@ -15,9 +15,6 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     @Autowired
     Toolbar toolbar;
 
-    private By contentNameSelector = By.cssSelector(".filename a");
-
-
     @Override
     public String getRelativePath()
     {
@@ -31,14 +28,4 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
         toolbar.clickRepository();
         return (RepositoryPage) renderedPage();
     }
-
-    public void mouseOverContentItem(String contentItem)
-    {
-        WebElement contentItemElement = selectDocumentLibraryItemRow(contentItem);
-        Parameter.checkIsMandotary("Content item", contentItemElement);
-        WebElement contentItemName = contentItemElement.findElement(contentNameSelector);
-        browser.mouseOver(contentItemName);
-        browser.waitUntilElementHasAttribute(contentItemElement, "class", "yui-dt-highlighted");
-    }
-
 }

@@ -8,6 +8,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -52,7 +53,6 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
 
     @TestRail (id = "C5920")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-
     public void viewingAFileInBrowser()
     {
         LOG.info("Step 1: Navigate to Document Library page for testSite.");
@@ -65,7 +65,7 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
         Assert.assertTrue(documentLibraryPage.areActionsAvailableForLibraryItem(docName, expectedActions), "Expected actions");
         Assert.assertTrue(documentLibraryPage.isMoreMenuDisplayed(docName), "More menu is not displayed");
         LOG.info("Step 3: Click View In Browser.");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, "View In Browser", documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.VIEW_IN_BROWSER, documentLibraryPage);
         Assert.assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), "Document content",
             "File content is not correct or file has not be opened in new window");
     }

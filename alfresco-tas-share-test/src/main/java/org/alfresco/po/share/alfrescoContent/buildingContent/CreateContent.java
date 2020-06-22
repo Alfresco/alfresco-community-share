@@ -3,12 +3,14 @@ package org.alfresco.po.share.alfrescoContent.buildingContent;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
+import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -21,26 +23,14 @@ public class CreateContent extends SiteCommon<CreateContent>
     public By message = By.cssSelector("span.message span.wait");
     @Autowired
     TinyMceEditor tinyMceEditor;
-    @Autowired
-    GoogleDocsCommon googleDocs;
+
     @Autowired
     DocumentDetailsPage documentDetailsPage;
-    @FindBy (css = "span.folder-file")
-    private WebElement createFolderLink;
-    @FindBy (css = "span.text-file")
-    private WebElement plainTextButton;
-    @FindBy (css = "span.html-file")
-    private WebElement htmlButton;
-    @FindBy (css = "span.xml-file")
-    private WebElement xmlButton;
-    @FindBy (css = "span.document-file")
-    private WebElement googleDocsDoc;
-    @FindBy (css = "span.spreadsheet-file")
-    private WebElement googleDocsSpreadsheet;
-    @FindBy (css = "span.presentation-file")
-    private WebElement googleDocsPresentation;
+
+    @RenderWebElement
     @FindBy (css = "div[id*='_default-form-fields']")
     private WebElement createForm;
+    @RenderWebElement
     @FindBy (css = "input[id*='prop_cm_name']")
     private WebElement nameField;
     @FindBy (css = "textarea[id*='prop_cm_content']")
@@ -51,16 +41,15 @@ public class CreateContent extends SiteCommon<CreateContent>
     private WebElement descriptionField;
     @FindBy (xpath = "//div[@class ='form-field']//label[contains(@for,'_default_prop_cm_name')]//span[@class = 'mandatory-indicator']")
     private WebElement nameFieldIsMandatoryMarker;
+    @RenderWebElement
     @FindBy (css = "button[id*='form-submit-button']")
     private WebElement submitButton;
     @FindBy (css = "button[id*='form-cancel-button']")
     private WebElement cancelButton;
     @FindBy (css = "div[class ='mce-edit-area mce-container mce-panel mce-stack-layout-item'] iframe")
     private WebElement htmlContentField;
-    @FindBy (css = "div[id*='_default-createFolder-dialog_c']")
-    private WebElement createFolderDialog;
-    @FindBy (css = "div[id*='_default-createFolder-dialog_c'] div[id*='_default-createFolder-dialogTitle']")
-    private WebElement createFolderDialogTitle;
+
+
     @FindAll (@FindBy (css = ".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible span"))
     private List<WebElement> templatesList;
 
@@ -81,84 +70,11 @@ public class CreateContent extends SiteCommon<CreateContent>
     }
 
     /**
-     * Method to check if the Folder option is available under Create
-     */
-    public boolean isFolderOptionAvailableUnderCreate()
-    {
-        return createFolderLink.isDisplayed();
-    }
-
-    /**
-     * Method to check if the Plain Text... option is available under Create
-     */
-    public boolean isPlainTextButtonDisplayed()
-    {
-        return plainTextButton.isDisplayed();
-    }
-
-    /**
-     * Method to check if the HTML... button is available
-     */
-    public boolean isHTMLButtonDisplayed()
-    {
-        return htmlButton.isDisplayed();
-    }
-
-    /**
-     * Method to check if the XML... option is available under Create
-     */
-    public boolean isXMLButtonDisplayed()
-    {
-        return xmlButton.isDisplayed();
-    }
-
-    /**
-     * Method to check if google docs doc is available under Create
-     */
-    public boolean isGoogleDocsDocumentDisplayed()
-    {
-        return googleDocsDoc.isDisplayed();
-    }
-
-    /**
-     * Method to check that google docs spreadsheet is displayed
-     */
-    public boolean isGoogleDocsSpreadsheetDisplayed()
-    {
-        return googleDocsSpreadsheet.isDisplayed();
-    }
-
-    /**
-     * Method to check that google docs presentation is displayed
-     */
-    public boolean isGoogleDocsPresentationDisplayed()
-    {
-        return googleDocsPresentation.isDisplayed();
-    }
-
-    /**
      * Method to check that create document from template button is available
      */
     public boolean isCreateFromTemplateAvailable(String buttonName)
     {
         return selectCreateFromTemplateButton(buttonName).isDisplayed();
-    }
-
-    /**
-     * Method to click Create... Plain Text... button
-     */
-    public void clickPlainTextButton()
-    {
-        plainTextButton.click();
-    }
-
-    /**
-     * Method to check if create plain text form is displayed
-     */
-    public boolean isCreateFormDisplayed()
-    {
-        browser.waitUntilElementVisible(createForm);
-        return createForm.isDisplayed();
     }
 
     /**
@@ -196,7 +112,7 @@ public class CreateContent extends SiteCommon<CreateContent>
     /**
      * Method to determine if the mandatory marker is present for the Name field
      */
-    public boolean isMandatoryMarketPresentForNameField()
+    public boolean isMandatoryMarkPresentForNameField()
     {
         return nameFieldIsMandatoryMarker.isDisplayed();
     }
@@ -222,7 +138,7 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public void sendInputForName(String name)
     {
-        nameField.sendKeys(name);
+        Utils.clearAndType(nameField, name);
     }
 
     /**
@@ -230,7 +146,7 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public void sendInputForTitle(String title)
     {
-        titleField.sendKeys(title);
+        Utils.clearAndType(titleField, title);
     }
 
     /**
@@ -238,7 +154,7 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public void sendInputForContent(String content)
     {
-        contentField.sendKeys(content);
+        Utils.clearAndType(contentField, content);
     }
 
     /**
@@ -246,16 +162,16 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public void sendInputForDescription(String description)
     {
-        descriptionField.sendKeys(description);
+        Utils.clearAndType(descriptionField, description);
     }
 
     /**
      * Method to click the Create button
      */
-    public void clickCreateButton()
+    public DocumentDetailsPage clickCreateButton()
     {
         submitButton.click();
-        browser.waitInSeconds(2);
+        return (DocumentDetailsPage) documentDetailsPage.renderedPage();
     }
 
     /**
@@ -264,14 +180,6 @@ public class CreateContent extends SiteCommon<CreateContent>
     public void clickCancelButton()
     {
         cancelButton.click();
-    }
-
-    /**
-     * Method to click HTML...
-     */
-    public void clickHTML()
-    {
-        htmlButton.click();
     }
 
     /**
@@ -290,14 +198,6 @@ public class CreateContent extends SiteCommon<CreateContent>
     public void sendInputForHTMLContent(String inputHTMLContent)
     {
         tinyMceEditor.setText(inputHTMLContent);
-    }
-
-    /**
-     * Method to click on XML... button
-     */
-    public void clickXMLButton()
-    {
-        xmlButton.click();
     }
 
     /**
@@ -324,34 +224,6 @@ public class CreateContent extends SiteCommon<CreateContent>
     public boolean isDescriptionMarkedAsMandatory()
     {
         return browser.isElementDisplayed(By.cssSelector("textarea[id*='_default_prop_cm_description'] span.mandatory-indicator"));
-    }
-
-    /**
-     * Method to click on create google doc document
-     */
-    public void clickGoogleDocsDoc()
-    {
-        googleDocsDoc.click();
-    }
-
-    /**
-     * Method to click on create google doc spreadsheet
-     */
-    public void clickGoogleDocsSpreadsheet()
-    {
-        googleDocsSpreadsheet.click();
-        if (googleDocs.isAuthorizeWithGoogleDocsDisplayed())
-            browser.waitInSeconds(10);
-    }
-
-    /**
-     * Method to click on create google doc presentation
-     */
-    public void clickGoogleDocsPresentation()
-    {
-        googleDocsPresentation.click();
-        if (googleDocs.isAuthorizeWithGoogleDocsDisplayed())
-            browser.waitInSeconds(10);
     }
 
     /**
@@ -385,15 +257,6 @@ public class CreateContent extends SiteCommon<CreateContent>
         return selectTemplate(templateName).isDisplayed();
     }
 
-    public boolean isCreateFolderDialogDisplayed()
-    {
-        return browser.isElementDisplayed(createFolderDialog);
-    }
-
-    public String getCreateFolderDialogTitle()
-    {
-        return createFolderDialogTitle.getText();
-    }
 
     public HtmlPage clickOnDocumentTemplate(String templateName, HtmlPage page)
     {

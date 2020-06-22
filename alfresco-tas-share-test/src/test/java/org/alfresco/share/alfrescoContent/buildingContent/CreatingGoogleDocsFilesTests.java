@@ -1,9 +1,9 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -24,8 +24,6 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
     private final String presentationTitle = "testPresentation";
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
-    private CreateContent create;
     @Autowired
     private GoogleDocsCommon googleDocs;
 
@@ -57,7 +55,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Document'");
         documentLibraryPage.clickCreateButton();
-        create.clickGoogleDocsDoc();
+        documentLibraryPage.clickGoogleDocsOption(CreateMenuOption.GOOGLE_DOCS_DOCUMENT);
 
         LOG.info("Step 2: Click Ok button on the Authorize with Google Docs pop-up");
         googleDocs.clickOkButtonOnTheAuthPopup();
@@ -86,7 +84,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Spreadsheet'");
         documentLibraryPage.clickCreateButton();
-        create.clickGoogleDocsSpreadsheet();
+        documentLibraryPage.clickGoogleDocsOption(CreateMenuOption.GOOGLE_DOCS_SPREADSHEET);
 
         LOG.info("Step 2: Click Ok button on the 'Authorize with Google Docs' pop-up");
         googleDocs.clickOkButtonOnTheAuthPopup();
@@ -114,7 +112,7 @@ public class CreatingGoogleDocsFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click 'Create' button and select the type 'Google Docs Presentation'");
         documentLibraryPage.clickCreateButton();
-        create.clickGoogleDocsPresentation();
+        documentLibraryPage.clickGoogleDocsOption(CreateMenuOption.GOOGLE_DOCS_PRESENTATION);
 
         LOG.info("Step 2: Click Ok button on the Authorize with Google Docs pop-up");
         googleDocs.clickOkButtonOnTheAuthPopup();

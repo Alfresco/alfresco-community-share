@@ -35,7 +35,7 @@
          <class name="org.alfresco.share.alfrescoPowerUsers.SearchManagerTests" />
          <class name="org.alfresco.share.sitesFeatures.dataLists.CreateDataListsTests" />
          <class name="org.alfresco.share.sitesFeatures.dataLists.workingWithListItems.CreatingAListItemTests" />
-         <class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFilesOnlyTests" />
+         <class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFilesCreatedByOthersTests" />
          <class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFoldersOnlyTests" />
          <class
             name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions.UploadTests" />

@@ -5,6 +5,7 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -74,7 +75,7 @@ public class MyFilesUploadContentTests extends ContextAwareWebTest
         Assert.assertEquals(documentDetailsPage.getContentText(), "contents", String.format("Contents of %s are wrong.", testFile));
         LOG.info("STEP2: Navigate back to My Files page and click on upload new version for the file.");
         myFilesPage.navigate();
-        myFilesPage.clickDocumentLibraryItemAction(testFile, "Upload New Version", uploadContent);
+        myFilesPage.clickDocumentLibraryItemAction(testFile, ItemActions.UPLOAD_NEW_VERSION, uploadContent);
         LOG.info("STEP3: Update the file with major version.");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
         getBrowser().waitInSeconds(4);

@@ -4,6 +4,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -47,26 +48,16 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
     @TestRail (id = "C6976")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void createPlainTextFile()
     {
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Click Create... button");
         documentLibraryPage.clickCreateButton();
-        Assert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
 
         LOG.info("Step 2: Click \"Plain Text...\" option.");
-        create.clickPlainTextButton();
+        documentLibraryPage.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
         Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(create.isCreateFormDisplayed(), "Create Plain Text form is not displayed");
-        Assert.assertTrue(create.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(create.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
-        Assert.assertTrue(create.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
-        Assert.assertTrue(create.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
-        Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
-        Assert.assertTrue(create.isCreateButtonPresent(), "The Create button is not displayed on the create form");
-        Assert.assertTrue(create.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
         create.sendInputForName("test name");
@@ -76,7 +67,6 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         create.clickCreateButton();
-        getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -89,21 +79,18 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
     @TestRail (id = "C6977")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void createHTMLFile()
     {
         documentLibraryPage.navigate(siteName);
 
-        LOG.info("Step 1: Click Create... button and check that the create HTML button is available");
+        LOG.info("Step 1: Click Create... button");
         documentLibraryPage.clickCreateButton();
-        Assert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
 
         LOG.info("Step 2: Click \"HTML...\" option.");
-        create.clickHTML();
+        documentLibraryPage.clickCreateContentOption(CreateMenuOption.HTML);
         Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(create.isCreateFormDisplayed(), "Create form is not displayed");
         Assert.assertTrue(create.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(create.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
+        Assert.assertTrue(create.isMandatoryMarkPresentForNameField(), "The Name field mandatory marker is not present");
         Assert.assertTrue(create.isHTMLContentFieldDisplayed(), "The Content field is not displayed on the create form");
         Assert.assertTrue(create.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
         Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
@@ -118,7 +105,6 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         create.clickCreateButton();
-        getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -137,14 +123,12 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Create... button");
         documentLibraryPage.clickCreateButton();
-        Assert.assertTrue(create.isXMLButtonDisplayed(), "Create... XML... is not available");
 
         LOG.info("Step 2: Click \"XML...\" option.");
-        create.clickXMLButton();
+        documentLibraryPage.clickCreateContentOption(CreateMenuOption.XML);
         Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(create.isCreateFormDisplayed(), "Create form is not displayed");
         Assert.assertTrue(create.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(create.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
+        Assert.assertTrue(create.isMandatoryMarkPresentForNameField(), "The Name field mandatory marker is not present");
         Assert.assertTrue(create.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
         Assert.assertTrue(create.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
         Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
@@ -159,7 +143,6 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         create.clickCreateButton();
-        getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -172,18 +155,16 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
     @TestRail (id = "C6986")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void verifyCreateContentPage()
     {
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1 & 2: Click Create... button and select Plain Text option");
         documentLibraryPage.clickCreateButton();
-        create.clickPlainTextButton();
+        documentLibraryPage.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
         Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(create.isCreateFormDisplayed(), "Create Plain Text form is not displayed");
         Assert.assertTrue(create.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(create.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
+        Assert.assertTrue(create.isMandatoryMarkPresentForNameField(), "The Name field mandatory marker is not present");
         Assert.assertTrue(create.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
         Assert.assertTrue(create.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
         Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
@@ -191,7 +172,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
         Assert.assertTrue(create.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Verify Mandatory fields.");
-        Assert.assertTrue(create.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
+        Assert.assertTrue(create.isMandatoryMarkPresentForNameField(), "The Name field mandatory marker is not present");
         Assert.assertFalse(create.isContentMarkedAsMandatory(), "Content field is marked as mandatory");
         Assert.assertFalse(create.isTitleMarkedAsMandatory(), "Title field is marked as mandatory");
         Assert.assertFalse(create.isDescriptionMarkedAsMandatory(), "Description field is marked as mandatory");
@@ -205,13 +186,7 @@ public class CreatingFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Create... button");
         documentLibraryPage.clickCreateButton();
-        softAssert.assertTrue(create.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
-        softAssert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
-        softAssert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
-        softAssert.assertTrue(create.isXMLButtonDisplayed(), "Create... XML... is not available");
-        softAssert.assertTrue(create.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
-        softAssert.assertTrue(create.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
-        softAssert.assertTrue(create.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
+        softAssert.assertTrue(documentLibraryPage.areCreateOptionsAvailable(), "Create... menu options are not available");
         softAssert.assertTrue(create.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
         softAssert.assertTrue(create.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
         softAssert.assertAll();

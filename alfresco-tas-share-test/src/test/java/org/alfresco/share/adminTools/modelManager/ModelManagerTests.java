@@ -16,7 +16,6 @@ import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeD
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateModelDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.DeleteModelDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.EditModelDialogPage;
-import org.alfresco.po.share.user.admin.adminTools.DialogPages.Export;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.ImportModelDialogPage;
 import org.alfresco.po.share.user.admin.adminTools.ModelDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.ModelManagerPage;
@@ -52,9 +51,6 @@ public class ModelManagerTests extends ContextAwareWebTest
 
     @Autowired
     DeleteModelDialogPage deleteModelDialogPage;
-
-    @Autowired
-    Export export;
 
     @Autowired
     ModelDetailsPage modelDetailsPage;
@@ -328,9 +324,8 @@ public class ModelManagerTests extends ContextAwareWebTest
         Assert.assertTrue(modelManagerPage.isActionAvailable("Export"), "Export is not available for active model");
 
         LOG.info("Step 2: Click on Export action");
-        modelManagerPage.clickOnAction("Export", export);
-        export.checkIfAlertIsPresentAndIfTrueAcceptAlert();
-        Assert.assertTrue(export.isFileInDirectory(name, ".zip"), "The file was not found in the specified location");
+        modelManagerPage.clickOnAction("Export", modelManagerPage);
+        Assert.assertTrue(isFileInDirectory(name, ".zip"), "The file was not found in the specified location");
     }
 
     @TestRail (id = "C9509")
@@ -459,7 +454,6 @@ public class ModelManagerTests extends ContextAwareWebTest
 
         changeContentTypeDialog.selectOption("Marketing content (MKT:Marketing)");
         changeContentTypeDialog.clickButton("OK");
-        documentDetailsPage.waitUntilMessageDisappears();
         Assert.assertTrue(documentDetailsPage.arePropertiesDisplayed("Title", "Modifier", "Creator"), "Displayed properties:");
     }
 }

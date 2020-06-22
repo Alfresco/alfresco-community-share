@@ -15,6 +15,8 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -87,7 +89,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         contentAspects.addAspect(userName, password, siteName, folderName, CMISUtil.DocumentAspect.SYSTEM_SMART_FOLDER);
         LOG.info("Step1: Hover over folder and click 'Edit Properties'.");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
         Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
         LOG.info("Step2: Click 'All Properties' link.");
         editPropertiesDialog.clickAllPropertiesLink();
@@ -116,14 +118,13 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8649")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS, "SmartFolders" })
     public void createFileInSmartFolder() throws Exception
     {
         googleDocs.loginToGoogleDocs();
         LOG.info("Step5: Press Create button -> Google Docs Document");
         documentLibraryPage.clickCreateButton();
-        createContent.clickGoogleDocsDoc();
-        getBrowser().waitInSeconds(1);
+        documentLibraryPage.clickGoogleDocsOption(CreateMenuOption.GOOGLE_DOCS_DOCUMENT);
         googleDocs.clickOkButtonOnTheAuthPopup();
         LOG.info("Step6: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
@@ -139,14 +140,13 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
 
     @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C8650")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "SmartFolders" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS, "SmartFolders" })
     public void updateFileInSmartFolder() throws Exception
     {
         googleDocs.loginToGoogleDocs();
         LOG.info("Step5: Press Create button -> Google Docs Document");
         documentLibraryPage.clickCreateButton();
-        createContent.clickGoogleDocsDoc();
-        getBrowser().waitInSeconds(1);
+        documentLibraryPage.clickGoogleDocsOption(CreateMenuOption.GOOGLE_DOCS_DOCUMENT);
         googleDocs.clickOkButtonOnTheAuthPopup();
         LOG.info("Step6: Input some texts in this Google Doc file and exit.");
         googleDocs.switchToGoogleDocsWindowandAndEditContent("Test", "Test Content");
@@ -160,7 +160,7 @@ public class UsingSmartFoldersTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFolderName("Office Documents");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("Test.docx"), "The uploaded file displayed in Office Documents list");
         LOG.info("Step9: Hover over the created file and click 'Upload new version'");
-        documentLibraryPage.clickDocumentLibraryItemAction("Test.docx", "Upload New Version", uploadContent);
+        documentLibraryPage.clickDocumentLibraryItemAction("Test.docx", ItemActions.UPLOAD_NEW_VERSION, uploadContent);
         uploadContent.updateDocumentVersion(newVersionFilePath, "New Version", UploadContent.Version.Minor);
         getBrowser().waitInSeconds(2);
         LOG.info("Step10: Verify the document is updated and the version is increased");

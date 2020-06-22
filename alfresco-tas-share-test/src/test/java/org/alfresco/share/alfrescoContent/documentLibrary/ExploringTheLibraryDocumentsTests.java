@@ -7,6 +7,7 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -105,7 +106,7 @@ public class ExploringTheLibraryDocumentsTests extends ContextAwareWebTest
 
         LOG.info("Step 2: Checkout testFile1 for offline editing");
         documentLibraryPage.navigate(siteNameC6321);
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, "Edit Offline", documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_OFFLINE, documentLibraryPage);
 
         LOG.info("Step 3: Open again Document Library and click I'm editing filter");
 

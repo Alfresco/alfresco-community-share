@@ -8,7 +8,6 @@ import static org.testng.Assert.assertTrue;
 
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
 import org.alfresco.po.share.dashlet.ImagePreviewDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -33,8 +32,7 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
     DocumentLibraryPage documentLibraryPage;
     @Autowired
     DocumentDetailsPage documentDetailsPage;
-    @Autowired
-    Download download;
+
     private String siteName1 = String.format("Site1-%s", RandomData.getRandomAlphanumeric());
     private String siteName2 = String.format("Site2-%s", RandomData.getRandomAlphanumeric());
     private String siteName3 = String.format("Site3-%s", RandomData.getRandomAlphanumeric());
@@ -126,8 +124,6 @@ public class ImagePreviewDashletTests extends ContextAwareWebTest
 
         LOG.info("Step3: Click 'Download' icon");
         imagePreviewDashlet.clickDownloadIcon(fileName);
-        download.acceptAlertIfDisplayed();
-        getBrowser().waitInSeconds(2);
-        assertTrue(download.isFileInDirectory(fileName, null), fileName + " is downloaded to computer.");
+        assertTrue(isFileInDirectory(fileName, null), fileName + " is downloaded to computer.");
     }
 }

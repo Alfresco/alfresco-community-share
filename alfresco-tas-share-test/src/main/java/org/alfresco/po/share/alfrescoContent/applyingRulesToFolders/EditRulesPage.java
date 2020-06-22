@@ -2,6 +2,7 @@ package org.alfresco.po.share.alfrescoContent.applyingRulesToFolders;
 
 import org.alfresco.common.Language;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -321,7 +322,7 @@ public class EditRulesPage extends SiteCommon<EditRulesPage>
      */
     public void defineRule(String ruleName, String siteName, String sourceFolder, WhenRule whenRuleName, IfAllCriteriaAreMetRule ifAllCriteriaAreMetRuleName, PerformActionList performActionName) {
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(sourceFolder, language.translate("documentLibrary.contentActions.manageRules"), manageRulesPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(sourceFolder, ItemActions.MANAGE_RULES, manageRulesPage);
         manageRulesPage.clickCreateRules();
         typeName(ruleName);
         selectWhenDropDownCondition(whenRuleName);

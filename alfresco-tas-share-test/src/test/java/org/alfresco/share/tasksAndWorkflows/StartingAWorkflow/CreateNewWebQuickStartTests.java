@@ -6,6 +6,7 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -44,7 +45,6 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
     private String siteName = String.format("siteName%s", RandomData.getRandomAlphanumeric());
     private String docName = String.format("docName-%s", RandomData.getRandomAlphanumeric());
     private String docContent = String.format("docContent-%s", RandomData.getRandomAlphanumeric());
-    private String startWorkflowAction = "Start Workflow";
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -76,7 +76,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Web Quick Start: Review & Publish Section Structure' from the drop-down list.");
@@ -112,7 +112,7 @@ public class CreateNewWebQuickStartTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Web Quick Start: Review & Publish Web Assets' from the drop-down list.");

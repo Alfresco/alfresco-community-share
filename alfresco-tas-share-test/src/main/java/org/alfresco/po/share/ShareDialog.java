@@ -1,6 +1,9 @@
 package org.alfresco.po.share;
 
+import org.alfresco.common.Timeout;
 import org.alfresco.utility.web.HtmlPage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -13,6 +16,9 @@ public abstract class ShareDialog extends HtmlPage
             "div.yui-dialog:not([style*='visibility: hidden']) [class*='close']")
     protected WebElement closeButton;
 
+    /** "<object> has been deleted.." popup */
+    private static final By MESSAGE_LOCATOR = By.className("div.bd span.message");
+
     /**
      * Close dialog
      */
@@ -24,5 +30,23 @@ public abstract class ShareDialog extends HtmlPage
     public boolean isCloseButtonDisplayed()
     {
         return browser.isElementDisplayed(closeButton);
+    }
+
+    //TODO Check if this can be moved to HtmlPage
+    /**
+     * Method for wait while balloon message about some changes hide.
+     */
+    @Override
+    public void waitUntilMessageDisappears()
+    {
+        try
+        {
+            getBrowser().waitUntilElementVisible(MESSAGE_LOCATOR, Timeout.SHORT.getTimeoutSeconds());
+            getBrowser().waitUntilElementDisappears(MESSAGE_LOCATOR);
+        }
+        catch (TimeoutException exception)
+        {
+            // do nothing and carry on as this might be expected, meaning that the element might be expected to already disappear
+        }
     }
 }

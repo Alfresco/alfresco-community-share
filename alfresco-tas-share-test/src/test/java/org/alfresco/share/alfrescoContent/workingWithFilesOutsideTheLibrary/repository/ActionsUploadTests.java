@@ -7,6 +7,7 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -88,7 +89,7 @@ public class ActionsUploadTests extends ContextAwareWebTest
         LOG.info("STEP2: Navigate to Shared folder from Repository page and click on upload new version");
         repositoryPage.navigate();
         repositoryPage.clickFolderFromExplorerPanel("Shared");
-        repositoryPage.clickDocumentLibraryItemAction(testFile2, language.translate("documentLibrary.contentAction.uploadNewVersion"), uploadContent);
+        repositoryPage.clickDocumentLibraryItemAction(testFile2, ItemActions.UPLOAD_NEW_VERSION, uploadContent);
         LOG.info("STEP3: Select file to upload. Update version");
         uploadContent.updateDocumentVersion(newVersionFilePath, "comments", UploadContent.Version.Major);
         repositoryPage.renderedPage();

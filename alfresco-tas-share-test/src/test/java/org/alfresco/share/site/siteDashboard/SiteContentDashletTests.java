@@ -11,6 +11,7 @@ import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -172,7 +173,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         LOG.info("Preconditions: create site, add another user to site, add document to site, login to Share, navigate to site's dashboard");
         setupAuthenticatedSession(userName2, userName2);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName2, "Edit in Alfresco", editInAlfrescoPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName2, ItemActions.EDIT_IN_ALFRESCO, editInAlfrescoPage);
         editInAlfrescoPage.sendDocumentDetailsFields("editedName", "editedContent", "editedTitle", "editedDescription");
         editInAlfrescoPage.clickButton("Save");
         socialFeatures.clickLikeButton("editedName");
@@ -246,7 +247,7 @@ public class SiteContentDashletTests extends ContextAwareWebTest
         softAssert.assertTrue(siteContentDashlet.isFileLinkPresent(docName));
         LOG.info("Step 6: Edit offline and check I'm Editing filter");
         documentLibraryPage.navigate(siteNameFilters);
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, "Edit Offline", documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_OFFLINE, documentLibraryPage);
         siteDashboard.navigate(siteNameFilters);
         siteContentDashlet.clickDefaultFilterButton();
         siteContentDashlet.selectFilter("I'm Editing");

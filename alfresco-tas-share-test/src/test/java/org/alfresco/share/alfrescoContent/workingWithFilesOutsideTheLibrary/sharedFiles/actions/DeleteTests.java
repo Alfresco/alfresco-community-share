@@ -7,6 +7,7 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -55,7 +56,7 @@ public class DeleteTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the file you want to delete");
         LOG.info("STEP2: Click 'More' menu -> \"Delete Document\"");
-        sharedFilesPage.clickDocumentLibraryItemAction(docName, language.translate("documentLibrary.contentActions.deleteDocument"), deleteDialog);
+        sharedFilesPage.clickDocumentLibraryItemAction(docName, ItemActions.DELETE_DOCUMENT, deleteDialog);
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), docName), "Delete dialog message= ");
         assertTrue(deleteDialog.isDeleteButtonDisplayed(), "'Delete' button is displayed.");
         assertTrue(deleteDialog.isCancelButtonDisplayed(), "'Cancel' button is displayed.");
@@ -77,7 +78,7 @@ public class DeleteTests extends ContextAwareWebTest
 
         LOG.info("STEP1: Hover over the file you want to delete and press \"More\"");
         LOG.info("STEP2: Press \"Delete Folder\"");
-        sharedFilesPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.deleteFolder"), deleteDialog);
+        sharedFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.DELETE_FOLDER, deleteDialog);
 
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("documentLibrary.deleteDialogMessage"), folderName),
             "Delete dialog message= ");
@@ -100,11 +101,11 @@ public class DeleteTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
 
         LOG.info("STEP1: Hover over " + docName2);
-        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName2, language.translate("documentLibrary.contentActions.deleteDocument")),
+        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName2, ItemActions.DELETE_DOCUMENT),
             language.translate("documentLibrary.contentActions.deleteDocument") + " option is displayed for " + docName2);
 
         LOG.info("STEP1: Hover over " + folderName2);
-        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(folderName2, language.translate("documentLibrary.contentActions.deleteDocument")),
+        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(folderName2, ItemActions.DELETE_DOCUMENT),
             language.translate("documentLibrary.contentActions.deleteDocument") + " option is displayed for " + folderName2);
     }
 

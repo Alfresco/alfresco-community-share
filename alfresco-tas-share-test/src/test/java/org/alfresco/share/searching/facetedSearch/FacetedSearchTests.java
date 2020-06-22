@@ -7,7 +7,6 @@ import static org.testng.Assert.assertTrue;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
-import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.Download;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -37,9 +36,6 @@ public class FacetedSearchTests extends ContextAwareWebTest
 
     @Autowired
     SearchPage searchPage;
-
-    @Autowired
-    Download download;
 
     @Autowired
     DocumentLibraryPage documentLibraryPage;
@@ -197,8 +193,8 @@ public class FacetedSearchTests extends ContextAwareWebTest
         searchPage.clickSelectedItemsDropdown();
         searchPage.clickOptionFromSelectedItemsDropdown("Download as Zip");
         LOG.info("STEP3: Choose Save option and verify archive is displayed in specified location.");
-        download.acceptAlertIfDisplayed();
-        assertTrue(download.isFileInDirectory("Archive", ".zip"), "The zip archive was not found in the specified location");
+        searchPage.acceptAlertIfDisplayed();
+        assertTrue(isFileInDirectory("Archive", ".zip"), "The zip archive was not found in the specified location");
         cleanupAuthenticatedSession();
     }
 

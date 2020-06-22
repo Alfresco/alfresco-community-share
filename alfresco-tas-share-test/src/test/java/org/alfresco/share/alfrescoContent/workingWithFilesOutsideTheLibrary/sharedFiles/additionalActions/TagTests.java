@@ -11,6 +11,7 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -119,7 +120,7 @@ public class TagTests extends ContextAwareWebTest
     public void addExistingTag()
     {
         LOG.info("STEP1: Hover over " + docName2 + ".STEP2: Click \"Edit Properties\" option");
-        sharedFilesPage.clickDocumentLibraryItemAction(docName2, language.translate("documentLibrary.contentActions.editProperties"), editPropertiesDialog);
+        sharedFilesPage.clickDocumentLibraryItemAction(docName2, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
         assertEquals(editPropertiesDialog.getDialogTitle(), String.format(language.translate("editPropertiesDialog.title"), docName2), "Displayed dialog=");
         assertTrue(editPropertiesDialog.isSelectTagsButtonDisplayed(), "'Select' tag button is displayed.");
 

@@ -13,6 +13,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.CreateBlogPostPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -86,7 +87,7 @@ public class SearchHighlightTests extends ContextAwareWebTest
         contentService.uploadFileInSite(userName, password, siteName, C42550testFilePath);
         setupAuthenticatedSession(userName, password);
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, "Edit Properties", editFilePropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES, editFilePropertiesDialog);
         editFilePropertiesDialog.setTitle(docTitle);
         editFilePropertiesDialog.setDescription(docDescription);
         editFilePropertiesDialog.clickSave();

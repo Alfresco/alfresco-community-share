@@ -4,7 +4,6 @@ import static java.util.Arrays.asList;
 
 import java.util.function.Supplier;
 
-import org.alfresco.utility.web.HtmlPage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;

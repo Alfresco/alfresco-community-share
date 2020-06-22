@@ -4,6 +4,7 @@ import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -82,7 +83,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Review And Approve (single reviewer)' from the drop-down list.");
@@ -115,7 +116,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Review and Approve (one or more reviewers)' from the drop-down list.");
@@ -158,7 +159,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Review and Approve (group review)' from the drop-down list.");
@@ -190,7 +191,7 @@ public class CreateNewReviewAndApproveTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'Review and Approve (pooled review)' from the drop-down list.");

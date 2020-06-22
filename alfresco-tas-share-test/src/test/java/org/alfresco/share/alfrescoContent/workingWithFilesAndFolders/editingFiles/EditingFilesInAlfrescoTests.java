@@ -7,6 +7,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -82,7 +83,7 @@ public class EditingFilesInAlfrescoTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step1: Hover over the test file and click Edit in Alfresco option");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, language.translate("documentLibrary.contentActions.editInAlfresco"),
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO,
             editInAlfrescoPage);
 
         LOG.info("Step2: Edit the document's properties by sending new input");

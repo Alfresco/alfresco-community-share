@@ -1,5 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.buildingContent;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -85,16 +86,14 @@ public class NewContentDialog extends ShareDialog
 
     public void fillInNameField(String name)
     {
-        renderedPage();
-        nameField.clear();
-        nameField.sendKeys(name);
+        Utils.clearAndType(nameField, name);
     }
 
     public void fillInDetails(String name, String title, String description)
     {
         fillInNameField(name);
-        titleField.sendKeys(title);
-        descriptionField.sendKeys(description);
+        Utils.clearAndType(titleField, title);
+        Utils.clearAndType(descriptionField, description);
     }
 
     public String getNameFieldValue()

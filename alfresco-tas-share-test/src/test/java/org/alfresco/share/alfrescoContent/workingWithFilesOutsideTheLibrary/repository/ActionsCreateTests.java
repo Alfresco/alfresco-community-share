@@ -9,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
+import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -50,7 +51,6 @@ public class ActionsCreateTests extends ContextAwareWebTest
         contentService.createDocumentInRepository(adminUser, adminPassword, path, DocumentType.TEXT_PLAIN, docName, docContent);
         contentService.createFolderInRepository(adminUser, adminPassword, folderName, pathFolderTemplate);
         setupAuthenticatedSession(user, password);
-
     }
 
     @AfterClass (alwaysRun = false)
@@ -60,12 +60,10 @@ public class ActionsCreateTests extends ContextAwareWebTest
         contentService.deleteContentByPath(adminUser, adminPassword, path + "/" + docName);
         contentService.deleteContentByPath(adminUser, adminPassword, pathFolderTemplate + "/" + folderName);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user);
-
     }
 
     @TestRail (id = "C8156")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void createPlainTextDocumentInRepository()
     {
         // Preconditions
@@ -76,19 +74,10 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Create... button.");
         repository.clickCreateButton();
-        Assert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
 
         LOG.info("Step 2: Click \"Plain Text...\" option.");
-        create.clickPlainTextButton();
+        repository.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
         Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(create.isCreateFormDisplayed(), "Create Plain Text form is not displayed");
-        Assert.assertTrue(create.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(create.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
-        Assert.assertTrue(create.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
-        Assert.assertTrue(create.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
-        Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
-        Assert.assertTrue(create.isCreateButtonPresent(), "The Create button is not displayed on the create form");
-        Assert.assertTrue(create.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
         create.sendInputForName("C8156 name");
@@ -98,7 +87,6 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         create.clickCreateButton();
-        getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -111,7 +99,6 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
     @TestRail (id = "C8161")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void createHTMLDocumentInRepository()
     {
         // Preconditions
@@ -122,19 +109,10 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Create... button");
         repository.clickCreateButton();
-        Assert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
 
         LOG.info("Step 2: Click \"HTML...\" option.");
-        create.clickHTML();
+        repository.clickCreateContentOption(CreateMenuOption.HTML);
         Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(create.isCreateFormDisplayed(), "Create form is not displayed");
-        Assert.assertTrue(create.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(create.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
-        Assert.assertTrue(create.isHTMLContentFieldDisplayed(), "The Content field is not displayed on the create form");
-        Assert.assertTrue(create.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
-        Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
-        Assert.assertTrue(create.isCreateButtonPresent(), "The Create button is not displayed on the create form");
-        Assert.assertTrue(create.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
         create.sendInputForName("C8161 test name");
@@ -144,7 +122,6 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         create.clickCreateButton();
-        getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -156,7 +133,6 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
     @TestRail (id = "C8162")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-
     public void createXMLFile()
     {
         // Preconditions
@@ -167,19 +143,10 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Create... button");
         repository.clickCreateButton();
-        Assert.assertTrue(create.isXMLButtonDisplayed(), "The XML options is not displayed");
 
         LOG.info("Step 2: Click \"XML...\" option.");
-        create.clickXMLButton();
+        repository.clickCreateContentOption(CreateMenuOption.XML);
         Assert.assertEquals(create.getPageTitle(), "Alfresco » Create Content", "Create content page is not opened");
-        Assert.assertTrue(create.isCreateFormDisplayed(), "Create form is not displayed");
-        Assert.assertTrue(create.isNameFieldDisplayedOnTheCreateForm(), "The Name field is not displayed on the create form");
-        Assert.assertTrue(create.isMandatoryMarketPresentForNameField(), "The Name field mandatory marker is not present");
-        Assert.assertTrue(create.isContentFieldDisplayedOnTheCreateForm(), "The Content field is not displayed on the create form");
-        Assert.assertTrue(create.isTitleFieldDisplayedOnTheCreateForm(), "The Title field is not displayed on the create form");
-        Assert.assertTrue(create.isDescriptionFieldDisplayedOnTheCreateForm(), "The Description field is not displayed on the create form");
-        Assert.assertTrue(create.isCreateButtonPresent(), "The Create button is not displayed on the create form");
-        Assert.assertTrue(create.isCancelButtonPresent(), "The Cancel button is not displayed on the create form");
 
         LOG.info("Step 3: Fill in the name, content, title and description fields");
         create.sendInputForName("C8162 test name");
@@ -189,7 +156,6 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 4: Click the Create button");
         create.clickCreateButton();
-        getBrowser().waitInSeconds(1);
         Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "File is not previewed in Document Details Page");
 
         LOG.info("Step 5 : Verify the mimetype for the created file.");
@@ -203,7 +169,6 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
     @TestRail (id = "C8159")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-
     public void createDocumentFromTemplate()
     {
         // Preconditions
@@ -213,7 +178,6 @@ public class ActionsCreateTests extends ContextAwareWebTest
         repository.clickOnFolderName(user);
 
         LOG.info("Step 1:Click 'Create' then click 'Create document from template'.");
-
         repository.clickCreateButton();
         create.clickCreateFromTemplateButton("Create document from template");
         Assert.assertTrue(create.isTemplateDisplayed(docName), "Template is not displayed");
@@ -228,7 +192,6 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
     @TestRail (id = "C8158")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-
     public void createFolderFromTemplateInRepository()
     {
         // Preconditions
@@ -276,7 +239,6 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
     @TestRail (id = " C13746")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void checkThatTheCreateOptionIsAvailableForAdminInMainRepository()
     {
         setupAuthenticatedSession(adminUser, adminPassword);
@@ -303,13 +265,7 @@ public class ActionsCreateTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Click Create... button");
         repository.clickCreateButton();
-        softAssert.assertTrue(create.isFolderOptionAvailableUnderCreate(), "Create... Folder is not available");
-        softAssert.assertTrue(create.isPlainTextButtonDisplayed(), "Create... Plain Text... is not available");
-        softAssert.assertTrue(create.isHTMLButtonDisplayed(), "Create... HTML... is not available");
-        softAssert.assertTrue(create.isXMLButtonDisplayed(), "Create... XML... is not available");
-        softAssert.assertTrue(create.isGoogleDocsDocumentDisplayed(), "Create... Google Docs Document... is not available");
-        softAssert.assertTrue(create.isGoogleDocsSpreadsheetDisplayed(), "Create... Google Docs Spreadsheet... is not available");
-        softAssert.assertTrue(create.isGoogleDocsPresentationDisplayed(), "Create... Google Docs Presentation... is not available");
+        softAssert.assertTrue(repository.areCreateOptionsAvailable(), "Create menu options are not available");
         softAssert.assertTrue(create.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
         softAssert.assertTrue(create.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
 

@@ -152,5 +152,6 @@ public class ImagePreviewDashlet extends Dashlet<ImagePreviewDashlet>
         browser.waitInSeconds(2);
         browser.waitUntilElementVisible(downloadIcon);
         downloadIcon.click();
+        acceptAlertIfDisplayed();
     }
 }

@@ -215,17 +215,4 @@ public class ModelManagerPage extends AdminToolsPage
         Parameter.checkIsMandotary("Model", selectModelByName(modelName));
         return selectModelByName(modelName).findElement(statusValue).getText();
     }
-
-    public boolean isAlertPresent()
-    {
-        try
-        {
-            browser.switchTo().alert();
-            return true;
-        }
-        catch (NoAlertPresentException noAlertPresentException)
-        {
-            return false;
-        }
-    }
 }

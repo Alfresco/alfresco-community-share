@@ -10,6 +10,7 @@ import java.util.Collections;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -71,7 +72,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), docName + " is displayed in Recently added documents list.");
 
         LOG.info("STEP3: Hover over the file name and click 'Locate file' link from 'More' menu");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, "Locate File", documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.LOCATE_FILE, documentLibraryPage);
         ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb=");
         assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "User is redirected to location of the created document.");
@@ -96,7 +97,7 @@ public class LocateItemsAndFoldersTests extends ContextAwareWebTest
             "My Favorites documents are displayed.");
 
         LOG.info("STEP3: Hover over the folder name and click 'Locate folder' link from 'More' menu");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Locate Folder", documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.LOCATE_FOLDER, documentLibraryPage);
         ArrayList<String> breadcrumbExpected = new ArrayList<>(Collections.singletonList("Documents"));
         assertEquals(documentLibraryPage.getBreadcrumbList(), breadcrumbExpected.toString(), "Breadcrumb=");
         assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "User is redirected to location of the created folder.");

@@ -14,6 +14,7 @@ import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
@@ -132,9 +133,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         repositoryPage.clickOnFolderName(editFileUsr);
 
         LOG.info("Step 1: Hover over the test file and click 'Edit Properties' action");
-
-        repositoryPage.mouseOverContentItem(fileName);
-        repositoryPage.clickDocumentLibraryItemAction(fileName, "Edit Properties", editFilePropertiesDialog);
+        repositoryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_PROPERTIES, editFilePropertiesDialog);
 
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "'Edit Properties' dialog box is not correctly displayed");
 
@@ -175,7 +174,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         repositoryPage.clickOnFolderName(editFolderUsr);
 
         LOG.info("Step 1: Hover over folder and click 'Edit Properties'");
-        repositoryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editFilePropertiesDialog);
+        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editFilePropertiesDialog);
         assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -218,7 +217,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         repositoryPage.clickOnFolderName(editInAlfUsr);
 
         LOG.info("Step1: Hover over the test file and click Edit in Alfresco option");
-        repositoryPage.clickDocumentLibraryItemAction(fileName, "Edit in Alfresco", editInAlfrescoPage);
+        repositoryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_IN_ALFRESCO, editInAlfrescoPage);
 
         LOG.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.sendDocumentDetailsFields(editedFileName, editedContent, editedTitle, editedDescription);
@@ -254,7 +253,7 @@ public class ActionsEditTests extends ContextAwareWebTest
         docsCommon.loginToGoogleDocs();
 
         LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
-        repositoryPage.clickDocumentLibraryItemAction(fileName, "Edit in Google Docs™", docsCommon);
+        repositoryPage.clickDocumentLibraryItemAction(fileName, ItemActions.EDIT_IN_GOOGLE_DOCS, docsCommon);
 
         LOG.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
         docsCommon.clickOkButton();

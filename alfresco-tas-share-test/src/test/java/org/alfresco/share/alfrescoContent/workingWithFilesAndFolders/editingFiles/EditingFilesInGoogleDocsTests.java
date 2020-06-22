@@ -5,6 +5,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -63,7 +64,7 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
         uploadContent.uploadContent(googleDocPath);
 
         LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
-        documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs™", googleDocsCommon);
+        documentLibraryPage.clickDocumentLibraryItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS, googleDocsCommon);
 
         LOG.info("Step2: Click OK on the Authorize with Google Docs pop-up message");
         googleDocsCommon.clickOkButtonOnTheAuthPopup();

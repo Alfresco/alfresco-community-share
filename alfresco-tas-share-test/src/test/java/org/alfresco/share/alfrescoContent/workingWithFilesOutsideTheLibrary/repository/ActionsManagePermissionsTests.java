@@ -8,6 +8,7 @@ import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -101,7 +102,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         repositoryPage.clickFolderFromExplorerPanel("User Homes");
         Assert.assertTrue(repositoryPage.isContentNameDisplayed(userName), userName + " is not displayed in Repository Page");
         LOG.info("Step 3: Click Manage Permissions link in More menu for user's home folder;");
-        repositoryPage.clickDocumentLibraryItemAction(userName, "Manage Permissions", managePermissionsPage);
+        repositoryPage.clickDocumentLibraryItemAction(userName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Manage Permissions", "User is not on Manage Permissions Page");
         LOG.info("Step 4: Verify Manage Permissions page");
         Assert.assertTrue(managePermissionsPage.isAddUserGroupButtonDisplayed(), "Add User/Group button is not displayed");
@@ -124,7 +125,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         LOG.info("Preconditions: ");
         setupAuthenticatedSession(adminUser, adminPassword);
         repositoryPage.navigate();
-        repositoryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
+        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
         managePermissionsPage.clickAddUserGroupButton();
         managePermissionsPage.sendSearchInput(userC202758_1);
         managePermissionsPage.clickSearchButton();
@@ -144,7 +145,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         repositoryPage.navigate();
         Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "User is not on the Repository Page");
         LOG.info("Step 2: Click Manage Permissions link in More menu for " + folderName + " folder");
-        repositoryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
+        repositoryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Manage Permissions", "User is not on Manage Permissions Page");
         Assert.assertTrue(managePermissionsPage.getRowDetails(identifierUser1).contains("Coordinator"));
         Assert.assertTrue(managePermissionsPage.getRowDetails(identifierUser2).contains("Coordinator"));
@@ -177,7 +178,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         String updateContent = "Updated test content for C202776";
         setupAuthenticatedSession(adminUser, adminPassword);
         repositoryPage.navigate();
-        repositoryPage.clickDocumentLibraryItemAction(folderC202776, "Manage Permissions", managePermissionsPage);
+        repositoryPage.clickDocumentLibraryItemAction(folderC202776, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
         managePermissionsPage.clickAddUserGroupButton();
         managePermissionsPage.sendSearchInput(userC202776);
         managePermissionsPage.clickSearchButton();
@@ -193,7 +194,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         LOG.info("Step 2: On the Repository page click on TestFolder");
         repositoryPage.clickOnFolderName(folderC202776);
         LOG.info("Step 3: Mouseover TestSubfolder and click on Manage Permissions action");
-        repositoryPage.clickDocumentLibraryItemAction(subFolderC202776, "Manage Permissions", managePermissionsPage);
+        repositoryPage.clickDocumentLibraryItemAction(subFolderC202776, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
         Assert.assertEquals(getBrowser().getTitle(), "Alfresco » Manage Permissions", "User is not on Manage Permissions Page");
         LOG.info("Step 4: Check inherited permissions");
         Assert.assertTrue(managePermissionsPage.getInheritedPermissions(identifierUser1).contains("Coordinator"));
@@ -204,7 +205,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         List<String> expectedActions = Arrays.asList("Edit in Google Docs™", "Edit Properties", "Edit in Alfresco", "Edit Offline", "Delete Document");
         Assert.assertTrue(repositoryPage.areActionsAvailableForLibraryItem(fileNameC202776, expectedActions), "Expected actions");
         LOG.info("Step 6: Edit TestFile and save changes");
-        repositoryPage.clickDocumentLibraryItemAction(fileNameC202776, "Edit in Alfresco", editInAlfrescoPage);
+        repositoryPage.clickDocumentLibraryItemAction(fileNameC202776, ItemActions.EDIT_IN_ALFRESCO, editInAlfrescoPage);
         Assert.assertEquals(repositoryPage.getPageTitle(), "Alfresco » Edit in Alfresco Share", "User is not on Edit In Alfresco page");
         editInAlfrescoPage.typeContent(updateContent);
         editInAlfrescoPage.clickSaveButton();

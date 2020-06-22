@@ -21,6 +21,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage.DocumentsFilters;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -93,7 +94,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8814")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorLikeUnlike()
     {
         setupAuthenticatedSession(user, password);
@@ -121,7 +122,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8815")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorFavoriteUnfavorite()
     {
         setupAuthenticatedSession(user, password);
@@ -152,7 +153,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8818")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorEditBasicDetailsBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -165,7 +166,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(user, password, folderName, siteName);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Hover over the created folder and click 'Edit Properties' action.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editFilePropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editFilePropertiesDialog);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
         LOG.info("Step 2: In the 'Name' field enter a name for the folder.");
         editFilePropertiesDialog.setName(editedName);
@@ -191,7 +192,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8819")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorEditBasicDetailsByOthers()
     {
         setupAuthenticatedSession(user, password);
@@ -204,7 +205,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Hover over the created folder and click 'Edit Properties' action.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editFilePropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editFilePropertiesDialog);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not sdisplayed");
         LOG.info("Step 2: In the 'Name' field enter a name for the folder.");
         editFilePropertiesDialog.setName(editedName);
@@ -228,7 +229,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8816")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorRenameBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -237,7 +238,6 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Preconditions.");
         contentService.createFolder(user, password, folderName, siteName);
         documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
         LOG.info("Step 1: Hover over the content name.");
         assertTrue(documentLibraryPage.isRenameIconDisplayed(folderName), "'Rename' icon is not displayed.");
         LOG.info("Step 2: Click on 'Rename' icon.");
@@ -254,7 +254,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8817")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorRenameByOthers()
     {
         setupAuthenticatedSession(user, password);
@@ -263,7 +263,6 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Preconditions.");
         contentService.createFolder(adminUser, adminPassword, folderName, siteName);
         documentLibraryPage.navigate(siteName);
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
         LOG.info("Step 1: Hover over the content name.");
         assertTrue(documentLibraryPage.isRenameIconDisplayed(folderName), "'Rename' icon is not displayed.");
         LOG.info("Step 2: Click on 'Rename' icon.");
@@ -280,7 +279,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8823")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed"})
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed"})
     public void collaboratorMoveBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -291,7 +290,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(user, password, folderName2, siteName1);
         documentLibraryPage.navigate(siteName1);
         LOG.info("Step 1: Hover over 'testFolder3', Click 'More...' link, Click 'Move to...''.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Move to...", copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MOVE_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Move " + folderName + " to...", "Displayed pop up");
         LOG.info("Step 2: Set the destination to 'All Sites'.");
         copyMoveUnzipToDialog.clickDestinationButton("All Sites");
@@ -313,7 +312,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8824")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorMoveByOthers()
     {
         setupAuthenticatedSession(user, password);
@@ -323,12 +322,12 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Hover over 'testFolder1'.");
         LOG.info("Step 2: Click 'More...' link. The Move to option is not available.");
-        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Move to..."), ("Move to...") + " option is displayed for " + folderName);
+        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, ItemActions.MOVE_TO), ("Move to...") + " option is displayed for " + folderName);
         cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8822")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorCopyTo()
     {
         setupAuthenticatedSession(user, password);
@@ -337,7 +336,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(user, password, folderName, siteName);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step 1: Hover over the created folder and click 'Copy to...'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Copy to...", copyMoveUnzipToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.COPY_TO, copyMoveUnzipToDialog);
         assertEquals(copyMoveUnzipToDialog.getDialogTitle(), "Copy " + folderName + " to...", "Displayed pop up");
         LOG.info("Step 2: Set the destination to 'testFolder'.");
         copyMoveUnzipToDialog.clickDestinationButton("All Sites");
@@ -357,7 +356,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8822")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorDeleteBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -368,7 +367,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Mouse Over and click on 'More...' link and choose 'Delete Folder' from the dropdown list.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Delete Folder", deleteDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.DELETE_FOLDER, deleteDialog);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteFolder"), "'Delete Folder' pop-up is displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), folderName));
 
@@ -381,7 +380,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8822")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorDeleteByOthers()
     {
         setupAuthenticatedSession(user, password);
@@ -393,13 +392,13 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Hover 'DelFolder' name from the content item list.");
         LOG.info("Step 2: Click on 'More...' link. The Delete folder option is not available.");
-        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Delete Folder"),
+        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, ItemActions.DELETE_FOLDER),
             ("Delete Folder") + " option is displayed for " + folderName);
         cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8827")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorManagePermissionsBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -410,7 +409,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Hover for 'testFolder' and click on 'Manage Permissions' option from 'More' menu.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
         assertEquals(managePermissionsPage.getTitle(), "Manage Permissions: " + folderName, "Manage Permissions: " + folderName + " title displayed.");
 
         LOG.info("Step 2: Make some changes. Add User/Group button. Search for testUser. Click Add Button.");
@@ -422,7 +421,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
 
         LOG.info("Step 4: Click 'More' menu, 'Manage Permissions' options.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
         assertEquals(managePermissionsPage.getTitle(), "Manage Permissions: " + folderName, "Manage Permissions: " + folderName + " title displayed.");
         assertTrue(managePermissionsPage.isPermissionAddedForUser(user), String.format("User [%s] is not added in permissions.", user));
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
@@ -430,7 +429,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8828")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorManagePermissionsByOthers()
     {
         setupAuthenticatedSession(user, password);
@@ -441,14 +440,14 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Mouse over and click on 'More...' button. 'Manage Permissions' option from 'More' menu must not be displayed.");
-        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, "Manage Permissions"),
+        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(folderName, ItemActions.MANAGE_PERMISSIONS),
             "Manage Permissions" + " option is not displayed for " + folderName);
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
         cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8829")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorManageAspectsBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -459,7 +458,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Hover for 'testFolder' and click on 'Manage Aspects' option from 'More' menu'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
 
         LOG.info("Step 2: Make some changes, e.g: Add an aspect to your folder.");
         aspectsForm.addAspect("Classifiable");
@@ -474,7 +473,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8830")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorManageAspectsByOthers()
     {
         setupAuthenticatedSession(user, password);
@@ -486,7 +485,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1: Hover for 'testFolder' and click on 'Manage Aspects' option from 'More' menu'.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
 
         LOG.info("Step 2: Make some changes, e.g: Add an aspect to your folder.");
         aspectsForm.addAspect("Classifiable");
@@ -501,7 +500,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8834")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorAddComment()
     {
         setupAuthenticatedSession(user, password);
@@ -530,7 +529,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8835")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorEditCommentBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -547,7 +546,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate();
 
         LOG.info("Step 1: Hover over a document and click on 'View Details' button.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
 
         LOG.info("Step 2: Hover over the existing comment and click on 'Edit Comment' button.");
         Assert.assertTrue(documentDetailsPage.isEditButtonDisplayedForComment(comment), "Edit button is not displayed for comment");
@@ -559,7 +558,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentDetailsPage.clickOnSaveButtonEditComment();
         documentLibraryPage.navigate();
         Assert.assertEquals(social.getNumberOfComments(folderName), 1, "Number of comments=");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
         Assert.assertEquals(documentDetailsPage.getCommentContent(editedComment), editedComment, "Edited comment text is not correct");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
 
@@ -567,7 +566,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8836")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorEditCommentByOthers()
     {
         setupAuthenticatedSession(user, password);
@@ -584,7 +583,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate();
 
         LOG.info("Step 1: Hover over a document and click on 'View Details' button.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
 
         LOG.info("Step 2: Hover over the existing comment and click on 'Edit Comment' button.");
         Assert.assertTrue(documentDetailsPage.isEditButtonDisplayedForComment(comment1), "Edit button is not displayed for comment");
@@ -596,7 +595,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentDetailsPage.clickOnSaveButtonEditComment();
         documentLibraryPage.navigate();
         Assert.assertEquals(social.getNumberOfComments(folderName), 1, "Number of comments=");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
         Assert.assertEquals(documentDetailsPage.getCommentContent(editedComment1), editedComment1, "Edited comment text is not correct");
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
 
@@ -604,7 +603,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8837")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void collaboratorDeleteCommentBySelf()
     {
         setupAuthenticatedSession(user, password);
@@ -620,7 +619,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate();
 
         LOG.info("Step 1: Hover over a document and click on 'View Details' button.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
 
         LOG.info("Step 2: Hover over the existing comment and click on 'Delete Comment' button.");
         documentDetailsPage.clickDeleteComment(comment2);
@@ -636,7 +635,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8838")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void collaboratorDeleteCommentByOthers()
     {
         setupAuthenticatedSession(user, password);
@@ -652,7 +651,7 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
         documentLibraryPage.navigate();
 
         LOG.info("Step 1: Hover over a document and click on 'View Details' button.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "View Details", documentDetailsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.VIEW_DETAILS, documentDetailsPage);
 
         LOG.info("Step 2: Hover over the existing comment and click on 'Delete Comment' button.");
         documentDetailsPage.clickDeleteComment(comment3);

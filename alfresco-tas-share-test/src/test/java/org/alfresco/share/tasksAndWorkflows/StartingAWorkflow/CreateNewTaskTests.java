@@ -16,6 +16,7 @@ import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
 import org.alfresco.po.share.dashlet.Dashlet;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
 import org.alfresco.po.share.site.SelectPopUpPage;
 import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
@@ -82,7 +83,6 @@ public class CreateNewTaskTests extends ContextAwareWebTest
     private String docName1 = String.format("docName1%s", uniqueIdentifier);
     private String folderName = String.format("folderName%s", uniqueIdentifier);
     private String docContent = String.format("docContent%s", uniqueIdentifier);
-    private String startWorkflowAction = "Start Workflow";
     private String workflowMessage = "PRR_workflow_descripion";
     private String newTaskName = "New Task";
     private String file1 = "myFile.txt";
@@ -136,7 +136,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'New Task' from the drop-down list.");
@@ -165,7 +165,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'New Task' from the drop-down list.");
@@ -201,7 +201,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button");
         LOG.info("STEP 3: Select the workflow 'New Task' from the drop-down list.");
@@ -265,7 +265,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(C286291siteName);
 
         LOG.info("Precondition 2:  Hover over a file, click More then Start Workflow");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
 
         LOG.info("Precondition 3: New Task workflow is selected;");
         startWorkflowPage.selectAWorkflow(newTaskName);
@@ -376,7 +376,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         LOG.info("STEP 2: Expand Selected Items menu.");
         LOG.info("STEP 3: Click Start Workflow action.");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
 
         LOG.info("STEP 4: Select Adhoc task (New Task).");
         startWorkflowPage.selectAWorkflow(newTaskName);
@@ -523,7 +523,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
 
         LOG.info("Precondition 7: Start workflow page is opened for the document;");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.START_WORKFLOW, startWorkflowPage);
 
         LOG.info("Precondition 8: New Task workflow is selected;");
         startWorkflowPage.selectAWorkflow(newTaskName);
@@ -589,7 +589,7 @@ public class CreateNewTaskTests extends ContextAwareWebTest
         documentLibraryPage.navigate(siteName);
 
         LOG.info("STEP 1: Hover over a file and click More then Start Workflow.");
-        documentLibraryPage.clickDocumentLibraryItemAction(documentName, startWorkflowAction, startWorkflowPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(documentName, ItemActions.START_WORKFLOW, startWorkflowPage);
         Assert.assertTrue(startWorkflowPage.isStartWorkflowDropDownVisible(), "Start Workflow page is not opened");
 
         LOG.info("STEP 2: Click on 'Please select a workflow' button.");

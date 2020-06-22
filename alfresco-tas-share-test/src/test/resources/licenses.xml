@@ -103,7 +103,7 @@
          </methods>
       </class>
       
-      <class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFilesOnlyTests">
+      <class name="org.alfresco.share.userRolesAndPermissions.contributor.ContributorFilesCreatedByOthersTests">
          <methods>
             <include name="uploadContent"/>
             <include name="uploadNewVersionForItemCreatedBySelf"/>

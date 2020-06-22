@@ -5,6 +5,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -62,7 +63,7 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
         setup("C7005");
 
         LOG.info("Step 1: Hover over a file and click 'Edit Properties'");
-        documentLibraryPage.clickDocumentLibraryItemAction(docName, "Edit Properties", editFilePropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES, editFilePropertiesDialog);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -103,7 +104,7 @@ public class EditFilesPropertiesTest extends ContextAwareWebTest
         setup("C7005");
 
         LOG.info("Step 1: Hover over a folder and click 'Edit Properties'");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editFilePropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editFilePropertiesDialog);
         Assert.assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not sdisplayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.common.DataUtil;
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
@@ -748,25 +749,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public String getContentText()
     {
-        String content;
-
-        try
-        {
-            browser.waitUntilElementVisible(contentText);
-            content = contentText.getText();
-        } catch (TimeoutException e1)
-        {
-            LOG.info(e1.toString());
-            try
-            {
-                content = contentError.getText();
-            } catch (NoSuchElementException e2)
-            {
-                LOG.info(e2.toString());
-                content = "Content not loaded";
-            }
-        }
-        return content;
+        return Utils.retry(() -> browser.waitUntilElementVisible(contentText).getText().trim(), DEFAULT_RETRY);
     }
 
     /**
@@ -816,6 +799,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     {
         browser.waitUntilElementClickable(downloadPreviousVersion, 6);
         downloadPreviousVersion.click();
+        acceptAlertIfDisplayed();
     }
 
     public boolean isRevertButtonAvailable()
@@ -837,10 +821,8 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      */
     public void addCommentToItem(String comment)
     {
-        if (browser.isElementDisplayed(CommentTextArea))
-            CommentTextArea.sendKeys(comment);
-
-        addCommentButtonSave.click();
+        Utils.clearAndType(browser.waitUntilElementVisible(CommentTextArea), comment);
+        browser.waitUntilElementClickable(addCommentButtonSave).click();
     }
 
     public void clickAddCommentButton()

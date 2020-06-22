@@ -23,6 +23,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage.DocumentsFilters;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -86,7 +87,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8787")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void likeAndUnlike()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -110,7 +111,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8788")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void favoriteAndUnfavorite()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -132,7 +133,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8789")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void renameItemAddedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -155,7 +156,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8790")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void renameItemAddedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -165,7 +166,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8791")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void editBasicDetailsCreatedBySelf()
     {
         String folderName = String.format("folderName%s", RandomData.getRandomAlphanumeric());
@@ -175,7 +176,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Preconditions: Navigate to Document Library for the page for the test site");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Hover over the created folder and click 'Edit Properties' action.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Edit Properties", editPropertiesDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
         Assert.assertTrue(editPropertiesDialog.verifyAllElementsAreDisplayed(), "All elements from 'Edit Properties' dialog displayed");
         LOG.info("Step 2: In the 'Name' field enter a valid name");
         editPropertiesDialog.setName("FolderEditName");
@@ -199,17 +200,17 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8792")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void editBasicDetailsCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library page for the test site, as Contributor user.");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Hover over the test folder. Click on 'More...' link. Verify 'Edit Properties' action is missing");
-        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFolder, "Edit Properties"), "Edit Properties action displayed");
+        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFolder, ItemActions.EDIT_PROPERTIES), "Edit Properties action displayed");
     }
 
     @TestRail (id = "C8795")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void contributorCopy()
     {
         String siteName1 = String.format("SiteName1%s", RandomData.getRandomAlphanumeric());
@@ -222,7 +223,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(adminUser, adminPassword, folderName, siteName1);
         documentLibraryPage.navigate(siteName1);
         LOG.info("Steps1,2,3: Hover over the created folder. Click 'More...' link. Click 'Copy to...' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Copy to...", copyMoveToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.COPY_TO, copyMoveToDialog);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Copy " + folderName + " to...", "Displayed pop up");
         LOG.info("Step4: Set the destination to 'All sites'. Select a site.");
         copyMoveToDialog.clickDestinationButton("All Sites");
@@ -244,7 +245,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8796")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void moveContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -254,7 +255,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
         documentLibraryPage.navigate(siteName);
         LOG.info("Steps1, 2,3: Hover over the file. Click 'More...' link. Click 'Move to...'");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Move to...", copyMoveToDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.MOVE_TO, copyMoveToDialog);
         assertEquals(copyMoveToDialog.getDialogTitle(), "Move " + fileName + " to...", "Displayed pop up");
         LOG.info("Step4: Set the destination to 'All Sites'");
         copyMoveToDialog.clickDestinationButton("All Sites");
@@ -273,17 +274,17 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8797")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void moveContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library page for the test site, as Contributor user.");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Hover over the test folder. Click on 'More...' link. Verify 'Move to...' action is missing");
-        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFolder, "Move to..."), "Move to... action displayed");
+        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFolder, ItemActions.MOVE_TO), "Move to... action displayed");
     }
 
     @TestRail (id = "C8798")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void deleteContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -291,7 +292,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, "FileContent");
         documentLibraryPage.navigate(siteName);
         LOG.info("Steps1, 2: Hover over the file. Click 'More...' link. Click 'Delete Document' link");
-        documentLibraryPage.clickDocumentLibraryItemAction(fileName, "Delete Document", deleteDialog);
+        documentLibraryPage.clickDocumentLibraryItemAction(fileName, ItemActions.DELETE_DOCUMENT, deleteDialog);
         assertEquals(deleteDialog.getHeader(), language.translate("documentLibrary.deleteDocument"), "'Delete Document' pop-up displayed");
         assertEquals(deleteDialog.getMessage(), String.format(language.translate("confirmDeletion.message"), fileName));
         LOG.info("STEP3: Click 'Delete' button");
@@ -301,17 +302,17 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8799")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void deleteContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library for the test site, as Contributor user.");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Hover over the test folder. Click on 'More...' link. Verify 'Delete Document' action is missing.");
-        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, "Delete Document"), "Delete action displayed");
+        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFile, ItemActions.DELETE_DOCUMENT), "Delete action displayed");
     }
 
     @TestRail (id = "C8800")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void managePermissionsContentCreatedBySelf()
     {
         String folderName = "FolderName";
@@ -322,14 +323,14 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         userService.create(adminUser, adminPassword, user2, password, user2 + domain, user2, user2);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Hover for 'testFolder' and click on 'Manage Permissions' option from 'More' menu");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
         LOG.info("Steps2: On the Manage Permissions page click on Add User/Group button and add permissions for a test user.");
         managePermissionsPage.searchAndAddUserOrGroup(user2, 0);
         LOG.info("Steps3: Click 'Save' button");
         managePermissionsPage.clickButton("Save");
         documentLibraryPage.renderedPage();
         LOG.info("Step4: Return to Manage Permissions page for the file and check if permissions were added successfully.");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Permissions", managePermissionsPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
         assertTrue(managePermissionsPage.isPermissionAddedForUser(fullName), String.format("User [%s] added in permissions.", user2));
         userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
@@ -338,17 +339,17 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8801")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void managePermissionsForContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library page for the test site, as Contributor user.");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Hover over the test folder. Click on 'More...' link. Verify 'Manage Permissions' action is missing.");
-        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFolder, "Manage Permissions"), "Manage Permissions action displayed");
+        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFolder, ItemActions.MANAGE_PERMISSIONS), "Manage Permissions action displayed");
     }
 
     @TestRail (id = "C8802")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void manageAspectsForContentCreatedBySelf()
     {
         String folderName = String.format("folderName%s", RandomData.getRandomAlphanumeric());
@@ -356,30 +357,30 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         contentService.createFolder(userContributor, password, folderName, siteName);
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Hover for 'testFolder' and click on 'Manage Aspects' option from 'More' menu");
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
         LOG.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
         aspectsForm.addAspect("Classifiable");
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
         LOG.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm.clickApplyChangesButton(documentLibraryPage);
-        documentLibraryPage.clickDocumentLibraryItemAction(folderName, "Manage Aspects", aspectsForm);
+        documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_ASPECTS, aspectsForm);
         Assert.assertTrue(aspectsForm.isAspectPresentOnCurrentlySelectedList("Classifiable"), "Aspect is not added to 'Currently Selected' list");
         Assert.assertFalse(aspectsForm.isAspectPresentOnAvailableAspectList("Classifiable"), "Aspect is present on 'Available to Add' list");
     }
 
     @TestRail (id = "C8803")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void manageAspectsForContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test site and test folder. Navigate to Document Library page for the test site, as Contributor user.");
         documentLibraryPage.navigate(siteName);
         LOG.info("Step1: Hover over the test folder. Click on 'More...' link. Verify 'Manage Aspects' action is missing");
-        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFolder, "Manage Aspects"), "Manage Aspects action displayed");
+        assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(adminFolder, ItemActions.MANAGE_ASPECTS), "Manage Aspects action displayed");
     }
 
     @TestRail (id = "C8804")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void changeTypeForContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -409,7 +410,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8805")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void changeTypeForContentCreatedByOthers()
     {
         LOG.info("Preconditions: Create test user, test sites and test folder. Navigate to Document Library for the test site, as Contributor user.");
@@ -420,7 +421,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8807")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void addComment()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -437,7 +438,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8808")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void editCommentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -457,7 +458,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8809")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void editCommentCreatedByOthers()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -472,7 +473,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8810")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, "user-roles", "tobefixed" })
     public void deleteCommentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -492,7 +493,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8811")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void deleteCommentCreatedByOthers()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -507,7 +508,7 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C8812")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @Test (groups = { TestGroup.SANITY, "user-roles" })
     public void viewItemDetailsPage()
     {
         LOG.info("Step1: Navigate to document library page and click on the created file. Verify the preview for the file is successfully displayed on the Document details page.");

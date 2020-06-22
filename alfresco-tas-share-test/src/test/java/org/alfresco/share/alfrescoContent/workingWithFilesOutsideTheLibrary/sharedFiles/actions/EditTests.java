@@ -15,6 +15,7 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAlfrescoPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -82,7 +83,7 @@ public class EditTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
 
         LOG.info("Step 1: Hover over file and click 'Edit Properties' action");
-        sharedFilesPage.clickDocumentLibraryItemAction(docName1, language.translate("documentLibrary.contentActions.editProperties"), editFilePropertiesDialog);
+        sharedFilesPage.clickDocumentLibraryItemAction(docName1, ItemActions.EDIT_PROPERTIES, editFilePropertiesDialog);
         assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
         LOG.info("Step 2: In the 'Name' field enter a valid name");
@@ -122,7 +123,7 @@ public class EditTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
 
         LOG.info("Step 1: Hover over file and click 'Edit Properties'");
-        sharedFilesPage.clickDocumentLibraryItemAction(folderName, language.translate("documentLibrary.contentActions.editProperties"),
+        sharedFilesPage.clickDocumentLibraryItemAction(folderName, ItemActions.EDIT_PROPERTIES,
             editFilePropertiesDialog);
         assertTrue(editFilePropertiesDialog.verifyAllElementsAreDisplayed(), "Some elements of the 'Edit Properties' dialog are not displayed");
 
@@ -165,7 +166,7 @@ public class EditTests extends ContextAwareWebTest
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
 
         LOG.info("Step1: Hover over the test file and click Edit in Alfresco option");
-        sharedFilesPage.clickDocumentLibraryItemAction(docName2, language.translate("documentLibrary.contentActions.editInAlfresco"), editInAlfrescoPage);
+        sharedFilesPage.clickDocumentLibraryItemAction(docName2, ItemActions.EDIT_IN_ALFRESCO, editInAlfrescoPage);
 
         LOG.info("Step2: Edit the document's properties by sending new input");
         editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName2, updatedContent, updatedTitle, updatedDescription);
@@ -206,7 +207,7 @@ public class EditTests extends ContextAwareWebTest
         uploadContent.uploadContent(googleDocPath);
 
         LOG.info("Step1: Hover over the test file and click Edit in Google Docs option");
-        sharedFilesPage.clickDocumentLibraryItemAction(googleDocName, "Edit in Google Docs™", googleDocsCommon);
+        sharedFilesPage.clickDocumentLibraryItemAction(googleDocName, ItemActions.EDIT_IN_GOOGLE_DOCS, googleDocsCommon);
         getBrowser().waitInSeconds(5);
         googleDocsCommon.clickOkButtonOnTheAuthPopup();
 
@@ -254,11 +255,11 @@ public class EditTests extends ContextAwareWebTest
         LOG.info("STEP1: Hover over the file");
         sharedFilesPage.mouseOverContentItem(docName3);
         assertFalse(sharedFilesPage.isMoreMenuDisplayed(docName3), "More menu displayed.");
-        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName3, language.translate("documentLibrary.contentActions.editInGoogleDocs")),
+        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName3, ItemActions.EDIT_IN_GOOGLE_DOCS),
             language.translate("documentLibrary.contentActions.editInGoogleDocs") + " option is displayed for " + docName3);
-        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName3, language.translate("documentLibrary.contentActions.editProperties")),
+        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName3, ItemActions.EDIT_PROPERTIES),
             language.translate("documentLibrary.contentActions.editProperties") + " option is displayed for " + docName3);
-        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName3, language.translate("documentLibrary.contentActions.editInAlfresco")),
+        assertFalse(sharedFilesPage.isActionAvailableForLibraryItem(docName3, ItemActions.EDIT_IN_ALFRESCO),
             language.translate("documentLibrary.contentActions.editInAlfresco") + " option is displayed for " + docName3);
 
         cleanupAuthenticatedSession();

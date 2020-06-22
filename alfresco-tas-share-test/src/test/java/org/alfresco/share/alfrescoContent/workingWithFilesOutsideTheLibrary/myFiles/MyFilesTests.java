@@ -3,6 +3,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myF
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
+import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -58,14 +59,13 @@ public class MyFilesTests extends ContextAwareWebTest
 
     @TestRail (id = "C7648")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void myFilesContentAvailability()
     {
         LOG.info("Step 1: While logged in with user create Plain Text document in My Files");
         myFilesPage.navigate();
 
         myFilesPage.clickCreateButton();
-        create.clickPlainTextButton();
+        myFilesPage.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
         create.sendInputForName(C7648name);
         create.sendInputForContent(C7648content);
         create.sendInputForTitle(C7648title);
@@ -83,7 +83,6 @@ public class MyFilesTests extends ContextAwareWebTest
 
     @TestRail (id = "C7658")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-
     public void verifyPresenceOfMyFilesInHeaderBar()
     {
         setupAuthenticatedSession(user, password);

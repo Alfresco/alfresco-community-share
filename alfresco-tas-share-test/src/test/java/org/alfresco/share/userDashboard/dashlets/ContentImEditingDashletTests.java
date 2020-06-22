@@ -6,6 +6,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.dashlet.ContentImEditingDashlet;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.ContextAwareWebTest;
@@ -93,7 +94,7 @@ public class ContentImEditingDashletTests extends ContextAwareWebTest
         LOG.info("Step 1: Start editing document and check that document is displayed on dashlet");
         Assert.assertFalse(contentImEditingDashlet.isDocumentDisplayedInDashlet(documentName), documentName + " is displayed");
         documentLibraryPage.navigate(siteName);
-        documentLibraryPage.clickDocumentLibraryItemAction(documentName, "Edit Offline", documentLibraryPage);
+        documentLibraryPage.clickDocumentLibraryItemAction(documentName, ItemActions.EDIT_OFFLINE, documentLibraryPage);
         userDashboardPage.navigate(testUserName);
         Assert.assertTrue(contentImEditingDashlet.isDocumentDisplayedInDashlet(documentName), documentName + " is not displayed");
 

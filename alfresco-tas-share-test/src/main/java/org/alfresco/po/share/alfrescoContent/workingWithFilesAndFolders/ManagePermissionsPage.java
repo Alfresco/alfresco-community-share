@@ -89,7 +89,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
      */
     public String getTitle()
     {
-        return pageTitle.getText();
+        return browser.waitUntilElementVisible(pageTitle).getText();
     }
 
     /**
