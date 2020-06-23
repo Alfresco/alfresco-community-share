@@ -396,7 +396,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public WebElement selectDocumentLibraryItemRow(String documentItem)
     {
         waitForRows();
-        List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
+        List<WebElement> itemsList = browser.waitUntilElementsVisible(documentLibraryItemsList);
         return browser.findFirstElementWithValue(itemsList, documentItem);
     }
 
@@ -595,7 +595,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public boolean areActionsAvailableForLibraryItem(String libraryItem, List<String> actions)
     {
         List<WebElement> availableActions = getAvailableActions(libraryItem);
-        LOG.info("Available actions are: " + availableActions.toString());
         return availableActions.containsAll(actions);
     }
 
@@ -687,6 +686,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
         browser.mouseOver(actionElement);
         browser.waitUntilElementClickable(actionElement).click();
+        if(page instanceof DocumentLibraryPage)
+        {
+            waitUntilMessageDisappears();
+        }
         return page.renderedPage();
     }
 
