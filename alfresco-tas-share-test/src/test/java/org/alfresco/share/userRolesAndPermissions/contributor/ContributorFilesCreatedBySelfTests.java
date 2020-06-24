@@ -185,7 +185,6 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         String newVersionFilePath = testDataFolder + newVersionFileName;
         LOG.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
         contentService.createDocument(userContributor, password, siteName, DocumentType.TEXT_PLAIN, fileName, fileContent);
-        setupAuthenticatedSession(userContributor, password);
         documentLibraryPage.navigate(siteName);
         LOG.info("Steps1: Mouse over file and check 'Edit Offline' action is available.");
         Assert.assertTrue(documentLibraryPage.isActionAvailableForLibraryItem(fileName, ItemActions.EDIT_OFFLINE), "Edit Offline available for Contributor user");
@@ -205,12 +204,10 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         documentLibraryPage.clickOnFile(newVersionFileName);
         assertEquals(documentDetailsPage.getContentText(), "updated by upload new version", String.format("Contents of %s are wrong.", newVersionFileName));
         contentService.deleteContentByPath(adminUser, adminPassword, String.format("%s/%s", deletePath, newVersionFileName));
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8925")
-    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS }, enabled = false)
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void checkInOutGoogleDocsCreatedBySelf() throws Exception
     {
 //        docs.loginToGoogleDocs();
@@ -278,7 +275,7 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C8933")
-    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS }, enabled = false)
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
     public void editInGoogleDocs() throws Exception
     {
 //        docs.loginToGoogleDocs();
@@ -298,8 +295,6 @@ public class ContributorFilesCreatedBySelfTests extends ContextAwareWebTest
         assertTrue(getBrowser().getCurrentUrl().contains(docsUrl),
             "After clicking on Google Docs link, the title is: " + getBrowser().getCurrentUrl());
         closeWindowAndSwitchBack();
-
-        cleanupAuthenticatedSession();
     }
 
     @TestRail (id = "C8934")
