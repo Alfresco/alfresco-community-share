@@ -396,7 +396,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public WebElement selectDocumentLibraryItemRow(String documentItem)
     {
         waitForRows();
-        List<WebElement> itemsList = browser.waitUntilElementsVisible(documentLibraryItemsList);
+        List<WebElement> itemsList = browser.findElements(documentLibraryItemsList);
         return browser.findFirstElementWithValue(itemsList, documentItem);
     }
 
