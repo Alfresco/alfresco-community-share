@@ -192,7 +192,6 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         selectDialog.clickOk();
         LOG.info("Step 7: Click 'Save' and verify that document details have been updated");
         editPropertiesDialog.clickSave();
-        documentLibraryPage.renderedPage();
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed("FolderEditName"), "Edited name displayed");
         Assert.assertEquals(documentLibraryPage.getItemTitle("FolderEditName"), "(FolderEditTitle)", "Correct title of edited item");
         Assert.assertEquals(documentLibraryPage.getItemDescription("FolderEditName"), "FolderEditDescription", "Correct description of edited item");

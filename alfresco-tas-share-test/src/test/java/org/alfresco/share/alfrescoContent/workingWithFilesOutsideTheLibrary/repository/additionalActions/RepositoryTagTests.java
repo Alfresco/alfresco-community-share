@@ -146,7 +146,6 @@ public class RepositoryTagTests extends ContextAwareWebTest
         LOG.info("STEP5: Click \"Save\" button");
         editPropertiesDialog.clickSave();
         ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagC8278.toLowerCase()));
-        assertEquals(repositoryPage.getPageTitle(), "Alfresco » Repository Browser", "Displayed page=");
         assertEquals(repositoryPage.getTags(fileNameC8278), tagsList.toString(), fileNameC8278 + " -> tags=");
         contentService.deleteContentByPath(adminUser, adminPassword, deletePath);
     }

@@ -2,6 +2,7 @@ package org.alfresco.po.share.searching;
 
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
@@ -121,8 +122,7 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
 
     public void typeKeywords(String keyword)
     {
-        keywordsSearchField.clear();
-        keywordsSearchField.sendKeys(keyword);
+        Utils.clearAndType(keywordsSearchField, keyword);
     }
 
     public boolean isTopSearchButtonDisplayed()
@@ -229,8 +229,7 @@ public class AdvancedSearchPage extends SharePage<AdvancedSearchPage> implements
         {
             if (browser.isElementDisplayed(nameInput.getWrappedElement()))
             {
-                nameInput.clear();
-                nameInput.sendKeys(name);
+                Utils.clearAndType(nameInput, name);
             }
         }
     }

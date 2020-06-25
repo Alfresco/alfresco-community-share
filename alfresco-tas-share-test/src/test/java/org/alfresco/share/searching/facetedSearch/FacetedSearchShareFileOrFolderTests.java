@@ -59,7 +59,6 @@ public class FacetedSearchShareFileOrFolderTests extends ContextAwareWebTest
         editPropertiesDialog.setTitle(folderTitle);
         editPropertiesDialog.setDescription(description);
         editPropertiesDialog.clickSave();
-        documentLibraryPage.navigate(siteName);
         documentLibraryPage.clickDocumentLibraryItemAction(docName, ItemActions.EDIT_PROPERTIES, editPropertiesDialog);
         editPropertiesDialog.setTitle(fileTitle);
         editPropertiesDialog.setDescription(fileDescription);

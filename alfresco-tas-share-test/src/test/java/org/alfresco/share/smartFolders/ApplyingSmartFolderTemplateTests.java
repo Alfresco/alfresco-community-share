@@ -249,7 +249,7 @@ public class ApplyingSmartFolderTemplateTests extends ContextAwareWebTest
         LOG.info("Step6: Select '.json' file for the custom folder template and save.");
         editPropertiesPage.clickSelectButtonForCustomSmartFolder();
         selectDialog.selectItems(Collections.singletonList("employeeSmartSimpleTemplate.json"));
-        selectDialog.clickOkAndRenderPropertiesPage();
+        selectDialog.clickOk();
         editPropertiesPage.clickButtonForFolder("Save");
 
         LOG.info("Step7: Click on the folder and verify it has 'Smart Folder' structure under it");

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.PreviewFileActionsSection;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
@@ -30,8 +29,6 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
     PreviewFileActionsSection documentActions;
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
-    @Autowired
-    private DocumentDetailsPage documentDetailsPage;
 
     @BeforeClass (alwaysRun = true)
     public void setupTest()
@@ -57,8 +54,7 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
     {
         LOG.info("Step 1: Navigate to Document Library page for testSite.");
         documentLibraryPage.navigate(siteName);
-        Assert.assertTrue(documentDetailsPage.isDocumentLibraryOpened(siteName), "Document Library is not opened!");
-        Assert.assertTrue(documentLibraryPage.getFoldersList().contains(folderName), "Folder is not displayed!");
+        Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Folder is not displayed!");
         LOG.info("Step 2: Click on a folder (e.g. testFolder) and then hover over a file in the document library (e.g. testFile) .");
         documentLibraryPage.clickOnFolderName(folderName);
         List<String> expectedActions = Arrays.asList("Download", "View In Browser", "Edit in Google Docs™");
@@ -69,5 +65,4 @@ public class ViewingAFileInBrowserTests extends ContextAwareWebTest
         Assert.assertEquals(documentLibraryPage.switchToNewWindowAngGetContent(), "Document content",
             "File content is not correct or file has not be opened in new window");
     }
-
 }

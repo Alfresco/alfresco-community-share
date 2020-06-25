@@ -1,5 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -127,8 +128,7 @@ public class UploadContent extends SiteCommon<UploadContent>
         }
         WebElement commentBox = browser
             .waitUntilElementVisible(By.cssSelector("textarea[id$='_default-description-textarea']"));
-        commentBox.clear();
-        commentBox.sendKeys(comments);
+        Utils.clearAndType(commentBox, comments);
         File fileToUpload = newFile(filePath, "updated by upload new version");
         try
         {

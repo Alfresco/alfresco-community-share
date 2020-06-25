@@ -228,9 +228,8 @@ public class CollaboratorFilesOnlyTests extends ContextAwareWebTest
             editInAlfrescoPage);
         LOG.info("Step 3: Edit content and save changes.");
         editInAlfrescoPage.sendDocumentDetailsFields(updatedDocName1, updatedContent1, updatedTitle1, updatedDescription1);
-        editInAlfrescoPage.renderedPage();
         editInAlfrescoPage.clickButton("Save");
-        documentLibraryPage.navigate(siteName);
+
         LOG.info("Step4: Click on testFile to open file and check content.");
         assertTrue(documentLibraryPage.isContentNameDisplayed(updatedDocName1));
         documentLibraryPage.clickOnFile(updatedDocName1);

@@ -2,6 +2,7 @@ package org.alfresco.po.share.site.calendar;
 
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -133,9 +134,7 @@ public class AddEventDialog extends ShareDialog
     public void typeInEventTitleInput(String title)
     {
         Parameter.checkIsMandotary("Event title", title);
-        eventTitle.clear();
-        eventTitle.sendKeys(title);
-        browser.waitInSeconds(1);
+        Utils.clearAndType(eventTitle, title);
     }
 
     /**
@@ -165,8 +164,7 @@ public class AddEventDialog extends ShareDialog
      */
     public void typeInEventLocationInput(String location)
     {
-        eventLocation.clear();
-        eventLocation.sendKeys(location);
+        Utils.clearAndType(eventLocation, location);
     }
 
     /**
@@ -196,8 +194,7 @@ public class AddEventDialog extends ShareDialog
      */
     public void typeInEventDescriptionInput(String description)
     {
-        eventDescription.clear();
-        eventDescription.sendKeys(description);
+        Utils.clearAndType(eventDescription, description);
     }
 
     /**

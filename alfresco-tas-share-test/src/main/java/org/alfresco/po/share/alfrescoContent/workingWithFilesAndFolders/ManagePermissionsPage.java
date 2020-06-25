@@ -3,6 +3,7 @@ package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.po.share.user.UserDashboardPage;
@@ -138,8 +139,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     {
         addUserGroupButton.click();
         List<WebElement> searchRows = new ArrayList<>();
-        searchUserInput.clear();
-        searchUserInput.sendKeys(searchText);
+        Utils.clearAndType(searchUserInput, searchText);
         searchUserButton.click();
         browser.waitInSeconds(5);
         By DATA_ROWS = By.cssSelector("div.finder-wrapper tbody.yui-dt-data tr");
@@ -395,8 +395,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public void sendSearchInput(String userName)
     {
-        searchInputBox.clear();
-        searchInputBox.sendKeys(userName);
+        Utils.clearAndType(searchInputBox, userName);
     }
 
     public void clickSearchButton()

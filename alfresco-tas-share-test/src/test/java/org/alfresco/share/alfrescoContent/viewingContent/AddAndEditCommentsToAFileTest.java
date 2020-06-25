@@ -60,7 +60,6 @@ public class AddAndEditCommentsToAFileTest extends ContextAwareWebTest
         LOG.info("STEP 1: Navigate to 'Document Library' page for 'siteName'");
         siteDashboardPage.navigate(siteName);
         siteDashboardPage.clickDocumentLibrary();
-        Assert.assertTrue(documentDetailsPage.isDocumentLibraryOpened(siteName), "Document Library is not opened!");
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(folderName), "Folder is not displayed!");
 
         LOG.info("STEP 2: Click on folder name then on file name");

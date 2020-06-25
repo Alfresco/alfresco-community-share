@@ -136,7 +136,6 @@ public class TagTests extends ContextAwareWebTest
         LOG.info("STEP5: Click  \"OK\" button from \"Select\" dialog.\n" + "Click  \"Save\" button from \"Edit Properties\" dialog");
         selectDialog.clickOk();
         editPropertiesDialog.clickSave();
-        getBrowser().waitInSeconds(3);
         ArrayList<String> tagsList = new ArrayList<>(Collections.singletonList(tagName2.toLowerCase()));
         assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files", "Displayed page=");
         assertEquals(sharedFilesPage.getTags(docName2), tagsList.toString(), docName2 + " -> tags=");

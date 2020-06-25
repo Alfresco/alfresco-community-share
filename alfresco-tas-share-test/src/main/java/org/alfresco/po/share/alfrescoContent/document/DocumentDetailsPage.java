@@ -718,17 +718,6 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     }
 
     /**
-     * Verify if Document Library is opened
-     *
-     * @param siteName String - the name of the site
-     * @return true if opened
-     */
-    public boolean isDocumentLibraryOpened(String siteName)
-    {
-        return siteDashboardPage.getCurrentUrl().contains(siteName + "/documentlibrary");
-    }
-
-    /**
      * This method is used to get the list of files name
      *
      * @return foldersName

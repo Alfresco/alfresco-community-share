@@ -1,9 +1,12 @@
 package org.alfresco.po.share.site;
 
+import static org.alfresco.common.Utils.retryUntil;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Function;
 
@@ -156,8 +159,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private WebElement currentPage;
     @FindAll (@FindBy (css = ".documentDroppable .ygtvlabel"))
     private List<WebElement> explorerPanelDocumentsList;
-    @FindBy (css = "a[title^='Locate']")
-    private WebElement locateFolder;
     @FindBy (css = ".yui-dt-col-fileName")
     private List<WebElement> nrOfSharedElements;
 
@@ -300,8 +301,25 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public boolean isContentNameDisplayed(String contentName)
     {
-        WebElement webElement = selectDocumentLibraryItemRow(contentName);
-        return browser.isElementDisplayed(webElement);
+        try
+        {
+            //the content might not be in the Document Library list due to SOLR indexes
+            if (selectDocumentLibraryItemRow(contentName) == null)
+            {
+                //refresh the current page until the file is found in the Document Library list
+                retryUntil(() -> {
+                            browser.refresh();
+                            return this.renderedPage();
+                        },
+                        () -> (selectDocumentLibraryItemRow(contentName) != null),
+                        DEFAULT_RETRY);
+            }
+            return true;
+        }
+        catch (RuntimeException ex)
+        {
+            return false;
+        }
     }
 
     /**
@@ -594,7 +612,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public boolean areActionsAvailableForLibraryItem(String libraryItem, List<String> actions)
     {
-        List<WebElement> availableActions = getAvailableActions(libraryItem);
+        List<String> availableActions = getAvailableActions(libraryItem).stream()
+                                                                        .map(action -> action.getText())
+                                                                        .collect(Collectors.toList());
         return availableActions.containsAll(actions);
     }
 
@@ -721,15 +741,15 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public boolean isRenameIconDisplayed(String content)
     {
-        WebElement contentItemElement = selectDocumentLibraryItemRow(content);
         try
         {
-            return Utils.retryUntil(() -> {
-                        browser.mouseOver(contentItemElement.findElement(contentNameSelector));
-                        return browser.isElementDisplayed(contentItemElement, renameIcon);
+            retryUntil(() -> {
+                        browser.mouseOver(selectDocumentLibraryItemRow(content).findElement(contentNameSelector));
+                        return browser.waitUntilElementVisible(renameIcon, WAIT_5_SEC);
                     },
-                    () -> browser.isElementDisplayed(contentItemElement, renameIcon),
+                    () -> browser.isElementDisplayed(selectDocumentLibraryItemRow(content), renameIcon),
                     DEFAULT_RETRY);
+            return true;
         }
         catch (RuntimeException runtimeException)
         {

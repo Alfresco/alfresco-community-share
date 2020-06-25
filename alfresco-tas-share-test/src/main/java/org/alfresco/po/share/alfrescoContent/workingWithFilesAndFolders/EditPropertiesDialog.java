@@ -2,8 +2,10 @@ package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
+import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
@@ -23,6 +25,9 @@ public class EditPropertiesDialog extends ShareDialog
 
     @Autowired
     EditPropertiesPage editPropertiesPage;
+
+    @Autowired
+    DocumentLibraryPage documentLibraryPage;
 
     @RenderWebElement
     @FindBy (css = "div[id$='dialogTitle']")
@@ -97,10 +102,10 @@ public class EditPropertiesDialog extends ShareDialog
         return (SelectDialog) selectDialog.renderedPage();
     }
 
-    public void clickSave()
+    public DocumentLibraryPage clickSave()
     {
         saveButton.click();
-        browser.waitInSeconds(3);
+        return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
     public void clickCancel()
@@ -120,20 +125,17 @@ public class EditPropertiesDialog extends ShareDialog
 
     public void setName(String fileName)
     {
-        propertyName.clear();
-        propertyName.sendKeys(fileName);
+        Utils.clearAndType(propertyName, fileName);
     }
 
     public void setTitle(String fileTitle)
     {
-        propertyTitle.clear();
-        propertyTitle.sendKeys(fileTitle);
+        Utils.clearAndType(propertyTitle, fileTitle);
     }
 
     public void setDescription(String fileDescription)
     {
-        propertyDescription.clear();
-        propertyDescription.sendKeys(fileDescription);
+        Utils.clearAndType(propertyDescription, fileDescription);
     }
 
     public boolean verifyAllElementsAreDisplayed()
@@ -148,26 +150,22 @@ public class EditPropertiesDialog extends ShareDialog
 
     public void typeHost(String host)
     {
-        hostInputField.clear();
-        hostInputField.sendKeys(host);
+        Utils.clearAndType(hostInputField, host);
     }
 
     public void typePort(String port)
     {
-        portInputField.clear();
-        portInputField.sendKeys(port);
+        Utils.clearAndType(portInputField, port);
     }
 
     public void typeUsername(String username)
     {
-        usernameInputField.clear();
-        usernameInputField.sendKeys(username);
+        Utils.clearAndType(usernameInputField, username);
     }
 
     public void typePassword(String password)
     {
-        passwordInputField.clear();
-        passwordInputField.sendKeys(password);
+        Utils.clearAndType(passwordInputField, password);
     }
 
     public void checkEnabled()
@@ -186,7 +184,6 @@ public class EditPropertiesDialog extends ShareDialog
     }
 
     public EditPropertiesPage clickAllPropertiesLink()
-
     {
         browser.waitUntilElementVisible(allPropertiesButton);
         allPropertiesButton.click();

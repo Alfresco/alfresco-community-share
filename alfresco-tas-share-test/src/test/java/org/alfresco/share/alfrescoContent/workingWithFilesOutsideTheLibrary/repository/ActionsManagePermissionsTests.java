@@ -202,7 +202,7 @@ public class ActionsManagePermissionsTests extends ContextAwareWebTest
         repositoryPage.navigate();
         repositoryPage.clickOnFolderName(folderC202776);
         repositoryPage.clickOnFolderName(subFolderC202776);
-        List<String> expectedActions = Arrays.asList("Edit in Google Docs™", "Edit Properties", "Edit in Alfresco", "Edit Offline", "Delete Document");
+        List<String> expectedActions = Arrays.asList("Edit in Google Docs™", "Edit Properties", "Edit in Alfresco Share", "Edit Offline", "Delete Document");
         Assert.assertTrue(repositoryPage.areActionsAvailableForLibraryItem(fileNameC202776, expectedActions), "Expected actions");
         LOG.info("Step 6: Edit TestFile and save changes");
         repositoryPage.clickDocumentLibraryItemAction(fileNameC202776, ItemActions.EDIT_IN_ALFRESCO, editInAlfrescoPage);

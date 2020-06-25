@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.SharePage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.utility.web.HtmlPage;
@@ -800,8 +801,7 @@ public class SearchPage extends SharePage<SearchPage> implements AccessibleByMen
 
     public void setSearchExpression(String searchExpression)
     {
-        inputField.clear();
-        inputField.sendKeys(searchExpression);
+        Utils.clearAndType(inputField, searchExpression);
     }
 
     public void clickSearchButton()

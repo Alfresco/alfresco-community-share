@@ -2,6 +2,7 @@ package org.alfresco.po.share.site.link;
 
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -97,8 +98,7 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 
     public void typeLinkTitle(String title)
     {
-        linkTitle.clear();
-        linkTitle.sendKeys(title);
+        Utils.clearAndType(linkTitle, title);
     }
 
     public boolean isLinkURLDisplayed()
@@ -118,8 +118,7 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 
     public void typeLinkURL(String url)
     {
-        linkURL.clear();
-        linkURL.sendKeys(url);
+        Utils.clearAndType(linkURL, url);
     }
 
     public boolean isLinkDescriptionDisplayed()
@@ -165,8 +164,7 @@ public class CreateLinkPage extends SiteCommon<CreateLinkPage>
 
     public void addTag(String tag)
     {
-        linkTag.clear();
-        linkTag.sendKeys(tag);
+        Utils.clearAndType(linkTag, tag);
         addTagButton.click();
     }
 

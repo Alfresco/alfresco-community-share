@@ -2,6 +2,7 @@ package org.alfresco.po.share;
 
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.profile.UserProfilePage;
@@ -59,8 +60,7 @@ public class PeopleFinderPage extends SharePage<PeopleFinderPage> implements Acc
      */
     public void typeSearchInput(String searchInput)
     {
-        searchInputField.clear();
-        searchInputField.sendKeys(searchInput);
+        Utils.clearAndType(searchInputField, searchInput);
     }
 
     /**

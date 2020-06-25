@@ -2,6 +2,7 @@ package org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders;
 
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -53,8 +54,7 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
 
     public void typeContent(String content)
     {
-        contentTextarea.clear();
-        contentTextarea.sendKeys(content);
+        Utils.clearAndType(contentTextarea, content);
     }
 
     /***
@@ -67,16 +67,10 @@ public class EditInAlfrescoPage extends SiteCommon<EditInAlfrescoPage>
      */
     public void sendDocumentDetailsFields(String name, String content, String title, String description)
     {
-        nameInput.clear();
-        nameInput.sendKeys(name);
-
+        Utils.clearAndType(nameInput, name);
         typeContent(content);
-
-        titleInput.clear();
-        titleInput.sendKeys(title);
-
-        descriptionTextarea.clear();
-        descriptionTextarea.sendKeys(description);
+        Utils.clearAndType(titleInput, title);
+        Utils.clearAndType(descriptionTextarea, description);
     }
 
     /**

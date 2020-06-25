@@ -91,7 +91,6 @@ public class AddExistingTagTests extends ContextAwareWebTest
         LOG.info("STEP6: Click \"Save\" button");
         editPropertiesDialog.clickSave();
         ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagName1.toLowerCase(), tagName2.toLowerCase()));
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Displayed page=");
         assertEquals(documentLibraryPage.getTags(fileName), tagsList.toString(), fileName + " -> tags=");
 
         cleanupAuthenticatedSession();

@@ -1,5 +1,6 @@
 package org.alfresco.po.share.site;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -33,8 +34,7 @@ public class RenameSitePageDialog extends ShareDialog
     public void typeDisplayName(String newName)
     {
         Parameter.checkIsMandotary("New Display Name", newName);
-        displayNameInput.clear();
-        displayNameInput.sendKeys(newName);
+        Utils.clearAndType(displayNameInput, newName);
     }
 
     public void clickOk()

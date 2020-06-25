@@ -106,7 +106,6 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Step 7: Click 'Save' And verify that document details have been updated");
         editFilePropertiesDialog.clickSave();
-        sharedFilesPage.renderedPage();
         assertTrue(sharedFilesPage.isContentNameDisplayed(updatedDocName1), updatedDocName1 + " is displayed.");
         assertEquals(sharedFilesPage.getItemTitle(updatedDocName1), "(" + updatedTitle + ")", updatedDocName1 + " - document's title=");
         assertEquals(sharedFilesPage.getItemDescription(updatedDocName1), updatedDescription, updatedDocName1 + "- document's description=");
@@ -147,7 +146,6 @@ public class EditTests extends ContextAwareWebTest
 
         LOG.info("Step 7: Click 'Save' And verify that document details have been updated");
         editFilePropertiesDialog.clickSave();
-        sharedFilesPage.renderedPage();
         assertTrue(sharedFilesPage.isContentNameDisplayed(updatedFolderName), updatedFolderName + " is displayed.");
         assertEquals(sharedFilesPage.getItemTitle(updatedFolderName), "(" + updatedTitle + ")", updatedFolderName + " - document's title=");
         assertEquals(sharedFilesPage.getItemDescription(updatedFolderName), updatedDescription, updatedFolderName + "- document's description=");

@@ -2,6 +2,7 @@ package org.alfresco.po.share.searching;
 
 import java.util.List;
 
+import org.alfresco.common.Utils;
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -220,8 +221,7 @@ public class CreateNewFilterPopup extends ShareDialog
      */
     public void typeNumberOfFilters(String value)
     {
-        noFilters.clear();
-        noFilters.sendKeys(value);
+        Utils.clearAndType(noFilters, value);
     }
 
     /**
@@ -231,8 +231,7 @@ public class CreateNewFilterPopup extends ShareDialog
      */
     public void typeMinimumFilterLength(String value)
     {
-        minFilterLength.clear();
-        minFilterLength.sendKeys(value);
+        Utils.clearAndType(minFilterLength, value);
     }
 
     /**
@@ -242,8 +241,7 @@ public class CreateNewFilterPopup extends ShareDialog
      */
     public void typeMinimumRequiredResults(String value)
     {
-        minRequiredResults.clear();
-        minRequiredResults.sendKeys(value);
+        Utils.clearAndType(minRequiredResults, value);
     }
 
     /**
