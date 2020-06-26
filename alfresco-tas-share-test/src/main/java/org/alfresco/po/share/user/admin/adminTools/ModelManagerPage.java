@@ -199,13 +199,11 @@ public class ModelManagerPage extends AdminToolsPage
                 if(actionName.equals("Export") && env.getProperty("grid.enabled").equals("true"))
                 {
                     ((RemoteWebDriver)(getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
-                    LOG.info("File detector is:",
-                            ((RemoteWebDriver)(getBrowser().getWrappedDriver())).getFileDetector().toString());
-                    LOG.info("Capabilities are:",
-                            ((RemoteWebDriver)(getBrowser().getWrappedDriver())).getCapabilities().toString());
-                    LOG.info("Firefox options are:",
-                            ((RemoteWebDriver)(getBrowser().getWrappedDriver())).getCapabilities().getCapability("moz:firefoxOptions").toString());
                 }
+                LOG.info("File detector is: {}",
+                        ((RemoteWebDriver)(getBrowser().getWrappedDriver())).getFileDetector().toString());
+                LOG.info("Capabilities are: {}",
+                        ((RemoteWebDriver)(getBrowser().getWrappedDriver())).getCapabilities().toString());
                 action.click();
                 browser.waitInSeconds(2);
                 break;

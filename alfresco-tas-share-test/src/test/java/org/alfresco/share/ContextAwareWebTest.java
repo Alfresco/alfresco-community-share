@@ -145,7 +145,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
             downloadedFile = fileName + extension;
         }
 
-        LOG.info("Looking downloaded content in: ", testDataFolder);
+        LOG.info("Looking downloaded content in: {}", testDataFolder);
         File downloadDirectory = new File(testDataFolder);
         File[] directoryContent = downloadDirectory.listFiles();
 
