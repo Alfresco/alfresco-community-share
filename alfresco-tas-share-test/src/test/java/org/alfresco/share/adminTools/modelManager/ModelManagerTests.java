@@ -308,7 +308,7 @@ public class ModelManagerTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C9519")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, "mytest" })
     public void exportModel()
     {
         // Preconditions
