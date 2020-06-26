@@ -7,8 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 
 /**
  * @author bogdan.bocancea
@@ -28,12 +26,9 @@ public class UploadFileDialog extends ShareDialog
     @FindBy (css = "div[id*='dnd-upload'] a[class*='close']")
     private WebElement closeUploadDialogButton;
 
-    @Autowired
-    private Environment env;
-
     public void uploadFile(String location)
     {
-        if (env.getProperty("grid.enabled").equals("true"))
+        if (properties.isGridEnabled())
         {
             ((RemoteWebDriver) (browser.getWrappedDriver())).setFileDetector(new LocalFileDetector());
         }

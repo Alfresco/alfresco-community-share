@@ -13,6 +13,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -191,6 +193,10 @@ public class ModelManagerPage extends AdminToolsPage
         {
             if (action.getText().equals(actionName))
             {
+                if(actionName.equals("Export") && properties.isGridEnabled())
+                {
+                    ((RemoteWebDriver)(getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
+                }
                 browser.mouseOver(action);
                 action.click();
                 browser.waitInSeconds(2);
