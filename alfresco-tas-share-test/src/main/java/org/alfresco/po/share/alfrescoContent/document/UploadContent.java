@@ -1,10 +1,5 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
-
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
@@ -16,6 +11,12 @@ import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 
 /**
  * @author Razvan.Dorobantu
@@ -23,8 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class UploadContent extends SiteCommon<UploadContent>
 {
+
     @Autowired
     DocumentLibraryPage documentLibraryPage;
+
+    @Autowired
+    private Environment env;
 
     @FindBy (css = "button[id$='-fileUpload-button-button']")
     private WebElement uploadButton;
@@ -73,7 +78,7 @@ public class UploadContent extends SiteCommon<UploadContent>
 
     public void uploadContent(String filePath, String contentsOfFile)
     {
-        if (properties.isGridEnabled())
+        if (env.getProperty("grid.enabled").equals("true"))
         {
             ((RemoteWebDriver)(documentLibraryPage.getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
         }
@@ -112,7 +117,7 @@ public class UploadContent extends SiteCommon<UploadContent>
 
     public DocumentLibraryPage updateDocumentVersion(String filePath, String comments, Version versionType)
     {
-        if (properties.isGridEnabled())
+        if (env.getProperty("grid.enabled").equals("true"))
         {
             ((RemoteWebDriver)(documentLibraryPage.getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
         }
