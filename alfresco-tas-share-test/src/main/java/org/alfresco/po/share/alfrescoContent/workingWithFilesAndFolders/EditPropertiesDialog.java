@@ -104,7 +104,8 @@ public class EditPropertiesDialog extends ShareDialog
 
     public DocumentLibraryPage clickSave()
     {
-        saveButton.click();
+        browser.waitUntilElementClickable(saveButton).click();
+        waitUntilMessageDisappears();
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 

@@ -451,8 +451,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     public WebElement mouseOverContentItem(String contentItem)
     {
         WebElement contentItemElement = selectDocumentLibraryItemRow(contentItem);
-        browser.mouseOver(contentItemElement.findElement(contentNameSelector));
         Parameter.checkIsMandotary("Content item", contentItemElement);
+        browser.mouseOver(contentItemElement.findElement(contentNameSelector));
+
         return Utils.retry(() ->
         {
             browser.mouseOver(contentItemElement);
