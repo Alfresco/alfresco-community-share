@@ -10,13 +10,11 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.LocalFileDetector;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 
 /**
  * Created by Mirela Tifui on 11/28/2016.
@@ -41,8 +39,6 @@ public class ModelManagerPage extends AdminToolsPage
     ImportModelDialogPage importModelDialogPage;
     @Autowired
     ModelDetailsPage modelDetailsPage;
-    @Autowired
-    private Environment env;
 
     @RenderWebElement
     @FindBy (css = "span[class*='createButton'] span[class='dijitReset dijitStretch dijitButtonContents']")
@@ -196,16 +192,6 @@ public class ModelManagerPage extends AdminToolsPage
             if (action.getText().equals(actionName))
             {
                 browser.mouseOver(action);
-                if(actionName.equals("Export") && env.getProperty("grid.enabled").equals("true"))
-                {
-                    ((RemoteWebDriver)(getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
-                    LOG.info("File detector is:",
-                            ((RemoteWebDriver)(getBrowser().getWrappedDriver())).getFileDetector().toString());
-                    LOG.info("Capabilities are:",
-                            ((RemoteWebDriver)(getBrowser().getWrappedDriver())).getCapabilities().toString());
-                    LOG.info("Firefox options are:",
-                            ((RemoteWebDriver)(getBrowser().getWrappedDriver())).getCapabilities().getCapability("moz:firefoxOptions").toString());
-                }
                 action.click();
                 browser.waitInSeconds(2);
                 break;

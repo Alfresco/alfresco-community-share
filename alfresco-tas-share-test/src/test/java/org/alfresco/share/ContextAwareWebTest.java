@@ -17,6 +17,8 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.web.AbstractWebTest;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.ContextConfiguration;
@@ -137,6 +139,11 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
 
     protected boolean isFileInDirectory(String fileName, String extension)
     {
+        if (properties.isGridEnabled())
+        {
+            ((RemoteWebDriver)(getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
+        }
+
         String downloadedFile = fileName;
         if (extension != null)
         {
@@ -145,7 +152,6 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
             downloadedFile = fileName + extension;
         }
 
-        LOG.info("Looking downloaded content in: ", testDataFolder);
         File downloadDirectory = new File(testDataFolder);
         File[] directoryContent = downloadDirectory.listFiles();
 
