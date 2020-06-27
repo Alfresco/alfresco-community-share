@@ -29,6 +29,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -691,6 +693,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         }
 
         browser.mouseOver(actionElement);
+
+        if ((action.equals(ItemActions.DOWNLOAD) || action.equals(ItemActions.DOWNLOAD_AS_ZIP)) && properties.isGridEnabled())
+        {
+            ((RemoteWebDriver)(getBrowser().getWrappedDriver())).setFileDetector(new LocalFileDetector());
+        }
+
         browser.waitUntilElementClickable(actionElement).click();
         if(page instanceof DocumentLibraryPage)
         {

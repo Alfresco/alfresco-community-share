@@ -9,7 +9,6 @@ import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 
 /**
  * Created by Mirela Tifui on 11/28/2016.
@@ -17,9 +16,6 @@ import org.springframework.core.env.Environment;
 @PageObject
 public class ImportModelDialogPage extends ShareDialog
 {
-    @Autowired
-    private Environment env;
-
     @Autowired
     private ModelManagerPage modelManagerPage;
 
@@ -68,7 +64,7 @@ public class ImportModelDialogPage extends ShareDialog
 
     public void importFile(String filePath)
     {
-        if (env.getProperty("grid.enabled").equals("true"))
+        if (properties.isGridEnabled())
         {
             ((RemoteWebDriver)browser.getWrappedDriver()).setFileDetector(new LocalFileDetector());
         }

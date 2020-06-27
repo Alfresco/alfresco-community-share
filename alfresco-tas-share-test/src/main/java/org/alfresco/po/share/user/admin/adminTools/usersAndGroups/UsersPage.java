@@ -18,7 +18,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import ru.yandex.qatools.htmlelements.element.FileInput;
 
 @PageObject
@@ -30,8 +29,6 @@ public class UsersPage extends AdminToolsPage
     protected List<WebElement> usersList;
     @FindAll (@FindBy (css = "td[class*='fullName']"))
     protected List<WebElement> usersNamesList;
-    @Autowired
-    private Environment env;
     @Autowired
     private CreateUsers createUsers;
     @Autowired
@@ -199,7 +196,7 @@ public class UsersPage extends AdminToolsPage
 
     public UploadResults uploadUsers(String filePath, String contentsOfFile)
     {
-        if (env.getProperty("grid.enabled").equals("true"))
+        if (properties.isGridEnabled())
         {
             ((RemoteWebDriver)(browser.getWrappedDriver())).setFileDetector(new LocalFileDetector());
         }
