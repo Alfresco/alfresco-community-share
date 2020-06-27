@@ -130,7 +130,6 @@ public class ContributorFoldersOnlyTests extends ContextAwareWebTest
         documentLibraryPage.navigate(site);
         documentLibraryPage.clickFolderFromExplorerPanel(folderName);
         LOG.info("STEP1: Mouse over folder and verify presence of \"Manage Rules\" option");
-        documentLibraryPage.clickMoreMenu(subFolderName);
         assertFalse(documentLibraryPage.isActionAvailableForLibraryItem(subFolderName, ItemActions.MANAGE_RULES),
             "'Manage Rules' option is displayed for " + subFolderName);
     }

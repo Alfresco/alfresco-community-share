@@ -5,6 +5,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @PageObject
 public class UploadResults extends SharePage<UploadResults>
@@ -13,9 +14,13 @@ public class UploadResults extends SharePage<UploadResults>
     @FindBy (css = "button[id*='default-csv-goback-button-button']")
     private WebElement goBackButton;
 
-    public void clickGoBack()
+    @Autowired
+    UsersPage usersPage;
+
+    public UsersPage clickGoBack()
     {
         goBackButton.click();
+        return (UsersPage) usersPage.renderedPage();
     }
 
     @Override

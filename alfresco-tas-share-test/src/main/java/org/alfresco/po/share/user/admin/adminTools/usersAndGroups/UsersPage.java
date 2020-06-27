@@ -35,7 +35,7 @@ public class UsersPage extends AdminToolsPage
     @Autowired
     private CreateUsers createUsers;
     @Autowired
-    private UserProfilePage userProfile;
+    private UploadResults uploadResults;
     @Autowired
     private AdminToolsUserProfile adminToolsUserProfile;
     @RenderWebElement
@@ -197,7 +197,7 @@ public class UsersPage extends AdminToolsPage
         return uploadUsersButton.isDisplayed() && uploadUsersButton.isEnabled();
     }
 
-    public void uploadUsers(String filePath, String contentsOfFile)
+    public UploadResults uploadUsers(String filePath, String contentsOfFile)
     {
         if (env.getProperty("grid.enabled").equals("true"))
         {
@@ -214,6 +214,7 @@ public class UsersPage extends AdminToolsPage
         {
             e.printStackTrace();
         }
+        return (UploadResults) uploadResults.renderedPage();
 
     }
 

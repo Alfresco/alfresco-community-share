@@ -144,7 +144,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
     private WebElement downloadPreviousVersion;
     @FindBy (css = "div[id$='_default-olderVersions'] div.version-panel-right a[class$='_default revert']")
     private WebElement revertButton;
-    @FindBy (xpath = "//iframe[contains(@title,'Rich Text Area')]")
+    @FindBy (css = "iframe[id*='comments']")
     private WebElement CommentTextArea;
     @FindBy (xpath = ".//span[contains(@class,'locked')]")
     private WebElement lockedMessage;
@@ -786,8 +786,7 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
 
     public void clickDownloadPreviousVersion()
     {
-        browser.waitUntilElementClickable(downloadPreviousVersion, 6);
-        downloadPreviousVersion.click();
+        browser.waitUntilElementClickable(downloadPreviousVersion).click();
         acceptAlertIfDisplayed();
     }
 
@@ -801,16 +800,20 @@ public class DocumentDetailsPage extends DocumentCommon<DocumentDetailsPage>
      */
     public void clickRevertButton()
     {
-        revertButton.click();
+        browser.waitUntilElementClickable(revertButton).click();
         browser.waitUntilElementVisible(okOnRevertPopup);
     }
 
     /**
-     * Method used to enter and add comment to an item - with retry
+     * Method used to enter and add comment to an item
      */
     public void addCommentToItem(String comment)
     {
-        Utils.clearAndType(browser.waitUntilElementVisible(CommentTextArea), comment);
+        browser.switchTo().frame(browser.waitUntilElementVisible(CommentTextArea));
+        WebElement commentBody = browser.findElement(By.id("tinymce"));
+        Utils.clearAndType(commentBody, comment);
+        browser.switchTo().defaultContent();
+
         browser.waitUntilElementClickable(addCommentButtonSave).click();
     }
 

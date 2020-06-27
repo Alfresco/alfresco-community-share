@@ -83,14 +83,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
 
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
     public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
-    public By descriptionTagFilter = By.cssSelector("div.message span.more");
     @FindBy (css = "[id$='default-fileUpload-button-button']")
     protected WebElement uploadButton;
     @RenderWebElement
     @FindBy (css = "button[id$='default-options-button-button']")
     protected WebElement optionsMenu;
-    @FindBy (xpath = "//span[contains(text(), 'More...')]")
-    protected WebElement moreLink;
     @FindBy (css = ".hideFolders")
     protected WebElement hideFoldersMenuOption;
     protected By likeButton = By.cssSelector("a.like-action");
@@ -162,9 +159,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     @FindBy (css = ".yui-dt-col-fileName")
     private List<WebElement> nrOfSharedElements;
 
-    private By renameIcon = By.cssSelector(".filename span[class='insitu-edit']");
+    private By renameIcon = By.cssSelector(".filename span.insitu-edit[style*='visibility: visible']");
     private By linkToFolderLocator = By.cssSelector(".filename [href*='FdocumentLibrary']");
-    private By uploadNewVersion = By.cssSelector("a[title='Upload New Version']");
     private By moreMenuSelector = By.cssSelector("div[id*='onActionShowMore'] a span");
     private By noTagsSelector = By.cssSelector("td[class*='fileName'] .detail .item .faded");
     private By contentTagsSelector = By.cssSelector(".item .tag-link");
@@ -577,17 +573,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         return (DocumentLibraryPage) this.renderedPage();
     }
 
-    public void clickMoreMenu(String libraryItem)
-    {
-        if (isMoreMenuDisplayed(libraryItem))
-        {
-            WebElement moreMenu = selectDocumentLibraryItemRow(libraryItem).findElement(moreMenuSelector);
-            browser.waitUntilElementClickable(moreMenu, 30).click();
-            browser.waitUntilElementVisible(
-                browser.findElement(By.xpath("//div[contains(@id, 'default-actions-yui') and not(@class='hidden')]/div[contains(@class,'action-set')]")));
-        }
-    }
-
     public boolean isMoreMenuDisplayed(String contentName)
     {
         return browser.isElementDisplayed(selectDocumentLibraryItemRow(contentName), moreMenuSelector);
@@ -740,17 +725,28 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         return selectDocumentLibraryItemRow(fileName).findElement(favoriteLink).getAttribute("class").contains("enabled");
     }
 
+    private void mouseOverContentName(String content)
+    {
+        try
+        {
+            browser.mouseOver(selectDocumentLibraryItemRow(content).findElement(contentNameSelector));
+            browser.waitUntilElementVisible(renameIcon, Timeout.MEDIUM.getTimeoutSeconds());
+        }
+        catch (TimeoutException e)
+        {
+            //ignore the exception for the cases when icon should not appear
+        }
+    }
     public boolean isRenameIconDisplayed(String content)
     {
         try
         {
-            retryUntil(() -> {
-                        browser.mouseOver(selectDocumentLibraryItemRow(content).findElement(contentNameSelector));
-                        return browser.waitUntilElementVisible(renameIcon, WAIT_5_SEC);
+            return retryUntil(() -> {
+                        mouseOverContentName(content);
+                        return true;
                     },
-                    () -> browser.isElementDisplayed(selectDocumentLibraryItemRow(content), renameIcon),
+                    () -> browser.isElementDisplayed(renameIcon),
                     DEFAULT_RETRY);
-            return true;
         }
         catch (RuntimeException runtimeException)
         {
