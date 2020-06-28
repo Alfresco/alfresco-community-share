@@ -1,6 +1,7 @@
 package org.alfresco.po.share.site;
 
 import static org.alfresco.common.Utils.retryUntil;
+import static org.testng.Assert.assertTrue;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewContentDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -295,24 +297,28 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         return browser.isElementDisplayed(browser.waitUntilElementVisible(uploadButton));
     }
 
+    public void waitForContent(String contentName) throws InterruptedException
+    {
+        //the content might not be in the Document Library list due to SOLR indexes
+        if (selectDocumentLibraryItemRow(contentName) == null)
+        {
+            //refresh the current page until the file is found in the Document Library list
+            Utility.sleep(5000, 30000, () -> {
+                browser.refresh();
+                this.renderedPage();
+                assertTrue(selectDocumentLibraryItemRow(contentName) != null);
+            });
+        }
+    }
+
     public boolean isContentNameDisplayed(String contentName)
     {
         try
         {
-            //the content might not be in the Document Library list due to SOLR indexes
-            if (selectDocumentLibraryItemRow(contentName) == null)
-            {
-                //refresh the current page until the file is found in the Document Library list
-                retryUntil(() -> {
-                            browser.refresh();
-                            return this.renderedPage();
-                        },
-                        () -> (selectDocumentLibraryItemRow(contentName) != null),
-                        DEFAULT_RETRY);
-            }
+            waitForContent(contentName);
             return true;
         }
-        catch (RuntimeException ex)
+        catch (AssertionError | InterruptedException ex)
         {
             return false;
         }
@@ -446,6 +452,14 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public WebElement mouseOverContentItem(String contentItem)
     {
+        try
+        {
+            waitForContent(contentItem);
+        }
+        catch (InterruptedException | AssertionError e)
+        {
+            throw new AssertionError("Content " + contentItem + " was not displayed in library page!");
+        }
         WebElement contentItemElement = selectDocumentLibraryItemRow(contentItem);
         Parameter.checkIsMandotary("Content item", contentItemElement);
         browser.mouseOver(contentItemElement.findElement(contentNameSelector));
@@ -645,9 +659,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         try
         {
-            WebElement moreAction = browser.waitUntilChildElementIsPresent(libraryItem, moreSelector, Timeout.MEDIUM.getTimeoutSeconds());
             Utils.retry(
                     () -> {
+                        WebElement moreAction = browser.waitUntilChildElementIsPresent(libraryItem, moreSelector, Timeout.MEDIUM.getTimeoutSeconds());
                         browser.mouseOver(moreAction);
                         browser.waitUntilElementClickable(moreAction, Timeout.MEDIUM.getTimeoutSeconds()).click();
                         // wait for the actions to show
@@ -687,7 +701,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         }
         catch (TimeoutException timeoutException)
         {
-            throw new RuntimeException("The action " + action.getActionName() + " could not be found for list item " + contentItem);
+            throw new TimeoutException("The action " + action.getActionName() + " could not be found for list item " + contentItem);
         }
 
         browser.mouseOver(actionElement);
