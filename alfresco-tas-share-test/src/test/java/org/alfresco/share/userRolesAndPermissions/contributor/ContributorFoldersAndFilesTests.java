@@ -326,15 +326,12 @@ public class ContributorFoldersAndFilesTests extends ContextAwareWebTest
         LOG.info("Steps2: On the Manage Permissions page click on Add User/Group button and add permissions for a test user.");
         managePermissionsPage.searchAndAddUserOrGroup(user2, 0);
         LOG.info("Steps3: Click 'Save' button");
-        managePermissionsPage.clickButton("Save");
-        documentLibraryPage.renderedPage();
+        managePermissionsPage.clickSave();
         LOG.info("Step4: Return to Manage Permissions page for the file and check if permissions were added successfully.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
         assertTrue(managePermissionsPage.isPermissionAddedForUser(fullName), String.format("User [%s] added in permissions.", user2));
         userService.delete(adminUser, adminPassword, user2);
         contentService.deleteTreeByPath(adminUser, adminPassword, "/User Homes/" + user2);
-
-
     }
 
     @TestRail (id = "C8801")

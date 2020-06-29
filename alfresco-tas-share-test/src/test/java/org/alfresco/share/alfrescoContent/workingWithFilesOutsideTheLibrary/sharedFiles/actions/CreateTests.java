@@ -78,9 +78,6 @@ public class CreateTests extends ContextAwareWebTest
         LOG.info("Step 1: Click Create... button");
         sharedFilesPage.clickCreateButton();
         Assert.assertTrue(sharedFilesPage.areCreateOptionsAvailable(), "Create menu options are not available");
-        Assert.assertTrue(createContent.isCreateFromTemplateAvailable("Create document from template"),
-            "Create... Create document from template is not displayed");
-        Assert.assertTrue(createContent.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
 
         LOG.info("Step 2: Click \"Plain Text...\" option.");
         sharedFilesPage.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
@@ -214,10 +211,10 @@ public class CreateTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Create' then 'Create folder from template'.");
         sharedFilesPage.clickCreateButton();
-        createContent.clickCreateFromTemplateButton("Create folder from template");
+        sharedFilesPage.clickCreateFromTemplateOption(CreateMenuOption.CREATE_FOLDER_FROM_TEMPLATE);
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
+        sharedFilesPage.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
@@ -250,17 +247,14 @@ public class CreateTests extends ContextAwareWebTest
         LOG.info("Precondition: Login as user and navigate to Shared Files page.");
         setupAuthenticatedSession(user, password);
         sharedFilesPage.navigate();
-        Assert.assertEquals(sharedFilesPage.getPageTitle(), "Alfresco » Shared Files");
 
         LOG.info("STEP 1: Click 'Create' then 'Create document from template'.");
         sharedFilesPage.clickCreateButton();
-        createContent.clickCreateFromTemplateButton("Create document from template");
-        Assert.assertTrue(createContent.isTemplateDisplayed(fileTemplateName));
+        sharedFilesPage.clickCreateFromTemplateOption(CreateMenuOption.CREATE_DOC_FROM_TEMPLATE);
+        Assert.assertTrue(sharedFilesPage.isTemplateDisplayed(fileTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnTemplate(fileTemplateName, sharedFilesPage);
-        sharedFilesPage.refresh();
-        sharedFilesPage.renderedPage();
+        sharedFilesPage.clickOnTemplate(fileTemplateName, sharedFilesPage);
         Assert.assertTrue(sharedFilesPage.isContentNameDisplayed(fileTemplateName), String.format("Content: %s is not displayed.", fileTemplateName));
 
         LOG.info("Step 3: Login with testUser2 and navigate to Shared Files page.");

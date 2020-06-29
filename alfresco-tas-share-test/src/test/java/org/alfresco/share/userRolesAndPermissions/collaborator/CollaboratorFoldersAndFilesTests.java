@@ -383,18 +383,15 @@ public class CollaboratorFoldersAndFilesTests extends ContextAwareWebTest
 
         LOG.info("Step 1: Hover for 'testFolder' and click on 'Manage Permissions' option from 'More' menu.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
-        assertEquals(managePermissionsPage.getTitle(), "Manage Permissions: " + folderName, "Manage Permissions: " + folderName + " title displayed.");
 
         LOG.info("Step 2: Make some changes. Add User/Group button. Search for testUser. Click Add Button.");
         managePermissionsPage.searchAndAddUserAndGroup(user);
 
         LOG.info("Step 3: Click 'Save' button");
-        managePermissionsPage.clickButton("Save");
-        assertEquals(documentLibraryPage.getPageTitle(), "Alfresco » Document Library", "Page displayed");
+        managePermissionsPage.clickSave();
 
         LOG.info("Step 4: Click 'More' menu, 'Manage Permissions' options.");
         documentLibraryPage.clickDocumentLibraryItemAction(folderName, ItemActions.MANAGE_PERMISSIONS, managePermissionsPage);
-        assertEquals(managePermissionsPage.getTitle(), "Manage Permissions: " + folderName, "Manage Permissions: " + folderName + " title displayed.");
         assertTrue(managePermissionsPage.isPermissionAddedForUser(user), String.format("User [%s] is not added in permissions.", user));
         contentService.deleteFolder(adminUser, adminPassword, siteName, folderName);
     }

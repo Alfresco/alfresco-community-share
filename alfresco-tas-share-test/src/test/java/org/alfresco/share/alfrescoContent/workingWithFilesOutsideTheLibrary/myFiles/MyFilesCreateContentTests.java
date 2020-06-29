@@ -4,7 +4,6 @@ import static org.testng.Assert.assertEquals;
 
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.alfrescoContent.CreateFolderFromTemplate;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -43,8 +42,6 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     private CreateFolderFromTemplate createFolderFromTemplate;
     @Autowired
     private GoogleDocsCommon googleDocs;
-    @Autowired
-    private Notification notification;
 
     @BeforeClass (alwaysRun = true)
     public void createPrecondition()
@@ -73,8 +70,6 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
         LOG.info("Step 1: Click Create... button");
         myFilesPage.clickCreateButton();
         Assert.assertTrue(myFilesPage.areCreateOptionsAvailable(), "Create menu options are not available");
-        Assert.assertTrue(createContent.isCreateFromTemplateAvailable("Create document from template"), "Create... Create document from template is not displayed");
-        Assert.assertTrue(createContent.isCreateFromTemplateAvailable("Create folder from template"), "Create... Create folder from template is not displayed");
 
         LOG.info("Step 2: Click \"Plain Text...\" option.");
         myFilesPage.clickCreateContentOption(CreateMenuOption.PLAIN_TEXT);
@@ -163,7 +158,7 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7653")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesCreateFolderFromTemplate()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
@@ -172,38 +167,34 @@ public class MyFilesCreateContentTests extends ContextAwareWebTest
 
         LOG.info("STEP 1: Click 'Create' then 'Create folder from template'.");
         myFilesPage.clickCreateButton();
-        createContent.clickCreateFromTemplateButton("Create folder from template");
-        Assert.assertTrue(createContent.isFolderTemplateDisplayed(folderTemplateName));
+        myFilesPage.clickCreateFromTemplateOption(CreateMenuOption.CREATE_FOLDER_FROM_TEMPLATE);
+        Assert.assertTrue(myFilesPage.isTemplateDisplayed(folderTemplateName));
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnFolderTemplate(folderTemplateName, createFolderFromTemplate);
+        myFilesPage.clickOnTemplate(folderTemplateName, createFolderFromTemplate);
         Assert.assertTrue(createFolderFromTemplate.isCreateFolderFromTemplatePopupDisplayed());
         Assert.assertEquals(createFolderFromTemplate.getNameFieldValue(), folderTemplateName);
 
         LOG.info("STEP 3: Insert data into input fields and save.");
         createFolderFromTemplate.fillInDetails("Test Folder", "Test Title", "Test Description");
         createFolderFromTemplate.clickSaveButton();
-        Assert.assertEquals(notification.getDisplayedNotification(), String.format("Folder '%s' created", "Test Folder"));
-        notification.waitUntilNotificationDisappears();
         Assert.assertTrue(myFilesPage.getFoldersList().contains("Test Folder"), "Subfolder not found");
         Assert.assertTrue(myFilesPage.getExplorerPanelDocuments().contains("Test Folder"), "Subfolder not found in Documents explorer panel");
     }
 
     @TestRail (id = "C12858")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesCreateFileFromTemplate()
     {
         LOG.info("Precondition: Login as user and navigate to My Files page.");
         myFilesPage.navigate();
-        Assert.assertEquals(myFilesPage.getPageTitle(), "Alfresco » My Files");
 
         LOG.info("STEP 1: Click 'Create' then 'Create file from template'.");
         myFilesPage.clickCreateButton();
-        createContent.clickCreateFromTemplateButton("Create document from template");
-        Assert.assertTrue(createContent.isFileTemplateDisplayed(fileTemplateName));
+        myFilesPage.clickCreateFromTemplateOption(CreateMenuOption.CREATE_DOC_FROM_TEMPLATE);
+        Assert.assertTrue(myFilesPage.isTemplateDisplayed(fileTemplateName));
 
         LOG.info("STEP 2: Select the template: 'Software Engineering Project'");
-        createContent.clickOnDocumentTemplate(fileTemplateName, myFilesPage);
-        Assert.assertEquals(notification.getDisplayedNotification(), String.format("Created content based on template '%s'", fileTemplateName), "Notification message appears");
+        myFilesPage.clickOnTemplate(fileTemplateName, myFilesPage);
         Assert.assertTrue(myFilesPage.isContentNameDisplayed(fileTemplateName), String.format("Content: %s is not displayed.", fileTemplateName));
     }
 

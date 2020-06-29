@@ -51,7 +51,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
         XML(By.cssSelector("span.xml-file")),
         GOOGLE_DOCS_DOCUMENT(By.cssSelector("span.document-file")),
         GOOGLE_DOCS_SPREADSHEET(By.cssSelector("span.spreadsheet-file")),
-        GOOGLE_DOCS_PRESENTATION(By.cssSelector("span.presentation-file"));
+        GOOGLE_DOCS_PRESENTATION(By.cssSelector("span.presentation-file")),
+        CREATE_DOC_FROM_TEMPLATE(By.xpath("//a[contains(@class, 'yuimenuitemlabel-hassubmenu')]//span[text()='Create document from template']")),
+        CREATE_FOLDER_FROM_TEMPLATE(By.xpath("//a[contains(@class, 'yuimenuitemlabel-hassubmenu')]//span[text()='Create folder from template']"));
 
         private By locator;
 
@@ -78,7 +80,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private NewContentDialog newContentDialog;
 
     private static final String ACTION_SELECTOR = "div[id*='default-actions']:not([class*='hidden'])>.action-set .{0}>a";
-    private static final String ACTION_SELECTOR_MORE = "div.more-actions>.{0}>a";
+    private static final String ACTION_SELECTOR_MORE = "div[id*='default-actions']:not([class*='hidden']) div.more-actions>.{0}>a";
     /** more actions */
     private static By moreSelector = By.cssSelector("div[id*='default-actions']:not([class*='hidden']) a.show-more");
     private static By moreActionsMenu = By.cssSelector("div[id*='default-actions']:not([class*='hidden'])>.action-set>.more-actions");
@@ -113,8 +115,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     private List<WebElement> optionsList;
     private By optionsMenuDropDown = By.cssSelector("div[id*='default-options-menu'].visible");
     private By displayedOptionsListBy = By.xpath("//div[contains(@id, 'default-options-menu')]//li[not(contains(@class, 'hidden'))]");
-    @FindAll (@FindBy (css = ".filter-change:nth-child(1)"))
-    private List<WebElement> foldersList;
+    private By foldersList  = By.cssSelector(".filter-change:nth-child(1)");
     private By filesList = By.cssSelector(".filename a[href*='document-details']");
     private By documentLibraryItemsList = By.cssSelector("div[id$='default-documents'] tbody[class$='data'] tr");
     @FindAll (@FindBy (css = ".crumb .folder"))
@@ -215,6 +216,49 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
     {
         browser.waitUntilElementClickable(CreateMenuOption.FOLDER.getLocator(), WAIT_15_SEC).click();
         return (NewContentDialog) newContentDialog.renderedPage();
+    }
+
+    /**
+     * Method to click on Create Document/Folder from Template
+     */
+    public void clickCreateFromTemplateOption(CreateMenuOption option)
+    {
+        Utils.retry(() ->
+        {
+            WebElement optionElement = browser.waitUntilElementVisible(option.getLocator(), Timeout.SHORT.getTimeoutSeconds());
+            // need sometime to mouse over another element before mouse over create from Template option because the
+            // list of templates doesn't appear
+            browser.mouseOver(createButton);
+            browser.mouseOver(optionElement);
+            browser.waitUntilElementClickable(optionElement, Timeout.SHORT.getTimeoutSeconds()).click();
+            return browser.waitUntilElementVisible(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible"), Timeout.MEDIUM.getTimeoutSeconds());
+        }, DEFAULT_RETRY);
+    }
+
+    private WebElement selectTemplate(String templateName)
+    {
+        return browser.waitUntilElementVisible(By.xpath("//a[@class = 'yuimenuitemlabel']//span[text()='" + templateName + "']"));
+    }
+
+    /**
+     * Method to check if the template is present
+     */
+    public boolean isTemplateDisplayed(String templateName)
+    {
+        return browser.isElementDisplayed(selectTemplate(templateName));
+    }
+
+    /**
+     * Method to select template
+     */
+    public HtmlPage clickOnTemplate(String templateName, HtmlPage page)
+    {
+        browser.waitUntilElementClickable(selectTemplate(templateName)).click();
+        if (page instanceof DocumentLibraryPage)
+        {
+            waitUntilMessageDisappears();
+        }
+        return page.renderedPage();
     }
 
     /**
@@ -404,9 +448,10 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage>
      */
     public List<String> getFoldersList()
     {
-        browser.waitInSeconds(1);
+        browser.waitUntilElementIsDisplayedWithRetry(foldersList, WAIT_5_SEC);
+        waitForRows();
         List<String> foldersName = new ArrayList<>();
-        for (WebElement folder : foldersList)
+        for (WebElement folder : browser.findElements(foldersList))
         {
             foldersName.add(folder.getText());
         }

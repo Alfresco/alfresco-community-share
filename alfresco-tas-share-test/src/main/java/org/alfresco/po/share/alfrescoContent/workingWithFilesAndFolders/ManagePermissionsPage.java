@@ -94,17 +94,11 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
     }
 
     /**
-     * Click on a Save or Cancel buttons
-     *
-     * @param buttonName to be clicked: Save, Cancel
+     * Click on Cancel button
      */
-    public DocumentLibraryPage clickButton(String buttonName)
+    public DocumentLibraryPage clickCancel()
     {
-        if (buttonName.equals("Save"))
-            saveButton.click();
-        else
-            cancelButton.click();
-
+        cancelButton.click();
         return (DocumentLibraryPage) documentLibraryPage.renderedPage();
     }
 
@@ -389,7 +383,7 @@ public class ManagePermissionsPage extends SiteCommon<ManagePermissionsPage>
 
     public void clickAddUserGroupButton()
     {
-        addUserGroupButton.click();
+        browser.waitUntilElementClickable(addUserGroupButton).click();
         browser.waitUntilElementVisible(addUserGroupWindow);
     }
 

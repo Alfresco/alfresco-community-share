@@ -18,6 +18,7 @@ public enum ItemActions
     UPLOAD_NEW_VERSION("document-upload-new-version", "Upload New Version"),
     START_WORKFLOW("document-assign-workflow", "Start Workflow"),
     MANAGE_PERMISSIONS("document-manage-granular-permissions", "Manage Permissions"),
+    MANAGE_REPO_PERMISSIONS("document-manage-repo-permissions", "Manage Permissions"),
     MANAGE_ASPECTS("document-manage-aspects", "Manage Aspects"),
     LOCATE_FILE("document-locate", "Locate File"),
     VIEW_ON_GOOGLE_MAPS("TBD", "View on Google Maps"),

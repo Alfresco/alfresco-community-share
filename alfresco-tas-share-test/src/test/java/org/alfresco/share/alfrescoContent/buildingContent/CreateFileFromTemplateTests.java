@@ -2,9 +2,9 @@ package org.alfresco.share.alfrescoContent.buildingContent;
 
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.SiteService;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContent;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
 import org.alfresco.share.ContextAwareWebTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -26,12 +26,9 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
     @Autowired
     private DocumentLibraryPage documentLibraryPage;
     @Autowired
-    private CreateContent createContent;
-    @Autowired
     private DocumentDetailsPage documentDetailsPage;
 
     @BeforeClass (alwaysRun = true)
-
     public void setupTest()
     {
         userService.create(adminUser, adminPassword, user, password, user + domain, user, user);
@@ -49,22 +46,21 @@ public class CreateFileFromTemplateTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7000")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
-
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void createFileFromTemplate()
     {
         documentLibraryPage.navigate(siteName);
 
         LOG.info("Step 1:Click 'Create' then click 'Create document from template'.");
         documentLibraryPage.clickCreateButton();
-        Assert.assertTrue(createContent.isFileTemplateDisplayed(docName), "Template is not displayed");
+        documentLibraryPage.clickCreateFromTemplateOption(CreateMenuOption.CREATE_DOC_FROM_TEMPLATE);
+        Assert.assertTrue(documentLibraryPage.isTemplateDisplayed(docName), "Template is not displayed");
 
         LOG.info("Step 2: Select the template and check that the new file is created with the content from the template used");
-        createContent.clickOnDocumentTemplate(docName, documentLibraryPage);
+        documentLibraryPage.clickOnTemplate(docName, documentLibraryPage);
         Assert.assertTrue(documentLibraryPage.isContentNameDisplayed(docName), "Newly created document is not displayed in Document Library");
 
         documentLibraryPage.clickOnFile(docName);
-        Assert.assertEquals(documentDetailsPage.getPageTitle(), "Alfresco » Document Details", "Document is not previewed");
         Assert.assertEquals(documentDetailsPage.getContentText(), docContent);
     }
 }

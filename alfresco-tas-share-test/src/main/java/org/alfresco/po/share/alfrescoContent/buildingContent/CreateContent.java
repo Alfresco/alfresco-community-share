@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageObject
 public class CreateContent extends SiteCommon<CreateContent>
 {
-    public By message = By.cssSelector("span.message span.wait");
     @Autowired
     TinyMceEditor tinyMceEditor;
 
@@ -49,20 +48,6 @@ public class CreateContent extends SiteCommon<CreateContent>
     @FindBy (css = "div[class ='mce-edit-area mce-container mce-panel mce-stack-layout-item'] iframe")
     private WebElement htmlContentField;
 
-
-    @FindAll (@FindBy (css = ".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible span"))
-    private List<WebElement> templatesList;
-
-    private WebElement selectCreateFromTemplateButton(String buttonName)
-    {
-        return browser.findElement(By.xpath("//a[contains(@class, 'yuimenuitemlabel-hassubmenu')]//span[text()='" + buttonName + "']"));
-    }
-
-    public WebElement selectTemplate(String templateName)
-    {
-        return browser.waitUntilElementVisible(By.xpath("//a[@class = 'yuimenuitemlabel']//span[text()='" + templateName + "']"));
-    }
-
     @Override
     public String getRelativePath()
     {
@@ -70,19 +55,11 @@ public class CreateContent extends SiteCommon<CreateContent>
     }
 
     /**
-     * Method to check that create document from template button is available
-     */
-    public boolean isCreateFromTemplateAvailable(String buttonName)
-    {
-        return selectCreateFromTemplateButton(buttonName).isDisplayed();
-    }
-
-    /**
      * Method to check the the Name Field is present on the Create form
      */
     public boolean isNameFieldDisplayedOnTheCreateForm()
     {
-        return nameField.isDisplayed();
+        return browser.isElementDisplayed(nameField);
     }
 
     /**
@@ -90,7 +67,7 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public boolean isContentFieldDisplayedOnTheCreateForm()
     {
-        return contentField.isDisplayed();
+        return browser.isElementDisplayed(contentField);
     }
 
     /**
@@ -98,7 +75,7 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public boolean isTitleFieldDisplayedOnTheCreateForm()
     {
-        return titleField.isDisplayed();
+        return browser.isElementDisplayed(titleField);
     }
 
     /**
@@ -106,7 +83,7 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public boolean isDescriptionFieldDisplayedOnTheCreateForm()
     {
-        return descriptionField.isDisplayed();
+        return browser.isElementDisplayed(descriptionField);
     }
 
     /**
@@ -114,7 +91,7 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public boolean isMandatoryMarkPresentForNameField()
     {
-        return nameFieldIsMandatoryMarker.isDisplayed();
+        return browser.isElementDisplayed(nameFieldIsMandatoryMarker);
     }
 
     /**
@@ -122,7 +99,7 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public boolean isCreateButtonPresent()
     {
-        return submitButton.isDisplayed();
+        return browser.isElementDisplayed(submitButton);
     }
 
     /**
@@ -130,7 +107,7 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public boolean isCancelButtonPresent()
     {
-        return cancelButton.isDisplayed();
+        return browser.isElementDisplayed(cancelButton);
     }
 
     /**
@@ -187,7 +164,7 @@ public class CreateContent extends SiteCommon<CreateContent>
      */
     public boolean isHTMLContentFieldDisplayed()
     {
-        return htmlContentField.isDisplayed();
+        return browser.isElementDisplayed(htmlContentField);
     }
 
     /**
@@ -224,82 +201,5 @@ public class CreateContent extends SiteCommon<CreateContent>
     public boolean isDescriptionMarkedAsMandatory()
     {
         return browser.isElementDisplayed(By.cssSelector("textarea[id*='_default_prop_cm_description'] span.mandatory-indicator"));
-    }
-
-    /**
-     * Method to click on create Document from Template
-     */
-    public void clickCreateFromTemplateButton(String btnName)
-    {
-        browser.waitUntilElementClickable(selectCreateFromTemplateButton(btnName));
-        selectCreateFromTemplateButton(btnName).click();
-        if (browser.isElementDisplayed(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible")) == false)
-        {
-            browser.mouseOver(selectCreateFromTemplateButton(btnName));
-        }
-        browser.waitUntilElementVisible(By.cssSelector(".yuimenuitemlabel-hassubmenu-selected+.yuimenu.visible"));
-    }
-
-    /**
-     * Method to select template
-     */
-    public HtmlPage clickOnTemplate(String templateName, HtmlPage page)
-    {
-        selectTemplate(templateName).click();
-        return page.renderedPage();
-    }
-
-    /**
-     * Method to check if the template is present
-     */
-    public boolean isTemplateDisplayed(String templateName)
-    {
-        return selectTemplate(templateName).isDisplayed();
-    }
-
-
-    public HtmlPage clickOnDocumentTemplate(String templateName, HtmlPage page)
-    {
-        // browser.mouseOver(browser.findElement(By.cssSelector("li[class$='yuimenuitem-hassubmenu first-of-type']")));
-        browser.waitUntilElementVisible(selectTemplate(templateName)).click();
-        return page.renderedPage();
-    }
-
-    /**
-     * Method to click on folder template
-     */
-
-    public HtmlPage clickOnFolderTemplate(String templateName, HtmlPage page)
-    {
-        browser.waitUntilElementsVisible(templatesList);
-        browser.findFirstElementWithValue(templatesList, templateName).click();
-        // browser.waitUntilElementVisible(selectTemplate(templateName)).click();
-        return page.renderedPage();
-    }
-
-    public boolean isFileTemplateDisplayed(String templateName)
-    {
-        browser.mouseOver(browser.waitUntilElementVisible(By.cssSelector("li[class$='yuimenuitem-hassubmenu first-of-type']")));
-        browser.waitInSeconds(2);
-        if (!selectTemplate(templateName).isDisplayed())
-        {
-            browser.findElement(By.cssSelector("By.cssSelector(\"li[class$='yuimenuitem-hassubmenu first-of-type']")).click();
-        }
-        return selectTemplate(templateName).isDisplayed();
-    }
-
-    /**
-     * Method to check if the template is present
-     */
-    public boolean isFolderTemplateDisplayed(String templateName)
-    {
-        List<String> templatesName = new ArrayList<>();
-        browser.waitUntilElementsVisible(templatesList);
-        for (WebElement template : templatesList)
-        {
-            templatesName.add(template.getText());
-        }
-        LOG.info("templates available are: " + templatesName.toArray());
-        return templatesName.contains(templateName);
     }
 }

@@ -21,8 +21,13 @@ public final class Utils
      */
     public static <T extends WebElement> T clear(T field)
     {
+        int fieldTextLength = field.getText().length();
         field.clear();
-        field.sendKeys(Keys.BACK_SPACE);
+        //workaround for textarea when field is not cleared (only the last letter)
+        for (int i = 0; i < fieldTextLength; i++)
+        {
+            field.sendKeys(Keys.BACK_SPACE);
+        }
         return field;
     }
 
